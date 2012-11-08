@@ -8,6 +8,8 @@ import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
+import org.traccar.web.client.login.LoginDialog;
+
 /**
  * Entry point class
  */
@@ -21,6 +23,10 @@ public class Traccar implements EntryPoint {
      * Entry point method
      */
     public void onModuleLoad() {
+
+        /*LoginDialog loginDialog = new LoginDialog();
+        loginDialog.draw();
+        loginDialog.centerInPage();*/
 
         devicePanel = new DevicePanel();
         devicePanel.setWidth("20%");
