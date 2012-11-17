@@ -1,14 +1,12 @@
 package org.traccar.web.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.types.Overflow;
-import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.Label;
-import com.smartgwt.client.widgets.layout.HLayout;
-import com.smartgwt.client.widgets.layout.VLayout;
+import org.traccar.web.client.database.DatabaseService;
+import org.traccar.web.client.database.DatabaseServiceAsync;
 
-import org.traccar.web.client.login.LoginDialog;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.smartgwt.client.util.SC;
 
 /**
  * Entry point class
@@ -24,11 +22,25 @@ public class Traccar implements EntryPoint {
      */
     public void onModuleLoad() {
 
+        DatabaseServiceAsync databaseService = GWT.create(DatabaseService.class);
+
+        AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+            public void onFailure(Throwable caught) {
+                SC.say("onFailure: " + caught.toString());
+            }
+
+            public void onSuccess(Boolean result) {
+                SC.say("onSuccess: " + result);
+            }
+        };
+
+        databaseService.authenticate("test", "test", callback);
+
         /*LoginDialog loginDialog = new LoginDialog();
         loginDialog.draw();
         loginDialog.centerInPage();*/
 
-        devicePanel = new DevicePanel();
+        /*devicePanel = new DevicePanel();
         devicePanel.setWidth("20%");
         devicePanel.setShowResizeBar(true);
 
@@ -50,6 +62,6 @@ public class Traccar implements EntryPoint {
         mainLayout.setHeight100();
         mainLayout.addMember(hLayout);
         mainLayout.addMember(archivePanel);
-        mainLayout.draw();
+        mainLayout.draw();*/
     }
 }

@@ -13,7 +13,7 @@
   <name>GWT Maven Archetype</name>
 
   <properties>
-    <gwtVersion>2.4.0</gwtVersion>
+    <gwtVersion>2.5.0</gwtVersion>
     <smartGwtVersion>3.0</smartGwtVersion>
     <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -69,6 +69,32 @@
       <artifactId>gwt-openlayers-client</artifactId>
       <version>0.8</version>
     </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.21</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>4.1.7.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+      <version>3.5.6-Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>4.1.7.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.0-api</artifactId>
+      <version>1.0.0.Final</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -81,7 +107,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwtVersion}</version>
+        <version>2.5.0</version>
         <executions>
           <execution>
             <goals>
@@ -92,6 +118,8 @@
             </goals>
           </execution>
         </executions>
+        <!-- Plugin configuration. There are many available options, see 
+          gwt-maven-plugin documentation at codehaus.org -->
         <configuration>
           <runTarget>traccar.html</runTarget>
           <hostedWebapp>${webappDirectory}</hostedWebapp>
@@ -116,7 +144,6 @@
           <webappDirectory>${webappDirectory}</webappDirectory>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -126,7 +153,6 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 
