@@ -1,5 +1,6 @@
 package org.traccar.web.shared.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,11 +13,14 @@ import org.hibernate.annotations.Index;
 
 @Entity
 @Table(name = "positions")
-public class Position {
+public class Position implements Serializable {
+
+    public Position() {
+    }
 
     @Id
     @GeneratedValue
-    long id;
+    private long id;
 
     @ManyToOne
     @Index(name = "positionsIndex")

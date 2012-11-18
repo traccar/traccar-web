@@ -1,35 +1,22 @@
 package org.traccar.web.client;
 
-import com.smartgwt.client.widgets.layout.SectionStack;
-import com.smartgwt.client.widgets.layout.SectionStackSection;
-import com.smartgwt.client.widgets.Label;
-import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.WidgetCanvas;
-import com.smartgwt.client.widgets.events.ResizedEvent;
-import com.smartgwt.client.widgets.events.ResizedHandler;
-import com.smartgwt.client.widgets.events.DragResizeStopEvent;
-import com.smartgwt.client.widgets.events.DragResizeStopHandler;
-import com.smartgwt.client.widgets.events.DrawEvent;
-import com.smartgwt.client.widgets.events.DrawHandler;
-import com.smartgwt.client.types.Overflow;
-
-import com.google.gwt.core.client.Scheduler;
-
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
-import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
-import org.gwtopenmaps.openlayers.client.control.OverviewMap;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-
-import com.google.gwt.event.logical.shared.AttachEvent;
-import org.gwtopenmaps.openlayers.client.layer.*;
+import com.smartgwt.client.widgets.WidgetCanvas;
+import com.smartgwt.client.widgets.events.DrawEvent;
+import com.smartgwt.client.widgets.events.DrawHandler;
+import com.smartgwt.client.widgets.events.ResizedEvent;
+import com.smartgwt.client.widgets.events.ResizedHandler;
+import com.smartgwt.client.widgets.layout.SectionStack;
+import com.smartgwt.client.widgets.layout.SectionStackSection;
 
 /**
  * Map panel widget
@@ -90,7 +77,7 @@ public class MapPanel extends SectionStack {
                     e.getParentElement().getStyle().setProperty("width", "100%");
                     e.getParentElement().getStyle().setProperty("height", "100%");
                 }
-            } 
+            }
         });
 
         // Map resize handler

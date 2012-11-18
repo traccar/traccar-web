@@ -1,5 +1,7 @@
 package org.traccar.web.shared.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,12 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="devices")
-public class Device {
+@Table(name = "devices")
+public class Device implements Serializable {
+
+    public Device() {
+    }
 
     @Id
     @GeneratedValue
-    long id;
+    private long id;
 
     @Column(unique = true)
     private String uniqueId;

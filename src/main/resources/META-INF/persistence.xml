@@ -11,7 +11,7 @@
       <property name="hibernate.connection.username" value="root"/>
       <property name="hibernate.connection.password" value="root"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
     </properties>
   </persistence-unit>
 </persistence>

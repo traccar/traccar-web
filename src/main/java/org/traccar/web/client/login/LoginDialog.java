@@ -1,50 +1,77 @@
 package org.traccar.web.client.login;
 
+import org.traccar.web.client.Style;
+
+import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Window;
+import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
-import com.smartgwt.client.widgets.form.fields.ButtonItem;
-import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.types.TitleOrientation;
-import com.smartgwt.client.widgets.layout.Layout;
 import com.smartgwt.client.widgets.form.fields.ToolbarItem;
-import com.smartgwt.client.widgets.IButton;
-import com.smartgwt.client.widgets.Button;
+import com.smartgwt.client.widgets.layout.Layout;
 
 public class LoginDialog extends Window {
 
-	private DynamicForm form;
+    public LoginDialog() {
 
-	public LoginDialog() {
-
-		// Window properties
+        // Window properties
         setTitle("User Authentication");
         setShowCloseButton(false);
         setShowMinimizeButton(false);
         setAutoSize(true);
 
         // Login form
-		form = new DynamicForm();
+        final DynamicForm form = new DynamicForm();
         form.setHeight100();
         form.setWidth100();
-        TextItem loginEdit = new TextItem();
+        final TextItem loginEdit = new TextItem();
         loginEdit.setTitle("Login");
-        PasswordItem passwordEdit = new PasswordItem();
+        final PasswordItem passwordEdit = new PasswordItem();
         passwordEdit.setTitle("Password");
 
-        ToolbarItem toolbarItem = new ToolbarItem();
-        toolbarItem.setButtons(new IButton("Login"), new IButton("Register"));
+        final ToolbarItem toolbarItem = new ToolbarItem();
+        toolbarItem.setButtons(
+                new IButton("Login", new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        if (loginHandler != null) {
+                            loginHandler.onLogin(
+                                    loginEdit.getValueAsString(), passwordEdit.getValueAsString());
+                        }
+                    }
+                }),
+                new IButton("Register", new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        if (loginHandler != null) {
+                            loginHandler.onRegister(
+                                    loginEdit.getValueAsString(), passwordEdit.getValueAsString());
+                        }
+                    }
+                }));
 
         form.setFields(loginEdit, passwordEdit, toolbarItem);
-        form.setCellPadding(5);
+        form.setCellPadding(Style.getCellPadding());
 
-        Layout layout = new Layout();
-        layout.setPadding(10);
+        final Layout layout = new Layout();
+        layout.setPadding(Style.getPadding());
 
         layout.addMember(form);
 
         addItem(layout);
+    }
+
+    public interface LoginHandler {
+        public void onLogin(String login, String password);
+        public void onRegister(String login, String password);
+    }
+
+    private LoginHandler loginHandler;
+
+    public void setLoginHandler(LoginHandler loginHandler) {
+        this.loginHandler = loginHandler;
     }
 
 }

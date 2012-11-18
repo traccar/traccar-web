@@ -1,5 +1,6 @@
 package org.traccar.web.shared.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,11 +12,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements Serializable {
+
+    public User() {
+    }
 
     @Id
     @GeneratedValue
-    long id;
+    private long id;
 
     @Column(unique = true)
     private String login;
@@ -40,5 +44,9 @@ public class User {
 
     @ManyToMany
     private List<Device> devices;
+
+    public List<Device> getDevices() {
+        return devices;
+    }
 
 }
