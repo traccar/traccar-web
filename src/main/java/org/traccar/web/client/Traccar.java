@@ -1,21 +1,13 @@
 package org.traccar.web.client;
 
-import java.util.List;
-
-import org.traccar.web.client.database.DatabaseService;
-import org.traccar.web.client.database.DatabaseServiceAsync;
-import org.traccar.web.client.login.LoginDialog;
-import org.traccar.web.shared.model.Device;
-
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.util.SC;
+import org.traccar.web.client.login.LoginController;
 
 /**
  * Entry point class
  */
-public class Traccar implements EntryPoint {
+public class Traccar implements EntryPoint, LoginController.LoginHandler {
 
     private DevicePanel devicePanel;
     private ArchivePanel archivePanel;
@@ -26,68 +18,8 @@ public class Traccar implements EntryPoint {
      */
     @Override
     public void onModuleLoad() {
+        new LoginController().login(this);
 
-        final DatabaseServiceAsync databaseService = GWT.create(DatabaseService.class);
-
-        final AsyncCallback<List<Device>> callback2 = new AsyncCallback<List<Device>>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                SC.say("onFailure2: " + caught.toString());
-            }
-            @Override
-            public void onSuccess(List<Device> result) {
-                String s = "";
-                if (result!= null) {
-                    for (Device d : result) {
-                        s += d.getName() + " ";
-                    }
-                }
-                SC.say("Devices: " + s);
-            }
-        };
-
-        final AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                SC.say("onFailure: " + caught.toString());
-            }
-
-            @Override
-            public void onSuccess(Boolean result) {
-                databaseService.getDevices(callback2);
-            }
-        };
-
-        final LoginDialog loginDialog = new LoginDialog();
-
-        loginDialog.setLoginHandler(new LoginDialog.LoginHandler() {
-            private boolean validate(String login, String password) {
-                if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
-                    SC.warn("Login and password fields must not be blank");
-                    return false;
-                }
-                return true;
-            }
-
-            @Override
-            public void onLogin(String login, String password) {
-                if (validate(login, password)) {
-                    loginDialog.destroy();
-                    databaseService.authenticate(login, password, callback);
-                }
-            }
-
-            @Override
-            public void onRegister(String login, String password) {
-                if (validate(login, password)) {
-                    loginDialog.destroy();
-                    databaseService.register(login, password, callback);
-                }
-            }
-        });
-
-        loginDialog.draw();
-        loginDialog.centerInPage();
 
         /*devicePanel = new DevicePanel();
         devicePanel.setWidth("20%");
@@ -112,5 +44,10 @@ public class Traccar implements EntryPoint {
         mainLayout.addMember(hLayout);
         mainLayout.addMember(archivePanel);
         mainLayout.draw();*/
+    }
+
+    @Override
+    public void onLogin() {
+        SC.warn("Woooohooo");
     }
 }
