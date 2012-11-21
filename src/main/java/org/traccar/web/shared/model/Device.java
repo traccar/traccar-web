@@ -15,6 +15,11 @@ public class Device implements Serializable {
     public Device() {
     }
 
+    // Constructor for testing
+    public Device(long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue
     private long id;

@@ -1,8 +1,10 @@
 package org.traccar.web.client.database;
 
+import java.util.Date;
 import java.util.List;
 
 import org.traccar.web.shared.model.Device;
+import org.traccar.web.shared.model.Position;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -15,5 +17,7 @@ public interface DatabaseService extends RemoteService {
     boolean register(String login, String password);
 
     List<Device> getDevices();
+
+    List<Position> getPositions(Device device, Date from, Date to);
 
 }
