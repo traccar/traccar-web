@@ -1,10 +1,15 @@
 package org.traccar.web.client.login;
 
+import org.traccar.web.client.database.GlobalDatabaseService;
+import org.traccar.web.client.i18n.ApplicationConstants;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.util.SC;
-import org.traccar.web.client.database.GlobalDatabaseService;
 
 public class LoginController implements LoginDialog.LoginHandler {
+
+    private static final ApplicationConstants constants = GWT.create(ApplicationConstants.class);
 
     private LoginDialog dialog;
 
@@ -25,7 +30,7 @@ public class LoginController implements LoginDialog.LoginHandler {
 
     private boolean validate(String login, String password) {
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
-            SC.warn("Login and password fields must not be blank");
+            SC.warn(constants.blankLoginPassword());
             return false;
         }
         return true;
@@ -34,7 +39,7 @@ public class LoginController implements LoginDialog.LoginHandler {
     private static abstract class AsyncCallbackHandler implements AsyncCallback<Boolean> {
         @Override
         public void onFailure(Throwable caught) {
-            SC.warn("Remote procedure call error");
+            SC.warn(constants.remoteProcedureCallError());
         }
     }
 
@@ -47,7 +52,7 @@ public class LoginController implements LoginDialog.LoginHandler {
                     loginHandler.onLogin();
                 }
             } else {
-                SC.warn("Invalid login or password");
+                SC.warn(constants.invalidLoginPassword());
             }
         }
     };
@@ -68,7 +73,7 @@ public class LoginController implements LoginDialog.LoginHandler {
                     loginHandler.onLogin();
                 }
             } else {
-                SC.warn("Registration failed");
+                SC.warn(constants.registrationError());
             }
         }
     };

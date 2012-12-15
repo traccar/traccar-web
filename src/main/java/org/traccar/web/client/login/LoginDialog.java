@@ -1,7 +1,9 @@
 package org.traccar.web.client.login;
 
 import org.traccar.web.client.Style;
+import org.traccar.web.client.i18n.ApplicationConstants;
 
+import com.google.gwt.core.client.GWT;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -14,10 +16,12 @@ import com.smartgwt.client.widgets.layout.Layout;
 
 public class LoginDialog extends Window {
 
+    private static final ApplicationConstants constants = GWT.create(ApplicationConstants.class);
+
     public LoginDialog() {
 
         // Window properties
-        setTitle("User Authentication");
+        setTitle(constants.userAuthentication());
         setShowCloseButton(false);
         setShowMinimizeButton(false);
         setAutoSize(true);
@@ -27,13 +31,13 @@ public class LoginDialog extends Window {
         form.setHeight100();
         form.setWidth100();
         final TextItem loginEdit = new TextItem();
-        loginEdit.setTitle("Login");
+        loginEdit.setTitle(constants.login());
         final PasswordItem passwordEdit = new PasswordItem();
-        passwordEdit.setTitle("Password");
+        passwordEdit.setTitle(constants.password());
 
         final ToolbarItem toolbarItem = new ToolbarItem();
         toolbarItem.setButtons(
-                new IButton("Login", new ClickHandler() {
+                new IButton(constants.login(), new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         if (loginHandler != null) {
@@ -42,7 +46,7 @@ public class LoginDialog extends Window {
                         }
                     }
                 }),
-                new IButton("Register", new ClickHandler() {
+                new IButton(constants.register(), new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         if (loginHandler != null) {
