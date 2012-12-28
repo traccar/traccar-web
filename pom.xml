@@ -114,7 +114,7 @@
               <goal>compile</goal>
               <goal>test</goal>
               <!--<goal>i18n</goal>-->
-              <goal>generateAsync</goal>
+              <!--<goal>generateAsync</goal>-->
             </goals>
           </execution>
         </executions>
