@@ -144,6 +144,7 @@
           <webappDirectory>${webappDirectory}</webappDirectory>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -153,6 +154,46 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+      
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>debug</id>
+            <phase>process-resources</phase>
+            <configuration>
+              <target>
+                <delete
+                    file="${webappDirectory}/WEB-INF/classes/META-INF/persistence.xml" />
+                <copy
+                    file="${webappDirectory}/WEB-INF/classes/META-INF/persistence_debug.xml"
+                    tofile="${webappDirectory}/WEB-INF/classes/META-INF/persistence.xml" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>release</id>
+            <phase>prepare-package</phase>
+            <configuration>
+              <target>
+                <delete
+                    file="${webappDirectory}/WEB-INF/classes/META-INF/persistence.xml" />
+                <copy
+                    file="${webappDirectory}/WEB-INF/classes/META-INF/persistence_release.xml"
+                    tofile="${webappDirectory}/WEB-INF/classes/META-INF/persistence.xml" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

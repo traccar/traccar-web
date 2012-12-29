@@ -27,8 +27,8 @@ public class Traccar implements EntryPoint, LoginController.LoginHandler {
      */
     @Override
     public void onModuleLoad() {
-        //new LoginController().login(this);
-        onLogin(); // TODO: remove from production
+        new LoginController().login(this);
+        //onLogin(); // TODO: remove from production
 
         /*try {
             GlobalDatabaseService.getInstance().getPositions(
@@ -71,7 +71,7 @@ public class Traccar implements EntryPoint, LoginController.LoginHandler {
         devicePanel.setWidth("20%");
         devicePanel.setShowResizeBar(true);
 
-        devicePanel.updateDevices(testDevices()); // TODO: remove from production
+        //devicePanel.updateDevices(testDevices()); // TODO: remove from production
 
         mapPanel = new MapPanel();
         mapPanel.setWidth("80%");

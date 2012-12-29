@@ -1,12 +1,12 @@
 package org.traccar.web.client.view;
 
-import com.smartgwt.client.widgets.toolbar.ToolStrip;
+import com.smartgwt.client.widgets.form.fields.DateTimeItem;
+import com.smartgwt.client.widgets.form.fields.SelectItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.layout.SectionStack;
 import com.smartgwt.client.widgets.layout.SectionStackSection;
-import com.smartgwt.client.widgets.form.fields.SelectItem;
-import com.smartgwt.client.widgets.form.fields.DateTimeItem;
+import com.smartgwt.client.widgets.toolbar.ToolStrip;
 import com.smartgwt.client.widgets.toolbar.ToolStripButton;
 
 /**
@@ -18,7 +18,7 @@ public class ArchivePanel extends SectionStack {
     private ListGrid list;
 
     public ArchivePanel() {
-        SectionStackSection section = new SectionStackSection("Archive");  
+        SectionStackSection section = new SectionStackSection("Archive");
         section.setCanCollapse(false);
         section.setExpanded(true);
 
