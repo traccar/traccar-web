@@ -1,5 +1,7 @@
 package org.traccar.web.client;
 
+import java.util.List;
+
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.LoginController;
@@ -7,6 +9,7 @@ import org.traccar.web.client.controller.MapController;
 import org.traccar.web.client.database.DatabaseService;
 import org.traccar.web.client.database.DatabaseServiceAsync;
 import org.traccar.web.client.i18n.ApplicationConstants;
+import org.traccar.web.shared.model.Device;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -54,6 +57,7 @@ public class Traccar implements EntryPoint, LoginController.LoginHandler {
     private void createLayout() {
         mapController = new MapController();
         deviceController = new DeviceController();
+        deviceController.setHandler(deviceHandler);
         archiveController = new ArchiveController();
 
         Canvas mainPanel = mapController.getView();
@@ -88,5 +92,19 @@ public class Traccar implements EntryPoint, LoginController.LoginHandler {
 
         mainLayout.draw();
     }
+
+    DeviceController.DeviceHandler deviceHandler = new DeviceController.DeviceHandler() {
+
+        @Override
+        public void onChanged(List<Device> devices) {
+            mapController.update();
+        }
+
+        @Override
+        public void onSelected(Device device) {
+            mapController.select(device);
+        }
+
+    };
 
 }

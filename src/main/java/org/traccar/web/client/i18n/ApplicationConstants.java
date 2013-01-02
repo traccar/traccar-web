@@ -64,4 +64,13 @@ public interface ApplicationConstants extends Constants {
     @DefaultStringValue("Cancel")
     String cancel();
 
+    @DefaultStringValue("Mapnik")
+    String mapnik();
+
+    @DefaultStringValue("Markers")
+    String markers();
+
+    @DefaultStringValue("Map")
+    String map();
+
 }

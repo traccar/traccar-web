@@ -24,4 +24,6 @@ public interface DatabaseServiceAsync {
 
     void getPositions(Device device, Date from, Date to, AsyncCallback<List<Position>> callback);
 
+    void getLatestPositions(AsyncCallback<List<Position>> callback);
+
 }

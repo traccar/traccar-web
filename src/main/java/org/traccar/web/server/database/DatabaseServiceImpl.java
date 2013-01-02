@@ -131,4 +131,19 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
         return positions;
     }
 
+    @Override
+    public List<Position> getLatestPositions() {
+        User user = getUser();
+        TypedQuery<Position> query = entityManager.createQuery(
+                "SELECT x FROM Position x WHERE (x.device, x.time) IN (" +
+                        "SELECT y.device, MAX(y.time) FROM Position y WHERE y.device IN :devices GROUP BY y.device)", Position.class);
+        query.setParameter("devices", user.getDevices());
+
+        List<Position> positions = new LinkedList<Position>();
+        for (Position position : query.getResultList()) {
+            positions.add(position);
+        }
+        return positions;
+    }
+
 }

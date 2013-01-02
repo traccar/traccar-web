@@ -15,7 +15,8 @@ import com.smartgwt.client.widgets.events.ClickHandler;
 public class DeviceController implements PanelController, DevicePanel.DeviceHandler, DeviceDialog.SaveHandler  {
 
     public interface DeviceHandler {
-        public void onChanged();
+        public void onChanged(List<Device> devices);
+        public void onSelected(Device device);
     }
 
     private DeviceHandler deviceHandler;
@@ -65,6 +66,13 @@ public class DeviceController implements PanelController, DevicePanel.DeviceHand
     }
 
     @Override
+    public void onSelected(Device device) {
+        if (deviceHandler != null) {
+            deviceHandler.onSelected(device);
+        }
+    }
+
+    @Override
     public void onSave(Device device) {
         Traccar.getDatabaseService().storeDevice(device, saveCallback);
     }
@@ -87,7 +95,7 @@ public class DeviceController implements PanelController, DevicePanel.DeviceHand
         public void onSuccess(List<Device> result) {
             devicePanel.updateDevices(result);
             if (deviceHandler != null) {
-                deviceHandler.onChanged();
+                deviceHandler.onChanged(result);
             }
         }
     };

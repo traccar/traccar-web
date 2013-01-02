@@ -26,4 +26,6 @@ public interface DatabaseService extends RemoteService {
 
     List<Position> getPositions(Device device, Date from, Date to);
 
+    List<Position> getLatestPositions();
+
 }

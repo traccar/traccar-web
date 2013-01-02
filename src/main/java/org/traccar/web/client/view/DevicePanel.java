@@ -34,6 +34,7 @@ public class DevicePanel extends SectionStack {
         public void onAdd();
         public void onEdit(Device device);
         public void onRemove(Device device);
+        public void onSelected(Device device);
     }
 
     private DeviceHandler deviceHandler;
@@ -124,6 +125,13 @@ public class DevicePanel extends SectionStack {
             public void onSelectionChanged(SelectionEvent event) {
                 removeButton.setVisible(list.anySelected());
                 editButton.setVisible(list.anySelected());
+                if (deviceHandler != null) {
+                    if (list.anySelected()) {
+                        deviceHandler.onSelected(deviceMap.get(list.getSelectedRecord().getAttributeAsLong(COLUMN_ID)));
+                    } else {
+                        deviceHandler.onSelected(null);
+                    }
+                }
             }
         });
 
