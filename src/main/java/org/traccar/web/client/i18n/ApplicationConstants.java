@@ -31,6 +31,9 @@ public interface ApplicationConstants extends Constants {
     @DefaultStringValue("Devices")
     String devices();
 
+    @DefaultStringValue("Device")
+    String device();
+
     @DefaultStringValue("Add")
     String add();
 
@@ -43,13 +46,22 @@ public interface ApplicationConstants extends Constants {
     @DefaultStringValue("Settings")
     String settings();
 
+    @DefaultStringValue("Are you sure you want to remove selected device?")
+    String removeDeviceConfirmation();
+
     @DefaultStringValue("Object")
     String object();
 
     @DefaultStringValue("Unique Identifier")
-    String id();
+    String uniqueId();
 
     @DefaultStringValue("Name")
     String name();
+
+    @DefaultStringValue("Save")
+    String save();
+
+    @DefaultStringValue("Cancel")
+    String cancel();
 
 }

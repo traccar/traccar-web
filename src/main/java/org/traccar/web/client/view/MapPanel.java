@@ -23,7 +23,7 @@ import com.smartgwt.client.widgets.layout.SectionStackSection;
  */
 public class MapPanel extends SectionStack {
 
-    private final static int BORDER_SIZE = 1;
+    //private final static int BORDER_SIZE = 1;
 
     private MapWidget mapWidget;
     private WidgetCanvas mapWrapper;
@@ -35,10 +35,10 @@ public class MapPanel extends SectionStack {
         MapWidget mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
 
         // Google layer
-        /*GoogleV3Options layerOptiond = new GoogleV3Options();
-        layerOptiond.setIsBaseLayer(true);
-        layerOptiond.setType(GoogleV3MapType.G_NORMAL_MAP);
-        GoogleV3 layer = new GoogleV3("Google", layerOptiond);*/
+        /*GoogleV3Options layerOptions = new GoogleV3Options();
+        layerOptions.setIsBaseLayer(true);
+        layerOptions.setType(GoogleV3MapType.G_NORMAL_MAP);
+        GoogleV3 layer = new GoogleV3("Google", layerOptions);*/
 
         // Open Street Map layer
         OSM layer = OSM.Mapnik("Mapnik");

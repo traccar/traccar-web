@@ -19,6 +19,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class DatabaseServiceImpl extends RemoteServiceServlet implements DatabaseService {
 
+    private static final long serialVersionUID = 1;
+
     private static final String PERSISTENCE_UNIT = "traccar";
     private static final String ATTRIBUTE_USER = "user";
 
@@ -41,6 +43,11 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
     }
 
     @Override
+    public boolean authenticated() {
+        return (getUser() != null);
+    }
+
+    @Override
     public boolean authenticate(String login, String password) {
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT x FROM User x WHERE x.login = :login", User.class);
@@ -60,8 +67,11 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
         user.setLogin(login);
         user.setPassword(password);
         entityManager.getTransaction().begin();
-        entityManager.persist(user);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.persist(user);
+        } finally {
+            entityManager.getTransaction().commit();
+        }
         setUser(user);
         return true;
     }
@@ -69,14 +79,41 @@ public class DatabaseServiceImpl extends RemoteServiceServlet implements Databas
     @Override
     public List<Device> getDevices() {
         User user = getUser();
-        if (user != null) {
-            List<Device> devices = new LinkedList<Device>();
-            for (Device device : user.getDevices()) {
-                devices.add(device);
-            }
-            return devices;
+        List<Device> devices = new LinkedList<Device>();
+        for (Device device : user.getDevices()) {
+            devices.add(device);
         }
-        return null;
+        return devices;
+    }
+
+    @Override
+    public boolean storeDevice(Device device) {
+        User user = getUser();
+        boolean isNew = device.getId() == 0;
+        entityManager.getTransaction().begin();
+        try {
+            device = entityManager.merge(device);
+            if (isNew) {
+                user.getDevices().add(device);
+            }
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeDevice(Device device) {
+        User user = getUser();
+        entityManager.getTransaction().begin();
+        try {
+            device = entityManager.merge(device);
+            user.getDevices().remove(device);
+            entityManager.remove(device);
+        } finally {
+            entityManager.getTransaction().commit();
+        }
+        return true;
     }
 
     @Override

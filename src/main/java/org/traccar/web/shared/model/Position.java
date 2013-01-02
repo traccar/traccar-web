@@ -15,6 +15,8 @@ import org.hibernate.annotations.Index;
 @Table(name = "positions")
 public class Position implements Serializable {
 
+    private static final long serialVersionUID = 1;
+
     public Position() {
     }
 

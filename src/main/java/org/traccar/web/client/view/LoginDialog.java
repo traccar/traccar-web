@@ -1,9 +1,9 @@
-package org.traccar.web.client.login;
+package org.traccar.web.client.view;
 
 import org.traccar.web.client.Style;
-import org.traccar.web.client.i18n.ApplicationConstants;
+import org.traccar.web.client.Traccar;
 
-import com.google.gwt.core.client.GWT;
+import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.Window;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -16,28 +16,38 @@ import com.smartgwt.client.widgets.layout.Layout;
 
 public class LoginDialog extends Window {
 
-    private static final ApplicationConstants constants = GWT.create(ApplicationConstants.class);
+    public interface LoginHandler {
+        public void onLogin(String login, String password);
+        public void onRegister(String login, String password);
+    }
+
+    private LoginHandler loginHandler;
+
+    public void setLoginHandler(LoginHandler loginHandler) {
+        this.loginHandler = loginHandler;
+    }
 
     public LoginDialog() {
 
         // Window properties
-        setTitle(constants.userAuthentication());
+        setTitle(Traccar.getConstants().userAuthentication());
         setShowCloseButton(false);
         setShowMinimizeButton(false);
         setAutoSize(true);
+        setIsModal(true);
 
         // Login form
         final DynamicForm form = new DynamicForm();
         form.setHeight100();
         form.setWidth100();
         final TextItem loginEdit = new TextItem();
-        loginEdit.setTitle(constants.login());
+        loginEdit.setTitle(Traccar.getConstants().login());
         final PasswordItem passwordEdit = new PasswordItem();
-        passwordEdit.setTitle(constants.password());
+        passwordEdit.setTitle(Traccar.getConstants().password());
 
         final ToolbarItem toolbarItem = new ToolbarItem();
         toolbarItem.setButtons(
-                new IButton(constants.login(), new ClickHandler() {
+                new IButton(Traccar.getConstants().login(), new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         if (loginHandler != null) {
@@ -46,7 +56,7 @@ public class LoginDialog extends Window {
                         }
                     }
                 }),
-                new IButton(constants.register(), new ClickHandler() {
+                new IButton(Traccar.getConstants().register(), new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         if (loginHandler != null) {
@@ -55,6 +65,8 @@ public class LoginDialog extends Window {
                         }
                     }
                 }));
+        toolbarItem.setAlign(Alignment.RIGHT);
+        toolbarItem.setColSpan(3);
 
         form.setFields(loginEdit, passwordEdit, toolbarItem);
         form.setCellPadding(Style.getCellPadding());
@@ -65,17 +77,6 @@ public class LoginDialog extends Window {
         layout.addMember(form);
 
         addItem(layout);
-    }
-
-    public interface LoginHandler {
-        public void onLogin(String login, String password);
-        public void onRegister(String login, String password);
-    }
-
-    private LoginHandler loginHandler;
-
-    public void setLoginHandler(LoginHandler loginHandler) {
-        this.loginHandler = loginHandler;
     }
 
 }

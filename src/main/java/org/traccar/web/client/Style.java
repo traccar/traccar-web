@@ -10,4 +10,8 @@ public class Style {
         return 5;
     }
 
+    public static String getNoBorder() {
+        return "0px";
+    }
+
 }

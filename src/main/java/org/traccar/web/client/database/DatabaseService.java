@@ -12,11 +12,17 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("databaseService")
 public interface DatabaseService extends RemoteService {
 
+    boolean authenticated();
+
     boolean authenticate(String login, String password);
 
     boolean register(String login, String password);
 
     List<Device> getDevices();
+
+    boolean storeDevice(Device device);
+
+    boolean removeDevice(Device device);
 
     List<Position> getPositions(Device device, Date from, Date to);
 

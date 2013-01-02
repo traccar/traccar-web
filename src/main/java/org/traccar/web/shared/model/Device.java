@@ -12,6 +12,21 @@ import javax.persistence.Table;
 @Table(name = "devices")
 public class Device implements Serializable {
 
+    private static final long serialVersionUID = 1;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        return id == ((Device) obj).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id;
+    }
+
     public Device() {
     }
 
@@ -23,6 +38,10 @@ public class Device implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+
+    public long getId() {
+        return id;
+    }
 
     @Column(unique = true)
     private String uniqueId;

@@ -154,7 +154,8 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      
+
+      <!-- Debug and release configuration -->
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.7</version>
