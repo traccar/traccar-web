@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.traccar.web.client.Application;
 import org.traccar.web.client.model.BaseAsyncCallback;
+import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
 import org.traccar.web.client.view.DeviceView;
 import org.traccar.web.shared.model.Device;
 
+import com.google.gwt.core.client.GWT;
+import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
@@ -26,11 +29,19 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 
     private DeviceHandler deviceHandler;
 
+    private ListStore<Device> deviceStore;
+
     private DeviceView deviceView;
 
     public DeviceController(DeviceHandler deviceHandler) {
         this.deviceHandler = deviceHandler;
-        deviceView = new DeviceView(this);
+        DeviceProperties deviceProperties = GWT.create(DeviceProperties.class);
+        deviceStore = new ListStore<Device>(deviceProperties.id());
+        deviceView = new DeviceView(this, deviceStore);
+    }
+
+    public ListStore<Device> getDeviceStore() {
+        return deviceStore;
     }
 
     @Override
@@ -43,7 +54,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         Application.getDataService().getDevices(new BaseAsyncCallback<List<Device>>() {
             @Override
             public void onSuccess(List<Device> result) {
-                deviceView.load(result);
+                deviceStore.addAll(result);
                 deviceHandler.onLoad(result);
             }
         });
@@ -62,7 +73,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                 Application.getDataService().addDevice(device, new BaseAsyncCallback<Device>() {
                     @Override
                     public void onSuccess(Device result) {
-                        deviceView.add(result);
+                        deviceStore.add(result);
                         deviceHandler.onAdd(result);
                     }
                 });
@@ -78,7 +89,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                 Application.getDataService().updateDevice(device, new BaseAsyncCallback<Device>() {
                     @Override
                     public void onSuccess(Device result) {
-                        deviceView.update(result);
+                        deviceStore.update(result);
                         deviceHandler.onUpdate(result);
                     }
                 });
@@ -96,7 +107,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     Application.getDataService().removeDevice(device, new BaseAsyncCallback<Device>() {
                         @Override
                         public void onSuccess(Device result) {
-                            deviceView.remove(device);
+                            deviceStore.remove(device);
                             deviceHandler.onRemove(device);
                         }
                     });

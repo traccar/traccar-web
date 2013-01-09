@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
+//INSERT INTO positions (device_id, valid, time, latitude, longitude, altitude, speed, course) VALUES (11, 1, NOW(), 60, 30, 0, 0, 0);
+
 @Entity
 @Table(name = "positions")
 public class Position implements Serializable, Cloneable {

@@ -15,7 +15,7 @@
     <ui:attributes width="1" height="1" />
   </ui:with>
   
-  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="store" />
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="deviceStore" />
   <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
   
   <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
@@ -37,7 +37,7 @@
       </container:child>
       
       <container:child layoutData="{layoutData}">
-        <grid:Grid ui:field="grid" store="{store}" cm="{columnModel}" view="{view}" />
+        <grid:Grid ui:field="grid" store="{deviceStore}" cm="{columnModel}" view="{view}" />
       </container:child>
 
     </container:VerticalLayoutContainer>

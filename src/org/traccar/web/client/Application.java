@@ -1,8 +1,6 @@
 package org.traccar.web.client;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
@@ -33,7 +31,7 @@ public class Application {
     public Application() {
         deviceController = new DeviceController(deviceHandler);
         mapController = new MapController();
-        archiveController = new ArchiveController(archiveHanlder);
+        archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
 
         view = new ApplicationView(
                 deviceController.getView(), mapController.getView(), archiveController.getView());
@@ -47,16 +45,10 @@ public class Application {
         archiveController.run();
     }
 
-    private Map<Long, Device> devices = new HashMap<Long, Device>();
-
     private DeviceController.DeviceHandler deviceHandler = new DeviceController.DeviceHandler() {
 
         @Override
         public void onLoad(List<Device> devices) {
-            Application.this.devices.clear();
-            for (Device device : devices) {
-                Application.this.devices.put(device.getId(), device);
-            }
         }
 
         @Override
@@ -66,21 +58,15 @@ public class Application {
 
         @Override
         public void onAdd(Device device) {
-            devices.put(device.getId(), device);
-            archiveController.updateDevices(devices.values());
             mapController.update();
         }
 
         @Override
         public void onUpdate(Device device) {
-            devices.put(device.getId(), device);
-            archiveController.updateDevices(devices.values());
         }
 
         @Override
         public void onRemove(Device device) {
-            devices.remove(device.getId());
-            archiveController.updateDevices(devices.values());
             mapController.update();
         }
 

@@ -1,9 +1,14 @@
 package org.traccar.web.client.controller;
 
+import java.util.List;
+
+import org.traccar.web.client.Application;
 import org.traccar.web.client.view.MapView;
 import org.traccar.web.shared.model.Device;
+import org.traccar.web.shared.model.Position;
 
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
 public class MapController implements ContentController {
@@ -36,7 +41,7 @@ public class MapController implements ContentController {
 
     public void update() {
         updateTimer.cancel();
-        /*Application.getDataService().getLatestPositions(new AsyncCallback<List<Position>>() {
+        Application.getDataService().getLatestPositions(new AsyncCallback<List<Position>>() {
             @Override
             public void onSuccess(List<Position> result) {
                 mapView.showPositions(result);
@@ -46,7 +51,7 @@ public class MapController implements ContentController {
             public void onFailure(Throwable caught) {
                 updateTimer.schedule(UPDATE_INTERVAL);
             }
-        });*/
+        });
     }
 
     public void select(Device device) {
