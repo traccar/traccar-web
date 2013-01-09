@@ -16,7 +16,7 @@
     <ui:attributes width="1" height="1" />
   </ui:with>
 
-  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="store" />
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="positionStore" />
   <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
 
   <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
@@ -30,28 +30,30 @@
         <toolbar:ToolBar>
 
           <toolbar:LabelToolItem label="Device:" />
-          <form:TimeField /> <!-- put combobox here -->
+          <form:ComboBox ui:field="deviceCombo" editable="false" triggerAction="ALL" />
           <toolbar:SeparatorToolItem />
 
           <toolbar:LabelToolItem label="From:" />
-          <form:DateField width="125" />
+          <form:DateField width="125" ui:field="fromDate" />
           <toolbar:LabelToolItem width="5" />
-          <form:TimeField width="75" />
+          <form:TimeField width="75" ui:field="fromTime" triggerAction="ALL" />
           <toolbar:SeparatorToolItem />
 
           <toolbar:LabelToolItem label="To:" />
-          <form:DateField width="125" />
+          <form:DateField width="125" ui:field="toDate" />
           <toolbar:LabelToolItem width="5" />
-          <form:TimeField width="75" />
+          <form:TimeField width="75" ui:field="toTime" triggerAction="ALL" />
           <toolbar:SeparatorToolItem />
-          
+
           <button:TextButton ui:field="loadButton" text="Load" />
-        
+          <toolbar:FillToolItem />
+          <button:TextButton ui:field="clearButton" text="Clear" />
+
         </toolbar:ToolBar>
       </container:child>
       
       <container:child layoutData="{layoutData}">
-        <grid:Grid ui:field="grid" store="{store}" cm="{columnModel}" view="{view}" />
+        <grid:Grid ui:field="grid" store="{positionStore}" cm="{columnModel}" view="{view}" />
       </container:child>
 
     </container:VerticalLayoutContainer>

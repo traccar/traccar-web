@@ -1,6 +1,5 @@
 package org.traccar.web.client.view;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.data.shared.ListStore;
@@ -23,7 +21,7 @@ import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
 
-public class DeviceView extends Composite implements SelectionChangedEvent.SelectionChangedHandler<Device> {
+public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler<Device> {
 
     private static DeviceViewUiBinder uiBinder = GWT.create(DeviceViewUiBinder.class);
 
@@ -59,13 +57,14 @@ public class DeviceView extends Composite implements SelectionChangedEvent.Selec
     ColumnModel<Device> columnModel;
 
     @UiField(provided = true)
-    ListStore<Device> store;
+    ListStore<Device> deviceStore;
 
     @UiField
     Grid<Device> grid;
 
-    public DeviceView(DeviceHandler deviceHandler) {
+    public DeviceView(DeviceHandler deviceHandler, ListStore<Device> deviceStore) {
         this.deviceHandler = deviceHandler;
+        this.deviceStore = deviceStore;
 
         DeviceProperties deviceProperties = GWT.create(DeviceProperties.class);
 
@@ -73,8 +72,6 @@ public class DeviceView extends Composite implements SelectionChangedEvent.Selec
         columnConfigList.add(new ColumnConfig<Device, String>(deviceProperties.name(), 0, "Name"));
         columnConfigList.add(new ColumnConfig<Device, String>(deviceProperties.uniqueId(), 0, "Unique Identifier"));
         columnModel = new ColumnModel<Device>(columnConfigList);
-
-        store = new ListStore<Device>(deviceProperties.id());
 
         uiBinder.createAndBindUi(this);
 
@@ -94,17 +91,9 @@ public class DeviceView extends Composite implements SelectionChangedEvent.Selec
         }
     }
 
-    public void load(Collection<Device> devices) {
-        store.addAll(devices);
-    }
-
     @UiHandler("addButton")
     public void onAddClicked(SelectEvent event) {
         deviceHandler.onAdd();
-    }
-
-    public void add(Device device) {
-        store.add(store.size(), device);
     }
 
     @UiHandler("editButton")
@@ -112,17 +101,9 @@ public class DeviceView extends Composite implements SelectionChangedEvent.Selec
         deviceHandler.onEdit(grid.getSelectionModel().getSelectedItem());
     }
 
-    public void update(Device device) {
-        store.update(device);
-    }
-
     @UiHandler("removeButton")
     public void onRemoveClicked(SelectEvent event) {
         deviceHandler.onRemove(grid.getSelectionModel().getSelectedItem());
-    }
-
-    public void remove(Device device) {
-        store.remove(device);
     }
 
 }
