@@ -1,0 +1,60 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="store" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="Archive">
+    <container:VerticalLayoutContainer>
+
+      <container:child layoutData="{toolBarRowData}">
+        <toolbar:ToolBar>
+
+          <toolbar:LabelToolItem label="Device:" />
+          <form:TimeField /> <!-- put combobox here -->
+          <toolbar:SeparatorToolItem />
+
+          <toolbar:LabelToolItem label="From:" />
+          <form:DateField width="125" />
+          <toolbar:LabelToolItem width="5" />
+          <form:TimeField width="75" />
+          <toolbar:SeparatorToolItem />
+
+          <toolbar:LabelToolItem label="To:" />
+          <form:DateField width="125" />
+          <toolbar:LabelToolItem width="5" />
+          <form:TimeField width="75" />
+          <toolbar:SeparatorToolItem />
+          
+          <button:TextButton ui:field="loadButton" text="Load" />
+        
+        </toolbar:ToolBar>
+      </container:child>
+      
+      <container:child layoutData="{layoutData}">
+        <grid:Grid ui:field="grid" store="{store}" cm="{columnModel}" view="{view}" />
+      </container:child>
+
+    </container:VerticalLayoutContainer>
+  </gxt:ContentPanel>
+
+</ui:UiBinder>
