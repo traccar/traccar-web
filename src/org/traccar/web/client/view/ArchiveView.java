@@ -28,8 +28,9 @@ import com.sencha.gxt.widget.core.client.form.TimeField;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
 
-public class ArchiveView {
+public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandler<Position> {
 
     private static ArchiveViewUiBinder uiBinder = GWT.create(ArchiveViewUiBinder.class);
 
@@ -107,6 +108,7 @@ public class ArchiveView {
 
         uiBinder.createAndBindUi(this);
 
+        grid.getSelectionModel().addSelectionChangedHandler(this);
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         // Initialize with current time
@@ -115,6 +117,15 @@ public class ArchiveView {
         fromTime.setValue(now);
         toDate.setValue(now);
         toTime.setValue(now);
+    }
+
+    @Override
+    public void onSelectionChanged(SelectionChangedEvent<Position> event) {
+        if (event.getSelection().isEmpty()) {
+            archiveHandler.onSelected(null);
+        } else {
+            archiveHandler.onSelected(event.getSelection().get(0));
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -147,7 +158,13 @@ public class ArchiveView {
 
         @Override
         public void onAnything() {
-            deviceCombo.setValue(deviceStore.findModel(deviceCombo.getValue()));
+            Device oldDevice = deviceCombo.getValue();
+            if (oldDevice != null) {
+                Device newDevice = deviceStore.findModel(oldDevice);
+                if (newDevice != null) {
+                    deviceCombo.setValue(newDevice);
+                }
+            }
         }
 
     };
