@@ -142,7 +142,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         try {
             device = entityManager.merge(device);
             user.getDevices().remove(device);
-            entityManager.remove(device);
+            // If you want to remove device you need to remove all linked positions
+            //entityManager.remove(device);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             entityManager.getTransaction().rollback();

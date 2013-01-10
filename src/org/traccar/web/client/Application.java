@@ -5,6 +5,7 @@ import java.util.List;
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
+import org.traccar.web.client.model.BaseStoreHandlers;
 import org.traccar.web.client.model.DataService;
 import org.traccar.web.client.model.DataServiceAsync;
 import org.traccar.web.client.view.ApplicationView;
@@ -13,6 +14,7 @@ import org.traccar.web.shared.model.Position;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sencha.gxt.data.shared.event.StoreHandlers;
 
 public class Application {
 
@@ -32,6 +34,7 @@ public class Application {
         deviceController = new DeviceController(deviceHandler);
         mapController = new MapController();
         archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
+        archiveController.getPositionStore().addStoreHandlers(archiveStoreHandler);
 
         view = new ApplicationView(
                 deviceController.getView(), mapController.getView(), archiveController.getView());
@@ -53,7 +56,7 @@ public class Application {
 
         @Override
         public void onSelected(Device device) {
-            mapController.select(device);
+            mapController.selectDevice(device);
         }
 
         @Override
@@ -76,7 +79,16 @@ public class Application {
 
         @Override
         public void onSelected(Position position) {
-            // TODO select something on map?
+            mapController.selectArchivePosition(position);
+        }
+
+    };
+
+    private StoreHandlers<Position> archiveStoreHandler = new BaseStoreHandlers<Position>() {
+
+        @Override
+        public void onAnything() {
+            mapController.showArchivePositions(archiveController.getPositionStore().getAll());
         }
 
     };

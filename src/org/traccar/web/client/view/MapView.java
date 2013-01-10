@@ -1,21 +1,19 @@
 package org.traccar.web.client.view;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.List;
 
-import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
-import org.gwtopenmaps.openlayers.client.Marker;
-import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
-import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
+import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.Markers;
+import org.gwtopenmaps.openlayers.client.layer.MarkersOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
+import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -25,34 +23,7 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Command;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
-class MarkerIconFactory {
 
-    private static final Size iconSize = new Size(21, 25);
-    private static final Pixel iconOffset = new Pixel(-10.5f, -25.0f);
-
-    private static final String iconUrl = "http://www.openlayers.org/api/img/";
-    private static final String iconRed = iconUrl + "marker.png";
-    private static final String iconBlue = iconUrl + "marker-blue.png";
-    private static final String iconGreen = iconUrl + "marker-green.png";
-    private static final String iconGold = iconUrl + "marker-gold.png";
-
-    public static Icon getLocationIcon() {
-        return new Icon(iconRed, iconSize, iconOffset);
-    }
-
-    public static Icon getSelectedLocationIcon() {
-        return new Icon(iconGreen, iconSize, iconOffset);
-    }
-
-    public static Icon getArchiveIcon() {
-        return new Icon(iconBlue, iconSize, iconOffset);
-    }
-
-    public static Icon getSelectedArchiveIcon() {
-        return new Icon(iconGold, iconSize, iconOffset);
-    }
-
-}
 
 public class MapView {
 
@@ -64,11 +35,30 @@ public class MapView {
 
     private MapWidget mapWidget;
     private Map map;
+    private Vector vectorLayer;
     private Markers markerLayer;
 
-    private LonLat createPoint(double longitude, double latitude) {
-        LonLat point = new LonLat(longitude, latitude);
-        point.transform(new Projection("EPSG:4326").getProjectionCode(), map.getProjection());
+    public Map getMap() {
+        return map;
+    }
+
+    public Vector getVectorLayer() {
+        return vectorLayer;
+    }
+
+    public Markers getMarkerLayer() {
+        return markerLayer;
+    }
+
+    public LonLat createLonLat(double longitude, double latitude) {
+        LonLat lonLat = new LonLat(longitude, latitude);
+        lonLat.transform(new Projection("EPSG:4326").getProjectionCode(), map.getProjection());
+        return lonLat;
+    }
+
+    public Point createPoint(double x, double y) {
+        Point point = new Point(x, y);
+        point.transform(new Projection("EPSG:4326"), new Projection(map.getProjection()));
         return point;
     }
 
@@ -78,6 +68,8 @@ public class MapView {
 
         MapOptions defaultMapOptions = new MapOptions();
         defaultMapOptions.setNumZoomLevels(16);
+        defaultMapOptions.setProjection("EPSG:4326");
+        defaultMapOptions.setDisplayProjection(new Projection("EPSG:4326"));
 
         mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
         map = mapWidget.getMap();
@@ -85,12 +77,19 @@ public class MapView {
         OSM mapLayer = OSM.Mapnik("Mapnik");
         mapLayer.setIsBaseLayer(true);
 
-        markerLayer = new Markers("Markers");
+        VectorOptions vectorOptions = new VectorOptions();
+        vectorOptions.setProjection("EPSG:4326");
+        vectorLayer = new Vector("Vector", vectorOptions);
+
+        MarkersOptions markersOptions = new MarkersOptions();
+        markersOptions.setProjection("EPSG:4326");
+        markerLayer = new Markers("Markers", markersOptions);
 
         map.addLayer(mapLayer);
+        map.addLayer(vectorLayer);
         map.addLayer(markerLayer);
         map.addControl(new ScaleLine());
-        map.setCenter(createPoint(30, 60), 1);
+        map.setCenter(createLonLat(12.5, 41.9), 1);
 
         contentPanel.add(mapWidget);
 
@@ -106,44 +105,30 @@ public class MapView {
                 });
             }
         });
+
+        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest);
+        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive);
     }
 
-    private AbstractMap<Long, Marker> markerMap = new HashMap<Long, Marker>();
-    private Device selectedDevice;
+    private final MapPositionRenderer latestPositionRenderer;
 
-    public void showPositions(List<Position> positions) {
-        markerMap.clear();
-        markerLayer.clearMarkers();
-        for (Position position : positions) {
-            Marker marker = new Marker(
-                    createPoint(position.getLongitude(), position.getLatitude()), MarkerIconFactory.getLocationIcon());
-            markerMap.put(position.getDevice().getId(), marker);
-            markerLayer.addMarker(marker);
-        }
-        if (selectedDevice != null) {
-            select(selectedDevice, false);
-        }
+    private final MapPositionRenderer archivePositionRenderer;
+
+    public void showLatestPositions(List<Position> positions) {
+        latestPositionRenderer.showPositions(positions);
     }
 
-    private void changeMarkerIcon(Marker marker, Icon icon) {
-        Marker newMarker = new Marker(marker.getLonLat(), icon);
-        markerLayer.removeMarker(marker);
-        markerLayer.addMarker(newMarker);
+    public void showArchivePositions(List<Position> positions) {
+        archivePositionRenderer.showTrack(positions);
+        archivePositionRenderer.showPositions(positions);
     }
 
-    public void select(Device device, boolean center) {
-        if (selectedDevice != null) {
-            changeMarkerIcon(markerMap.get(selectedDevice.getId()), MarkerIconFactory.getLocationIcon());
-            selectedDevice = null;
-        }
-        if (device != null && markerMap.containsKey(device.getId())) {
-            Marker marker = markerMap.get(device.getId());
-            if (center) {
-                map.panTo(marker.getLonLat());
-            }
-            changeMarkerIcon(marker, MarkerIconFactory.getSelectedLocationIcon());
-            selectedDevice = device;
-        }
+    public void selectDevice(Device device) {
+        latestPositionRenderer.selectDevice(device, true);
+    }
+
+    public void selectArchivePosition(Position position) {
+        archivePositionRenderer.selectPosition(position, true);
     }
 
 }
