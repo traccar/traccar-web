@@ -3,6 +3,8 @@ package org.traccar.web.client.view;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.traccar.web.client.Application;
+import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.shared.model.Device;
 
@@ -10,6 +12,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.data.shared.ListStore;
@@ -104,6 +107,16 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @UiHandler("removeButton")
     public void onRemoveClicked(SelectEvent event) {
         deviceHandler.onRemove(grid.getSelectionModel().getSelectedItem());
+    }
+
+    @UiHandler("logoutButton")
+    public void onLogoutClicked(SelectEvent event) {
+        Application.getDataService().logout(new BaseAsyncCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                Window.Location.reload();
+            }
+        });
     }
 
 }

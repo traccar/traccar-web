@@ -10,9 +10,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DataServiceAsync {
 
-    void authenticate(String login, String password, AsyncCallback<Boolean> callback);
-
     void authenticated(AsyncCallback<Boolean> callback);
+
+    void login(String login, String password, AsyncCallback<Boolean> callback);
+
+    void logout(AsyncCallback<Boolean> callback);
 
     void register(String login, String password, AsyncCallback<Boolean> callback);
 

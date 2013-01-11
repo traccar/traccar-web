@@ -23,8 +23,6 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Command;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
-
-
 public class MapView {
 
     private ContentPanel contentPanel;
@@ -68,8 +66,6 @@ public class MapView {
 
         MapOptions defaultMapOptions = new MapOptions();
         defaultMapOptions.setNumZoomLevels(16);
-        defaultMapOptions.setProjection("EPSG:4326");
-        defaultMapOptions.setDisplayProjection(new Projection("EPSG:4326"));
 
         mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
         map = mapWidget.getMap();
@@ -78,11 +74,9 @@ public class MapView {
         mapLayer.setIsBaseLayer(true);
 
         VectorOptions vectorOptions = new VectorOptions();
-        vectorOptions.setProjection("EPSG:4326");
         vectorLayer = new Vector("Vector", vectorOptions);
 
         MarkersOptions markersOptions = new MarkersOptions();
-        markersOptions.setProjection("EPSG:4326");
         markerLayer = new Markers("Markers", markersOptions);
 
         map.addLayer(mapLayer);
