@@ -1,7 +1,5 @@
 package org.traccar.web.client;
 
-import java.util.List;
-
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
@@ -14,7 +12,9 @@ import org.traccar.web.shared.model.Position;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sencha.gxt.data.shared.event.StoreAddEvent;
 import com.sencha.gxt.data.shared.event.StoreHandlers;
+import com.sencha.gxt.data.shared.event.StoreRemoveEvent;
 
 public class Application {
 
@@ -51,26 +51,8 @@ public class Application {
     private DeviceController.DeviceHandler deviceHandler = new DeviceController.DeviceHandler() {
 
         @Override
-        public void onLoad(List<Device> devices) {
-        }
-
-        @Override
         public void onSelected(Device device) {
             mapController.selectDevice(device);
-        }
-
-        @Override
-        public void onAdd(Device device) {
-            mapController.update();
-        }
-
-        @Override
-        public void onUpdate(Device device) {
-        }
-
-        @Override
-        public void onRemove(Device device) {
-            mapController.update();
         }
 
     };
@@ -80,6 +62,20 @@ public class Application {
         @Override
         public void onSelected(Position position) {
             mapController.selectArchivePosition(position);
+        }
+
+    };
+
+    private StoreHandlers<Device> deviceStoreHandler = new BaseStoreHandlers<Device>() {
+
+        @Override
+        public void onAdd(StoreAddEvent<Device> event) {
+            mapController.update();
+        }
+
+        @Override
+        public void onRemove(StoreRemoveEvent<Device> event) {
+            mapController.update();
         }
 
     };
