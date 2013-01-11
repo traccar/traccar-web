@@ -33,40 +33,38 @@ import org.traccar.web.shared.model.Position;
 public class MapPositionRenderer {
 
     private final MapView mapView;
-    private final Vector vectorLayer;
-    private final Markers markerLayer;
     private final MarkerIconFactory.IconType iconType;
+
+    protected Vector getVectorLayer() {
+        return mapView.getVectorLayer();
+    }
+
+    protected Markers getMarkerLayer() {
+        return mapView.getMarkerLayer();
+    }
 
     public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType) {
         this.mapView = mapView;
-        vectorLayer = mapView.getVectorLayer();
-        markerLayer = mapView.getMarkerLayer();
         this.iconType = iconType;
     }
 
-    /*
-     * TODO: a lot of mess here
-     * 1. changeMarkerIcon doesn't save new marker
-     * 2. if device selected save device instead of position
-     * 3. find way to change marker icon
-     * 4. shorter cleaner methods
-     * ... maybe something else
-     */
-
-    private void changeMarkerIcon(Marker marker, Icon icon) {
-        Marker newMarker = new Marker(marker.getLonLat(), icon);
-        markerLayer.removeMarker(marker);
-        markerLayer.addMarker(newMarker);
+    private void changeMarkerIcon(Long positionId, Icon icon) {
+        Marker oldMarker = markerMap.get(positionId);
+        Marker newMarker = new Marker(oldMarker.getLonLat(), icon);
+        markerMap.put(positionId, newMarker);
+        getMarkerLayer().addMarker(newMarker);
+        getMarkerLayer().removeMarker(oldMarker);
     }
 
     private Map<Long, Marker> markerMap = new HashMap<Long, Marker>(); // Position.id -> Marker
     private Map<Long, Long> deviceMap = new HashMap<Long, Long>(); // Device.id -> Position.id
 
     private Long selectedPositionId;
+    private Long selectedDeviceId;
 
     public void showPositions(List<Position> positions) {
         for (Marker marker : markerMap.values()) {
-            markerLayer.removeMarker(marker);
+            getMarkerLayer().removeMarker(marker);
         }
         markerMap.clear();
         deviceMap.clear();
@@ -77,16 +75,24 @@ public class MapPositionRenderer {
                     MarkerIconFactory.getIcon(iconType, false));
             markerMap.put(position.getId(), marker);
             deviceMap.put(position.getDevice().getId(), position.getId());
-            markerLayer.addMarker(marker);
+            getMarkerLayer().addMarker(marker);
         }
 
         if (selectedPositionId != null) {
-            selectPosition(null, selectedPositionId, false);
+            if (!selectPosition(null, selectedPositionId, false)) {
+                selectedPositionId = null;
+            }
+        }
+
+        if (selectedDeviceId != null) {
+            if (!selectPosition(null, deviceMap.get(selectedDeviceId), false)) {
+                selectedDeviceId = null;
+            }
         }
     }
 
     public void showTrack(List<Position> positions) {
-        vectorLayer.destroyFeatures();
+        getVectorLayer().destroyFeatures();
 
         if (!positions.isEmpty()) {
             Point[] linePoints = new Point[positions.size()];
@@ -97,33 +103,43 @@ public class MapPositionRenderer {
             }
 
             LineString lineString = new LineString(linePoints);
-            vectorLayer.addFeature(new VectorFeature(lineString));
+            getVectorLayer().addFeature(new VectorFeature(lineString));
             //mapView.getMap().zoomToExtent(lineString.getBounds());
         }
     }
 
     public void selectPosition(Position position, boolean center) {
-        selectPosition(selectedPositionId, position.getId(), center);
+        Long oldPositionId = selectedPositionId;
+        Long newPositionId = (position != null) ? position.getId() : null;
+        if (selectPosition(oldPositionId, newPositionId, center)) {
+            selectedPositionId = position.getId();
+        } else {
+            selectedPositionId = null;
+        }
     }
 
     public void selectDevice(Device device, boolean center) {
-        Long positionId = (device != null) ? deviceMap.get(device.getId()) : null;
-        selectPosition(selectedPositionId, positionId, center);
+        Long oldPositionId = (selectedDeviceId != null) ? deviceMap.get(selectedDeviceId) : null;
+        Long newPositionId = (device != null) ? deviceMap.get(device.getId()) : null;
+        if (selectPosition(oldPositionId, newPositionId, center)) {
+            selectedDeviceId = device.getId();
+        } else {
+            selectedDeviceId = null;
+        }
     }
 
-    private void selectPosition(Long oldPositionId, Long newPositionId, boolean center) {
+    private boolean selectPosition(Long oldPositionId, Long newPositionId, boolean center) {
         if (oldPositionId != null && markerMap.containsKey(oldPositionId)) {
-            changeMarkerIcon(markerMap.get(oldPositionId), MarkerIconFactory.getIcon(iconType, false));
-            selectedPositionId = null;
+            changeMarkerIcon(oldPositionId, MarkerIconFactory.getIcon(iconType, false));
         }
         if (newPositionId != null && markerMap.containsKey(newPositionId)) {
-            Marker marker = markerMap.get(newPositionId);
-            changeMarkerIcon(marker, MarkerIconFactory.getIcon(iconType, true));
+            changeMarkerIcon(newPositionId, MarkerIconFactory.getIcon(iconType, true));
             if (center) {
-                mapView.getMap().panTo(marker.getLonLat());
+                mapView.getMap().panTo(markerMap.get(newPositionId).getLonLat());
             }
-            selectedPositionId = newPositionId;
+            return true;
         }
+        return false;
     }
 
 }

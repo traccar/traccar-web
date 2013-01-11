@@ -126,8 +126,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public List<Device> getDevices() {
-        User user = getUser();
         List<Device> devices = new LinkedList<Device>();
+        User user = getUser();
         devices.addAll(user.getDevices());
         return devices;
     }
