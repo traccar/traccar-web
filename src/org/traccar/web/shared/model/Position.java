@@ -75,45 +75,45 @@ public class Position implements Serializable, Cloneable {
         return time;
     }
 
-    private boolean valid;
+    private Boolean valid;
 
-    public boolean getValid() {
+    public Boolean getValid() {
         return valid;
     }
 
-    private double latitude;
+    private Double latitude;
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    private double longitude;
+    private Double longitude;
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    private double altitude;
+    private Double altitude;
 
-    public double getAltitude() {
+    public Double getAltitude() {
         return altitude;
     }
 
-    private double speed;
+    private Double speed;
 
-    public double getSpeed() {
+    public Double getSpeed() {
         return speed;
     }
 
-    private double course;
+    private Double course;
 
-    public double getCourse() {
+    public Double getCourse() {
         return course;
     }
 
-    private double power;
+    private Double power;
 
-    public double getPower() {
+    public Double getPower() {
         return power;
     }
 
