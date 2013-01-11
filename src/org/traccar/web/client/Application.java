@@ -15,6 +15,8 @@
  */
 package org.traccar.web.client;
 
+import java.util.logging.Logger;
+
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
@@ -39,6 +41,12 @@ public class Application {
         return dataService;
     }
 
+    private static Logger logger = Logger.getLogger("");
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
     private final DeviceController deviceController;
     private final MapController mapController;
     private final ArchiveController archiveController;
@@ -47,6 +55,7 @@ public class Application {
 
     public Application() {
         deviceController = new DeviceController(deviceHandler);
+        deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
         mapController = new MapController();
         archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
         archiveController.getPositionStore().addStoreHandlers(archiveStoreHandler);

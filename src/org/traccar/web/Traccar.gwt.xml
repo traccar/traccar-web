@@ -6,8 +6,12 @@
 <module rename-to='traccar'>
 
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.logging.Logging"/>
   <inherits name='com.sencha.gxt.ui.GXT'/>
   <inherits name='org.gwtopenmaps.openlayers.OpenLayers' />
+  
+  <set-property name="gwt.logging.enabled" value="FALSE"/>
+  <set-property name="gwt.logging.consoleHandler" value="DISABLED"/>
 
   <entry-point class='org.traccar.web.client.Traccar'/>
 

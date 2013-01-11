@@ -35,13 +35,17 @@ class MarkerIconFactory {
         iconArchive
     };
 
-    public static Icon getIcon(IconType type, boolean selected) {
+    public static String getIconUrl(IconType type, boolean selected) {
         if (type == IconType.iconLatest) {
-            return new Icon(selected ? iconGreen : iconRed, iconSize, iconOffset);
+            return selected ? iconGreen : iconRed;
         } else if (type == IconType.iconArchive) {
-            return new Icon(selected ? iconGold : iconBlue, iconSize, iconOffset);
+            return selected ? iconGold : iconBlue;
         }
         return null;
+    }
+
+    public static Icon getIcon(IconType type, boolean selected) {
+        return new Icon(getIconUrl(type, selected), iconSize, iconOffset);
     }
 
 }

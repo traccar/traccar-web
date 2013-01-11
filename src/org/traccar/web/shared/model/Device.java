@@ -57,7 +57,6 @@ public class Device implements Serializable {
         return uniqueId;
     }
 
-    @Column(unique = true)
     private String name;
 
     public void setName(String name) {
