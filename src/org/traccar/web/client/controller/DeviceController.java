@@ -20,11 +20,7 @@ import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
 
     public interface DeviceHandler {
-        public void onLoad(List<Device> devices);
         public void onSelected(Device device);
-        public void onAdd(Device device);
-        public void onUpdate(Device device);
-        public void onRemove(Device device);
     }
 
     private DeviceHandler deviceHandler;
@@ -55,7 +51,6 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
             @Override
             public void onSuccess(List<Device> result) {
                 deviceStore.addAll(result);
-                deviceHandler.onLoad(result);
             }
         });
     }
@@ -74,7 +69,6 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     @Override
                     public void onSuccess(Device result) {
                         deviceStore.add(result);
-                        deviceHandler.onAdd(result);
                     }
                 });
             }
@@ -90,7 +84,6 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     @Override
                     public void onSuccess(Device result) {
                         deviceStore.update(result);
-                        deviceHandler.onUpdate(result);
                     }
                 });
             }
@@ -108,7 +101,6 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                         @Override
                         public void onSuccess(Device result) {
                             deviceStore.remove(device);
-                            deviceHandler.onRemove(device);
                         }
                     });
                 }
