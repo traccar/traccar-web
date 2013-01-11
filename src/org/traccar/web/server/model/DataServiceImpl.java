@@ -55,7 +55,11 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     private void setUser(User user) {
         HttpSession session = getThreadLocalRequest().getSession();
-        session.setAttribute(ATTRIBUTE_USER, user);
+        if (user != null) {
+            session.setAttribute(ATTRIBUTE_USER, user);
+        } else {
+            session.removeAttribute(ATTRIBUTE_USER);
+        }
     }
 
     private User getUser() {
@@ -69,7 +73,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public boolean authenticate(String login, String password) {
+    public boolean login(String login, String password) {
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT x FROM User x WHERE x.login = :login", User.class);
         query.setParameter("login", login);
@@ -80,6 +84,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean logout() {
+        setUser(null);
+        return true;
     }
 
     @Override

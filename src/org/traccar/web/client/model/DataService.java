@@ -14,7 +14,9 @@ public interface DataService extends RemoteService {
 
     boolean authenticated();
 
-    boolean authenticate(String login, String password);
+    boolean login(String login, String password);
+
+    boolean logout();
 
     boolean register(String login, String password);
 

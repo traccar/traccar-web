@@ -43,7 +43,7 @@ public class LoginController implements LoginDialog.LoginHandler {
     @Override
     public void onLogin(String login, String password) {
         if (validate(login, password)) {
-            Application.getDataService().authenticate(login, password, new BaseAsyncCallback<Boolean>() {
+            Application.getDataService().login(login, password, new BaseAsyncCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean result) {
                     if (result) {

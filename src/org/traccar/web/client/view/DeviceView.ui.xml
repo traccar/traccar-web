@@ -33,7 +33,8 @@
           <toolbar:FillToolItem />
           <toolbar:SeparatorToolItem />
           <button:TextButton ui:field="settingsButton" text="Settings" enabled="false" />
-        </toolbar:ToolBar>
+          <button:TextButton ui:field="logoutButton" text="Logout" />
+          </toolbar:ToolBar>
       </container:child>
       
       <container:child layoutData="{layoutData}">
