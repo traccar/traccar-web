@@ -195,8 +195,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         User user = getUser();
         if (!user.getDevices().isEmpty()) {
             TypedQuery<Position> query = entityManager.createQuery(
-                    "SELECT x FROM Position x WHERE (x.device, x.time) IN (" +
-                            "SELECT y.device, MAX(y.time) FROM Position y WHERE y.device IN :devices GROUP BY y.device)", Position.class);
+                    "SELECT x FROM Position x WHERE x.id IN (" +
+                            "SELECT y.latestPosition FROM Device y WHERE y IN (:devices))", Position.class);
             query.setParameter("devices", user.getDevices());
             positions.addAll(query.getResultList());
         }
