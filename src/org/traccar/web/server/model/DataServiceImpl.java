@@ -193,7 +193,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     public List<Position> getLatestPositions() {
         List<Position> positions = new LinkedList<Position>();
         User user = getUser();
-        if (!user.getDevices().isEmpty()) {
+        if (user.getDevices() != null && !user.getDevices().isEmpty()) {
             TypedQuery<Position> query = entityManager.createQuery(
                     "SELECT x FROM Position x WHERE x.id IN (" +
                             "SELECT y.latestPosition FROM Device y WHERE y IN (:devices))", Position.class);
