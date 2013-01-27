@@ -22,8 +22,15 @@ import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
+import org.gwtopenmaps.openlayers.client.layer.Bing;
+import org.gwtopenmaps.openlayers.client.layer.BingOptions;
+import org.gwtopenmaps.openlayers.client.layer.BingType;
+import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
+import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
+import org.gwtopenmaps.openlayers.client.layer.GoogleV3Options;
 import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.MarkersOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
@@ -74,6 +81,31 @@ public class MapView {
         point.transform(new Projection("EPSG:4326"), new Projection(map.getProjection()));
         return point;
     }
+    
+    private void initMapLayers(Map map) {
+        map.addLayer(OSM.Mapnik("OpenStreetMap"));
+        
+        GoogleV3Options gHybridOptions = new GoogleV3Options();
+        gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
+        map.addLayer(new GoogleV3("Google Hybrid", gHybridOptions));
+ 
+        GoogleV3Options gNormalOptions = new GoogleV3Options();
+        gNormalOptions.setType(GoogleV3MapType.G_NORMAL_MAP);
+        map.addLayer(new GoogleV3("Google Normal", gNormalOptions));
+ 
+        GoogleV3Options gSatelliteOptions = new GoogleV3Options();
+        gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
+        map.addLayer(new GoogleV3("Google Satellite", gSatelliteOptions));
+ 
+        GoogleV3Options gTerrainOptions = new GoogleV3Options();
+        gTerrainOptions.setType(GoogleV3MapType.G_TERRAIN_MAP);
+        map.addLayer(new GoogleV3("Google Terrain", gTerrainOptions));    	
+        
+        final String bingKey = "AseEs0DLJhLlTNoxbNXu7DGsnnH4UoWuGue7-irwKkE3fffaClwc9q_Mr6AyHY8F";
+        map.addLayer(new Bing(new BingOptions("Bing Road", bingKey, BingType.ROAD)));
+        map.addLayer(new Bing(new BingOptions("Bing Hybrid", bingKey, BingType.HYBRID)));
+        map.addLayer(new Bing(new BingOptions("Bing Aerial", bingKey, BingType.AERIAL)));
+    }
 
     public MapView() {
         contentPanel = new ContentPanel();
@@ -85,18 +117,18 @@ public class MapView {
         mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
         map = mapWidget.getMap();
 
-        OSM mapLayer = OSM.Mapnik("Mapnik");
-        mapLayer.setIsBaseLayer(true);
-
         VectorOptions vectorOptions = new VectorOptions();
         vectorLayer = new Vector("Vector", vectorOptions);
 
         MarkersOptions markersOptions = new MarkersOptions();
         markerLayer = new Markers("Markers", markersOptions);
 
-        map.addLayer(mapLayer);
+        initMapLayers(map);
+        
         map.addLayer(vectorLayer);
         map.addLayer(markerLayer);
+
+        map.addControl(new LayerSwitcher());
         map.addControl(new ScaleLine());
         map.setCenter(createLonLat(12.5, 41.9), 1);
 
