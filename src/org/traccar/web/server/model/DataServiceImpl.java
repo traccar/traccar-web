@@ -23,6 +23,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
@@ -44,7 +45,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     private static final String PERSISTENCE_UNIT_RELEASE = "release";
     private static final String ATTRIBUTE_USER = "user";
 
-    private EntityManager entityManager;
+    private EntityManagerFactory entityManagerFactory;
 
     @Override
     public void init() throws ServletException {
@@ -59,12 +60,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             persistenceUnit = PERSISTENCE_UNIT_DEBUG;
         }
 
-        entityManager = Persistence.createEntityManagerFactory(persistenceUnit).createEntityManager();
+        entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
     }
 
     @Override
     public void destroy() {
-        entityManager.close();
+        entityManagerFactory.close();
         super.destroy();
     }
 
@@ -89,16 +90,21 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public boolean login(String login, String password) {
-        TypedQuery<User> query = entityManager.createQuery(
-                "SELECT x FROM User x WHERE x.login = :login", User.class);
-        query.setParameter("login", login);
-        List<User> results = query.getResultList();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT x FROM User x WHERE x.login = :login", User.class);
+            query.setParameter("login", login);
+            List<User> results = query.getResultList();
 
-        if (!results.isEmpty() && password.equals(results.get(0).getPassword())) {
-            setUser(results.get(0));
-            return true;
+            if (!results.isEmpty() && password.equals(results.get(0).getPassword())) {
+                setUser(results.get(0));
+                return true;
+            }
+            return false;
+        } finally {
+            entityManager.close();
         }
-        return false;
     }
 
     @Override
@@ -109,19 +115,24 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public boolean register(String login, String password) {
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword(password);
-        entityManager.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            entityManager.persist(user);
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            entityManager.getTransaction().rollback();
-            throw e;
+            User user = new User();
+            user.setLogin(login);
+            user.setPassword(password);
+            entityManager.getTransaction().begin();
+            try {
+                entityManager.persist(user);
+                entityManager.getTransaction().commit();
+                setUser(user);
+                return true;
+            } catch (RuntimeException e) {
+                entityManager.getTransaction().rollback();
+                throw e;
+            }
+        } finally {
+            entityManager.close();
         }
-        setUser(user);
-        return true;
     }
 
     @Override
@@ -134,72 +145,97 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public Device addDevice(Device device) {
-        User user = getUser();
-        entityManager.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            entityManager.persist(device);
-            user.getDevices().add(device);
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            entityManager.getTransaction().rollback();
-            throw e;
+            User user = getUser();
+            entityManager.getTransaction().begin();
+            try {
+                entityManager.persist(device);
+                user.getDevices().add(device);
+                entityManager.getTransaction().commit();
+                return device;
+            } catch (RuntimeException e) {
+                entityManager.getTransaction().rollback();
+                throw e;
+            }
+        } finally {
+            entityManager.close();
         }
-        return device;
     }
 
     @Override
     public Device updateDevice(Device device) {
-        entityManager.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            device = entityManager.merge(device);
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            entityManager.getTransaction().rollback();
-            throw e;
+            entityManager.getTransaction().begin();
+            try {
+                device = entityManager.merge(device);
+                entityManager.getTransaction().commit();
+                return device;
+            } catch (RuntimeException e) {
+                entityManager.getTransaction().rollback();
+                throw e;
+            }
+        } finally {
+            entityManager.close();
         }
-        return device;
     }
 
     @Override
     public Device removeDevice(Device device) {
-        User user = getUser();
-        entityManager.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            device = entityManager.merge(device);
-            user.getDevices().remove(device);
-            entityManager.remove(device);
-            entityManager.getTransaction().commit();
-        } catch (RuntimeException e) {
-            entityManager.getTransaction().rollback();
-
+            User user = getUser();
+            entityManager.getTransaction().begin();
+            try {
+                device = entityManager.merge(device);
+                user.getDevices().remove(device);
+                entityManager.remove(device);
+                entityManager.getTransaction().commit();
+                return device;
+            } catch (RuntimeException e) {
+                entityManager.getTransaction().rollback();
+                throw e;
+            }
+        } finally {
+            entityManager.close();
         }
-        return device;
     }
 
     @Override
     public List<Position> getPositions(Device device, Date from, Date to) {
-        List<Position> positions = new LinkedList<Position>();
-        TypedQuery<Position> query = entityManager.createQuery(
-                "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to", Position.class);
-        query.setParameter("device", device);
-        query.setParameter("from", from);
-        query.setParameter("to", to);
-        positions.addAll(query.getResultList());
-        return positions;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            List<Position> positions = new LinkedList<Position>();
+            TypedQuery<Position> query = entityManager.createQuery(
+                    "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to", Position.class);
+            query.setParameter("device", device);
+            query.setParameter("from", from);
+            query.setParameter("to", to);
+            positions.addAll(query.getResultList());
+            return positions;
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
     public List<Position> getLatestPositions() {
-        List<Position> positions = new LinkedList<Position>();
-        User user = getUser();
-        if (user.getDevices() != null && !user.getDevices().isEmpty()) {
-            TypedQuery<Position> query = entityManager.createQuery(
-                    "SELECT x FROM Position x WHERE x.id IN (" +
-                            "SELECT y.latestPosition FROM Device y WHERE y IN (:devices))", Position.class);
-            query.setParameter("devices", user.getDevices());
-            positions.addAll(query.getResultList());
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            List<Position> positions = new LinkedList<Position>();
+            User user = getUser();
+            if (user.getDevices() != null && !user.getDevices().isEmpty()) {
+                TypedQuery<Position> query = entityManager.createQuery(
+                        "SELECT x FROM Position x WHERE x.id IN (" +
+                                "SELECT y.latestPosition FROM Device y WHERE y IN (:devices))", Position.class);
+                query.setParameter("devices", user.getDevices());
+                positions.addAll(query.getResultList());
+            }
+            return positions;
+        } finally {
+            entityManager.close();
         }
-        return positions;
     }
 
 }
