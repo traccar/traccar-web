@@ -19,14 +19,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
-
-//INSERT INTO positions (device_id, valid, time, latitude, longitude, altitude, speed, course) VALUES (11, 1, NOW(), 60, 30, 0, 0, 0);
 
 @Entity
 @Table(name = "positions")
@@ -60,7 +59,7 @@ public class Position implements Serializable, Cloneable {
         return id;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @Index(name = "positionsIndex")
     private Device device;
 

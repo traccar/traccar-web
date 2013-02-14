@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -47,7 +48,7 @@ public class Device implements Serializable {
         return id;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Position latestPosition;
 
     public Position getLatestPosition() {
