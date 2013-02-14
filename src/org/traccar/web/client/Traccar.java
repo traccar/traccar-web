@@ -16,14 +16,8 @@
 package org.traccar.web.client;
 
 import org.traccar.web.client.controller.LoginController;
-import org.traccar.web.shared.model.XmlParser;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.xml.client.DOMException;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.XMLParser;
-import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 public class Traccar implements EntryPoint, LoginController.LoginHandler {
 
