@@ -175,10 +175,7 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
         public void onAnything() {
             Device oldDevice = deviceCombo.getValue();
             if (oldDevice != null) {
-                Device newDevice = deviceStore.findModel(oldDevice);
-                if (newDevice != null) {
-                    deviceCombo.setValue(newDevice);
-                }
+                deviceCombo.setValue(deviceStore.findModel(oldDevice));
             }
         }
 
