@@ -40,6 +40,7 @@ public class User implements Serializable, Cloneable {
         id = user.id;
         login = user.login;
         password = user.password;
+        admin = user.admin;
     }
 
     @Id
@@ -69,6 +70,16 @@ public class User implements Serializable, Cloneable {
 
     public String getPassword() {
         return password;
+    }
+
+    private boolean admin;
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean getAdmin() {
+        return admin;
     }
 
     @OneToMany(fetch = FetchType.EAGER)
