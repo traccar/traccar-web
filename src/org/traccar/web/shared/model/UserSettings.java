@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +14,10 @@ import javax.persistence.Table;
 public class UserSettings implements Serializable {
 
     private static final long serialVersionUID = 1;
+
+    @Id
+    @GeneratedValue
+    private long id;
 
     public UserSettings() {
         speedUnit = SpeedUnit.knots;
