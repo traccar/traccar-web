@@ -128,8 +128,9 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
         // Initialize with current time
         Date now = new Date();
-        fromDate.setValue(now);
-        fromTime.setValue(now);
+        Date from = new Date(now.getTime() - 60 * 60 * 1000);
+        fromDate.setValue(from);
+        fromTime.setValue(from);
         toDate.setValue(now);
         toTime.setValue(now);
     }
