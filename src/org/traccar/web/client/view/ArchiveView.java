@@ -181,4 +181,8 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
     };
 
+    public void selectPosition(Position position) {
+        grid.getSelectionModel().select(positionStore.findModel(position), false);
+    }
+
 }

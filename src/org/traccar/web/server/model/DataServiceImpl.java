@@ -152,6 +152,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             try {
                 entityManager.persist(device);
                 user.getDevices().add(device);
+                entityManager.merge(user);
                 entityManager.getTransaction().commit();
                 return device;
             } catch (RuntimeException e) {
@@ -191,6 +192,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 device = entityManager.merge(device);
                 user.getDevices().remove(device);
                 entityManager.remove(device);
+                entityManager.merge(user);
                 entityManager.getTransaction().commit();
                 return device;
             } catch (RuntimeException e) {

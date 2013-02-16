@@ -33,13 +33,17 @@ public class ApplicationView extends Composite {
     ContentPanel devicePanel;
 
     @UiField(provided = true)
+    ContentPanel statePanel;
+
+    @UiField(provided = true)
     ContentPanel mapPanel;
 
     @UiField(provided = true)
     ContentPanel archivePanel;
 
-    public ApplicationView(ContentPanel deviceView, ContentPanel mapView, ContentPanel archiveView) {
+    public ApplicationView(ContentPanel deviceView, ContentPanel stateView, ContentPanel mapView, ContentPanel archiveView) {
         devicePanel = deviceView;
+        statePanel = stateView;
         mapPanel = mapView;
         archivePanel = archiveView;
         initWidget(uiBinder.createAndBindUi(this));

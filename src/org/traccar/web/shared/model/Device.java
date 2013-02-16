@@ -49,7 +49,7 @@ public class Device implements Serializable {
         return id;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Position latestPosition;
 
     public Position getLatestPosition() {

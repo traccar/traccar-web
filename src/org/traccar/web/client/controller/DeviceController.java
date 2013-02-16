@@ -124,4 +124,8 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         dialog.show();
     }
 
+    public void selectDevice(Device device) {
+        deviceView.selectDevice(device);
+    }
+
 }
