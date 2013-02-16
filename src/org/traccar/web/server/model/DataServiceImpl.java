@@ -61,6 +61,22 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
 
         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+
+        // Create Administrator account
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = 'admin'", User.class);
+            List<User> results = query.getResultList();
+            if (results.isEmpty()) {
+                User user = new User();
+                user.setLogin("admin");
+                user.setPassword("admin");
+                user.setAdmin(true);
+                createUser(user);
+            }
+        } finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -115,17 +131,21 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public boolean register(String login, String password) {
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(password);
+        createUser(user);
+        setUser(user);
+        return true;
+    }
+
+    private void createUser(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
             entityManager.getTransaction().begin();
             try {
                 entityManager.persist(user);
                 entityManager.getTransaction().commit();
-                setUser(user);
-                return true;
             } catch (RuntimeException e) {
                 entityManager.getTransaction().rollback();
                 throw e;
