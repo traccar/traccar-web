@@ -47,6 +47,13 @@ import com.sencha.gxt.widget.core.client.ContentPanel;
 
 public class MapView {
 
+    public interface MapHandler {
+        public void onPositionSelected(Position position);
+        public void onArchivePositionSelected(Position position);
+    }
+
+    private MapHandler mapHandler;
+
     private ContentPanel contentPanel;
 
     public ContentPanel getView() {
@@ -81,33 +88,34 @@ public class MapView {
         point.transform(new Projection("EPSG:4326"), new Projection(map.getProjection()));
         return point;
     }
-    
+
     private void initMapLayers(Map map) {
         map.addLayer(OSM.Mapnik("OpenStreetMap"));
-        
+
         GoogleV3Options gHybridOptions = new GoogleV3Options();
         gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
         map.addLayer(new GoogleV3("Google Hybrid", gHybridOptions));
- 
+
         GoogleV3Options gNormalOptions = new GoogleV3Options();
         gNormalOptions.setType(GoogleV3MapType.G_NORMAL_MAP);
         map.addLayer(new GoogleV3("Google Normal", gNormalOptions));
- 
+
         GoogleV3Options gSatelliteOptions = new GoogleV3Options();
         gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
         map.addLayer(new GoogleV3("Google Satellite", gSatelliteOptions));
- 
+
         GoogleV3Options gTerrainOptions = new GoogleV3Options();
         gTerrainOptions.setType(GoogleV3MapType.G_TERRAIN_MAP);
-        map.addLayer(new GoogleV3("Google Terrain", gTerrainOptions));    	
-        
+        map.addLayer(new GoogleV3("Google Terrain", gTerrainOptions));
+
         final String bingKey = "AseEs0DLJhLlTNoxbNXu7DGsnnH4UoWuGue7-irwKkE3fffaClwc9q_Mr6AyHY8F";
         map.addLayer(new Bing(new BingOptions("Bing Road", bingKey, BingType.ROAD)));
         map.addLayer(new Bing(new BingOptions("Bing Hybrid", bingKey, BingType.HYBRID)));
         map.addLayer(new Bing(new BingOptions("Bing Aerial", bingKey, BingType.AERIAL)));
     }
 
-    public MapView() {
+    public MapView(MapHandler mapHandler) {
+        this.mapHandler = mapHandler;
         contentPanel = new ContentPanel();
         contentPanel.setHeadingText("Map");
 
@@ -124,7 +132,7 @@ public class MapView {
         markerLayer = new Markers("Markers", markersOptions);
 
         initMapLayers(map);
-        
+
         map.addLayer(vectorLayer);
         map.addLayer(markerLayer);
 
@@ -147,8 +155,8 @@ public class MapView {
             }
         });
 
-        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest);
-        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive);
+        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler);
+        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler);
     }
 
     private final MapPositionRenderer latestPositionRenderer;
@@ -171,5 +179,23 @@ public class MapView {
     public void selectArchivePosition(Position position) {
         archivePositionRenderer.selectPosition(position, true);
     }
+
+    private MapPositionRenderer.SelectHandler latestPositionSelectHandler = new MapPositionRenderer.SelectHandler() {
+
+        @Override
+        public void onSelected(Position position) {
+            mapHandler.onPositionSelected(position);
+        }
+
+    };
+
+    private MapPositionRenderer.SelectHandler archivePositionSelectHandler = new MapPositionRenderer.SelectHandler() {
+
+        @Override
+        public void onSelected(Position position) {
+            mapHandler.onArchivePositionSelected(position);
+        }
+
+    };
 
 }

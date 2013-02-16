@@ -17,8 +17,10 @@ package org.traccar.web.client.controller;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.traccar.web.client.Application;
 import org.traccar.web.client.view.MapView;
@@ -29,14 +31,22 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
-public class MapController implements ContentController {
+public class MapController implements ContentController, MapView.MapHandler {
 
     private static final int UPDATE_INTERVAL = 15000;
 
+    public interface MapHandler {
+        public void onDeviceSelected(Device device);
+        public void onArchivePositionSelected(Position position);
+    }
+
+    private MapHandler mapHandler;
+
     private MapView mapView;
 
-    public MapController() {
-        mapView = new MapView();
+    public MapController(MapHandler mapHandler) {
+        this.mapHandler = mapHandler;
+        mapView = new MapView(this);
     }
 
     @Override
@@ -57,12 +67,20 @@ public class MapController implements ContentController {
         update();
     }
 
+    private Map<Long, Position> latestPositionMap = new HashMap<Long, Position>();
+
     public void update() {
         updateTimer.cancel();
         Application.getDataService().getLatestPositions(new AsyncCallback<List<Position>>() {
             @Override
             public void onSuccess(List<Position> result) {
                 mapView.showLatestPositions(result);
+                for (Position position : result) {
+                    latestPositionMap.put(position.getDevice().getId(), position);
+                }
+                for (Map.Entry<Long, PositionUpdateHandler> entry : positionUpdateMap.entrySet()) {
+                    entry.getValue().onUpdate(latestPositionMap.get(entry.getKey()));
+                }
                 updateTimer.schedule(UPDATE_INTERVAL);
             }
             @Override
@@ -89,6 +107,32 @@ public class MapController implements ContentController {
 
     public void selectArchivePosition(Position position) {
         mapView.selectArchivePosition(position);
+    }
+
+    public interface PositionUpdateHandler {
+        public void onUpdate(Position position);
+    }
+
+    private Map<Long, PositionUpdateHandler> positionUpdateMap = new HashMap<Long, PositionUpdateHandler>();
+
+
+    public void registerPositionUpdate(Device device, PositionUpdateHandler handler) {
+        positionUpdateMap.put(device.getId(), handler);
+        handler.onUpdate(latestPositionMap.get(device.getId()));
+    }
+
+    public void unregisterPositionUpdate(Device device) {
+        positionUpdateMap.remove(device.getId());
+    }
+
+    @Override
+    public void onPositionSelected(Position position) {
+        mapHandler.onDeviceSelected(position.getDevice());
+    }
+
+    @Override
+    public void onArchivePositionSelected(Position position) {
+        mapHandler.onArchivePositionSelected(position);
     }
 
 }

@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Marker;
+import org.gwtopenmaps.openlayers.client.event.EventHandler;
+import org.gwtopenmaps.openlayers.client.event.EventObject;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
@@ -29,8 +31,15 @@ import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.RootPanel;
+
 
 public class MapPositionRenderer {
+
+    public interface SelectHandler {
+        public void onSelected(Position position);
+    }
 
     private final MapView mapView;
     private final MarkerIconFactory.IconType iconType;
@@ -43,14 +52,41 @@ public class MapPositionRenderer {
         return mapView.getMarkerLayer();
     }
 
-    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType) {
+    private SelectHandler selectHandler;
+
+    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType, SelectHandler selectHandler) {
         this.mapView = mapView;
         this.iconType = iconType;
+        this.selectHandler = selectHandler;
+    }
+
+    private void addSelectEvent(Marker marker, final Position position) {
+        if (selectHandler != null) {
+            marker.getEvents().register("click", marker, new EventHandler() {
+                @Override
+                public void onHandle(EventObject eventObject) {
+                    selectHandler.onSelected(position);
+                }
+            });
+            marker.getEvents().register("mouseover", marker, new EventHandler() {
+                @Override
+                public void onHandle(EventObject eventObject) {
+                    RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.SE_RESIZE);
+                }
+            });
+            marker.getEvents().register("mouseout", marker, new EventHandler() {
+                @Override
+                public void onHandle(EventObject eventObject) {
+                    RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.AUTO);
+                }
+            });
+        }
     }
 
     private void changeMarkerIcon(Long positionId, Icon icon) {
         Marker oldMarker = markerMap.get(positionId);
         Marker newMarker = new Marker(oldMarker.getLonLat(), icon);
+        addSelectEvent(newMarker, positionMap.get(positionId));
         markerMap.put(positionId, newMarker);
         getMarkerLayer().addMarker(newMarker);
         getMarkerLayer().removeMarker(oldMarker);
@@ -58,6 +94,7 @@ public class MapPositionRenderer {
 
     private Map<Long, Marker> markerMap = new HashMap<Long, Marker>(); // Position.id -> Marker
     private Map<Long, Long> deviceMap = new HashMap<Long, Long>(); // Device.id -> Position.id
+    private Map<Long, Position> positionMap = new HashMap<Long, Position>(); // Position.id -> Position
 
     private Long selectedPositionId;
     private Long selectedDeviceId;
@@ -68,6 +105,7 @@ public class MapPositionRenderer {
         }
         markerMap.clear();
         deviceMap.clear();
+        positionMap.clear();
 
         for (Position position : positions) {
             Marker marker = new Marker(
@@ -75,6 +113,8 @@ public class MapPositionRenderer {
                     MarkerIconFactory.getIcon(iconType, false));
             markerMap.put(position.getId(), marker);
             deviceMap.put(position.getDevice().getId(), position.getId());
+            positionMap.put(position.getId(), position);
+            addSelectEvent(marker, position);
             getMarkerLayer().addMarker(marker);
         }
 

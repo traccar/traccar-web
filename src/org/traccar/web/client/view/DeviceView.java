@@ -134,4 +134,8 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         });
     }
 
+    public void selectDevice(Device device) {
+        grid.getSelectionModel().select(deviceStore.findModel(device), false);
+    }
+
 }

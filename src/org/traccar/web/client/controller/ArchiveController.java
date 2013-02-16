@@ -87,4 +87,8 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
         positionStore.clear();
     }
 
+    public void selectPosition(Position position) {
+        archiveView.selectPosition(position);
+    }
+
 }

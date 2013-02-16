@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
+import org.traccar.web.client.controller.StateController;
 import org.traccar.web.client.model.BaseStoreHandlers;
 import org.traccar.web.client.model.DataService;
 import org.traccar.web.client.model.DataServiceAsync;
@@ -48,6 +49,7 @@ public class Application {
     }
 
     private final DeviceController deviceController;
+    private final StateController stateController;
     private final MapController mapController;
     private final ArchiveController archiveController;
 
@@ -56,27 +58,61 @@ public class Application {
     public Application() {
         deviceController = new DeviceController(deviceHandler);
         deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
-        mapController = new MapController();
+        stateController = new StateController();
+        mapController = new MapController(mapHandler);
         archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
         archiveController.getPositionStore().addStoreHandlers(archiveStoreHandler);
 
         view = new ApplicationView(
-                deviceController.getView(), mapController.getView(), archiveController.getView());
+                deviceController.getView(), stateController.getView(), mapController.getView(), archiveController.getView());
     }
 
     public void run() {
         RootPanel.get().add(view);
 
         deviceController.run();
+        stateController.run();
         mapController.run();
         archiveController.run();
     }
 
     private DeviceController.DeviceHandler deviceHandler = new DeviceController.DeviceHandler() {
 
+        private Device selected;
+
         @Override
         public void onSelected(Device device) {
+            if (selected != null) {
+                mapController.unregisterPositionUpdate(selected);
+            }
+            if (device != null) {
+                mapController.registerPositionUpdate(device, positionUpdateHandler);
+            }
+            selected = device;
             mapController.selectDevice(device);
+        }
+
+    };
+
+    private MapController.PositionUpdateHandler positionUpdateHandler = new MapController.PositionUpdateHandler() {
+
+        @Override
+        public void onUpdate(Position position) {
+            stateController.showState(position);
+        }
+
+    };
+
+    private MapController.MapHandler mapHandler = new MapController.MapHandler() {
+
+        @Override
+        public void onDeviceSelected(Device device) {
+            deviceController.selectDevice(device);
+        }
+
+        @Override
+        public void onArchivePositionSelected(Position position) {
+            archiveController.selectPosition(position);
         }
 
     };
