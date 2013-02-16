@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.model.BaseStoreHandlers;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.model.PositionProperties;
@@ -27,7 +28,6 @@ import org.traccar.web.shared.model.Position;
 
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -109,7 +109,7 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
         columnConfigList.add(new ColumnConfig<Position, Boolean>(positionProperties.valid(), 0, "Valid"));
 
         ColumnConfig<Position, Date> columnConfig = new ColumnConfig<Position, Date>(positionProperties.time(), 0, "Time");
-        columnConfig.setCell(new DateCell(DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss")));
+        columnConfig.setCell(new DateCell(ApplicationContext.getInstance().getFormatterUtil().getTimeFormat()));
         columnConfigList.add(columnConfig);
 
         columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.latitude(), 0, "Latitude"));

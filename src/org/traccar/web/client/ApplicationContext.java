@@ -3,12 +3,25 @@ package org.traccar.web.client;
 import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.UserSettings;
 
-public class Context {
+public class ApplicationContext {
 
-    private static final Context context = new Context();
+    private static final ApplicationContext context = new ApplicationContext();
 
-    public Context getInstance() {
+    public static ApplicationContext getInstance() {
         return context;
+    }
+
+    private FormatterUtil formatterUtil;
+
+    public void setFormatterUtil(FormatterUtil formatterUtil) {
+        this.formatterUtil = formatterUtil;
+    }
+
+    public FormatterUtil getFormatterUtil() {
+        if (formatterUtil == null) {
+            formatterUtil = new FormatterUtil();
+        }
+        return formatterUtil;
     }
 
     private ApplicationSettings applicationSettings;

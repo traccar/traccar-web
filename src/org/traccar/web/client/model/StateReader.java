@@ -3,10 +3,9 @@ package org.traccar.web.client.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.shared.model.Position;
 import org.traccar.web.shared.model.XmlParser;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
 
 public class StateReader {
 
@@ -21,7 +20,7 @@ public class StateReader {
         List<StateItem> state = new LinkedList<StateItem>();
 
         state.add(new StateItem("valid", toString(position.getValid())));
-        state.add(new StateItem("time", DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss").format(position.getTime())));
+        state.add(new StateItem("time", ApplicationContext.getInstance().getFormatterUtil().formatTime(position.getTime())));
         state.add(new StateItem("latitude", toString(position.getLatitude())));
         state.add(new StateItem("longitude", toString(position.getLongitude())));
         state.add(new StateItem("altitude", toString(position.getAltitude())));
