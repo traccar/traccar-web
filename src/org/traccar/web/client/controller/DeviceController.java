@@ -30,7 +30,6 @@ import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
-import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
 
@@ -44,11 +43,11 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 
     private DeviceView deviceView;
 
-    public DeviceController(DeviceHandler deviceHandler) {
+    public DeviceController(DeviceHandler deviceHandler, DeviceView.SettingsHandler settingsHandler) {
         this.deviceHandler = deviceHandler;
         DeviceProperties deviceProperties = GWT.create(DeviceProperties.class);
         deviceStore = new ListStore<Device>(deviceProperties.id());
-        deviceView = new DeviceView(this, deviceStore);
+        deviceView = new DeviceView(this, settingsHandler, deviceStore);
     }
 
     public ListStore<Device> getDeviceStore() {
@@ -108,7 +107,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
     @Override
     public void onRemove(final Device device) {
         final ConfirmMessageBox dialog = new ConfirmMessageBox("Confirm", "Are you sure you want remove device?");
-        dialog.addHideHandler(new HideHandler() {
+        dialog.addHideHandler(new HideEvent.HideHandler() {
             @Override
             public void onHide(HideEvent event) {
                 if (dialog.getHideButton() == dialog.getButtonById(PredefinedButton.YES.name())) {

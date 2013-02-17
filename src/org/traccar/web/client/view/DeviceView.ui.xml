@@ -6,7 +6,8 @@
     xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
     xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
     xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
-    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
+    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:menu="urn:import:com.sencha.gxt.widget.core.client.menu">
 
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
     <ui:attributes width="1" height="-1" />
@@ -32,7 +33,16 @@
           <button:TextButton ui:field="removeButton" text="Remove" enabled="false" />
           <toolbar:FillToolItem />
           <toolbar:SeparatorToolItem />
-          <button:TextButton ui:field="settingsButton" text="Settings" enabled="false" />
+          <button:TextButton ui:field="settingsButton" text="Settings">
+            <button:menu>
+              <menu:Menu>
+                <menu:MenuItem text="Account" ui:field="settingsAccount" />
+                <menu:MenuItem text="Preferences" ui:field="preferencesAccount" />
+                <menu:MenuItem text="Users" ui:field="usersAccount" />
+                <menu:MenuItem text="Global" ui:field="globalAccount" />
+              </menu:Menu>
+            </button:menu>
+          </button:TextButton>
           <button:TextButton ui:field="logoutButton" text="Logout" />
           </toolbar:ToolBar>
       </container:child>

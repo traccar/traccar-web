@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
+import org.traccar.web.client.controller.SettingsController;
 import org.traccar.web.client.controller.StateController;
 import org.traccar.web.client.model.BaseStoreHandlers;
 import org.traccar.web.client.model.DataService;
@@ -48,6 +49,7 @@ public class Application {
         return logger;
     }
 
+    private final SettingsController settingsController;
     private final DeviceController deviceController;
     private final StateController stateController;
     private final MapController mapController;
@@ -56,7 +58,8 @@ public class Application {
     private ApplicationView view;
 
     public Application() {
-        deviceController = new DeviceController(deviceHandler);
+        settingsController = new SettingsController();
+        deviceController = new DeviceController(deviceHandler, settingsController);
         deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
         stateController = new StateController();
         mapController = new MapController(mapHandler);
