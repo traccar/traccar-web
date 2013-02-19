@@ -16,6 +16,8 @@
 package org.traccar.web.client;
 
 import org.traccar.web.client.controller.LoginController;
+import org.traccar.web.client.model.BaseAsyncCallback;
+import org.traccar.web.shared.model.ApplicationSettings;
 
 import com.google.gwt.core.client.EntryPoint;
 
@@ -23,7 +25,13 @@ public class Traccar implements EntryPoint, LoginController.LoginHandler {
 
     @Override
     public void onModuleLoad() {
-        new LoginController().login(this);
+        Application.getDataService().updateApplicationSettings(null, new BaseAsyncCallback<ApplicationSettings>() {
+            @Override
+            public void onSuccess(ApplicationSettings result) {
+                ApplicationContext.getInstance().setApplicationSettings(result);
+                new LoginController().login(Traccar.this);
+            }
+        });
     }
 
     @Override

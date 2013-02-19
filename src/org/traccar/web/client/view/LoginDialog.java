@@ -15,12 +15,15 @@
  */
 package org.traccar.web.client.view;
 
+import org.traccar.web.client.ApplicationContext;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.Window;
+import com.sencha.gxt.widget.core.client.button.TextButton;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
 import com.sencha.gxt.widget.core.client.form.PasswordField;
 import com.sencha.gxt.widget.core.client.form.TextField;
@@ -48,9 +51,16 @@ public class LoginDialog {
     @UiField
     PasswordField password;
 
+    @UiField
+    TextButton registerButton;
+
     public LoginDialog(LoginHandler loginHandler) {
         this.loginHandler = loginHandler;
         uiBinder.createAndBindUi(this);
+
+        if (ApplicationContext.getInstance().getApplicationSettings().getRegistrationEnabled()) {
+            registerButton.enable();
+        }
     }
 
     public void show() {

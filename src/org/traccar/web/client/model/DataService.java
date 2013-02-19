@@ -18,6 +18,7 @@ package org.traccar.web.client.model;
 import java.util.Date;
 import java.util.List;
 
+import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -46,5 +47,7 @@ public interface DataService extends RemoteService {
     List<Position> getPositions(Device device, Date from, Date to);
 
     List<Position> getLatestPositions();
+
+    ApplicationSettings updateApplicationSettings(ApplicationSettings applicationSettings);
 
 }
