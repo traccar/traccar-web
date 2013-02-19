@@ -30,6 +30,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 import org.traccar.web.client.model.DataService;
+import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 import org.traccar.web.shared.model.User;
@@ -43,7 +44,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     private static final String PERSISTENCE_DATASTORE = "java:/DefaultDS";
     private static final String PERSISTENCE_UNIT_DEBUG = "debug";
     private static final String PERSISTENCE_UNIT_RELEASE = "release";
-    private static final String ATTRIBUTE_USER = "user";
+    private static final String ATTRIBUTE_USER = "traccar.user";
+    private static final String ATTRIBUTE_SETTINGS = "traccar.settings";
 
     private EntityManagerFactory entityManagerFactory;
 
@@ -131,12 +133,16 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public boolean register(String login, String password) {
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword(password);
-        createUser(user);
-        setUser(user);
-        return true;
+        if (getApplicationSettings().getRegistrationEnabled()) {
+            User user = new User();
+            user.setLogin(login);
+            user.setPassword(password);
+            createUser(user);
+            setUser(user);
+            return true;
+        } else {
+            throw new SecurityException();
+        }
     }
 
     private void createUser(User user) {
@@ -257,6 +263,62 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             return positions;
         } finally {
             entityManager.close();
+        }
+    }
+
+    private ApplicationSettings getApplicationSettings() {
+        ApplicationSettings applicationSettings = (ApplicationSettings) getServletContext().getAttribute(ATTRIBUTE_SETTINGS);
+        if (applicationSettings == null) {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                TypedQuery<ApplicationSettings> query = entityManager.createQuery("SELECT x FROM ApplicationSettings x", ApplicationSettings.class);
+                List<ApplicationSettings> resultList = query.getResultList();
+                if (resultList == null || resultList.isEmpty()) {
+                    applicationSettings = new ApplicationSettings();
+                    entityManager.getTransaction().begin();
+                    try {
+                        entityManager.persist(applicationSettings);
+                        entityManager.getTransaction().commit();
+                    } catch (RuntimeException e) {
+                        entityManager.getTransaction().rollback();
+                        throw e;
+                    }
+                } else {
+                    applicationSettings = resultList.get(0);
+                }
+                getServletContext().setAttribute(ATTRIBUTE_SETTINGS, applicationSettings);
+            } finally {
+                entityManager.close();
+            }
+        }
+        return applicationSettings;
+    }
+
+    @Override
+    public ApplicationSettings updateApplicationSettings(ApplicationSettings applicationSettings) {
+        if (applicationSettings == null) {
+            return getApplicationSettings();
+        } else {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                User user = getUser();
+                if (user.getAdmin()) {
+                    entityManager.getTransaction().begin();
+                    try {
+                        entityManager.merge(applicationSettings);
+                        entityManager.getTransaction().commit();
+                        getServletContext().setAttribute(ATTRIBUTE_SETTINGS, applicationSettings);
+                        return applicationSettings;
+                    } catch (RuntimeException e) {
+                        entityManager.getTransaction().rollback();
+                        throw e;
+                    }
+                } else {
+                    throw new SecurityException();
+                }
+            } finally {
+                entityManager.close();
+            }
         }
     }
 

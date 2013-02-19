@@ -11,29 +11,22 @@
     <ui:attributes width="1" height="-1" />
   </ui:with>
  
-  <gxt:Window ui:field="window" pixelSize="300, 130" modal="true" closable="false" headingText="Authentication" focusWidget="{loginButton}">
+  <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="Global Settings" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="User">
+        <form:FieldLabel text="Registration">
           <form:widget>
-            <form:TextField ui:field="login" />
-          </form:widget>
-        </form:FieldLabel>
-      </container:child>
-      <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Password">
-          <form:widget>
-            <form:PasswordField ui:field="password" />
+            <form:CheckBox ui:field="registrationEnabled" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
     </container:VerticalLayoutContainer>
       
     <gxt:button>
-      <button:TextButton ui:field="loginButton" text="Login" />
+      <button:TextButton ui:field="saveButton" text="Save" />
     </gxt:button>
     <gxt:button>
-      <button:TextButton ui:field="registerButton" text="Register" enabled="false" />
+      <button:TextButton ui:field="cancelButton" text="Cancel" />
     </gxt:button>
   </gxt:Window>
 

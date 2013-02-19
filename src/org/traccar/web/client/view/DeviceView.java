@@ -145,7 +145,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         public void onAccountSelected();
         public void onPreferencesSelected();
         public void onUsersSelected();
-        public void onGlobalSelected();
+        public void onApplicationSelected();
     }
 
     private SettingsHandler settingsHandler;
@@ -167,7 +167,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
     @UiHandler("globalAccount")
     public void onSettingsGlobalSelected(SelectionEvent<Item> event) {
-        settingsHandler.onGlobalSelected();
+        settingsHandler.onApplicationSelected();
     }
 
 }

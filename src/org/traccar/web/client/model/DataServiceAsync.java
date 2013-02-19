@@ -18,6 +18,7 @@ package org.traccar.web.client.model;
 import java.util.Date;
 import java.util.List;
 
+import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -44,5 +45,7 @@ public interface DataServiceAsync {
     void getLatestPositions(AsyncCallback<List<Position>> callback);
 
     void getPositions(Device device, Date from, Date to, AsyncCallback<List<Position>> callback);
+
+    void updateApplicationSettings(ApplicationSettings applicationSettings, AsyncCallback<ApplicationSettings> callback);
 
 }
