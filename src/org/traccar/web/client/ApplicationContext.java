@@ -1,6 +1,7 @@
 package org.traccar.web.client;
 
 import org.traccar.web.shared.model.ApplicationSettings;
+import org.traccar.web.shared.model.User;
 import org.traccar.web.shared.model.UserSettings;
 
 public class ApplicationContext {
@@ -38,15 +39,25 @@ public class ApplicationContext {
         }
     }
 
-    private UserSettings userSettings;
+    private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     public void setUserSettings(UserSettings userSettings) {
-        this.userSettings = userSettings;
+        if (user != null) {
+            user.setUserSettings(userSettings);
+        }
     }
 
     public UserSettings getUserSettings() {
-        if (userSettings != null) {
-            return userSettings;
+        if (user != null && user.getUserSettings() != null) {
+            return user.getUserSettings();
         } else {
             return new UserSettings(); // default settings
         }

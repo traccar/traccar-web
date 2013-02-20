@@ -16,8 +16,10 @@
 package org.traccar.web.client.controller;
 
 import org.traccar.web.client.Application;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.view.LoginDialog;
+import org.traccar.web.shared.model.User;
 
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
@@ -58,10 +60,11 @@ public class LoginController implements LoginDialog.LoginHandler {
     @Override
     public void onLogin(String login, String password) {
         if (validate(login, password)) {
-            Application.getDataService().login(login, password, new BaseAsyncCallback<Boolean>() {
+            Application.getDataService().login(login, password, new BaseAsyncCallback<User>() {
                 @Override
-                public void onSuccess(Boolean result) {
-                    if (result) {
+                public void onSuccess(User result) {
+                    if (result != null) {
+                        ApplicationContext.getInstance().setUser(result);
                         if (loginHandler != null) {
                             dialog.hide();
                             loginHandler.onLogin();
@@ -77,10 +80,11 @@ public class LoginController implements LoginDialog.LoginHandler {
     @Override
     public void onRegister(String login, String password) {
         if (validate(login, password)) {
-            Application.getDataService().register(login, password, new BaseAsyncCallback<Boolean>() {
+            Application.getDataService().register(login, password, new BaseAsyncCallback<User>() {
                 @Override
-                public void onSuccess(Boolean result) {
-                    if (result) {
+                public void onSuccess(User result) {
+                    if (result != null) {
+                        ApplicationContext.getInstance().setUser(result);
                         if (loginHandler != null) {
                             dialog.hide();
                             loginHandler.onLogin();

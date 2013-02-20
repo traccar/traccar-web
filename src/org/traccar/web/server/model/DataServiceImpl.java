@@ -107,7 +107,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public boolean login(String login, String password) {
+    public User login(String login, String password) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             TypedQuery<User> query = entityManager.createQuery(
@@ -116,10 +116,11 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             List<User> results = query.getResultList();
 
             if (!results.isEmpty() && password.equals(results.get(0).getPassword())) {
-                setUser(results.get(0));
-                return true;
+                User user = results.get(0);
+                setUser(user);
+                return user;
             }
-            return false;
+            return null;
         } finally {
             entityManager.close();
         }
@@ -132,14 +133,48 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public boolean register(String login, String password) {
+    public User register(String login, String password) {
         if (getApplicationSettings().getRegistrationEnabled()) {
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
             createUser(user);
             setUser(user);
-            return true;
+            return user;
+        } else {
+            throw new SecurityException();
+        }
+    }
+
+    @Override
+    public User updateUser(User user) {
+        User currentUser = getUser();
+        if (currentUser.getAdmin() || (currentUser.getId() == user.getId() && !user.getAdmin())) {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                // TODO: better solution?
+                if (currentUser.getId() == user.getId()) {
+                    currentUser.setLogin(user.getLogin());
+                    currentUser.setPassword(user.getPassword());
+                    currentUser.setUserSettings(user.getUserSettings());
+                    user = currentUser;
+                } else {
+                    // TODO: handle other users
+                }
+
+                entityManager.getTransaction().begin();
+                try {
+                    entityManager.merge(user);
+                    entityManager.getTransaction().commit();
+                    setUser(user);
+                    return user;
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
+            } finally {
+                entityManager.close();
+            }
         } else {
             throw new SecurityException();
         }
