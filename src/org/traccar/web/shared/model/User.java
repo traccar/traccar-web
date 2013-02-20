@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -97,7 +98,7 @@ public class User implements Serializable, Cloneable {
         return devices;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserSettings userSettings;
 
     public void setUserSettings(UserSettings userSettings) {

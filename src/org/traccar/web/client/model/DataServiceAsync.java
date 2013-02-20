@@ -27,7 +27,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DataServiceAsync {
 
-    void authenticated(AsyncCallback<Boolean> callback);
+    void authenticated(AsyncCallback<User> callback);
 
     void login(String login, String password, AsyncCallback<User> callback);
 

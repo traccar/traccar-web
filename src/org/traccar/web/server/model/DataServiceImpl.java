@@ -102,8 +102,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public boolean authenticated() {
-        return (getUser() != null);
+    public User authenticated() {
+        return getUser();
     }
 
     @Override
@@ -152,19 +152,20 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         if (currentUser.getAdmin() || (currentUser.getId() == user.getId() && !user.getAdmin())) {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             try {
-                // TODO: better solution?
-                if (currentUser.getId() == user.getId()) {
-                    currentUser.setLogin(user.getLogin());
-                    currentUser.setPassword(user.getPassword());
-                    currentUser.setUserSettings(user.getUserSettings());
-                    user = currentUser;
-                } else {
-                    // TODO: handle other users
-                }
-
                 entityManager.getTransaction().begin();
                 try {
-                    entityManager.merge(user);
+                    // TODO: better solution?
+                    if (currentUser.getId() == user.getId()) {
+                        entityManager.merge(currentUser);
+                        currentUser.setLogin(user.getLogin());
+                        currentUser.setPassword(user.getPassword());
+                        currentUser.setUserSettings(user.getUserSettings());
+                        entityManager.merge(currentUser);
+                        user = currentUser;
+                    } else {
+                        // TODO: handle other users
+                    }
+
                     entityManager.getTransaction().commit();
                     setUser(user);
                     return user;
