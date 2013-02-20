@@ -25,7 +25,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.google.gwt.user.client.rpc.GwtTransient;
 
 @Entity
 @Table(name="users")
@@ -82,11 +85,27 @@ public class User implements Serializable, Cloneable {
         return admin;
     }
 
+    @GwtTransient
     @OneToMany(fetch = FetchType.EAGER)
     private List<Device> devices = new LinkedList<Device>();
 
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
+    }
+
     public List<Device> getDevices() {
         return devices;
+    }
+
+    @OneToOne
+    private UserSettings userSettings;
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
     }
 
 }

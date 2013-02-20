@@ -21,6 +21,7 @@ import java.util.List;
 import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
+import org.traccar.web.shared.model.User;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -30,11 +31,13 @@ public interface DataService extends RemoteService {
 
     boolean authenticated();
 
-    boolean login(String login, String password);
+    User login(String login, String password);
 
     boolean logout();
 
-    boolean register(String login, String password);
+    User register(String login, String password);
+
+    User updateUser(User user);
 
     List<Device> getDevices();
 
