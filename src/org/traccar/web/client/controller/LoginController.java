@@ -36,10 +36,11 @@ public class LoginController implements LoginDialog.LoginHandler {
     public void login(final LoginHandler loginHandler) {
         this.loginHandler = loginHandler;
 
-        Application.getDataService().authenticated(new BaseAsyncCallback<Boolean>() {
+        Application.getDataService().authenticated(new BaseAsyncCallback<User>() {
             @Override
-            public void onSuccess(Boolean result) {
-                if (result) {
+            public void onSuccess(User result) {
+                if (result != null) {
+                    ApplicationContext.getInstance().setUser(result);
                     loginHandler.onLogin();
                 } else {
                     dialog = new LoginDialog(LoginController.this);

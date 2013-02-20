@@ -10,27 +10,13 @@
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
     <ui:attributes width="1" height="-1" />
   </ui:with>
- 
-  <gxt:Window ui:field="window" pixelSize="300, 150" modal="true" headingText="Account" focusWidget="{saveButton}">
+  
+  <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="Preferences" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="User">
+        <form:FieldLabel text="Speed Units">
           <form:widget>
-            <form:TextField ui:field="login" />
-          </form:widget>
-        </form:FieldLabel>
-      </container:child>
-      <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Password">
-          <form:widget>
-            <form:PasswordField ui:field="password" />
-          </form:widget>
-        </form:FieldLabel>
-      </container:child>
-      <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Administrator">
-          <form:widget>
-            <form:CheckBox ui:field="admin" enabled="false" />
+            <form:ComboBox ui:field="speedUnit" />
           </form:widget>
         </form:FieldLabel>
       </container:child>

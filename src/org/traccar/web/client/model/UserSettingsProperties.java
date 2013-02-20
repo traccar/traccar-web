@@ -16,8 +16,10 @@
 package org.traccar.web.client.model;
 
 import org.traccar.web.shared.model.UserSettings;
+import org.traccar.web.shared.model.UserSettings.SpeedUnit;
 
 import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.data.shared.LabelProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
@@ -26,5 +28,23 @@ public interface UserSettingsProperties extends PropertyAccess<UserSettings> {
     ModelKeyProvider<UserSettings> id();
 
     ValueProvider<UserSettings, UserSettings.SpeedUnit> speedUnit();
+
+    public static class SpeedUnitLabelProvider implements LabelProvider<UserSettings.SpeedUnit> {
+
+        @Override
+        public String getLabel(SpeedUnit item) {
+            switch (item) {
+            case kilometersPerHour:
+                return "km/h";
+            case knots:
+                return "knots";
+            case milesPerHour:
+                return "mph";
+            default:
+                return null;
+            }
+        }
+
+    }
 
 }

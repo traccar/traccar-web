@@ -21,8 +21,10 @@ import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.view.ApplicationSettingsDialog;
 import org.traccar.web.client.view.DeviceView;
 import org.traccar.web.client.view.UserDialog;
+import org.traccar.web.client.view.UserSettingsDialog;
 import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.User;
+import org.traccar.web.shared.model.UserSettings;
 
 public class SettingsController implements DeviceView.SettingsHandler {
 
@@ -45,8 +47,21 @@ public class SettingsController implements DeviceView.SettingsHandler {
 
     @Override
     public void onPreferencesSelected() {
-        // TODO Auto-generated method stub
-
+        new UserSettingsDialog(
+                ApplicationContext.getInstance().getUserSettings(),
+                new UserSettingsDialog.UserSettingsHandler() {
+                    @Override
+                    public void onSave(UserSettings userSettings) {
+                        ApplicationContext.getInstance().setUserSettings(userSettings);
+                        User user = ApplicationContext.getInstance().getUser();
+                        Application.getDataService().updateUser(user, new BaseAsyncCallback<User>() {
+                            @Override
+                            public void onSuccess(User result) {
+                                ApplicationContext.getInstance().setUser(result);
+                            }
+                        });
+                    }
+                }).show();
     }
 
     @Override
