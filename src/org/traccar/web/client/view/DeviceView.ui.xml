@@ -37,9 +37,9 @@
             <button:menu>
               <menu:Menu>
                 <menu:MenuItem text="Account" ui:field="settingsAccount" />
-                <menu:MenuItem text="Preferences" ui:field="preferencesAccount" />
-                <menu:MenuItem text="Users" ui:field="usersAccount" />
-                <menu:MenuItem text="Global" ui:field="globalAccount" />
+                <menu:MenuItem text="Preferences" ui:field="settingsPreferences" />
+                <menu:MenuItem text="Users" ui:field="settingsUsers" enabled="false" />
+                <menu:MenuItem text="Global" ui:field="settingsGlobal" enabled="false" />
               </menu:Menu>
             </button:menu>
           </button:TextButton>

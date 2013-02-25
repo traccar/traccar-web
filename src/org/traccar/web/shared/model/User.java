@@ -87,7 +87,7 @@ public class User implements Serializable, Cloneable {
     }
 
     @GwtTransient
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Device> devices = new LinkedList<Device>();
 
     public void setDevices(List<Device> devices) {

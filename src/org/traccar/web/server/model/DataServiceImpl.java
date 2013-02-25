@@ -147,6 +147,41 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
+    public List<User> getUsers() {
+        List<User> users = new LinkedList<User>();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
+            return users;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public User addUser(User user) {
+        User currentUser = getUser();
+        if (currentUser.getAdmin()) {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                entityManager.getTransaction().begin();
+                try {
+                    entityManager.persist(user);
+                    entityManager.getTransaction().commit();
+                    return user;
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
+            } finally {
+                entityManager.close();
+            }
+        } else {
+            throw new SecurityException();
+        }
+    }
+
+    @Override
     public User updateUser(User user) {
         User currentUser = getUser();
         if (currentUser.getAdmin() || (currentUser.getId() == user.getId() && !user.getAdmin())) {
@@ -168,6 +203,30 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
                     entityManager.getTransaction().commit();
                     setUser(user);
+                    return user;
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
+            } finally {
+                entityManager.close();
+            }
+        } else {
+            throw new SecurityException();
+        }
+    }
+
+    @Override
+    public User removeUser(User user) {
+        User currentUser = getUser();
+        if (currentUser.getAdmin()) {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            try {
+                entityManager.getTransaction().begin();
+                try {
+                    user = entityManager.merge(user);
+                    entityManager.remove(user);
+                    entityManager.getTransaction().commit();
                     return user;
                 } catch (RuntimeException e) {
                     entityManager.getTransaction().rollback();

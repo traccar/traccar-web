@@ -37,7 +37,13 @@ public interface DataService extends RemoteService {
 
     User register(String login, String password);
 
+    List<User> getUsers();
+
+    User addUser(User user);
+
     User updateUser(User user);
+
+    User removeUser(User user);
 
     List<Device> getDevices();
 

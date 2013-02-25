@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.traccar.web.client.Application;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.shared.model.Device;
@@ -39,6 +40,7 @@ import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
 import com.sencha.gxt.widget.core.client.menu.Item;
+import com.sencha.gxt.widget.core.client.menu.MenuItem;
 import com.sencha.gxt.widget.core.client.selection.SelectionChangedEvent;
 
 public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler<Device> {
@@ -82,6 +84,12 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @UiField
     Grid<Device> grid;
 
+    @UiField
+    MenuItem settingsUsers;
+
+    @UiField
+    MenuItem settingsGlobal;
+
     public DeviceView(DeviceHandler deviceHandler, SettingsHandler settingsHandler, ListStore<Device> deviceStore) {
         this.deviceHandler = deviceHandler;
         this.settingsHandler = settingsHandler;
@@ -98,6 +106,11 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
         grid.getSelectionModel().addSelectionChangedHandler(this);
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        if (ApplicationContext.getInstance().getUser().getAdmin()) {
+            settingsUsers.enable();
+            settingsGlobal.enable();
+        }
     }
 
     @Override
@@ -155,17 +168,17 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         settingsHandler.onAccountSelected();
     }
 
-    @UiHandler("preferencesAccount")
+    @UiHandler("settingsPreferences")
     public void onSettingsPreferencesSelected(SelectionEvent<Item> event) {
         settingsHandler.onPreferencesSelected();
     }
 
-    @UiHandler("usersAccount")
+    @UiHandler("settingsUsers")
     public void onSettingsUsersSelected(SelectionEvent<Item> event) {
         settingsHandler.onUsersSelected();
     }
 
-    @UiHandler("globalAccount")
+    @UiHandler("settingsGlobal")
     public void onSettingsGlobalSelected(SelectionEvent<Item> event) {
         settingsHandler.onApplicationSelected();
     }
