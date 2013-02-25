@@ -35,7 +35,13 @@ public interface DataServiceAsync {
 
     void register(String login, String password, AsyncCallback<User> callback);
 
+    void getUsers(AsyncCallback<List<User>> callback);
+
+    void addUser(User user, AsyncCallback<User> callback);
+
     void updateUser(User user, AsyncCallback<User> callback);
+
+    void removeUser(User user, AsyncCallback<User> callback);
 
     void getDevices(AsyncCallback<List<Device>> callback);
 
