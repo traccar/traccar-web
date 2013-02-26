@@ -22,6 +22,7 @@ import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
@@ -128,7 +129,13 @@ public class MapView {
         mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
         map = mapWidget.getMap();
 
+        Style style = new Style();
+        style.setStrokeColor("blue");
+        style.setStrokeWidth(3);
+        style.setFillOpacity(1);
+
         VectorOptions vectorOptions = new VectorOptions();
+        vectorOptions.setStyle(style);
         vectorLayer = new Vector("Vector", vectorOptions);
 
         MarkersOptions markersOptions = new MarkersOptions();
