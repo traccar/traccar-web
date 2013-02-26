@@ -32,6 +32,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
+import com.sencha.gxt.cell.core.client.NumberCell;
 import com.sencha.gxt.core.client.Style.SelectionMode;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.event.StoreHandlers;
@@ -108,14 +109,18 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
         columnConfigList.add(new ColumnConfig<Position, Boolean>(positionProperties.valid(), 0, "Valid"));
 
-        ColumnConfig<Position, Date> columnConfig = new ColumnConfig<Position, Date>(positionProperties.time(), 0, "Time");
-        columnConfig.setCell(new DateCell(ApplicationContext.getInstance().getFormatterUtil().getTimeFormat()));
-        columnConfigList.add(columnConfig);
+        ColumnConfig<Position, Date> columnConfigDate = new ColumnConfig<Position, Date>(positionProperties.time(), 0, "Time");
+        columnConfigDate.setCell(new DateCell(ApplicationContext.getInstance().getFormatterUtil().getTimeFormat()));
+        columnConfigList.add(columnConfigDate);
 
         columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.latitude(), 0, "Latitude"));
         columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.longitude(), 0, "Longitude"));
         columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.altitude(), 0, "Altitude"));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.speed(), 0, "Speed"));
+
+        ColumnConfig<Position, Double> columnConfigDouble = new ColumnConfig<Position, Double>(positionProperties.speed(), 0, "Speed");
+        columnConfigDouble.setCell(new NumberCell<Double>(ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat()));
+        columnConfigList.add(columnConfigDouble);
+
         columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.course(), 0, "Course"));
         columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.power(), 0, "Power"));
 
