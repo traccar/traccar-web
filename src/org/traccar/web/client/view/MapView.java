@@ -93,18 +93,22 @@ public class MapView {
         map.addLayer(OSM.Mapnik("OpenStreetMap"));
 
         GoogleV3Options gHybridOptions = new GoogleV3Options();
+        gHybridOptions.setNumZoomLevels(20);
         gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
         map.addLayer(new GoogleV3("Google Hybrid", gHybridOptions));
 
         GoogleV3Options gNormalOptions = new GoogleV3Options();
+        gNormalOptions.setNumZoomLevels(22);
         gNormalOptions.setType(GoogleV3MapType.G_NORMAL_MAP);
         map.addLayer(new GoogleV3("Google Normal", gNormalOptions));
 
         GoogleV3Options gSatelliteOptions = new GoogleV3Options();
+        gSatelliteOptions.setNumZoomLevels(20);
         gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
         map.addLayer(new GoogleV3("Google Satellite", gSatelliteOptions));
 
         GoogleV3Options gTerrainOptions = new GoogleV3Options();
+        gTerrainOptions.setNumZoomLevels(16);
         gTerrainOptions.setType(GoogleV3MapType.G_TERRAIN_MAP);
         map.addLayer(new GoogleV3("Google Terrain", gTerrainOptions));
 
@@ -120,7 +124,6 @@ public class MapView {
         contentPanel.setHeadingText("Map");
 
         MapOptions defaultMapOptions = new MapOptions();
-        defaultMapOptions.setNumZoomLevels(16);
 
         mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
         map = mapWidget.getMap();
