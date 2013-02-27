@@ -76,14 +76,16 @@ public class User implements Serializable, Cloneable {
         return password;
     }
 
-    private boolean admin;
+    // TODO temporary nullable to migrate from old database
+    private Boolean admin;
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
 
     public boolean getAdmin() {
-        return admin;
+        // TODO temporary nullable to migrate from old database
+        return (admin == null) ? false : admin;
     }
 
     @GwtTransient
