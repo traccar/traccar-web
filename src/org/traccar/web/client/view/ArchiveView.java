@@ -132,12 +132,14 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         // Initialize with current time
+        long min = 60 * 1000;
         Date now = new Date();
-        Date from = new Date(now.getTime() - 60 * 60 * 1000);
+        Date to = new Date(((now.getTime() + 15 * min) / (15 * min)) * 15 * min);
+        Date from = new Date(to.getTime() - 60 * min);
         fromDate.setValue(from);
         fromTime.setValue(from);
-        toDate.setValue(now);
-        toTime.setValue(now);
+        toDate.setValue(to);
+        toTime.setValue(to);
     }
 
     @Override
