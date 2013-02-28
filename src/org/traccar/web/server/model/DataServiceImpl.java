@@ -25,6 +25,7 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
@@ -45,7 +46,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     private static final String PERSISTENCE_UNIT_DEBUG = "debug";
     private static final String PERSISTENCE_UNIT_RELEASE = "release";
     private static final String ATTRIBUTE_USER = "traccar.user";
-    private static final String ATTRIBUTE_SETTINGS = "traccar.settings";
+    private static final String ATTRIBUTE_ENTITYMANAGER = "traccar.entitymanager";
 
     private EntityManagerFactory entityManagerFactory;
 
@@ -65,29 +66,38 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 
         // Create Administrator account
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = 'admin'", User.class);
-            List<User> results = query.getResultList();
-            if (results.isEmpty()) {
-                User user = new User();
-                user.setLogin("admin");
-                user.setPassword("admin");
-                user.setAdmin(true);
-                createUser(user);
-            }
-        } finally {
-            entityManager.close();
+        EntityManager entityManager = getServletEntityManager();
+        TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = 'admin'", User.class);
+        List<User> results = query.getResultList();
+        if (results.isEmpty()) {
+            User user = new User();
+            user.setLogin("admin");
+            user.setPassword("admin");
+            user.setAdmin(true);
+            createUser(entityManager, user);
         }
     }
 
-    @Override
-    public void destroy() {
-        entityManagerFactory.close();
-        super.destroy();
+    private EntityManager servletEntityManager;
+
+    private EntityManager getServletEntityManager() {
+        if (servletEntityManager == null) {
+            servletEntityManager = entityManagerFactory.createEntityManager();
+        }
+        return servletEntityManager;
     }
 
-    private void setUser(User user) {
+    private EntityManager getSessionEntityManager() {
+        HttpSession session = getThreadLocalRequest().getSession();
+        EntityManager entityManager = (EntityManager) session.getAttribute(ATTRIBUTE_ENTITYMANAGER);
+        if (entityManager == null) {
+            entityManager = entityManagerFactory.createEntityManager();
+            session.setAttribute(ATTRIBUTE_ENTITYMANAGER, entityManager);
+        }
+        return entityManager;
+    }
+
+    private void setSessionUser(User user) {
         HttpSession session = getThreadLocalRequest().getSession();
         if (user != null) {
             session.setAttribute(ATTRIBUTE_USER, user);
@@ -96,20 +106,20 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
-    private User getUser() {
+    private User getSessionUser() {
         HttpSession session = getThreadLocalRequest().getSession();
         return (User) session.getAttribute(ATTRIBUTE_USER);
     }
 
     @Override
     public User authenticated() {
-        return getUser();
+        return getSessionUser();
     }
 
     @Override
     public User login(String login, String password) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
             TypedQuery<User> query = entityManager.createQuery(
                     "SELECT x FROM User x WHERE x.login = :login", User.class);
             query.setParameter("login", login);
@@ -117,18 +127,16 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
             if (!results.isEmpty() && password.equals(results.get(0).getPassword())) {
                 User user = results.get(0);
-                setUser(user);
+                setSessionUser(user);
                 return user;
             }
             return null;
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public boolean logout() {
-        setUser(null);
+        setSessionUser(null);
         return true;
     }
 
@@ -138,8 +146,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             User user = new User();
             user.setLogin(login);
             user.setPassword(password);
-            createUser(user);
-            setUser(user);
+            createUser(getSessionEntityManager(), user);
+            setSessionUser(user);
             return user;
         } else {
             throw new SecurityException();
@@ -148,22 +156,20 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public List<User> getUsers() {
-        List<User> users = new LinkedList<User>();
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
+            List<User> users = new LinkedList<User>();
             users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
             return users;
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public User addUser(User user) {
-        User currentUser = getUser();
+        User currentUser = getSessionUser();
         if (currentUser.getAdmin()) {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            try {
+            EntityManager entityManager = getSessionEntityManager();
+            synchronized (entityManager) {
                 entityManager.getTransaction().begin();
                 try {
                     entityManager.persist(user);
@@ -173,8 +179,6 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                     entityManager.getTransaction().rollback();
                     throw e;
                 }
-            } finally {
-                entityManager.close();
             }
         } else {
             throw new SecurityException();
@@ -183,15 +187,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public User updateUser(User user) {
-        User currentUser = getUser();
+        User currentUser = getSessionUser();
         if (currentUser.getAdmin() || (currentUser.getId() == user.getId() && !user.getAdmin())) {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            try {
+            EntityManager entityManager = getSessionEntityManager();
+            synchronized (entityManager) {
                 entityManager.getTransaction().begin();
                 try {
                     // TODO: better solution?
                     if (currentUser.getId() == user.getId()) {
-                        entityManager.merge(currentUser);
                         currentUser.setLogin(user.getLogin());
                         currentUser.setPassword(user.getPassword());
                         currentUser.setUserSettings(user.getUserSettings());
@@ -202,14 +205,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                     }
 
                     entityManager.getTransaction().commit();
-                    setUser(user);
+                    setSessionUser(user);
                     return user;
                 } catch (RuntimeException e) {
                     entityManager.getTransaction().rollback();
                     throw e;
                 }
-            } finally {
-                entityManager.close();
             }
         } else {
             throw new SecurityException();
@@ -218,13 +219,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public User removeUser(User user) {
-        User currentUser = getUser();
+        User currentUser = getSessionUser();
         if (currentUser.getAdmin()) {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            try {
+            EntityManager entityManager = getSessionEntityManager();
+            synchronized (entityManager) {
                 entityManager.getTransaction().begin();
                 try {
                     user = entityManager.merge(user);
+                    user.getDevices().clear();
                     entityManager.remove(user);
                     entityManager.getTransaction().commit();
                     return user;
@@ -232,17 +234,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                     entityManager.getTransaction().rollback();
                     throw e;
                 }
-            } finally {
-                entityManager.close();
             }
         } else {
             throw new SecurityException();
         }
     }
 
-    private void createUser(User user) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+    private void createUser(EntityManager entityManager, User user) {
+        synchronized (entityManager) {
             entityManager.getTransaction().begin();
             try {
                 entityManager.persist(user);
@@ -251,44 +250,39 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 entityManager.getTransaction().rollback();
                 throw e;
             }
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public List<Device> getDevices() {
         List<Device> devices = new LinkedList<Device>();
-        User user = getUser();
+        User user = getSessionUser();
         devices.addAll(user.getDevices());
         return devices;
     }
 
     @Override
     public Device addDevice(Device device) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            User user = getUser();
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
+            User user = getSessionUser();
             entityManager.getTransaction().begin();
             try {
                 entityManager.persist(device);
                 user.getDevices().add(device);
-                entityManager.merge(user);
                 entityManager.getTransaction().commit();
                 return device;
             } catch (RuntimeException e) {
                 entityManager.getTransaction().rollback();
                 throw e;
             }
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public Device updateDevice(Device device) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
             entityManager.getTransaction().begin();
             try {
                 device = entityManager.merge(device);
@@ -298,37 +292,37 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 entityManager.getTransaction().rollback();
                 throw e;
             }
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public Device removeDevice(Device device) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            User user = getUser();
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
+            User user = getSessionUser();
             entityManager.getTransaction().begin();
             try {
                 device = entityManager.merge(device);
                 user.getDevices().remove(device);
+                device.setLatestPosition(null);
+                entityManager.flush();
+                Query query = entityManager.createQuery("DELETE FROM Position x WHERE x.device = :device");
+                query.setParameter("device", device);
+                query.executeUpdate();
                 entityManager.remove(device);
-                entityManager.merge(user);
                 entityManager.getTransaction().commit();
                 return device;
             } catch (RuntimeException e) {
                 entityManager.getTransaction().rollback();
                 throw e;
             }
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public List<Position> getPositions(Device device, Date from, Date to) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
             List<Position> positions = new LinkedList<Position>();
             TypedQuery<Position> query = entityManager.createQuery(
                     "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to", Position.class);
@@ -337,17 +331,15 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             query.setParameter("to", to);
             positions.addAll(query.getResultList());
             return positions;
-        } finally {
-            entityManager.close();
         }
     }
 
     @Override
     public List<Position> getLatestPositions() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
             List<Position> positions = new LinkedList<Position>();
-            User user = getUser();
+            User user = getSessionUser();
             if (user.getDevices() != null && !user.getDevices().isEmpty()) {
                 TypedQuery<Position> query = entityManager.createQuery(
                         "SELECT x FROM Position x WHERE x.id IN (" +
@@ -356,16 +348,15 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 positions.addAll(query.getResultList());
             }
             return positions;
-        } finally {
-            entityManager.close();
         }
     }
 
+    private ApplicationSettings applicationSettings;
+
     private ApplicationSettings getApplicationSettings() {
-        ApplicationSettings applicationSettings = (ApplicationSettings) getServletContext().getAttribute(ATTRIBUTE_SETTINGS);
         if (applicationSettings == null) {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            try {
+            EntityManager entityManager = getServletEntityManager();
+            synchronized (entityManager) {
                 TypedQuery<ApplicationSettings> query = entityManager.createQuery("SELECT x FROM ApplicationSettings x", ApplicationSettings.class);
                 List<ApplicationSettings> resultList = query.getResultList();
                 if (resultList == null || resultList.isEmpty()) {
@@ -381,9 +372,6 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 } else {
                     applicationSettings = resultList.get(0);
                 }
-                getServletContext().setAttribute(ATTRIBUTE_SETTINGS, applicationSettings);
-            } finally {
-                entityManager.close();
             }
         }
         return applicationSettings;
@@ -394,15 +382,15 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         if (applicationSettings == null) {
             return getApplicationSettings();
         } else {
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            try {
-                User user = getUser();
+            EntityManager entityManager = getServletEntityManager();
+            synchronized (entityManager) {
+                User user = getSessionUser();
                 if (user.getAdmin()) {
                     entityManager.getTransaction().begin();
                     try {
                         entityManager.merge(applicationSettings);
                         entityManager.getTransaction().commit();
-                        getServletContext().setAttribute(ATTRIBUTE_SETTINGS, applicationSettings);
+                        this.applicationSettings =  applicationSettings;
                         return applicationSettings;
                     } catch (RuntimeException e) {
                         entityManager.getTransaction().rollback();
@@ -411,8 +399,6 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 } else {
                     throw new SecurityException();
                 }
-            } finally {
-                entityManager.close();
             }
         }
     }
