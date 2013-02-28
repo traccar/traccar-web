@@ -17,7 +17,6 @@ package org.traccar.web.shared.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,8 +48,12 @@ public class Device implements Serializable {
         return id;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private Position latestPosition;
+
+    public void setLatestPosition(Position latestPosition) {
+        this.latestPosition = latestPosition;
+    }
 
     public Position getLatestPosition() {
         return latestPosition;

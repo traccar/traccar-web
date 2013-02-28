@@ -38,6 +38,7 @@ public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1;
 
     public User() {
+        admin = false;
     }
 
     public User(User user) {
@@ -89,7 +90,7 @@ public class User implements Serializable, Cloneable {
     }
 
     @GwtTransient
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Device> devices = new LinkedList<Device>();
 
     public void setDevices(List<Device> devices) {
