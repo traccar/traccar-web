@@ -134,7 +134,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 setSessionUser(user);
                 return user;
             }
-            return null;
+            throw new IllegalStateException();
         }
     }
 

@@ -39,13 +39,13 @@ public class LoginController implements LoginDialog.LoginHandler {
         Application.getDataService().authenticated(new BaseAsyncCallback<User>() {
             @Override
             public void onSuccess(User result) {
-                if (result != null) {
-                    ApplicationContext.getInstance().setUser(result);
-                    loginHandler.onLogin();
-                } else {
-                    dialog = new LoginDialog(LoginController.this);
-                    dialog.show();
-                }
+                ApplicationContext.getInstance().setUser(result);
+                loginHandler.onLogin();
+            }
+            @Override
+            public void onFailure(Throwable caught) {
+                dialog = new LoginDialog(LoginController.this);
+                dialog.show();
             }
         });
     }
@@ -64,15 +64,15 @@ public class LoginController implements LoginDialog.LoginHandler {
             Application.getDataService().login(login, password, new BaseAsyncCallback<User>() {
                 @Override
                 public void onSuccess(User result) {
-                    if (result != null) {
-                        ApplicationContext.getInstance().setUser(result);
-                        if (loginHandler != null) {
-                            dialog.hide();
-                            loginHandler.onLogin();
-                        }
-                    } else {
-                        new AlertMessageBox("Error", "User name or password is invalid").show();
+                    ApplicationContext.getInstance().setUser(result);
+                    if (loginHandler != null) {
+                        dialog.hide();
+                        loginHandler.onLogin();
                     }
+                }
+                @Override
+                public void onFailure(Throwable caught) {
+                    new AlertMessageBox("Error", "User name or password is invalid").show();
                 }
             });
         }
@@ -84,14 +84,10 @@ public class LoginController implements LoginDialog.LoginHandler {
             Application.getDataService().register(login, password, new BaseAsyncCallback<User>() {
                 @Override
                 public void onSuccess(User result) {
-                    if (result != null) {
-                        ApplicationContext.getInstance().setUser(result);
-                        if (loginHandler != null) {
-                            dialog.hide();
-                            loginHandler.onLogin();
-                        }
-                    } else {
-                        new AlertMessageBox("Error", "Registration error").show();
+                    ApplicationContext.getInstance().setUser(result);
+                    if (loginHandler != null) {
+                        dialog.hide();
+                        loginHandler.onLogin();
                     }
                 }
             });
