@@ -18,5 +18,9 @@
   <welcome-file-list>
     <welcome-file>traccar.html</welcome-file>
   </welcome-file-list>
+  
+  <session-config>
+    <session-timeout>0</session-timeout>
+  </session-config>
 
 </web-app>

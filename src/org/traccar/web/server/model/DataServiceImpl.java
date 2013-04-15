@@ -108,7 +108,11 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     private User getSessionUser() {
         HttpSession session = getThreadLocalRequest().getSession();
-        return (User) session.getAttribute(ATTRIBUTE_USER);
+        User user = (User) session.getAttribute(ATTRIBUTE_USER);
+        if (user == null) {
+            throw new IllegalStateException();
+        }
+        return user;
     }
 
     @Override
