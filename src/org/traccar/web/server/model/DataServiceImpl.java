@@ -167,6 +167,9 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     @Override
     public User addUser(User user) {
         User currentUser = getSessionUser();
+        if (user.getLogin().isEmpty() || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         if (currentUser.getAdmin()) {
             EntityManager entityManager = getSessionEntityManager();
             synchronized (entityManager) {
@@ -188,6 +191,9 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     @Override
     public User updateUser(User user) {
         User currentUser = getSessionUser();
+        if (user.getLogin().isEmpty() || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         if (currentUser.getAdmin() || (currentUser.getId() == user.getId() && !user.getAdmin())) {
             EntityManager entityManager = getSessionEntityManager();
             synchronized (entityManager) {
