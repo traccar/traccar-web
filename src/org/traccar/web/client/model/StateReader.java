@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.shared.model.Position;
-import org.traccar.web.shared.model.XmlParser;
+
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 
 public class StateReader {
 
@@ -31,8 +34,13 @@ public class StateReader {
 
         String other = position.getOther();
         if (other != null) {
-            for (String key : XmlParser.enumerateElements(other)) {
-                state.add(new StateItem(key, XmlParser.getElement(other, key)));
+            try {
+                NodeList nodes = XMLParser.parse(other).getFirstChild().getChildNodes();
+                for (int i = 0; i < nodes.getLength(); i++) {
+                    Node node = nodes.item(i);
+                    state.add(new StateItem(node.getNodeName(), node.getFirstChild().getNodeValue()));
+                }
+            } catch (Exception error) {
             }
         }
 
