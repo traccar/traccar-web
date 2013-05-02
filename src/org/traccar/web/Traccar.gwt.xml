@@ -7,6 +7,7 @@
 
   <inherits name='com.google.gwt.user.User'/>
   <inherits name="com.google.gwt.logging.Logging"/>
+  <inherits name="com.google.gwt.xml.XML"/>
   <inherits name='com.sencha.gxt.ui.GXT'/>
   <inherits name='org.gwtopenmaps.openlayers.OpenLayers' />
   
