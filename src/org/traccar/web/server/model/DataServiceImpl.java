@@ -116,7 +116,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public User authenticated() {
+    public User authenticated() throws IllegalStateException {
         return getSessionUser();
     }
 
