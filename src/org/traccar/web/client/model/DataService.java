@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("dataService")
 public interface DataService extends RemoteService {
 
-    User authenticated();
+    User authenticated() throws IllegalStateException;
 
     User login(String login, String password);
 
