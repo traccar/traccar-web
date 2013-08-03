@@ -74,7 +74,11 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
                 @Override
                 public void onSuccess(List<Position> result) {
                     positionStore.clear();
-                    positionStore.addAll(result);
+                    if (result.isEmpty()) {
+                        new AlertMessageBox("Error", "No results found for selected period").show();
+                    } else {
+                        positionStore.addAll(result);
+                    }
                 }
             });
         } else {
