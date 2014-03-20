@@ -90,6 +90,10 @@ public class LoginController implements LoginDialog.LoginHandler {
                         loginHandler.onLogin();
                     }
                 }
+                @Override
+                public void onFailure(Throwable caught) {
+                    new AlertMessageBox("Error", "Username is already taken").show();
+                }
             });
         }
     }
