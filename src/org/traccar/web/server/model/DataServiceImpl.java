@@ -155,12 +155,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 	        	query.setParameter("login", login);
 	        	List<User> results = query.getResultList();
 	        	if (results.isEmpty()) {
-	                User user = new User();
-	                user.setLogin(login);
-	                user.setPassword(password);
-	                createUser(getSessionEntityManager(), user);
-	                setSessionUser(user);
-	                return user;        		
+		                User user = new User();
+		                user.setLogin(login);
+		                user.setPassword(password);
+		                createUser(getSessionEntityManager(), user);
+		                setSessionUser(user);
+		                return user;        		
 	        	}
 	        	else
 	        	{
