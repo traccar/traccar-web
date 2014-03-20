@@ -147,12 +147,26 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     @Override
     public User register(String login, String password) {
         if (getApplicationSettings().getRegistrationEnabled()) {
-            User user = new User();
-            user.setLogin(login);
-            user.setPassword(password);
-            createUser(getSessionEntityManager(), user);
-            setSessionUser(user);
-            return user;
+        	EntityManager entityManager = getSessionEntityManager();
+        	synchronized (entityManager) {
+
+	        	TypedQuery<User> query = entityManager.createQuery(
+	                    "SELECT x FROM User x WHERE x.login = :login", User.class);
+	        	query.setParameter("login", login);
+	        	List<User> results = query.getResultList();
+	        	if (results.isEmpty()) {
+	                User user = new User();
+	                user.setLogin(login);
+	                user.setPassword(password);
+	                createUser(getSessionEntityManager(), user);
+	                setSessionUser(user);
+	                return user;        		
+	        	}
+	        	else
+	        	{
+	        		throw new IllegalStateException();
+	        	}
+        	}
         } else {
             throw new SecurityException();
         }
