@@ -193,9 +193,21 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             synchronized (entityManager) {
                 entityManager.getTransaction().begin();
                 try {
-                    entityManager.persist(user);
-                    entityManager.getTransaction().commit();
-                    return user;
+                	String login = user.getLogin();
+    	        	TypedQuery<User> query = entityManager.createQuery(
+    	                    "SELECT x FROM User x WHERE x.login = :login", User.class);
+    	        	query.setParameter("login", login);
+    	        	List<User> results = query.getResultList();
+
+    	        	if (results.isEmpty()) {
+	                        entityManager.persist(user);
+	                        entityManager.getTransaction().commit();
+	                        return user;     		
+		        }
+		        else
+		        {
+		        	throw new IllegalStateException();
+		        }
                 } catch (RuntimeException e) {
                     entityManager.getTransaction().rollback();
                     throw e;
