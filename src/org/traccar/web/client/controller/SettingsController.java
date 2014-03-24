@@ -97,6 +97,10 @@ public class SettingsController implements DeviceView.SettingsHandler {
                                             public void onSuccess(User result) {
                                                 userStore.add(result);
                                             }
+                                            @Override
+                                            public void onFailure(Throwable caught) {
+                                                new AlertMessageBox("Error", "Username is already taken").show();
+                                            }
                                         });
                                     }
                                 }).show();
