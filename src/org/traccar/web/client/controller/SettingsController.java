@@ -33,6 +33,7 @@ import org.traccar.web.shared.model.UserSettings;
 import com.google.gwt.core.client.GWT;
 import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
 
@@ -96,6 +97,10 @@ public class SettingsController implements DeviceView.SettingsHandler {
                                             @Override
                                             public void onSuccess(User result) {
                                                 userStore.add(result);
+                                            }
+                                            @Override
+                                            public void onFailure(Throwable caught) {
+                                                new AlertMessageBox("Error", "Username is already taken").show();
                                             }
                                         });
                                     }
