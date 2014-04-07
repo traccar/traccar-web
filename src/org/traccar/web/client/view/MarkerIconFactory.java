@@ -19,17 +19,43 @@ import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Size;
 
+import com.google.gwt.http.client.*;
+
 class MarkerIconFactory {
 
     private static final Size iconSize = new Size(21, 25);
     private static final Pixel iconOffset = new Pixel(-10.5f, -25.0f);
 
-    private static final String iconUrl = "http://www.openlayers.org/api/img/";
+    private static String iconUrl = "http://www.openlayers.org/api/img/";
     private static final String iconRed = iconUrl + "marker.png";
     private static final String iconBlue = iconUrl + "marker-blue.png";
     private static final String iconGreen = iconUrl + "marker-green.png";
     private static final String iconGold = iconUrl + "marker-gold.png";
+    
+    public static void main(String [] args) {
+    	String url = "http://www.openlayers.org/api/OpenLayers.js";
+    	RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+    	
+    	try {
+    		Request request = builder.sendRequest(null, new RequestCallback() {
+    			public void onError(Request request, Throwable exception) {
+    				iconUrl = "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/img/";
+    			}
 
+    			public void onResponseReceived(Request request, Response response) {
+    				if (200 == response.getStatusCode()) {
+    					;
+    				} else {
+    					iconUrl = "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/img/";
+    				}
+    			}
+    		});
+    	} catch (RequestException e) {
+    		iconUrl = "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/img/";      
+		}    	
+    }
+    
+    
     public static enum IconType {
         iconLatest,
         iconArchive
