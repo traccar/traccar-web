@@ -32,7 +32,7 @@ class MarkerIconFactory {
     private static final String iconGreen = iconUrl + "marker-green.png";
     private static final String iconGold = iconUrl + "marker-gold.png";
     
-    public static void main(String [] args) {
+    public MarkerIconFactory() {
     	String url = "http://www.openlayers.org/api/OpenLayers.js";
     	RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
     	
