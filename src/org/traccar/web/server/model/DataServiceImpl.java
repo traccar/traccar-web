@@ -306,7 +306,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             entityManager.getTransaction().begin();
             try {
             	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-            	query.setParameter("id", device);
+            	query.setParameter("id", device.getUniqueId());
             	List<Device> results = query.getResultList();
             	
             	if (results.isEmpty()) {
@@ -333,7 +333,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             entityManager.getTransaction().begin();
             try {
             	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-            	query.setParameter("id", device);
+            	query.setParameter("id", device.getUniqueId());
             	List<Device> results = query.getResultList();
             	if (results.isEmpty()) {
             		device = entityManager.merge(device);
