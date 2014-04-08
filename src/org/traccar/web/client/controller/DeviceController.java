@@ -84,6 +84,10 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     public void onSuccess(Device result) {
                         deviceStore.add(result);
                     }
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    	new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
+                    }                    
                 });
             }
         }).show();
@@ -99,6 +103,10 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     public void onSuccess(Device result) {
                         deviceStore.update(result);
                     }
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    	new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
+                    }                     
                 });
             }
         }).show();
