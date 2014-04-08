@@ -317,7 +317,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             	}
             	else
             	{
-            		throw new IllegalStateException()
+            		throw new IllegalStateException();
             	}
             } catch (RuntimeException e) {
                 entityManager.getTransaction().rollback();
