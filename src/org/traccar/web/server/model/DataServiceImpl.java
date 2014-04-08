@@ -305,10 +305,20 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             User user = getSessionUser();
             entityManager.getTransaction().begin();
             try {
-                entityManager.persist(device);
-                user.getDevices().add(device);
-                entityManager.getTransaction().commit();
-                return device;
+            	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.id = :id", Device.class);
+            	query.setParameter("id", device);
+            	List<Device> results = query.getResultList();
+            	
+            	if (results.isEmpty()) {
+            		entityManager.persist(device);
+            		user.getDevices().add(device);
+            		entityManager.getTransaction().commit();
+            		return device;
+            	}
+            	else
+            	{
+            		throw new IllegalStateException()
+            	}
             } catch (RuntimeException e) {
                 entityManager.getTransaction().rollback();
                 throw e;
@@ -322,9 +332,18 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         synchronized (entityManager) {
             entityManager.getTransaction().begin();
             try {
-                device = entityManager.merge(device);
-                entityManager.getTransaction().commit();
-                return device;
+            	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.id = :id", Device.class);
+            	query.setParameter("id", device);
+            	List<Device> results = query.getResultList();
+            	if (results.isEmpty()) {
+            		device = entityManager.merge(device);
+            		entityManager.getTransaction().commit();
+            		return device;
+            	}
+            	else
+            	{
+            		throw new IllegalStateException();
+            	}
             } catch (RuntimeException e) {
                 entityManager.getTransaction().rollback();
                 throw e;
