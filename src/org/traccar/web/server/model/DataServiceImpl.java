@@ -192,28 +192,25 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             EntityManager entityManager = getSessionEntityManager();
             synchronized (entityManager) {
             	
-        	String login = user.getLogin();
-            	TypedQuery<User> query = entityManager.createQuery(
-                        "SELECT x FROM User x WHERE x.login = :login", User.class);
-            	query.setParameter("login", login);
-            	List<User> results = query.getResultList();            	
-            	
-                entityManager.getTransaction().begin();
-                try {
-    	        	if (results.isEmpty()) {
-	                        entityManager.persist(user);
-	                        entityManager.getTransaction().commit();
-	                        return user;     		
-		        }
-		        else
-		        {
-		        	throw new IllegalStateException();
-		        }
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
-                }
-            }
+            	String login = user.getLogin();
+        	TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
+        	query.setParameter("login", login);
+        	List<User> results = query.getResultList();
+        	
+        	if (results.isEmpty()) {
+        		entityManager.getTransaction().begin();
+	                try {
+	                	entityManager.persist(user);
+	                	entityManager.getTransaction().commit();
+	                	return user;				        
+	                } catch (RuntimeException e) {
+	                	entityManager.getTransaction().rollback();
+	                	throw e;
+	                }
+        	} else {
+        		throw new IllegalStateException();
+	        }
+    }
         } else {
             throw new SecurityException();
         }
@@ -302,55 +299,58 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     @Override
     public Device addDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
+        synchronized (entityManager) {         
             TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
             query.setParameter("id", device.getUniqueId());
             List<Device> results = query.getResultList();
             
             User user = getSessionUser();
-            entityManager.getTransaction().begin();
-            try {
-            	if (results.isEmpty()) {
-            		entityManager.persist(device);
-            		user.getDevices().add(device);
-            		entityManager.getTransaction().commit();
-            		return device;
-            	}
-            	else
-            	{
-            		throw new IllegalStateException();
-            	}
-            } catch (RuntimeException e) {
-                entityManager.getTransaction().rollback();
-                throw e;
+
+            if (results.isEmpty()) {
+                entityManager.getTransaction().begin();
+	            try {
+	        		entityManager.persist(device);
+	        		user.getDevices().add(device);
+	        		entityManager.getTransaction().commit();
+	        		return device;            	
+	            } catch (RuntimeException e) {
+	                entityManager.getTransaction().rollback();
+	                throw e;
+	            }
             }
+        	else
+        	{
+        		throw new IllegalStateException();
+        	}
         }
     }
+
 
     @Override
     public Device updateDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
 
-	    TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-	    query.setParameter("id", device.getUniqueId());
-	    List<Device> results = query.getResultList();        	
+        	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
+        	query.setParameter("id", device.getUniqueId());
+        	List<Device> results = query.getResultList();        	
         	
-            entityManager.getTransaction().begin();
-            try {
-            	if (results.isEmpty()) {
+            
+            if (results.isEmpty()) {
+            	entityManager.getTransaction().begin();
+            	try {
             		device = entityManager.merge(device);
             		entityManager.getTransaction().commit();
             		return device;
-            	}
-            	else
-            	{
-            		throw new IllegalStateException();
-            	}
-            } catch (RuntimeException e) {
-                entityManager.getTransaction().rollback();
-                throw e;
+	            } catch (RuntimeException e) {
+	                entityManager.getTransaction().rollback();
+	                throw e;
+	            }
             }
+        	else
+        	{
+        		throw new IllegalStateException();
+        	}
         }
     }
 
