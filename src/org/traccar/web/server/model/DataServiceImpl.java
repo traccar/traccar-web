@@ -303,12 +303,11 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     public Device addDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
-            User user = getSessionUser();
-            
             TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
             query.setParameter("id", device.getUniqueId());
             List<Device> results = query.getResultList();
             
+            ser user = getSessionUser();
             entityManager.getTransaction().begin();
             try {
             	if (results.isEmpty()) {
