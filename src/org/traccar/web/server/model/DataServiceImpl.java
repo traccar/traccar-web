@@ -304,12 +304,13 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
             User user = getSessionUser();
+            
+            TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
+            query.setParameter("id", device.getUniqueId());
+            List<Device> results = query.getResultList();
+            
             entityManager.getTransaction().begin();
             try {
-            	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-            	query.setParameter("id", device.getUniqueId());
-            	List<Device> results = query.getResultList();
-            	
             	if (results.isEmpty()) {
             		entityManager.persist(device);
             		user.getDevices().add(device);
@@ -331,11 +332,13 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     public Device updateDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
+
+	    TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
+	    query.setParameter("id", device.getUniqueId());
+	    List<Device> results = query.getResultList();        	
+        	
             entityManager.getTransaction().begin();
             try {
-            	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-            	query.setParameter("id", device.getUniqueId());
-            	List<Device> results = query.getResultList();
             	if (results.isEmpty()) {
             		device = entityManager.merge(device);
             		entityManager.getTransaction().commit();
