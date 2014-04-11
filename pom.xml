@@ -10,7 +10,7 @@
   <artifactId>traccar-web</artifactId>
   <packaging>war</packaging>
   <version>2.7-SNAPSHOT</version>
-  <name>GWT Maven Archetype</name>
+  <name>Traccar Web UI</name>
 
   <properties>
     <!-- Convenience property to set the GWT version -->
@@ -36,17 +36,29 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>4.0.1.Final</version>
+      <version>4.1.10.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>4.3.1.Final</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>4.1.10.Final</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>1.3.171</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>mysql</groupId>
        <artifactId>mysql-connector-java</artifactId>
        <version>5.1.30</version>
+       <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>com.sencha.gxt</groupId>
@@ -58,25 +70,13 @@
        <groupId>org.gwtopenmaps.openlayers</groupId>
        <artifactId>gwt-openlayers-client</artifactId>
        <version>0.9</version>
+       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.7</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.0.0.GA</version>
-      <classifier>sources</classifier>
-      <scope>compile</scope>
     </dependency>
   </dependencies>
 
@@ -91,6 +91,9 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <version>2.5.0</version>
+        <configuration>
+          <deploy>${project.build.directory}/gwt-deploy</deploy>
+        </configuration>
         <executions>
           <execution>
             <configuration>
@@ -98,7 +101,6 @@
             </configuration>
             <goals>
               <goal>compile</goal>
-              <goal>test</goal>
             </goals>
           </execution>
         </executions>
