@@ -12,7 +12,7 @@
   <persistence-unit name="debug">
     <properties>
       <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
-      <property name="hibernate.connection.url" value="jdbc:h2:/home/user/Documents/traccar-web/database"/>
+      <property name="hibernate.connection.url" value="jdbc:h2:~/Documents/traccar-web/database"/>
       <property name="hibernate.connection.username" value="sa"/>
       <property name="hibernate.connection.password" value=""/>
       <property name="hibernate.show_sql" value="true"/>
