@@ -147,26 +147,26 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     @Override
     public User register(String login, String password) {
         if (getApplicationSettings().getRegistrationEnabled()) {
-        	EntityManager entityManager = getSessionEntityManager();
-        	synchronized (entityManager) {
+            EntityManager entityManager = getSessionEntityManager();
+            synchronized (entityManager) {
 
-	        	TypedQuery<User> query = entityManager.createQuery(
-	                    "SELECT x FROM User x WHERE x.login = :login", User.class);
-	        	query.setParameter("login", login);
-	        	List<User> results = query.getResultList();
-	        	if (results.isEmpty()) {
-		                User user = new User();
-		                user.setLogin(login);
-		                user.setPassword(password);
-		                createUser(getSessionEntityManager(), user);
-		                setSessionUser(user);
-		                return user;        		
-	        	}
-	        	else
-	        	{
-	        		throw new IllegalStateException();
-	        	}
-        	}
+                TypedQuery<User> query = entityManager.createQuery(
+                        "SELECT x FROM User x WHERE x.login = :login", User.class);
+                query.setParameter("login", login);
+                List<User> results = query.getResultList();
+                if (results.isEmpty()) {
+                        User user = new User();
+                        user.setLogin(login);
+                        user.setPassword(password);
+                        createUser(getSessionEntityManager(), user);
+                        setSessionUser(user);
+                        return user;                
+                }
+                else
+                {
+                    throw new IllegalStateException();
+                }
+            }
         } else {
             throw new SecurityException();
         }
@@ -191,26 +191,26 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         if (currentUser.getAdmin()) {
             EntityManager entityManager = getSessionEntityManager();
             synchronized (entityManager) {
-            	
-            	String login = user.getLogin();
-        	TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
-        	query.setParameter("login", login);
-        	List<User> results = query.getResultList();
-        	
-        	if (results.isEmpty()) {
-        		entityManager.getTransaction().begin();
-	                try {
-	                	entityManager.persist(user);
-	                	entityManager.getTransaction().commit();
-	                	return user;				        
-	                } catch (RuntimeException e) {
-	                	entityManager.getTransaction().rollback();
-	                	throw e;
-	                }
-        	} else {
-        		throw new IllegalStateException();
-	        }
-    }
+                
+                String login = user.getLogin();
+                TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
+                query.setParameter("login", login);
+                List<User> results = query.getResultList();
+                
+                if (results.isEmpty()) {
+                    entityManager.getTransaction().begin();
+                    try {
+                        entityManager.persist(user);
+                        entityManager.getTransaction().commit();
+                        return user;                        
+                    } catch (RuntimeException e) {
+                        entityManager.getTransaction().rollback();
+                        throw e;
+                    }
+                } else {
+                    throw new IllegalStateException();
+                }
+            }
         } else {
             throw new SecurityException();
         }
@@ -308,20 +308,20 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
             if (results.isEmpty()) {
                 entityManager.getTransaction().begin();
-	            try {
-	        		entityManager.persist(device);
-	        		user.getDevices().add(device);
-	        		entityManager.getTransaction().commit();
-	        		return device;            	
-	            } catch (RuntimeException e) {
-	                entityManager.getTransaction().rollback();
-	                throw e;
-	            }
+                try {
+                    entityManager.persist(device);
+                    user.getDevices().add(device);
+                    entityManager.getTransaction().commit();
+                    return device;                
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
             }
-        	else
-        	{
-        		throw new IllegalStateException();
-        	}
+            else
+            {
+                throw new IllegalStateException();
+            }
         }
     }
 
@@ -331,26 +331,25 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
 
-        	TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-        	query.setParameter("id", device.getUniqueId());
-        	List<Device> results = query.getResultList();        	
-        	
+            TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
+            query.setParameter("id", device.getUniqueId());
+            List<Device> results = query.getResultList();            
             
             if (results.isEmpty()) {
-            	entityManager.getTransaction().begin();
-            	try {
-            		device = entityManager.merge(device);
-            		entityManager.getTransaction().commit();
-            		return device;
-	            } catch (RuntimeException e) {
-	                entityManager.getTransaction().rollback();
-	                throw e;
-	            }
+                entityManager.getTransaction().begin();
+                try {
+                    device = entityManager.merge(device);
+                    entityManager.getTransaction().commit();
+                    return device;
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
             }
-        	else
-        	{
-        		throw new IllegalStateException();
-        	}
+            else
+            {
+                throw new IllegalStateException();
+            }
         }
     }
 

@@ -87,7 +87,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     }
                     @Override
                     public void onFailure(Throwable caught) {
-                    	new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
+                        new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
                     }                    
                 });
             }
@@ -106,7 +106,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     }
                     @Override
                     public void onFailure(Throwable caught) {
-                    	new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
+                        new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
                     }                     
                 });
             }
