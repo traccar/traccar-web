@@ -10,8 +10,10 @@
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
     <ui:attributes width="1" height="-1" />
   </ui:with>
- 
-  <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="Global Settings" focusWidget="{saveButton}">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="shortPropertyEditor" />
+
+    <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="Global Settings" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
         <form:FieldLabel text="Registration">
@@ -19,6 +21,13 @@
             <form:CheckBox ui:field="registrationEnabled" />
           </form:widget>
         </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+          <form:FieldLabel text="Update interval">
+              <form:widget>
+                  <form:NumberField editor="{shortPropertyEditor}" ui:field="updateInterval" />
+              </form:widget>
+          </form:FieldLabel>
       </container:child>
     </container:VerticalLayoutContainer>
       

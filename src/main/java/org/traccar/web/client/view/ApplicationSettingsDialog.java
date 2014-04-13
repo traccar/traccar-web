@@ -15,6 +15,9 @@
  */
 package org.traccar.web.client.view;
 
+import com.sencha.gxt.widget.core.client.form.NumberField;
+import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
+import com.sencha.gxt.widget.core.client.form.TextField;
 import org.traccar.web.shared.model.ApplicationSettings;
 
 import com.google.gwt.core.client.GWT;
@@ -51,6 +54,14 @@ public class ApplicationSettingsDialog implements Editor<ApplicationSettings> {
 
     @UiField
     CheckBox registrationEnabled;
+
+    @UiField(provided = true)
+    NumberPropertyEditor<Short> shortPropertyEditor = new NumberPropertyEditor.ShortPropertyEditor();
+
+    @UiField
+    NumberField<Short> updateInterval;
+//    @UiField
+//    TextField someText;
 
     public ApplicationSettingsDialog(ApplicationSettings applicationSettings, ApplicationSettingsHandler applicationSettingsHandler) {
         this.applicationSettingsHandler = applicationSettingsHandler;

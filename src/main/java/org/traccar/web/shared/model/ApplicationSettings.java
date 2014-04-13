@@ -23,6 +23,8 @@ public class ApplicationSettings implements Serializable {
 
     private boolean registrationEnabled;
 
+    private Short updateInterval = Short.valueOf((short) 15);
+
     public void setRegistrationEnabled(boolean registrationEnabled) {
         this.registrationEnabled = registrationEnabled;
     }
@@ -31,4 +33,11 @@ public class ApplicationSettings implements Serializable {
         return registrationEnabled;
     }
 
+    public Short getUpdateInterval() {
+        return updateInterval;
+    }
+
+    public void setUpdateInterval(Short updateInterval) {
+        this.updateInterval = updateInterval;
+    }
 }
