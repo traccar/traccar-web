@@ -331,7 +331,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
 
-            TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
+            TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id AND x.id <> :primary_id", Device.class);
+            query.setParameter("primary_id", device.getId());
             query.setParameter("id", device.getUniqueId());
             List<Device> results = query.getResultList();            
             
