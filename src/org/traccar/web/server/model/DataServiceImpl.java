@@ -339,7 +339,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             if (results.isEmpty()) {
                 entityManager.getTransaction().begin();
                 try {
-                	Device tmp_device = entityManager.find(Device.class, device.getId());
+                    Device tmp_device = entityManager.find(Device.class, device.getId());
                     tmp_device.setName(device.getName());
                     tmp_device.setUniqueId(device.getUniqueId());
                     entityManager.getTransaction().commit();
