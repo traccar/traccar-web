@@ -35,6 +35,7 @@ import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
 
 public class SettingsController implements DeviceView.SettingsHandler {
@@ -110,19 +111,19 @@ public class SettingsController implements DeviceView.SettingsHandler {
                     @Override
                     public void onRemove(final User user) {
                         final ConfirmMessageBox dialog = new ConfirmMessageBox("Confirm", "Are you sure you want remove user?");
-                        dialog.addHideHandler(new HideEvent.HideHandler() {
-                            @Override
-                            public void onHide(HideEvent event) {
-                                if (dialog.getHideButton() == dialog.getButtonById(PredefinedButton.YES.name())) {
+                        dialog.addDialogHideHandler(new DialogHideEvent.DialogHideHandler() {
+							@Override
+							public void onDialogHide(DialogHideEvent event) {
+								if (event.getHideButton() == PredefinedButton.YES) {
                                     Application.getDataService().removeUser(user, new BaseAsyncCallback<User>() {
                                         @Override
                                         public void onSuccess(User result) {
                                             userStore.remove(user);
                                         }
                                     });
-                                }
-                            }
-                        });
+								}
+							}
+						});
                         dialog.show();
                     }
 
