@@ -23,6 +23,7 @@ import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
 import org.traccar.web.client.view.DeviceView;
 import org.traccar.web.shared.model.Device;
+import org.traccar.web.shared.model.User;
 
 import com.google.gwt.core.client.GWT;
 import com.sencha.gxt.data.shared.ListStore;
@@ -30,6 +31,7 @@ import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
 
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
@@ -116,19 +118,19 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
     @Override
     public void onRemove(final Device device) {
         final ConfirmMessageBox dialog = new ConfirmMessageBox("Confirm", "Are you sure you want remove device?");
-        dialog.addHideHandler(new HideEvent.HideHandler() {
-            @Override
-            public void onHide(HideEvent event) {
-                if (dialog.getHideButton() == dialog.getButtonById(PredefinedButton.YES.name())) {
+        dialog.addDialogHideHandler(new DialogHideEvent.DialogHideHandler() {
+			@Override
+			public void onDialogHide(DialogHideEvent event) {
+				if (event.getHideButton() == PredefinedButton.YES) {
                     Application.getDataService().removeDevice(device, new BaseAsyncCallback<Device>() {
                         @Override
                         public void onSuccess(Device result) {
                             deviceStore.remove(device);
                         }
                     });
-                }
-            }
-        });
+				}
+			}
+		});
         dialog.show();
     }
 
