@@ -24,7 +24,7 @@ class MarkerIconFactory {
     private static final Size iconSize = new Size(21, 25);
     private static final Pixel iconOffset = new Pixel(-10.5f, -25.0f);
 
-    private static final String iconUrl = "http://www.openlayers.org/api/img/";
+    private static final String iconUrl = "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/img/";
     private static final String iconRed = iconUrl + "marker.png";
     private static final String iconBlue = iconUrl + "marker-blue.png";
     private static final String iconGreen = iconUrl + "marker-green.png";
