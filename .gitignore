@@ -4,3 +4,6 @@ target
 src/main/gwt-unitCache/
 src/main/webapp/WEB-INF/deploy/
 src/main/webapp/traccar/
+.classpath
+.project
+.settings
