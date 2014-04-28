@@ -15,6 +15,8 @@
  */
 package org.traccar.web.client.view;
 
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import org.traccar.web.client.ApplicationContext;
 
 import com.google.gwt.core.client.GWT;
@@ -71,14 +73,25 @@ public class LoginDialog {
         window.hide();
     }
 
+    private void login() {
+        loginHandler.onLogin(login.getText(), password.getText());
+    }
+
     @UiHandler("loginButton")
     public void onLoginClicked(SelectEvent event) {
-        loginHandler.onLogin(login.getText(), password.getText());
+        login();
     }
 
     @UiHandler("registerButton")
     public void onRegisterClicked(SelectEvent event) {
         loginHandler.onRegister(login.getText(), password.getText());
+    }
+
+    @UiHandler({ "login", "password" })
+    public void onKeyDown(KeyDownEvent event) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+            login();
+        }
     }
 
 }
