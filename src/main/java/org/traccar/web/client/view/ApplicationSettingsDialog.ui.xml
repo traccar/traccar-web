@@ -25,7 +25,12 @@
       <container:child layoutData="{verticalLayoutData}">
           <form:FieldLabel text="Update interval">
               <form:widget>
-                  <form:NumberField editor="{shortPropertyEditor}" ui:field="updateInterval" />
+                  <form:NumberField editor="{shortPropertyEditor}"
+                                    ui:field="updateInterval"
+                                    allowNegative="false"
+                                    allowDecimals="false"
+                                    allowBlank="false"
+                                    width="4" />
               </form:widget>
           </form:FieldLabel>
       </container:child>

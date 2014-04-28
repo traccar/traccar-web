@@ -12,6 +12,7 @@ import javax.persistence.Table;
 public class ApplicationSettings implements Serializable {
 
     private static final long serialVersionUID = 1;
+    public static final short DEFAULT_UPDATE_INTERVAL = 15000;
 
     @Id
     @GeneratedValue
@@ -19,11 +20,12 @@ public class ApplicationSettings implements Serializable {
 
     public ApplicationSettings() {
         registrationEnabled = true;
+        updateInterval = Short.valueOf(DEFAULT_UPDATE_INTERVAL);
     }
 
     private boolean registrationEnabled;
 
-    private Short updateInterval = Short.valueOf((short) 15);
+    private Short updateInterval;
 
     public void setRegistrationEnabled(boolean registrationEnabled) {
         this.registrationEnabled = registrationEnabled;

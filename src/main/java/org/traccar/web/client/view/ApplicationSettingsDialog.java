@@ -18,6 +18,8 @@ package org.traccar.web.client.view;
 import com.sencha.gxt.widget.core.client.form.NumberField;
 import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
 import com.sencha.gxt.widget.core.client.form.TextField;
+import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
+import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
 import org.traccar.web.shared.model.ApplicationSettings;
 
 import com.google.gwt.core.client.GWT;
@@ -60,12 +62,14 @@ public class ApplicationSettingsDialog implements Editor<ApplicationSettings> {
 
     @UiField
     NumberField<Short> updateInterval;
-//    @UiField
-//    TextField someText;
 
     public ApplicationSettingsDialog(ApplicationSettings applicationSettings, ApplicationSettingsHandler applicationSettingsHandler) {
         this.applicationSettingsHandler = applicationSettingsHandler;
         uiBinder.createAndBindUi(this);
+
+        updateInterval.addValidator(new MinNumberValidator<Short>(Short.valueOf((short) 100)));
+        updateInterval.addValidator(new MaxNumberValidator<Short>(Short.valueOf((short) 30000)));
+
         driver.initialize(this);
         driver.edit(applicationSettings);
     }

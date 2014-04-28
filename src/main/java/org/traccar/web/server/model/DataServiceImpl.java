@@ -76,6 +76,19 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
             user.setAdmin(true);
             createUser(entityManager, user);
         }
+
+        // Set up update interval in application settings
+        if (getApplicationSettings().getUpdateInterval() == null) {
+            entityManager.getTransaction().begin();
+            try {
+                entityManager.merge(getApplicationSettings());
+                getApplicationSettings().setUpdateInterval(Short.valueOf(ApplicationSettings.DEFAULT_UPDATE_INTERVAL));
+                entityManager.getTransaction().commit();
+            } catch (RuntimeException e) {
+                entityManager.getTransaction().rollback();
+                throw e;
+            }
+        }
     }
 
     private EntityManager servletEntityManager;

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.traccar.web.client.Application;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.view.MapView;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
@@ -32,8 +33,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 
 public class MapController implements ContentController, MapView.MapHandler {
-
-    private static final int UPDATE_INTERVAL = 15000;
 
     public interface MapHandler {
         public void onDeviceSelected(Device device);
@@ -81,11 +80,11 @@ public class MapController implements ContentController, MapView.MapHandler {
                 for (Map.Entry<Long, PositionUpdateHandler> entry : positionUpdateMap.entrySet()) {
                     entry.getValue().onUpdate(latestPositionMap.get(entry.getKey()));
                 }
-                updateTimer.schedule(UPDATE_INTERVAL);
+                updateTimer.schedule(ApplicationContext.getInstance().getApplicationSettings().getUpdateInterval());
             }
             @Override
             public void onFailure(Throwable caught) {
-                updateTimer.schedule(UPDATE_INTERVAL);
+                updateTimer.schedule(ApplicationContext.getInstance().getApplicationSettings().getUpdateInterval());
             }
         });
     }
