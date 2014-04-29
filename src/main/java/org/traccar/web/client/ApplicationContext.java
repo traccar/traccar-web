@@ -1,8 +1,12 @@
 package org.traccar.web.client;
 
 import org.traccar.web.shared.model.ApplicationSettings;
+import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.User;
 import org.traccar.web.shared.model.UserSettings;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ApplicationContext {
 
@@ -63,4 +67,21 @@ public class ApplicationContext {
         }
     }
 
+    private Set<Long> trackedDeviceIds;
+    public void trackDevice(Device device) {
+        if (trackedDeviceIds == null) {
+            trackedDeviceIds = new HashSet<Long>();
+        }
+        trackedDeviceIds.add(device.getId());
+    }
+
+    public void stopTracking(Device device) {
+        if (trackedDeviceIds != null) {
+            trackedDeviceIds.remove(device.getId());
+        }
+    }
+
+    public boolean isTracking(Device device) {
+        return trackedDeviceIds != null && trackedDeviceIds.contains(device.getId());
+    }
 }

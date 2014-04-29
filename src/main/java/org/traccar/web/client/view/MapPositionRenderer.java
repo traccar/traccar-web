@@ -182,4 +182,9 @@ public class MapPositionRenderer {
         return false;
     }
 
+    public void catchPosition(Position position) {
+        if (!mapView.getMap().getExtent().containsLonLat(mapView.createLonLat(position.getLongitude(), position.getLatitude()), true)) {
+            selectPosition(position, true);
+        }
+    }
 }

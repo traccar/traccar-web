@@ -80,4 +80,13 @@ public class Device implements Serializable {
         return name;
     }
 
+    private transient boolean track;
+
+    public boolean isTrack() {
+        return track;
+    }
+
+    public void setTrack(boolean track) {
+        this.track = track;
+    }
 }

@@ -18,6 +18,10 @@ package org.traccar.web.client.view;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
+import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
+import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.model.BaseAsyncCallback;
@@ -90,7 +94,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @UiField
     MenuItem settingsGlobal;
 
-    public DeviceView(DeviceHandler deviceHandler, SettingsHandler settingsHandler, ListStore<Device> deviceStore) {
+    public DeviceView(final DeviceHandler deviceHandler, SettingsHandler settingsHandler, final ListStore<Device> deviceStore) {
         this.deviceHandler = deviceHandler;
         this.settingsHandler = settingsHandler;
         this.deviceStore = deviceStore;
@@ -98,14 +102,32 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         DeviceProperties deviceProperties = GWT.create(DeviceProperties.class);
 
         List<ColumnConfig<Device, ?>> columnConfigList = new LinkedList<ColumnConfig<Device, ?>>();
-        columnConfigList.add(new ColumnConfig<Device, String>(deviceProperties.name(), 0, "Name"));
-        columnConfigList.add(new ColumnConfig<Device, String>(deviceProperties.uniqueId(), 0, "Unique Identifier"));
+
+        ColumnConfig<Device, String> colName = new ColumnConfig<Device, String>(deviceProperties.name(), 0, "Name");
+        columnConfigList.add(colName);
+
+        ColumnConfig<Device, String> colUniqueId = new ColumnConfig<Device, String>(deviceProperties.uniqueId(), 0, "Unique Identifier");
+        columnConfigList.add(colUniqueId);
+
+        ColumnConfig<Device, Boolean> colTrack = new ColumnConfig<Device, Boolean>(deviceProperties.track(), 27, "Trk");
+        colTrack.setCell(new CheckBoxCell());
+        colTrack.setFixed(true);
+        colTrack.setResizable(false);
+        columnConfigList.add(colTrack);
+
         columnModel = new ColumnModel<Device>(columnConfigList);
 
         uiBinder.createAndBindUi(this);
 
         grid.getSelectionModel().addSelectionChangedHandler(this);
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        grid.getView().setAutoFill(true);
+        grid.getView().setForceFit(true);
+
+        GridEditing<Device> editing = new GridInlineEditing<Device>(grid);
+        grid.getView().setShowDirtyCells(false);
+        editing.addEditor(colTrack, new CheckBox());
 
         if (ApplicationContext.getInstance().getUser().getAdmin()) {
             settingsUsers.enable();

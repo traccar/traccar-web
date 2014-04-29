@@ -208,4 +208,7 @@ public class MapView {
 
     };
 
+    public void catchPosition(Position position) {
+        latestPositionRenderer.catchPosition(position);
+    }
 }

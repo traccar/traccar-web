@@ -76,6 +76,9 @@ public class MapController implements ContentController, MapView.MapHandler {
                 mapView.showLatestPositions(result);
                 for (Position position : result) {
                     latestPositionMap.put(position.getDevice().getId(), position);
+                    if (ApplicationContext.getInstance().isTracking(position.getDevice())) {
+                        mapView.catchPosition(position);
+                    }
                 }
                 for (Map.Entry<Long, PositionUpdateHandler> entry : positionUpdateMap.entrySet()) {
                     entry.getValue().onUpdate(latestPositionMap.get(entry.getKey()));

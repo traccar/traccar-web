@@ -17,13 +17,14 @@ package org.traccar.web.client.controller;
 
 import java.util.List;
 
+import com.sencha.gxt.data.shared.event.StoreRecordChangeEvent;
 import org.traccar.web.client.Application;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
 import org.traccar.web.client.view.DeviceView;
 import org.traccar.web.shared.model.Device;
-import org.traccar.web.shared.model.User;
 
 import com.google.gwt.core.client.GWT;
 import com.sencha.gxt.data.shared.ListStore;
@@ -32,7 +33,6 @@ import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
-import com.sencha.gxt.widget.core.client.event.HideEvent;
 
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
 
@@ -50,6 +50,20 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         this.deviceHandler = deviceHandler;
         DeviceProperties deviceProperties = GWT.create(DeviceProperties.class);
         deviceStore = new ListStore<Device>(deviceProperties.id());
+        deviceStore.addStoreRecordChangeHandler(new StoreRecordChangeEvent.StoreRecordChangeHandler<Device>() {
+            @Override
+            public void onRecordChange(StoreRecordChangeEvent<Device> event) {
+                if (event.getProperty().getPath().equals("track")) {
+                    boolean track = (Boolean) event.getRecord().getValue(event.getProperty());
+                    Device device = event.getRecord().getModel();
+                    if (track) {
+                        ApplicationContext.getInstance().trackDevice(device);
+                    } else {
+                        ApplicationContext.getInstance().stopTracking(device);
+                    }
+                }
+            }
+        });
         deviceView = new DeviceView(this, settingsHandler, deviceStore);
     }
 
