@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.traccar.web.client.ApplicationContext;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseStoreHandlers;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.model.PositionProperties;
@@ -94,6 +95,9 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
     @UiField
     Grid<Position> grid;
 
+    @UiField(provided = true)
+    Messages i18n = GWT.create(Messages.class);
+
     public ArchiveView(ArchiveHandler archiveHandler, ListStore<Position> positionStore, ListStore<Device> deviceStore) {
         this.archiveHandler = archiveHandler;
         this.positionStore = positionStore;
@@ -107,22 +111,22 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
         List<ColumnConfig<Position, ?>> columnConfigList = new LinkedList<ColumnConfig<Position, ?>>();
 
-        columnConfigList.add(new ColumnConfig<Position, Boolean>(positionProperties.valid(), 0, "Valid"));
+        columnConfigList.add(new ColumnConfig<Position, Boolean>(positionProperties.valid(), 0, i18n.valid()));
 
-        ColumnConfig<Position, Date> columnConfigDate = new ColumnConfig<Position, Date>(positionProperties.time(), 0, "Time");
+        ColumnConfig<Position, Date> columnConfigDate = new ColumnConfig<Position, Date>(positionProperties.time(), 0, i18n.time());
         columnConfigDate.setCell(new DateCell(ApplicationContext.getInstance().getFormatterUtil().getTimeFormat()));
         columnConfigList.add(columnConfigDate);
 
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.latitude(), 0, "Latitude"));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.longitude(), 0, "Longitude"));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.altitude(), 0, "Altitude"));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.latitude(), 0, i18n.latitude()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.longitude(), 0, i18n.longitude()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.altitude(), 0, i18n.altitude()));
 
-        ColumnConfig<Position, Double> columnConfigDouble = new ColumnConfig<Position, Double>(positionProperties.speed(), 0, "Speed");
+        ColumnConfig<Position, Double> columnConfigDouble = new ColumnConfig<Position, Double>(positionProperties.speed(), 0, i18n.speed());
         columnConfigDouble.setCell(new NumberCell<Double>(ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat()));
         columnConfigList.add(columnConfigDouble);
 
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.course(), 0, "Course"));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.power(), 0, "Power"));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.course(), 0, i18n.course()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.power(), 0, i18n.power()));
 
         columnModel = new ColumnModel<Position>(columnConfigList);
 

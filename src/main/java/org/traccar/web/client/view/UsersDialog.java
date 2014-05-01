@@ -18,6 +18,7 @@ package org.traccar.web.client.view;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.UserProperties;
 import org.traccar.web.shared.model.User;
 
@@ -68,6 +69,9 @@ public class UsersDialog implements SelectionChangedEvent.SelectionChangedHandle
     @UiField
     Grid<User> grid;
 
+    @UiField(provided = true)
+    Messages i18n = GWT.create(Messages.class);
+
     public UsersDialog(ListStore<User> userStore, UserHandler userHandler) {
         this.userStore = userStore;
         this.userHandler = userHandler;
@@ -75,8 +79,8 @@ public class UsersDialog implements SelectionChangedEvent.SelectionChangedHandle
         UserProperties userProperties = GWT.create(UserProperties.class);
 
         List<ColumnConfig<User, ?>> columnConfigList = new LinkedList<ColumnConfig<User, ?>>();
-        columnConfigList.add(new ColumnConfig<User, String>(userProperties.login(), 0, "Name"));
-        columnConfigList.add(new ColumnConfig<User, Boolean>(userProperties.admin(), 0, "Administrator"));
+        columnConfigList.add(new ColumnConfig<User, String>(userProperties.login(), 0, i18n.name()));
+        columnConfigList.add(new ColumnConfig<User, Boolean>(userProperties.admin(), 0, i18n.administrator()));
         columnModel = new ColumnModel<User>(columnConfigList);
 
         uiBinder.createAndBindUi(this);

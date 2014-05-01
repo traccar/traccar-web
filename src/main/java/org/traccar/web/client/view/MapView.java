@@ -17,6 +17,7 @@ package org.traccar.web.client.view;
 
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -37,6 +38,7 @@ import org.gwtopenmaps.openlayers.client.layer.MarkersOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -65,6 +67,8 @@ public class MapView {
     private Map map;
     private Vector vectorLayer;
     private Markers markerLayer;
+
+    private Messages i18n = GWT.create(Messages.class);
 
     public Map getMap() {
         return map;
@@ -122,7 +126,7 @@ public class MapView {
     public MapView(MapHandler mapHandler) {
         this.mapHandler = mapHandler;
         contentPanel = new ContentPanel();
-        contentPanel.setHeadingText("Map");
+        contentPanel.setHeadingText(i18n.map());
 
         MapOptions defaultMapOptions = new MapOptions();
 

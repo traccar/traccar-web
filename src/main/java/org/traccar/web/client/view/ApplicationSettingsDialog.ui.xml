@@ -13,17 +13,19 @@
 
   <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="shortPropertyEditor" />
 
-    <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="Global Settings" focusWidget="{saveButton}">
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+    <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.globalSettings}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Registration">
+        <form:FieldLabel text="{i18n.registration}">
           <form:widget>
             <form:CheckBox ui:field="registrationEnabled" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-          <form:FieldLabel text="Update interval">
+          <form:FieldLabel text="{i18n.updateInterval}">
               <form:widget>
                   <form:NumberField editor="{shortPropertyEditor}"
                                     ui:field="updateInterval"
@@ -37,10 +39,10 @@
     </container:VerticalLayoutContainer>
       
     <gxt:button>
-      <button:TextButton ui:field="saveButton" text="Save" />
+      <button:TextButton ui:field="saveButton" text="{i18n.save}" />
     </gxt:button>
     <gxt:button>
-      <button:TextButton ui:field="cancelButton" text="Cancel" />
+      <button:TextButton ui:field="cancelButton" text="{i18n.cancel}" />
     </gxt:button>
   </gxt:Window>
 

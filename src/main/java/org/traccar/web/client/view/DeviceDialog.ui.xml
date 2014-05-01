@@ -10,18 +10,20 @@
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
     <ui:attributes width="1" height="-1" />
   </ui:with>
- 
-  <gxt:Window ui:field="window" pixelSize="300, 130" modal="true" headingText="Device" focusWidget="{saveButton}">
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:Window ui:field="window" pixelSize="300, 130" modal="true" headingText="{i18n.device}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Name">
+        <form:FieldLabel text="{i18n.name}">
           <form:widget>
             <form:TextField ui:field="name" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Unique Identifier">
+        <form:FieldLabel text="{i18n.uniqueIdentifier}">
           <form:widget>
             <form:TextField ui:field="uniqueId" />
           </form:widget>
@@ -30,10 +32,10 @@
     </container:VerticalLayoutContainer>
       
     <gxt:button>
-      <button:TextButton ui:field="saveButton" text="Save" />
+      <button:TextButton ui:field="saveButton" text="{i18n.save}" />
     </gxt:button>
     <gxt:button>
-      <button:TextButton ui:field="cancelButton" text="Cancel" />
+      <button:TextButton ui:field="cancelButton" text="{i18n.cancel}" />
     </gxt:button>
   </gxt:Window>
 

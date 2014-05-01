@@ -31,10 +31,13 @@ public class StateController implements ContentController {
 
     private StateView stateView;
 
+    private StateReader stateReader;
+
     public StateController() {
         StateItemProperties stateItemProperties = GWT.create(StateItemProperties.class);
         stateStore = new ListStore<StateItem>(stateItemProperties.id());
         stateView = new StateView(stateStore);
+        stateReader = new StateReader();
     }
 
     @Override
@@ -48,7 +51,7 @@ public class StateController implements ContentController {
 
     public void showState(Position position) {
         if (position != null) {
-            stateStore.replaceAll(StateReader.getState(position));
+            stateStore.replaceAll(stateReader.getState(position));
         } else {
             stateStore.clear();
         }

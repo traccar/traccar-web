@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.traccar.web.client.Application;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.PositionProperties;
 import org.traccar.web.client.view.ArchiveView;
@@ -41,6 +42,8 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
     private ListStore<Position> positionStore;
 
     private ArchiveView archiveView;
+
+    private Messages i18n = GWT.create(Messages.class);
 
     public ArchiveController(ArchiveHandler archiveHandler, ListStore<Device> deviceStore) {
         this.archiveHandler = archiveHandler;
@@ -75,14 +78,14 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
                 public void onSuccess(List<Position> result) {
                     positionStore.clear();
                     if (result.isEmpty()) {
-                        new AlertMessageBox("Error", "No results found for selected period").show();
+                        new AlertMessageBox(i18n.error(), i18n.errNoResults()).show();
                     } else {
                         positionStore.addAll(result);
                     }
                 }
             });
         } else {
-            new AlertMessageBox("Error", "All form fields must be filled first").show();
+            new AlertMessageBox(i18n.error(), i18n.errFillFields()).show();
         }
     }
 

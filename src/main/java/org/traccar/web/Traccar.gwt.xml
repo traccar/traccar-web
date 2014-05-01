@@ -19,4 +19,5 @@
   <source path='client'/>
   <source path='shared'/>
 
+  <extend-property name="locale" values="ru" />
 </module>

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.UserProperties;
 import org.traccar.web.client.view.ApplicationSettingsDialog;
@@ -39,6 +40,8 @@ import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.HideEvent;
 
 public class SettingsController implements DeviceView.SettingsHandler {
+
+    private Messages i18n = GWT.create(Messages.class);
 
     @Override
     public void onAccountSelected() {
@@ -101,7 +104,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
                                             }
                                             @Override
                                             public void onFailure(Throwable caught) {
-                                                new AlertMessageBox("Error", "Username is already taken").show();
+                                                new AlertMessageBox(i18n.error(), i18n.errUsernameTaken()).show();
                                             }
                                         });
                                     }
@@ -110,7 +113,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
 
                     @Override
                     public void onRemove(final User user) {
-                        final ConfirmMessageBox dialog = new ConfirmMessageBox("Confirm", "Are you sure you want remove user?");
+                        final ConfirmMessageBox dialog = new ConfirmMessageBox(i18n.confirm(), i18n.confirmUserRemoval());
                         dialog.addDialogHideHandler(new DialogHideEvent.DialogHideHandler() {
 							@Override
 							public void onDialogHide(DialogHideEvent event) {

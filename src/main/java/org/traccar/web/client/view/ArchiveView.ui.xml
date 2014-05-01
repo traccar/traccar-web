@@ -23,31 +23,33 @@
     <ui:attributes stripeRows="true" autoFill="true" />
   </ui:with>
 
-  <gxt:ContentPanel ui:field="contentPanel" headingText="Archive">
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="{i18n.archive}">
     <container:VerticalLayoutContainer>
 
       <container:child layoutData="{toolBarRowData}">
         <toolbar:ToolBar>
 
-          <toolbar:LabelToolItem label="Device:" />
+          <toolbar:LabelToolItem label="{i18n.device}:" />
           <form:ComboBox ui:field="deviceCombo" editable="false" triggerAction="ALL" />
           <toolbar:SeparatorToolItem />
 
-          <toolbar:LabelToolItem label="From:" />
+          <toolbar:LabelToolItem label="{i18n.from}:" />
           <form:DateField width="125" ui:field="fromDate" />
           <toolbar:LabelToolItem width="5" />
           <form:TimeField width="75" ui:field="fromTime" triggerAction="ALL" />
           <toolbar:SeparatorToolItem />
 
-          <toolbar:LabelToolItem label="To:" />
+          <toolbar:LabelToolItem label="{i18n.to}:" />
           <form:DateField width="125" ui:field="toDate" />
           <toolbar:LabelToolItem width="5" />
           <form:TimeField width="75" ui:field="toTime" triggerAction="ALL" />
           <toolbar:SeparatorToolItem />
 
-          <button:TextButton ui:field="loadButton" text="Load" />
+          <button:TextButton ui:field="loadButton" text="{i18n.load}" />
           <toolbar:FillToolItem />
-          <button:TextButton ui:field="clearButton" text="Clear" />
+          <button:TextButton ui:field="clearButton" text="{i18n.clear}" />
 
         </toolbar:ToolBar>
       </container:child>

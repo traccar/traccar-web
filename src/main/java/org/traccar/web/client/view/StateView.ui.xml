@@ -15,7 +15,9 @@
     <ui:attributes stripeRows="true" autoFill="true" />
   </ui:with>
 
-  <gxt:ContentPanel ui:field="contentPanel" headingText="State">
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="{i18n.state}">
     <grid:Grid ui:field="grid" store="{stateStore}" cm="{columnModel}" view="{view}" />
   </gxt:ContentPanel>
 

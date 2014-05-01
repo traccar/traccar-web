@@ -10,25 +10,27 @@
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
     <ui:attributes width="1" height="-1" />
   </ui:with>
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
  
-  <gxt:Window ui:field="window" pixelSize="300, 150" modal="true" headingText="Account" focusWidget="{saveButton}">
+  <gxt:Window ui:field="window" pixelSize="300, 150" modal="true" headingText="{i18n.account}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="User">
+        <form:FieldLabel text="{i18n.user}">
           <form:widget>
             <form:TextField ui:field="login" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Password">
+        <form:FieldLabel text="{i18n.password}">
           <form:widget>
             <form:PasswordField ui:field="password" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Administrator">
+        <form:FieldLabel text="{i18n.administrator}">
           <form:widget>
             <form:CheckBox ui:field="admin" enabled="false" />
           </form:widget>
@@ -37,10 +39,10 @@
     </container:VerticalLayoutContainer>
       
     <gxt:button>
-      <button:TextButton ui:field="saveButton" text="Save" />
+      <button:TextButton ui:field="saveButton" text="{i18n.save}" />
     </gxt:button>
     <gxt:button>
-      <button:TextButton ui:field="cancelButton" text="Cancel" />
+      <button:TextButton ui:field="cancelButton" text="{i18n.cancel}" />
     </gxt:button>
   </gxt:Window>
 

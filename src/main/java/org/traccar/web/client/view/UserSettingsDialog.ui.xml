@@ -10,11 +10,13 @@
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
     <ui:attributes width="1" height="-1" />
   </ui:with>
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
   
-  <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="Preferences" focusWidget="{saveButton}">
+  <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.preferences}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Speed Units">
+        <form:FieldLabel text="{i18n.speedUnits}">
           <form:widget>
             <form:ComboBox ui:field="speedUnit" />
           </form:widget>
@@ -23,10 +25,10 @@
     </container:VerticalLayoutContainer>
       
     <gxt:button>
-      <button:TextButton ui:field="saveButton" text="Save" />
+      <button:TextButton ui:field="saveButton" text="{i18n.save}" />
     </gxt:button>
     <gxt:button>
-      <button:TextButton ui:field="cancelButton" text="Cancel" />
+      <button:TextButton ui:field="cancelButton" text="{i18n.cancel}" />
     </gxt:button>
   </gxt:Window>
 

@@ -107,7 +107,7 @@
         <configuration>
           <deploy>${project.build.directory}/gwt-deploy</deploy>
           <runTarget>traccar.html</runTarget>
-          <hostedWebapp>${webappDirectory}</hostedWebapp>
+	      <hostedWebapp>${webappDirectory}</hostedWebapp>
         </configuration>
         <executions>
           <execution>

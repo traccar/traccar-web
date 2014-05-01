@@ -20,6 +20,7 @@ import java.util.List;
 import com.sencha.gxt.data.shared.event.StoreRecordChangeEvent;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
@@ -45,6 +46,8 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
     private ListStore<Device> deviceStore;
 
     private DeviceView deviceView;
+
+    private Messages i18n = GWT.create(Messages.class);
 
     public DeviceController(DeviceHandler deviceHandler, DeviceView.SettingsHandler settingsHandler) {
         this.deviceHandler = deviceHandler;
@@ -103,7 +106,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     }
                     @Override
                     public void onFailure(Throwable caught) {
-                        new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
+                        new AlertMessageBox(i18n.error(), i18n.errDeviceExists()).show();
                     }                    
                 });
             }
@@ -122,7 +125,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                     }
                     @Override
                     public void onFailure(Throwable caught) {
-                        new AlertMessageBox("Error", "Device with this Unique ID already exists").show();
+                        new AlertMessageBox(i18n.error(), i18n.errDeviceExists()).show();
                     }                     
                 });
             }
@@ -131,7 +134,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 
     @Override
     public void onRemove(final Device device) {
-        final ConfirmMessageBox dialog = new ConfirmMessageBox("Confirm", "Are you sure you want remove device?");
+        final ConfirmMessageBox dialog = new ConfirmMessageBox(i18n.confirm(), i18n.confirmDeviceRemoval());
         dialog.addDialogHideHandler(new DialogHideEvent.DialogHideHandler() {
 			@Override
 			public void onDialogHide(DialogHideEvent event) {

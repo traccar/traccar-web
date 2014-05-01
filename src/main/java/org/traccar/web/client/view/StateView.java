@@ -3,6 +3,7 @@ package org.traccar.web.client.view;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.StateItem;
 import org.traccar.web.client.model.StateItemProperties;
 
@@ -39,14 +40,17 @@ public class StateView {
     @UiField
     Grid<StateItem> grid;
 
+    @UiField(provided = true)
+    Messages i18n = GWT.create(Messages.class);
+
     public StateView(ListStore<StateItem> stateStore) {
         this.stateStore = stateStore;
 
         StateItemProperties stateItemProperties = GWT.create(StateItemProperties.class);
 
         List<ColumnConfig<StateItem, ?>> columnConfigList = new LinkedList<ColumnConfig<StateItem, ?>>();
-        columnConfigList.add(new ColumnConfig<StateItem, String>(stateItemProperties.name(), 0, "Attribute"));
-        columnConfigList.add(new ColumnConfig<StateItem, String>(stateItemProperties.value(), 0, "Value"));
+        columnConfigList.add(new ColumnConfig<StateItem, String>(stateItemProperties.name(), 0, i18n.attribute()));
+        columnConfigList.add(new ColumnConfig<StateItem, String>(stateItemProperties.value(), 0, i18n.value()));
         columnModel = new ColumnModel<StateItem>(columnConfigList);
 
         uiBinder.createAndBindUi(this);

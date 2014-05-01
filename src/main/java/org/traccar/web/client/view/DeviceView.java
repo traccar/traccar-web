@@ -24,6 +24,7 @@ import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
 import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.shared.model.Device;
@@ -94,6 +95,9 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @UiField
     MenuItem settingsGlobal;
 
+    @UiField(provided = true)
+    Messages i18n = GWT.create(Messages.class);
+
     public DeviceView(final DeviceHandler deviceHandler, SettingsHandler settingsHandler, final ListStore<Device> deviceStore) {
         this.deviceHandler = deviceHandler;
         this.settingsHandler = settingsHandler;
@@ -103,13 +107,13 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
         List<ColumnConfig<Device, ?>> columnConfigList = new LinkedList<ColumnConfig<Device, ?>>();
 
-        ColumnConfig<Device, String> colName = new ColumnConfig<Device, String>(deviceProperties.name(), 0, "Name");
+        ColumnConfig<Device, String> colName = new ColumnConfig<Device, String>(deviceProperties.name(), 0, i18n.name());
         columnConfigList.add(colName);
 
-        ColumnConfig<Device, String> colUniqueId = new ColumnConfig<Device, String>(deviceProperties.uniqueId(), 0, "Unique Identifier");
+        ColumnConfig<Device, String> colUniqueId = new ColumnConfig<Device, String>(deviceProperties.uniqueId(), 0, i18n.uniqueIdentifier());
         columnConfigList.add(colUniqueId);
 
-        ColumnConfig<Device, Boolean> colTrack = new ColumnConfig<Device, Boolean>(deviceProperties.track(), 27, "Trk");
+        ColumnConfig<Device, Boolean> colTrack = new ColumnConfig<Device, Boolean>(deviceProperties.track(), 27, i18n.trk());
         colTrack.setCell(new CheckBoxCell());
         colTrack.setFixed(true);
         colTrack.setResizable(false);

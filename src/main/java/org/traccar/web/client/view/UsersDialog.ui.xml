@@ -24,7 +24,9 @@
     <ui:attributes stripeRows="true" autoFill="true" />
   </ui:with>
 
-  <gxt:Window ui:field="window" pixelSize="640, 480" modal="true" headingText="Users">
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:Window ui:field="window" pixelSize="640, 480" modal="true" headingText="{i18n.users}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{layoutData}">
         <gxt:ContentPanel ui:field="contentPanel" headerVisible="false">
@@ -32,8 +34,8 @@
             
             <container:child layoutData="{toolBarRowData}">
               <toolbar:ToolBar>
-                <button:TextButton ui:field="addButton" text="Add" />
-                <button:TextButton ui:field="removeButton" text="Remove" enabled="false" />
+                <button:TextButton ui:field="addButton" text="{i18n.add}" />
+                <button:TextButton ui:field="removeButton" text="{i18n.remove}" enabled="false" />
               </toolbar:ToolBar>
             </container:child>
       

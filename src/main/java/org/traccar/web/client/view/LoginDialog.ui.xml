@@ -10,18 +10,20 @@
   <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
     <ui:attributes width="1" height="-1" />
   </ui:with>
- 
-  <gxt:Window ui:field="window" pixelSize="300, 130" modal="true" closable="false" headingText="Authentication" focusWidget="{loginButton}">
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+    <gxt:Window ui:field="window" pixelSize="300, 130" modal="true" closable="false" headingText="{i18n.authentication}" focusWidget="{loginButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="User">
+        <form:FieldLabel text="{i18n.user}" labelWidth="110">
           <form:widget>
             <form:TextField ui:field="login" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="Password">
+        <form:FieldLabel text="{i18n.password}" labelWidth="110">
           <form:widget>
             <form:PasswordField ui:field="password" />
           </form:widget>
@@ -30,10 +32,10 @@
     </container:VerticalLayoutContainer>
       
     <gxt:button>
-      <button:TextButton ui:field="loginButton" text="Login" />
+      <button:TextButton ui:field="loginButton" text="{i18n.login}" />
     </gxt:button>
     <gxt:button>
-      <button:TextButton ui:field="registerButton" text="Register" enabled="false" />
+      <button:TextButton ui:field="registerButton" text="{i18n.register}" enabled="false" />
     </gxt:button>
   </gxt:Window>
 
