@@ -168,7 +168,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
     @UiHandler("logoutButton")
     public void onLogoutClicked(SelectEvent event) {
-        Application.getDataService().logout(new BaseAsyncCallback<Boolean>() {
+        Application.getDataService().logout(new BaseAsyncCallback<Boolean>(i18n) {
             @Override
             public void onSuccess(Boolean result) {
                 Window.Location.reload();

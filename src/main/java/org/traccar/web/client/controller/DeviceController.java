@@ -81,7 +81,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 
     @Override
     public void run() {
-        Application.getDataService().getDevices(new BaseAsyncCallback<List<Device>>() {
+        Application.getDataService().getDevices(new BaseAsyncCallback<List<Device>>(i18n) {
             @Override
             public void onSuccess(List<Device> result) {
                 deviceStore.addAll(result);
@@ -99,7 +99,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         new DeviceDialog(new Device(), new DeviceDialog.DeviceHandler() {
             @Override
             public void onSave(Device device) {
-                Application.getDataService().addDevice(device, new BaseAsyncCallback<Device>() {
+                Application.getDataService().addDevice(device, new BaseAsyncCallback<Device>(i18n) {
                     @Override
                     public void onSuccess(Device result) {
                         deviceStore.add(result);
@@ -118,7 +118,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         new DeviceDialog(new Device(device), new DeviceDialog.DeviceHandler() {
             @Override
             public void onSave(Device device) {
-                Application.getDataService().updateDevice(device, new BaseAsyncCallback<Device>() {
+                Application.getDataService().updateDevice(device, new BaseAsyncCallback<Device>(i18n) {
                     @Override
                     public void onSuccess(Device result) {
                         deviceStore.update(result);
@@ -139,7 +139,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 			@Override
 			public void onDialogHide(DialogHideEvent event) {
 				if (event.getHideButton() == PredefinedButton.YES) {
-                    Application.getDataService().removeDevice(device, new BaseAsyncCallback<Device>() {
+                    Application.getDataService().removeDevice(device, new BaseAsyncCallback<Device>(i18n) {
                         @Override
                         public void onSuccess(Device result) {
                             deviceStore.remove(device);

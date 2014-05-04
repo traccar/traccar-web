@@ -50,7 +50,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
                 new UserDialog.UserHandler() {
                     @Override
                     public void onSave(User user) {
-                        Application.getDataService().updateUser(user, new BaseAsyncCallback<User>() {
+                        Application.getDataService().updateUser(user, new BaseAsyncCallback<User>(i18n) {
                             @Override
                             public void onSuccess(User result) {
                                 ApplicationContext.getInstance().setUser(result);
@@ -69,7 +69,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
                     public void onSave(UserSettings userSettings) {
                         ApplicationContext.getInstance().setUserSettings(userSettings);
                         User user = ApplicationContext.getInstance().getUser();
-                        Application.getDataService().updateUser(user, new BaseAsyncCallback<User>() {
+                        Application.getDataService().updateUser(user, new BaseAsyncCallback<User>(i18n) {
                             @Override
                             public void onSuccess(User result) {
                                 ApplicationContext.getInstance().setUser(result);
@@ -81,7 +81,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
 
     @Override
     public void onUsersSelected() {
-        Application.getDataService().getUsers(new BaseAsyncCallback<List<User>>() {
+        Application.getDataService().getUsers(new BaseAsyncCallback<List<User>>(i18n) {
             @Override
             public void onSuccess(List<User> result) {
                 UserProperties userProperties = GWT.create(UserProperties.class);
@@ -97,7 +97,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
                                 new UserDialog.UserHandler() {
                                     @Override
                                     public void onSave(User user) {
-                                        Application.getDataService().addUser(user, new BaseAsyncCallback<User>() {
+                                        Application.getDataService().addUser(user, new BaseAsyncCallback<User>(i18n) {
                                             @Override
                                             public void onSuccess(User result) {
                                                 userStore.add(result);
@@ -118,7 +118,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
 							@Override
 							public void onDialogHide(DialogHideEvent event) {
 								if (event.getHideButton() == PredefinedButton.YES) {
-                                    Application.getDataService().removeUser(user, new BaseAsyncCallback<User>() {
+                                    Application.getDataService().removeUser(user, new BaseAsyncCallback<User>(i18n) {
                                         @Override
                                         public void onSuccess(User result) {
                                             userStore.remove(user);
@@ -142,7 +142,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
                 new ApplicationSettingsDialog.ApplicationSettingsHandler() {
                     @Override
                     public void onSave(ApplicationSettings applicationSettings) {
-                        Application.getDataService().updateApplicationSettings(applicationSettings, new BaseAsyncCallback<ApplicationSettings>() {
+                        Application.getDataService().updateApplicationSettings(applicationSettings, new BaseAsyncCallback<ApplicationSettings>(i18n) {
                             @Override
                             public void onSuccess(ApplicationSettings result) {
                                 ApplicationContext.getInstance().setApplicationSettings(result);

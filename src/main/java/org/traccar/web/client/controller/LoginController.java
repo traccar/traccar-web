@@ -40,7 +40,7 @@ public class LoginController implements LoginDialog.LoginHandler {
     public void login(final LoginHandler loginHandler) {
         this.loginHandler = loginHandler;
 
-        Application.getDataService().authenticated(new BaseAsyncCallback<User>() {
+        Application.getDataService().authenticated(new BaseAsyncCallback<User>(i18n) {
             @Override
             public void onSuccess(User result) {
                 ApplicationContext.getInstance().setUser(result);
@@ -65,7 +65,7 @@ public class LoginController implements LoginDialog.LoginHandler {
     @Override
     public void onLogin(String login, String password) {
         if (validate(login, password)) {
-            Application.getDataService().login(login, password, new BaseAsyncCallback<User>() {
+            Application.getDataService().login(login, password, new BaseAsyncCallback<User>(i18n) {
                 @Override
                 public void onSuccess(User result) {
                     ApplicationContext.getInstance().setUser(result);
@@ -85,7 +85,7 @@ public class LoginController implements LoginDialog.LoginHandler {
     @Override
     public void onRegister(String login, String password) {
         if (validate(login, password)) {
-            Application.getDataService().register(login, password, new BaseAsyncCallback<User>() {
+            Application.getDataService().register(login, password, new BaseAsyncCallback<User>(i18n) {
                 @Override
                 public void onSuccess(User result) {
                     ApplicationContext.getInstance().setUser(result);
