@@ -16,21 +16,21 @@
   <gxt:Window ui:field="window" pixelSize="300, 150" modal="true" headingText="{i18n.account}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.user}">
+        <form:FieldLabel text="{i18n.user}" labelWidth="120">
           <form:widget>
             <form:TextField ui:field="login" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.password}">
+        <form:FieldLabel text="{i18n.password}" labelWidth="120">
           <form:widget>
             <form:PasswordField ui:field="password" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.administrator}">
+        <form:FieldLabel text="{i18n.administrator}" labelWidth="120">
           <form:widget>
             <form:CheckBox ui:field="admin" enabled="false" />
           </form:widget>

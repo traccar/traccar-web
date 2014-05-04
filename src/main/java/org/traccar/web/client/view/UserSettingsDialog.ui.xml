@@ -16,7 +16,7 @@
   <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.preferences}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.speedUnits}">
+        <form:FieldLabel text="{i18n.speedUnits}" labelWidth="110">
           <form:widget>
             <form:ComboBox ui:field="speedUnit" />
           </form:widget>

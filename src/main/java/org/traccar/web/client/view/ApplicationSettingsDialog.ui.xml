@@ -18,14 +18,14 @@
     <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.globalSettings}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.registration}">
+        <form:FieldLabel text="{i18n.registration}" labelWidth="140">
           <form:widget>
             <form:CheckBox ui:field="registrationEnabled" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-          <form:FieldLabel text="{i18n.updateInterval}">
+          <form:FieldLabel text="{i18n.updateInterval}" labelWidth="140">
               <form:widget>
                   <form:NumberField editor="{shortPropertyEditor}"
                                     ui:field="updateInterval"
