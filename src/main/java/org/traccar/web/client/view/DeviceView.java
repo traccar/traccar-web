@@ -110,9 +110,6 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         ColumnConfig<Device, String> colName = new ColumnConfig<Device, String>(deviceProperties.name(), 0, i18n.name());
         columnConfigList.add(colName);
 
-        ColumnConfig<Device, String> colUniqueId = new ColumnConfig<Device, String>(deviceProperties.uniqueId(), 0, i18n.uniqueIdentifier());
-        columnConfigList.add(colUniqueId);
-
         ColumnConfig<Device, Boolean> colTrack = new ColumnConfig<Device, Boolean>(deviceProperties.track(), 27, i18n.trk());
         colTrack.setCell(new CheckBoxCell());
         colTrack.setFixed(true);
