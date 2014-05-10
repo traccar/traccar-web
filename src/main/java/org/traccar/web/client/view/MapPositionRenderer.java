@@ -19,13 +19,11 @@ import java.util.*;
 
 import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Marker;
-import org.gwtopenmaps.openlayers.client.StyleRules;
 import org.gwtopenmaps.openlayers.client.event.EventHandler;
 import org.gwtopenmaps.openlayers.client.event.EventObject;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
-import org.gwtopenmaps.openlayers.client.geometry.Polygon;
 import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.traccar.web.shared.model.Device;
@@ -97,6 +95,7 @@ public class MapPositionRenderer {
     private Map<Long, Position> positionMap = new HashMap<Long, Position>(); // Position.id -> Position
 
     private List<VectorFeature> tracks = new ArrayList<VectorFeature>();
+    private List<VectorFeature> labels = new ArrayList<VectorFeature>();
 
     private Long selectedPositionId;
     private Long selectedDeviceId;
@@ -130,6 +129,30 @@ public class MapPositionRenderer {
             if (!selectPosition(null, deviceMap.get(selectedDeviceId), false)) {
                 selectedDeviceId = null;
             }
+        }
+    }
+
+    public void showDeviceName(List<Position> positions) {
+        for (VectorFeature label : labels) {
+            getVectorLayer().removeFeature(label);
+            label.destroy();
+        }
+        labels.clear();
+
+        for (Position position : positions) {
+            org.gwtopenmaps.openlayers.client.Style st = new org.gwtopenmaps.openlayers.client.Style();
+            st.setLabel(position.getDevice().getName());
+            st.setLabelXOffset(0);
+            st.setLabelYOffset(-12);
+            st.setLabelAlign("cb");
+            st.setFontColor("#0000FF");
+            st.setFontSize("12");
+            st.setFill(false);
+            st.setStroke(false);
+
+            final VectorFeature point = new VectorFeature(mapView.createPoint(position.getLongitude(), position.getLatitude()), st);
+            getVectorLayer().addFeature(point);
+            labels.add(point);
         }
     }
 

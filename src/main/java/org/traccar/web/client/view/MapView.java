@@ -182,6 +182,7 @@ public class MapView {
 
     public void showLatestPositions(List<Position> positions) {
         latestPositionRenderer.showPositions(positions);
+        latestPositionRenderer.showDeviceName(positions);
     }
 
     public void showArchivePositions(List<Position> positions) {
