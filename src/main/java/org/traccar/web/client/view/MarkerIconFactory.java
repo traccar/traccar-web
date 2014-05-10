@@ -25,27 +25,34 @@ class MarkerIconFactory {
     private static final Pixel iconOffset = new Pixel(-10.5f, -25.0f);
 
     private static final String iconUrl = "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/img/";
-    private static final String iconRed = iconUrl + "marker.png";
-    private static final String iconBlue = iconUrl + "marker-blue.png";
-    private static final String iconGreen = iconUrl + "marker-green.png";
-    private static final String iconGold = iconUrl + "marker-gold.png";
 
     public static enum IconType {
-        iconLatest,
-        iconArchive
+        iconLatest(iconUrl + "marker-green.png", iconUrl + "marker.png"),
+        iconArchive(iconUrl + "marker-gold.png", iconUrl + "marker-blue.png");
+
+        private final String selectedURL;
+        private final String notSelectedURL;
+
+        IconType(String selectedURL, String notSelectedURL) {
+            this.selectedURL = selectedURL;
+            this.notSelectedURL = notSelectedURL;
+        }
+
+        String getURL(boolean selected) {
+            return selected ? selectedURL : notSelectedURL;
+        }
+
+        Icon getIcon(boolean selected) {
+            return new Icon(getURL(selected), iconSize, iconOffset);
+        }
     };
 
     public static String getIconUrl(IconType type, boolean selected) {
-        if (type == IconType.iconLatest) {
-            return selected ? iconGreen : iconRed;
-        } else if (type == IconType.iconArchive) {
-            return selected ? iconGold : iconBlue;
-        }
-        return null;
+        return type == null ? null : type.getURL(selected);
     }
 
     public static Icon getIcon(IconType type, boolean selected) {
-        return new Icon(getIconUrl(type, selected), iconSize, iconOffset);
+        return type == null ? null : type.getIcon(selected);
     }
 
 }
