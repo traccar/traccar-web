@@ -15,18 +15,17 @@
  */
 package org.traccar.web.client.view;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Marker;
+import org.gwtopenmaps.openlayers.client.StyleRules;
 import org.gwtopenmaps.openlayers.client.event.EventHandler;
 import org.gwtopenmaps.openlayers.client.event.EventObject;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
+import org.gwtopenmaps.openlayers.client.geometry.Polygon;
 import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.traccar.web.shared.model.Device;
@@ -197,5 +196,29 @@ public class MapPositionRenderer {
         if (!mapView.getMap().getExtent().containsLonLat(mapView.createLonLat(position.getLongitude(), position.getLatitude()), true)) {
             selectPosition(position, true);
         }
+    }
+
+    public void drawLatestPositionTrack(Position position) {
+        if (deviceMap.containsKey(position.getDevice().getId())) {
+            Position prevPosition = positionMap.get(deviceMap.get(position.getDevice().getId()));
+            showTrack(Arrays.asList(prevPosition, position), false);
+
+            VectorFeature point = new VectorFeature(mapView.createPoint(prevPosition.getLongitude(), prevPosition.getLatitude()), getTrackPointStyle());
+            getVectorLayer().addFeature(point);
+            tracks.add(point);
+        }
+        deviceMap.put(position.getDevice().getId(), position.getId());
+        positionMap.put(position.getId(), position);
+    }
+
+    org.gwtopenmaps.openlayers.client.Style trackPointStyle;
+
+    private org.gwtopenmaps.openlayers.client.Style getTrackPointStyle() {
+        if (trackPointStyle == null) {
+            trackPointStyle = new org.gwtopenmaps.openlayers.client.Style();
+            trackPointStyle.setPointRadius(5d);
+            trackPointStyle.setFillOpacity(1d);
+        }
+        return trackPointStyle;
     }
 }

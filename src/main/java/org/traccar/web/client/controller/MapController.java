@@ -75,10 +75,17 @@ public class MapController implements ContentController, MapView.MapHandler {
             public void onSuccess(List<Position> result) {
                 mapView.showLatestPositions(result);
                 for (Position position : result) {
-                    latestPositionMap.put(position.getDevice().getId(), position);
-                    if (ApplicationContext.getInstance().isTracking(position.getDevice())) {
-                        mapView.catchPosition(position);
+                    Device device = position.getDevice();
+                    Position prevPosition = latestPositionMap.get(device.getId());
+                    if (prevPosition != null && prevPosition.getId() != position.getId()) {
+                        if (ApplicationContext.getInstance().isFollowing(device)) {
+                            mapView.catchPosition(position);
+                        }
+                        if (ApplicationContext.getInstance().isRecordingTrace(device)) {
+                            mapView.drawLatestPositionTrace(position);
+                        }
                     }
+                    latestPositionMap.put(device.getId(), position);
                 }
                 for (Map.Entry<Long, PositionUpdateHandler> entry : positionUpdateMap.entrySet()) {
                     entry.getValue().onUpdate(latestPositionMap.get(entry.getKey()));

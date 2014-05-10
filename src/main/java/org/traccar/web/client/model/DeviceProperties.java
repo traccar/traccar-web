@@ -34,6 +34,7 @@ public interface DeviceProperties extends PropertyAccess<Device> {
     @Path("name")
     LabelProvider<Device> label();
 
-    ValueProvider<Device, Boolean> track();
+    ValueProvider<Device, Boolean> follow();
 
+    ValueProvider<Device, Boolean> recordTrace();
 }

@@ -80,13 +80,23 @@ public class Device implements Serializable {
         return name;
     }
 
-    private transient boolean track;
+    private transient boolean follow;
 
-    public boolean isTrack() {
-        return track;
+    public boolean isFollow() {
+        return follow;
     }
 
-    public void setTrack(boolean track) {
-        this.track = track;
+    public void setFollow(boolean follow) {
+        this.follow = follow;
+    }
+
+    private transient boolean recordTrace;
+
+    public boolean isRecordTrace() {
+        return recordTrace;
+    }
+
+    public void setRecordTrace(boolean recordTrace) {
+        this.recordTrace = recordTrace;
     }
 }

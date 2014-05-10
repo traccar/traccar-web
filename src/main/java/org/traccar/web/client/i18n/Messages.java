@@ -73,7 +73,7 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
 
     String logout();
 
-    String trk();
+    String follow();
 
     String state();
 
@@ -110,4 +110,6 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String confirmDeviceRemoval();
 
     String errRemoteCall();
+
+    String recordTrace();
 }

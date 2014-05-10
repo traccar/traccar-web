@@ -56,13 +56,21 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         deviceStore.addStoreRecordChangeHandler(new StoreRecordChangeEvent.StoreRecordChangeHandler<Device>() {
             @Override
             public void onRecordChange(StoreRecordChangeEvent<Device> event) {
-                if (event.getProperty().getPath().equals("track")) {
-                    boolean track = (Boolean) event.getRecord().getValue(event.getProperty());
+                if (event.getProperty().getPath().equals("follow")) {
+                    boolean follow = (Boolean) event.getRecord().getValue(event.getProperty());
                     Device device = event.getRecord().getModel();
-                    if (track) {
-                        ApplicationContext.getInstance().trackDevice(device);
+                    if (follow) {
+                        ApplicationContext.getInstance().follow(device);
                     } else {
-                        ApplicationContext.getInstance().stopTracking(device);
+                        ApplicationContext.getInstance().stopFollowing(device);
+                    }
+                } else if (event.getProperty().getPath().equals("recordTrace")) {
+                    boolean recordTrace = (Boolean) event.getRecord().getValue(event.getProperty());
+                    Device device = event.getRecord().getModel();
+                    if (recordTrace) {
+                        ApplicationContext.getInstance().recordTrace(device);
+                    } else {
+                        ApplicationContext.getInstance().stopRecordingTrace(device);
                     }
                 }
             }

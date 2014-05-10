@@ -110,11 +110,17 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         ColumnConfig<Device, String> colName = new ColumnConfig<Device, String>(deviceProperties.name(), 0, i18n.name());
         columnConfigList.add(colName);
 
-        ColumnConfig<Device, Boolean> colTrack = new ColumnConfig<Device, Boolean>(deviceProperties.track(), 27, i18n.trk());
-        colTrack.setCell(new CheckBoxCell());
-        colTrack.setFixed(true);
-        colTrack.setResizable(false);
-        columnConfigList.add(colTrack);
+        ColumnConfig<Device, Boolean> colFollow = new ColumnConfig<Device, Boolean>(deviceProperties.follow(), 50, i18n.follow());
+        colFollow.setCell(new CheckBoxCell());
+        colFollow.setFixed(true);
+        colFollow.setResizable(false);
+        columnConfigList.add(colFollow);
+
+        ColumnConfig<Device, Boolean> colRecordTrace = new ColumnConfig<Device, Boolean>(deviceProperties.recordTrace(), 60, i18n.recordTrace());
+        colRecordTrace.setCell(new CheckBoxCell());
+        colRecordTrace.setFixed(true);
+        colRecordTrace.setResizable(false);
+        columnConfigList.add(colRecordTrace);
 
         columnModel = new ColumnModel<Device>(columnConfigList);
 
@@ -128,7 +134,8 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
         GridEditing<Device> editing = new GridInlineEditing<Device>(grid);
         grid.getView().setShowDirtyCells(false);
-        editing.addEditor(colTrack, new CheckBox());
+        editing.addEditor(colFollow, new CheckBox());
+        editing.addEditor(colRecordTrace, new CheckBox());
 
         if (ApplicationContext.getInstance().getUser().getAdmin()) {
             settingsUsers.enable();

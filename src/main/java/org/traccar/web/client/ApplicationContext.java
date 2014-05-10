@@ -67,21 +67,39 @@ public class ApplicationContext {
         }
     }
 
-    private Set<Long> trackedDeviceIds;
-    public void trackDevice(Device device) {
-        if (trackedDeviceIds == null) {
-            trackedDeviceIds = new HashSet<Long>();
+    private Set<Long> followedDeviceIds;
+    public void follow(Device device) {
+        if (followedDeviceIds == null) {
+            followedDeviceIds = new HashSet<Long>();
         }
-        trackedDeviceIds.add(device.getId());
+        followedDeviceIds.add(device.getId());
     }
 
-    public void stopTracking(Device device) {
-        if (trackedDeviceIds != null) {
-            trackedDeviceIds.remove(device.getId());
+    public void stopFollowing(Device device) {
+        if (followedDeviceIds != null) {
+            followedDeviceIds.remove(device.getId());
         }
     }
 
-    public boolean isTracking(Device device) {
-        return trackedDeviceIds != null && trackedDeviceIds.contains(device.getId());
+    public boolean isFollowing(Device device) {
+        return followedDeviceIds != null && followedDeviceIds.contains(device.getId());
+    }
+
+    private Set<Long> recordTraceDeviceIds;
+    public void recordTrace(Device device) {
+        if (recordTraceDeviceIds == null) {
+            recordTraceDeviceIds = new HashSet<Long>();
+        }
+        recordTraceDeviceIds.add(device.getId());
+    }
+
+    public void stopRecordingTrace(Device device) {
+        if (recordTraceDeviceIds != null) {
+            recordTraceDeviceIds.remove(device.getId());
+        }
+    }
+
+    public boolean isRecordingTrace(Device device) {
+        return recordTraceDeviceIds != null && recordTraceDeviceIds.contains(device.getId());
     }
 }

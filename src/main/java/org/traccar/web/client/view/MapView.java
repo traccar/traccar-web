@@ -171,11 +171,14 @@ public class MapView {
 
         latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler);
         archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler);
+        latestPositionTrackRenderer = new MapPositionRenderer(this, null, null);
     }
 
     private final MapPositionRenderer latestPositionRenderer;
 
     private final MapPositionRenderer archivePositionRenderer;
+
+    private final MapPositionRenderer latestPositionTrackRenderer;
 
     public void showLatestPositions(List<Position> positions) {
         latestPositionRenderer.showPositions(positions);
@@ -184,6 +187,10 @@ public class MapView {
     public void showArchivePositions(List<Position> positions) {
         archivePositionRenderer.showTrack(positions, true);
         archivePositionRenderer.showPositions(positions);
+    }
+
+    public void drawLatestPositionTrace(Position position) {
+        latestPositionTrackRenderer.drawLatestPositionTrack(position);
     }
 
     public void selectDevice(Device device) {
