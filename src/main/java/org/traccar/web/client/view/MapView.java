@@ -182,7 +182,7 @@ public class MapView {
     }
 
     public void showArchivePositions(List<Position> positions) {
-        archivePositionRenderer.showTrack(positions);
+        archivePositionRenderer.showTrack(positions, true);
         archivePositionRenderer.showPositions(positions);
     }
 

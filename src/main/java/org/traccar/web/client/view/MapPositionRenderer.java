@@ -15,6 +15,7 @@
  */
 package org.traccar.web.client.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,8 @@ public class MapPositionRenderer {
     private Map<Long, Long> deviceMap = new HashMap<Long, Long>(); // Device.id -> Position.id
     private Map<Long, Position> positionMap = new HashMap<Long, Position>(); // Position.id -> Position
 
+    private List<VectorFeature> tracks = new ArrayList<VectorFeature>();
+
     private Long selectedPositionId;
     private Long selectedDeviceId;
 
@@ -131,8 +134,14 @@ public class MapPositionRenderer {
         }
     }
 
-    public void showTrack(List<Position> positions) {
-        getVectorLayer().destroyFeatures();
+    public void showTrack(List<Position> positions, boolean clearExisting) {
+        if (clearExisting) {
+            for (VectorFeature track : tracks) {
+                getVectorLayer().removeFeature(track);
+                track.destroy();
+            }
+            tracks.clear();
+        }
 
         if (!positions.isEmpty()) {
             Point[] linePoints = new Point[positions.size()];
@@ -143,7 +152,9 @@ public class MapPositionRenderer {
             }
 
             LineString lineString = new LineString(linePoints);
-            getVectorLayer().addFeature(new VectorFeature(lineString));
+            VectorFeature track = new VectorFeature(lineString);
+            getVectorLayer().addFeature(track);
+            tracks.add(track);
             //mapView.getMap().zoomToExtent(lineString.getBounds());
         }
     }
