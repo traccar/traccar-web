@@ -12,13 +12,27 @@
   </ui:with>
 
   <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="shortPropertyEditor" />
   
   <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.preferences}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.speedUnits}" labelWidth="110">
+        <form:FieldLabel text="{i18n.speedUnits}" labelWidth="160">
           <form:widget>
             <form:ComboBox ui:field="speedUnit" />
+          </form:widget>
+        </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+        <form:FieldLabel text="{i18n.timePrintInterval}" labelWidth="160">
+          <form:widget>
+            <form:NumberField editor="{shortPropertyEditor}"
+                              ui:field="timePrintInterval"
+                              allowNegative="false"
+                              allowDecimals="false"
+                              allowBlank="false"
+                              width="4" />
           </form:widget>
         </form:FieldLabel>
       </container:child>

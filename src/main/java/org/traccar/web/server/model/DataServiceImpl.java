@@ -31,10 +31,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 
 import org.traccar.web.client.model.DataService;
-import org.traccar.web.shared.model.ApplicationSettings;
-import org.traccar.web.shared.model.Device;
-import org.traccar.web.shared.model.Position;
-import org.traccar.web.shared.model.User;
+import org.traccar.web.shared.model.*;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -65,29 +62,13 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
 
-        // Create Administrator account
-        EntityManager entityManager = getServletEntityManager();
-        TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = 'admin'", User.class);
-        List<User> results = query.getResultList();
-        if (results.isEmpty()) {
-            User user = new User();
-            user.setLogin("admin");
-            user.setPassword("admin");
-            user.setAdmin(true);
-            createUser(entityManager, user);
-        }
-
-        // Set up update interval in application settings
-        if (getApplicationSettings().getUpdateInterval() == null) {
-            entityManager.getTransaction().begin();
-            try {
-                entityManager.merge(getApplicationSettings());
-                getApplicationSettings().setUpdateInterval(Short.valueOf(ApplicationSettings.DEFAULT_UPDATE_INTERVAL));
-                entityManager.getTransaction().commit();
-            } catch (RuntimeException e) {
-                entityManager.getTransaction().rollback();
-                throw e;
-            }
+        /**
+         * Perform database migrations
+         */
+        try {
+            new DBMigrations().migrate(getServletEntityManager());
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to perform DB migrations", e);
         }
     }
 

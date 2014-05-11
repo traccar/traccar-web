@@ -14,6 +14,8 @@ import javax.persistence.Table;
 public class UserSettings implements Serializable {
 
     private static final long serialVersionUID = 1;
+    public static final short DEFAULT_TIME_PRINT_INTERVAL = 10;
+
 
     @Id
     @GeneratedValue
@@ -21,6 +23,7 @@ public class UserSettings implements Serializable {
 
     public UserSettings() {
         speedUnit = SpeedUnit.knots;
+        timePrintInterval = DEFAULT_TIME_PRINT_INTERVAL;
     }
 
     public enum SpeedUnit {
@@ -40,4 +43,16 @@ public class UserSettings implements Serializable {
         return speedUnit;
     }
 
+    /**
+     * Interval of printing time on recorded trace in minutes based on position time
+     */
+    private Short timePrintInterval;
+
+    public Short getTimePrintInterval() {
+        return timePrintInterval;
+    }
+
+    public void setTimePrintInterval(Short timePrintInterval) {
+        this.timePrintInterval = timePrintInterval;
+    }
 }

@@ -17,6 +17,10 @@ package org.traccar.web.client.view;
 
 import java.util.Arrays;
 
+import com.sencha.gxt.widget.core.client.form.NumberField;
+import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
+import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
+import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
 import org.traccar.web.client.model.EnumKeyProvider;
 import org.traccar.web.client.model.UserSettingsProperties;
 import org.traccar.web.shared.model.UserSettings;
@@ -58,6 +62,12 @@ public class UserSettingsDialog implements Editor<UserSettings> {
     @UiField(provided = true)
     ComboBox<UserSettings.SpeedUnit> speedUnit;
 
+    @UiField
+    NumberField<Short> timePrintInterval;
+
+    @UiField(provided = true)
+    NumberPropertyEditor<Short> shortPropertyEditor = new NumberPropertyEditor.ShortPropertyEditor();
+
     public UserSettingsDialog(UserSettings userSettings, UserSettingsHandler userSettingsHandler) {
         this.userSettingsHandler = userSettingsHandler;
 
@@ -71,6 +81,10 @@ public class UserSettingsDialog implements Editor<UserSettings> {
         speedUnit.setTriggerAction(TriggerAction.ALL);
 
         uiBinder.createAndBindUi(this);
+
+        timePrintInterval.addValidator(new MinNumberValidator<Short>(Short.valueOf((short) 1)));
+        timePrintInterval.addValidator(new MaxNumberValidator<Short>(Short.valueOf((short) 512)));
+
         driver.initialize(this);
         driver.edit(userSettings);
     }
