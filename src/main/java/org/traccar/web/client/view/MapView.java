@@ -192,6 +192,7 @@ public class MapView {
 
     public void drawLatestPositionTrace(Position position) {
         latestPositionTrackRenderer.drawLatestPositionTrack(position);
+        latestPositionTrackRenderer.showTime(position);
     }
 
     public void selectDevice(Device device) {

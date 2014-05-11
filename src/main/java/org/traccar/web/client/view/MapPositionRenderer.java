@@ -17,6 +17,7 @@ package org.traccar.web.client.view;
 
 import java.util.*;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Marker;
 import org.gwtopenmaps.openlayers.client.event.EventHandler;
@@ -26,6 +27,7 @@ import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -97,6 +99,9 @@ public class MapPositionRenderer {
     private List<VectorFeature> tracks = new ArrayList<VectorFeature>();
     private List<VectorFeature> labels = new ArrayList<VectorFeature>();
 
+    private Map<Long, Long> timestamps = new HashMap<Long, Long>(); // Device.id -> last timestamp position id
+    private final DateTimeFormat timeFormat = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.HOUR24_MINUTE);
+
     private Long selectedPositionId;
     private Long selectedDeviceId;
 
@@ -153,6 +158,31 @@ public class MapPositionRenderer {
             final VectorFeature point = new VectorFeature(mapView.createPoint(position.getLongitude(), position.getLatitude()), st);
             getVectorLayer().addFeature(point);
             labels.add(point);
+        }
+    }
+
+    public void showTime(Position position) {
+        Device device = position.getDevice();
+        Position prevPosition = positionMap.get(timestamps.get(device.getId()));
+
+        if (prevPosition == null ||
+            (position.getTime().getTime() - prevPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
+
+            org.gwtopenmaps.openlayers.client.Style st = new org.gwtopenmaps.openlayers.client.Style();
+            st.setLabel(timeFormat.format(position.getTime()));
+            st.setLabelXOffset(0);
+            st.setLabelYOffset(12);
+            st.setLabelAlign("cb");
+            st.setFontColor("#FF4D00");
+            st.setFontSize("11");
+            st.setFill(false);
+            st.setStroke(false);
+
+            final VectorFeature point = new VectorFeature(mapView.createPoint(position.getLongitude(), position.getLatitude()), st);
+            getVectorLayer().addFeature(point);
+            labels.add(point);
+
+            timestamps.put(device.getId(), position.getId());
         }
     }
 
