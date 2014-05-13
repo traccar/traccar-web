@@ -27,7 +27,6 @@ import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
-import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -99,7 +98,6 @@ public class MapPositionRenderer {
     private List<VectorFeature> tracks = new ArrayList<VectorFeature>();
     private List<VectorFeature> labels = new ArrayList<VectorFeature>();
 
-    private Map<Long, Long> timestamps = new HashMap<Long, Long>(); // Device.id -> last timestamp position id
     private final DateTimeFormat timeFormat = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.HOUR24_MINUTE);
 
     private Long selectedPositionId;
@@ -161,13 +159,8 @@ public class MapPositionRenderer {
         }
     }
 
-    public void showTime(Position position) {
-        Device device = position.getDevice();
-        Position prevPosition = positionMap.get(timestamps.get(device.getId()));
-
-        if (prevPosition == null ||
-            (position.getTime().getTime() - prevPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
-
+    public void showTime(List<Position> positions) {
+        for (Position position : positions) {
             org.gwtopenmaps.openlayers.client.Style st = new org.gwtopenmaps.openlayers.client.Style();
             st.setLabel(timeFormat.format(position.getTime()));
             st.setLabelXOffset(0);
@@ -181,8 +174,6 @@ public class MapPositionRenderer {
             final VectorFeature point = new VectorFeature(mapView.createPoint(position.getLongitude(), position.getLatitude()), st);
             getVectorLayer().addFeature(point);
             labels.add(point);
-
-            timestamps.put(device.getId(), position.getId());
         }
     }
 
@@ -251,17 +242,12 @@ public class MapPositionRenderer {
         }
     }
 
-    public void drawLatestPositionTrack(Position position) {
-        if (deviceMap.containsKey(position.getDevice().getId())) {
-            Position prevPosition = positionMap.get(deviceMap.get(position.getDevice().getId()));
-            showTrack(Arrays.asList(prevPosition, position), false);
-
-            VectorFeature point = new VectorFeature(mapView.createPoint(prevPosition.getLongitude(), prevPosition.getLatitude()), getTrackPointStyle());
+    public void showTrackPositions(List<Position> positions) {
+        for (Position position : positions) {
+            VectorFeature point = new VectorFeature(mapView.createPoint(position.getLongitude(), position.getLatitude()), getTrackPointStyle());
             getVectorLayer().addFeature(point);
             tracks.add(point);
         }
-        deviceMap.put(position.getDevice().getId(), position.getId());
-        positionMap.put(position.getId(), position);
     }
 
     org.gwtopenmaps.openlayers.client.Style trackPointStyle;

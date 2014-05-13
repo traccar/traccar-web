@@ -15,6 +15,7 @@
  */
 package org.traccar.web.client.controller;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -68,12 +69,15 @@ public class MapController implements ContentController, MapView.MapHandler {
 
     private Map<Long, Position> latestPositionMap = new HashMap<Long, Position>();
 
+    private Map<Long, Position> timestampMap = new HashMap<Long, Position>();
+
     public void update() {
         updateTimer.cancel();
         Application.getDataService().getLatestPositions(new AsyncCallback<List<Position>>() {
             @Override
             public void onSuccess(List<Position> result) {
-                mapView.showLatestPositions(result);
+                mapView.showPositions(result);
+                mapView.showDeviceName(result);
                 for (Position position : result) {
                     Device device = position.getDevice();
                     Position prevPosition = latestPositionMap.get(device.getId());
@@ -82,7 +86,17 @@ public class MapController implements ContentController, MapView.MapHandler {
                             mapView.catchPosition(position);
                         }
                         if (ApplicationContext.getInstance().isRecordingTrace(device)) {
-                            mapView.drawLatestPositionTrace(position);
+                            mapView.showTrackPositions(Arrays.asList(prevPosition));
+                            mapView.showTrack(Arrays.asList(prevPosition, position), false);
+                        }
+                    }
+                    if (ApplicationContext.getInstance().isRecordingTrace(device)) {
+                        Position prevTimestampPosition = timestampMap.get(device.getId());
+
+                        if (prevTimestampPosition == null ||
+                            (position.getTime().getTime() - prevTimestampPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
+                            mapView.showTime(Arrays.asList(position));
+                            timestampMap.put(device.getId(), position);
                         }
                     }
                     latestPositionMap.put(device.getId(), position);
@@ -92,6 +106,7 @@ public class MapController implements ContentController, MapView.MapHandler {
                 }
                 updateTimer.schedule(ApplicationContext.getInstance().getApplicationSettings().getUpdateInterval());
             }
+
             @Override
             public void onFailure(Throwable caught) {
                 updateTimer.schedule(ApplicationContext.getInstance().getApplicationSettings().getUpdateInterval());
@@ -111,7 +126,8 @@ public class MapController implements ContentController, MapView.MapHandler {
                 return o1.getTime().compareTo(o2.getTime());
             }
         });
-        mapView.showArchivePositions(sortedPositions);
+        mapView.showTrack(sortedPositions, true);
+        mapView.showPositions(sortedPositions);
     }
 
     public void selectArchivePosition(Position position) {
