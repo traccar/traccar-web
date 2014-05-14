@@ -15,6 +15,7 @@
  */
 package org.traccar.web.server.model;
 
+import java.io.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -458,4 +459,51 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Override
+    public byte[] getTrackerServerLog() {
+        if (getSessionUser().getAdmin()) {
+            File workingFolder = new File(System.getProperty("user.dir"));
+            File logFile1 = new File(workingFolder, "logs" + File.separatorChar + "tracker-server.log");
+            File logFile2 = new File(workingFolder.getParentFile(), "logs" + File.separatorChar + "tracker-server.log");
+            File logFile3 = new File(workingFolder, "tracker-server.log");
+
+            File logFile = logFile1.exists() ? logFile1 :
+                    logFile2.exists() ? logFile2 :
+                            logFile3.exists() ? logFile3 : null;
+
+            if (logFile != null) {
+                RandomAccessFile raf = null;
+                try {
+                    raf = new RandomAccessFile(logFile, "r");
+                    int length = 0;
+                    if (raf.length() > Integer.MAX_VALUE) {
+                        length = Integer.MAX_VALUE;
+                    } else {
+                        length = (int) raf.length();
+                    }
+                    /**
+                     * Read last 5 megabytes from file
+                     */
+                    raf.seek(Math.max(0, raf.length() - 5 * 1024 * 1024));
+                    byte[] result = new byte[Math.min(length, 5 * 1024 * 1024)];
+                    raf.read(result);
+                    return result;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    try {
+                        raf.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            return ("Tracker server log is not available. Looked at " + logFile1.getAbsolutePath() +
+                    ", " + logFile2.getAbsolutePath() +
+                    ", " + logFile3.getAbsolutePath()).getBytes();
+        }
+
+        return new byte[] {};
+    }
 }

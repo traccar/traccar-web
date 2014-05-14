@@ -95,6 +95,9 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @UiField
     MenuItem settingsGlobal;
 
+    @UiField
+    MenuItem showTrackerServerLog;
+
     @UiField(provided = true)
     Messages i18n = GWT.create(Messages.class);
 
@@ -140,6 +143,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         if (ApplicationContext.getInstance().getUser().getAdmin()) {
             settingsUsers.enable();
             settingsGlobal.enable();
+            showTrackerServerLog.enable();
         }
     }
 
@@ -213,4 +217,8 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         settingsHandler.onApplicationSelected();
     }
 
+    @UiHandler("showTrackerServerLog")
+    public void onShowTrackerServerLog(SelectionEvent<Item> event) {
+        new TrackerServerLogViewDialog().show();
+    }
 }

@@ -42,6 +42,7 @@
                 <menu:MenuItem text="{i18n.preferences}" ui:field="settingsPreferences" />
                 <menu:MenuItem text="{i18n.users}" ui:field="settingsUsers" enabled="false" />
                 <menu:MenuItem text="{i18n.global}" ui:field="settingsGlobal" enabled="false" />
+                <menu:MenuItem text="{i18n.trackerServerLog}" ui:field="showTrackerServerLog" enabled="false" />
               </menu:Menu>
             </button:menu>
           </button:TextButton>

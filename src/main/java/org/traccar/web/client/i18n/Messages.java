@@ -129,4 +129,10 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String recordTrace();
 
     String timePrintInterval();
+
+    String trackerServerLog();
+
+    String refresh();
+
+    String close();
 }

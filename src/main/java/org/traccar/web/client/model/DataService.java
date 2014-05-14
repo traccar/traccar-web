@@ -59,4 +59,5 @@ public interface DataService extends RemoteService {
 
     ApplicationSettings updateApplicationSettings(ApplicationSettings applicationSettings);
 
+    byte[] getTrackerServerLog();
 }
