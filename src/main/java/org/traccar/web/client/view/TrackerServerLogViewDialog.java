@@ -22,7 +22,11 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
+import com.sencha.gxt.widget.core.client.form.NumberField;
+import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
 import com.sencha.gxt.widget.core.client.form.TextArea;
+import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
+import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
@@ -40,18 +44,30 @@ public class TrackerServerLogViewDialog {
     TextArea logArea;
 
     @UiField(provided = true)
+    NumberPropertyEditor<Short> shortPropertyEditor = new NumberPropertyEditor.ShortPropertyEditor();
+
+    @UiField
+    NumberField<Short> logSize;
+
+    @UiField(provided = true)
     Messages i18n = GWT.create(Messages.class);
 
     public TrackerServerLogViewDialog() {
         uiBinder.createAndBindUi(this);
+
+        logSize.addValidator(new MinNumberValidator<Short>((short) 1));
+        logSize.addValidator(new MaxNumberValidator<Short>((short) 16384));
+
+        logSize.setValue((short) 100);
+
         refresh();
     }
 
     private void refresh() {
-        Application.getDataService().getTrackerServerLog(new BaseAsyncCallback<byte[]>(i18n) {
+        Application.getDataService().getTrackerServerLog(logSize.getValue(), new BaseAsyncCallback<String>(i18n) {
             @Override
-            public void onSuccess(byte[] result) {
-                logArea.setText(new String(result));
+            public void onSuccess(String result) {
+                logArea.setText(result);
             }
         });
     }

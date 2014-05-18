@@ -460,7 +460,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public byte[] getTrackerServerLog() {
+    public String getTrackerServerLog(short sizeKB) {
         if (getSessionUser().getAdmin()) {
             File workingFolder = new File(System.getProperty("user.dir"));
             File logFile1 = new File(workingFolder, "logs" + File.separatorChar + "tracker-server.log");
@@ -484,10 +484,10 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                     /**
                      * Read last 5 megabytes from file
                      */
-                    raf.seek(Math.max(0, raf.length() - 5 * 1024 * 1024));
-                    byte[] result = new byte[Math.min(length, 5 * 1024 * 1024)];
+                    raf.seek(Math.max(0, raf.length() - sizeKB * 1024));
+                    byte[] result = new byte[Math.min(length, sizeKB * 1024)];
                     raf.read(result);
-                    return result;
+                    return new String(result);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } finally {
@@ -501,9 +501,9 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
             return ("Tracker server log is not available. Looked at " + logFile1.getAbsolutePath() +
                     ", " + logFile2.getAbsolutePath() +
-                    ", " + logFile3.getAbsolutePath()).getBytes();
+                    ", " + logFile3.getAbsolutePath());
         }
 
-        return new byte[] {};
+        return "";
     }
 }

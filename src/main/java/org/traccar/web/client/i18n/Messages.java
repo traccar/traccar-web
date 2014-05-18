@@ -135,4 +135,6 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String refresh();
 
     String close();
+
+    String logSize();
 }

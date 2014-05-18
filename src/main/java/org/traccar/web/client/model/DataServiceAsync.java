@@ -57,5 +57,5 @@ public interface DataServiceAsync {
 
     void updateApplicationSettings(ApplicationSettings applicationSettings, AsyncCallback<ApplicationSettings> callback);
 
-    void getTrackerServerLog(AsyncCallback<byte[]> async);
+    void getTrackerServerLog(short sizeKB, AsyncCallback<String> async);
 }
