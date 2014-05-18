@@ -180,7 +180,7 @@ public class MapView {
 
     private final MapPositionRenderer latestPositionTrackRenderer;
 
-    public void showPositions(List<Position> positions) {
+    public void showLatestPositions(List<Position> positions) {
         latestPositionRenderer.showPositions(positions);
     }
 
@@ -188,16 +188,28 @@ public class MapView {
         latestPositionRenderer.showDeviceName(positions);
     }
 
-    public void showTrackPositions(List<Position> positions) {
+    public void showLatestTrackPositions(List<Position> positions) {
         latestPositionTrackRenderer.showTrackPositions(positions);
     }
 
-    public void showTime(List<Position> positions) {
-        latestPositionTrackRenderer.showTime(positions);
+    public void showLatestTime(List<Position> positions) {
+        latestPositionTrackRenderer.showTime(positions, true, false);
     }
 
-    public void showTrack(List<Position> positions, boolean clearExisting) {
-        latestPositionTrackRenderer.showTrack(positions, clearExisting);
+    public void showLatestTrack(List<Position> positions) {
+        latestPositionTrackRenderer.showTrack(positions, false);
+    }
+
+    public void showArchiveTrack(List<Position> positions) {
+        archivePositionRenderer.showTrack(positions, true);
+    }
+
+    public void showArchivePositions(List<Position> positions) {
+        archivePositionRenderer.showPositions(positions);
+    }
+
+    public void showArchiveTime(List<Position> positions) {
+        archivePositionRenderer.showTime(positions, false, true);
     }
 
     public void selectDevice(Device device) {

@@ -159,12 +159,20 @@ public class MapPositionRenderer {
         }
     }
 
-    public void showTime(List<Position> positions) {
+    public void showTime(List<Position> positions, boolean abovePoint, boolean clearExisting) {
+        if (clearExisting) {
+            for (VectorFeature label : labels) {
+                getVectorLayer().removeFeature(label);
+                label.destroy();
+            }
+            labels.clear();
+        }
+
         for (Position position : positions) {
             org.gwtopenmaps.openlayers.client.Style st = new org.gwtopenmaps.openlayers.client.Style();
             st.setLabel(timeFormat.format(position.getTime()));
             st.setLabelXOffset(0);
-            st.setLabelYOffset(12);
+            st.setLabelYOffset(abovePoint ? 12 : -12);
             st.setLabelAlign("cb");
             st.setFontColor("#FF4D00");
             st.setFontSize("11");

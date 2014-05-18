@@ -15,6 +15,7 @@
  */
 package org.traccar.web.client.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -76,7 +77,7 @@ public class MapController implements ContentController, MapView.MapHandler {
         Application.getDataService().getLatestPositions(new AsyncCallback<List<Position>>() {
             @Override
             public void onSuccess(List<Position> result) {
-                mapView.showPositions(result);
+                mapView.showLatestPositions(result);
                 mapView.showDeviceName(result);
                 for (Position position : result) {
                     Device device = position.getDevice();
@@ -86,8 +87,8 @@ public class MapController implements ContentController, MapView.MapHandler {
                             mapView.catchPosition(position);
                         }
                         if (ApplicationContext.getInstance().isRecordingTrace(device)) {
-                            mapView.showTrackPositions(Arrays.asList(prevPosition));
-                            mapView.showTrack(Arrays.asList(prevPosition, position), false);
+                            mapView.showLatestTrackPositions(Arrays.asList(prevPosition));
+                            mapView.showLatestTrack(Arrays.asList(prevPosition, position));
                         }
                     }
                     if (ApplicationContext.getInstance().isRecordingTrace(device)) {
@@ -95,7 +96,7 @@ public class MapController implements ContentController, MapView.MapHandler {
 
                         if (prevTimestampPosition == null ||
                             (position.getTime().getTime() - prevTimestampPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
-                            mapView.showTime(Arrays.asList(position));
+                            mapView.showLatestTime(Arrays.asList(position));
                             timestampMap.put(device.getId(), position);
                         }
                     }
@@ -126,8 +127,18 @@ public class MapController implements ContentController, MapView.MapHandler {
                 return o1.getTime().compareTo(o2.getTime());
             }
         });
-        mapView.showTrack(sortedPositions, true);
-        mapView.showPositions(sortedPositions);
+        mapView.showArchiveTrack(sortedPositions);
+        mapView.showArchivePositions(sortedPositions);
+        List<Position> withTime = new ArrayList<Position>();
+        long prevTime = -1;
+        for (Position position : positions) {
+            if (prevTime < 0 ||
+                (position.getTime().getTime() - prevTime >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
+                withTime.add(position);
+                prevTime = position.getTime().getTime();
+            }
+        }
+        mapView.showArchiveTime(withTime);
     }
 
     public void selectArchivePosition(Position position) {
