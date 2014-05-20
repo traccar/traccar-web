@@ -53,7 +53,7 @@ public interface DataService extends RemoteService {
 
     Device removeDevice(Device device);
 
-    List<Position> getPositions(Device device, Date from, Date to);
+    List<Position> getPositions(Device device, Date from, Date to, String speedModifier, Double speed);
 
     List<Position> getLatestPositions();
 

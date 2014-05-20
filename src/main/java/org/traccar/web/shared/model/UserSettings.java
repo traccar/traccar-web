@@ -24,9 +24,29 @@ public class UserSettings implements Serializable {
     }
 
     public enum SpeedUnit {
-        knots,
-        kilometersPerHour,
-        milesPerHour
+        knots("kn", 1d),
+        kilometersPerHour("km/h", 1.852),
+        milesPerHour("mph", 1.150779);
+
+        final String unit;
+        final double factor;
+
+        SpeedUnit(String unit, double factor) {
+            this.unit = unit;
+            this.factor = factor;
+        }
+
+        public double getFactor() {
+            return factor;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public double toKnots(double speed) {
+            return speed / factor;
+        }
     }
 
     @Enumerated(EnumType.STRING)

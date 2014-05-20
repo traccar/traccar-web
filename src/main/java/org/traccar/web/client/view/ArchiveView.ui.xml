@@ -23,6 +23,8 @@
     <ui:attributes stripeRows="true" autoFill="true" />
   </ui:with>
 
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="doublePropertyEditor" />
+
   <gxt:ContentPanel ui:field="contentPanel" headingText="Archive">
     <container:VerticalLayoutContainer>
 
@@ -43,6 +45,16 @@
           <form:DateField width="125" ui:field="toDate" />
           <toolbar:LabelToolItem width="5" />
           <form:TimeField width="75" ui:field="toTime" triggerAction="ALL" />
+          <toolbar:LabelToolItem label="Speed is" />
+          <form:ComboBox ui:field="speedModifierCombo" editable="false" allowTextSelection="false" allowBlank="false" width="40" triggerAction="ALL" />
+          <form:NumberField editor="{doublePropertyEditor}"
+                            ui:field="speed"
+                            allowNegative="false"
+                            allowDecimals="true"
+                            allowBlank="true"
+                            width="64" />
+          <toolbar:LabelToolItem ui:field="speedUnits" />
+
           <toolbar:SeparatorToolItem />
 
           <button:TextButton ui:field="loadButton" text="Load" />

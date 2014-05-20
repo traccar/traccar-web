@@ -3,6 +3,7 @@ package org.traccar.web.client;
 import com.google.gwt.i18n.client.CurrencyList;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
+import org.traccar.web.shared.model.UserSettings;
 
 public class FormatterUtil {
 
@@ -12,31 +13,21 @@ public class FormatterUtil {
 
     private class SpeedNumberFormat extends NumberFormat {
 
-        private final String unit;
-        private final double factor;
+        private final UserSettings.SpeedUnit speedUnit;
 
-        public SpeedNumberFormat(String unit, double factor) {
+        public SpeedNumberFormat(UserSettings.SpeedUnit speedUnit) {
             super("0.##", CurrencyList.get().getDefault(), true);
-            this.unit = unit;
-            this.factor = factor;
+            this.speedUnit = speedUnit;
         }
 
         @Override
         public String format(double number) {
-            return super.format(number * factor) + " " + unit;
+            return super.format(number * speedUnit.getFactor()) + " " + speedUnit.getUnit();
         }
 
     }
 
     public NumberFormat getSpeedFormat() {
-        switch (ApplicationContext.getInstance().getUserSettings().getSpeedUnit()) {
-        case kilometersPerHour:
-            return new SpeedNumberFormat("km/h", 1.852);
-        case milesPerHour:
-            return new SpeedNumberFormat("mph", 1.150779);
-        default:
-            return new SpeedNumberFormat("kn", 1);
-        }
+        return new SpeedNumberFormat(ApplicationContext.getInstance().getUserSettings().getSpeedUnit());
     }
-
 }
