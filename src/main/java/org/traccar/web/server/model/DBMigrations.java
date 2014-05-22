@@ -28,7 +28,9 @@ public class DBMigrations {
         for (Migration migration : new Migration[] {
                 new CreateAdmin(),
                 new SetUpdateInterval(),
-                new SetTimePrintInterval()
+                new SetTimePrintInterval(),
+                new SetDefaultMapViewSettings()
+
         }) {
             em.getTransaction().begin();
             try {
@@ -83,6 +85,20 @@ public class DBMigrations {
         public void migrate(EntityManager em) throws Exception {
             em.createQuery("UPDATE " + UserSettings.class.getSimpleName() + " S SET S.timePrintInterval = :tpi WHERE S.timePrintInterval IS NULL")
                     .setParameter("tpi", UserSettings.DEFAULT_TIME_PRINT_INTERVAL)
+                    .executeUpdate();
+        }
+    }
+
+    /**
+     * set up default map view settings
+     */
+    static class SetDefaultMapViewSettings implements Migration {
+        @Override
+        public void migrate(EntityManager em) throws Exception {
+            em.createQuery("UPDATE " + UserSettings.class.getSimpleName() + " S SET S.zoomLevel = :zl, S.centerLongitude = :lon, S.centerLatitude = :lat WHERE S.zoomLevel IS NULL")
+                    .setParameter("zl", UserSettings.DEFAULT_ZOOM_LEVEL)
+                    .setParameter("lon", UserSettings.DEFAULT_CENTER_LONGITUDE)
+                    .setParameter("lat", UserSettings.DEFAULT_CENTER_LATITUDE)
                     .executeUpdate();
         }
     }

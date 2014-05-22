@@ -33,6 +33,7 @@ import org.traccar.web.shared.model.Position;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import org.traccar.web.shared.model.UserSettings;
 
 public class MapController implements ContentController, MapView.MapHandler {
 
@@ -48,11 +49,16 @@ public class MapController implements ContentController, MapView.MapHandler {
     public MapController(MapHandler mapHandler) {
         this.mapHandler = mapHandler;
         mapView = new MapView(this);
+        loadMapSettings();
     }
 
     @Override
     public ContentPanel getView() {
         return mapView.getView();
+    }
+
+    public org.gwtopenmaps.openlayers.client.Map getMap() {
+        return mapView.getMap();
     }
 
     private Timer updateTimer;
@@ -95,7 +101,7 @@ public class MapController implements ContentController, MapView.MapHandler {
                         Position prevTimestampPosition = timestampMap.get(device.getId());
 
                         if (prevTimestampPosition == null ||
-                            (position.getTime().getTime() - prevTimestampPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
+                                (position.getTime().getTime() - prevTimestampPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
                             mapView.showLatestTime(Arrays.asList(position));
                             timestampMap.put(device.getId(), position);
                         }
@@ -171,4 +177,8 @@ public class MapController implements ContentController, MapView.MapHandler {
         mapHandler.onArchivePositionSelected(position);
     }
 
+    public void loadMapSettings() {
+        UserSettings userSettings = ApplicationContext.getInstance().getUserSettings();
+        mapView.getMap().setCenter(mapView.createLonLat(userSettings.getCenterLongitude(), userSettings.getCenterLatitude()), userSettings.getZoomLevel());
+    }
 }

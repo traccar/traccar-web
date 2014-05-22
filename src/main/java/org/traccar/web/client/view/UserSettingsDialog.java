@@ -21,6 +21,7 @@ import com.sencha.gxt.widget.core.client.form.NumberField;
 import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
 import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
 import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.EnumKeyProvider;
 import org.traccar.web.client.model.UserSettingsProperties;
 import org.traccar.web.shared.model.UserSettings;
@@ -52,6 +53,9 @@ public class UserSettingsDialog implements Editor<UserSettings> {
 
     public interface UserSettingsHandler {
         public void onSave(UserSettings userSettings);
+        public void onTakeCurrentMapState(NumberField<Double> centerLongitude,
+                                          NumberField<Double> centerLatitude,
+                                          NumberField<Integer> zoomLevel);
     }
 
     private UserSettingsHandler userSettingsHandler;
@@ -67,6 +71,24 @@ public class UserSettingsDialog implements Editor<UserSettings> {
 
     @UiField(provided = true)
     NumberPropertyEditor<Short> shortPropertyEditor = new NumberPropertyEditor.ShortPropertyEditor();
+
+    @UiField(provided = true)
+    NumberPropertyEditor<Integer> integerPropertyEditor = new NumberPropertyEditor.IntegerPropertyEditor();
+
+    @UiField(provided = true)
+    NumberPropertyEditor<Double> doublePropertyEditor = new NumberPropertyEditor.DoublePropertyEditor();
+
+    @UiField
+    NumberField<Double> centerLongitude;
+
+    @UiField
+    NumberField<Double> centerLatitude;
+
+    @UiField
+    NumberField<Integer> zoomLevel;
+
+    @UiField(provided = true)
+    Messages i18n = GWT.create(Messages.class);
 
     public UserSettingsDialog(UserSettings userSettings, UserSettingsHandler userSettingsHandler) {
         this.userSettingsHandler = userSettingsHandler;
@@ -108,4 +130,8 @@ public class UserSettingsDialog implements Editor<UserSettings> {
         window.hide();
     }
 
+    @UiHandler("takeFromMapButton")
+    public void onSaveDefaultMapSateClicked(SelectEvent event) {
+        userSettingsHandler.onTakeCurrentMapState(centerLongitude, centerLatitude, zoomLevel);
+    }
 }

@@ -22,14 +22,9 @@ import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.UserProperties;
-import org.traccar.web.client.view.ApplicationSettingsDialog;
-import org.traccar.web.client.view.DeviceView;
-import org.traccar.web.client.view.UserDialog;
-import org.traccar.web.client.view.UserSettingsDialog;
-import org.traccar.web.client.view.UsersDialog;
+import org.traccar.web.client.view.*;
 import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.User;
-import org.traccar.web.shared.model.UserSettings;
 
 import com.google.gwt.core.client.GWT;
 import com.sencha.gxt.data.shared.ListStore;
@@ -37,11 +32,15 @@ import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
-import com.sencha.gxt.widget.core.client.event.HideEvent;
 
 public class SettingsController implements DeviceView.SettingsHandler {
 
     private Messages i18n = GWT.create(Messages.class);
+    private final UserSettingsDialog.UserSettingsHandler userSettingsHandler;
+
+    public SettingsController(UserSettingsDialog.UserSettingsHandler userSettingsHandler) {
+        this.userSettingsHandler = userSettingsHandler;
+    }
 
     @Override
     public void onAccountSelected() {
@@ -62,21 +61,7 @@ public class SettingsController implements DeviceView.SettingsHandler {
 
     @Override
     public void onPreferencesSelected() {
-        new UserSettingsDialog(
-                ApplicationContext.getInstance().getUserSettings(),
-                new UserSettingsDialog.UserSettingsHandler() {
-                    @Override
-                    public void onSave(UserSettings userSettings) {
-                        ApplicationContext.getInstance().setUserSettings(userSettings);
-                        User user = ApplicationContext.getInstance().getUser();
-                        Application.getDataService().updateUser(user, new BaseAsyncCallback<User>(i18n) {
-                            @Override
-                            public void onSuccess(User result) {
-                                ApplicationContext.getInstance().setUser(result);
-                            }
-                        });
-                    }
-                }).show();
+        new UserSettingsDialog(ApplicationContext.getInstance().getUserSettings(), userSettingsHandler).show();
     }
 
     @Override

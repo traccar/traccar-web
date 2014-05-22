@@ -16,6 +16,9 @@ public class UserSettings implements Serializable {
     private static final long serialVersionUID = 1;
     public static final short DEFAULT_TIME_PRINT_INTERVAL = 10;
 
+    public static final int DEFAULT_ZOOM_LEVEL = 1;
+    public static final double DEFAULT_CENTER_LONGITUDE = 12.5;
+    public static final double DEFAULT_CENTER_LATITUDE = 41.9;
 
     @Id
     @GeneratedValue
@@ -24,6 +27,9 @@ public class UserSettings implements Serializable {
     public UserSettings() {
         speedUnit = SpeedUnit.knots;
         timePrintInterval = DEFAULT_TIME_PRINT_INTERVAL;
+        zoomLevel = DEFAULT_ZOOM_LEVEL;
+        centerLongitude = DEFAULT_CENTER_LONGITUDE;
+        centerLatitude = DEFAULT_CENTER_LATITUDE;
     }
 
     public enum SpeedUnit {
@@ -54,5 +60,33 @@ public class UserSettings implements Serializable {
 
     public void setTimePrintInterval(Short timePrintInterval) {
         this.timePrintInterval = timePrintInterval;
+    }
+
+    private Integer zoomLevel;
+    private Double centerLongitude;
+    private Double centerLatitude;
+
+    public Integer getZoomLevel() {
+        return zoomLevel;
+    }
+
+    public void setZoomLevel(Integer zoomLevel) {
+        this.zoomLevel = zoomLevel;
+    }
+
+    public Double getCenterLongitude() {
+        return centerLongitude;
+    }
+
+    public void setCenterLongitude(Double centerLongitude) {
+        this.centerLongitude = centerLongitude;
+    }
+
+    public Double getCenterLatitude() {
+        return centerLatitude;
+    }
+
+    public void setCenterLatitude(Double centerLatitude) {
+        this.centerLatitude = centerLatitude;
     }
 }

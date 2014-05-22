@@ -152,7 +152,6 @@ public class MapView {
 
         map.addControl(new LayerSwitcher());
         map.addControl(new ScaleLine());
-        map.setCenter(createLonLat(12.5, 41.9), 1);
 
         contentPanel.add(mapWidget);
 

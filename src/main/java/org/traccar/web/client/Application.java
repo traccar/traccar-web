@@ -17,15 +17,21 @@ package org.traccar.web.client;
 
 import java.util.logging.Logger;
 
+import com.sencha.gxt.widget.core.client.form.NumberField;
+import org.gwtopenmaps.openlayers.client.LonLat;
+import org.gwtopenmaps.openlayers.client.Projection;
 import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
 import org.traccar.web.client.controller.SettingsController;
 import org.traccar.web.client.controller.StateController;
+import org.traccar.web.client.i18n.Messages;
+import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.BaseStoreHandlers;
 import org.traccar.web.client.model.DataService;
 import org.traccar.web.client.model.DataServiceAsync;
 import org.traccar.web.client.view.ApplicationView;
+import org.traccar.web.client.view.UserSettingsDialog;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -34,10 +40,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.sencha.gxt.data.shared.event.StoreAddEvent;
 import com.sencha.gxt.data.shared.event.StoreHandlers;
 import com.sencha.gxt.data.shared.event.StoreRemoveEvent;
+import org.traccar.web.shared.model.User;
+import org.traccar.web.shared.model.UserSettings;
 
 public class Application {
 
     private static final DataServiceAsync dataService = GWT.create(DataService.class);
+    private final static Messages i18n = GWT.create(Messages.class);
 
     public static DataServiceAsync getDataService() {
         return dataService;
@@ -58,7 +67,7 @@ public class Application {
     private ApplicationView view;
 
     public Application() {
-        settingsController = new SettingsController();
+        settingsController = new SettingsController(userSettingsHandler);
         deviceController = new DeviceController(deviceHandler, settingsController);
         deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
         stateController = new StateController();
@@ -152,4 +161,26 @@ public class Application {
 
     };
 
+    private UserSettingsDialog.UserSettingsHandler userSettingsHandler = new UserSettingsDialog.UserSettingsHandler() {
+        @Override
+        public void onSave(UserSettings userSettings) {
+            ApplicationContext.getInstance().setUserSettings(userSettings);
+            User user = ApplicationContext.getInstance().getUser();
+            Application.getDataService().updateUser(user, new BaseAsyncCallback<User>(i18n) {
+                @Override
+                public void onSuccess(User result) {
+                    ApplicationContext.getInstance().setUser(result);
+                }
+            });
+        }
+
+        @Override
+        public void onTakeCurrentMapState(NumberField<Double> centerLongitude, NumberField<Double> centerLatitude, NumberField<Integer> zoomLevel) {
+            LonLat center = mapController.getMap().getCenter();
+            center.transform(mapController.getMap().getProjection(), new Projection("EPSG:4326").getProjectionCode());
+            centerLongitude.setValue(center.lon());
+            centerLatitude.setValue(center.lat());
+            zoomLevel.setValue(mapController.getMap().getZoom());
+        }
+    };
 }

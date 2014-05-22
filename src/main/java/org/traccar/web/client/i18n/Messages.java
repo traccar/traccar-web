@@ -137,4 +137,10 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String close();
 
     String logSize();
+
+    String defaultMapState();
+
+    String zoom();
+
+    String takeFromMap();
 }

@@ -11,11 +11,19 @@
     <ui:attributes width="1" height="-1" />
   </ui:with>
 
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="horizontalLayoutData">
+    <ui:attributes width="-1" height="-1" />
+  </ui:with>
+
   <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
 
   <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="shortPropertyEditor" />
-  
-  <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.preferences}" focusWidget="{saveButton}">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="integerPropertyEditor" />
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="doublePropertyEditor" />
+
+  <gxt:Window ui:field="window" pixelSize="300, 255" modal="true" headingText="{i18n.preferences}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
         <form:FieldLabel text="{i18n.speedUnits}" labelWidth="160">
@@ -35,6 +43,48 @@
                               width="4" />
           </form:widget>
         </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+          <gxt:FramedPanel headingText="{i18n.defaultMapState}">
+              <container:VerticalLayoutContainer>
+                  <container:child layoutData="{verticalLayoutData}">
+                      <form:FieldLabel text="{i18n.longitude}">
+                          <form:widget>
+                              <form:NumberField editor="{doublePropertyEditor}"
+                                                ui:field="centerLongitude"
+                                                allowNegative="true"
+                                                allowDecimals="true"
+                                                allowBlank="false"/>
+                          </form:widget>
+                      </form:FieldLabel>
+                  </container:child>
+                  <container:child layoutData="{verticalLayoutData}">
+                      <form:FieldLabel text="{i18n.latitude}">
+                          <form:widget>
+                              <form:NumberField editor="{doublePropertyEditor}"
+                                                ui:field="centerLatitude"
+                                                allowNegative="true"
+                                                allowDecimals="true"
+                                                allowBlank="false"/>
+                          </form:widget>
+                      </form:FieldLabel>
+                  </container:child>
+                  <container:child layoutData="{verticalLayoutData}">
+                      <form:FieldLabel text="{i18n.zoom}">
+                          <form:widget>
+                              <form:NumberField editor="{shortPropertyEditor}"
+                                                ui:field="zoomLevel"
+                                                allowNegative="false"
+                                                allowDecimals="false"
+                                                allowBlank="false" />
+                          </form:widget>
+                      </form:FieldLabel>
+                  </container:child>
+                  <container:child layoutData="{horizontalLayoutData}">
+                      <button:TextButton ui:field="takeFromMapButton" text="{i18n.takeFromMap}" />
+                  </container:child>
+              </container:VerticalLayoutContainer>
+          </gxt:FramedPanel>
       </container:child>
     </container:VerticalLayoutContainer>
       
