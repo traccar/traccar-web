@@ -19,6 +19,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sencha.gxt.data.shared.StringLabelProvider;
+import com.sencha.gxt.widget.core.client.form.*;
+import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
+import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
+import com.sencha.gxt.widget.core.client.toolbar.LabelToolItem;
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseStoreHandlers;
@@ -39,9 +44,6 @@ import com.sencha.gxt.data.shared.ListStore;
 import com.sencha.gxt.data.shared.event.StoreHandlers;
 import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
-import com.sencha.gxt.widget.core.client.form.ComboBox;
-import com.sencha.gxt.widget.core.client.form.DateField;
-import com.sencha.gxt.widget.core.client.form.TimeField;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
@@ -56,7 +58,7 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
     public interface ArchiveHandler {
         public void onSelected(Position position);
-        public void onLoad(Device device, Date from, Date to);
+        public void onLoad(Device device, Date from, Date to, String speedModifier, Double speed);
         public void onClear();
     }
 
@@ -91,6 +93,18 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
     @UiField(provided = true)
     ListStore<Position> positionStore;
+
+    @UiField(provided = true)
+    SimpleComboBox<String> speedModifierCombo;
+
+    @UiField(provided = true)
+    NumberPropertyEditor<Double> doublePropertyEditor = new NumberPropertyEditor.DoublePropertyEditor();
+
+    @UiField
+    NumberField<Double> speed;
+
+    @UiField
+    LabelToolItem speedUnits;
 
     @UiField
     Grid<Position> grid;
@@ -130,7 +144,20 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
         columnModel = new ColumnModel<Position>(columnConfigList);
 
+        speedModifierCombo = new SimpleComboBox<String>(new StringLabelProvider<String>());
+        speedModifierCombo.add("<");
+        speedModifierCombo.add("<=");
+        speedModifierCombo.add("=");
+        speedModifierCombo.add(">=");
+        speedModifierCombo.add(">");
+        speedModifierCombo.select(3);
+
         uiBinder.createAndBindUi(this);
+
+        speedUnits.setLabel(ApplicationContext.getInstance().getUserSettings().getSpeedUnit().getUnit());
+
+        speed.addValidator(new MinNumberValidator<Double>(0d));
+        speed.addValidator(new MaxNumberValidator<Double>(30000d));
 
         grid.getSelectionModel().addSelectionChangedHandler(this);
         grid.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -173,7 +200,9 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
         archiveHandler.onLoad(
                 deviceCombo.getValue(),
                 getCombineDate(fromDate, fromTime),
-                getCombineDate(toDate, toTime));
+                getCombineDate(toDate, toTime),
+                speedModifierCombo.getText(),
+                speed.getValue());
     }
 
     @UiHandler("clearButton")

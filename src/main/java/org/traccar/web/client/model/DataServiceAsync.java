@@ -53,7 +53,7 @@ public interface DataServiceAsync {
 
     void getLatestPositions(AsyncCallback<List<Position>> callback);
 
-    void getPositions(Device device, Date from, Date to, AsyncCallback<List<Position>> callback);
+    void getPositions(Device device, Date from, Date to, String speedModifier, Double speed, AsyncCallback<List<Position>> callback);
 
     void updateApplicationSettings(ApplicationSettings applicationSettings, AsyncCallback<ApplicationSettings> callback);
 

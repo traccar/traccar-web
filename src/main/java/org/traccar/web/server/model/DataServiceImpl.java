@@ -376,15 +376,18 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     }
 
     @Override
-    public List<Position> getPositions(Device device, Date from, Date to) {
+    public List<Position> getPositions(Device device, Date from, Date to, String speedModifier, Double speed) {
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
             List<Position> positions = new LinkedList<Position>();
             TypedQuery<Position> query = entityManager.createQuery(
-                    "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to", Position.class);
+                    "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to" + (speed == null ? "" : " AND speed " + speedModifier + " :speed"), Position.class);
             query.setParameter("device", device);
             query.setParameter("from", from);
             query.setParameter("to", to);
+            if (speed != null) {
+                query.setParameter("speed", getSessionUser().getUserSettings().getSpeedUnit().toKnots(speed));
+            }
             positions.addAll(query.getResultList());
             return positions;
         }
