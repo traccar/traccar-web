@@ -150,7 +150,7 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
         speedModifierCombo.add("=");
         speedModifierCombo.add(">=");
         speedModifierCombo.add(">");
-        speedModifierCombo.select(3);
+        speedModifierCombo.setValue(">=");
 
         uiBinder.createAndBindUi(this);
 
@@ -217,6 +217,8 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
             Device oldDevice = deviceCombo.getValue();
             if (oldDevice != null) {
                 deviceCombo.setValue(deviceStore.findModel(oldDevice));
+            } else if (deviceStore.size() == 1) {
+                deviceCombo.setValue(deviceStore.get(0));
             }
         }
 
