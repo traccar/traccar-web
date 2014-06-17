@@ -65,6 +65,7 @@ public class MapPositionRenderer {
                 @Override
                 public void onHandle(EventObject eventObject) {
                     selectHandler.onSelected(position);
+                    new PositionInfoPopup(position).show(mapView);
                 }
             });
             marker.getEvents().register("mouseover", marker, new EventHandler() {
