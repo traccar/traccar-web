@@ -7,18 +7,5 @@
   	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form"
   	xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
 
-  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
-    <ui:attributes width="1" height="1" />
-  </ui:with>
-
   <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
-
-  <gxt:Popup ui:field="popup" pixelSize="100, 150">
-    <container:VerticalLayoutContainer>
-      <container:child layoutData="{verticalLayoutData}">
-        <g:FlexTable ui:field="positionInfo"/>
-      </container:child>
-    </container:VerticalLayoutContainer>
-  </gxt:Popup>
-
 </ui:UiBinder>
