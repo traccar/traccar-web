@@ -168,9 +168,9 @@ public class MapView {
             }
         });
 
-        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler);
-        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler);
-        latestPositionTrackRenderer = new MapPositionRenderer(this, null, null);
+        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler, positionMouseHandler);
+        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler, positionMouseHandler);
+        latestPositionTrackRenderer = new MapPositionRenderer(this, null, null, null);
     }
 
     private final MapPositionRenderer latestPositionRenderer;
@@ -226,6 +226,20 @@ public class MapView {
             mapHandler.onPositionSelected(position);
         }
 
+    };
+
+    private MapPositionRenderer.MouseHandler positionMouseHandler = new MapPositionRenderer.MouseHandler() {
+        PositionInfoPopup popup = new PositionInfoPopup(MapView.this);
+
+        @Override
+        public void onMouseOver(Position position) {
+            popup.show(position);
+        }
+
+        @Override
+        public void onMouseOut(Position position) {
+            popup.hide();
+        }
     };
 
     private MapPositionRenderer.SelectHandler archivePositionSelectHandler = new MapPositionRenderer.SelectHandler() {

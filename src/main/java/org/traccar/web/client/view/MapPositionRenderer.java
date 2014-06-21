@@ -30,14 +30,15 @@ import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.RootPanel;
-
-
 public class MapPositionRenderer {
 
     public interface SelectHandler {
         public void onSelected(Position position);
+    }
+
+    public interface MouseHandler {
+        public void onMouseOver(Position position);
+        public void onMouseOut(Position position);
     }
 
     private final MapView mapView;
@@ -51,12 +52,14 @@ public class MapPositionRenderer {
         return mapView.getMarkerLayer();
     }
 
-    private SelectHandler selectHandler;
+    private final SelectHandler selectHandler;
+    private final MouseHandler mouseHandler;
 
-    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType, SelectHandler selectHandler) {
+    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType, SelectHandler selectHandler, MouseHandler mouseHandler) {
         this.mapView = mapView;
         this.iconType = iconType;
         this.selectHandler = selectHandler;
+        this.mouseHandler = mouseHandler;
     }
 
     private void addSelectEvent(Marker marker, final Position position) {
@@ -65,19 +68,23 @@ public class MapPositionRenderer {
                 @Override
                 public void onHandle(EventObject eventObject) {
                     selectHandler.onSelected(position);
-                    new PositionInfoPopup(position).show(mapView);
                 }
             });
+        }
+    }
+
+    private void addMouseEvent(final Marker marker, final Position position) {
+        if (mouseHandler != null) {
             marker.getEvents().register("mouseover", marker, new EventHandler() {
                 @Override
                 public void onHandle(EventObject eventObject) {
-                    RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.SE_RESIZE);
+                mouseHandler.onMouseOver(position);
                 }
             });
             marker.getEvents().register("mouseout", marker, new EventHandler() {
                 @Override
                 public void onHandle(EventObject eventObject) {
-                    RootPanel.get().getElement().getStyle().setCursor(Style.Cursor.AUTO);
+                    mouseHandler.onMouseOut(position);
                 }
             });
         }
@@ -87,6 +94,7 @@ public class MapPositionRenderer {
         Marker oldMarker = markerMap.get(positionId);
         Marker newMarker = new Marker(oldMarker.getLonLat(), icon);
         addSelectEvent(newMarker, positionMap.get(positionId));
+        addMouseEvent(newMarker, positionMap.get(positionId));
         markerMap.put(positionId, newMarker);
         getMarkerLayer().addMarker(newMarker);
         getMarkerLayer().removeMarker(oldMarker);
@@ -120,6 +128,7 @@ public class MapPositionRenderer {
             deviceMap.put(position.getDevice().getId(), position.getId());
             positionMap.put(position.getId(), position);
             addSelectEvent(marker, position);
+            addMouseEvent(marker, position);
             getMarkerLayer().addMarker(marker);
         }
 

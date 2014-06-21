@@ -15,39 +15,25 @@
  */
 package org.traccar.web.client.view;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
-import com.sencha.gxt.core.client.Style;
-import com.sencha.gxt.widget.core.client.Popup;
-import com.sencha.gxt.widget.core.client.form.TextArea;
 import com.sencha.gxt.widget.core.client.tips.ToolTip;
 import com.sencha.gxt.widget.core.client.tips.ToolTipConfig;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.traccar.web.client.ApplicationContext;
-import org.traccar.web.client.model.StateItem;
 import org.traccar.web.shared.model.Position;
 
 public class PositionInfoPopup {
-    private static PositionInfoPopupUiBinder uiBinder = GWT.create(PositionInfoPopupUiBinder.class);
+    final ToolTip toolTip;
+    final MapView mapView;
 
-    interface PositionInfoPopupUiBinder extends UiBinder<Widget, PositionInfoPopup> {
+    public PositionInfoPopup(MapView mapView) {
+        this.toolTip = new ToolTip(new ToolTipConfig());
+        this.mapView = mapView;
     }
 
-    final Position position;
-
-    public PositionInfoPopup(Position position) {
-        uiBinder.createAndBindUi(this);
-
-        this.position = position;
-    }
-
-    public void show(MapView mapView) {
+    public void show(final Position position) {
         long diff = System.currentTimeMillis() - position.getTime().getTime();
 
         long diffSeconds = diff / 1000 % 60;
@@ -85,15 +71,23 @@ public class PositionInfoPopup {
         body += "</table>";
 
         ToolTipConfig config = new ToolTipConfig();
+
         config.setTitleHtml(position.getDevice().getName());
 
         config.setBodyHtml(body);
-        ToolTip toolTip = new ToolTip(config);
+        config.setAutoHide(false);
+        config.setDismissDelay(0);
+
+        toolTip.update(config);
 
         Pixel pixel = mapView.getMap().getPixelFromLonLat(mapView.createLonLat(position.getLongitude(), position.getLatitude()));
-        toolTip.showAt(mapView.getView().getAbsoluteLeft() +  pixel.x(), mapView.getView().getAbsoluteTop() + pixel.y());
+        toolTip.showAt(mapView.getView().getAbsoluteLeft() +  pixel.x() + 15, mapView.getView().getAbsoluteTop() + pixel.y() + 15);
     }
 
     public void hide() {
+        ToolTipConfig config = toolTip.getToolTipConfig();
+        config.setAutoHide(true);
+        config.setDismissDelay(10);
+        toolTip.update(config);
     }
 }
