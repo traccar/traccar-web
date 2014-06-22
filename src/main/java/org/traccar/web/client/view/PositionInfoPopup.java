@@ -50,7 +50,7 @@ public class PositionInfoPopup {
 
         String body = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
                 "<tr><td style=\"border-width: 1px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" width=\"100%\" colspan=\"2\">" + diffString + " " + i18n.ago() + "<br>(" + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getTime()) + ")</td></tr>" +
-                (position.getAddress() == null || position.getAddress().isEmpty() ? "" : ("<tr><td colspan=\"2\">" + position.getAddress() + "</td></tr>")) +
+                (position.getAddress() == null || position.getAddress().isEmpty() ? "" : ("<tr><td style=\"border-width: 0px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" colspan=\"2\">" + position.getAddress() + "</td></tr>")) +
                 "<tr>" +
                 "<td style=\"font-size: 12pt; border-width: 0px 1px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 0px;\" valign=\"bottom\">" + ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat().format(position.getSpeed()) + "</td>" +
                 "<td style=\"font-size: 10pt; border-bottom: 1px solid #000000; padding: 3px 10px 3px 10px;\" valign=\"bottom\">" + position.getAltitude() + " " + i18n.meter() + "</td>" +
