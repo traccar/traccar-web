@@ -24,7 +24,6 @@ import org.traccar.web.client.controller.ArchiveController;
 import org.traccar.web.client.controller.DeviceController;
 import org.traccar.web.client.controller.MapController;
 import org.traccar.web.client.controller.SettingsController;
-import org.traccar.web.client.controller.StateController;
 import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.BaseStoreHandlers;
@@ -60,7 +59,6 @@ public class Application {
 
     private final SettingsController settingsController;
     private final DeviceController deviceController;
-    private final StateController stateController;
     private final MapController mapController;
     private final ArchiveController archiveController;
 
@@ -71,19 +69,17 @@ public class Application {
         mapController = new MapController(mapHandler);
         deviceController = new DeviceController(mapController, settingsController);
         deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
-        stateController = new StateController();
         archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
         archiveController.getPositionStore().addStoreHandlers(archiveStoreHandler);
 
         view = new ApplicationView(
-                deviceController.getView(), stateController.getView(), mapController.getView(), archiveController.getView());
+                deviceController.getView(), mapController.getView(), archiveController.getView());
     }
 
     public void run() {
         RootPanel.get().add(view);
 
         deviceController.run();
-        stateController.run();
         mapController.run();
         archiveController.run();
     }

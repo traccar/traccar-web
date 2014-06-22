@@ -5,10 +5,7 @@
     xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
     xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client">
 
-  <ui:with type="com.sencha.gxt.core.client.util.Margins" field="topMargins">
-    <ui:attributes top="5" right="0" bottom="0" left="0" />
-  </ui:with>
-    <ui:with type="com.sencha.gxt.core.client.util.Margins" field="westMargins">
+  <ui:with type="com.sencha.gxt.core.client.util.Margins" field="westMargins">
     <ui:attributes top="5" right="5" bottom="0" left="5" />
   </ui:with>
   <ui:with type="com.sencha.gxt.core.client.util.Margins" field="centerMargins">
@@ -28,21 +25,10 @@
     <ui:attributes size="0.25" maxSize="2147483647" margins="{southMargins}" split="true" />
   </ui:with>
 
-  <ui:with type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData" field="bottomData">
-    <ui:attributes size="0.5" maxSize="2147483647" margins="{topMargins}" split="true" />
-  </ui:with>
-  
   <container:Viewport>
     <container:BorderLayoutContainer>
       <container:west layoutData="{westData}">
-        <container:BorderLayoutContainer>
-          <container:center>
-            <gxt:ContentPanel ui:field="devicePanel" />
-          </container:center>
-          <container:south layoutData="{bottomData}">
-            <gxt:ContentPanel ui:field="statePanel" />
-          </container:south>
-        </container:BorderLayoutContainer>
+        <gxt:ContentPanel ui:field="devicePanel" />
       </container:west>
       <container:center layoutData="{centerData}">
         <gxt:ContentPanel ui:field="mapPanel" />
