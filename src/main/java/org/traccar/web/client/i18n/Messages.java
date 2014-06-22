@@ -143,4 +143,16 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String zoom();
 
     String takeFromMap();
+
+    String day();
+
+    String hour();
+
+    String minute();
+
+    String second();
+
+    String ago();
+
+    String meter();
 }

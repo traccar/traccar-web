@@ -15,6 +15,7 @@
  */
 package org.traccar.web.client.view;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
@@ -22,9 +23,12 @@ import com.sencha.gxt.widget.core.client.tips.ToolTip;
 import com.sencha.gxt.widget.core.client.tips.ToolTipConfig;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.traccar.web.client.ApplicationContext;
+import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.shared.model.Position;
 
 public class PositionInfoPopup {
+    private final static Messages i18n = GWT.create(Messages.class);
+
     final ToolTip toolTip;
 
     public PositionInfoPopup() {
@@ -39,17 +43,17 @@ public class PositionInfoPopup {
         long diffHours = diff / (60 * 60 * 1000) % 24;
         long diffDays = diff / (24 * 60 * 60 * 1000);
 
-        String diffString = diffDays > 0 ? diffDays + " days " + diffHours + " hours" :
-                diffHours > 0 ? diffHours + " hours " + diffMinutes + " minutes" :
-                        diffMinutes > 0 ? diffMinutes + " minutes " + diffSeconds + " seconds" :
-                                diffSeconds + " seconds";
+        String diffString = diffDays > 0 ? diffDays + i18n.day() + " " + diffHours + i18n.hour() :
+                diffHours > 0 ? diffHours + i18n.hour() + " " + diffMinutes + i18n.minute() :
+                        diffMinutes > 0 ? diffMinutes + i18n.minute() + " " + diffSeconds + i18n.second() :
+                                diffSeconds + i18n.second();
 
         String body = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
-                "<tr><td style=\"border-width: 1px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" width=\"100%\" colspan=\"2\">" + diffString + " ago<br>(" + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getTime()) + ")</td></tr>" +
+                "<tr><td style=\"border-width: 1px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" width=\"100%\" colspan=\"2\">" + diffString + " " + i18n.ago() + "<br>(" + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getTime()) + ")</td></tr>" +
                 (position.getAddress() == null || position.getAddress().isEmpty() ? "" : ("<tr><td colspan=\"2\">" + position.getAddress() + "</td></tr>")) +
                 "<tr>" +
                 "<td style=\"font-size: 12pt; border-width: 0px 1px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 0px;\" valign=\"bottom\">" + ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat().format(position.getSpeed()) + "</td>" +
-                "<td style=\"font-size: 10pt; border-bottom: 1px solid #000000; padding: 3px 10px 3px 10px;\" valign=\"bottom\">" + position.getAltitude() + "</td>" +
+                "<td style=\"font-size: 10pt; border-bottom: 1px solid #000000; padding: 3px 10px 3px 10px;\" valign=\"bottom\">" + position.getAltitude() + " " + i18n.meter() + "</td>" +
                 "</tr>";
         String other = position.getOther();
         if (other != null) {
