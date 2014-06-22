@@ -15,13 +15,25 @@
  */
 package org.traccar.web.client.view;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.Cell;
+import com.google.gwt.cell.client.ValueUpdater;
+import com.google.gwt.dom.client.BrowserEvents;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
 import com.sencha.gxt.widget.core.client.form.CheckBox;
 import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
 import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
+import com.sencha.gxt.widget.core.client.tips.ToolTip;
+import com.sencha.gxt.widget.core.client.tips.ToolTipConfig;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.i18n.Messages;
@@ -60,6 +72,8 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         public void onAdd();
         public void onEdit(Device device);
         public void onRemove(Device device);
+        public void onMouseOver(int mouseX, int mouseY, Device device);
+        public void onMouseOut(int mouseX, int mouseY, Device device);
     }
 
     private DeviceHandler deviceHandler;
@@ -111,6 +125,30 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         List<ColumnConfig<Device, ?>> columnConfigList = new LinkedList<ColumnConfig<Device, ?>>();
 
         ColumnConfig<Device, String> colName = new ColumnConfig<Device, String>(deviceProperties.name(), 0, i18n.name());
+        colName.setCell(new AbstractCell<String>(BrowserEvents.MOUSEOVER, BrowserEvents.MOUSEOUT) {
+            @Override
+            public void render(Context context, String value, SafeHtmlBuilder sb) {
+                if (value == null) return;
+                sb.appendEscaped(value);
+            }
+
+            @Override
+            public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
+                if (event.getType().equals(BrowserEvents.MOUSEOVER) || event.getType().equals(BrowserEvents.MOUSEOUT)) {
+                    Element target = Element.as(event.getEventTarget());
+                    int rowIndex = grid.getView().findRowIndex(target);
+                    if (rowIndex != -1) {
+                        if (event.getType().equals(BrowserEvents.MOUSEOVER)) {
+                            deviceHandler.onMouseOver(event.getClientX(), event.getClientY(), deviceStore.get(rowIndex));
+                        } else {
+                            deviceHandler.onMouseOut(event.getClientX(), event.getClientY(), deviceStore.get(rowIndex));
+                        }
+                    }
+                } else {
+                    super.onBrowserEvent(context, parent, value, event, valueUpdater);
+                }
+            }
+        });
         columnConfigList.add(colName);
 
         ColumnConfig<Device, Boolean> colFollow = new ColumnConfig<Device, Boolean>(deviceProperties.follow(), 50, i18n.follow());

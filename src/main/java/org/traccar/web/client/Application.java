@@ -68,10 +68,10 @@ public class Application {
 
     public Application() {
         settingsController = new SettingsController(userSettingsHandler);
-        deviceController = new DeviceController(deviceHandler, settingsController);
+        mapController = new MapController(mapHandler);
+        deviceController = new DeviceController(mapController, settingsController);
         deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
         stateController = new StateController();
-        mapController = new MapController(mapHandler);
         archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
         archiveController.getPositionStore().addStoreHandlers(archiveStoreHandler);
 
@@ -87,33 +87,6 @@ public class Application {
         mapController.run();
         archiveController.run();
     }
-
-    private DeviceController.DeviceHandler deviceHandler = new DeviceController.DeviceHandler() {
-
-        private Device selected;
-
-        @Override
-        public void onSelected(Device device) {
-            if (selected != null) {
-                mapController.unregisterPositionUpdate(selected);
-            }
-            if (device != null) {
-                mapController.registerPositionUpdate(device, positionUpdateHandler);
-            }
-            selected = device;
-            mapController.selectDevice(device);
-        }
-
-    };
-
-    private MapController.PositionUpdateHandler positionUpdateHandler = new MapController.PositionUpdateHandler() {
-
-        @Override
-        public void onUpdate(Position position) {
-            stateController.showState(position);
-        }
-
-    };
 
     private MapController.MapHandler mapHandler = new MapController.MapHandler() {
 

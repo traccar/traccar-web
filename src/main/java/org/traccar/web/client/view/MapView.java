@@ -229,11 +229,11 @@ public class MapView {
     };
 
     private MapPositionRenderer.MouseHandler positionMouseHandler = new MapPositionRenderer.MouseHandler() {
-        PositionInfoPopup popup = new PositionInfoPopup(MapView.this);
+        PositionInfoPopup popup = new PositionInfoPopup();
 
         @Override
         public void onMouseOver(Position position) {
-            popup.show(position);
+            popup.show(MapView.this, position);
         }
 
         @Override

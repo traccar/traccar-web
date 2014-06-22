@@ -25,6 +25,7 @@ import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
 import org.traccar.web.client.view.DeviceView;
+import org.traccar.web.client.view.PositionInfoPopup;
 import org.traccar.web.shared.model.Device;
 
 import com.google.gwt.core.client.GWT;
@@ -34,14 +35,10 @@ import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
+import org.traccar.web.shared.model.Position;
 
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
-
-    public interface DeviceHandler {
-        public void onSelected(Device device);
-    }
-
-    private DeviceHandler deviceHandler;
+    private final MapController mapController;
 
     private ListStore<Device> deviceStore;
 
@@ -49,8 +46,10 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 
     private Messages i18n = GWT.create(Messages.class);
 
-    public DeviceController(DeviceHandler deviceHandler, DeviceView.SettingsHandler settingsHandler) {
-        this.deviceHandler = deviceHandler;
+    private final PositionInfoPopup positionInfo = new PositionInfoPopup();
+
+    public DeviceController(MapController mapController, DeviceView.SettingsHandler settingsHandler) {
+        this.mapController = mapController;
         DeviceProperties deviceProperties = GWT.create(DeviceProperties.class);
         deviceStore = new ListStore<Device>(deviceProperties.id());
         deviceStore.addStoreRecordChangeHandler(new StoreRecordChangeEvent.StoreRecordChangeHandler<Device>() {
@@ -99,7 +98,7 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
 
     @Override
     public void onSelected(Device device) {
-        deviceHandler.onSelected(device);
+        mapController.selectDevice(device);
     }
 
     @Override
@@ -159,8 +158,17 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
         dialog.show();
     }
 
+    @Override
+    public void onMouseOver(int mouseX, int mouseY, Device device) {
+        positionInfo.show(mouseX, mouseY, mapController.getLatestPosition(device));
+    }
+
+    @Override
+    public void onMouseOut(int mouseX, int mouseY, Device device) {
+        positionInfo.hide();
+    }
+
     public void selectDevice(Device device) {
         deviceView.selectDevice(device);
     }
-
 }

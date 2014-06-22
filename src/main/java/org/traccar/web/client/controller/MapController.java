@@ -108,9 +108,6 @@ public class MapController implements ContentController, MapView.MapHandler {
                     }
                     latestPositionMap.put(device.getId(), position);
                 }
-                for (Map.Entry<Long, PositionUpdateHandler> entry : positionUpdateMap.entrySet()) {
-                    entry.getValue().onUpdate(latestPositionMap.get(entry.getKey()));
-                }
                 updateTimer.schedule(ApplicationContext.getInstance().getApplicationSettings().getUpdateInterval());
             }
 
@@ -151,22 +148,6 @@ public class MapController implements ContentController, MapView.MapHandler {
         mapView.selectArchivePosition(position);
     }
 
-    public interface PositionUpdateHandler {
-        public void onUpdate(Position position);
-    }
-
-    private Map<Long, PositionUpdateHandler> positionUpdateMap = new HashMap<Long, PositionUpdateHandler>();
-
-
-    public void registerPositionUpdate(Device device, PositionUpdateHandler handler) {
-        positionUpdateMap.put(device.getId(), handler);
-        handler.onUpdate(latestPositionMap.get(device.getId()));
-    }
-
-    public void unregisterPositionUpdate(Device device) {
-        positionUpdateMap.remove(device.getId());
-    }
-
     @Override
     public void onPositionSelected(Position position) {
         mapHandler.onDeviceSelected(position.getDevice());
@@ -180,5 +161,9 @@ public class MapController implements ContentController, MapView.MapHandler {
     public void loadMapSettings() {
         UserSettings userSettings = ApplicationContext.getInstance().getUserSettings();
         mapView.getMap().setCenter(mapView.createLonLat(userSettings.getCenterLongitude(), userSettings.getCenterLatitude()), userSettings.getZoomLevel());
+    }
+
+    public Position getLatestPosition(Device device) {
+        return latestPositionMap.get(device.getId());
     }
 }

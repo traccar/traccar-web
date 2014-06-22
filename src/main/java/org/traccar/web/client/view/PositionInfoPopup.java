@@ -26,14 +26,12 @@ import org.traccar.web.shared.model.Position;
 
 public class PositionInfoPopup {
     final ToolTip toolTip;
-    final MapView mapView;
 
-    public PositionInfoPopup(MapView mapView) {
+    public PositionInfoPopup() {
         this.toolTip = new ToolTip(new ToolTipConfig());
-        this.mapView = mapView;
     }
 
-    public void show(final Position position) {
+    public void show(int x, int y, final Position position) {
         long diff = System.currentTimeMillis() - position.getTime().getTime();
 
         long diffSeconds = diff / 1000 % 60;
@@ -42,16 +40,16 @@ public class PositionInfoPopup {
         long diffDays = diff / (24 * 60 * 60 * 1000);
 
         String diffString = diffDays > 0 ? diffDays + " days " + diffHours + " hours" :
-                            diffHours > 0 ? diffHours + " hours " + diffMinutes + " minutes" :
-                            diffMinutes > 0 ? diffMinutes + " minutes " + diffSeconds + " seconds" :
-                            diffSeconds + " seconds";
+                diffHours > 0 ? diffHours + " hours " + diffMinutes + " minutes" :
+                        diffMinutes > 0 ? diffMinutes + " minutes " + diffSeconds + " seconds" :
+                                diffSeconds + " seconds";
 
         String body = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
                 "<tr><td style=\"border-width: 1px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" width=\"100%\" colspan=\"2\">" + diffString + " ago<br>(" + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getTime()) + ")</td></tr>" +
                 (position.getAddress() == null || position.getAddress().isEmpty() ? "" : ("<tr><td colspan=\"2\">" + position.getAddress() + "</td></tr>")) +
                 "<tr>" +
-                    "<td style=\"font-size: 12pt; border-width: 0px 1px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 0px;\" valign=\"bottom\">" + ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat().format(position.getSpeed()) + "</td>" +
-                    "<td style=\"font-size: 10pt; border-bottom: 1px solid #000000; padding: 3px 10px 3px 10px;\" valign=\"bottom\">" + position.getAltitude() + "</td>" +
+                "<td style=\"font-size: 12pt; border-width: 0px 1px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 0px;\" valign=\"bottom\">" + ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat().format(position.getSpeed()) + "</td>" +
+                "<td style=\"font-size: 10pt; border-bottom: 1px solid #000000; padding: 3px 10px 3px 10px;\" valign=\"bottom\">" + position.getAltitude() + "</td>" +
                 "</tr>";
         String other = position.getOther();
         if (other != null) {
@@ -79,9 +77,12 @@ public class PositionInfoPopup {
         config.setDismissDelay(0);
 
         toolTip.update(config);
+        toolTip.showAt(x + 15, y + 15);
+    }
 
+    public void show(final MapView mapView, final Position position) {
         Pixel pixel = mapView.getMap().getPixelFromLonLat(mapView.createLonLat(position.getLongitude(), position.getLatitude()));
-        toolTip.showAt(mapView.getView().getAbsoluteLeft() +  pixel.x() + 15, mapView.getView().getAbsoluteTop() + pixel.y() + 15);
+        show(mapView.getView().getAbsoluteLeft() + pixel.x(), mapView.getView().getAbsoluteTop() + pixel.y(), position);
     }
 
     public void hide() {
