@@ -22,11 +22,11 @@
     <ui:attributes margins="{centerMargins}" />
   </ui:with>
   <ui:with type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData" field="southData">
-    <ui:attributes size="0.25" maxSize="2147483647" margins="{southMargins}" split="true" />
+    <ui:attributes size="52" minSize="52" maxSize="2147483647" margins="{southMargins}" split="true" />
   </ui:with>
 
   <container:Viewport>
-    <container:BorderLayoutContainer>
+    <container:BorderLayoutContainer ui:field="container">
       <container:west layoutData="{westData}">
         <gxt:ContentPanel ui:field="devicePanel" />
       </container:west>

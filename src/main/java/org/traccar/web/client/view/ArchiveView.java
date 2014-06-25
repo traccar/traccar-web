@@ -125,22 +125,22 @@ public class ArchiveView implements SelectionChangedEvent.SelectionChangedHandle
 
         List<ColumnConfig<Position, ?>> columnConfigList = new LinkedList<ColumnConfig<Position, ?>>();
 
-        columnConfigList.add(new ColumnConfig<Position, Boolean>(positionProperties.valid(), 0, i18n.valid()));
+        columnConfigList.add(new ColumnConfig<Position, Boolean>(positionProperties.valid(), 25, i18n.valid()));
 
-        ColumnConfig<Position, Date> columnConfigDate = new ColumnConfig<Position, Date>(positionProperties.time(), 0, i18n.time());
+        ColumnConfig<Position, Date> columnConfigDate = new ColumnConfig<Position, Date>(positionProperties.time(), 25, i18n.time());
         columnConfigDate.setCell(new DateCell(ApplicationContext.getInstance().getFormatterUtil().getTimeFormat()));
         columnConfigList.add(columnConfigDate);
 
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.latitude(), 0, i18n.latitude()));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.longitude(), 0, i18n.longitude()));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.altitude(), 0, i18n.altitude()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.latitude(), 25, i18n.latitude()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.longitude(), 25, i18n.longitude()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.altitude(), 25, i18n.altitude()));
 
-        ColumnConfig<Position, Double> columnConfigDouble = new ColumnConfig<Position, Double>(positionProperties.speed(), 0, i18n.speed());
+        ColumnConfig<Position, Double> columnConfigDouble = new ColumnConfig<Position, Double>(positionProperties.speed(), 25, i18n.speed());
         columnConfigDouble.setCell(new NumberCell<Double>(ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat()));
         columnConfigList.add(columnConfigDouble);
 
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.course(), 0, i18n.course()));
-        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.power(), 0, i18n.power()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.course(), 25, i18n.course()));
+        columnConfigList.add(new ColumnConfig<Position, Double>(positionProperties.power(), 25, i18n.power()));
 
         columnModel = new ColumnModel<Position>(columnConfigList);
 
