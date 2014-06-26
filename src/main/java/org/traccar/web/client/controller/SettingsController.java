@@ -15,8 +15,10 @@
  */
 package org.traccar.web.client.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sencha.gxt.data.shared.Store;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.i18n.Messages;
@@ -115,6 +117,24 @@ public class SettingsController implements DeviceView.SettingsHandler {
                         dialog.show();
                     }
 
+                    @Override
+                    public void onSaveRoles() {
+                        List<User> updatedUsers = new ArrayList<User>(userStore.getModifiedRecords().size());
+                        for (Store<User>.Record record : userStore.getModifiedRecords()) {
+                            User updatedUser = new User(record.getModel());
+                            for (Store.Change<User, ?> change : record.getChanges()) {
+                                change.modify(updatedUser);
+                            }
+                            updatedUsers.add(updatedUser);
+                        }
+
+                        Application.getDataService().saveRoles(updatedUsers, new BaseAsyncCallback<Void>(i18n) {
+                            @Override
+                            public void onSuccess(Void result) {
+                                userStore.commitChanges();
+                            }
+                        });
+                    }
                 }).show();
             }
         });

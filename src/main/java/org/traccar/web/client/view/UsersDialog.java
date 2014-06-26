@@ -15,11 +15,15 @@
  */
 package org.traccar.web.client.view;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
+import com.sencha.gxt.data.shared.Store;
 import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.UserProperties;
+import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.User;
 
 import com.google.gwt.core.client.GWT;
@@ -47,6 +51,7 @@ public class UsersDialog implements SelectionChangedEvent.SelectionChangedHandle
     public interface UserHandler {
         public void onAdd();
         public void onRemove(User user);
+        public void onSaveRoles();
     }
 
     private UserHandler userHandler;
@@ -79,8 +84,16 @@ public class UsersDialog implements SelectionChangedEvent.SelectionChangedHandle
         UserProperties userProperties = GWT.create(UserProperties.class);
 
         List<ColumnConfig<User, ?>> columnConfigList = new LinkedList<ColumnConfig<User, ?>>();
-        columnConfigList.add(new ColumnConfig<User, String>(userProperties.login(), 0, i18n.name()));
-        columnConfigList.add(new ColumnConfig<User, Boolean>(userProperties.admin(), 0, i18n.administrator()));
+        columnConfigList.add(new ColumnConfig<User, String>(userProperties.login(), 25, i18n.name()));
+
+        ColumnConfig<User, Boolean> colAdmin = new ColumnConfig<User, Boolean>(userProperties.admin(), 25, i18n.administrator());
+        colAdmin.setCell(new CheckBoxCell());
+        columnConfigList.add(colAdmin);
+
+        ColumnConfig<User, Boolean> colManager = new ColumnConfig<User, Boolean>(userProperties.manager(), 25, i18n.manager());
+        colManager.setCell(new CheckBoxCell());
+        columnConfigList.add(colManager);
+
         columnModel = new ColumnModel<User>(columnConfigList);
 
         uiBinder.createAndBindUi(this);
@@ -109,6 +122,16 @@ public class UsersDialog implements SelectionChangedEvent.SelectionChangedHandle
     @UiHandler("removeButton")
     public void onRemoveClicked(SelectEvent event) {
         userHandler.onRemove(grid.getSelectionModel().getSelectedItem());
+    }
+
+    @UiHandler("saveButton")
+    public void onSaveClicked(SelectEvent event) {
+        userHandler.onSaveRoles();
+    }
+
+    @UiHandler("cancelButton")
+    public void onCancelClicked(SelectEvent event) {
+        window.hide();
     }
 
 }

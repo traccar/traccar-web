@@ -65,10 +65,6 @@ public class UserDialog implements Editor<User> {
         this.userHandler = userHandler;
         uiBinder.createAndBindUi(this);
 
-        if (ApplicationContext.getInstance().getUser().getAdmin()) {
-            admin.setEnabled(true);
-        }
-
         driver.initialize(this);
         driver.edit(user);
     }

@@ -13,7 +13,7 @@
 
   <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
  
-  <gxt:Window ui:field="window" pixelSize="300, 150" modal="true" headingText="{i18n.account}" focusWidget="{saveButton}">
+  <gxt:Window ui:field="window" pixelSize="300, 170" modal="true" headingText="{i18n.account}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
         <form:FieldLabel text="{i18n.user}" labelWidth="120">
@@ -35,6 +35,13 @@
             <form:CheckBox ui:field="admin" enabled="false" />
           </form:widget>
         </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+          <form:FieldLabel text="{i18n.manager}" labelWidth="120">
+              <form:widget>
+                  <form:CheckBox ui:field="manager" enabled="false" />
+              </form:widget>
+          </form:FieldLabel>
       </container:child>
     </container:VerticalLayoutContainer>
       

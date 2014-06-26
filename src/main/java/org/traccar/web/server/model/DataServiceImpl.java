@@ -153,6 +153,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                         User user = new User();
                         user.setLogin(login);
                         user.setPassword(password);
+                        user.setManager(Boolean.TRUE); // registered users are always managers
                         createUser(getSessionEntityManager(), user);
                         setSessionUser(user);
                         return user;                
@@ -172,7 +173,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
             List<User> users = new LinkedList<User>();
-            users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
+            entityManager.getTransaction().begin();
+            try {
+                users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
+            } finally {
+                entityManager.getTransaction().rollback();
+            }
             return users;
         }
     }
@@ -228,6 +234,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                         currentUser.setPassword(user.getPassword());
                         currentUser.setUserSettings(user.getUserSettings());
                         currentUser.setAdmin(user.getAdmin());
+                        currentUser.setManager(user.getManager());
                         entityManager.merge(currentUser);
                         user = currentUser;
                     } else {
@@ -508,5 +515,35 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
 
         return "";
+    }
+
+    @Override
+    public void saveRoles(List<User> users) {
+        if (users == null || users.isEmpty()) {
+            return;
+        }
+
+        EntityManager entityManager = getServletEntityManager();
+        synchronized (entityManager) {
+            User currentUser = getSessionUser();
+            if (currentUser.getAdmin() || currentUser.getManager()) {
+                entityManager.getTransaction().begin();
+                try {
+                    for (User _user : users) {
+                        User user = entityManager.find(User.class, _user.getId());
+                        if (currentUser.getAdmin()) {
+                            user.setAdmin(_user.getAdmin());
+                        }
+                        user.setManager(_user.getManager());
+                    }
+                    entityManager.getTransaction().commit();
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
+            } else {
+                throw new SecurityException();
+            }
+        }
     }
 }

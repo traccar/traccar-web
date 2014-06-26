@@ -31,4 +31,5 @@ public interface UserProperties extends PropertyAccess<User> {
 
     ValueProvider<User, Boolean> admin();
 
+    ValueProvider<User, Boolean> manager();
 }
