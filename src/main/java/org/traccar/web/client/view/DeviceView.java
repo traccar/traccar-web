@@ -179,9 +179,13 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         editing.addEditor(colRecordTrace, new CheckBox());
 
         if (ApplicationContext.getInstance().getUser().getAdmin()) {
-            settingsUsers.enable();
             settingsGlobal.enable();
             showTrackerServerLog.enable();
+        }
+
+        if (ApplicationContext.getInstance().getUser().getManager() ||
+            ApplicationContext.getInstance().getUser().getAdmin()) {
+            settingsUsers.enable();
         }
     }
 

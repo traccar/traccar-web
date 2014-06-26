@@ -61,9 +61,21 @@ public class UserDialog implements Editor<User> {
     @UiField
     CheckBox admin;
 
+    @UiField
+    CheckBox manager;
+
     public UserDialog(User user, UserHandler userHandler) {
         this.userHandler = userHandler;
         uiBinder.createAndBindUi(this);
+
+        if (ApplicationContext.getInstance().getUser().getAdmin()) {
+            admin.setEnabled(true);
+        }
+
+        if (ApplicationContext.getInstance().getUser().getAdmin() ||
+            ApplicationContext.getInstance().getUser().getManager()) {
+            manager.setEnabled(true);
+        }
 
         driver.initialize(this);
         driver.edit(user);

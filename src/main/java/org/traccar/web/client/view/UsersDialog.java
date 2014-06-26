@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.sencha.gxt.cell.core.client.form.CheckBoxCell;
 import com.sencha.gxt.data.shared.Store;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.UserProperties;
 import org.traccar.web.shared.model.Device;
@@ -86,9 +87,11 @@ public class UsersDialog implements SelectionChangedEvent.SelectionChangedHandle
         List<ColumnConfig<User, ?>> columnConfigList = new LinkedList<ColumnConfig<User, ?>>();
         columnConfigList.add(new ColumnConfig<User, String>(userProperties.login(), 25, i18n.name()));
 
-        ColumnConfig<User, Boolean> colAdmin = new ColumnConfig<User, Boolean>(userProperties.admin(), 25, i18n.administrator());
-        colAdmin.setCell(new CheckBoxCell());
-        columnConfigList.add(colAdmin);
+        if (ApplicationContext.getInstance().getUser().getAdmin()) {
+            ColumnConfig<User, Boolean> colAdmin = new ColumnConfig<User, Boolean>(userProperties.admin(), 25, i18n.administrator());
+            colAdmin.setCell(new CheckBoxCell());
+            columnConfigList.add(colAdmin);
+        }
 
         ColumnConfig<User, Boolean> colManager = new ColumnConfig<User, Boolean>(userProperties.manager(), 25, i18n.manager());
         colManager.setCell(new CheckBoxCell());

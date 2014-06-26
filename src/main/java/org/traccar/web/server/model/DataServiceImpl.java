@@ -16,6 +16,7 @@
 package org.traccar.web.server.model;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -172,10 +173,19 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     public List<User> getUsers() {
         EntityManager entityManager = getSessionEntityManager();
         synchronized (entityManager) {
+            User currentUser = getSessionUser();
+            if (!currentUser.getAdmin() && !currentUser.getManager()) {
+                return Collections.emptyList();
+            }
+
             List<User> users = new LinkedList<User>();
             entityManager.getTransaction().begin();
             try {
-                users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
+                if (currentUser.getAdmin()) {
+                    users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
+                } else {
+                    users.addAll(entityManager.createQuery("SELECT x FROM User x WHERE x.managedBy = :usr").setParameter("usr", currentUser).getResultList());
+                }
             } finally {
                 entityManager.getTransaction().rollback();
             }
@@ -189,7 +199,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         if (user.getLogin().isEmpty() || user.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
         }
-        if (currentUser.getAdmin()) {
+        if (currentUser.getAdmin() || currentUser.getManager()) {
             EntityManager entityManager = getSessionEntityManager();
             synchronized (entityManager) {
                 
@@ -201,6 +211,10 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 if (results.isEmpty()) {
                     entityManager.getTransaction().begin();
                     try {
+                        if (!currentUser.getAdmin()) {
+                            user.setAdmin(false);
+                        }
+                        user.setManagedBy(currentUser);
                         entityManager.persist(user);
                         entityManager.getTransaction().commit();
                         return user;                        
