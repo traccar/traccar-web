@@ -306,10 +306,11 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public List<Device> getDevices() {
-        List<Device> devices = new LinkedList<Device>();
         User user = getSessionUser();
-        devices.addAll(user.getDevices());
-        return devices;
+        if (user.getAdmin()) {
+            return getSessionEntityManager().createQuery("SELECT x FROM Device x").getResultList();
+        }
+        return user.getAllAvailableDevices();
     }
 
     @Override

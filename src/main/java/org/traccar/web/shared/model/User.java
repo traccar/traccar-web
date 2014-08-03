@@ -105,6 +105,17 @@ public class User implements Serializable, Cloneable {
         return devices;
     }
 
+    public List<Device> getAllAvailableDevices() {
+        List<Device> devices = new LinkedList<Device>();
+        devices.addAll(getDevices());
+        if (getManager()) {
+            for (User managedUser : getManagedUsers()) {
+                devices.addAll(managedUser.getAllAvailableDevices());
+            }
+        }
+        return devices;
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     private UserSettings userSettings;
 
