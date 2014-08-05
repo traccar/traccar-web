@@ -16,6 +16,7 @@
 package org.traccar.web.shared.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -148,6 +149,17 @@ public class User implements Serializable, Cloneable {
 
     public void setManagedUsers(Set<User> managedUsers) {
         this.managedUsers = managedUsers;
+    }
+
+    public Set<User> getAllManagedUsers() {
+        Set<User> result = new HashSet<User>();
+        result.addAll(getManagedUsers());
+        for (User managedUser : getManagedUsers()) {
+            if (managedUser.getManager()) {
+                result.addAll(managedUser.getAllManagedUsers());
+            }
+        }
+        return result;
     }
 
     @Override

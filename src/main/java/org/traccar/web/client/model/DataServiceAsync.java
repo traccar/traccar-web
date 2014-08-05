@@ -17,6 +17,7 @@ package org.traccar.web.client.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.Device;
@@ -60,4 +61,8 @@ public interface DataServiceAsync {
     void getTrackerServerLog(short sizeKB, AsyncCallback<String> async);
 
     void saveRoles(List<User> users, AsyncCallback<Void> async);
+
+    void getDeviceShare(Device device, AsyncCallback<Map<User, Boolean>> async);
+
+    void saveDeviceShare(Device device, Map<User, Boolean> share, AsyncCallback<Void> async);
 }

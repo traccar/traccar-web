@@ -17,6 +17,7 @@ package org.traccar.web.client.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.Device;
@@ -52,6 +53,10 @@ public interface DataService extends RemoteService {
     Device updateDevice(Device device);
 
     Device removeDevice(Device device);
+
+    Map<User, Boolean> getDeviceShare(Device device);
+
+    void saveDeviceShare(Device device, Map<User, Boolean> share);
 
     List<Position> getPositions(Device device, Date from, Date to, String speedModifier, Double speed);
 

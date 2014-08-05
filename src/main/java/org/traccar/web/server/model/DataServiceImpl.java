@@ -16,10 +16,7 @@
 package org.traccar.web.server.model;
 
 import java.io.*;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -184,7 +181,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                 if (currentUser.getAdmin()) {
                     users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
                 } else {
-                    users.addAll(entityManager.createQuery("SELECT x FROM User x WHERE x.managedBy = :usr").setParameter("usr", currentUser).getResultList());
+                    users.addAll(currentUser.getAllManagedUsers());
                 }
             } finally {
                 entityManager.getTransaction().rollback();
@@ -550,6 +547,45 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
                             user.setAdmin(_user.getAdmin());
                         }
                         user.setManager(_user.getManager());
+                    }
+                    entityManager.getTransaction().commit();
+                } catch (RuntimeException e) {
+                    entityManager.getTransaction().rollback();
+                    throw e;
+                }
+            } else {
+                throw new SecurityException();
+            }
+        }
+    }
+
+    @Override
+    public Map<User, Boolean> getDeviceShare(Device device) {
+        List<User> users = getUsers();
+        Map<User, Boolean> result = new HashMap<User, Boolean>(users.size());
+        for (User user : users) {
+            result.put(user, user.getDevices().contains(device));
+        }
+        return result;
+    }
+
+    @Override
+    public void saveDeviceShare(Device device, Map<User, Boolean> share) {
+        EntityManager entityManager = getServletEntityManager();
+        synchronized (entityManager) {
+            User currentUser = getSessionUser();
+            if (currentUser.getAdmin() || currentUser.getManager()) {
+                try {
+                    entityManager.getTransaction().begin();
+                    for (User user : getUsers()) {
+                        Boolean shared = share.get(user);
+                        if (shared == null) continue;
+                        if (shared.booleanValue()) {
+                            user.getDevices().add(device);
+                        } else {
+                            user.getDevices().remove(device);
+                        }
+                        entityManager.merge(user);
                     }
                     entityManager.getTransaction().commit();
                 } catch (RuntimeException e) {

@@ -16,6 +16,7 @@
 package org.traccar.web.client.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sencha.gxt.data.shared.event.StoreRecordChangeEvent;
 import org.traccar.web.client.Application;
@@ -24,6 +25,7 @@ import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
+import org.traccar.web.client.view.DeviceShareDialog;
 import org.traccar.web.client.view.DeviceView;
 import org.traccar.web.client.view.PositionInfoPopup;
 import org.traccar.web.shared.model.Device;
@@ -36,6 +38,7 @@ import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import org.traccar.web.shared.model.Position;
+import org.traccar.web.shared.model.User;
 
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
     private final MapController mapController;
@@ -137,6 +140,21 @@ public class DeviceController implements ContentController, DeviceView.DeviceHan
                 });
             }
         }).show();
+    }
+
+    @Override
+    public void onShare(final Device device) {
+        Application.getDataService().getDeviceShare(device, new BaseAsyncCallback<Map<User, Boolean>>(i18n) {
+            @Override
+            public void onSuccess(final Map<User, Boolean> share) {
+                new DeviceShareDialog(device, share, new DeviceShareDialog.DeviceShareHandler() {
+                    @Override
+                    public void onSaveShares(Device device, Map<User, Boolean> shares) {
+                        Application.getDataService().saveDeviceShare(device, shares, new BaseAsyncCallback<Void>(i18n));
+                    }
+                }).show();
+            }
+        });
     }
 
     @Override

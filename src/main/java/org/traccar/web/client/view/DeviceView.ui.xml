@@ -32,6 +32,7 @@
         <toolbar:ToolBar>
           <button:TextButton ui:field="addButton" text="{i18n.add}" />
           <button:TextButton ui:field="editButton" text="{i18n.edit}" enabled="false" />
+          <button:TextButton ui:field="shareButton" text="{i18n.share}" enabled="false" />
           <button:TextButton ui:field="removeButton" text="{i18n.remove}" enabled="false" />
           <toolbar:FillToolItem />
           <toolbar:SeparatorToolItem />

@@ -71,6 +71,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         public void onSelected(Device device);
         public void onAdd();
         public void onEdit(Device device);
+        public void onShare(Device device);
         public void onRemove(Device device);
         public void onMouseOver(int mouseX, int mouseY, Device device);
         public void onMouseOut(int mouseX, int mouseY, Device device);
@@ -90,6 +91,9 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
     @UiField
     TextButton editButton;
+
+    @UiField
+    TextButton shareButton;
 
     @UiField
     TextButton removeButton;
@@ -192,6 +196,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @Override
     public void onSelectionChanged(SelectionChangedEvent<Device> event) {
         editButton.setEnabled(!event.getSelection().isEmpty());
+        shareButton.setEnabled(!event.getSelection().isEmpty());
         removeButton.setEnabled(!event.getSelection().isEmpty());
 
         if (event.getSelection().isEmpty()) {
@@ -209,6 +214,11 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @UiHandler("editButton")
     public void onEditClicked(SelectEvent event) {
         deviceHandler.onEdit(grid.getSelectionModel().getSelectedItem());
+    }
+
+    @UiHandler("shareButton")
+    public void onShareClicked(SelectEvent event) {
+        deviceHandler.onShare(grid.getSelectionModel().getSelectedItem());
     }
 
     @UiHandler("removeButton")

@@ -99,4 +99,21 @@ public class Device implements Serializable {
     public void setRecordTrace(boolean recordTrace) {
         this.recordTrace = recordTrace;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Device device = (Device) o;
+
+        if (uniqueId != null ? !uniqueId.equals(device.uniqueId) : device.uniqueId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return uniqueId != null ? uniqueId.hashCode() : 0;
+    }
 }
