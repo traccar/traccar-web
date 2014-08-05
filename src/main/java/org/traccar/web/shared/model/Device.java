@@ -15,15 +15,12 @@
  */
 package org.traccar.web.shared.model;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.GwtTransient;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "devices")
@@ -98,6 +95,21 @@ public class Device implements Serializable {
 
     public void setRecordTrace(boolean recordTrace) {
         this.recordTrace = recordTrace;
+    }
+
+    @GwtTransient
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_devices",
+            joinColumns = { @JoinColumn(name = "devices_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "users_id", referencedColumnName = "id") })
+    private Set<User> users;
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

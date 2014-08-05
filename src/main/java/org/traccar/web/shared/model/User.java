@@ -95,7 +95,7 @@ public class User implements Serializable, Cloneable {
     }
 
     @GwtTransient
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
     private List<Device> devices = new LinkedList<Device>();
 
     public void setDevices(List<Device> devices) {
@@ -140,7 +140,7 @@ public class User implements Serializable, Cloneable {
     }
 
     @GwtTransient
-    @OneToMany(mappedBy = "managedBy", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "managedBy", fetch = FetchType.EAGER)
     private Set<User> managedUsers;
 
     public Set<User> getManagedUsers() {
