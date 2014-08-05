@@ -32,7 +32,7 @@
         <toolbar:ToolBar>
           <button:TextButton ui:field="addButton" text="{i18n.add}" />
           <button:TextButton ui:field="editButton" text="{i18n.edit}" enabled="false" />
-          <button:TextButton ui:field="shareButton" text="{i18n.share}" enabled="false" />
+          <button:TextButton ui:field="shareButton" text="{i18n.share}" enabled="false" visible="false" />
           <button:TextButton ui:field="removeButton" text="{i18n.remove}" enabled="false" />
           <toolbar:FillToolItem />
           <toolbar:SeparatorToolItem />
@@ -41,9 +41,9 @@
               <menu:Menu>
                 <menu:MenuItem text="{i18n.account}" ui:field="settingsAccount" />
                 <menu:MenuItem text="{i18n.preferences}" ui:field="settingsPreferences" />
-                <menu:MenuItem text="{i18n.users}" ui:field="settingsUsers" enabled="false" />
-                <menu:MenuItem text="{i18n.global}" ui:field="settingsGlobal" enabled="false" />
-                <menu:MenuItem text="{i18n.trackerServerLog}" ui:field="showTrackerServerLog" enabled="false" />
+                <menu:MenuItem text="{i18n.users}" ui:field="settingsUsers" visible="false" />
+                <menu:MenuItem text="{i18n.global}" ui:field="settingsGlobal" visible="false" />
+                <menu:MenuItem text="{i18n.trackerServerLog}" ui:field="showTrackerServerLog" visible="false" />
               </menu:Menu>
             </button:menu>
           </button:TextButton>

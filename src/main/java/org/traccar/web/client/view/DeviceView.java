@@ -182,21 +182,21 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
         editing.addEditor(colFollow, new CheckBox());
         editing.addEditor(colRecordTrace, new CheckBox());
 
-        if (ApplicationContext.getInstance().getUser().getAdmin()) {
-            settingsGlobal.enable();
-            showTrackerServerLog.enable();
-        }
+        boolean admin = ApplicationContext.getInstance().getUser().getAdmin();
+        boolean manager = ApplicationContext.getInstance().getUser().getManager();
 
-        if (ApplicationContext.getInstance().getUser().getManager() ||
-            ApplicationContext.getInstance().getUser().getAdmin()) {
-            settingsUsers.enable();
-        }
+        settingsGlobal.setVisible(admin);
+        showTrackerServerLog.setVisible(admin);
+        settingsUsers.setVisible(admin || manager);
+        shareButton.setVisible(admin || manager);
     }
 
     @Override
     public void onSelectionChanged(SelectionChangedEvent<Device> event) {
         editButton.setEnabled(!event.getSelection().isEmpty());
-        shareButton.setEnabled(!event.getSelection().isEmpty());
+        if (shareButton.isVisible()) {
+            shareButton.setEnabled(!event.getSelection().isEmpty());
+        }
         removeButton.setEnabled(!event.getSelection().isEmpty());
 
         if (event.getSelection().isEmpty()) {
