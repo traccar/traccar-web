@@ -194,9 +194,7 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
     @Override
     public void onSelectionChanged(SelectionChangedEvent<Device> event) {
         editButton.setEnabled(!event.getSelection().isEmpty());
-        if (shareButton.isVisible()) {
-            shareButton.setEnabled(!event.getSelection().isEmpty());
-        }
+        shareButton.setEnabled(!event.getSelection().isEmpty());
         removeButton.setEnabled(!event.getSelection().isEmpty());
 
         if (event.getSelection().isEmpty()) {
