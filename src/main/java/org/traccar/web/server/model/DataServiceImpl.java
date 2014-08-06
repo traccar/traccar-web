@@ -135,6 +135,12 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
     @Override
     public boolean logout() {
         setSessionUser(null);
+        HttpSession session = getThreadLocalRequest().getSession();
+        EntityManager entityManager = (EntityManager) session.getAttribute(ATTRIBUTE_ENTITYMANAGER);
+        if (entityManager != null) {
+            entityManager.close();
+            session.removeAttribute(ATTRIBUTE_ENTITYMANAGER);
+        }
         return true;
     }
 
