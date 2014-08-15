@@ -8,6 +8,26 @@ Authors: Anton Tananaev (anton.tananaev@gmail.com), Vitaly Litvak (vitavaque@gma
 
 Web interface for traccar server.
 
+## Features
+
+This project has following features, which don't exist in original `traccar-web` project:
+
+* converted traccar-web to maven project to simplify builds
+* following device
+* printing device name
+* recording device trace
+* printing time stamps at device trace points (frequency is configured in Settings >> Preferences) both for archive and recorded trace
+* translation to russian language (available via ?locale=ru URL parameters)
+* show server log menu for viewing tracker-server.log file on Web
+* speed filtering in archive view
+* change default map center position, zoom (in Settings >> Preferences)
+* replaced 'current state' panel with popups. They appear either when you hover a row in 'devices' table or when you hover a marker on map
+* archive panel is collapsed by default. There is a button in upper right hand corner to expand it
+* new 'managers' functionality: 
+  * added new role to traccar - manager. Managers can add users and can manage access between devices of their users. So they have access to their devices and to devices of all managed users.
+  * administrators have full access to everything. They can manage all devices, all users and access between devices and users
+  * there is a new menu item called 'Share' to manage access to selected device
+
 ## Building
 
 You can build it yourself easily without installing IDE (eclipse, idea, netbeans, etc.). The only requirement is installed Java Development Kit (JDK) v. 6 or greater:
