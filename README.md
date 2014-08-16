@@ -27,6 +27,8 @@ This project has following features, which don't exist in original `traccar-web`
   * added new role to traccar - manager. Managers can add users and can manage access between devices of their users. So they have access to their devices and to devices of all managed users.
   * administrators have full access to everything. They can manage all devices, all users and access between devices and users
   * there is a new menu item called 'Share' to manage access to selected device
+* improved performance of positions loading when DB grows up
+* fixed issue when devices are not updated between different instances of web browser
 
 ## Building
 
