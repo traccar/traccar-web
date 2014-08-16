@@ -307,11 +307,21 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public List<Device> getDevices() {
-        User user = getSessionUser();
-        if (user.getAdmin()) {
-            return getSessionEntityManager().createQuery("SELECT x FROM Device x").getResultList();
+        EntityManager entityManager = getSessionEntityManager();
+        synchronized (entityManager) {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+            User user = getSessionUser();
+            try {
+                if (user.getAdmin()) {
+                    return entityManager.createQuery("SELECT x FROM Device x").getResultList();
+                }
+                return user.getAllAvailableDevices();
+            } finally {
+                entityManager.getTransaction().rollback();
+            }
         }
-        return user.getAllAvailableDevices();
     }
 
     @Override
@@ -427,19 +437,16 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
 
     @Override
     public List<Position> getLatestPositions() {
-        EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            List<Position> positions = new LinkedList<Position>();
-            List<Device> devices = getDevices();
-            if (devices != null && !devices.isEmpty()) {
-                for (Device device : devices) {
-                    if (device.getLatestPosition() != null) {
-                        positions.add(device.getLatestPosition());
-                    }
+        List<Position> positions = new LinkedList<Position>();
+        List<Device> devices = getDevices();
+        if (devices != null && !devices.isEmpty()) {
+            for (Device device : devices) {
+                if (device.getLatestPosition() != null) {
+                    positions.add(device.getLatestPosition());
                 }
             }
-            return positions;
         }
+        return positions;
     }
 
     private ApplicationSettings applicationSettings;
