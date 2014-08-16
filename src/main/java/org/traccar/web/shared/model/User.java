@@ -129,6 +129,7 @@ public class User implements Serializable, Cloneable {
     }
 
     @ManyToOne
+    @GwtTransient
     private User managedBy;
 
     public User getManagedBy() {

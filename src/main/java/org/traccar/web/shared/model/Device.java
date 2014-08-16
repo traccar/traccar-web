@@ -46,6 +46,7 @@ public class Device implements Serializable {
     }
 
     @OneToOne(fetch = FetchType.EAGER)
+    @GwtTransient
     private Position latestPosition;
 
     public void setLatestPosition(Position latestPosition) {
