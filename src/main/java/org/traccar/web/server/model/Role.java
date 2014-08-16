@@ -15,6 +15,11 @@
  */
 package org.traccar.web.server.model;
 
+import org.traccar.web.shared.model.User;
+
 public enum Role {
-    ADMIN, MANAGER
+    ADMIN { @Override boolean has(User user) { return user.getAdmin(); } },
+    MANAGER { @Override boolean has(User user) { return user.getManager(); } };
+
+    abstract boolean has(User user);
 }
