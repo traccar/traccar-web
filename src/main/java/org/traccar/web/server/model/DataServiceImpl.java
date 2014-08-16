@@ -32,9 +32,7 @@ import javax.servlet.http.HttpSession;
 import org.traccar.web.client.model.DataService;
 import org.traccar.web.shared.model.*;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-public class DataServiceImpl extends RemoteServiceServlet implements DataService {
+public class DataServiceImpl extends AOPRemoteServiceServlet implements DataService {
 
     private static final long serialVersionUID = 1;
 
@@ -109,11 +107,14 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         return user;
     }
 
+    @Transactional
+    @RequireUser
     @Override
     public User authenticated() throws IllegalStateException {
         return getSessionUser();
     }
 
+    @Transactional
     @Override
     public User login(String login, String password) {
         EntityManager entityManager = getSessionEntityManager();
@@ -132,6 +133,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @RequireUser
     @Override
     public boolean logout() {
         setSessionUser(null);
@@ -144,6 +146,7 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         return true;
     }
 
+    @Transactional(commit = true)
     @Override
     public User register(String login, String password) {
         if (getApplicationSettings().getRegistrationEnabled()) {
@@ -173,6 +176,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional
+    @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public List<User> getUsers() {
         EntityManager entityManager = getSessionEntityManager();
@@ -192,6 +197,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional(commit = true)
+    @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public User addUser(User user) {
         User currentUser = getSessionUser();
@@ -230,6 +237,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional(commit = true)
+    @RequireUser(roles = { Role.ADMIN })
     @Override
     public User updateUser(User user) {
         User currentUser = getSessionUser();
@@ -267,6 +276,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional(commit = true)
+    @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public User removeUser(User user) {
         User currentUser = getSessionUser();
@@ -305,6 +316,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional
+    @RequireUser
     @Override
     public List<Device> getDevices() {
         EntityManager entityManager = getSessionEntityManager();
@@ -324,6 +337,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional(commit = true)
+    @RequireUser
     @Override
     public Device addDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
@@ -354,7 +369,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
-
+    @Transactional(commit = true)
+    @RequireUser
     @Override
     public Device updateDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
@@ -385,6 +401,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional(commit = true)
+    @RequireUser
     @Override
     public Device removeDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
@@ -417,6 +435,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional
+    @RequireUser
     @Override
     public List<Position> getPositions(Device device, Date from, Date to, String speedModifier, Double speed) {
         EntityManager entityManager = getSessionEntityManager();
@@ -435,6 +455,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @RequireUser
+    @Transactional
     @Override
     public List<Position> getLatestPositions() {
         List<Position> positions = new LinkedList<Position>();
@@ -475,6 +497,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         return applicationSettings;
     }
 
+    @Transactional(commit = true)
+    @RequireUser(roles = { Role.ADMIN })
     @Override
     public ApplicationSettings updateApplicationSettings(ApplicationSettings applicationSettings) {
         if (applicationSettings == null) {
@@ -501,6 +525,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional
+    @RequireUser(roles = { Role.ADMIN })
     @Override
     public String getTrackerServerLog(short sizeKB) {
         if (getSessionUser().getAdmin()) {
@@ -549,6 +575,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         return "";
     }
 
+    @Transactional(commit = true)
+    @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public void saveRoles(List<User> users) {
         if (users == null || users.isEmpty()) {
@@ -579,6 +607,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         }
     }
 
+    @Transactional
+    @RequireUser
     @Override
     public Map<User, Boolean> getDeviceShare(Device device) {
         device = getSessionEntityManager().find(Device.class, device.getId());
@@ -590,6 +620,8 @@ public class DataServiceImpl extends RemoteServiceServlet implements DataService
         return result;
     }
 
+    @Transactional(commit = true)
+    @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public void saveDeviceShare(Device device, Map<User, Boolean> share) {
         EntityManager entityManager = getSessionEntityManager();
