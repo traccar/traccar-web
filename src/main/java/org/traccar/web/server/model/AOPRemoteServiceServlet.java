@@ -21,6 +21,7 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.traccar.web.shared.model.User;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.InvocationHandler;
@@ -57,9 +58,28 @@ abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
             RequireUser requireUser = method.getAnnotation(RequireUser.class);
             if (requireUser == null) return;
             beginTransaction();
-            // TODO check access
-            if (method.getAnnotation(Transactional.class) == null) {
-                endTransaction(false);
+            try {
+                User user = getSessionUser();
+                if (user == null) {
+                    throw new SecurityException("Not logged in");
+                }
+                if (requireUser.roles().length > 0) {
+                    StringBuilder roles = new StringBuilder();
+                    for (Role role : requireUser.roles()) {
+                        if (roles.length() > 0) {
+                            roles.append(" or ");
+                        }
+                        roles.append(role.toString());
+                        if (role.has(user)) {
+                            return;
+                        }
+                    }
+                    throw new SecurityException("User must have " + roles + " role");
+                }
+            } finally {
+                if (method.getAnnotation(Transactional.class) == null) {
+                    endTransaction(false);
+                }
             }
         }
 
@@ -84,17 +104,21 @@ abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
 
         void endTransaction(boolean commit) throws Throwable {
             EntityManager entityManager = getSessionEntityManager();
-            if (entityManager.getTransaction().isActive()) {
-                if (commit) {
-                    try {
-                        entityManager.getTransaction().commit();
-                    } catch (Throwable t) {
+            try {
+                if (entityManager.getTransaction().isActive()) {
+                    if (commit) {
+                        try {
+                            entityManager.getTransaction().commit();
+                        } catch (Throwable t) {
+                            entityManager.getTransaction().rollback();
+                            throw t;
+                        }
+                    } else {
                         entityManager.getTransaction().rollback();
-                        throw t;
                     }
-                } else {
-                    entityManager.getTransaction().rollback();
                 }
+            } finally {
+                closeSessionEntityManager();
             }
         }
     }
@@ -128,4 +152,6 @@ abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
     }
 
     abstract EntityManager getSessionEntityManager();
+    abstract void closeSessionEntityManager();
+    abstract User getSessionUser();
 }

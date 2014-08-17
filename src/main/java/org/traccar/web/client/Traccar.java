@@ -28,7 +28,7 @@ public class Traccar implements EntryPoint, LoginController.LoginHandler {
 
     @Override
     public void onModuleLoad() {
-        Application.getDataService().updateApplicationSettings(null, new BaseAsyncCallback<ApplicationSettings>(i18n) {
+        Application.getDataService().getApplicationSettings(new BaseAsyncCallback<ApplicationSettings>(i18n) {
             @Override
             public void onSuccess(ApplicationSettings result) {
                 ApplicationContext.getInstance().setApplicationSettings(result);

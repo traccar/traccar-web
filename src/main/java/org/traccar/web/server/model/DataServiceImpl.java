@@ -40,9 +40,9 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     private static final String PERSISTENCE_UNIT_DEBUG = "debug";
     private static final String PERSISTENCE_UNIT_RELEASE = "release";
     private static final String ATTRIBUTE_USER_ID = "traccar.user.id";
-    private static final String ATTRIBUTE_ENTITYMANAGER = "traccar.entitymanager";
 
     private EntityManagerFactory entityManagerFactory;
+    private ThreadLocal<EntityManager> entityManager;
 
     public DataServiceImpl() {
         super(DataService.class);
@@ -62,35 +62,35 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         }
 
         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+        entityManager = new ThreadLocal<EntityManager>();
 
         /**
          * Perform database migrations
          */
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            new DBMigrations().migrate(getServletEntityManager());
+            new DBMigrations().migrate(entityManager);
         } catch (Exception e) {
             throw new RuntimeException("Unable to perform DB migrations", e);
+        } finally {
+            entityManager.close();
         }
-    }
-
-    private EntityManager servletEntityManager;
-
-    private EntityManager getServletEntityManager() {
-        if (servletEntityManager == null) {
-            servletEntityManager = entityManagerFactory.createEntityManager();
-        }
-        return servletEntityManager;
     }
 
     @Override
     EntityManager getSessionEntityManager() {
-        HttpSession session = getThreadLocalRequest().getSession();
-        EntityManager entityManager = (EntityManager) session.getAttribute(ATTRIBUTE_ENTITYMANAGER);
-        if (entityManager == null) {
-            entityManager = entityManagerFactory.createEntityManager();
-            session.setAttribute(ATTRIBUTE_ENTITYMANAGER, entityManager);
+        if (entityManager.get() == null) {
+            entityManager.set(entityManagerFactory.createEntityManager());
         }
-        return entityManager;
+        return entityManager.get();
+    }
+
+    @Override
+    void closeSessionEntityManager() {
+        if (entityManager.get() != null) {
+            entityManager.get().close();
+            entityManager.set(null);
+        }
     }
 
     private void setSessionUser(User user) {
@@ -102,14 +102,11 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         }
     }
 
-    private User getSessionUser() {
+    @Override
+    User getSessionUser() {
         HttpSession session = getThreadLocalRequest().getSession();
         Long userId = (Long) session.getAttribute(ATTRIBUTE_USER_ID);
-        User user = userId == null ? null : getSessionEntityManager().find(User.class, userId);
-        if (user == null) {
-            throw new IllegalStateException();
-        }
-        return user;
+        return userId == null ? null : getSessionEntityManager().find(User.class, userId);
     }
 
     @Transactional
@@ -140,12 +137,6 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public boolean logout() {
         setSessionUser(null);
-        HttpSession session = getThreadLocalRequest().getSession();
-        EntityManager entityManager = (EntityManager) session.getAttribute(ATTRIBUTE_ENTITYMANAGER);
-        if (entityManager != null) {
-            entityManager.close();
-            session.removeAttribute(ATTRIBUTE_ENTITYMANAGER);
-        }
         return true;
     }
 
@@ -180,10 +171,6 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public List<User> getUsers() {
         User currentUser = getSessionUser();
-        if (!currentUser.getAdmin() && !currentUser.getManager()) {
-            return Collections.emptyList();
-        }
-
         List<User> users = new LinkedList<User>();
         if (currentUser.getAdmin()) {
             users.addAll(getSessionEntityManager().createQuery("SELECT x FROM User x", User.class).getResultList());
@@ -201,24 +188,20 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         if (user.getLogin().isEmpty() || user.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
         }
-        if (currentUser.getAdmin() || currentUser.getManager()) {
-            String login = user.getLogin();
-            TypedQuery<User> query = getSessionEntityManager().createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
-            query.setParameter("login", login);
-            List<User> results = query.getResultList();
+        String login = user.getLogin();
+        TypedQuery<User> query = getSessionEntityManager().createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
+        query.setParameter("login", login);
+        List<User> results = query.getResultList();
 
-            if (results.isEmpty()) {
-                if (!currentUser.getAdmin()) {
-                    user.setAdmin(false);
-                }
-                user.setManagedBy(currentUser);
-                getSessionEntityManager().persist(user);
-                return user;
-            } else {
-                throw new IllegalStateException();
+        if (results.isEmpty()) {
+            if (!currentUser.getAdmin()) {
+                user.setAdmin(false);
             }
+            user.setManagedBy(currentUser);
+            getSessionEntityManager().persist(user);
+            return user;
         } else {
-            throw new SecurityException();
+            throw new IllegalStateException();
         }
     }
 
@@ -255,18 +238,13 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public User removeUser(User user) {
-        User currentUser = getSessionUser();
-        if (currentUser.getAdmin()) {
-            EntityManager entityManager = getSessionEntityManager();
-            user = entityManager.merge(user);
-            for (Device device : user.getDevices()) {
-                device.getUsers().remove(user);
-            }
-            entityManager.remove(user);
-            return user;
-        } else {
-            throw new SecurityException();
+        EntityManager entityManager = getSessionEntityManager();
+        user = entityManager.merge(user);
+        for (Device device : user.getDevices()) {
+            device.getUsers().remove(user);
         }
+        entityManager.remove(user);
+        return user;
     }
 
     @Transactional
@@ -380,90 +358,83 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         return positions;
     }
 
-    private ApplicationSettings applicationSettings;
-
-    private ApplicationSettings getApplicationSettings() {
-        if (applicationSettings == null) {
-            EntityManager entityManager = getServletEntityManager();
+    @Override
+    public ApplicationSettings getApplicationSettings() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            ApplicationSettings applicationSettings;
             TypedQuery<ApplicationSettings> query = entityManager.createQuery("SELECT x FROM ApplicationSettings x", ApplicationSettings.class);
             List<ApplicationSettings> resultList = query.getResultList();
             if (resultList == null || resultList.isEmpty()) {
                 applicationSettings = new ApplicationSettings();
-                entityManager.persist(applicationSettings);
+                entityManager.getTransaction().begin();
+                try {
+                    entityManager.persist(applicationSettings);
+                    entityManager.getTransaction().commit();
+                } catch (Throwable t) {
+                    entityManager.getTransaction().rollback();
+                    throw new IllegalStateException("Unable to save application settings");
+                }
             } else {
                 applicationSettings = resultList.get(0);
             }
+            return applicationSettings;
+        } finally {
+            entityManager.close();
         }
-        return applicationSettings;
     }
 
     @Transactional(commit = true)
     @RequireUser(roles = { Role.ADMIN })
     @Override
-    public ApplicationSettings updateApplicationSettings(ApplicationSettings applicationSettings) {
-        if (applicationSettings == null) {
-            return getApplicationSettings();
-        } else {
-            EntityManager entityManager = getServletEntityManager();
-            User user = getSessionUser();
-            if (user.getAdmin()) {
-                entityManager.merge(applicationSettings);
-                this.applicationSettings =  applicationSettings;
-                return applicationSettings;
-            } else {
-                throw new SecurityException();
-            }
-        }
+    public void updateApplicationSettings(ApplicationSettings applicationSettings) {
+        getSessionEntityManager().merge(applicationSettings);
     }
 
     @Transactional
     @RequireUser(roles = { Role.ADMIN })
     @Override
     public String getTrackerServerLog(short sizeKB) {
-        if (getSessionUser().getAdmin()) {
-            File workingFolder = new File(System.getProperty("user.dir"));
-            File logFile1 = new File(workingFolder, "logs" + File.separatorChar + "tracker-server.log");
-            File logFile2 = new File(workingFolder.getParentFile(), "logs" + File.separatorChar + "tracker-server.log");
-            File logFile3 = new File(workingFolder, "tracker-server.log");
+        File workingFolder = new File(System.getProperty("user.dir"));
+        File logFile1 = new File(workingFolder, "logs" + File.separatorChar + "tracker-server.log");
+        File logFile2 = new File(workingFolder.getParentFile(), "logs" + File.separatorChar + "tracker-server.log");
+        File logFile3 = new File(workingFolder, "tracker-server.log");
 
-            File logFile = logFile1.exists() ? logFile1 :
-                    logFile2.exists() ? logFile2 :
-                            logFile3.exists() ? logFile3 : null;
+        File logFile = logFile1.exists() ? logFile1 :
+                logFile2.exists() ? logFile2 :
+                        logFile3.exists() ? logFile3 : null;
 
-            if (logFile != null) {
-                RandomAccessFile raf = null;
+        if (logFile != null) {
+            RandomAccessFile raf = null;
+            try {
+                raf = new RandomAccessFile(logFile, "r");
+                int length = 0;
+                if (raf.length() > Integer.MAX_VALUE) {
+                    length = Integer.MAX_VALUE;
+                } else {
+                    length = (int) raf.length();
+                }
+                /**
+                 * Read last 5 megabytes from file
+                 */
+                raf.seek(Math.max(0, raf.length() - sizeKB * 1024));
+                byte[] result = new byte[Math.min(length, sizeKB * 1024)];
+                raf.read(result);
+                return new String(result);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
                 try {
-                    raf = new RandomAccessFile(logFile, "r");
-                    int length = 0;
-                    if (raf.length() > Integer.MAX_VALUE) {
-                        length = Integer.MAX_VALUE;
-                    } else {
-                        length = (int) raf.length();
-                    }
-                    /**
-                     * Read last 5 megabytes from file
-                     */
-                    raf.seek(Math.max(0, raf.length() - sizeKB * 1024));
-                    byte[] result = new byte[Math.min(length, sizeKB * 1024)];
-                    raf.read(result);
-                    return new String(result);
-                } catch (Exception ex) {
+                    raf.close();
+                } catch (IOException ex) {
                     ex.printStackTrace();
-                } finally {
-                    try {
-                        raf.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
                 }
             }
-
-            return ("Tracker server log is not available. Looked at " + logFile1.getAbsolutePath() +
-                    ", " + logFile2.getAbsolutePath() +
-                    ", " + logFile3.getAbsolutePath());
         }
 
-        return "";
+        return ("Tracker server log is not available. Looked at " + logFile1.getAbsolutePath() +
+                ", " + logFile2.getAbsolutePath() +
+                ", " + logFile3.getAbsolutePath());
     }
 
     @Transactional(commit = true)
@@ -476,16 +447,12 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
 
         EntityManager entityManager = getSessionEntityManager();
         User currentUser = getSessionUser();
-        if (currentUser.getAdmin() || currentUser.getManager()) {
-            for (User _user : users) {
-                User user = entityManager.find(User.class, _user.getId());
-                if (currentUser.getAdmin()) {
-                    user.setAdmin(_user.getAdmin());
-                }
-                user.setManager(_user.getManager());
+        for (User _user : users) {
+            User user = entityManager.find(User.class, _user.getId());
+            if (currentUser.getAdmin()) {
+                user.setAdmin(_user.getAdmin());
             }
-        } else {
-            throw new SecurityException();
+            user.setManager(_user.getManager());
         }
     }
 
@@ -507,22 +474,17 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public void saveDeviceShare(Device device, Map<User, Boolean> share) {
         EntityManager entityManager = getSessionEntityManager();
-        User currentUser = getSessionUser();
-        if (currentUser.getAdmin() || currentUser.getManager()) {
-            device = entityManager.find(Device.class, device.getId());
+        device = entityManager.find(Device.class, device.getId());
 
-            for (User user : getUsers()) {
-                Boolean shared = share.get(user);
-                if (shared == null) continue;
-                if (shared.booleanValue()) {
-                    device.getUsers().add(user);
-                } else {
-                    device.getUsers().remove(user);
-                }
-                entityManager.merge(user);
+        for (User user : getUsers()) {
+            Boolean shared = share.get(user);
+            if (shared == null) continue;
+            if (shared.booleanValue()) {
+                device.getUsers().add(user);
+            } else {
+                device.getUsers().remove(user);
             }
-        } else {
-            throw new SecurityException();
+            entityManager.merge(user);
         }
     }
 }

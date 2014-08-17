@@ -56,7 +56,9 @@ public interface DataServiceAsync {
 
     void getPositions(Device device, Date from, Date to, String speedModifier, Double speed, AsyncCallback<List<Position>> callback);
 
-    void updateApplicationSettings(ApplicationSettings applicationSettings, AsyncCallback<ApplicationSettings> callback);
+    void updateApplicationSettings(ApplicationSettings applicationSettings, AsyncCallback<Void> callback);
+
+    void getApplicationSettings(AsyncCallback<ApplicationSettings> async);
 
     void getTrackerServerLog(short sizeKB, AsyncCallback<String> async);
 

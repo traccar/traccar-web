@@ -62,7 +62,9 @@ public interface DataService extends RemoteService {
 
     List<Position> getLatestPositions();
 
-    ApplicationSettings updateApplicationSettings(ApplicationSettings applicationSettings);
+    ApplicationSettings getApplicationSettings();
+
+    void updateApplicationSettings(ApplicationSettings applicationSettings);
 
     String getTrackerServerLog(short sizeKb);
 

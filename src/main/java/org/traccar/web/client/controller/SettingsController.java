@@ -146,11 +146,11 @@ public class SettingsController implements DeviceView.SettingsHandler {
                 ApplicationContext.getInstance().getApplicationSettings(),
                 new ApplicationSettingsDialog.ApplicationSettingsHandler() {
                     @Override
-                    public void onSave(ApplicationSettings applicationSettings) {
-                        Application.getDataService().updateApplicationSettings(applicationSettings, new BaseAsyncCallback<ApplicationSettings>(i18n) {
+                    public void onSave(final ApplicationSettings applicationSettings) {
+                        Application.getDataService().updateApplicationSettings(applicationSettings, new BaseAsyncCallback<Void>(i18n) {
                             @Override
-                            public void onSuccess(ApplicationSettings result) {
-                                ApplicationContext.getInstance().setApplicationSettings(result);
+                            public void onSuccess(Void result) {
+                                ApplicationContext.getInstance().setApplicationSettings(applicationSettings);
                             }
                         });
                     }
