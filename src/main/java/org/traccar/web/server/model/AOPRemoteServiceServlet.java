@@ -22,9 +22,81 @@ import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class AOPRemoteServiceServlet extends RemoteServiceServlet {
+import javax.persistence.EntityManager;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
-    // TODO process @Transactional and @RequireUser annotations
+abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
+    final Object proxy;
+
+    public AOPRemoteServiceServlet(Class<?> iface) {
+        this.proxy = Proxy.newProxyInstance(iface.getClassLoader(), new Class<?> [] { iface }, new AOPHandler(this));
+    }
+
+    class AOPHandler implements InvocationHandler {
+        final Object target;
+
+        AOPHandler(Object target) {
+            this.target = target;
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            checkAccess(method);
+            beginTransaction(method);
+            try {
+                return method.invoke(target, args);
+            } finally {
+                endTransaction(method);
+            }
+        }
+
+        void checkAccess(Method method) throws Throwable {
+            RequireUser requireUser = method.getAnnotation(RequireUser.class);
+            if (requireUser == null) return;
+            beginTransaction();
+            // TODO check access
+            if (method.getAnnotation(Transactional.class) == null) {
+                endTransaction(false);
+            }
+        }
+
+        void beginTransaction(Method method) {
+            Transactional transactional = method.getAnnotation(Transactional.class);
+            if (transactional == null) return;
+            beginTransaction();
+        }
+
+        void beginTransaction() {
+            EntityManager entityManager = getSessionEntityManager();
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+        }
+
+        void endTransaction(Method method) throws Throwable {
+            Transactional transactional = method.getAnnotation(Transactional.class);
+            if (transactional == null) return;
+            endTransaction(transactional.commit());
+        }
+
+        void endTransaction(boolean commit) throws Throwable {
+            EntityManager entityManager = getSessionEntityManager();
+            if (entityManager.getTransaction().isActive()) {
+                if (commit) {
+                    try {
+                        entityManager.getTransaction().commit();
+                    } catch (Throwable t) {
+                        entityManager.getTransaction().rollback();
+                        throw t;
+                    }
+                } else {
+                    entityManager.getTransaction().rollback();
+                }
+            }
+        }
+    }
 
     /**
      * <p>Taken from RemoteServiceServlet implementation from GWT 2.6.0</p>
@@ -37,9 +109,9 @@ public class AOPRemoteServiceServlet extends RemoteServiceServlet {
         checkPermutationStrongName();
 
         try {
-            RPCRequest rpcRequest = RPC.decodeRequest(payload, this.getClass(), this);
+            RPCRequest rpcRequest = RPC.decodeRequest(payload, proxy.getClass(), this);
             onAfterRequestDeserialized(rpcRequest);
-            return RPC.invokeAndEncodeResponse(this, rpcRequest.getMethod(),
+            return RPC.invokeAndEncodeResponse(proxy, rpcRequest.getMethod(),
                     rpcRequest.getParameters(), rpcRequest.getSerializationPolicy(),
                     rpcRequest.getFlags());
         } catch (IncompatibleRemoteServiceException ex) {
@@ -53,4 +125,6 @@ public class AOPRemoteServiceServlet extends RemoteServiceServlet {
             return RPC.encodeResponseForFailure(null, tokenException);
         }
     }
+
+    abstract EntityManager getSessionEntityManager();
 }

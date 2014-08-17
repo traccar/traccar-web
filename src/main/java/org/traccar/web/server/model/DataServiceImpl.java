@@ -44,6 +44,10 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
 
     private EntityManagerFactory entityManagerFactory;
 
+    public DataServiceImpl() {
+        super(DataService.class);
+    }
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -78,7 +82,8 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         return servletEntityManager;
     }
 
-    private EntityManager getSessionEntityManager() {
+    @Override
+    EntityManager getSessionEntityManager() {
         HttpSession session = getThreadLocalRequest().getSession();
         EntityManager entityManager = (EntityManager) session.getAttribute(ATTRIBUTE_ENTITYMANAGER);
         if (entityManager == null) {
@@ -118,19 +123,17 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public User login(String login, String password) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            TypedQuery<User> query = entityManager.createQuery(
-                    "SELECT x FROM User x WHERE x.login = :login", User.class);
-            query.setParameter("login", login);
-            List<User> results = query.getResultList();
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT x FROM User x WHERE x.login = :login", User.class);
+        query.setParameter("login", login);
+        List<User> results = query.getResultList();
 
-            if (!results.isEmpty() && password.equals(results.get(0).getPassword())) {
-                User user = results.get(0);
-                setSessionUser(user);
-                return user;
-            }
-            throw new IllegalStateException();
+        if (!results.isEmpty() && password.equals(results.get(0).getPassword())) {
+            User user = results.get(0);
+            setSessionUser(user);
+            return user;
         }
+        throw new IllegalStateException();
     }
 
     @RequireUser
@@ -150,26 +153,22 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public User register(String login, String password) {
         if (getApplicationSettings().getRegistrationEnabled()) {
-            EntityManager entityManager = getSessionEntityManager();
-            synchronized (entityManager) {
-
-                TypedQuery<User> query = entityManager.createQuery(
-                        "SELECT x FROM User x WHERE x.login = :login", User.class);
-                query.setParameter("login", login);
-                List<User> results = query.getResultList();
-                if (results.isEmpty()) {
-                        User user = new User();
-                        user.setLogin(login);
-                        user.setPassword(password);
-                        user.setManager(Boolean.TRUE); // registered users are always managers
-                        createUser(getSessionEntityManager(), user);
-                        setSessionUser(user);
-                        return user;                
-                }
-                else
-                {
-                    throw new IllegalStateException();
-                }
+            TypedQuery<User> query = getSessionEntityManager().createQuery(
+                    "SELECT x FROM User x WHERE x.login = :login", User.class);
+            query.setParameter("login", login);
+            List<User> results = query.getResultList();
+            if (results.isEmpty()) {
+                    User user = new User();
+                    user.setLogin(login);
+                    user.setPassword(password);
+                    user.setManager(Boolean.TRUE); // registered users are always managers
+                    getSessionEntityManager().persist(user);
+                    setSessionUser(user);
+                    return user;
+            }
+            else
+            {
+                throw new IllegalStateException();
             }
         } else {
             throw new SecurityException();
@@ -180,21 +179,18 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @RequireUser(roles = { Role.ADMIN, Role.MANAGER })
     @Override
     public List<User> getUsers() {
-        EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            User currentUser = getSessionUser();
-            if (!currentUser.getAdmin() && !currentUser.getManager()) {
-                return Collections.emptyList();
-            }
-
-            List<User> users = new LinkedList<User>();
-            if (currentUser.getAdmin()) {
-                users.addAll(entityManager.createQuery("SELECT x FROM User x", User.class).getResultList());
-            } else {
-                users.addAll(currentUser.getAllManagedUsers());
-            }
-            return users;
+        User currentUser = getSessionUser();
+        if (!currentUser.getAdmin() && !currentUser.getManager()) {
+            return Collections.emptyList();
         }
+
+        List<User> users = new LinkedList<User>();
+        if (currentUser.getAdmin()) {
+            users.addAll(getSessionEntityManager().createQuery("SELECT x FROM User x", User.class).getResultList());
+        } else {
+            users.addAll(currentUser.getAllManagedUsers());
+        }
+        return users;
     }
 
     @Transactional(commit = true)
@@ -206,31 +202,20 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
             throw new IllegalArgumentException();
         }
         if (currentUser.getAdmin() || currentUser.getManager()) {
-            EntityManager entityManager = getSessionEntityManager();
-            synchronized (entityManager) {
-                
-                String login = user.getLogin();
-                TypedQuery<User> query = entityManager.createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
-                query.setParameter("login", login);
-                List<User> results = query.getResultList();
-                
-                if (results.isEmpty()) {
-                    entityManager.getTransaction().begin();
-                    try {
-                        if (!currentUser.getAdmin()) {
-                            user.setAdmin(false);
-                        }
-                        user.setManagedBy(currentUser);
-                        entityManager.persist(user);
-                        entityManager.getTransaction().commit();
-                        return user;                        
-                    } catch (RuntimeException e) {
-                        entityManager.getTransaction().rollback();
-                        throw e;
-                    }
-                } else {
-                    throw new IllegalStateException();
+            String login = user.getLogin();
+            TypedQuery<User> query = getSessionEntityManager().createQuery("SELECT x FROM User x WHERE x.login = :login", User.class);
+            query.setParameter("login", login);
+            List<User> results = query.getResultList();
+
+            if (results.isEmpty()) {
+                if (!currentUser.getAdmin()) {
+                    user.setAdmin(false);
                 }
+                user.setManagedBy(currentUser);
+                getSessionEntityManager().persist(user);
+                return user;
+            } else {
+                throw new IllegalStateException();
             }
         } else {
             throw new SecurityException();
@@ -247,30 +232,20 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         }
         if (currentUser.getAdmin() || (currentUser.getId() == user.getId() && !user.getAdmin())) {
             EntityManager entityManager = getSessionEntityManager();
-            synchronized (entityManager) {
-                entityManager.getTransaction().begin();
-                try {
-                    // TODO: better solution?
-                    if (currentUser.getId() == user.getId()) {
-                        currentUser.setLogin(user.getLogin());
-                        currentUser.setPassword(user.getPassword());
-                        currentUser.setUserSettings(user.getUserSettings());
-                        currentUser.setAdmin(user.getAdmin());
-                        currentUser.setManager(user.getManager());
-                        entityManager.merge(currentUser);
-                        user = currentUser;
-                    } else {
-                        // TODO: handle other users
-                    }
-
-                    entityManager.getTransaction().commit();
-                    setSessionUser(user);
-                    return user;
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
-                }
+            // TODO: better solution?
+            if (currentUser.getId() == user.getId()) {
+                currentUser.setLogin(user.getLogin());
+                currentUser.setPassword(user.getPassword());
+                currentUser.setUserSettings(user.getUserSettings());
+                currentUser.setAdmin(user.getAdmin());
+                currentUser.setManager(user.getManager());
+                entityManager.merge(currentUser);
+                user = currentUser;
+            } else {
+                // TODO: handle other users
             }
+
+            return user;
         } else {
             throw new SecurityException();
         }
@@ -283,36 +258,14 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         User currentUser = getSessionUser();
         if (currentUser.getAdmin()) {
             EntityManager entityManager = getSessionEntityManager();
-            synchronized (entityManager) {
-                entityManager.getTransaction().begin();
-                try {
-                    user = entityManager.merge(user);
-                    for (Device device : user.getDevices()) {
-                        device.getUsers().remove(user);
-                    }
-                    entityManager.remove(user);
-                    entityManager.getTransaction().commit();
-                    return user;
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
-                }
+            user = entityManager.merge(user);
+            for (Device device : user.getDevices()) {
+                device.getUsers().remove(user);
             }
+            entityManager.remove(user);
+            return user;
         } else {
             throw new SecurityException();
-        }
-    }
-
-    private void createUser(EntityManager entityManager, User user) {
-        synchronized (entityManager) {
-            entityManager.getTransaction().begin();
-            try {
-                entityManager.persist(user);
-                entityManager.getTransaction().commit();
-            } catch (RuntimeException e) {
-                entityManager.getTransaction().rollback();
-                throw e;
-            }
         }
     }
 
@@ -320,21 +273,11 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @RequireUser
     @Override
     public List<Device> getDevices() {
-        EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            if (!entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().begin();
-            }
-            User user = getSessionUser();
-            try {
-                if (user.getAdmin()) {
-                    return entityManager.createQuery("SELECT x FROM Device x").getResultList();
-                }
-                return user.getAllAvailableDevices();
-            } finally {
-                entityManager.getTransaction().rollback();
-            }
+        User user = getSessionUser();
+        if (user.getAdmin()) {
+            return getSessionEntityManager().createQuery("SELECT x FROM Device x").getResultList();
         }
+        return user.getAllAvailableDevices();
     }
 
     @Transactional(commit = true)
@@ -342,30 +285,19 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public Device addDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {         
-            TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
-            query.setParameter("id", device.getUniqueId());
-            List<Device> results = query.getResultList();
-            
-            User user = getSessionUser();
+        TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id", Device.class);
+        query.setParameter("id", device.getUniqueId());
+        List<Device> results = query.getResultList();
 
-            if (results.isEmpty()) {
-                entityManager.getTransaction().begin();
-                try {
-                    device.setUsers(new HashSet<User>(1));
-                    device.getUsers().add(user);
-                    entityManager.persist(device);
-                    entityManager.getTransaction().commit();
-                    return device;                
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
-                }
-            }
-            else
-            {
-                throw new IllegalStateException();
-            }
+        User user = getSessionUser();
+
+        if (results.isEmpty()) {
+            device.setUsers(new HashSet<User>(1));
+            device.getUsers().add(user);
+            entityManager.persist(device);
+            return device;
+        } else {
+            throw new IllegalStateException();
         }
     }
 
@@ -374,30 +306,18 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public Device updateDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
+        TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id AND x.id <> :primary_id", Device.class);
+        query.setParameter("primary_id", device.getId());
+        query.setParameter("id", device.getUniqueId());
+        List<Device> results = query.getResultList();
 
-            TypedQuery<Device> query = entityManager.createQuery("SELECT x FROM Device x WHERE x.uniqueId = :id AND x.id <> :primary_id", Device.class);
-            query.setParameter("primary_id", device.getId());
-            query.setParameter("id", device.getUniqueId());
-            List<Device> results = query.getResultList();            
-            
-            if (results.isEmpty()) {
-                entityManager.getTransaction().begin();
-                try {
-                    Device tmp_device = entityManager.find(Device.class, device.getId());
-                    tmp_device.setName(device.getName());
-                    tmp_device.setUniqueId(device.getUniqueId());
-                    entityManager.getTransaction().commit();
-                    return tmp_device;
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
-                }
-            }
-            else
-            {
-                throw new IllegalStateException();
-            }
+        if (results.isEmpty()) {
+            Device tmp_device = entityManager.find(Device.class, device.getId());
+            tmp_device.setName(device.getName());
+            tmp_device.setUniqueId(device.getUniqueId());
+            return tmp_device;
+        } else {
+            throw new IllegalStateException();
         }
     }
 
@@ -406,33 +326,24 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public Device removeDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            User user = getSessionUser();
-            entityManager.getTransaction().begin();
-            try {
-                device = entityManager.merge(device);
-                if (user.getAdmin() || user.getManager()) {
-                    device.getUsers().removeAll(getUsers());
-                }
-                device.getUsers().remove(user);
-                /**
-                 * Remove device only if there is no more associated users in DB
-                 */
-                if (device.getUsers().isEmpty()) {
-                    device.setLatestPosition(null);
-                    entityManager.flush();
-                    Query query = entityManager.createQuery("DELETE FROM Position x WHERE x.device = :device");
-                    query.setParameter("device", device);
-                    query.executeUpdate();
-                    entityManager.remove(device);
-                }
-                entityManager.getTransaction().commit();
-                return device;
-            } catch (RuntimeException e) {
-                entityManager.getTransaction().rollback();
-                throw e;
-            }
+        User user = getSessionUser();
+        device = entityManager.merge(device);
+        if (user.getAdmin() || user.getManager()) {
+            device.getUsers().removeAll(getUsers());
         }
+        device.getUsers().remove(user);
+        /**
+         * Remove device only if there is no more associated users in DB
+         */
+        if (device.getUsers().isEmpty()) {
+            device.setLatestPosition(null);
+            entityManager.flush();
+            Query query = entityManager.createQuery("DELETE FROM Position x WHERE x.device = :device");
+            query.setParameter("device", device);
+            query.executeUpdate();
+            entityManager.remove(device);
+        }
+        return device;
     }
 
     @Transactional
@@ -440,19 +351,17 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public List<Position> getPositions(Device device, Date from, Date to, String speedModifier, Double speed) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            List<Position> positions = new LinkedList<Position>();
-            TypedQuery<Position> query = entityManager.createQuery(
-                    "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to" + (speed == null ? "" : " AND speed " + speedModifier + " :speed"), Position.class);
-            query.setParameter("device", device);
-            query.setParameter("from", from);
-            query.setParameter("to", to);
-            if (speed != null) {
-                query.setParameter("speed", getSessionUser().getUserSettings().getSpeedUnit().toKnots(speed));
-            }
-            positions.addAll(query.getResultList());
-            return positions;
+        List<Position> positions = new LinkedList<Position>();
+        TypedQuery<Position> query = entityManager.createQuery(
+                "SELECT x FROM Position x WHERE x.device = :device AND x.time BETWEEN :from AND :to" + (speed == null ? "" : " AND speed " + speedModifier + " :speed"), Position.class);
+        query.setParameter("device", device);
+        query.setParameter("from", from);
+        query.setParameter("to", to);
+        if (speed != null) {
+            query.setParameter("speed", getSessionUser().getUserSettings().getSpeedUnit().toKnots(speed));
         }
+        positions.addAll(query.getResultList());
+        return positions;
     }
 
     @RequireUser
@@ -476,22 +385,13 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     private ApplicationSettings getApplicationSettings() {
         if (applicationSettings == null) {
             EntityManager entityManager = getServletEntityManager();
-            synchronized (entityManager) {
-                TypedQuery<ApplicationSettings> query = entityManager.createQuery("SELECT x FROM ApplicationSettings x", ApplicationSettings.class);
-                List<ApplicationSettings> resultList = query.getResultList();
-                if (resultList == null || resultList.isEmpty()) {
-                    applicationSettings = new ApplicationSettings();
-                    entityManager.getTransaction().begin();
-                    try {
-                        entityManager.persist(applicationSettings);
-                        entityManager.getTransaction().commit();
-                    } catch (RuntimeException e) {
-                        entityManager.getTransaction().rollback();
-                        throw e;
-                    }
-                } else {
-                    applicationSettings = resultList.get(0);
-                }
+            TypedQuery<ApplicationSettings> query = entityManager.createQuery("SELECT x FROM ApplicationSettings x", ApplicationSettings.class);
+            List<ApplicationSettings> resultList = query.getResultList();
+            if (resultList == null || resultList.isEmpty()) {
+                applicationSettings = new ApplicationSettings();
+                entityManager.persist(applicationSettings);
+            } else {
+                applicationSettings = resultList.get(0);
             }
         }
         return applicationSettings;
@@ -505,22 +405,13 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
             return getApplicationSettings();
         } else {
             EntityManager entityManager = getServletEntityManager();
-            synchronized (entityManager) {
-                User user = getSessionUser();
-                if (user.getAdmin()) {
-                    entityManager.getTransaction().begin();
-                    try {
-                        entityManager.merge(applicationSettings);
-                        entityManager.getTransaction().commit();
-                        this.applicationSettings =  applicationSettings;
-                        return applicationSettings;
-                    } catch (RuntimeException e) {
-                        entityManager.getTransaction().rollback();
-                        throw e;
-                    }
-                } else {
-                    throw new SecurityException();
-                }
+            User user = getSessionUser();
+            if (user.getAdmin()) {
+                entityManager.merge(applicationSettings);
+                this.applicationSettings =  applicationSettings;
+                return applicationSettings;
+            } else {
+                throw new SecurityException();
             }
         }
     }
@@ -584,26 +475,17 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         }
 
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            User currentUser = getSessionUser();
-            if (currentUser.getAdmin() || currentUser.getManager()) {
-                entityManager.getTransaction().begin();
-                try {
-                    for (User _user : users) {
-                        User user = entityManager.find(User.class, _user.getId());
-                        if (currentUser.getAdmin()) {
-                            user.setAdmin(_user.getAdmin());
-                        }
-                        user.setManager(_user.getManager());
-                    }
-                    entityManager.getTransaction().commit();
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
+        User currentUser = getSessionUser();
+        if (currentUser.getAdmin() || currentUser.getManager()) {
+            for (User _user : users) {
+                User user = entityManager.find(User.class, _user.getId());
+                if (currentUser.getAdmin()) {
+                    user.setAdmin(_user.getAdmin());
                 }
-            } else {
-                throw new SecurityException();
+                user.setManager(_user.getManager());
             }
+        } else {
+            throw new SecurityException();
         }
     }
 
@@ -625,31 +507,22 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     @Override
     public void saveDeviceShare(Device device, Map<User, Boolean> share) {
         EntityManager entityManager = getSessionEntityManager();
-        synchronized (entityManager) {
-            User currentUser = getSessionUser();
-            if (currentUser.getAdmin() || currentUser.getManager()) {
-                try {
-                    entityManager.getTransaction().begin();
-                    device = entityManager.find(Device.class, device.getId());
+        User currentUser = getSessionUser();
+        if (currentUser.getAdmin() || currentUser.getManager()) {
+            device = entityManager.find(Device.class, device.getId());
 
-                    for (User user : getUsers()) {
-                        Boolean shared = share.get(user);
-                        if (shared == null) continue;
-                        if (shared.booleanValue()) {
-                            device.getUsers().add(user);
-                        } else {
-                            device.getUsers().remove(user);
-                        }
-                        entityManager.merge(user);
-                    }
-                    entityManager.getTransaction().commit();
-                } catch (RuntimeException e) {
-                    entityManager.getTransaction().rollback();
-                    throw e;
+            for (User user : getUsers()) {
+                Boolean shared = share.get(user);
+                if (shared == null) continue;
+                if (shared.booleanValue()) {
+                    device.getUsers().add(user);
+                } else {
+                    device.getUsers().remove(user);
                 }
-            } else {
-                throw new SecurityException();
+                entityManager.merge(user);
             }
+        } else {
+            throw new SecurityException();
         }
     }
 }
