@@ -26,6 +26,8 @@ import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
+import org.gwtopenmaps.openlayers.client.event.MapMoveListener;
+import org.gwtopenmaps.openlayers.client.event.MapZoomListener;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.layer.Bing;
 import org.gwtopenmaps.openlayers.client.layer.BingOptions;
@@ -168,6 +170,20 @@ public class MapView {
             }
         });
 
+        map.addMapMoveListener(new MapMoveListener() {
+            @Override
+            public void onMapMove(MapMoveEvent eventObject) {
+                hidePopup();
+            }
+        });
+
+        map.addMapZoomListener(new MapZoomListener() {
+            @Override
+            public void onMapZoom(MapZoomEvent eventObject) {
+                hidePopup();
+            }
+        });
+
         latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler, positionMouseHandler);
         archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler, positionMouseHandler);
         latestPositionTrackRenderer = new MapPositionRenderer(this, null, null, null);
@@ -229,17 +245,17 @@ public class MapView {
     };
 
     private MapPositionRenderer.MouseHandler positionMouseHandler = new MapPositionRenderer.MouseHandler() {
-        PositionInfoPopup popup = new PositionInfoPopup();
 
         @Override
         public void onMouseOver(Position position) {
-            popup.show(MapView.this, position);
+            showPopup(position);
         }
 
         @Override
         public void onMouseOut(Position position) {
-            popup.hide();
+            hidePopup();
         }
+
     };
 
     private MapPositionRenderer.SelectHandler archivePositionSelectHandler = new MapPositionRenderer.SelectHandler() {
@@ -253,5 +269,15 @@ public class MapView {
 
     public void catchPosition(Position position) {
         latestPositionRenderer.catchPosition(position);
+    }
+
+    private PositionInfoPopup popup = new PositionInfoPopup();
+
+    private void showPopup(Position position) {
+        popup.show(this, position);
+    }
+
+    private void hidePopup() {
+        popup.hide();
     }
 }
