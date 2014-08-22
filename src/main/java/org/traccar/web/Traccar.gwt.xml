@@ -20,4 +20,5 @@
   <source path='shared'/>
 
   <extend-property name="locale" values="ru" />
+  <extend-property name="locale" values="de" />
 </module>
