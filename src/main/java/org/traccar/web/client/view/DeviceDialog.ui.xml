@@ -11,9 +11,11 @@
     <ui:attributes width="1" height="-1" />
   </ui:with>
 
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="integerPropertyEditor" />
+
   <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
 
-  <gxt:Window ui:field="window" pixelSize="300, 130" modal="true" headingText="{i18n.device}" focusWidget="{saveButton}">
+  <gxt:Window ui:field="window" pixelSize="300, 140" modal="true" headingText="{i18n.device}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
         <form:FieldLabel text="{i18n.name}">
@@ -28,6 +30,19 @@
             <form:TextField ui:field="uniqueId" />
           </form:widget>
         </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+          <form:FieldLabel text="{i18n.deviceTimeout} ({i18n.second})">
+              <form:widget>
+                  <form:NumberField editor="{integerPropertyEditor}"
+                                    ui:field="timeout"
+                                    allowNegative="false"
+                                    allowDecimals="false"
+                                    allowBlank="false"
+                                    width="5" />
+
+              </form:widget>
+          </form:FieldLabel>
       </container:child>
     </container:VerticalLayoutContainer>
       

@@ -15,6 +15,10 @@
  */
 package org.traccar.web.client.view;
 
+import com.sencha.gxt.widget.core.client.form.NumberField;
+import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
+import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
+import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
 import org.traccar.web.shared.model.Device;
 
 import com.google.gwt.core.client.GWT;
@@ -55,9 +59,19 @@ public class DeviceDialog implements Editor<Device> {
     @UiField
     TextField uniqueId;
 
+    @UiField(provided = true)
+    NumberPropertyEditor<Integer> integerPropertyEditor = new NumberPropertyEditor.IntegerPropertyEditor();
+
+    @UiField
+    NumberField<Integer> timeout;
+
     public DeviceDialog(Device device, DeviceHandler deviceHandler) {
         this.deviceHandler = deviceHandler;
         uiBinder.createAndBindUi(this);
+
+        timeout.addValidator(new MinNumberValidator<Integer>(1));
+        timeout.addValidator(new MaxNumberValidator<Integer>(7 * 24 * 60 * 60));
+
         driver.initialize(this);
         driver.edit(device);
     }

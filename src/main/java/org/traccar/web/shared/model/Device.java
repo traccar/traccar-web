@@ -27,6 +27,7 @@ import javax.persistence.*;
 public class Device implements Serializable {
 
     private static final long serialVersionUID = 1;
+    public static final short DEFAULT_TIMEOUT = 5 * 60;
 
     public Device() {
     }
@@ -35,6 +36,7 @@ public class Device implements Serializable {
         id = device.id;
         uniqueId = device.uniqueId;
         name = device.name;
+        timeout = device.timeout;
     }
 
     @Id
@@ -96,6 +98,19 @@ public class Device implements Serializable {
 
     public void setRecordTrace(boolean recordTrace) {
         this.recordTrace = recordTrace;
+    }
+
+    /**
+     * Consider device offline after 'timeout' seconds spent from last position
+     */
+    private int timeout = DEFAULT_TIMEOUT;
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 
     @GwtTransient

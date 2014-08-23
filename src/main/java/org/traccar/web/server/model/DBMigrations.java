@@ -16,6 +16,7 @@
 package org.traccar.web.server.model;
 
 import org.traccar.web.shared.model.ApplicationSettings;
+import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.User;
 import org.traccar.web.shared.model.UserSettings;
 
@@ -30,7 +31,8 @@ public class DBMigrations {
                 new SetUpdateInterval(),
                 new SetTimePrintInterval(),
                 new SetDefaultMapViewSettings(),
-                new SetManagerFlag()
+                new SetManagerFlag(),
+                new SetDefaultDeviceTimeout()
 
         }) {
             em.getTransaction().begin();
@@ -112,6 +114,18 @@ public class DBMigrations {
         public void migrate(EntityManager em) throws Exception {
             em.createQuery("UPDATE " + User.class.getSimpleName() + " U SET U.manager = :mgr WHERE U.manager IS NULL")
                     .setParameter("mgr", Boolean.FALSE)
+                    .executeUpdate();
+        }
+    }
+
+    /**
+     * set up default timeout to 5 minutes
+     */
+    static class SetDefaultDeviceTimeout implements Migration {
+        @Override
+        public void migrate(EntityManager em) throws Exception {
+            em.createQuery("UPDATE " + Device.class.getSimpleName() + " D SET D.timeout = :tmout WHERE D.timeout IS NULL OR D.timeout <= 0")
+                    .setParameter("tmout", Integer.valueOf(Device.DEFAULT_TIMEOUT))
                     .executeUpdate();
         }
     }

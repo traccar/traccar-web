@@ -31,6 +31,8 @@ public interface DeviceProperties extends PropertyAccess<Device> {
 
     ValueProvider<Device, String> name();
 
+    ValueProvider<Device, Integer> timeout();
+
     @Path("name")
     LabelProvider<Device> label();
 

@@ -293,6 +293,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
             Device tmp_device = entityManager.find(Device.class, device.getId());
             tmp_device.setName(device.getName());
             tmp_device.setUniqueId(device.getUniqueId());
+            tmp_device.setTimeout(device.getTimeout());
             return tmp_device;
         } else {
             throw new IllegalStateException();
