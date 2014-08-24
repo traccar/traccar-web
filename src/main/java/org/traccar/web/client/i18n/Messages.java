@@ -152,7 +152,7 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
 
     String second();
 
-    String ago();
+    String ago(String dateTimeString);
 
     String meter();
 
@@ -164,7 +164,7 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
 
     String offline();
 
-    String since();
+    String since(String dateTimeString);
 
     String idle();
 }
