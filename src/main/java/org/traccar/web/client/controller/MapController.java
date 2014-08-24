@@ -66,16 +66,32 @@ public class MapController implements ContentController, MapView.MapHandler {
 
     @Override
     public void run() {
+        latestNonIdlePositionMap.clear();
         updateTimer = new Timer() {
             @Override
             public void run() {
                 update();
             }
         };
-        update();
+        Application.getDataService().getLatestNonIdlePositions(new AsyncCallback<List<Position>>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                update();
+            }
+
+            @Override
+            public void onSuccess(List<Position> positions) {
+                for (Position position : positions) {
+                    latestNonIdlePositionMap.put(position.getDevice().getId(), position);
+                }
+                update();
+            }
+        });
     }
 
     private Map<Long, Position> latestPositionMap = new HashMap<Long, Position>();
+
+    private Map<Long, Position> latestNonIdlePositionMap = new HashMap<Long, Position>();
 
     private Map<Long, Position> timestampMap = new HashMap<Long, Position>();
 
@@ -119,6 +135,16 @@ public class MapController implements ContentController, MapView.MapHandler {
                                 (position.getTime().getTime() - prevTimestampPosition.getTime().getTime() >= ApplicationContext.getInstance().getUserSettings().getTimePrintInterval() * 60 * 1000)) {
                             mapView.showLatestTime(Arrays.asList(position));
                             timestampMap.put(device.getId(), position);
+                        }
+                    }
+                    if (position.getSpeed() != null) {
+                        if (position.getSpeed().doubleValue() > 0) {
+                            latestNonIdlePositionMap.put(device.getId(), position);
+                        } else {
+                            Position latestNonIdlePosition = latestNonIdlePositionMap.get(device.getId());
+                            if (latestNonIdlePosition != null) {
+                                position.setIdleSince(latestNonIdlePosition.getTime());
+                            }
                         }
                     }
                     latestPositionMap.put(device.getId(), position);

@@ -67,4 +67,6 @@ public interface DataServiceAsync {
     void getDeviceShare(Device device, AsyncCallback<Map<User, Boolean>> async);
 
     void saveDeviceShare(Device device, Map<User, Boolean> share, AsyncCallback<Void> async);
+
+    void getLatestNonIdlePositions(AsyncCallback<List<Position>> async);
 }

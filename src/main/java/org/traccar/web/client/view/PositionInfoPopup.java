@@ -36,20 +36,11 @@ public class PositionInfoPopup {
     }
 
     public void show(int x, int y, final Position position) {
-        long diff = System.currentTimeMillis() - position.getTime().getTime();
-
-        long diffSeconds = diff / 1000 % 60;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-        long diffDays = diff / (24 * 60 * 60 * 1000);
-
-        String diffString = diffDays > 0 ? diffDays + i18n.day() + " " + diffHours + i18n.hour() :
-                diffHours > 0 ? diffHours + i18n.hour() + " " + diffMinutes + i18n.minute() :
-                        diffMinutes > 0 ? diffMinutes + i18n.minute() + " " + diffSeconds + i18n.second() :
-                                diffSeconds + i18n.second();
+        long current = System.currentTimeMillis();
 
         String body = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">" +
-                "<tr><td style=\"border-width: 1px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" width=\"100%\" colspan=\"2\">" + diffString + " " + i18n.ago() + "<br>(" + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getTime()) + ")</td></tr>" +
+                "<tr><td style=\"border-width: 1px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" width=\"100%\" colspan=\"2\">" + formatDateTimeDiff(current - position.getTime().getTime()) + " " + i18n.ago() + "<br>(" + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getTime()) + ")</td></tr>" +
+                (position.getIdleSince() == null ? "" : ("<tr><td style=\"font-size: 11pt; border-width: 0px 1px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 0px;\" valign=\"center\">" + i18n.idle() + "</td><td style=\"border-width: 0px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 10px;\" colspan=\"2\">" + formatDateTimeDiff(current - position.getIdleSince().getTime()) + "<br>(" + i18n.since() + " " + ApplicationContext.getInstance().getFormatterUtil().getTimeFormat().format(position.getIdleSince()) + ")</td></tr>")) +
                 (position.getAddress() == null || position.getAddress().isEmpty() ? "" : ("<tr><td style=\"border-width: 0px 0px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 0px 3px 0px;\" colspan=\"2\">" + position.getAddress() + "</td></tr>")) +
                 "<tr>" +
                 "<td style=\"font-size: 12pt; border-width: 0px 1px 1px 0px; border-style: solid; border-color: #000000; padding: 3px 10px 3px 0px;\" valign=\"bottom\">" + ApplicationContext.getInstance().getFormatterUtil().getSpeedFormat().format(position.getSpeed()) + "</td>" +
@@ -82,6 +73,18 @@ public class PositionInfoPopup {
 
         toolTip.update(config);
         toolTip.showAt(x + 15, y + 15);
+    }
+
+    private String formatDateTimeDiff(long diff) {
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+
+        return diffDays > 0 ? diffDays + i18n.day() + " " + diffHours + i18n.hour() :
+                diffHours > 0 ? diffHours + i18n.hour() + " " + diffMinutes + i18n.minute() :
+                        diffMinutes > 0 ? diffMinutes + i18n.minute() + " " + diffSeconds + i18n.second() :
+                                diffSeconds + i18n.second();
     }
 
     public void show(final MapView mapView, final Position position) {

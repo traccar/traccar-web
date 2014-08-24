@@ -359,6 +359,29 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
         return positions;
     }
 
+    @RequireUser
+    @Transactional
+    @Override
+    public List<Position> getLatestNonIdlePositions() {
+        List<Position> positions = new LinkedList<Position>();
+        List<Device> devices = getDevices();
+        if (devices != null && !devices.isEmpty()) {
+            EntityManager entityManager = getSessionEntityManager();
+
+            for (Device device : devices) {
+                Position position = (Position) entityManager.createQuery("SELECT p FROM Position p WHERE p.device = :device AND p.speed > 0 ORDER BY time DESC")
+                        .setParameter("device", device)
+                        .setMaxResults(1)
+                        .getSingleResult();
+
+                if (position != null) {
+                    positions.add(position);
+                }
+            }
+        }
+        return positions;
+    }
+
     @Override
     public ApplicationSettings getApplicationSettings() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

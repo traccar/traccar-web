@@ -156,4 +156,15 @@ public class Position implements Serializable, Cloneable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @GwtTransient
+    private transient Date idleSince;
+
+    public Date getIdleSince() {
+        return idleSince;
+    }
+
+    public void setIdleSince(Date idleSince) {
+        this.idleSince = idleSince;
+    }
 }

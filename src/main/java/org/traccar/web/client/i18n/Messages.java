@@ -163,4 +163,8 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String deviceTimeout();
 
     String offline();
+
+    String since();
+
+    String idle();
 }
