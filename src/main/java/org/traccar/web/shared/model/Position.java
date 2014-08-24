@@ -25,13 +25,31 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.google.gwt.user.client.rpc.GwtTransient;
 import org.hibernate.annotations.Index;
+import org.traccar.web.client.view.MarkerIconFactory;
 
 @Entity
 @Table(name = "positions")
 public class Position implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1;
+
+    public enum Status {
+        ARCHIVE(MarkerIconFactory.IconType.iconArchive),
+        OFFLINE(MarkerIconFactory.IconType.iconOffline),
+        LATEST(MarkerIconFactory.IconType.iconLatest);
+
+        final MarkerIconFactory.IconType iconType;
+
+        Status(MarkerIconFactory.IconType iconType) {
+            this.iconType = iconType;
+        }
+
+        public MarkerIconFactory.IconType getIconType() {
+            return iconType;
+        }
+    }
 
     public Position() {
     }
@@ -128,4 +146,14 @@ public class Position implements Serializable, Cloneable {
         return other;
     }
 
+    @GwtTransient
+    private transient Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

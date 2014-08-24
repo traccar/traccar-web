@@ -23,6 +23,7 @@ import org.traccar.web.client.i18n.Messages;
 import org.traccar.web.client.model.BaseAsyncCallback;
 import org.traccar.web.client.model.PositionProperties;
 import org.traccar.web.client.view.ArchiveView;
+import org.traccar.web.client.view.MarkerIconFactory;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -80,6 +81,9 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
                     if (result.isEmpty()) {
                         new AlertMessageBox(i18n.error(), i18n.errNoResults()).show();
                     } else {
+                        for (Position position : result) {
+                            position.setStatus(Position.Status.ARCHIVE);
+                        }
                         positionStore.addAll(result);
                     }
                 }

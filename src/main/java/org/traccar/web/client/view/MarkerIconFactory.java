@@ -19,7 +19,7 @@ import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Size;
 
-class MarkerIconFactory {
+public class MarkerIconFactory {
 
     private static final Size iconSize = new Size(21, 25);
     private static final Pixel iconOffset = new Pixel(-10.5f, -25.0f);
@@ -28,6 +28,7 @@ class MarkerIconFactory {
 
     public static enum IconType {
         iconLatest(iconUrl + "marker-green.png", iconUrl + "marker.png"),
+        iconOffline(iconUrl + "marker-green.png", "img/marker-white.png"),
         iconArchive(iconUrl + "marker-gold.png", iconUrl + "marker-blue.png");
 
         private final String selectedURL;
@@ -45,10 +46,6 @@ class MarkerIconFactory {
         Icon getIcon(boolean selected) {
             return new Icon(getURL(selected), iconSize, iconOffset);
         }
-    };
-
-    public static String getIconUrl(IconType type, boolean selected) {
-        return type == null ? null : type.getURL(selected);
     }
 
     public static Icon getIcon(IconType type, boolean selected) {

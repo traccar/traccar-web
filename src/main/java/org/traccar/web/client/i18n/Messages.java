@@ -161,4 +161,6 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
     String share();
 
     String deviceTimeout();
+
+    String offline();
 }

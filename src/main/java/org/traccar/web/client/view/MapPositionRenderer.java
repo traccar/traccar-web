@@ -42,7 +42,6 @@ public class MapPositionRenderer {
     }
 
     private final MapView mapView;
-    private final MarkerIconFactory.IconType iconType;
 
     protected Vector getVectorLayer() {
         return mapView.getVectorLayer();
@@ -55,9 +54,8 @@ public class MapPositionRenderer {
     private final SelectHandler selectHandler;
     private final MouseHandler mouseHandler;
 
-    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType, SelectHandler selectHandler, MouseHandler mouseHandler) {
+    public MapPositionRenderer(MapView mapView, SelectHandler selectHandler, MouseHandler mouseHandler) {
         this.mapView = mapView;
-        this.iconType = iconType;
         this.selectHandler = selectHandler;
         this.mouseHandler = mouseHandler;
     }
@@ -90,12 +88,12 @@ public class MapPositionRenderer {
         }
     }
 
-    private void changeMarkerIcon(Long positionId, Icon icon) {
-        Marker oldMarker = markerMap.get(positionId);
+    private void changeMarkerIcon(Position position, Icon icon) {
+        Marker oldMarker = markerMap.get(position.getId());
         Marker newMarker = new Marker(oldMarker.getLonLat(), icon);
-        addSelectEvent(newMarker, positionMap.get(positionId));
-        addMouseEvent(newMarker, positionMap.get(positionId));
-        markerMap.put(positionId, newMarker);
+        addSelectEvent(newMarker, position);
+        addMouseEvent(newMarker, position);
+        markerMap.put(position.getId(), newMarker);
         getMarkerLayer().addMarker(newMarker);
         getMarkerLayer().removeMarker(oldMarker);
     }
@@ -123,7 +121,7 @@ public class MapPositionRenderer {
         for (Position position : positions) {
             Marker marker = new Marker(
                     mapView.createLonLat(position.getLongitude(), position.getLatitude()),
-                    MarkerIconFactory.getIcon(iconType, false));
+                    MarkerIconFactory.getIcon(position.getStatus().getIconType(), false));
             markerMap.put(position.getId(), marker);
             deviceMap.put(position.getDevice().getId(), position.getId());
             positionMap.put(position.getId(), position);
@@ -242,10 +240,12 @@ public class MapPositionRenderer {
 
     private boolean selectPosition(Long oldPositionId, Long newPositionId, boolean center) {
         if (oldPositionId != null && markerMap.containsKey(oldPositionId)) {
-            changeMarkerIcon(oldPositionId, MarkerIconFactory.getIcon(iconType, false));
+            Position oldPosition = positionMap.get(oldPositionId);
+            changeMarkerIcon(oldPosition, MarkerIconFactory.getIcon(oldPosition.getStatus().getIconType(), false));
         }
         if (newPositionId != null && markerMap.containsKey(newPositionId)) {
-            changeMarkerIcon(newPositionId, MarkerIconFactory.getIcon(iconType, true));
+            Position newPosition = positionMap.get(newPositionId);
+            changeMarkerIcon(newPosition, MarkerIconFactory.getIcon(newPosition.getStatus().getIconType(), true));
             if (center) {
                 mapView.getMap().panTo(markerMap.get(newPositionId).getLonLat());
             }

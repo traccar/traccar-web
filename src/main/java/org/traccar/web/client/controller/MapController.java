@@ -27,6 +27,7 @@ import java.util.Map;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.view.MapView;
+import org.traccar.web.client.view.MarkerIconFactory;
 import org.traccar.web.shared.model.Device;
 import org.traccar.web.shared.model.Position;
 
@@ -83,8 +84,22 @@ public class MapController implements ContentController, MapView.MapHandler {
         Application.getDataService().getLatestPositions(new AsyncCallback<List<Position>>() {
             @Override
             public void onSuccess(List<Position> result) {
+                /**
+                 * Set up icon
+                 */
+                long currentTime = System.currentTimeMillis();
+                for (Position position : result) {
+                    boolean isOffline = currentTime - position.getTime().getTime() > position.getDevice().getTimeout() * 1000;
+                    position.setStatus(isOffline ? Position.Status.OFFLINE : Position.Status.LATEST);
+                }
+                /**
+                 * Draw positions
+                 */
                 mapView.showLatestPositions(result);
                 mapView.showDeviceName(result);
+                /**
+                 * Follow positions and draw track if necessary
+                 */
                 for (Position position : result) {
                     Device device = position.getDevice();
                     Position prevPosition = latestPositionMap.get(device.getId());

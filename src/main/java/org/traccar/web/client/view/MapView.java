@@ -184,9 +184,9 @@ public class MapView {
             }
         });
 
-        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler, positionMouseHandler);
-        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler, positionMouseHandler);
-        latestPositionTrackRenderer = new MapPositionRenderer(this, null, null, null);
+        latestPositionRenderer = new MapPositionRenderer(this, latestPositionSelectHandler, positionMouseHandler);
+        archivePositionRenderer = new MapPositionRenderer(this, archivePositionSelectHandler, positionMouseHandler);
+        latestPositionTrackRenderer = new MapPositionRenderer(this, null, null);
     }
 
     private final MapPositionRenderer latestPositionRenderer;
