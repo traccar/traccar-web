@@ -18,6 +18,7 @@ This project has following features, which don't exist in original `traccar-web`
 * recording device trace
 * printing time stamps at device trace points (frequency is configured in Settings >> Preferences) both for archive and recorded trace
 * translation to russian language (available via ?locale=ru URL parameters)
+* translation to german language (available via ?locale=de URL parameter)
 * show server log menu for viewing tracker-server.log file on Web
 * speed filtering in archive view
 * change default map center position, zoom (in Settings >> Preferences)
@@ -29,6 +30,10 @@ This project has following features, which don't exist in original `traccar-web`
   * there is a new menu item called 'Share' to manage access to selected device
 * improved performance of positions loading when DB grows up
 * fixed issue when devices are not updated between different instances of web browser
+* moved DB transaction management and user rights checks outside of data service implementation (AOP)
+* possibility to detect 'offline' devices - when signal hasn't came for some time (set up in device settings). They will be shown on a map with a marker of different colour and there will be some sign in popup that they are actually offline.
+* new device status - idle. It is shown in popup and also there will be a time of idling. Consider that vehicle is idle when it's speed is zero.
+
 
 ## Building
 
