@@ -17,8 +17,10 @@ This project has following features, which don't exist in original `traccar-web`
 * printing device name
 * recording device trace
 * printing time stamps at device trace points (frequency is configured in Settings >> Preferences) both for archive and recorded trace
-* translation to russian language (available via ?locale=ru URL parameters)
-* translation to german language (available via ?locale=de URL parameter)
+* translations to
+  * russian language (available via ?locale=ru URL parameters)
+  * german language (available via ?locale=de URL parameter)
+  * italian language (available via ?locale=it URL parameter)
 * show server log menu for viewing tracker-server.log file on Web
 * speed filtering in archive view
 * change default map center position, zoom (in Settings >> Preferences)
