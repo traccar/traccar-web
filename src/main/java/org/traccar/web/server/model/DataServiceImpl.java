@@ -206,7 +206,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     }
 
     @Transactional(commit = true)
-    @RequireUser(roles = { Role.ADMIN })
+    @RequireUser
     @Override
     public User updateUser(User user) {
         User currentUser = getSessionUser();
