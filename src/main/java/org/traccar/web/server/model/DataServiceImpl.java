@@ -309,7 +309,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
     public Device removeDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
         User user = getSessionUser();
-        device = entityManager.merge(device);
+        device = entityManager.find(Device.class, device.getId());
         if (user.getAdmin() || user.getManager()) {
             device.getUsers().removeAll(getUsers());
         }
