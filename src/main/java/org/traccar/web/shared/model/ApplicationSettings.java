@@ -27,6 +27,8 @@ public class ApplicationSettings implements Serializable {
 
     private Short updateInterval;
 
+    private boolean disallowDeviceManagementByUsers;
+
     public void setRegistrationEnabled(boolean registrationEnabled) {
         this.registrationEnabled = registrationEnabled;
     }
@@ -41,5 +43,13 @@ public class ApplicationSettings implements Serializable {
 
     public void setUpdateInterval(Short updateInterval) {
         this.updateInterval = updateInterval;
+    }
+
+    public boolean isDisallowDeviceManagementByUsers() {
+        return disallowDeviceManagementByUsers;
+    }
+
+    public void setDisallowDeviceManagementByUsers(boolean disallowDeviceManagementByUsers) {
+        this.disallowDeviceManagementByUsers = disallowDeviceManagementByUsers;
     }
 }

@@ -34,8 +34,8 @@
           <button:TextButton ui:field="editButton" text="{i18n.edit}" enabled="false" />
           <button:TextButton ui:field="shareButton" text="{i18n.share}" enabled="false" visible="false" />
           <button:TextButton ui:field="removeButton" text="{i18n.remove}" enabled="false" />
-          <toolbar:FillToolItem />
-          <toolbar:SeparatorToolItem />
+          <toolbar:FillToolItem ui:field="fillItem" />
+          <toolbar:SeparatorToolItem ui:field="separatorItem" />
           <button:TextButton ui:field="settingsButton" text="{i18n.settings}">
             <button:menu>
               <menu:Menu>

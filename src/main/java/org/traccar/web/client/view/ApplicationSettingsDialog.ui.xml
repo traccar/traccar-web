@@ -15,17 +15,24 @@
 
   <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
 
-    <gxt:Window ui:field="window" pixelSize="300, 110" modal="true" headingText="{i18n.globalSettings}" focusWidget="{saveButton}">
+    <gxt:Window ui:field="window" pixelSize="300, 140" modal="true" headingText="{i18n.globalSettings}" focusWidget="{saveButton}">
     <container:VerticalLayoutContainer>
       <container:child layoutData="{verticalLayoutData}">
-        <form:FieldLabel text="{i18n.registration}" labelWidth="140">
+        <form:FieldLabel text="{i18n.registration}" labelWidth="210">
           <form:widget>
             <form:CheckBox ui:field="registrationEnabled" />
           </form:widget>
         </form:FieldLabel>
       </container:child>
       <container:child layoutData="{verticalLayoutData}">
-          <form:FieldLabel text="{i18n.updateInterval}" labelWidth="140">
+        <form:FieldLabel text="{i18n.disallowDeviceManagementByUsers}" labelWidth="210">
+            <form:widget>
+                <form:CheckBox ui:field="disallowDeviceManagementByUsers" />
+            </form:widget>
+        </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+          <form:FieldLabel text="{i18n.updateInterval}" labelWidth="210">
               <form:widget>
                   <form:NumberField editor="{shortPropertyEditor}"
                                     ui:field="updateInterval"

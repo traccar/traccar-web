@@ -21,12 +21,15 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RPC;
 import com.google.gwt.user.server.rpc.RPCRequest;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.traccar.web.shared.model.ApplicationSettings;
 import org.traccar.web.shared.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.List;
 
 abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
     final Object proxy;
@@ -46,6 +49,7 @@ abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Method targetMethod = target.getClass().getMethod(method.getName(), method.getParameterTypes());
             checkAccess(targetMethod);
+            checkDeviceManagementAccess(targetMethod);
             beginTransaction(targetMethod);
             try {
                 return targetMethod.invoke(target, args);
@@ -75,6 +79,28 @@ abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
                         }
                     }
                     throw new SecurityException("User must have " + roles + " role");
+                }
+            } finally {
+                if (method.getAnnotation(Transactional.class) == null) {
+                    endTransaction(false);
+                }
+            }
+        }
+
+        void checkDeviceManagementAccess(Method method) throws Throwable {
+            ManagesDevices managesDevices = method.getAnnotation(ManagesDevices.class);
+            if (managesDevices == null) return;
+            beginTransaction();
+            try {
+                User user = getSessionUser();
+                if (user == null) {
+                    throw new SecurityException("Not logged in");
+                }
+                if (!user.getAdmin() && !user.getManager()) {
+                    ApplicationSettings applicationSettings = getSessionEntityManager().createQuery("SELECT x FROM ApplicationSettings x", ApplicationSettings.class).getSingleResult();
+                    if (applicationSettings.isDisallowDeviceManagementByUsers()) {
+                        throw new SecurityException("Users are not allowed to manage devices");
+                    }
                 }
             } finally {
                 if (method.getAnnotation(Transactional.class) == null) {

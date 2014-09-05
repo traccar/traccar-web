@@ -34,6 +34,8 @@ import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
 import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
 import com.sencha.gxt.widget.core.client.tips.ToolTip;
 import com.sencha.gxt.widget.core.client.tips.ToolTipConfig;
+import com.sencha.gxt.widget.core.client.toolbar.FillToolItem;
+import com.sencha.gxt.widget.core.client.toolbar.SeparatorToolItem;
 import org.traccar.web.client.Application;
 import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.client.i18n.Messages;
@@ -97,6 +99,12 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
     @UiField
     TextButton removeButton;
+
+    @UiField
+    FillToolItem fillItem;
+
+    @UiField
+    SeparatorToolItem separatorItem;
 
     @UiField(provided = true)
     ColumnModel<Device> columnModel;
@@ -184,11 +192,18 @@ public class DeviceView implements SelectionChangedEvent.SelectionChangedHandler
 
         boolean admin = ApplicationContext.getInstance().getUser().getAdmin();
         boolean manager = ApplicationContext.getInstance().getUser().getManager();
+        boolean allowDeviceManagement = !ApplicationContext.getInstance().getApplicationSettings().isDisallowDeviceManagementByUsers();
 
         settingsGlobal.setVisible(admin);
         showTrackerServerLog.setVisible(admin);
         settingsUsers.setVisible(admin || manager);
         shareButton.setVisible(admin || manager);
+
+        addButton.setVisible(allowDeviceManagement || admin || manager);
+        editButton.setVisible(allowDeviceManagement || admin || manager);
+        removeButton.setVisible(allowDeviceManagement || admin || manager);
+        fillItem.setVisible(allowDeviceManagement || admin || manager);
+        separatorItem.setVisible(allowDeviceManagement || admin || manager);
     }
 
     @Override

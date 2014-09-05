@@ -28,4 +28,6 @@ public interface ApplicationSettingsProperties extends PropertyAccess<Applicatio
     ValueProvider<ApplicationSettings, Boolean> registrationEnabled();
 
     ValueProvider<ApplicationSettings, Short> updateInterval();
+
+    ValueProvider<ApplicationSettings, Boolean> disallowDeviceManagementByUsers();
 }

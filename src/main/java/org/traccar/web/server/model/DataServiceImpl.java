@@ -260,6 +260,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
 
     @Transactional(commit = true)
     @RequireUser
+    @ManagesDevices
     @Override
     public Device addDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
@@ -281,6 +282,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
 
     @Transactional(commit = true)
     @RequireUser
+    @ManagesDevices
     @Override
     public Device updateDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
@@ -302,6 +304,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
 
     @Transactional(commit = true)
     @RequireUser
+    @ManagesDevices
     @Override
     public Device removeDevice(Device device) {
         EntityManager entityManager = getSessionEntityManager();
