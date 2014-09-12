@@ -34,7 +34,7 @@ This project has following features, which don't exist in original `traccar-web`
 * fixed issue when devices are not updated between different instances of web browser
 * moved DB transaction management and user rights checks outside of data service implementation (AOP)
 * possibility to detect 'offline' devices - when signal hasn't came for some time (set up in device settings). They will be shown on a map with a marker of different colour and there will be some sign in popup that they are actually offline.
-* new device status - idle. It is shown in popup and also there will be a time of idling. Consider that vehicle is idle when it's speed is zero.
+* new device status - idle. It is shown in popup and also there will be a time of idling. Each device got new setting 'Idle when speed is <=', which is zero by default. It may be changed to some reasonable value, which is then used to consider device idle (for example to handle 'satelite drift compansation').
 * possibility to restrict ordinary users to manage (i.e. add/edit/delete) devices. Configured in global application settings.
 
 
