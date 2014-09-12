@@ -138,7 +138,7 @@ public class MapController implements ContentController, MapView.MapHandler {
                         }
                     }
                     if (position.getSpeed() != null) {
-                        if (position.getSpeed().doubleValue() > 0) {
+                        if (position.getSpeed().doubleValue() > position.getDevice().getIdleSpeedThreshold()) {
                             latestNonIdlePositionMap.put(device.getId(), position);
                         } else {
                             Position latestNonIdlePosition = latestNonIdlePositionMap.get(device.getId());

@@ -296,6 +296,7 @@ public class DataServiceImpl extends AOPRemoteServiceServlet implements DataServ
             tmp_device.setName(device.getName());
             tmp_device.setUniqueId(device.getUniqueId());
             tmp_device.setTimeout(device.getTimeout());
+            tmp_device.setIdleSpeedThreshold(device.getIdleSpeedThreshold());
             return tmp_device;
         } else {
             throw new IllegalStateException();

@@ -37,6 +37,7 @@ public class Device implements Serializable {
         uniqueId = device.uniqueId;
         name = device.name;
         timeout = device.timeout;
+        idleSpeedThreshold = device.idleSpeedThreshold;
     }
 
     @Id
@@ -111,6 +112,16 @@ public class Device implements Serializable {
 
     public void setTimeout(int timeout) {
         this.timeout = timeout;
+    }
+
+    private double idleSpeedThreshold;
+
+    public double getIdleSpeedThreshold() {
+        return idleSpeedThreshold;
+    }
+
+    public void setIdleSpeedThreshold(double idleSpeedThreshold) {
+        this.idleSpeedThreshold = idleSpeedThreshold;
     }
 
     @GwtTransient

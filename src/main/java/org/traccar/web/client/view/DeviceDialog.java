@@ -19,6 +19,7 @@ import com.sencha.gxt.widget.core.client.form.NumberField;
 import com.sencha.gxt.widget.core.client.form.NumberPropertyEditor;
 import com.sencha.gxt.widget.core.client.form.validator.MaxNumberValidator;
 import com.sencha.gxt.widget.core.client.form.validator.MinNumberValidator;
+import org.traccar.web.client.ApplicationContext;
 import org.traccar.web.shared.model.Device;
 
 import com.google.gwt.core.client.GWT;
@@ -65,6 +66,12 @@ public class DeviceDialog implements Editor<Device> {
     @UiField
     NumberField<Integer> timeout;
 
+    @UiField(provided = true)
+    NumberPropertyEditor<Double> doublePropertyEditor = new NumberPropertyEditor.DoublePropertyEditor();
+
+    @UiField
+    NumberField<Double> idleSpeedThreshold;
+
     public DeviceDialog(Device device, DeviceHandler deviceHandler) {
         this.deviceHandler = deviceHandler;
         uiBinder.createAndBindUi(this);
@@ -74,6 +81,8 @@ public class DeviceDialog implements Editor<Device> {
 
         driver.initialize(this);
         driver.edit(device);
+
+        idleSpeedThreshold.setValue(device.getIdleSpeedThreshold() * ApplicationContext.getInstance().getUserSettings().getSpeedUnit().getFactor());
     }
 
     public void show() {
@@ -85,13 +94,15 @@ public class DeviceDialog implements Editor<Device> {
     }
 
     @UiHandler("saveButton")
-    public void onLoginClicked(SelectEvent event) {
+    public void onSaveClicked(SelectEvent event) {
         window.hide();
-        deviceHandler.onSave(driver.flush());
+        Device device = driver.flush();
+        device.setIdleSpeedThreshold(ApplicationContext.getInstance().getUserSettings().getSpeedUnit().toKnots(device.getIdleSpeedThreshold()));
+        deviceHandler.onSave(device);
     }
 
     @UiHandler("cancelButton")
-    public void onRegisterClicked(SelectEvent event) {
+    public void onCancelClicked(SelectEvent event) {
         window.hide();
     }
 
