@@ -48,10 +48,10 @@ abstract class AOPRemoteServiceServlet extends RemoteServiceServlet {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             Method targetMethod = target.getClass().getMethod(method.getName(), method.getParameterTypes());
-            checkAccess(targetMethod);
-            checkDeviceManagementAccess(targetMethod);
-            beginTransaction(targetMethod);
             try {
+                checkAccess(targetMethod);
+                checkDeviceManagementAccess(targetMethod);
+                beginTransaction(targetMethod);
                 return targetMethod.invoke(target, args);
             } finally {
                 endTransaction(targetMethod);
