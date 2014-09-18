@@ -34,6 +34,7 @@ This project has following features, which don't exist in original `traccar-web`
   * german language (available via ?locale=de URL parameter)
   * italian language (available via ?locale=it URL parameter)
   * spanish language (available via ?locale=es URL parameter)
+  * polish language (available via ?locale=pl URL parameter)
 * show server log menu for viewing tracker-server.log file on Web
 * speed filtering in archive view
 * change default map center position, zoom (in Settings >> Preferences)

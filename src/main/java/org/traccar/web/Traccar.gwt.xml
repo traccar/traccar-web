@@ -23,4 +23,5 @@
   <extend-property name="locale" values="de" />
   <extend-property name="locale" values="it" />
   <extend-property name="locale" values="es" />
+  <extend-property name="locale" values="pl" />
 </module>
