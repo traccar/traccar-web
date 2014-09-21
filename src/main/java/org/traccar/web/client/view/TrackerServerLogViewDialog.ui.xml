@@ -1,0 +1,49 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+  	xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+  	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form"
+  	xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="textAreaLayoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="-1" height="-1" />
+  </ui:with>
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="shortPropertyEditor" />
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:Window ui:field="window" pixelSize="640, 480" modal="true" headingText="{i18n.trackerServerLog}" focusWidget="{refreshButton}">
+    <container:VerticalLayoutContainer>
+      <container:child layoutData="{textAreaLayoutData}">
+        <form:TextArea ui:field="logArea"/>
+      </container:child>
+      <container:child layoutData="{layoutData}">
+        <form:FieldLabel text="{i18n.logSize}" labelWidth="136">
+          <form:widget>
+            <form:NumberField editor="{shortPropertyEditor}"
+                            ui:field="logSize"
+                            allowNegative="false"
+                            allowDecimals="false"
+                            allowBlank="false"
+                            width="50" />
+          </form:widget>
+        </form:FieldLabel>
+      </container:child>
+    </container:VerticalLayoutContainer>
+
+    <gxt:button>
+      <button:TextButton ui:field="refreshButton" text="{i18n.refresh}" />
+    </gxt:button>
+    <gxt:button>
+      <button:TextButton ui:field="closeButton" text="{i18n.close}" />
+    </gxt:button>
+  </gxt:Window>
+
+</ui:UiBinder>

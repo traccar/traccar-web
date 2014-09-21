@@ -1,0 +1,76 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="positionStore" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="doublePropertyEditor" />
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="{i18n.archive}">
+    <container:VerticalLayoutContainer>
+
+      <container:child layoutData="{toolBarRowData}">
+        <toolbar:ToolBar>
+
+          <toolbar:LabelToolItem label="{i18n.device}:" />
+          <form:ComboBox ui:field="deviceCombo" editable="false" triggerAction="ALL" />
+          <toolbar:SeparatorToolItem />
+
+          <toolbar:LabelToolItem label="{i18n.from}:" />
+          <form:DateField width="125" ui:field="fromDate" />
+          <toolbar:LabelToolItem width="5" />
+          <form:TimeField width="75" ui:field="fromTime" triggerAction="ALL" />
+          <toolbar:SeparatorToolItem />
+
+          <toolbar:LabelToolItem label="{i18n.to}:" />
+          <form:DateField width="125" ui:field="toDate" />
+          <toolbar:LabelToolItem width="5" />
+          <form:TimeField width="75" ui:field="toTime" triggerAction="ALL" />
+          <toolbar:LabelToolItem label="{i18n.speed}" />
+          <form:ComboBox ui:field="speedModifierCombo" editable="false" allowTextSelection="false" allowBlank="false" width="40" triggerAction="ALL" />
+          <form:NumberField editor="{doublePropertyEditor}"
+                            ui:field="speed"
+                            allowNegative="false"
+                            allowDecimals="true"
+                            allowBlank="true"
+                            width="64" />
+          <toolbar:LabelToolItem ui:field="speedUnits" />
+
+          <toolbar:SeparatorToolItem />
+
+          <button:TextButton ui:field="loadButton" text="{i18n.load}" />
+          <toolbar:FillToolItem />
+          <button:TextButton ui:field="clearButton" text="{i18n.clear}" />
+
+        </toolbar:ToolBar>
+      </container:child>
+      
+      <container:child layoutData="{layoutData}">
+        <grid:Grid ui:field="grid" store="{positionStore}" cm="{columnModel}" view="{view}" />
+      </container:child>
+
+    </container:VerticalLayoutContainer>
+  </gxt:ContentPanel>
+
+</ui:UiBinder>

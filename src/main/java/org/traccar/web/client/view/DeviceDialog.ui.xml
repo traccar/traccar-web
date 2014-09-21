@@ -1,0 +1,71 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+  	xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+  	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form"
+  	xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="verticalLayoutData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="integerPropertyEditor" />
+  <ui:with type="com.sencha.gxt.widget.core.client.form.NumberPropertyEditor" field="doublePropertyEditor" />
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:Window ui:field="window" pixelSize="300, 170" modal="true" headingText="{i18n.device}" focusWidget="{saveButton}">
+    <container:VerticalLayoutContainer>
+      <container:child layoutData="{verticalLayoutData}">
+        <form:FieldLabel text="{i18n.name}" labelWidth="140">
+          <form:widget>
+            <form:TextField ui:field="name" />
+          </form:widget>
+        </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+        <form:FieldLabel text="{i18n.uniqueIdentifier}" labelWidth="140">
+          <form:widget>
+            <form:TextField ui:field="uniqueId" />
+          </form:widget>
+        </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+          <form:FieldLabel text="{i18n.deviceTimeout} ({i18n.second})" labelWidth="140">
+              <form:widget>
+                  <form:NumberField editor="{integerPropertyEditor}"
+                                    ui:field="timeout"
+                                    allowNegative="false"
+                                    allowDecimals="false"
+                                    allowBlank="false"
+                                    width="5" />
+
+              </form:widget>
+          </form:FieldLabel>
+      </container:child>
+      <container:child layoutData="{verticalLayoutData}">
+        <form:FieldLabel text="{i18n.idleWhenSpeedIsLE}" labelWidth="140">
+            <form:widget>
+                <form:NumberField editor="{doublePropertyEditor}"
+                                  ui:field="idleSpeedThreshold"
+                                  allowNegative="false"
+                                  allowDecimals="true"
+                                  allowBlank="false"
+                                  width="5" />
+
+            </form:widget>
+        </form:FieldLabel>
+      </container:child>
+    </container:VerticalLayoutContainer>
+      
+    <gxt:button>
+      <button:TextButton ui:field="saveButton" text="{i18n.save}" />
+    </gxt:button>
+    <gxt:button>
+      <button:TextButton ui:field="cancelButton" text="{i18n.cancel}" />
+    </gxt:button>
+  </gxt:Window>
+
+</ui:UiBinder>

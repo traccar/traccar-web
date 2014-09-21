@@ -1,0 +1,61 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:menu="urn:import:com.sencha.gxt.widget.core.client.menu">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+  
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="deviceStore" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+  
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="{i18n.devices}">
+    <container:VerticalLayoutContainer>
+
+      <container:child layoutData="{toolBarRowData}">
+        <toolbar:ToolBar>
+          <button:TextButton ui:field="addButton" text="{i18n.add}" />
+          <button:TextButton ui:field="editButton" text="{i18n.edit}" enabled="false" />
+          <button:TextButton ui:field="shareButton" text="{i18n.share}" enabled="false" visible="false" />
+          <button:TextButton ui:field="removeButton" text="{i18n.remove}" enabled="false" />
+          <toolbar:FillToolItem ui:field="fillItem" />
+          <toolbar:SeparatorToolItem ui:field="separatorItem" />
+          <button:TextButton ui:field="settingsButton" text="{i18n.settings}">
+            <button:menu>
+              <menu:Menu>
+                <menu:MenuItem text="{i18n.account}" ui:field="settingsAccount" />
+                <menu:MenuItem text="{i18n.preferences}" ui:field="settingsPreferences" />
+                <menu:MenuItem text="{i18n.users}" ui:field="settingsUsers" visible="false" />
+                <menu:MenuItem text="{i18n.global}" ui:field="settingsGlobal" visible="false" />
+                <menu:MenuItem text="{i18n.trackerServerLog}" ui:field="showTrackerServerLog" visible="false" />
+              </menu:Menu>
+            </button:menu>
+          </button:TextButton>
+          <button:TextButton ui:field="logoutButton" text="{i18n.logout}" />
+          </toolbar:ToolBar>
+      </container:child>
+      
+      <container:child layoutData="{layoutData}">
+        <grid:Grid ui:field="grid" store="{deviceStore}" cm="{columnModel}" view="{view}" />
+      </container:child>
+
+    </container:VerticalLayoutContainer>
+  </gxt:ContentPanel>
+
+</ui:UiBinder>

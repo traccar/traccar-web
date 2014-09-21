@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+  	xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+  	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+  	xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:menu="urn:import:com.sencha.gxt.widget.core.client.menu">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+  
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="shareStore" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+  
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <ui:with field='i18n' type='org.traccar.web.client.i18n.Messages' />
+
+  <gxt:Window ui:field="window" pixelSize="640, 480" modal="true" headingText="{i18n.users}">
+    <container:VerticalLayoutContainer>
+      <container:child layoutData="{layoutData}">
+        <gxt:ContentPanel ui:field="contentPanel" headerVisible="false">
+          <container:VerticalLayoutContainer>
+            <container:child layoutData="{layoutData}">
+              <grid:Grid ui:field="grid" store="{shareStore}" cm="{columnModel}" view="{view}" />
+            </container:child>
+          </container:VerticalLayoutContainer>
+        </gxt:ContentPanel>
+      </container:child>
+    </container:VerticalLayoutContainer>
+
+    <gxt:button>
+        <button:TextButton ui:field="saveButton" text="{i18n.save}" />
+    </gxt:button>
+    <gxt:button>
+        <button:TextButton ui:field="cancelButton" text="{i18n.cancel}" />
+    </gxt:button>
+  </gxt:Window>
+
+</ui:UiBinder>
