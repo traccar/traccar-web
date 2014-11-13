@@ -1,0 +1,50 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+  	xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+  	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+  	xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:menu="urn:import:com.sencha.gxt.widget.core.client.menu">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+  
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="userStore" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+  
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <gxt:Window ui:field="window" pixelSize="640, 480" modal="true" headingText="Users">
+    <container:VerticalLayoutContainer>
+      <container:child layoutData="{layoutData}">
+        <gxt:ContentPanel ui:field="contentPanel" headerVisible="false">
+          <container:VerticalLayoutContainer>
+            
+            <container:child layoutData="{toolBarRowData}">
+              <toolbar:ToolBar>
+                <button:TextButton ui:field="addButton" text="Add" />
+                <button:TextButton ui:field="removeButton" text="Remove" enabled="false" />
+              </toolbar:ToolBar>
+            </container:child>
+      
+            <container:child layoutData="{layoutData}">
+              <grid:Grid ui:field="grid" store="{userStore}" cm="{columnModel}" view="{view}" />
+            </container:child>
+
+          </container:VerticalLayoutContainer>
+        </gxt:ContentPanel>
+      </container:child>
+    </container:VerticalLayoutContainer>
+  </gxt:Window>
+
+</ui:UiBinder>

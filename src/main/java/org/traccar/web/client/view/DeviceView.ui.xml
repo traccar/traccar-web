@@ -1,0 +1,57 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button"
+    xmlns:menu="urn:import:com.sencha.gxt.widget.core.client.menu">
+
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="toolBarRowData">
+    <ui:attributes width="1" height="-1" />
+  </ui:with>
+  <ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="layoutData">
+    <ui:attributes width="1" height="1" />
+  </ui:with>
+  
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="deviceStore" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+  
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="Devices">
+    <container:VerticalLayoutContainer>
+
+      <container:child layoutData="{toolBarRowData}">
+        <toolbar:ToolBar>
+          <button:TextButton ui:field="addButton" text="Add" />
+          <button:TextButton ui:field="editButton" text="Edit" enabled="false" />
+          <button:TextButton ui:field="removeButton" text="Remove" enabled="false" />
+          <toolbar:FillToolItem />
+          <toolbar:SeparatorToolItem />
+          <button:TextButton ui:field="settingsButton" text="Settings">
+            <button:menu>
+              <menu:Menu>
+                <menu:MenuItem text="Account" ui:field="settingsAccount" />
+                <menu:MenuItem text="Preferences" ui:field="settingsPreferences" />
+                <menu:MenuItem text="Users" ui:field="settingsUsers" enabled="false" />
+                <menu:MenuItem text="Global" ui:field="settingsGlobal" enabled="false" />
+              </menu:Menu>
+            </button:menu>
+          </button:TextButton>
+          <button:TextButton ui:field="logoutButton" text="Logout" />
+          </toolbar:ToolBar>
+      </container:child>
+      
+      <container:child layoutData="{layoutData}">
+        <grid:Grid ui:field="grid" store="{deviceStore}" cm="{columnModel}" view="{view}" />
+      </container:child>
+
+    </container:VerticalLayoutContainer>
+  </gxt:ContentPanel>
+
+</ui:UiBinder>
