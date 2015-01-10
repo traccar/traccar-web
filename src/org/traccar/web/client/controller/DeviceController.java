@@ -23,7 +23,6 @@ import org.traccar.web.client.model.DeviceProperties;
 import org.traccar.web.client.view.DeviceDialog;
 import org.traccar.web.client.view.DeviceView;
 import org.traccar.web.shared.model.Device;
-import org.traccar.web.shared.model.User;
 
 import com.google.gwt.core.client.GWT;
 import com.sencha.gxt.data.shared.ListStore;
@@ -32,7 +31,6 @@ import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
-import com.sencha.gxt.widget.core.client.event.HideEvent;
 
 public class DeviceController implements ContentController, DeviceView.DeviceHandler {
 
