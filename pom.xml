@@ -9,7 +9,7 @@
   <groupId>org.traccar</groupId>
   <artifactId>traccar-web</artifactId>
   <packaging>war</packaging>
-  <version>2.10-SNAPSHOT</version>
+  <version>2.11-SNAPSHOT</version>
   <name>Traccar Web UI</name>
 
   <properties>
@@ -51,31 +51,31 @@
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
-      <version>1.4.180</version>
+      <version>1.4.184</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>mysql</groupId>
        <artifactId>mysql-connector-java</artifactId>
-       <version>5.1.31</version>
+       <version>5.1.34</version>
        <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>com.sencha.gxt</groupId>
        <artifactId>gxt</artifactId>
-       <version>3.1.0-beta</version>
+       <version>3.1.1</version>
        <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>org.gwtopenmaps.openlayers</groupId>
        <artifactId>gwt-openlayers-client</artifactId>
-       <version>0.9</version>
+       <version>1.0</version>
        <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.7</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
