@@ -15,6 +15,7 @@
  */
 package org.traccar.web.client.view;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class MapPositionRenderer {
 
     private final MapView mapView;
     private final MarkerIconFactory.IconType iconType;
+    private final boolean appendMode;
 
     protected Vector getVectorLayer() {
         return mapView.getVectorLayer();
@@ -54,10 +56,12 @@ public class MapPositionRenderer {
 
     private SelectHandler selectHandler;
 
-    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType, SelectHandler selectHandler) {
+    public MapPositionRenderer(MapView mapView, MarkerIconFactory.IconType iconType,
+                               SelectHandler selectHandler, boolean appendMode) {
         this.mapView = mapView;
         this.iconType = iconType;
         this.selectHandler = selectHandler;
+        this.appendMode = appendMode;
     }
 
     private void addSelectEvent(Marker marker, final Position position) {
@@ -99,18 +103,30 @@ public class MapPositionRenderer {
     private Long selectedPositionId;
     private Long selectedDeviceId;
 
+    // A set of colors that we pick from sequentially in append mode 
+    private final List<String> colors = Arrays.asList("red", "green", "blue", "orange",
+                                                      "brown", "indigo", "olive");
+    private int colorIndex = 0;
+
+    private String getNextColor() {
+        if(++colorIndex >= colors.size())
+            colorIndex = 0;
+        return(colors.get(colorIndex));
+    }
+
     public void showPositions(List<Position> positions) {
-        for (Marker marker : markerMap.values()) {
-            getMarkerLayer().removeMarker(marker);
-        }
-        markerMap.clear();
-        deviceMap.clear();
-        positionMap.clear();
+
+        if(!appendMode)
+            clear();
 
         for (Position position : positions) {
             Marker marker = new Marker(
                     mapView.createLonLat(position.getLongitude(), position.getLatitude()),
                     MarkerIconFactory.getIcon(iconType, false));
+            Marker prevMarker = markerMap.remove(position.getId());
+            if(prevMarker != null) {
+                getMarkerLayer().removeMarker(prevMarker);
+            }
             markerMap.put(position.getId(), marker);
             deviceMap.put(position.getDevice().getId(), position.getId());
             positionMap.put(position.getId(), position);
@@ -132,7 +148,6 @@ public class MapPositionRenderer {
     }
 
     public void showTrack(List<Position> positions) {
-        getVectorLayer().destroyFeatures();
 
         if (!positions.isEmpty()) {
             Point[] linePoints = new Point[positions.size()];
@@ -143,7 +158,13 @@ public class MapPositionRenderer {
             }
 
             LineString lineString = new LineString(linePoints);
-            getVectorLayer().addFeature(new VectorFeature(lineString));
+            VectorFeature feature = new VectorFeature(lineString);
+            org.gwtopenmaps.openlayers.client.Style style = new org.gwtopenmaps.openlayers.client.Style();
+            style.setStrokeColor(getNextColor());
+            style.setStrokeWidth(3);
+            style.setFillOpacity(1);
+            feature.setStyle(style);
+            getVectorLayer().addFeature(feature);
             //mapView.getMap().zoomToExtent(lineString.getBounds());
         }
     }
@@ -180,6 +201,18 @@ public class MapPositionRenderer {
             return true;
         }
         return false;
+    }
+
+    public void clear() {
+        colorIndex = 0;
+        for (Marker marker : markerMap.values()) {
+            getMarkerLayer().removeMarker(marker);
+        }
+        markerMap.clear();
+        deviceMap.clear();
+        positionMap.clear();
+        if(appendMode)
+            getVectorLayer().destroyFeatures();
     }
 
 }

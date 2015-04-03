@@ -105,6 +105,10 @@ public class MapController implements ContentController, MapView.MapHandler {
         mapView.showArchivePositions(sortedPositions);
     }
 
+    public void clearArchivePositions() {
+        mapView.clearArchivePositions();
+    }
+
     public void selectArchivePosition(Position position) {
         mapView.selectArchivePosition(position);
     }

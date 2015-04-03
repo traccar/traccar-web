@@ -165,8 +165,10 @@ public class MapView {
             }
         });
 
-        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest, latestPositionSelectHandler);
-        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive, archivePositionSelectHandler);
+        latestPositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconLatest,
+                                                         latestPositionSelectHandler, false /* appendMode */);
+        archivePositionRenderer = new MapPositionRenderer(this, MarkerIconFactory.IconType.iconArchive,
+                                                          archivePositionSelectHandler, true /* appendMode */);
     }
 
     private final MapPositionRenderer latestPositionRenderer;
@@ -180,6 +182,10 @@ public class MapView {
     public void showArchivePositions(List<Position> positions) {
         archivePositionRenderer.showTrack(positions);
         archivePositionRenderer.showPositions(positions);
+    }
+
+    public void clearArchivePositions() {
+        archivePositionRenderer.clear();
     }
 
     public void selectDevice(Device device) {
