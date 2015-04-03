@@ -42,8 +42,12 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
 
     private ArchiveView archiveView;
 
-    public ArchiveController(ArchiveHandler archiveHandler, ListStore<Device> deviceStore) {
+    private MapController mapController;
+
+    public ArchiveController(ArchiveHandler archiveHandler, ListStore<Device> deviceStore,
+                             MapController mapController) {
         this.archiveHandler = archiveHandler;
+        this.mapController = mapController;
         PositionProperties positionProperties = GWT.create(PositionProperties.class);
         positionStore = new ListStore<Position>(positionProperties.id());
         archiveView = new ArchiveView(this, positionStore, deviceStore);
@@ -89,6 +93,7 @@ public class ArchiveController implements ContentController, ArchiveView.Archive
     @Override
     public void onClear() {
         positionStore.clear();
+        mapController.clearArchivePositions();
     }
 
     public void selectPosition(Position position) {

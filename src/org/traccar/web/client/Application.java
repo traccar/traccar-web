@@ -63,7 +63,8 @@ public class Application {
         deviceController.getDeviceStore().addStoreHandlers(deviceStoreHandler);
         stateController = new StateController();
         mapController = new MapController(mapHandler);
-        archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore());
+        archiveController = new ArchiveController(archiveHanlder, deviceController.getDeviceStore(),
+                                                  mapController);
         archiveController.getPositionStore().addStoreHandlers(archiveStoreHandler);
 
         view = new ApplicationView(
