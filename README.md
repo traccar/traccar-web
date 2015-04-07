@@ -1,5 +1,9 @@
 # [Traccar Web Interface](https://www.traccar.org)
 
+## Status
+
+**The project is in frozen state.** I am working on a completely new web interface based on pure JavaScript.
+
 ## Contacts
 
 Author - Anton Tananaev ([anton.tananaev@gmail.com](mailto:anton.tananaev@gmail.com))
