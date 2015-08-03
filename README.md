@@ -1,18 +1,18 @@
-# [Traccar Web Interface](https://www.traccar.org)
+# ~~Traccar Web Interface~~
 
-## Status
+Repository is **DEPRECATED**. It contains **old** Traccar web interface (GWT-based). New web interface can be found here:
 
-**The project is in frozen state.** I am working on a completely new web interface based on pure JavaScript.
+* [**New Traccar Web Interface**](https://github.com/tananaev/traccar/tree/master/web)
+
+For any issues related to Traccar server of web interface please use main issue tracker:
+
+* [**Traccar Issue Tracker**](https://github.com/tananaev/traccar/issues)
 
 ## Contacts
 
 Author - Anton Tananaev ([anton.tananaev@gmail.com](mailto:anton.tananaev@gmail.com))
 
 Website - [https://www.traccar.org](https://www.traccar.org)
-
-## Overview
-
-Traccar is open source server for various GPS tracking devices. This repository contains web interface for Traccar server.
 
 ## License
 
