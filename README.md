@@ -4,7 +4,7 @@ Repository is **DEPRECATED**. It contains **old** Traccar web interface (GWT-bas
 
 * [**New Traccar Web Interface**](https://github.com/tananaev/traccar/tree/master/web)
 
-For any issues related to Traccar server of web interface please use main issue tracker:
+For any issues related to Traccar server or web interface please use main issue tracker:
 
 * [**Traccar Issue Tracker**](https://github.com/tananaev/traccar/issues)
 
