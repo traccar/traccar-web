@@ -26,9 +26,6 @@ import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
-import org.gwtopenmaps.openlayers.client.layer.Bing;
-import org.gwtopenmaps.openlayers.client.layer.BingOptions;
-import org.gwtopenmaps.openlayers.client.layer.BingType;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3Options;
@@ -112,11 +109,6 @@ public class MapView {
         gTerrainOptions.setNumZoomLevels(16);
         gTerrainOptions.setType(GoogleV3MapType.G_TERRAIN_MAP);
         map.addLayer(new GoogleV3("Google Terrain", gTerrainOptions));
-
-        final String bingKey = "AseEs0DLJhLlTNoxbNXu7DGsnnH4UoWuGue7-irwKkE3fffaClwc9q_Mr6AyHY8F";
-        map.addLayer(new Bing(new BingOptions("Bing Road", bingKey, BingType.ROAD)));
-        map.addLayer(new Bing(new BingOptions("Bing Hybrid", bingKey, BingType.HYBRID)));
-        map.addLayer(new Bing(new BingOptions("Bing Aerial", bingKey, BingType.AERIAL)));
     }
 
     public MapView(MapHandler mapHandler) {
