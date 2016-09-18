@@ -83,6 +83,7 @@
     "mapTitle": "Map",
     "mapLayer": "Map Layer",
     "mapCustom": "Custom Map",
+    "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
     "mapBingRoad": "Bing Maps Road",

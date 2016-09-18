@@ -42,9 +42,11 @@ Ext.define('Traccar.view.BaseMap', {
             layer = new ol.layer.Tile({
                 source: new ol.source.XYZ({
                     url: server.get('mapUrl'),
-                    attributions: [new ol.Attribution({
-                        html: ''
-                    })]
+                    attributions: [
+                        new ol.Attribution({
+                            html: ''
+                        })
+                    ]
                 })
             });
         } else if (type === 'bingRoad') {
@@ -61,9 +63,28 @@ Ext.define('Traccar.view.BaseMap', {
                     imagerySet: 'Aerial'
                 })
             });
-        } else {
+        } else if (type === 'osm'){
             layer = new ol.layer.Tile({
                 source: new ol.source.OSM({})
+            });
+        } else {
+            layer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    urls: [
+                        'https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                        'https://cartodb-basemaps-b.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                        'https://cartodb-basemaps-c.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                        'https://cartodb-basemaps-d.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
+                    ],
+                    attributions: [
+                        new ol.Attribution({
+                            html: [
+                                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> '
+                                    + 'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                            ]
+                        })
+                    ]
+                })
             });
         }
 
