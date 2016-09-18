@@ -40,12 +40,12 @@ Ext.define('Traccar.Style', {
     mapDefaultZoom: 6,
 
     mapRouteColor: [
-        'rgba(21, 127, 204, 1.0)',
-        'rgba(109, 46, 204, 1.0)',
-        'rgba(204, 46, 162, 1.0)',
-        'rgba(204, 46, 38, 1.0)',
-        'rgba(128, 204, 46, 1.0)',
-        'rgba(46, 204, 155, 1.0)'
+        '#F06292',
+        '#BA68C8',
+        '#4DD0E1',
+        '#4DB6AC',
+        '#FF8A65',
+        '#A1887F'
     ],
     mapRouteWidth: 5,
 
