@@ -35,9 +35,9 @@ Ext.define('Traccar.Style', {
     reportHeight: 250,
     reportTime: 100,
 
-    mapDefaultLat: 51.507222,
-    mapDefaultLon: -0.1275,
-    mapDefaultZoom: 6,
+    mapDefaultLat: 12.966667,
+    mapDefaultLon: 77.566667,
+    mapDefaultZoom: 4,
 
     mapRouteColor: [
         '#F06292',
