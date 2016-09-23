@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2015 - 2016 Anton Tananaev (anton.tananaev@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.Groups',
         'Traccar.view.Geofences',
         'Traccar.view.Notifications',
+        'Traccar.view.AttributesAliases',
         'Traccar.view.BaseWindow'
     ],
 
@@ -42,6 +43,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
+            this.lookupReference('settingsAttributesAliasesButton').setHidden(false);
         }
     },
 
@@ -95,6 +97,16 @@ Ext.define('Traccar.view.SettingsMenuController', {
             items: {
                 xtype: 'notificationsView',
                 user: user
+            }
+        }).show();
+    },
+
+    onAttributesAliasesClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedAttributesAliases,
+            modal: false,
+            items: {
+                xtype: 'attributesAliasesView'
             }
         }).show();
     },

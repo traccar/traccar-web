@@ -63,7 +63,7 @@ Ext.define('Traccar.view.BaseMap', {
                     imagerySet: 'Aerial'
                 })
             });
-        } else if (type === 'osm'){
+        } else if (type === 'osm') {
             layer = new ol.layer.Tile({
                 source: new ol.source.OSM({})
             });
@@ -79,8 +79,8 @@ Ext.define('Traccar.view.BaseMap', {
                     attributions: [
                         new ol.Attribution({
                             html: [
-                                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> '
-                                    + 'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
+                                    'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
                             ]
                         })
                     ]

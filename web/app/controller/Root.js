@@ -84,6 +84,7 @@ Ext.define('Traccar.controller.Root', {
                 this.asyncUpdate(true);
             }
         });
+        Ext.getStore('AllAttributesAliases').load();
         attribution = Ext.get('attribution');
         if (attribution) {
             attribution.remove();

@@ -26,12 +26,34 @@ Ext.define('Traccar.view.State', {
     controller: 'state',
     store: 'Attributes',
 
-    title: Strings.stateTitle,
+    header: {
+        xtype: 'header',
+        title: Strings.stateTitle,
+        items: [{
+                xtype: 'tbfill'
+            }, {
+                xtype: 'button',
+                disabled: true,
+                handler: 'onAliasEditClick',
+                reference: 'aliasEditButton',
+                glyph: 'xf040@FontAwesome',
+                tooltip: Strings.sharedEdit,
+                tooltipType: 'title'
+            }]
+    },
+
+    listeners: {
+        selectionchange: 'onSelectionChange'
+    },
 
     columns: [{
         text: Strings.stateName,
         dataIndex: 'name',
-        flex: 1
+        flex: 1,
+        renderer: function (value, metaData, record) {
+            var alias = record.get('alias');
+            return alias !== '' ? alias : value;
+        }
     }, {
         text: Strings.stateValue,
         dataIndex: 'value',

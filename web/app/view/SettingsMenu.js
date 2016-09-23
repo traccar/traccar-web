@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2015 - 2016 Anton Tananaev (anton.tananaev@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,6 +57,11 @@ Ext.define('Traccar.view.SettingsMenu', {
             text: Strings.sharedNotifications,
             handler: 'onNotificationsClick',
             reference: 'settingsNotificationsButton'
+        }, {
+            hidden: true,
+            text: Strings.sharedAttributesAliases,
+            handler: 'onAttributesAliasesClick',
+            reference: 'settingsAttributesAliasesButton'
         }, {
             text: Strings.loginLogout,
             handler: 'onLogoutClick'
