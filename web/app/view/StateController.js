@@ -21,7 +21,10 @@ Ext.define('Traccar.view.StateController', {
 
     requires: [
        'Traccar.AttributeFormatter',
-       'Traccar.model.Attribute'
+       'Traccar.model.Attribute', 
+       'Traccar.model.AttributeAlias',
+       'Traccar.view.AttributeAliasDialog'
+       
     ],
 
     config: {
