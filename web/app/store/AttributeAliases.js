@@ -16,13 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.AllAttributesAliases', {
+Ext.define('Traccar.store.AttributeAliases', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.AttributeAlias',
 
     proxy: {
         type: 'rest',
-        url: 'api/devices/aliases',
+        url: 'api/attributes/aliases',
         writer: {
             writeAllFields: true
         }

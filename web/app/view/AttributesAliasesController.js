@@ -90,11 +90,5 @@ Ext.define('Traccar.view.AttributesAliasesController', {
         } else {
             this.getView().getStore().loadData([], false);
         }
-    },
-
-    onClose: function () {
-        Ext.getStore('AllAttributesAliases').load();
-        this.fireEvent('updatealiases');
     }
-
 });

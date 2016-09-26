@@ -30,8 +30,5 @@ Ext.define('Traccar.model.Attribute', {
     }, {
         name: 'attribute',
         type: 'string'
-    }, {
-        name: 'alias',
-        type: 'string'
     }]
 });

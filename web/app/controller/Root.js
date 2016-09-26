@@ -78,13 +78,13 @@ Ext.define('Traccar.controller.Root', {
         var attribution;
         Ext.getStore('Groups').load();
         Ext.getStore('Geofences').load();
+        Ext.getStore('AllAttributeAliases').load();
         Ext.getStore('Devices').load({
             scope: this,
             callback: function () {
                 this.asyncUpdate(true);
             }
         });
-        Ext.getStore('AllAttributesAliases').load();
         attribution = Ext.get('attribution');
         if (attribution) {
             attribution.remove();

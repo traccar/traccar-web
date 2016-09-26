@@ -26,7 +26,7 @@ Ext.define('Traccar.view.AttributesAliases', {
     ],
 
     controller: 'attributesAliases',
-    store: 'AttributesAliases',
+    store: 'AttributeAliases',
 
     selType: 'rowmodel',
 
@@ -46,8 +46,7 @@ Ext.define('Traccar.view.AttributesAliases', {
     },
 
     listeners: {
-        selectionchange: 'onSelectionChange',
-        destroy: 'onClose'
+        selectionchange: 'onSelectionChange'
     },
 
     columns: [{
