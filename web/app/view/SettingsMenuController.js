@@ -27,7 +27,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.Groups',
         'Traccar.view.Geofences',
         'Traccar.view.Notifications',
-        'Traccar.view.AttributesAliases',
+        'Traccar.view.AttributeAliases',
         'Traccar.view.BaseWindow'
     ],
 
@@ -43,7 +43,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
-            this.lookupReference('settingsAttributesAliasesButton').setHidden(false);
+            this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
         }
     },
 
@@ -101,12 +101,12 @@ Ext.define('Traccar.view.SettingsMenuController', {
         }).show();
     },
 
-    onAttributesAliasesClick: function () {
+    onAttributeAliasesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedAttributesAliases,
+            title: Strings.sharedAttributeAliases,
             modal: false,
             items: {
-                xtype: 'attributesAliasesView'
+                xtype: 'attributeAliasesView'
             }
         }).show();
     },

@@ -16,17 +16,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.AttributesAliases', {
+Ext.define('Traccar.view.AttributeAliases', {
     extend: 'Ext.grid.Panel',
-    xtype: 'attributesAliasesView',
+    xtype: 'attributeAliasesView',
 
     requires: [
-        'Traccar.view.AttributesAliasesController',
+        'Traccar.view.AttributeAliasesController',
         'Traccar.view.EditToolbar'
     ],
 
-    controller: 'attributesAliases',
-    store: 'AllAttributeAliases',
+    controller: 'attributeAliases',
 
     selType: 'rowmodel',
 

@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.AllAttributeAliases', {
+Ext.define('Traccar.store.AttributeAliases', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.AttributeAlias',
 

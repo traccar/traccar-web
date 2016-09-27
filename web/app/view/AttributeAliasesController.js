@@ -16,9 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.AttributesAliasesController', {
+Ext.define('Traccar.view.AttributeAliasesController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.attributesAliases',
+    alias: 'controller.attributeAliases',
 
     requires: [
         'Traccar.view.AttributeAliasDialog',
@@ -31,13 +31,17 @@ Ext.define('Traccar.view.AttributesAliasesController', {
         this.lookupReference('toolbarAddButton').setDisabled(true);
         this.lookupReference('toolbarEditButton').setDisabled(true);
         this.lookupReference('toolbarRemoveButton').setDisabled(true);
+        this.getView().setStore(Ext.create('Ext.data.ChainedStore', {
+            storeId: 'EditorAttributeAliases',
+            source: 'AttributeAliases'
+        }));
         this.getView().getStore().filter('deviceId', 0);
     },
 
     onAddClick: function () {
         var attributeAlias, dialog, deviceId;
         attributeAlias = Ext.create('Traccar.model.AttributeAlias');
-        attributeAlias.store = this.getView().getStore();
+        attributeAlias.store = Ext.getStore('AttributeAliases');
         deviceId = this.lookupReference('deviceField').getValue();
         attributeAlias.set('deviceId', deviceId);
         dialog = Ext.create('Traccar.view.AttributeAliasDialog');
@@ -48,6 +52,7 @@ Ext.define('Traccar.view.AttributesAliasesController', {
     onEditClick: function () {
         var attributeAlias, dialog;
         attributeAlias = this.getView().getSelectionModel().getSelection()[0];
+        attributeAlias.store = Ext.getStore('AttributeAliases');
         dialog = Ext.create('Traccar.view.AttributeAliasDialog');
         dialog.down('form').loadRecord(attributeAlias);
         dialog.show();
@@ -65,7 +70,7 @@ Ext.define('Traccar.view.AttributesAliasesController', {
             },
             scope: this,
             fn: function (btn) {
-                var store = this.getView().getStore();
+                var store = Ext.getStore('AttributeAliases');
                 if (btn === 'yes') {
                     store.remove(attributeAlias);
                     store.sync();
@@ -88,8 +93,10 @@ Ext.define('Traccar.view.AttributesAliasesController', {
         if (newValue !== null) {
             this.getView().getStore().filter('deviceId', newValue);
             if (admin && this.getView().getStore().getCount() === 0) {
-                this.getView().getStore().getProxy().setExtraParam('deviceId', newValue);
-                this.getView().getStore().load();
+                Ext.getStore('AttributeAliases').getProxy().setExtraParam('deviceId', newValue);
+                Ext.getStore('AttributeAliases').load({
+                    addRecords: true
+                });
             }
         } else {
             this.getView().getStore().filter('deviceId', 0);

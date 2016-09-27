@@ -30,7 +30,7 @@
     "sharedMinuteAbbreviation": "m",
     "sharedGetMapState": "Get Map State",
     "sharedAttributeAlias": "Attribute Alias",
-    "sharedAttributesAliases": "Attributes Aliases",
+    "sharedAttributeAliases": "Attribute Aliases",
     "sharedAlias": "Alias",
     "errorTitle": "Error",
     "errorUnknown": "Unknown error",
