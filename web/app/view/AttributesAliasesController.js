@@ -31,7 +31,7 @@ Ext.define('Traccar.view.AttributesAliasesController', {
         this.lookupReference('toolbarAddButton').setDisabled(true);
         this.lookupReference('toolbarEditButton').setDisabled(true);
         this.lookupReference('toolbarRemoveButton').setDisabled(true);
-        this.getView().getStore().loadData([], false);
+        this.getView().getStore().filter('deviceId', 0);
     },
 
     onAddClick: function () {
@@ -83,12 +83,16 @@ Ext.define('Traccar.view.AttributesAliasesController', {
     },
 
     onDeviceChange: function (combobox, newValue, oldValue) {
+        var admin = Traccar.app.getUser().get('admin');
         this.onSelectionChange('');
         if (newValue !== null) {
-            this.getView().getStore().getProxy().setExtraParam('deviceId', newValue);
-            this.getView().getStore().load();
+            this.getView().getStore().filter('deviceId', newValue);
+            if (admin && this.getView().getStore().getCount() === 0) {
+                this.getView().getStore().getProxy().setExtraParam('deviceId', newValue);
+                this.getView().getStore().load();
+            }
         } else {
-            this.getView().getStore().loadData([], false);
+            this.getView().getStore().filter('deviceId', 0);
         }
     }
 });

@@ -47,10 +47,6 @@ Ext.define('Traccar.view.StateController', {
                 '#AllAttributeAliases': {
                     add: 'updateAliases',
                     update: 'updateAliases'
-                },
-                '#AttributeAliases': {
-                    add: 'updateAliasesRemote',
-                    update: 'updateAliasesRemote'
                 }
             }
         }
@@ -183,14 +179,5 @@ Ext.define('Traccar.view.StateController', {
         if (this.position !== null) {
             this.updatePosition();
         }
-    },
-
-    updateAliasesRemote: function () {
-        Ext.getStore('AllAttributeAliases').load({
-            scope: this,
-            callback: function () {
-                this.updateAliases();
-            }
-        });
     }
 });

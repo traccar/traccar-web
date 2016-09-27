@@ -26,7 +26,7 @@ Ext.define('Traccar.view.AttributesAliases', {
     ],
 
     controller: 'attributesAliases',
-    store: 'AttributeAliases',
+    store: 'AllAttributeAliases',
 
     selType: 'rowmodel',
 

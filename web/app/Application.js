@@ -61,7 +61,6 @@ Ext.define('Traccar.Application', {
         'Notifications',
         'AllNotifications',
         'GeofenceTypes',
-        'AttributeAliases',
         'AllAttributeAliases',
         'ReportRoute',
         'ReportEvents',
