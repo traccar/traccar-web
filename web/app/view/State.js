@@ -26,7 +26,25 @@ Ext.define('Traccar.view.State', {
     controller: 'state',
     store: 'Attributes',
 
-    title: Strings.stateTitle,
+    header: {
+        xtype: 'header',
+        title: Strings.stateTitle,
+        items: [{
+                xtype: 'tbfill'
+            }, {
+                xtype: 'button',
+                disabled: true,
+                handler: 'onAliasEditClick',
+                reference: 'aliasEditButton',
+                glyph: 'xf040@FontAwesome',
+                tooltip: Strings.sharedEdit,
+                tooltipType: 'title'
+            }]
+    },
+
+    listeners: {
+        selectionchange: 'onSelectionChange'
+    },
 
     columns: [{
         text: Strings.stateName,
@@ -37,7 +55,7 @@ Ext.define('Traccar.view.State', {
         dataIndex: 'value',
         flex: 1,
         renderer: function (value, metaData, record) {
-            if (record.get('name') === 'Alarm') {
+            if (record.get('attribute') === 'alarm') {
                 metaData.tdCls = 'view-color-red';
             }
             return value;

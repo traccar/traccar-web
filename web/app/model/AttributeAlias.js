@@ -1,5 +1,6 @@
 /*
- * Copyright 2015 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2016 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2016 Andrey Kunitsyn (abyss@fox5.ru)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,20 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.Attribute', {
+Ext.define('Traccar.model.AttributeAlias', {
     extend: 'Ext.data.Model',
+    identifier: 'negative',
 
     fields: [{
-        name: 'priority',
+        name: 'id',
         type: 'int'
     }, {
-        name: 'name',
-        type: 'string'
-    }, {
-        name: 'value',
-        type: 'string'
+        name: 'deviceId',
+        type: 'int'
     }, {
         name: 'attribute',
+        type: 'string'
+    }, {
+        name: 'alias',
         type: 'string'
     }]
 });
