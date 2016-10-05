@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.Devices', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.tree.Panel',
     xtype: 'devicesView',
 
     requires: [
@@ -28,12 +28,15 @@ Ext.define('Traccar.view.Devices', {
     controller: 'devices',
     rootVisible: false,
 
-    initComponent: function () {
-        this.store = Ext.create('Ext.data.ChainedStore', {
-            source: 'Devices',
-            groupField: 'groupId'
-        });
-        this.callParent();
+    store: {
+        type: 'tree',
+        parentIdProperty: 'groupId',
+        proxy: {
+            type: 'memory',
+            reader: {
+                type: 'json'
+            }
+        }
     },
 
     title: Strings.deviceTitle,
@@ -100,11 +103,16 @@ Ext.define('Traccar.view.Devices', {
         listeners: {
             change: function () {
                 if (Ext.isNumber(this.getValue())) {
-                    this.up('grid').store.filter({
+                    this.up('panel').store.filter({
                         id: 'groupFilter',
                         filterFn: function (item) {
-                            var groupId, group, groupStore, filter = true;
-                            groupId = item.get('groupId');
+                            var groupId, group, groupStore, filter = true, isDevice;
+                            isDevice = (item.get('id').substr(0, 1) === 'd');
+                            if (isDevice) {
+                                groupId = item.get('original').get('groupId');
+                            } else {
+                                groupId = item.get('original').get('id');
+                            }
                             groupStore = Ext.getStore('Groups');
 
                             while (groupId) {
@@ -125,7 +133,7 @@ Ext.define('Traccar.view.Devices', {
                         scope: this
                     });
                 } else {
-                    this.up('grid').store.removeFilter('groupFilter');
+                    this.up('panel').store.removeFilter('groupFilter');
                 }
             }
         }
@@ -137,16 +145,40 @@ Ext.define('Traccar.view.Devices', {
         flex: 1,
         listeners: {
             change: function () {
-                this.up('grid').store.filter('name', this.getValue());
+                if (this.getValue().length > 0) {
+                    this.up('panel').store.filter({
+                        id: 'deviceFilter',
+                        filterFn: function (item) {
+                            var re, deviceStore, filter = true, isDevice;
+                            isDevice = (item.get('id').substr(0, 1) === 'd');
+                            deviceStore = Ext.getStore('Devices');
+                            if (isDevice) {
+                                re = new RegExp('^' + this.getValue(), "i");
+                                if (re.test(item.get('name'))) {
+                                    filter = false;
+                                }
+                            } else {
+                                filter = false;
+                            }
+
+                            return !filter;
+                        },
+                        scope: this
+                    });
+                } else {
+                    this.up('panel').store.removeFilter('deviceFilter');
+                }
             }
         }
     }],
 
     listeners: {
-        selectionchange: 'onSelectionChange'
+        selectionchange: 'onSelectionChange',
+        beforeselect: 'onBeforeSelect'
     },
 
     columns: [{
+        xtype: 'treecolumn',
         text: Strings.sharedName,
         dataIndex: 'name',
         flex: 1
@@ -155,6 +187,10 @@ Ext.define('Traccar.view.Devices', {
         dataIndex: 'lastUpdate',
         flex: 1,
         renderer: function (value, metaData, record) {
+            var isGroup = (record.get('id').substr(0, 1) === 'g');
+            if (isGroup) {
+                return;
+            }
             switch (record.get('status')) {
                 case 'online':
                     metaData.tdCls = 'view-color-green';
