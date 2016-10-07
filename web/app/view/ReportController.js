@@ -137,11 +137,11 @@ Ext.define('Traccar.view.ReportController', {
         }
     },
 
-    selectReport: function (position, center) {
-        if (position instanceof Traccar.model.Position) {
-            this.getView().getSelectionModel().select([position], false, true);
-        } else if (position instanceof Traccar.model.ReportTrip) {
-            this.selectTrip(position);
+    selectReport: function (object, center) {
+        if (object instanceof Traccar.model.Position) {
+            this.getView().getSelectionModel().select([object], false, true);
+        } else if (object instanceof Traccar.model.ReportTrip) {
+            this.selectTrip(object);
         }
     },
 
