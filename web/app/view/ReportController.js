@@ -22,6 +22,8 @@ Ext.define('Traccar.view.ReportController', {
 
     requires: [
         'Traccar.AttributeFormatter',
+        'Traccar.model.Position',
+        'Traccar.model.ReportTrip',
         'Traccar.view.ReportConfigDialog',
         'Traccar.store.ReportEventTypes'
     ],
@@ -112,7 +114,15 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     onClearClick: function () {
+        var reportType = this.lookupReference('reportTypeField').getValue();
+        this.clearReport(reportType);
+    },
+
+    clearReport: function (reportType) {
         this.getView().getStore().removeAll();
+        if (reportType === 'trips') {
+            Ext.getStore('ReportRoute').removeAll();
+        }
     },
 
     onSelectionChange: function (selected) {
@@ -130,7 +140,22 @@ Ext.define('Traccar.view.ReportController', {
     selectReport: function (position, center) {
         if (position instanceof Traccar.model.Position) {
             this.getView().getSelectionModel().select([position], false, true);
+        } else if (position instanceof Traccar.model.ReportTrip) {
+            this.selectTrip(position);
         }
+    },
+
+    selectTrip: function (trip) {
+        var from, to;
+        from = new Date(trip.get('startTime'));
+        to = new Date(trip.get('endTime'));
+        Ext.getStore('ReportRoute').load({
+            params: {
+                deviceId: trip.get('deviceId'),
+                from: from.toISOString(),
+                to: to.toISOString()
+            }
+        });
     },
 
     downloadCsv: function (requestUrl, requestParams) {
@@ -170,7 +195,7 @@ Ext.define('Traccar.view.ReportController', {
 
     onTypeChange: function (combobox, newValue, oldValue) {
         if (oldValue !== null) {
-            this.onClearClick();
+            this.clearReport(oldValue);
         }
 
         if (newValue === 'route') {
