@@ -19,6 +19,11 @@ Ext.define('Traccar.view.MapController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.map',
 
+    requires: [
+        'Traccar.model.Position',
+        'Traccar.model.Device'
+    ],
+
     config: {
         listen: {
             controller: {
@@ -294,7 +299,9 @@ Ext.define('Traccar.view.MapController', {
     },
 
     selectReport: function (position, center) {
-        this.selectMarker(this.reportMarkers[position.get('id')], center);
+        if (position instanceof Traccar.model.Position) {
+            this.selectMarker(this.reportMarkers[position.get('id')], center);
+        }
     },
 
     selectFeature: function (feature) {

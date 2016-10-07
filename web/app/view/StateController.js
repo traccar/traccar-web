@@ -23,6 +23,7 @@ Ext.define('Traccar.view.StateController', {
        'Traccar.AttributeFormatter',
        'Traccar.model.Attribute',
        'Traccar.model.AttributeAlias',
+       'Traccar.model.Position',
        'Traccar.view.AttributeAliasDialog'
 
     ],
@@ -149,9 +150,11 @@ Ext.define('Traccar.view.StateController', {
     },
 
     selectReport: function (position) {
-        this.deviceId = null;
-        this.position = position;
-        this.updatePosition();
+        if (position instanceof Traccar.model.Position) {
+            this.deviceId = null;
+            this.position = position;
+            this.updatePosition();
+        }
     },
 
     clearReport: function (store) {
