@@ -34,7 +34,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
     init: function () {
         var admin, readonly;
         admin = Traccar.app.getUser().get('admin');
-        readonly = Traccar.app.getServer().get('readonly');
+        readonly = Traccar.app.getPreference('readonly', false);
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsUsersButton').setHidden(false);

@@ -22,6 +22,7 @@ Ext.define('Traccar.view.UserDialogController', {
     init: function () {
         if (Traccar.app.getUser().get('admin')) {
             this.lookupReference('adminField').setDisabled(false);
+            this.lookupReference('readonlyField').setDisabled(false);
         }
     },
 
