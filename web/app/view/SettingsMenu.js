@@ -53,7 +53,6 @@ Ext.define('Traccar.view.SettingsMenu', {
             handler: 'onUsersClick',
             reference: 'settingsUsersButton'
         }, {
-            hidden: true,
             text: Strings.sharedNotifications,
             handler: 'onNotificationsClick',
             reference: 'settingsNotificationsButton'

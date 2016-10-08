@@ -42,7 +42,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
         if (admin || !readonly) {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
-            this.lookupReference('settingsNotificationsButton').setHidden(false);
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
         }
     },
