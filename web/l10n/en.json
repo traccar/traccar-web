@@ -170,5 +170,12 @@
     "reportStartAddress": "Start Address",
     "reportEndTime": "End Time",
     "reportEndAddress": "End Address",
-    "reportSpentFuel": "Spent Fuel"
+    "reportSpentFuel": "Spent Fuel",
+    "statisticsTitle": "Statistics",
+    "statisticsCaptureTime": "Capture Time",
+    "statisticsActiveUsers": "Active Users",
+    "statisticsActiveDevices": "Active Devices",
+    "statisticsRequests": "Requests",
+    "statisticsMessagesReceived": "Messages Received",
+    "statisticsMessagesStored": "Messages Stored"
 }

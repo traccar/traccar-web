@@ -62,6 +62,11 @@ Ext.define('Traccar.view.SettingsMenu', {
             handler: 'onAttributeAliasesClick',
             reference: 'settingsAttributeAliasesButton'
         }, {
+            hidden: true,
+            text: Strings.statisticsTitle,
+            handler: 'onStatisticsClick',
+            reference: 'settingsStatisticsButton'
+        }, {
             text: Strings.loginLogout,
             handler: 'onLogoutClick'
         }]
