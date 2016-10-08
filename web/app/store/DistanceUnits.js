@@ -27,6 +27,10 @@ Ext.define('Traccar.store.DistanceUnits', {
         key: 'mi',
         name: Strings.sharedMi,
         factor: 0.000621371
+    }, {
+        key: 'nmi',
+        name: Strings.sharedNmi,
+        factor: 0.000539957
     }],
 
     formatValue: function (value, unit) {
