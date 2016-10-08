@@ -59,6 +59,9 @@ Ext.define('Traccar.model.User', {
         name: 'twelveHourFormat',
         type: 'boolean'
     }, {
+        name: 'coordinateFormat',
+        type: 'string'
+    }, {
         name: 'attributes'
     }],
 

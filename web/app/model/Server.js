@@ -59,6 +59,9 @@ Ext.define('Traccar.model.Server', {
         name: 'forceSettings',
         type: 'boolean'
     }, {
+        name: 'coordinateFormat',
+        type: 'string'
+    }, {
         name: 'attributes'
     }],
 

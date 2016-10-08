@@ -52,6 +52,7 @@ Ext.define('Traccar.Application', {
         'MapTypes',
         'DistanceUnits',
         'SpeedUnits',
+        'CoordinateFormats',
         'CommandTypes',
         'TimeUnits',
         'Languages',

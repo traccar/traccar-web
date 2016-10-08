@@ -96,6 +96,14 @@ Ext.define('Traccar.view.ServerDialog', {
             name: 'forceSettings',
             fieldLabel: Strings.serverForceSettings,
             allowBlank: false
+        }, {
+            xtype: 'combobox',
+            name: 'coordinateFormat',
+            fieldLabel: Strings.settingsCoordinateFormat,
+            store: 'CoordinateFormats',
+            displayField: 'name',
+            valueField: 'key',
+            editable: false
         }]
     },
 

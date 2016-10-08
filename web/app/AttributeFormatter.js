@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2015 - 2016 Anton Tananaev (anton.tananaev@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 Ext.define('Traccar.AttributeFormatter', {
     singleton: true,
 
-    coordinateFormatter: function (value) {
-        return value.toFixed(Traccar.Style.coordinatePrecision);
+    coordinateFormatter: function (key, value) {
+        return Ext.getStore('CoordinateFormats').formatValue(key, value, Traccar.app.getPreference('coordinateFormat'));
     },
 
     speedFormatter: function (value) {
@@ -63,8 +63,11 @@ Ext.define('Traccar.AttributeFormatter', {
     },
 
     getFormatter: function (key) {
+        var self = this;
         if (key === 'latitude' || key === 'longitude') {
-            return this.coordinateFormatter;
+            return function (value) {
+                return self.coordinateFormatter(key, value);
+            };
         } else if (key === 'speed') {
             return this.speedFormatter;
         } else if (key === 'course') {
