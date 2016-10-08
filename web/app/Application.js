@@ -97,7 +97,11 @@ Ext.define('Traccar.Application', {
     },
 
     getPreference: function (key, defaultValue) {
-        return this.getUser().get(key) || this.getServer().get(key) || defaultValue;
+        if (this.getServer().get('forceSettings')) {
+            return this.getServer().get(key) || this.getUser().get(key) || defaultValue;
+        } else {
+            return this.getUser().get(key) || this.getServer().get(key) || defaultValue;
+        }
     },
 
     showError: function (response) {

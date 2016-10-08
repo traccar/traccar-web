@@ -83,6 +83,7 @@
     "serverZoom": "Zoom",
     "serverRegistration": "Registration",
     "serverReadonly": "Readonly",
+    "serverForceSettings": "Force Settings",
     "mapTitle": "Map",
     "mapLayer": "Map Layer",
     "mapCustom": "Custom Map",

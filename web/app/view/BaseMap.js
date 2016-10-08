@@ -30,12 +30,11 @@ Ext.define('Traccar.view.BaseMap', {
     },
 
     initMap: function () {
-        var user, server, layer, type, bingKey, lat, lon, zoom, target;
+        var server, layer, type, bingKey, lat, lon, zoom, target;
 
-        user = Traccar.app.getUser();
         server = Traccar.app.getServer();
 
-        type = user.get('map') || server.get('map');
+        type = Traccar.app.getPreference('map', null);
         bingKey = server.get('bingKey');
 
         if (type === 'custom') {
@@ -88,9 +87,9 @@ Ext.define('Traccar.view.BaseMap', {
             });
         }
 
-        lat = user.get('latitude') || server.get('latitude') || Traccar.Style.mapDefaultLat;
-        lon = user.get('longitude') || server.get('longitude') || Traccar.Style.mapDefaultLon;
-        zoom = user.get('zoom') || server.get('zoom') || Traccar.Style.mapDefaultZoom;
+        lat = Traccar.app.getPreference('latitude', Traccar.Style.mapDefaultLat);
+        lon = Traccar.app.getPreference('longitude', Traccar.Style.mapDefaultLon);
+        zoom = Traccar.app.getPreference('zoom', Traccar.Style.mapDefaultZoom);
 
         this.mapView = new ol.View({
             center: ol.proj.fromLonLat([lon, lat]),
