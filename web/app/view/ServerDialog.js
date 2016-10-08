@@ -43,7 +43,8 @@ Ext.define('Traccar.view.ServerDialog', {
             fieldLabel: Strings.mapLayer,
             store: 'MapTypes',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'textfield',
             name: 'bingKey',
@@ -58,14 +59,16 @@ Ext.define('Traccar.view.ServerDialog', {
             fieldLabel: Strings.sharedDistance,
             store: 'DistanceUnits',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'combobox',
             name: 'speedUnit',
             fieldLabel: Strings.settingsSpeedUnit,
             store: 'SpeedUnits',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'numberfield',
             reference: 'latitude',

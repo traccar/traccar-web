@@ -33,6 +33,7 @@ Ext.define('Traccar.view.GeofenceMap', {
             store: 'GeofenceTypes',
             valueField: 'key',
             displayField: 'name',
+            editable: false,
             listeners: {
                 select: 'onTypeSelect'
             }

@@ -55,21 +55,24 @@ Ext.define('Traccar.view.UserDialog', {
             fieldLabel: Strings.mapLayer,
             store: 'MapTypes',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'combobox',
             name: 'distanceUnit',
             fieldLabel: Strings.sharedDistance,
             store: 'DistanceUnits',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'combobox',
             name: 'speedUnit',
             fieldLabel: Strings.settingsSpeedUnit,
             store: 'SpeedUnits',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'numberfield',
             reference: 'latitude',
