@@ -92,56 +92,10 @@ Ext.define('Traccar.view.Devices', {
 
     bbar: [{
         xtype: 'tbtext',
-        html: Strings.groupParent
-    }, {
-        xtype: 'combobox',
-        store: 'Groups',
-        queryMode: 'local',
-        displayField: 'name',
-        valueField: 'id',
-        flex: 1,
-        listeners: {
-            change: function () {
-                if (Ext.isNumber(this.getValue())) {
-                    this.up('panel').store.filter({
-                        id: 'groupFilter',
-                        filterFn: function (item) {
-                            var groupId, group, groupStore, filter = true, isDevice;
-                            isDevice = (item.get('id').substr(0, 1) === 'd');
-                            if (isDevice) {
-                                groupId = item.get('original').get('groupId');
-                            } else {
-                                groupId = item.get('original').get('id');
-                            }
-                            groupStore = Ext.getStore('Groups');
-
-                            while (groupId) {
-                                group = groupStore.getById(groupId);
-                                if (group) {
-                                    if (group.get('id') === this.getValue()) {
-                                        filter = false;
-                                        break;
-                                    }
-                                    groupId = group.get('groupId');
-                                } else {
-                                    groupId = 0;
-                                }
-                            }
-
-                            return !filter;
-                        },
-                        scope: this
-                    });
-                } else {
-                    this.up('panel').store.removeFilter('groupFilter');
-                }
-            }
-        }
-    }, {
-        xtype: 'tbtext',
         html: Strings.sharedSearch
     }, {
         xtype: 'textfield',
+        reference: 'deviceFilterField',
         flex: 1,
         listeners: {
             change: function () {
@@ -153,7 +107,7 @@ Ext.define('Traccar.view.Devices', {
                             isDevice = (item.get('id').substr(0, 1) === 'd');
                             deviceStore = Ext.getStore('Devices');
                             if (isDevice) {
-                                re = new RegExp('^' + this.getValue(), "i");
+                                re = new RegExp(this.getValue(), 'i');
                                 if (re.test(item.get('name'))) {
                                     filter = false;
                                 }

@@ -50,7 +50,7 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     storeUpdate: function () {
-        var groupsStore, devicesStore, nodes = [];
+        var groupsStore, devicesStore, nodes = [], deviceFilterField = this.lookupReference('deviceFilterField');
         groupsStore = Ext.getStore('Groups');
         devicesStore = Ext.getStore('Devices');
 
@@ -83,9 +83,13 @@ Ext.define('Traccar.view.DevicesController', {
             nodes.push(node);
         }, this);
 
+        this.getView().getStore().clearFilter(true);
         this.getView().getStore().getProxy().setData(nodes);
         this.getView().getStore().load();
         this.getView().expandAll();
+        if (deviceFilterField.getValue().length > 0) {
+            deviceFilterField.fireEvent('change');
+        }
     },
 
     init: function () {
@@ -106,7 +110,7 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     onEditClick: function () {
-        var device, dialog, store = Ext.getStore('Devices');;
+        var device, dialog, store = Ext.getStore('Devices');
         device = this.getView().getSelectionModel().getSelection()[0];
         dialog = Ext.create('Traccar.view.DeviceDialog');
         dialog.down('form').loadRecord(store.getById(device.getId().substr(1)));
@@ -203,7 +207,6 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     onUpdateDevice: function (store, data) {
-        this.storeUpdate();
         this.updateButtons(this.getView().getSelectionModel());
     }
 });
