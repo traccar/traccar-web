@@ -44,6 +44,13 @@ Ext.define('Traccar.view.UserDialog', {
             allowBlank: false
         }, {
             xtype: 'checkboxfield',
+            name: 'readonly',
+            fieldLabel: Strings.serverReadonly,
+            allowBlank: false,
+            disabled: true,
+            reference: 'readonlyField'
+        }, {
+            xtype: 'checkboxfield',
             name: 'admin',
             fieldLabel: Strings.userAdmin,
             allowBlank: false,
@@ -55,21 +62,24 @@ Ext.define('Traccar.view.UserDialog', {
             fieldLabel: Strings.mapLayer,
             store: 'MapTypes',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'combobox',
             name: 'distanceUnit',
             fieldLabel: Strings.sharedDistance,
             store: 'DistanceUnits',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'combobox',
             name: 'speedUnit',
             fieldLabel: Strings.settingsSpeedUnit,
             store: 'SpeedUnits',
             displayField: 'name',
-            valueField: 'key'
+            valueField: 'key',
+            editable: false
         }, {
             xtype: 'numberfield',
             reference: 'latitude',
@@ -92,6 +102,14 @@ Ext.define('Traccar.view.UserDialog', {
             name: 'twelveHourFormat',
             fieldLabel: Strings.settingsTwelveHourFormat,
             allowBlank: false
+        }, {
+            xtype: 'combobox',
+            name: 'coordinateFormat',
+            fieldLabel: Strings.settingsCoordinateFormat,
+            store: 'CoordinateFormats',
+            displayField: 'name',
+            valueField: 'key',
+            editable: false
         }]
     },
 

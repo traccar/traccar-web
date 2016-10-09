@@ -28,21 +28,22 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.Geofences',
         'Traccar.view.Notifications',
         'Traccar.view.AttributeAliases',
+        'Traccar.view.Statistics',
         'Traccar.view.BaseWindow'
     ],
 
     init: function () {
         var admin, readonly;
         admin = Traccar.app.getUser().get('admin');
-        readonly = Traccar.app.getServer().get('readonly');
+        readonly = Traccar.app.getPreference('readonly', false);
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsUsersButton').setHidden(false);
+            this.lookupReference('settingsStatisticsButton').setHidden(false);
         }
         if (admin || !readonly) {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
-            this.lookupReference('settingsNotificationsButton').setHidden(false);
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
         }
     },
@@ -107,6 +108,16 @@ Ext.define('Traccar.view.SettingsMenuController', {
             modal: false,
             items: {
                 xtype: 'attributeAliasesView'
+            }
+        }).show();
+    },
+
+    onStatisticsClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.statisticsTitle,
+            modal: false,
+            items: {
+                xtype: 'statisticsView'
             }
         }).show();
     },

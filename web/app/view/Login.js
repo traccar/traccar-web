@@ -47,6 +47,7 @@ Ext.define('Traccar.view.Login', {
             store: 'Languages',
             displayField: 'name',
             valueField: 'code',
+            editable: false,
             submitValue: false,
             listeners: {
                 select: 'onSelectLanguage'

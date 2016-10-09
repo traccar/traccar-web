@@ -34,6 +34,7 @@ Ext.define('Traccar.view.CommandDialog', {
             store: 'CommandTypes',
             displayField: 'name',
             valueField: 'type',
+            editable: false,
             listeners: {
                 select: 'onSelect'
             }

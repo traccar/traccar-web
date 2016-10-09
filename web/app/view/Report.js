@@ -36,7 +36,7 @@ Ext.define('Traccar.view.Report', {
         store: 'ReportTypes',
         displayField: 'name',
         valueField: 'key',
-        typeAhead: true,
+        editable: false,
         listeners: {
             change: 'onTypeChange'
         }

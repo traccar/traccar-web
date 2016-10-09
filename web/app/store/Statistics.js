@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2016 Anton Tananaev (anton.tananaev@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,30 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.DistanceUnits', {
+Ext.define('Traccar.store.Statistics', {
     extend: 'Ext.data.Store',
-    fields: ['key', 'name', 'factor'],
+    model: 'Traccar.model.Statistics',
 
-    data: [{
-        key: 'km',
-        name: Strings.sharedKm,
-        factor: 0.001
-    }, {
-        key: 'mi',
-        name: Strings.sharedMi,
-        factor: 0.000621371
-    }, {
-        key: 'nmi',
-        name: Strings.sharedNmi,
-        factor: 0.000539957
-    }],
-
-    formatValue: function (value, unit) {
-        var model;
-        if (!unit) {
-            unit = 'km';
-        }
-        model = this.findRecord('key', unit);
-        return (value * model.get('factor')).toFixed(2) + ' ' + model.get('name');
+    proxy: {
+        type: 'rest',
+        url: 'api/statistics'
     }
 });
