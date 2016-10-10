@@ -85,10 +85,47 @@ Ext.define('Traccar.view.DevicesController', {
 
         this.getView().getStore().clearFilter(true);
         this.getView().getStore().getProxy().setData(nodes);
+        this.getTreeState();
         this.getView().getStore().load();
-        this.getView().expandAll();
+        this.restoreTreeState();
         if (deviceFilterField.getValue().length > 0) {
             deviceFilterField.fireEvent('change');
+        }
+    },
+
+    getTreeState: function () {
+        var ids = [], expanded = [];
+
+        this.getView().getStore().getRoot().cascadeBy({
+            after: function (node) {
+                if (node.isExpanded()) {
+                    expanded.push(node);
+                }
+            }
+        });
+
+        Ext.each(expanded, function (node) {
+            if (node.getId() === 'root') {
+                return;
+            }
+            ids.push(node.getId());
+        });
+
+        this.state = ids;
+    },
+
+    restoreTreeState : function () {
+        var node, store = this.getView().getStore();
+        if (this.state) {
+            Ext.each(this.state, function (id) {
+                node = store.getNodeById(id);
+
+                if (node) {
+                    node.bubble(function (node) {
+                        node.expand();
+                    });
+                }
+            });
         }
     },
 
