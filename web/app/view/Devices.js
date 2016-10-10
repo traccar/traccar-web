@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.Devices', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.tree.Panel',
     xtype: 'devicesView',
 
     requires: [
@@ -28,12 +28,15 @@ Ext.define('Traccar.view.Devices', {
     controller: 'devices',
     rootVisible: false,
 
-    initComponent: function () {
-        this.store = Ext.create('Ext.data.ChainedStore', {
-            source: 'Devices',
-            groupField: 'groupId'
-        });
-        this.callParent();
+    store: {
+        type: 'tree',
+        parentIdProperty: 'groupId',
+        proxy: {
+            type: 'memory',
+            reader: {
+                type: 'json'
+            }
+        }
     },
 
     title: Strings.deviceTitle,
@@ -89,35 +92,27 @@ Ext.define('Traccar.view.Devices', {
 
     bbar: [{
         xtype: 'tbtext',
-        html: Strings.groupParent
+        html: Strings.sharedSearch
     }, {
-        xtype: 'combobox',
-        store: 'Groups',
-        queryMode: 'local',
-        displayField: 'name',
-        valueField: 'id',
+        xtype: 'textfield',
+        reference: 'deviceFilterField',
         flex: 1,
         listeners: {
             change: function () {
-                if (Ext.isNumber(this.getValue())) {
-                    this.up('grid').store.filter({
-                        id: 'groupFilter',
+                if (this.getValue().length > 0) {
+                    this.up('panel').store.filter({
+                        id: 'deviceFilter',
                         filterFn: function (item) {
-                            var groupId, group, groupStore, filter = true;
-                            groupId = item.get('groupId');
-                            groupStore = Ext.getStore('Groups');
-
-                            while (groupId) {
-                                group = groupStore.getById(groupId);
-                                if (group) {
-                                    if (group.get('id') === this.getValue()) {
-                                        filter = false;
-                                        break;
-                                    }
-                                    groupId = group.get('groupId');
-                                } else {
-                                    groupId = 0;
+                            var re, deviceStore, filter = true, isDevice;
+                            isDevice = (item.get('id').substr(0, 1) === 'd');
+                            deviceStore = Ext.getStore('Devices');
+                            if (isDevice) {
+                                re = new RegExp(this.getValue(), 'i');
+                                if (re.test(item.get('name'))) {
+                                    filter = false;
                                 }
+                            } else {
+                                filter = false;
                             }
 
                             return !filter;
@@ -125,28 +120,19 @@ Ext.define('Traccar.view.Devices', {
                         scope: this
                     });
                 } else {
-                    this.up('grid').store.removeFilter('groupFilter');
+                    this.up('panel').store.removeFilter('deviceFilter');
                 }
-            }
-        }
-    }, {
-        xtype: 'tbtext',
-        html: Strings.sharedSearch
-    }, {
-        xtype: 'textfield',
-        flex: 1,
-        listeners: {
-            change: function () {
-                this.up('grid').store.filter('name', this.getValue());
             }
         }
     }],
 
     listeners: {
-        selectionchange: 'onSelectionChange'
+        selectionchange: 'onSelectionChange',
+        beforeselect: 'onBeforeSelect'
     },
 
     columns: [{
+        xtype: 'treecolumn',
         text: Strings.sharedName,
         dataIndex: 'name',
         flex: 1
@@ -155,6 +141,10 @@ Ext.define('Traccar.view.Devices', {
         dataIndex: 'lastUpdate',
         flex: 1,
         renderer: function (value, metaData, record) {
+            var isGroup = (record.get('id').substr(0, 1) === 'g');
+            if (isGroup) {
+                return;
+            }
             switch (record.get('status')) {
                 case 'online':
                     metaData.tdCls = 'view-color-green';

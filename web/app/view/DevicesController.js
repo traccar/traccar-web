@@ -37,10 +37,95 @@ Ext.define('Traccar.view.DevicesController', {
                 }
             },
             store: {
+                '#Groups': {
+                    datachanged: 'storeUpdate',
+                    update: 'storeUpdate'
+                },
                 '#Devices': {
+                    datachanged: 'storeUpdate',
                     update: 'onUpdateDevice'
                 }
             }
+        }
+    },
+
+    storeUpdate: function () {
+        var groupsStore, devicesStore, nodes = [], deviceFilterField = this.lookupReference('deviceFilterField');
+        groupsStore = Ext.getStore('Groups');
+        devicesStore = Ext.getStore('Devices');
+
+        groupsStore.each(function (record) {
+            var groupId, node = {
+                id: 'g' + record.get('id'),
+                original: record,
+                name: record.get('name'),
+                leaf: true
+            };
+            groupId = record.get('groupId');
+            if (groupId !== 0 && groupsStore.indexOfId(groupId) !== -1) {
+                node.groupId = 'g' + groupId;
+            }
+            nodes.push(node);
+        }, this);
+        devicesStore.each(function (record) {
+            var groupId, node = {
+                id: 'd' + record.get('id'),
+                original: record,
+                name: record.get('name'),
+                status: record.get('status'),
+                lastUpdate: record.get('lastUpdate'),
+                leaf: true
+            };
+            groupId = record.get('groupId');
+            if (groupId !== 0 && groupsStore.indexOfId(groupId) !== -1) {
+                node.groupId = 'g' + groupId;
+            }
+            nodes.push(node);
+        }, this);
+
+        this.getView().getStore().clearFilter(true);
+        this.getView().getStore().getProxy().setData(nodes);
+        this.getTreeState();
+        this.getView().getStore().load();
+        this.restoreTreeState();
+        if (deviceFilterField.getValue().length > 0) {
+            deviceFilterField.fireEvent('change');
+        }
+    },
+
+    getTreeState: function () {
+        var ids = [], expanded = [];
+
+        this.getView().getStore().getRoot().cascadeBy({
+            after: function (node) {
+                if (node.isExpanded()) {
+                    expanded.push(node);
+                }
+            }
+        });
+
+        Ext.each(expanded, function (node) {
+            if (node.getId() === 'root') {
+                return;
+            }
+            ids.push(node.getId());
+        });
+
+        this.state = ids;
+    },
+
+    restoreTreeState : function () {
+        var node, store = this.getView().getStore();
+        if (this.state) {
+            Ext.each(this.state, function (id) {
+                node = store.getNodeById(id);
+
+                if (node) {
+                    node.bubble(function (node) {
+                        node.expand();
+                    });
+                }
+            });
         }
     },
 
@@ -62,10 +147,10 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     onEditClick: function () {
-        var device, dialog;
+        var device, dialog, store = Ext.getStore('Devices');
         device = this.getView().getSelectionModel().getSelection()[0];
         dialog = Ext.create('Traccar.view.DeviceDialog');
-        dialog.down('form').loadRecord(device);
+        dialog.down('form').loadRecord(store.getById(device.getId().substr(1)));
         dialog.show();
     },
 
@@ -83,7 +168,7 @@ Ext.define('Traccar.view.DevicesController', {
                 var store;
                 if (btn === 'yes') {
                     store = Ext.getStore('Devices');
-                    store.remove(device);
+                    store.remove(store.getById(device.getId().substr(1)));
                     store.sync();
                 }
             }
@@ -119,10 +204,10 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     onFollowClick: function (button, pressed) {
-        var device;
+        var device, store = Ext.getStore('Devices');
         if (pressed) {
             device = this.getView().getSelectionModel().getSelection()[0];
-            this.fireEvent('selectdevice', device, true);
+            this.fireEvent('selectdevice', store.getById(device.getId().substr(1)), true);
         }
     },
 
@@ -135,14 +220,21 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     onSelectionChange: function (selected) {
+        var device, store = Ext.getStore('Devices');
         this.updateButtons(selected);
         if (selected.getCount() > 0) {
-            this.fireEvent('selectdevice', selected.getLastSelected(), true);
+            device = selected.getLastSelected();
+            this.fireEvent('selectDevice', store.getById(device.getId().substr(1)), true);
         }
     },
 
+    onBeforeSelect: function (row, record) {
+        return record.get('original') instanceof Traccar.model.Device;
+    },
+
     selectDevice: function (device, center) {
-        this.getView().getSelectionModel().select([device], false, true);
+        var store = this.getView().getStore();
+        this.getView().getSelectionModel().select([store.getById('d' + device.getId())], false, true);
     },
 
     selectReport: function (position) {
