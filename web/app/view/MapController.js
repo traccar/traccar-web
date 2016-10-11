@@ -21,7 +21,8 @@ Ext.define('Traccar.view.MapController', {
 
     requires: [
         'Traccar.model.Position',
-        'Traccar.model.Device'
+        'Traccar.model.Device',
+        'Traccar.GeofenceConverter'
     ],
 
     config: {
@@ -45,6 +46,12 @@ Ext.define('Traccar.view.MapController', {
                 '#ReportRoute': {
                     load: 'loadReport',
                     clear: 'clearReport'
+                },
+                '#Geofences': {
+                    load: 'showGeofences',
+                    add: 'updateGeofences',
+                    update: 'updateGeofences',
+                    remove: 'updateGeofences'
                 }
             },
             component: {
@@ -58,6 +65,20 @@ Ext.define('Traccar.view.MapController', {
     init: function () {
         this.latestMarkers = {};
         this.reportMarkers = {};
+        this.getView().header = {
+            xtype: 'header',
+            title: Strings.mapTitle,
+            items: [{
+                    xtype: 'button',
+                    handler: 'showGeofences',
+                    reference: 'showGeofencesButton',
+                    glyph: 'xf21d@FontAwesome',
+                    enableToggle: true,
+                    pressed: true,
+                    tooltip: Strings.sharedGeofences,
+                    tooltipType: 'title'
+                }]
+        };
     },
 
     getDeviceColor: function (device) {
@@ -321,5 +342,55 @@ Ext.define('Traccar.view.MapController', {
         center = ol.proj.transform(this.getView().getMapView().getCenter(), projection, 'EPSG:4326');
         zoom = this.getView().getMapView().getZoom();
         this.fireEvent('mapstate', center[1], center[0], zoom);
+    },
+
+    getGeofenceStyle: function (label) {
+        return new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: Traccar.Style.mapGeofenceOverlay
+                }),
+                stroke: new ol.style.Stroke({
+                    color: Traccar.Style.mapGeofenceColor,
+                    width: Traccar.Style.mapGeofenceWidth
+                }),
+                image: new ol.style.Circle({
+                    radius: Traccar.Style.mapGeofenceRadius,
+                    fill: new ol.style.Fill({
+                        color: Traccar.Style.mapGeofenceColor
+                    })
+                }),
+                text: new ol.style.Text({
+                    text: label,
+                    textBaseline: 'bottom',
+                    fill: new ol.style.Fill({
+                        color: Traccar.Style.mapGeofenceTextColor
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: Traccar.Style.mapTextStrokeColor,
+                        width: Traccar.Style.mapTextStrokeWidth
+                    }),
+                    font : Traccar.Style.mapTextFont
+                })
+            });
+    },
+
+    showGeofences: function () {
+        if (this.lookupReference('showGeofencesButton').pressed) {
+            Ext.getStore('Geofences').each(function (geofence) {
+                var feature = new ol.Feature(Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), geofence.get('area')));
+                feature.setStyle(this.getGeofenceStyle(geofence.get('name')));
+                this.getView().getGeofencesSource().addFeature(feature);
+                return true;
+            }, this);
+        } else {
+            this.getView().getGeofencesSource().clear();
+        }
+    },
+
+    updateGeofences: function () {
+        if (this.lookupReference('showGeofencesButton').pressed) {
+            this.getView().getGeofencesSource().clear();
+            this.showGeofences();
+        }
     }
 });
