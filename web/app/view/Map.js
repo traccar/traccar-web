@@ -39,8 +39,17 @@ Ext.define('Traccar.view.Map', {
         return this.reportSource;
     },
 
+    getGeofencesSource: function () {
+        return this.geofencesSource;
+    },
+
     initMap: function () {
         this.callParent();
+
+        this.geofencesSource = new ol.source.Vector({});
+        this.map.addLayer(new ol.layer.Vector({
+            source: this.geofencesSource
+        }));
 
         this.latestSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
