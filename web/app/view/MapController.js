@@ -69,15 +69,15 @@ Ext.define('Traccar.view.MapController', {
             xtype: 'header',
             title: Strings.mapTitle,
             items: [{
-                    xtype: 'button',
-                    handler: 'showGeofences',
-                    reference: 'showGeofencesButton',
-                    glyph: 'xf21d@FontAwesome',
-                    enableToggle: true,
-                    pressed: true,
-                    tooltip: Strings.sharedGeofences,
-                    tooltipType: 'title'
-                }]
+                xtype: 'button',
+                handler: 'showGeofences',
+                reference: 'showGeofencesButton',
+                glyph: 'xf21d@FontAwesome',
+                enableToggle: true,
+                pressed: true,
+                tooltip: Strings.sharedGeofences,
+                tooltipType: 'title'
+            }]
         };
     },
 
@@ -353,15 +353,8 @@ Ext.define('Traccar.view.MapController', {
                     color: Traccar.Style.mapGeofenceColor,
                     width: Traccar.Style.mapGeofenceWidth
                 }),
-                image: new ol.style.Circle({
-                    radius: Traccar.Style.mapGeofenceRadius,
-                    fill: new ol.style.Fill({
-                        color: Traccar.Style.mapGeofenceColor
-                    })
-                }),
                 text: new ol.style.Text({
                     text: label,
-                    textBaseline: 'bottom',
                     fill: new ol.style.Fill({
                         color: Traccar.Style.mapGeofenceTextColor
                     }),
@@ -377,7 +370,8 @@ Ext.define('Traccar.view.MapController', {
     showGeofences: function () {
         if (this.lookupReference('showGeofencesButton').pressed) {
             Ext.getStore('Geofences').each(function (geofence) {
-                var feature = new ol.Feature(Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), geofence.get('area')));
+                var feature = new ol.Feature(Traccar.GeofenceConverter
+                        .wktToGeometry(this.getView().getMapView(), geofence.get('area')));
                 feature.setStyle(this.getGeofenceStyle(geofence.get('name')));
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;
