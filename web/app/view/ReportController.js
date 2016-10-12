@@ -32,7 +32,9 @@ Ext.define('Traccar.view.ReportController', {
         listen: {
             controller: {
                 '*': {
-                    selectdevice: 'selectDevice',
+                    selectdevice: 'selectDevice'
+                },
+                'map': {
                     selectreport: 'selectReport'
                 }
             }
@@ -126,8 +128,13 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     onSelectionChange: function (selected) {
+        var report;
         if (selected.getCount() > 0) {
-            this.fireEvent('selectreport', selected.getLastSelected(), true);
+            report = selected.getLastSelected();
+            this.fireEvent('selectreport', report, true);
+            if (report instanceof Traccar.model.ReportTrip) {
+                this.selectTrip(report);
+            }
         }
     },
 
@@ -138,17 +145,18 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     selectReport: function (object, center) {
-        if (object instanceof Traccar.model.Position) {
+        var reportType = this.lookupReference('reportTypeField').getValue();
+        if (object instanceof Traccar.model.Position && reportType === 'route') {
             this.getView().getSelectionModel().select([object], false, true);
-        } else if (object instanceof Traccar.model.ReportTrip) {
-            this.selectTrip(object);
-        }
+            this.getView().getView().focusRow(object);
+        } 
     },
 
     selectTrip: function (trip) {
         var from, to;
         from = new Date(trip.get('startTime'));
         to = new Date(trip.get('endTime'));
+        Ext.getStore('ReportRoute').removeAll();
         Ext.getStore('ReportRoute').load({
             params: {
                 deviceId: trip.get('deviceId'),
