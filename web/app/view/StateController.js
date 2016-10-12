@@ -42,7 +42,7 @@ Ext.define('Traccar.view.StateController', {
                     add: 'updateLatest',
                     update: 'updateLatest'
                 },
-                '#Positions': {
+                '#ReportRoute': {
                     clear: 'clearReport'
                 },
                 '#AttributeAliases': {
