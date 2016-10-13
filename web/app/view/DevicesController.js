@@ -32,8 +32,10 @@ Ext.define('Traccar.view.DevicesController', {
         listen: {
             controller: {
                 '*': {
-                    selectdevice: 'selectDevice',
                     selectreport: 'selectReport'
+                },
+                'map': {
+                    selectdevice: 'selectDevice'
                 }
             },
             store: {
@@ -235,6 +237,7 @@ Ext.define('Traccar.view.DevicesController', {
     selectDevice: function (device, center) {
         var store = this.getView().getStore();
         this.getView().getSelectionModel().select([store.getById('d' + device.getId())], false, true);
+        this.getView().getView().focusRow(store.getById('d' + device.getId()));
     },
 
     selectReport: function (position) {

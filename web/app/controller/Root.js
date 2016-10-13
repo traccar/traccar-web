@@ -137,7 +137,7 @@ Ext.define('Traccar.controller.Root', {
                         });
                     }
                 }
-                store.fireEvent("datachanged", store);
+                store.fireEvent('datachanged', store);
             }
 
             if (data.positions && !data.events) {
