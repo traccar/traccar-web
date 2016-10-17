@@ -74,11 +74,11 @@ Ext.define('Traccar.view.ReportController', {
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time;
         this.lookupReference('showButton').setDisabled(disabled);
-        this.lookupReference('xlsxButton').setDisabled(disabled);
+        this.lookupReference('exportButton').setDisabled(disabled);
     },
 
     onReportClick: function (button) {
-        var reportType, from, to, store, url, accept;
+        var reportType, from, to, store, url;
 
         reportType = this.lookupReference('reportTypeField').getValue();
 
@@ -102,10 +102,9 @@ Ext.define('Traccar.view.ReportController', {
                         to: to.toISOString()
                     }
                 });
-            } else if (button.reference === 'xlsxButton') {
+            } else if (button.reference === 'exportButton') {
                 url = this.getView().getStore().getProxy().url;
-                accept = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                this.downloadFile(url, accept, {
+                this.downloadFile(url, {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
                     type: this.eventType,
@@ -167,13 +166,13 @@ Ext.define('Traccar.view.ReportController', {
         });
     },
 
-    downloadFile: function (requestUrl, acceptHeader, requestParams) {
+    downloadFile: function (requestUrl, requestParams) {
         Ext.Ajax.request({
             url: requestUrl,
             method: 'GET',
             params: requestParams,
             headers: {
-                Accept: acceptHeader
+                Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             },
             binary: true,
             success: function (response) {
