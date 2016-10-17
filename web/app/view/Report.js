@@ -49,8 +49,8 @@ Ext.define('Traccar.view.Report', {
         disabled: true,
         handler: 'onReportClick'
     }, {
-        text: Strings.reportCsv,
-        reference: 'csvButton',
+        text: Strings.reportXlsx,
+        reference: 'xlsxButton',
         disabled: true,
         handler: 'onReportClick'
     }, {
