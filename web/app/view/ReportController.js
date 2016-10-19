@@ -149,7 +149,7 @@ Ext.define('Traccar.view.ReportController', {
         if (object instanceof Traccar.model.Position && reportType === 'route') {
             this.getView().getSelectionModel().select([object], false, true);
             this.getView().getView().focusRow(object);
-        } 
+        }
     },
 
     selectTrip: function (trip) {
