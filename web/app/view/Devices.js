@@ -151,6 +151,11 @@ Ext.define('Traccar.view.Devices', {
         dataIndex: 'name',
         flex: 1
     }, {
+        text: Strings.deviceIdentifier,
+        dataIndex: 'uniqueId',
+        hidden: true,
+        flex: 1
+    }, {
         text: Strings.deviceLastUpdate,
         dataIndex: 'lastUpdate',
         flex: 1,
