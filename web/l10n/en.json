@@ -160,7 +160,7 @@
     "reportSummary": "Summary",
     "reportConfigure": "Configure",
     "reportEventTypes": "Event Types",
-    "reportCsv": "CSV",
+    "reportExport": "Export",
     "reportDeviceName": "Device Name",
     "reportAverageSpeed": "Average Speed",
     "reportMaximumSpeed": "Maximum Speed",

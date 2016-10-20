@@ -74,7 +74,7 @@ Ext.define('Traccar.view.ReportController', {
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time;
         this.lookupReference('showButton').setDisabled(disabled);
-        this.lookupReference('csvButton').setDisabled(disabled);
+        this.lookupReference('exportButton').setDisabled(disabled);
     },
 
     onReportClick: function (button) {
@@ -102,9 +102,9 @@ Ext.define('Traccar.view.ReportController', {
                         to: to.toISOString()
                     }
                 });
-            } else if (button.reference === 'csvButton') {
+            } else if (button.reference === 'exportButton') {
                 url = this.getView().getStore().getProxy().url;
-                this.downloadCsv(url, {
+                this.downloadFile(url, {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
                     type: this.eventType,
@@ -166,20 +166,21 @@ Ext.define('Traccar.view.ReportController', {
         });
     },
 
-    downloadCsv: function (requestUrl, requestParams) {
+    downloadFile: function (requestUrl, requestParams) {
         Ext.Ajax.request({
             url: requestUrl,
             method: 'GET',
             params: requestParams,
             headers: {
-                Accept: 'text/csv'
+                Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             },
+            binary: true,
             success: function (response) {
-                var disposition, filename, type, blob, url, downloadUrl, elementA;
+                var disposition, filename, type, blob, url, downloadUrl;
                 disposition = response.getResponseHeader('Content-Disposition');
                 filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
                 type = response.getResponseHeader('Content-Type');
-                blob = new Blob([response.responseText], {type: type});
+                blob = new Blob([response.responseBytes], {type: type});
                 if (typeof window.navigator.msSaveBlob !== 'undefined') {
                     // IE workaround
                     window.navigator.msSaveBlob(blob, filename);
@@ -187,11 +188,11 @@ Ext.define('Traccar.view.ReportController', {
                     url = window.URL || window.webkitURL;
                     downloadUrl = url.createObjectURL(blob);
                     if (filename) {
-                        elementA = document.createElement('a');
-                        elementA.href = downloadUrl;
-                        elementA.download = filename;
-                        document.body.appendChild(elementA);
-                        elementA.click();
+                        Ext.dom.Helper.append(Ext.getBody(), {
+                            tag: 'a',
+                            href: downloadUrl,
+                            download: filename
+                        }).click();
                     }
                     setTimeout(function () {
                         url.revokeObjectURL(downloadUrl);
