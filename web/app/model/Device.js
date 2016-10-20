@@ -29,6 +29,18 @@ Ext.define('Traccar.model.Device', {
         name: 'uniqueId',
         type: 'string'
     }, {
+        name: 'phone',
+        type: 'string'
+    }, {
+        name: 'model',
+        type: 'string'
+    }, {
+        name: 'contact',
+        type: 'string'
+    }, {
+        name: 'type',
+        type: 'string'
+    }, {
         name: 'status',
         type: 'string'
     }, {
