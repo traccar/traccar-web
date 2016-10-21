@@ -156,6 +156,21 @@ Ext.define('Traccar.view.Devices', {
         hidden: true,
         flex: 1
     }, {
+        text: Strings.devicePhone,
+        dataIndex: 'phone',
+        hidden: true,
+        flex: 1
+    }, {
+        text: Strings.deviceModel,
+        dataIndex: 'model',
+        hidden: true,
+        flex: 1
+    }, {
+        text: Strings.deviceContact,
+        dataIndex: 'contact',
+        hidden: true,
+        flex: 1
+    }, {
         text: Strings.deviceLastUpdate,
         dataIndex: 'lastUpdate',
         flex: 1,
