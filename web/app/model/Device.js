@@ -38,7 +38,7 @@ Ext.define('Traccar.model.Device', {
         name: 'contact',
         type: 'string'
     }, {
-        name: 'type',
+        name: 'category',
         type: 'string'
     }, {
         name: 'status',
