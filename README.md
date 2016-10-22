@@ -7,6 +7,7 @@ Traccar is open source server for various GPS tracking devices. This repository 
 ## Team
 
 - Anton Tananaev ([anton@traccar.org](mailto:anton@traccar.org))
+- Andrey Kunitsyn ([andrey@traccar.org](mailto:andrey@traccar.org))
 
 ## License
 
