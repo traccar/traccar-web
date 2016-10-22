@@ -1,14 +1,12 @@
 # [Traccar Web Interface](https://www.traccar.org)
 
-## Contacts
-
-Author - Anton Tananaev ([anton.tananaev@gmail.com](mailto:anton.tananaev@gmail.com))
-
-Website - [https://www.traccar.org](https://www.traccar.org)
-
 ## Overview
 
 Traccar is open source server for various GPS tracking devices. This repository contains web interface for the Traccar platform. For back-end checkout [main Traccar repository](https://github.com/tananaev/traccar).
+
+## Team
+
+- Anton Tananaev ([anton@traccar.org](mailto:anton@traccar.org))
 
 ## License
 
