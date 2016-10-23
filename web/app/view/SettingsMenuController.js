@@ -29,6 +29,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.Notifications',
         'Traccar.view.AttributeAliases',
         'Traccar.view.Statistics',
+        'Traccar.view.DeviceDistanceDialog',
         'Traccar.view.BaseWindow'
     ],
 
@@ -40,6 +41,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsUsersButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
+            this.lookupReference('settingsDeviceDistanceButton').setHidden(false);
         }
         if (admin || !readonly) {
             this.lookupReference('settingsGroupsButton').setHidden(false);
@@ -120,6 +122,11 @@ Ext.define('Traccar.view.SettingsMenuController', {
                 xtype: 'statisticsView'
             }
         }).show();
+    },
+
+    onDeviceDistanceClick: function () {
+        var dialog = Ext.create('Traccar.view.DeviceDistanceDialog');
+        dialog.show();
     },
 
     onLogoutClick: function () {

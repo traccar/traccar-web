@@ -63,6 +63,11 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsAttributeAliasesButton'
         }, {
             hidden: true,
+            text: Strings.sharedDeviceDistance,
+            handler: 'onDeviceDistanceClick',
+            reference: 'settingsDeviceDistanceButton'
+        }, {
+            hidden: true,
             text: Strings.statisticsTitle,
             handler: 'onStatisticsClick',
             reference: 'settingsStatisticsButton'
