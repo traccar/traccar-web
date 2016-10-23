@@ -23,7 +23,7 @@ Ext.define('Traccar.view.DeviceDialog', {
     ],
 
     controller: 'baseEditDialog',
-    title: Strings.deviceDialog,
+    title: Strings.sharedDevice,
 
     items: {
         xtype: 'form',

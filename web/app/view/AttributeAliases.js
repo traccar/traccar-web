@@ -33,6 +33,7 @@ Ext.define('Traccar.view.AttributeAliases', {
         xtype: 'editToolbar',
         items: ['-', {
             xtype: 'combobox',
+            fieldLabel: Strings.sharedDevice,
             reference: 'deviceField',
             store: 'Devices',
             displayField: 'name',
