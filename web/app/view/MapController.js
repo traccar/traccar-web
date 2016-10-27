@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton.tananaev@gmail.com)
+ * Copyright 2015 - 2016 Anton Tananaev (anton.tananaev@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,18 +65,29 @@ Ext.define('Traccar.view.MapController', {
     init: function () {
         this.latestMarkers = {};
         this.reportMarkers = {};
+        this.liveRoutes = {};
+        this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
         this.getView().header = {
             xtype: 'header',
             title: Strings.mapTitle,
-            items: [{
+            defaults: {
                 xtype: 'button',
+                tooltipType: 'title',
+                margin: Traccar.Style.headerButtonsMargin
+            },
+            items: [{
                 handler: 'showGeofences',
                 reference: 'showGeofencesButton',
                 glyph: 'xf21d@FontAwesome',
                 enableToggle: true,
                 pressed: true,
-                tooltip: Strings.sharedGeofences,
-                tooltipType: 'title'
+                tooltip: Strings.sharedGeofences
+            }, {
+                handler: 'showLiveRoutes',
+                reference: 'showLiveRoutes',
+                glyph: 'xf1b0@FontAwesome',
+                enableToggle: true,
+                tooltip: Strings.mapLiveRoutes
             }]
         };
     },
@@ -129,8 +140,13 @@ Ext.define('Traccar.view.MapController', {
         return Ext.getCmp('deviceFollowButton') && Ext.getCmp('deviceFollowButton').pressed;
     },
 
+    showLiveRoutes: function (button) {
+        this.getView().getLiveRouteLayer().setVisible(button.pressed);
+    },
+
     updateLatest: function (store, data) {
-        var i, position, geometry, device, deviceId, marker, style;
+        var i, position, geometry, device, deviceId, marker, style,
+                liveMarker, liveStyle, liveLine, lastLiveCoordinates;
 
         if (!Ext.isArray(data)) {
             data = [data];
@@ -166,6 +182,43 @@ Ext.define('Traccar.view.MapController', {
                 if (marker === this.selectedMarker && this.followSelected()) {
                     this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
                 }
+
+                if (deviceId in this.liveRoutes) {
+                    lastLiveCoordinates = this.liveRoutes[deviceId][this.liveRoutes[deviceId].length - 1].getGeometry().getCoordinates();
+                    if (lastLiveCoordinates[0] === geometry.getCoordinates()[0] &&
+                            lastLiveCoordinates[1] === geometry.getCoordinates()[1]) {
+                        continue;
+                    }
+                    if (this.liveRoutes[deviceId].length >= this.liveRouteLength * 2) {
+                        this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId].shift());
+                        this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId].shift());
+                    }
+                    liveLine = new ol.Feature({
+                        geometry: new ol.geom.LineString([
+                            lastLiveCoordinates,
+                            ol.proj.fromLonLat([
+                                position.get('longitude'),
+                                position.get('latitude')
+                            ])
+                        ])
+                    });
+                    liveLine.setStyle(this.getRouteStyle(position.get('deviceId')));
+                    this.liveRoutes[deviceId].push(liveLine);
+                    this.getView().getLiveRouteSource().addFeature(liveLine);
+                } else {
+                    this.liveRoutes[deviceId] = [];
+                }
+
+                liveMarker = new ol.Feature(geometry);
+
+                this.liveRoutes[deviceId].push(liveMarker);
+                this.getView().getLiveRouteSource().addFeature(liveMarker);
+
+                liveStyle = this.getReportMarker(position.get('deviceId'));
+                liveStyle.getImage().setRotation(position.get('course') * Math.PI / 180);
+
+                liveMarker.setStyle(liveStyle);
+
             }
         }
     },

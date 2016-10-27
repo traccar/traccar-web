@@ -43,6 +43,14 @@ Ext.define('Traccar.view.Map', {
         return this.geofencesSource;
     },
 
+    getLiveRouteSource: function () {
+        return this.liveRouteSource;
+    },
+
+    getLiveRouteLayer: function () {
+        return this.liveRouteLayer;
+    },
+
     initMap: function () {
         this.callParent();
 
@@ -50,6 +58,13 @@ Ext.define('Traccar.view.Map', {
         this.map.addLayer(new ol.layer.Vector({
             source: this.geofencesSource
         }));
+
+        this.liveRouteSource = new ol.source.Vector({});
+        this.liveRouteLayer = new ol.layer.Vector({
+            source: this.liveRouteSource,
+            visible: false
+        });
+        this.map.addLayer(this.liveRouteLayer);
 
         this.latestSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
