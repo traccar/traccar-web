@@ -105,6 +105,7 @@
     "mapBingAerial": "Bing Maps Aerial",
     "mapShapePolygon": "Polygon",
     "mapShapeCircle": "Circle",
+    "mapLiveRoutes": "Live Routes",
     "stateTitle": "State",
     "stateName": "Attribute",
     "stateValue": "Value",
