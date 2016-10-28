@@ -145,8 +145,7 @@ Ext.define('Traccar.view.MapController', {
     },
 
     updateLatest: function (store, data) {
-        var i, position, geometry, device, deviceId, marker, style,
-                liveMarker, liveStyle, liveLine, lastLiveCoordinates;
+        var i, position, device;
 
         if (!Ext.isArray(data)) {
             data = [data];
@@ -154,72 +153,71 @@ Ext.define('Traccar.view.MapController', {
 
         for (i = 0; i < data.length; i++) {
             position = data[i];
-            deviceId = position.get('deviceId');
-            device = Ext.getStore('Devices').findRecord('id', deviceId, 0, false, false, true);
+            device = Ext.getStore('Devices').findRecord('id', position.get('deviceId'), 0, false, false, true);
 
             if (device) {
-                geometry = new ol.geom.Point(ol.proj.fromLonLat([
-                    position.get('longitude'),
-                    position.get('latitude')
-                ]));
-
-                if (deviceId in this.latestMarkers) {
-                    marker = this.latestMarkers[deviceId];
-                    marker.setGeometry(geometry);
-                } else {
-                    marker = new ol.Feature(geometry);
-                    marker.set('record', device);
-                    this.latestMarkers[deviceId] = marker;
-                    this.getView().getLatestSource().addFeature(marker);
-
-                    style = this.getLatestMarker(this.getDeviceColor(device));
-                    style.getText().setText(device.get('name'));
-                    marker.setStyle(style);
-                }
-
-                marker.getStyle().getImage().setRotation(position.get('course') * Math.PI / 180);
-
-                if (marker === this.selectedMarker && this.followSelected()) {
-                    this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
-                }
-
-                if (deviceId in this.liveRoutes) {
-                    lastLiveCoordinates = this.liveRoutes[deviceId][this.liveRoutes[deviceId].length - 1].getGeometry().getCoordinates();
-                    if (lastLiveCoordinates[0] === geometry.getCoordinates()[0] &&
-                            lastLiveCoordinates[1] === geometry.getCoordinates()[1]) {
-                        continue;
-                    }
-                    if (this.liveRoutes[deviceId].length >= this.liveRouteLength * 2) {
-                        this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId].shift());
-                        this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId].shift());
-                    }
-                    liveLine = new ol.Feature({
-                        geometry: new ol.geom.LineString([
-                            lastLiveCoordinates,
-                            ol.proj.fromLonLat([
-                                position.get('longitude'),
-                                position.get('latitude')
-                            ])
-                        ])
-                    });
-                    liveLine.setStyle(this.getRouteStyle(position.get('deviceId')));
-                    this.liveRoutes[deviceId].push(liveLine);
-                    this.getView().getLiveRouteSource().addFeature(liveLine);
-                } else {
-                    this.liveRoutes[deviceId] = [];
-                }
-
-                liveMarker = new ol.Feature(geometry);
-
-                this.liveRoutes[deviceId].push(liveMarker);
-                this.getView().getLiveRouteSource().addFeature(liveMarker);
-
-                liveStyle = this.getReportMarker(position.get('deviceId'));
-                liveStyle.getImage().setRotation(position.get('course') * Math.PI / 180);
-
-                liveMarker.setStyle(liveStyle);
-
+                this.updateLatestMarker(position, device);
+                this.updateLiveRoute(position);
             }
+        }
+    },
+
+    updateLatestMarker: function (position, device) {
+        var geometry, deviceId, marker, style;
+        geometry = new ol.geom.Point(ol.proj.fromLonLat([
+            position.get('longitude'),
+            position.get('latitude')
+        ]));
+        deviceId = position.get('deviceId');
+        if (deviceId in this.latestMarkers) {
+            marker = this.latestMarkers[deviceId];
+            marker.setGeometry(geometry);
+        } else {
+            marker = new ol.Feature(geometry);
+            marker.set('record', device);
+            this.latestMarkers[deviceId] = marker;
+            this.getView().getLatestSource().addFeature(marker);
+
+            style = this.getLatestMarker(this.getDeviceColor(device));
+            style.getText().setText(device.get('name'));
+            marker.setStyle(style);
+        }
+
+        marker.getStyle().getImage().setRotation(position.get('course') * Math.PI / 180);
+
+        if (marker === this.selectedMarker && this.followSelected()) {
+            this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
+        }
+    },
+
+    updateLiveRoute: function (position) {
+        var deviceId, liveLine, liveCoordinates, lastLiveCoordinates, newCoordinates;
+        deviceId = position.get('deviceId');
+        if (deviceId in this.liveRoutes) {
+            liveCoordinates = this.liveRoutes[deviceId].getGeometry().getCoordinates();
+            lastLiveCoordinates = liveCoordinates[liveCoordinates.length - 1];
+            newCoordinates = ol.proj.fromLonLat([position.get('longitude'), position.get('latitude')]);
+            if (lastLiveCoordinates[0] === newCoordinates[0] &&
+                    lastLiveCoordinates[1] === newCoordinates[1]) {
+                return;
+            }
+            if (liveCoordinates.length >= this.liveRouteLength) {
+                liveCoordinates.shift();
+            }
+            liveCoordinates.push(newCoordinates);
+            this.liveRoutes[deviceId].getGeometry().setCoordinates(liveCoordinates);
+        } else {
+            liveLine = new ol.Feature({
+                geometry: new ol.geom.LineString([
+                    ol.proj.fromLonLat([
+                        position.get('longitude'),
+                        position.get('latitude')
+                    ])
+                ])
+            });
+            liveLine.setStyle(this.getRouteStyle(position.get('deviceId')));
+            this.liveRoutes[deviceId] = liveLine;
+            this.getView().getLiveRouteSource().addFeature(liveLine);
         }
     },
 
