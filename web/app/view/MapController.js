@@ -215,7 +215,7 @@ Ext.define('Traccar.view.MapController', {
                     ])
                 ])
             });
-            liveLine.setStyle(this.getRouteStyle(position.get('deviceId')));
+            liveLine.setStyle(this.getRouteStyle(deviceId));
             this.liveRoutes[deviceId] = liveLine;
             this.getView().getLiveRouteSource().addFeature(liveLine);
         }
