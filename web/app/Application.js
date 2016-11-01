@@ -119,12 +119,7 @@ Ext.define('Traccar.Application', {
         if (Ext.isString(response)) {
             Ext.Msg.alert(Strings.errorTitle, response);
         } else if (response.responseText) {
-            data = Ext.decode(response.responseText);
-            if (data.details) {
-                Ext.Msg.alert(Strings.errorTitle, data.details);
-            } else {
-                Ext.Msg.alert(Strings.errorTitle, data.message);
-            }
+            Ext.Msg.alert(response.responseText);
         } else if (response.statusText) {
             Ext.Msg.alert(Strings.errorTitle, response.statusText);
         } else {
