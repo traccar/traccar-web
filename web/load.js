@@ -99,25 +99,29 @@
 
     });
 
+    var extjsVersion = '6.0.1';
+    var fontAwesomeVersion = '4.6.3';
+    var olVersion = '3.18.2';
+
     if (debugMode) {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/ext-all-debug.js');
+        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
     } else {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/ext-all.js');
+        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all.js');
     }
-    addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
+    addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
 
     if (touchMode) {
-        addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/classic/theme-crisp-touch/resources/theme-crisp-touch-all.css');
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/classic/theme-crisp-touch/theme-crisp-touch.js');
+        addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-crisp-touch/resources/theme-crisp-touch-all.css');
+        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-crisp-touch/theme-crisp-touch.js');
     } else {
-        addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/classic/theme-crisp/resources/theme-crisp-all.css');
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/6.0.1/classic/theme-crisp/theme-crisp.js');
+        addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-crisp/resources/theme-crisp-all.css');
+        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-crisp/theme-crisp.js');
     }
 
-    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css');
+    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/font-awesome/' + fontAwesomeVersion + '/css/font-awesome.min.css');
 
-    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/3.18.2/ol.css');
-    addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/3.18.2/ol-debug.js');
+    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
+    addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
 
     addStyleFile('app.css');
     addScriptFile('arrow.js');
