@@ -12,19 +12,6 @@
     display: none !important;
 }
 
-.state-indicator {
-    position: absolute;
-    top: -999em;
-    left: -999em;
-    z-index: 0;
-}
-
-@media all and (max-device-width: 768px) {
-    .state-indicator {
-        z-index: 1;
-    }
-}
-
 #attribution {
     position: absolute;
     bottom: 10px;

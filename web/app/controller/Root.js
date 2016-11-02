@@ -25,13 +25,6 @@ Ext.define('Traccar.controller.Root', {
         'Traccar.model.Position'
     ],
 
-    init: function () {
-        var indicator = document.createElement('div');
-        indicator.className = 'state-indicator';
-        document.body.appendChild(indicator);
-        this.isPhone = parseInt(window.getComputedStyle(indicator).getPropertyValue('z-index'), 10) !== 0;
-    },
-
     onLaunch: function () {
         Ext.Ajax.request({
             scope: this,
@@ -89,7 +82,7 @@ Ext.define('Traccar.controller.Root', {
         if (attribution) {
             attribution.remove();
         }
-        if (this.isPhone) {
+        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
             Ext.create('widget.mainMobile');
         } else {
             Ext.create('widget.main');
