@@ -36,6 +36,7 @@ Ext.define('Traccar.view.MainMobile', {
     items: [{
         region: 'east',
         xtype: 'stateView',
+        title: Strings.stateTitle,
         flex: 4,
         collapsed: true,
         titleCollapse: true,
@@ -48,6 +49,7 @@ Ext.define('Traccar.view.MainMobile', {
     }, {
         region: 'south',
         xtype: 'devicesView',
+        title: Strings.deviceTitle,
         flex: 1
     }]
 });
