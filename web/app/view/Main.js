@@ -62,7 +62,6 @@ Ext.define('Traccar.view.Main', {
     }, {
         region: 'center',
         xtype: 'mapView',
-        header: true,
         collapsible: false
     }]
 });

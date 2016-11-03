@@ -67,29 +67,6 @@ Ext.define('Traccar.view.MapController', {
         this.reportMarkers = {};
         this.liveRoutes = {};
         this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
-        this.getView().header = {
-            xtype: 'header',
-            title: Strings.mapTitle,
-            defaults: {
-                xtype: 'button',
-                tooltipType: 'title',
-                margin: Traccar.Style.headerButtonsMargin
-            },
-            items: [{
-                handler: 'showGeofences',
-                reference: 'showGeofencesButton',
-                glyph: 'xf21d@FontAwesome',
-                enableToggle: true,
-                pressed: true,
-                tooltip: Strings.sharedGeofences
-            }, {
-                handler: 'showLiveRoutes',
-                reference: 'showLiveRoutes',
-                glyph: 'xf1b0@FontAwesome',
-                enableToggle: true,
-                tooltip: Strings.mapLiveRoutes
-            }]
-        };
     },
 
     getDeviceColor: function (device) {

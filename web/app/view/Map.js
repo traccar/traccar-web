@@ -26,6 +26,51 @@ Ext.define('Traccar.view.Map', {
     controller: 'map',
 
     title: Strings.mapTitle,
+    tbar: {
+        items: [{
+            xtype: 'tbtext',
+            html: Strings.mapTitle,
+            baseCls: 'x-panel-header-title-default'
+        }, {
+            xtype: 'tbfill'
+        }, {
+            xtype: 'button',
+            tooltipType: 'title',
+            handler: 'showGeofences',
+            reference: 'showGeofencesButton',
+            glyph: 'xf21d@FontAwesome',
+            enableToggle: true,
+            pressed: true,
+            tooltip: Strings.sharedGeofences
+        }, {
+            xtype: 'button',
+            tooltipType: 'title',
+            handler: 'showLiveRoutes',
+            reference: 'showLiveRoutes',
+            glyph: 'xf1b0@FontAwesome',
+            enableToggle: true,
+            tooltip: Strings.mapLiveRoutes
+        }, {
+            id: 'muteButton',
+            glyph: 'xf1f7@FontAwesome',
+            tooltip: Strings.sharedMute,
+            tooltipType: 'title',
+            pressed : true,
+            enableToggle: true,
+            listeners: {
+                toggle: function (button, pressed) {
+                    if (pressed) {
+                        button.setGlyph('xf1f7@FontAwesome');
+                    } else {
+                        button.setGlyph('xf0a2@FontAwesome');
+                    }
+                },
+                scope: this
+            }
+        }, {
+            xtype: 'settingsMenu'
+        }]
+    },
 
     getLatestSource: function () {
         return this.latestSource;

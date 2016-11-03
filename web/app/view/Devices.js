@@ -36,12 +36,39 @@ Ext.define('Traccar.view.Devices', {
         this.callParent();
     },
 
-    title: Strings.deviceTitle,
     selType: 'rowmodel',
 
     tbar: {
-        xtype: 'editToolbar',
         items: [{
+            xtype: 'tbtext',
+            html: Strings.deviceTitle,
+            baseCls: 'x-panel-header-title-default'
+        }, {
+            xtype: 'tbfill'
+        }, {
+            xtype: 'button',
+            handler: 'onAddClick',
+            reference: 'toolbarAddButton',
+            glyph: 'xf067@FontAwesome',
+            tooltip: Strings.sharedAdd,
+            tooltipType: 'title'
+        }, {
+            xtype: 'button',
+            disabled: true,
+            handler: 'onEditClick',
+            reference: 'toolbarEditButton',
+            glyph: 'xf040@FontAwesome',
+            tooltip: Strings.sharedEdit,
+            tooltipType: 'title'
+        }, {
+            xtype: 'button',
+            disabled: true,
+            handler: 'onRemoveClick',
+            reference: 'toolbarRemoveButton',
+            glyph: 'xf00d@FontAwesome',
+            tooltip: Strings.sharedRemove,
+            tooltipType: 'title'
+        }, {
             xtype: 'button',
             disabled: true,
             handler: 'onGeofencesClick',
@@ -57,33 +84,12 @@ Ext.define('Traccar.view.Devices', {
             tooltip: Strings.deviceCommand,
             tooltipType: 'title'
         }, {
-            xtype: 'tbfill'
-        }, {
-            id: 'muteButton',
-            glyph: 'xf1f7@FontAwesome',
-            tooltip: Strings.sharedMute,
-            tooltipType: 'title',
-            pressed : true,
-            enableToggle: true,
-            listeners: {
-                toggle: function (button, pressed) {
-                    if (pressed) {
-                        button.setGlyph('xf1f7@FontAwesome');
-                    } else {
-                        button.setGlyph('xf0a2@FontAwesome');
-                    }
-                },
-                scope: this
-            }
-        }, {
             id: 'deviceFollowButton',
             glyph: 'xf05b@FontAwesome',
             tooltip: Strings.deviceFollow,
             tooltipType: 'title',
             enableToggle: true,
             toggleHandler: 'onFollowClick'
-        }, {
-            xtype: 'settingsMenu'
         }]
     },
 
