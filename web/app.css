@@ -16,6 +16,10 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     background-color: #bbbbbb !important;
 }
 
+.x-toolbar-default {
+    background-color: #f5f5f5 !important;
+}
+
 .x-tree-icon {
     display: none !important;
 }

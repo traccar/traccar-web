@@ -26,20 +26,22 @@ Ext.define('Traccar.view.State', {
     controller: 'state',
     store: 'Attributes',
 
-    header: {
-        xtype: 'header',
-        title: Strings.stateTitle,
+    tbar: {
         items: [{
-                xtype: 'tbfill'
-            }, {
-                xtype: 'button',
-                disabled: true,
-                handler: 'onAliasEditClick',
-                reference: 'aliasEditButton',
-                glyph: 'xf040@FontAwesome',
-                tooltip: Strings.sharedEdit,
-                tooltipType: 'title'
-            }]
+            xtype: 'tbtext',
+            html: Strings.stateTitle,
+            baseCls: 'x-panel-header-title-default'
+        }, {
+            xtype: 'tbfill'
+        }, {
+            xtype: 'button',
+            disabled: true,
+            handler: 'onAliasEditClick',
+            reference: 'aliasEditButton',
+            glyph: 'xf040@FontAwesome',
+            tooltip: Strings.sharedEdit,
+            tooltipType: 'title'
+        }]
     },
 
     listeners: {
