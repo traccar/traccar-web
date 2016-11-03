@@ -8,6 +8,14 @@
     background-color: rgba(255, 84, 104, 0.3);
 }
 
+.panel-top-border {
+    border-top: 1px solid #cfcfcf !important;
+}
+
+body.x-border-layout-ct, div.x-border-layout-ct {
+    background-color: #bbbbbb !important;
+}
+
 .x-tree-icon {
     display: none !important;
 }

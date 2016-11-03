@@ -20,6 +20,7 @@ Ext.define('Traccar.view.BaseMap', {
     xtype: 'baseMapView',
 
     layout: 'fit',
+    bodyCls: 'panel-top-border',
 
     getMap: function () {
         return this.map;
