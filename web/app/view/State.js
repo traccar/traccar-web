@@ -27,6 +27,7 @@ Ext.define('Traccar.view.State', {
     store: 'Attributes',
 
     tbar: {
+        componentCls: 'toolbar-header-style',
         items: [{
             xtype: 'tbtext',
             html: Strings.stateTitle,

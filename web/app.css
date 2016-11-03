@@ -8,20 +8,12 @@
     background-color: rgba(255, 84, 104, 0.3);
 }
 
-.panel-top-border {
-    border-top: 1px solid #cfcfcf !important;
+.toolbar-header-style {
+    background-color: #5fa2dd !important;
 }
 
 body.x-border-layout-ct, div.x-border-layout-ct {
     background-color: #bbbbbb !important;
-}
-
-.x-toolbar-default {
-    background-color: #f5f5f5 !important;
-}
-
-.x-tree-icon {
-    display: none !important;
 }
 
 #attribution {
