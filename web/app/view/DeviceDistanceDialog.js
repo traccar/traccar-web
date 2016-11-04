@@ -44,12 +44,16 @@ Ext.define('Traccar.view.DeviceDistanceDialog', {
     }],
 
     buttons: [{
-        text: Strings.sharedSet,
-        disabled: true,
-        reference: 'setButton',
+        glyph: 'xf00c@FontAwesome',
+        tooltip: Strings.sharedSet,
+        tooltipType: 'title',
+        minWidth: 0,
         handler: 'onSetClick'
     }, {
-        text: Strings.sharedCancel,
+        glyph: 'xf00d@FontAwesome',
+        tooltip: Strings.sharedCancel,
+        tooltipType: 'title',
+        minWidth: 0,
         handler: 'closeView'
     }]
 });

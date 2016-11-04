@@ -40,11 +40,17 @@ Ext.define('Traccar.view.GeofenceMap', {
         }, {
             xtype: 'tbfill'
         }, {
-            text: Strings.sharedSave,
+            glyph: 'xf00c@FontAwesome',
+            tooltip: Strings.sharedSave,
+            tooltipType: 'title',
+            minWidth: 0,
             handler: 'onSaveClick'
         }, {
-            text: Strings.sharedCancel,
-            handler: 'onCancelClick'
+            glyph: 'xf00d@FontAwesome',
+            tooltip: Strings.sharedCancel,
+            tooltipType: 'title',
+            minWidth: 0,
+            handler: 'closeView'
         }]
     },
 
