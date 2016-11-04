@@ -16,6 +16,11 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     background-color: #bbbbbb !important;
 }
 
+.x-form-text-field-body-default {
+    min-width: 180px;
+    max-width: 180px;
+}
+
 #attribution {
     position: absolute;
     bottom: 10px;
