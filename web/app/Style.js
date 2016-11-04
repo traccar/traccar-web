@@ -18,7 +18,7 @@
 Ext.define('Traccar.Style', {
     singleton: true,
 
-    panelPadding: 10,
+    normalPadding: 10,
 
     windowWidth: 640,
     windowHeight: 480,

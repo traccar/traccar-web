@@ -18,7 +18,9 @@
 Ext.define('Traccar.view.BaseDialog', {
     extend: 'Ext.window.Window',
 
-    bodyPadding: Traccar.Style.panelPadding,
+    bodyPadding: Traccar.Style.normalPadding,
     resizable: false,
-    modal: true
+    modal: true,
+    maxHeight: screen.height ? screen.height - Traccar.Style.normalPadding * 2 : null,
+    autoScroll: true
 });
