@@ -39,7 +39,7 @@ Ext.define('Traccar.view.State', {
             disabled: true,
             handler: 'onAliasEditClick',
             reference: 'aliasEditButton',
-            glyph: 'xf07e@FontAwesome',
+            glyph: 'xf02b@FontAwesome',
             tooltip: Strings.sharedEdit,
             tooltipType: 'title'
         }]

@@ -24,7 +24,7 @@ Ext.define('Traccar.view.BaseWindow', {
     modal: true,
 
     initComponent: function () {
-        if (screen.width < Traccar.Style.windowWidth || screen.height < Traccar.Style.windowHeight) {
+        if (window.innerWidth < Traccar.Style.windowWidth || window.innerHeight < Traccar.Style.windowHeight) {
             this.maximized = true;
             this.style = 'border-width: 0';
         }

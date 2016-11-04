@@ -66,13 +66,13 @@ Ext.define('Traccar.view.SettingsMenu', {
         }, {
             hidden: true,
             text: Strings.sharedAttributeAliases,
-            glyph: 'xf07e@FontAwesome',
+            glyph: 'xf02c@FontAwesome',
             handler: 'onAttributeAliasesClick',
             reference: 'settingsAttributeAliasesButton'
         }, {
             hidden: true,
             text: Strings.sharedDeviceDistance,
-            glyph: 'xf1b9@FontAwesome',
+            glyph: 'xf0e4@FontAwesome',
             handler: 'onDeviceDistanceClick',
             reference: 'settingsDeviceDistanceButton'
         }, {

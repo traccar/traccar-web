@@ -50,6 +50,9 @@ Ext.define('Traccar.view.MainMobile', {
         region: 'south',
         xtype: 'devicesView',
         title: Strings.deviceTitle,
-        flex: 1
+        flex: 1,
+        collapsed: true,
+        titleCollapse: true,
+        floatable: false
     }]
 });
