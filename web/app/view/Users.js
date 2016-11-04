@@ -32,6 +32,13 @@ Ext.define('Traccar.view.Users', {
     tbar: {
         xtype: 'editToolbar',
         items: [{
+            disabled: true,
+            handler: 'onGeofencesClick',
+            reference: 'userGeofencesButton',
+            glyph: 'xf21d@FontAwesome',
+            tooltip: Strings.sharedGeofences,
+            tooltipType: 'title'
+        }, {
             text: Strings.deviceTitle,
             disabled: true,
             handler: 'onDevicesClick',
@@ -41,11 +48,6 @@ Ext.define('Traccar.view.Users', {
             disabled: true,
             handler: 'onGroupsClick',
             reference: 'userGroupsButton'
-        }, {
-            text: Strings.sharedGeofences,
-            disabled: true,
-            handler: 'onGeofencesClick',
-            reference: 'userGeofencesButton'
         }, {
             text: Strings.sharedNotifications,
             disabled: true,

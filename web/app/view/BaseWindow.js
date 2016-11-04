@@ -21,5 +21,13 @@ Ext.define('Traccar.view.BaseWindow', {
     width: Traccar.Style.windowWidth,
     height: Traccar.Style.windowHeight,
     layout: 'fit',
-    modal: true
+    modal: true,
+
+    initComponent: function () {
+        if (screen.width < Traccar.Style.windowWidth || screen.height < Traccar.Style.windowHeight) {
+            this.maximized = true;
+            this.style = 'border-width: 0';
+        }
+        this.callParent();
+    }
 });
