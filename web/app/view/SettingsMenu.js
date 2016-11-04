@@ -32,48 +32,58 @@ Ext.define('Traccar.view.SettingsMenu', {
 
         items: [{
             text: Strings.settingsUser,
+            glyph: 'xf007@FontAwesome',
             handler: 'onUserClick'
         }, {
             hidden: true,
             text: Strings.settingsGroups,
+            glyph: 'xf247@FontAwesome',
             handler: 'onGroupsClick',
             reference: 'settingsGroupsButton'
         }, {
             hidden: true,
             text: Strings.sharedGeofences,
+            glyph: 'xf21d@FontAwesome',
             handler: 'onGeofencesClick',
             reference: 'settingsGeofencesButton'
         }, {
-            text: Strings.settingsServer,
             hidden: true,
+            text: Strings.settingsServer,
+            glyph: 'xf0ad@FontAwesome',
             handler: 'onServerClick',
             reference: 'settingsServerButton'
         }, {
-            text: Strings.settingsUsers,
             hidden: true,
+            text: Strings.settingsUsers,
+            glyph: 'xf0c0@FontAwesome',
             handler: 'onUsersClick',
             reference: 'settingsUsersButton'
         }, {
             text: Strings.sharedNotifications,
+            glyph: 'xf003@FontAwesome',
             handler: 'onNotificationsClick',
             reference: 'settingsNotificationsButton'
         }, {
             hidden: true,
             text: Strings.sharedAttributeAliases,
+            glyph: 'xf07e@FontAwesome',
             handler: 'onAttributeAliasesClick',
             reference: 'settingsAttributeAliasesButton'
         }, {
             hidden: true,
             text: Strings.sharedDeviceDistance,
+            glyph: 'xf1b9@FontAwesome',
             handler: 'onDeviceDistanceClick',
             reference: 'settingsDeviceDistanceButton'
         }, {
             hidden: true,
             text: Strings.statisticsTitle,
+            glyph: 'xf080@FontAwesome',
             handler: 'onStatisticsClick',
             reference: 'settingsStatisticsButton'
         }, {
             text: Strings.loginLogout,
+            glyph: 'xf08b@FontAwesome',
             handler: 'onLogoutClick'
         }]
     }

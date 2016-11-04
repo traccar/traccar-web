@@ -39,20 +39,26 @@ Ext.define('Traccar.view.Users', {
             tooltip: Strings.sharedGeofences,
             tooltipType: 'title'
         }, {
-            text: Strings.deviceTitle,
             disabled: true,
             handler: 'onDevicesClick',
-            reference: 'userDevicesButton'
+            reference: 'userDevicesButton',
+            glyph: 'xf248@FontAwesome',
+            tooltip: Strings.deviceTitle,
+            tooltipType: 'title'
         }, {
-            text: Strings.settingsGroups,
             disabled: true,
             handler: 'onGroupsClick',
-            reference: 'userGroupsButton'
+            reference: 'userGroupsButton',
+            glyph: 'xf247@FontAwesome',
+            tooltip: Strings.settingsGroups,
+            tooltipType: 'title'
         }, {
-            text: Strings.sharedNotifications,
             disabled: true,
             handler: 'onNotificationsClick',
-            reference: 'userNotificationsButton'
+            reference: 'userNotificationsButton',
+            glyph: 'xf003@FontAwesome',
+            tooltip: Strings.sharedNotifications,
+            tooltipType: 'title'
         }]
     },
 
