@@ -34,7 +34,6 @@ Ext.define('Traccar.controller.Root', {
     },
 
     onServerReturn: function (options, success, response) {
-        Ext.get('spinner').remove();
         if (success) {
             Traccar.app.setServer(Ext.decode(response.responseText));
             Ext.Ajax.request({
@@ -48,6 +47,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     onSessionReturn: function (options, success, response) {
+        Ext.get('spinner').setVisible(false);
         if (success) {
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();

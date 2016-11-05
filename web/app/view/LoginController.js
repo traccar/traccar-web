@@ -32,14 +32,15 @@ Ext.define('Traccar.view.LoginController', {
     login: function () {
         var form = this.lookupReference('form');
         if (form.isValid()) {
-            Ext.getBody().mask(Strings.sharedLoading);
+            Ext.get('spinner').setVisible(true);
+            this.getView().setVisible(false);
             Ext.Ajax.request({
                 scope: this,
                 method: 'POST',
                 url: 'api/session',
                 params: form.getValues(),
                 callback: function (options, success, response) {
-                    Ext.getBody().unmask();
+                    Ext.get('spinner').setVisible(false);
                     if (success) {
                         if (this.lookupReference('rememberField').getValue()) {
                             Ext.util.Cookies.set('user', this.lookupReference('userField').getValue(), Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
@@ -48,6 +49,7 @@ Ext.define('Traccar.view.LoginController', {
                         Traccar.app.setUser(Ext.decode(response.responseText));
                         this.fireViewEvent('login');
                     } else {
+                        this.getView().setVisible(true);
                         Traccar.app.showError(Strings.loginFailed);
                     }
                 }
