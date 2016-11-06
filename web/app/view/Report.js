@@ -27,36 +27,45 @@ Ext.define('Traccar.view.Report', {
 
     title: Strings.reportTitle,
 
-    tbar: [{
-        xtype: 'tbtext',
-        html: Strings.sharedType
-    }, {
-        xtype: 'combobox',
-        reference: 'reportTypeField',
-        store: 'ReportTypes',
-        displayField: 'name',
-        valueField: 'key',
-        editable: false,
-        listeners: {
-            change: 'onTypeChange'
-        }
-    }, '-', {
-        text: Strings.reportConfigure,
-        handler: 'onConfigureClick'
-    }, '-', {
-        text: Strings.reportShow,
-        reference: 'showButton',
-        disabled: true,
-        handler: 'onReportClick'
-    }, {
-        text: Strings.reportExport,
-        reference: 'exportButton',
-        disabled: true,
-        handler: 'onReportClick'
-    }, {
-        text: Strings.reportClear,
-        handler: 'onClearClick'
+    tools: [{
+        type: 'close',
+        tooltip: Strings.sharedHide,
+        handler: 'hideReports'
     }],
+
+    tbar: {
+        scrollable: true,
+        items: [{
+            xtype: 'tbtext',
+            html: Strings.sharedType
+        }, {
+            xtype: 'combobox',
+            reference: 'reportTypeField',
+            store: 'ReportTypes',
+            displayField: 'name',
+            valueField: 'key',
+            editable: false,
+            listeners: {
+                change: 'onTypeChange'
+            }
+        }, '-', {
+            text: Strings.reportConfigure,
+            handler: 'onConfigureClick'
+        }, '-', {
+            text: Strings.reportShow,
+            reference: 'showButton',
+            disabled: true,
+            handler: 'onReportClick'
+        }, {
+            text: Strings.reportExport,
+            reference: 'exportButton',
+            disabled: true,
+            handler: 'onReportClick'
+        }, {
+            text: Strings.reportClear,
+            handler: 'onClearClick'
+        }]
+    },
 
     listeners: {
         selectionchange: 'onSelectionChange'

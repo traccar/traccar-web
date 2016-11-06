@@ -67,6 +67,11 @@ Ext.define('Traccar.view.MapController', {
         this.reportMarkers = {};
         this.liveRoutes = {};
         this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
+        this.lookupReference('showReportsButton').setVisible(Traccar.app.isMobile());
+    },
+
+    showReports: function() {
+        Traccar.app.showReports(true);
     },
 
     getDeviceColor: function (device) {

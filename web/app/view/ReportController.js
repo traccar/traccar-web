@@ -41,6 +41,10 @@ Ext.define('Traccar.view.ReportController', {
         }
     },
 
+    hideReports: function() {
+        Traccar.app.showReports(false);
+    },
+
     onConfigureClick: function () {
         var dialog = Ext.create('Traccar.view.ReportConfigDialog');
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');

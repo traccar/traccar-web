@@ -82,7 +82,7 @@ Ext.define('Traccar.controller.Root', {
         if (attribution) {
             attribution.remove();
         }
-        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+        if (Traccar.app.isMobile()) {
             Ext.create('widget.mainMobile');
         } else {
             Ext.create('widget.main');

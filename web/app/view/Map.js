@@ -37,6 +37,13 @@ Ext.define('Traccar.view.Map', {
         }, {
             xtype: 'button',
             tooltipType: 'title',
+            handler: 'showReports',
+            reference: 'showReportsButton',
+            glyph: 'xf0f6@FontAwesome',
+            tooltip: Strings.sharedGeofences
+        }, {
+            xtype: 'button',
+            tooltipType: 'title',
             handler: 'showGeofences',
             reference: 'showGeofencesButton',
             glyph: 'xf21d@FontAwesome',

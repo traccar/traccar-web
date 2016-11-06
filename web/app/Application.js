@@ -76,6 +76,17 @@ Ext.define('Traccar.Application', {
         'Root'
     ],
 
+    isMobile: function () {
+        return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    },
+
+    showReports: function (show) {
+        var rootPanel = Ext.getCmp('rootPanel');
+        if (rootPanel) {
+            rootPanel.setActiveItem(show ? 1 : 0);
+        }
+    },
+
     setUser: function (data) {
         var reader = Ext.create('Ext.data.reader.Json', {
             model: 'Traccar.model.User'
