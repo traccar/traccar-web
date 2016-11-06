@@ -40,7 +40,7 @@ Ext.define('Traccar.view.Map', {
             handler: 'showReports',
             reference: 'showReportsButton',
             glyph: 'xf0f6@FontAwesome',
-            tooltip: Strings.sharedGeofences
+            tooltip: Strings.reportTitle
         }, {
             xtype: 'button',
             tooltipType: 'title',
