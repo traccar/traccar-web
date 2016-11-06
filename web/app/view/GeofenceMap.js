@@ -50,7 +50,7 @@ Ext.define('Traccar.view.GeofenceMap', {
             tooltip: Strings.sharedCancel,
             tooltipType: 'title',
             minWidth: 0,
-            handler: 'closeView'
+            handler: 'onCancelClick'
         }]
     },
 
