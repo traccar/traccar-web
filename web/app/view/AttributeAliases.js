@@ -51,13 +51,18 @@ Ext.define('Traccar.view.AttributeAliases', {
         selectionchange: 'onSelectionChange'
     },
 
-    columns: [{
-        text: Strings.sharedAttribute,
-        dataIndex: 'attribute',
-        flex: 1
-    }, {
-        text: Strings.sharedAlias,
-        dataIndex: 'alias',
-        flex: 1
-    }]
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.sharedAttribute,
+            dataIndex: 'attribute'
+        }, {
+            text: Strings.sharedAlias,
+            dataIndex: 'alias'
+        }]
+    }
 });

@@ -34,39 +34,43 @@ Ext.define('Traccar.view.Notifications', {
         markDirty: false
     },
 
-    columns: [{
-        text: Strings.notificationType,
-        dataIndex: 'type',
-        flex: 1,
-        renderer: function (value) {
-            var typeKey = 'event' + value.charAt(0).toUpperCase() + value.slice(1);
-            return Strings[typeKey];
-        }
-    }, {
-        text: Strings.notificationWeb,
-        dataIndex: 'attributes.web',
-        xtype: 'checkcolumn',
-        flex: 1,
-        listeners: {
-            beforeCheckChange: 'onBeforeCheckChange',
-            checkChange: 'onCheckChange'
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
         },
-        renderer: function (value, metaData, record) {
-            var fields = this.dataIndex.split('\.', 2);
-            return (new Ext.ux.CheckColumn()).renderer(record.get(fields[0])[fields[1]], metaData);
-        }
-    }, {
-        text: Strings.notificationMail,
-        dataIndex: 'attributes.mail',
-        xtype: 'checkcolumn',
-        flex: 1,
-        listeners: {
-            beforeCheckChange: 'onBeforeCheckChange',
-            checkChange: 'onCheckChange'
-        },
-        renderer: function (value, metaData, record) {
-            var fields = this.dataIndex.split('\.', 2);
-            return (new Ext.ux.CheckColumn()).renderer(record.get(fields[0])[fields[1]], metaData);
-        }
-    }]
+        items: [{
+            text: Strings.notificationType,
+            dataIndex: 'type',
+            renderer: function (value) {
+                var typeKey = 'event' + value.charAt(0).toUpperCase() + value.slice(1);
+                return Strings[typeKey];
+            }
+        }, {
+            text: Strings.notificationWeb,
+            dataIndex: 'attributes.web',
+            xtype: 'checkcolumn',
+            listeners: {
+                beforeCheckChange: 'onBeforeCheckChange',
+                checkChange: 'onCheckChange'
+            },
+            renderer: function (value, metaData, record) {
+                var fields = this.dataIndex.split('\.', 2);
+                return (new Ext.ux.CheckColumn()).renderer(record.get(fields[0])[fields[1]], metaData);
+            }
+        }, {
+            text: Strings.notificationMail,
+            dataIndex: 'attributes.mail',
+            xtype: 'checkcolumn',
+            listeners: {
+                beforeCheckChange: 'onBeforeCheckChange',
+                checkChange: 'onCheckChange'
+            },
+            renderer: function (value, metaData, record) {
+                var fields = this.dataIndex.split('\.', 2);
+                return (new Ext.ux.CheckColumn()).renderer(record.get(fields[0])[fields[1]], metaData);
+            }
+        }]
+    }
 });

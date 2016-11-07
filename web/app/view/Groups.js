@@ -46,9 +46,15 @@ Ext.define('Traccar.view.Groups', {
         selectionchange: 'onSelectionChange'
     },
 
-    columns: [{
-        text: Strings.sharedName,
-        dataIndex: 'name',
-        flex: 1
-    }]
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.sharedName,
+            dataIndex: 'name'
+        }]
+    }
 });

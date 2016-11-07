@@ -35,6 +35,8 @@ Ext.define('Traccar.Style', {
     reportHeight: 250,
     reportTime: 100,
 
+    columnWidthNormal: 100,
+
     mapDefaultLat: 12.966667,
     mapDefaultLon: 77.566667,
     mapDefaultZoom: 4,

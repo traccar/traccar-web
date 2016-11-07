@@ -49,19 +49,24 @@ Ext.define('Traccar.view.State', {
         selectionchange: 'onSelectionChange'
     },
 
-    columns: [{
-        text: Strings.stateName,
-        dataIndex: 'name',
-        flex: 1
-    }, {
-        text: Strings.stateValue,
-        dataIndex: 'value',
-        flex: 1,
-        renderer: function (value, metaData, record) {
-            if (record.get('attribute') === 'alarm') {
-                metaData.tdCls = 'view-color-red';
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.stateName,
+            dataIndex: 'name'
+        }, {
+            text: Strings.stateValue,
+            dataIndex: 'value',
+            renderer: function (value, metaData, record) {
+                if (record.get('attribute') === 'alarm') {
+                    metaData.tdCls = 'view-color-red';
+                }
+                return value;
             }
-            return value;
-        }
-    }]
+        }]
+    }
 });

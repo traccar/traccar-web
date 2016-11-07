@@ -48,31 +48,32 @@ Ext.define('Traccar.view.Statistics', {
         handler: 'onShowClick'
     }],
 
-    columns: [{
-        text: Strings.statisticsCaptureTime,
-        dataIndex: 'captureTime',
-        flex: 1,
-        xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.defaultFormatter()
-    }, {
-        text: Strings.statisticsActiveUsers,
-        dataIndex: 'activeUsers',
-        flex: 1
-    }, {
-        text: Strings.statisticsActiveDevices,
-        dataIndex: 'activeDevices',
-        flex: 1
-    }, {
-        text: Strings.statisticsRequests,
-        dataIndex: 'requests',
-        flex: 1
-    }, {
-        text: Strings.statisticsMessagesReceived,
-        dataIndex: 'messagesReceived',
-        flex: 1
-    }, {
-        text: Strings.statisticsMessagesStored,
-        dataIndex: 'messagesStored',
-        flex: 1
-    }]
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.statisticsCaptureTime,
+            dataIndex: 'captureTime',
+            xtype: 'datecolumn',
+            renderer: Traccar.AttributeFormatter.defaultFormatter()
+        }, {
+            text: Strings.statisticsActiveUsers,
+            dataIndex: 'activeUsers'
+        }, {
+            text: Strings.statisticsActiveDevices,
+            dataIndex: 'activeDevices'
+        }, {
+            text: Strings.statisticsRequests,
+            dataIndex: 'requests'
+        }, {
+            text: Strings.statisticsMessagesReceived,
+            dataIndex: 'messagesReceived'
+        }, {
+            text: Strings.statisticsMessagesStored,
+            dataIndex: 'messagesStored'
+        }]
+    }
 });

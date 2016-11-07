@@ -227,58 +227,48 @@ Ext.define('Traccar.view.ReportController', {
     routeColumns: [{
         text: Strings.positionValid,
         dataIndex: 'valid',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('valid')
     }, {
         text: Strings.positionFixTime,
         dataIndex: 'fixTime',
-        flex: 1,
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('fixTime')
     }, {
         text: Strings.positionLatitude,
         dataIndex: 'latitude',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('latitude')
     }, {
         text: Strings.positionLongitude,
         dataIndex: 'longitude',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('latitude')
     }, {
         text: Strings.positionAltitude,
         dataIndex: 'altitude',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('altitude')
     }, {
         text: Strings.positionSpeed,
         dataIndex: 'speed',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('speed')
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('address')
     }],
 
     eventsColumns: [{
         text: Strings.positionFixTime,
         dataIndex: 'serverTime',
-        flex: 1,
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('serverTime')
     }, {
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        flex: 1,
         renderer: function (value) {
             return Ext.getStore('Devices').findRecord('id', value).get('name');
         }
     }, {
         text: Strings.sharedType,
         dataIndex: 'type',
-        flex: 1,
         renderer: function (value) {
             var typeKey = 'event' + value.charAt(0).toUpperCase() + value.slice(1);
             return Strings[typeKey];
@@ -286,7 +276,6 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
-        flex: 1,
         renderer: function (value) {
             if (value !== 0) {
                 return Ext.getStore('Geofences').findRecord('id', value).get('name');
@@ -297,86 +286,70 @@ Ext.define('Traccar.view.ReportController', {
     summaryColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        flex: 1,
         renderer: function (value) {
             return Ext.getStore('Devices').findRecord('id', value).get('name');
         }
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('speed')
     }, {
         text: Strings.reportMaximumSpeed,
         dataIndex: 'maxSpeed',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('speed')
     }, {
         text: Strings.reportEngineHours,
         dataIndex: 'engineHours',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('hours')
     }],
 
     tripsColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        flex: 1,
         renderer: function (value) {
             return Ext.getStore('Devices').findRecord('id', value).get('name');
         }
     }, {
         text: Strings.reportStartTime,
         dataIndex: 'startTime',
-        flex: 1,
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('startTime')
     }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('address')
     }, {
         text: Strings.reportEndTime,
         dataIndex: 'endTime',
-        flex: 1,
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('endTime')
     }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('address')
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('speed')
     }, {
         text: Strings.reportMaximumSpeed,
         dataIndex: 'maxSpeed',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('speed')
     }, {
         text: Strings.reportDuration,
         dataIndex: 'duration',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('duration')
     }, {
         text: Strings.reportSpentFuel,
         dataIndex: 'spentFuel',
-        flex: 1,
         renderer: Traccar.AttributeFormatter.getFormatter('spentFuel')
     }]
-
 });

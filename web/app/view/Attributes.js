@@ -36,13 +36,18 @@ Ext.define('Traccar.view.Attributes', {
         selectionchange: 'onSelectionChange'
     },
 
-    columns: [{
-        text: Strings.sharedName,
-        dataIndex: 'name',
-        flex: 1
-    }, {
-        text: Strings.stateValue,
-        dataIndex: 'value',
-        flex: 1
-    }]
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.sharedName,
+            dataIndex: 'name'
+        }, {
+            text: Strings.stateValue,
+            dataIndex: 'value'
+        }]
+    }
 });

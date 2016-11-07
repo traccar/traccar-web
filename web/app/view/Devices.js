@@ -153,52 +153,52 @@ Ext.define('Traccar.view.Devices', {
         selectionchange: 'onSelectionChange'
     },
 
-    columns: [{
-        text: Strings.sharedName,
-        dataIndex: 'name',
-        flex: 1
-    }, {
-        text: Strings.deviceIdentifier,
-        dataIndex: 'uniqueId',
-        hidden: true,
-        flex: 1
-    }, {
-        text: Strings.devicePhone,
-        dataIndex: 'phone',
-        hidden: true,
-        flex: 1
-    }, {
-        text: Strings.deviceModel,
-        dataIndex: 'model',
-        hidden: true,
-        flex: 1
-    }, {
-        text: Strings.deviceContact,
-        dataIndex: 'contact',
-        hidden: true,
-        flex: 1
-    }, {
-        text: Strings.deviceLastUpdate,
-        dataIndex: 'lastUpdate',
-        flex: 1,
-        renderer: function (value, metaData, record) {
-            switch (record.get('status')) {
-                case 'online':
-                    metaData.tdCls = 'view-color-green';
-                    break;
-                case 'offline':
-                    metaData.tdCls = 'view-color-red';
-                    break;
-                default:
-                    metaData.tdCls = 'view-color-yellow';
-                    break;
-            }
-            if (Traccar.app.getPreference('twelveHourFormat', false)) {
-                return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
-            } else {
-                return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
-            }
-        }
-    }]
+    forceFit: true,
 
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.sharedName,
+            dataIndex: 'name'
+        }, {
+            text: Strings.deviceIdentifier,
+            dataIndex: 'uniqueId',
+            hidden: true
+        }, {
+            text: Strings.devicePhone,
+            dataIndex: 'phone',
+            hidden: true
+        }, {
+            text: Strings.deviceModel,
+            dataIndex: 'model',
+            hidden: true
+        }, {
+            text: Strings.deviceContact,
+            dataIndex: 'contact',
+            hidden: true
+        }, {
+            text: Strings.deviceLastUpdate,
+            dataIndex: 'lastUpdate',
+            renderer: function (value, metaData, record) {
+                switch (record.get('status')) {
+                    case 'online':
+                        metaData.tdCls = 'view-color-green';
+                        break;
+                    case 'offline':
+                        metaData.tdCls = 'view-color-red';
+                        break;
+                    default:
+                        metaData.tdCls = 'view-color-yellow';
+                        break;
+                }
+                if (Traccar.app.getPreference('twelveHourFormat', false)) {
+                    return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
+                } else {
+                    return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
+                }
+            }
+        }]
+    }
 });

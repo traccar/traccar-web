@@ -66,17 +66,21 @@ Ext.define('Traccar.view.Users', {
         selectionchange: 'onSelectionChange'
     },
 
-    columns: [{
-        text: Strings.sharedName,
-        dataIndex: 'name',
-        flex: 1
-    }, {
-        text: Strings.userEmail,
-        dataIndex: 'email',
-        flex: 1
-    }, {
-        text: Strings.userAdmin,
-        dataIndex: 'admin',
-        flex: 1
-    }]
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.sharedName,
+            dataIndex: 'name'
+        }, {
+            text: Strings.userEmail,
+            dataIndex: 'email'
+        }, {
+            text: Strings.userAdmin,
+            dataIndex: 'admin'
+        }]
+    }
 });
