@@ -49,9 +49,6 @@ Ext.define('Traccar.Style', {
     ],
     mapRouteWidth: 5,
 
-    mapArrowStrokeColor: 'rgba(50, 50, 50, 1.0)',
-    mapArrowStrokeWidth: 2,
-
     mapTextColor: 'rgba(50, 50, 50, 1.0)',
     mapTextStrokeColor: 'rgba(255, 255, 255, 1.0)',
     mapTextStrokeWidth: 2,
@@ -62,8 +59,7 @@ Ext.define('Traccar.Style', {
     mapColorUnknown: 'rgba(250, 190, 77, 1.0)',
     mapColorOffline: 'rgba(255, 84, 104, 1.0)',
 
-    mapRadiusNormal: 9,
-    mapRadiusSelected: 14,
+    mapScaleSelected: 1.5,
 
     mapMaxZoom: 19,
     mapDelay: 500,

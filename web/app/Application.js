@@ -69,7 +69,8 @@ Ext.define('Traccar.Application', {
         'ReportSummary',
         'ReportTypes',
         'ReportEventTypes',
-        'Statistics'
+        'Statistics',
+        'DeviceImages'
     ],
 
     controllers: [

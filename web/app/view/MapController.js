@@ -22,7 +22,8 @@ Ext.define('Traccar.view.MapController', {
     requires: [
         'Traccar.model.Position',
         'Traccar.model.Device',
-        'Traccar.GeofenceConverter'
+        'Traccar.GeofenceConverter',
+        'Traccar.DeviceImages'
     ],
 
     config: {
@@ -86,17 +87,14 @@ Ext.define('Traccar.view.MapController', {
     },
 
     changeMarkerColor: function (style, color) {
-        return new ol.style.Style({
-            image: new ol.style.Arrow({
-                radius: style.getImage().getRadius(),
-                fill: new ol.style.Fill({
-                    color: color
-                }),
-                stroke: style.getImage().getStroke(),
-                rotation: style.getImage().getRotation()
-            }),
+        var newStyle = new ol.style.Style({
+            image: Traccar.DeviceImages.getImageIcon(color,
+                    style.getImage().zoom,
+                    style.getImage().angle,
+                    style.getImage().category),
             text: style.getText()
         });
+        return newStyle;
     },
 
     updateDevice: function (store, data) {
@@ -154,18 +152,20 @@ Ext.define('Traccar.view.MapController', {
         if (deviceId in this.latestMarkers) {
             marker = this.latestMarkers[deviceId];
             marker.setGeometry(geometry);
+            marker.setStyle(this.rotateMarker(marker.getStyle(), position.get('course')));
         } else {
             marker = new ol.Feature(geometry);
             marker.set('record', device);
+
+            style = this.getLatestMarker(this.getDeviceColor(device),
+                    position.get('course'),
+                    device.get('category'));
+            style.getText().setText(device.get('name'));
+            marker.setStyle(style);
             this.latestMarkers[deviceId] = marker;
             this.getView().getLatestSource().addFeature(marker);
 
-            style = this.getLatestMarker(this.getDeviceColor(device));
-            style.getText().setText(device.get('name'));
-            marker.setStyle(style);
         }
-
-        marker.getStyle().getImage().setRotation(position.get('course') * Math.PI / 180);
 
         if (marker === this.selectedMarker && this.followSelected()) {
             this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
@@ -231,8 +231,7 @@ Ext.define('Traccar.view.MapController', {
                 this.reportMarkers[position.get('id')] = marker;
                 this.getView().getReportSource().addFeature(marker);
 
-                style = this.getReportMarker(position.get('deviceId'));
-                style.getImage().setRotation(position.get('course') * Math.PI / 180);
+                style = this.getReportMarker(position.get('deviceId'), position.get('course'));
                 /*style.getText().setText(
                     Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
 
@@ -278,18 +277,9 @@ Ext.define('Traccar.view.MapController', {
         });
     },
 
-    getMarkerStyle: function (radius, color) {
+    getMarkerStyle: function (zoom, color, angle, category) {
         return new ol.style.Style({
-            image: new ol.style.Arrow({
-                radius: radius,
-                fill: new ol.style.Fill({
-                    color: color
-                }),
-                stroke: new ol.style.Stroke({
-                    color: Traccar.Style.mapArrowStrokeColor,
-                    width: Traccar.Style.mapArrowStrokeWidth
-                })
-            }),
+            image: Traccar.DeviceImages.getImageIcon(color, zoom, angle, category),
             text: new ol.style.Text({
                 textBaseline: 'bottom',
                 fill: new ol.style.Fill({
@@ -299,47 +289,55 @@ Ext.define('Traccar.view.MapController', {
                     color: Traccar.Style.mapTextStrokeColor,
                     width: Traccar.Style.mapTextStrokeWidth
                 }),
-                offsetY: -radius / 2 - Traccar.Style.mapTextOffset,
+                offsetY: -Traccar.Style.mapTextOffset,
                 font : Traccar.Style.mapTextFont
             })
         });
     },
 
-    getLatestMarker: function (color) {
-        return this.getMarkerStyle(
-            Traccar.Style.mapRadiusNormal, color);
+    getLatestMarker: function (color, angle, category) {
+        return this.getMarkerStyle(false, color, angle, category);
     },
 
-    getReportMarker: function (deviceId) {
+    getReportMarker: function (deviceId, angle) {
         var index = 0;
         if (deviceId !== undefined) {
             index = deviceId % Traccar.Style.mapRouteColor.length;
         }
-        return this.getMarkerStyle(
-            Traccar.Style.mapRadiusNormal, Traccar.Style.mapRouteColor[index]);
+        return this.getMarkerStyle(false, Traccar.Style.mapRouteColor[index], angle);
     },
 
-    resizeMarker: function (style, radius) {
-        return new ol.style.Style({
-            image: new ol.style.Arrow({
-                radius: radius,
-                fill: style.getImage().getFill(),
-                stroke: style.getImage().getStroke(),
-                rotation: style.getImage().getRotation()
-            }),
+    resizeMarker: function (style, zoom) {
+        var newStyle = new ol.style.Style({
+            image: Traccar.DeviceImages.getImageIcon(style.getImage().fill,
+                    zoom,
+                    style.getImage().angle,
+                    style.getImage().category),
             text: style.getText()
         });
+        return newStyle;
+    },
+    
+    rotateMarker: function (style, angle) {
+        var newStyle = new ol.style.Style({
+            image: Traccar.DeviceImages.getImageIcon(style.getImage().fill,
+                    style.getImage().zoom,
+                    angle,
+                    style.getImage().category),
+            text: style.getText()
+        });
+        return newStyle;
     },
 
     selectMarker: function (marker, center) {
         if (this.selectedMarker) {
             this.selectedMarker.setStyle(
-                this.resizeMarker(this.selectedMarker.getStyle(), Traccar.Style.mapRadiusNormal));
+                this.resizeMarker(this.selectedMarker.getStyle(), false));
         }
 
         if (marker) {
             marker.setStyle(
-                this.resizeMarker(marker.getStyle(), Traccar.Style.mapRadiusSelected));
+                this.resizeMarker(marker.getStyle(), true));
             if (center) {
                 this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
             }
