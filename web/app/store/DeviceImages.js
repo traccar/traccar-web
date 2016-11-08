@@ -22,37 +22,30 @@ Ext.define('Traccar.store.DeviceImages', {
     data: [{
         key: 'default',
         name: Strings.categoryDefault,
-        elementId: 'arrowSvg',
+        svg: document.getElementById('arrowSvg').contentDocument,
         rotateId: 'arrow',
         fillId: 'arrow',
         scale: 1
     }, {
         key: 'car',
         name: Strings.categoryCar,
-        elementId: 'carSvg',
+        svg: document.getElementById('carSvg').contentDocument,
         fillId: 'path4149',
         rotateId: 'g4207',
         scale: 0.06,
     }, {
         key: 'bus',
         name: Strings.categoryBus,
-        elementId: 'busSvg',
+        svg: document.getElementById('busSvg').contentDocument,
         fillId: 'path4713',
         rotateId: 'layer2',
         scale: 0.12,
     }, {
         key: 'truck',
         name: Strings.categoryTruck,
-        elementId: 'truckSvg',
+        svg: document.getElementById('truckSvg').contentDocument,
         fillId: 'path4718',
         rotateId: 'layer2',
         scale: 0.1,
-    }],
-    
-    constructor: function() {
-        this.callParent(arguments);
-        this.config.data.forEach(function (device) {
-            device.svg = document.getElementById(device.elementId).contentDocument;
-        });
-    }
+    }]
 });
