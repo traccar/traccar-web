@@ -22,10 +22,7 @@ Ext.define('Traccar.store.DeviceImages', {
     data: [{
         key: 'default',
         name: Strings.categoryDefault,
-        svg: (new DOMParser())
-                .parseFromString('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="26" height="26">'
-                + '<polygon id="arrow" points="13,4 19,22 13,19 7,22" '
-                + 'style="fill:#008000;stroke:#000000;stroke-width:2px;" transform="" /></svg>', "image/svg+xml"),
+        url: 'images/arrow.svg',
         rotateId: 'arrow',
         fillId: 'arrow',
         scale: 1
@@ -60,7 +57,7 @@ Ext.define('Traccar.store.DeviceImages', {
                     url: device.url,
                     scope: device,
                     success: function (response) {
-                        this.svg = (new DOMParser()).parseFromString(response.responseText, "image/svg+xml");
+                        this.svg = new DOMParser().parseFromString(response.responseText, "image/svg+xml");
                     }
                 });
             }

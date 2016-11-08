@@ -278,8 +278,9 @@ Ext.define('Traccar.view.MapController', {
     },
 
     getMarkerStyle: function (zoom, color, angle, category) {
+        var image = Traccar.DeviceImages.getImageIcon(color, zoom, angle, category);
         return new ol.style.Style({
-            image: Traccar.DeviceImages.getImageIcon(color, zoom, angle, category),
+            image: image,
             text: new ol.style.Text({
                 textBaseline: 'bottom',
                 fill: new ol.style.Fill({
@@ -289,7 +290,7 @@ Ext.define('Traccar.view.MapController', {
                     color: Traccar.Style.mapTextStrokeColor,
                     width: Traccar.Style.mapTextStrokeWidth
                 }),
-                offsetY: -Traccar.Style.mapTextOffset,
+                offsetY: - image.getSize()[1] / 2 - Traccar.Style.mapTextOffset,
                 font : Traccar.Style.mapTextFont
             })
         });

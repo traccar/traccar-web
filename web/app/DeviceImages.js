@@ -62,7 +62,7 @@ Ext.define('Traccar.DeviceImages', {
    
         image =  new ol.style.Icon({
             imgSize: [width, height], // Workaround for IE
-            src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent((new XMLSerializer()).serializeToString(svg.documentElement))
+            src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement))
         });
         image.fill = color;
         image.zoom = zoom;
