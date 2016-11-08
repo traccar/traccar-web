@@ -17,35 +17,39 @@
  */
 Ext.define('Traccar.store.DeviceImages', {
     extend: 'Ext.data.Store',
-    fields: ['key', 'name', 'url', 'svg', 'fillId', 'rotateId', 'scale'],
+    fields: ['key', 'name', 'svg', 'fillId', 'rotateId', 'scaleId', 'scale'],
 
     data: [{
         key: 'default',
         name: Strings.categoryDefault,
         svg: document.getElementById('arrowSvg').contentDocument,
-        rotateId: 'arrow',
         fillId: 'arrow',
+        rotateId: 'arrow',
+        scaleId: 'arrow',
         scale: 1
     }, {
         key: 'car',
         name: Strings.categoryCar,
         svg: document.getElementById('carSvg').contentDocument,
-        fillId: 'path4149',
-        rotateId: 'g4207',
-        scale: 0.06,
+        fillId: 'path4148',
+        rotateId: 'path4148',
+        scaleId: 'layer2',
+        scale: 1
     }, {
         key: 'bus',
         name: Strings.categoryBus,
         svg: document.getElementById('busSvg').contentDocument,
-        fillId: 'path4713',
-        rotateId: 'layer2',
-        scale: 0.12,
+        fillId: 'path4148',
+        rotateId: 'path4148',
+        scaleId: 'layer2',
+        scale: 1
     }, {
         key: 'truck',
         name: Strings.categoryTruck,
         svg: document.getElementById('truckSvg').contentDocument,
-        fillId: 'path4718',
-        rotateId: 'layer2',
-        scale: 0.1,
+        fillId: 'path4148',
+        rotateId: 'path4148',
+        scaleId: 'layer2',
+        scale: 1
     }]
 });

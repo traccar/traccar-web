@@ -309,14 +309,17 @@ Ext.define('Traccar.view.MapController', {
     },
 
     resizeMarker: function (style, zoom) {
-        var newStyle = new ol.style.Style({
-            image: Traccar.DeviceImages.getImageIcon(style.getImage().fill,
-                    zoom,
-                    style.getImage().angle,
-                    style.getImage().category),
-            text: style.getText()
+        var image, text;
+        image = Traccar.DeviceImages.getImageIcon(style.getImage().fill,
+                zoom,
+                style.getImage().angle,
+                style.getImage().category);
+        text = style.getText();
+        text.setOffsetY(- image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
+        return newStyle = new ol.style.Style({
+            image: image,
+            text: text
         });
-        return newStyle;
     },
     
     rotateMarker: function (style, angle) {

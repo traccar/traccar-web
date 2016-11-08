@@ -39,6 +39,7 @@ Ext.define('Traccar.DeviceImages', {
         svg.getElementById(device.get('fillId')).style.fill = color;
         // Prepare rotate transformation
         rotateTransform = 'rotate(' + angle + ' ' + (width / 2) + ' ' + (height / 2) + ')';
+        svg.getElementById(device.get('rotateId')).setAttribute('transform', rotateTransform);
 
         // Adjust size and prepare scale transformation
         width *= device.get('scale');
@@ -51,9 +52,13 @@ Ext.define('Traccar.DeviceImages', {
             scaleTransform = 'scale(' + device.get('scale') + ') ';
         }
 
-        //Apply both transformation in right order
-        transform = scaleTransform + ' ' + rotateTransform;
-        svg.getElementById(device.get('rotateId')).setAttribute('transform', transform);
+        if (device.get('scaleId') !== device.get('rotateId')) {
+            svg.getElementById(device.get('scaleId')).setAttribute('transform', scaleTransform);
+        } else {
+            svg.getElementById(device.get('scaleId')).setAttribute('transform', scaleTransform + ' ' + rotateTransform);
+        }
+        //transform = scaleTransform + ' ' + rotateTransform;
+        
 
         // Set dimension attributes
         svg.documentElement.setAttribute('width', width);
