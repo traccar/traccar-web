@@ -305,7 +305,7 @@ Ext.define('Traccar.view.MapController', {
         if (deviceId !== undefined) {
             index = deviceId % Traccar.Style.mapRouteColor.length;
         }
-        return this.getMarkerStyle(false, Traccar.Style.mapRouteColor[index], angle);
+        return this.getMarkerStyle(false, Traccar.Style.mapRouteColor[index], angle, 'route');
     },
 
     resizeMarker: function (style, zoom) {

@@ -130,7 +130,8 @@
     addStyleFile('app.css');
     //addScriptFile('arrow.js');
     
-    addSvgFile('images/arrow.svg', 'arrowSvg');
+    addSvgFile('images/default.svg', 'defaultSvg');
+    addSvgFile('images/route.svg', 'routeSvg');
     addSvgFile('images/car.svg', 'carSvg');
     addSvgFile('images/bus.svg', 'busSvg');
     addSvgFile('images/truck.svg', 'truckSvg');

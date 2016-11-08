@@ -20,18 +20,26 @@ Ext.define('Traccar.store.DeviceImages', {
     fields: ['key', 'name', 'svg', 'fillId', 'rotateId', 'scaleId', 'scale'],
 
     data: [{
-        key: 'default',
+        key: 'route',
         name: Strings.categoryDefault,
-        svg: document.getElementById('arrowSvg').contentDocument,
+        svg: document.getElementById('routeSvg').contentDocument,
         fillId: 'arrow',
         rotateId: 'arrow',
         scaleId: 'arrow',
         scale: 1
     }, {
+        key: 'default',
+        name: Strings.categoryDefault,
+        svg: document.getElementById('defaultSvg').contentDocument,
+        fillId: ['arrow', 'path4148'],
+        rotateId: 'layer2',
+        scaleId: 'layer2',
+        scale: 1
+    }, {
         key: 'car',
         name: Strings.categoryCar,
         svg: document.getElementById('carSvg').contentDocument,
-        fillId: 'path4148',
+        fillId: ['path4148', 'path4157'],
         rotateId: 'path4148',
         scaleId: 'layer2',
         scale: 1
@@ -39,7 +47,7 @@ Ext.define('Traccar.store.DeviceImages', {
         key: 'bus',
         name: Strings.categoryBus,
         svg: document.getElementById('busSvg').contentDocument,
-        fillId: 'path4148',
+        fillId: ['path4148', 'path4200'],
         rotateId: 'path4148',
         scaleId: 'layer2',
         scale: 1
@@ -47,7 +55,7 @@ Ext.define('Traccar.store.DeviceImages', {
         key: 'truck',
         name: Strings.categoryTruck,
         svg: document.getElementById('truckSvg').contentDocument,
-        fillId: 'path4148',
+        fillId: ['path4148', 'path4336'],
         rotateId: 'path4148',
         scaleId: 'layer2',
         scale: 1
