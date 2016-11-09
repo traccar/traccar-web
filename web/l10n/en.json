@@ -60,6 +60,7 @@
     "devicePhone": "Phone",
     "deviceModel": "Model",
     "deviceContact": "Contact",
+    "deviceCategory": "Category",
     "deviceLastUpdate": "Last Update",
     "deviceCommand": "Command",
     "deviceFollow": "Follow",
@@ -185,5 +186,14 @@
     "statisticsActiveDevices": "Active Devices",
     "statisticsRequests": "Requests",
     "statisticsMessagesReceived": "Messages Received",
-    "statisticsMessagesStored": "Messages Stored"
+    "statisticsMessagesStored": "Messages Stored",
+    "categoryDefault": "Default",
+    "categoryCar": "Car",
+    "categoryBus": "Bus",
+    "categoryTruck": "Truck",
+    "categoryShip": "Ship",
+    "categoryPlane": "Plane",
+    "categoryMotorcycle": "Motorcycle",
+    "categoryBicycle": "Bicycle",
+    "categoryPerson": "Person"
 }

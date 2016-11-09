@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="default.svg"
+   sodipodi:docname="person.svg"
+   inkscape:export-filename="/home/local/RG/kas/repos/traccar/traccar-web/web/images/default.svg.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8.0000004"
-     inkscape:cx="5.642786"
-     inkscape:cy="31.741592"
+     inkscape:cx="19.841247"
+     inkscape:cy="37.395"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -82,11 +85,9 @@
        rx="5.2149124"
        cy="16.191458"
        cx="-31.99658" />
-    <circle
-       style="fill:#008000;stroke:#000000;stroke-width:0.81650639;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4149"
-       cx="25"
-       cy="25"
-       r="7.0917473" />
+    <path
+       d="m 32.504338,30.89794 q 0,1.278083 -0.738708,2.192674 -0.726983,0.914591 -1.758829,0.914591 l -10.013601,0 q -1.031846,0 -1.770555,-0.914591 -0.726982,-0.914591 -0.726982,-2.192674 0,-0.99667 0.0938,-1.876084 0.10553,-0.891141 0.375217,-1.782281 0.269687,-0.902865 0.68008,-1.536044 0.422119,-0.644904 1.1022,-1.043572 0.691806,-0.410393 1.582946,-0.410393 1.536044,1.500867 3.670091,1.500867 2.134046,0 3.67009,-1.500867 0.89114,0 1.571221,0.410393 0.691806,0.398668 1.102199,1.043572 0.422119,0.633179 0.691806,1.536044 0.269687,0.89114 0.363492,1.782281 0.105529,0.879414 0.105529,1.876084 z M 28.177619,17.319779 q 1.324984,1.313259 1.324984,3.177618 0,1.864359 -1.324984,3.189343 -1.31326,1.313259 -3.177618,1.313259 -1.864359,0 -3.189344,-1.313259 -1.313259,-1.324984 -1.313259,-3.189343 0,-1.864359 1.313259,-3.177618 1.324985,-1.324985 3.189344,-1.324985 1.864358,0 3.177618,1.324985 z"
+       style="stroke:#000000;stroke-width:0.7;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill:#008000;fill-opacity:1"
+       id="path4308" />
   </g>
 </svg>

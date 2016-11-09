@@ -21,43 +21,73 @@ Ext.define('Traccar.store.DeviceImages', {
 
     data: [{
         key: 'route',
-        name: Strings.categoryDefault,
+        name: Strings.categoryRoute,
         svg: document.getElementById('routeSvg').contentDocument,
         fillId: 'arrow',
         rotateId: 'arrow',
-        scaleId: 'arrow',
-        scale: 1
+        scaleId: 'arrow'
     }, {
         key: 'default',
         name: Strings.categoryDefault,
         svg: document.getElementById('defaultSvg').contentDocument,
-        fillId: ['arrow', 'path4148'],
-        rotateId: 'layer2',
-        scaleId: 'layer2',
-        scale: 1
+        fillId: ['path4148', 'path4149'],
+        rotateId: 'path4148',
+        scaleId: 'layer2'
     }, {
         key: 'car',
         name: Strings.categoryCar,
         svg: document.getElementById('carSvg').contentDocument,
         fillId: ['path4148', 'path4157'],
         rotateId: 'path4148',
-        scaleId: 'layer2',
-        scale: 1
+        scaleId: 'layer2'
     }, {
         key: 'bus',
         name: Strings.categoryBus,
         svg: document.getElementById('busSvg').contentDocument,
         fillId: ['path4148', 'path4200'],
         rotateId: 'path4148',
-        scaleId: 'layer2',
-        scale: 1
+        scaleId: 'layer2'
     }, {
         key: 'truck',
         name: Strings.categoryTruck,
         svg: document.getElementById('truckSvg').contentDocument,
         fillId: ['path4148', 'path4336'],
         rotateId: 'path4148',
-        scaleId: 'layer2',
-        scale: 1
+        scaleId: 'layer2'
+    }, {
+        key: 'ship',
+        name: Strings.categoryShip,
+        svg: document.getElementById('shipSvg').contentDocument,
+        fillId: ['path4148', 'path4177'],
+        rotateId: 'path4148',
+        scaleId: 'layer2'
+    }, {
+        key: 'plane',
+        name: Strings.categoryPlane,
+        svg: document.getElementById('planeSvg').contentDocument,
+        fillId: ['path4148', 'path4203'],
+        rotateId: 'path4148',
+        scaleId: 'layer2'
+    }, {
+        key: 'motorcycle',
+        name: Strings.categoryMotorcycle,
+        svg: document.getElementById('motorcycleSvg').contentDocument,
+        fillId: ['path4148', 'path4256'],
+        rotateId: 'path4148',
+        scaleId: 'layer2'
+    }, {
+        key: 'bicycle',
+        name: Strings.categoryBicycle,
+        svg: document.getElementById('bicycleSvg').contentDocument,
+        fillId: ['path4148', 'path4282'],
+        rotateId: 'path4148',
+        scaleId: 'layer2'
+    }, {
+        key: 'person',
+        name: Strings.categoryPerson,
+        svg: document.getElementById('personSvg').contentDocument,
+        fillId: ['path4148', 'path4308'],
+        rotateId: 'path4148',
+        scaleId: 'layer2'
     }]
 });

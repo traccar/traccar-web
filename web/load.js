@@ -135,5 +135,10 @@
     addSvgFile('images/car.svg', 'carSvg');
     addSvgFile('images/bus.svg', 'busSvg');
     addSvgFile('images/truck.svg', 'truckSvg');
+    addSvgFile('images/ship.svg', 'shipSvg');
+    addSvgFile('images/plane.svg', 'planeSvg');
+    addSvgFile('images/motorcycle.svg', 'motorcycleSvg');
+    addSvgFile('images/bicycle.svg', 'bicycleSvg');
+    addSvgFile('images/person.svg', 'personSvg');
 
 })();

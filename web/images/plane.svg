@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="default.svg"
+   sodipodi:docname="plane.svg"
+   inkscape:export-filename="/home/local/RG/kas/repos/traccar/traccar-web/web/images/default.svg.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8.0000004"
-     inkscape:cx="5.642786"
-     inkscape:cy="31.741592"
+     inkscape:cx="13.062504"
+     inkscape:cy="37.395"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -82,11 +85,10 @@
        rx="5.2149124"
        cy="16.191458"
        cx="-31.99658" />
-    <circle
-       style="fill:#008000;stroke:#000000;stroke-width:0.81650639;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4149"
-       cx="25"
-       cy="25"
-       r="7.0917473" />
+    <path
+       d="m 33.004602,16.995793 q 0.521366,0.616159 0.142191,1.753686 -0.379176,1.137525 -1.279717,2.038066 l -1.907725,1.907727 1.895876,8.247061 q 0.05924,0.225136 -0.142191,0.391024 l -1.516701,1.137526 q -0.08294,0.0711 -0.225135,0.0711 -0.0474,0 -0.08294,-0.01184 -0.177739,-0.03554 -0.248833,-0.189588 l -3.305935,-6.019407 -3.06895,3.06895 0.62801,2.29875 q 0.05924,0.201437 -0.0948,0.367326 l -1.137525,1.137525 q -0.106643,0.106644 -0.272533,0.106644 l -0.0237,0 q -0.17774,-0.0237 -0.284384,-0.154045 l -2.239504,-2.986006 -2.986005,-2.239503 q -0.130341,-0.08294 -0.15404,-0.272532 -0.01184,-0.15404 0.106644,-0.296231 l 1.137526,-1.149375 Q 18.050879,26.096 18.216769,26.096 q 0.0711,0 0.09479,0.01185 l 2.29875,0.628008 3.06895,-3.068949 -6.019407,-3.305935 q -0.165889,-0.09479 -0.201437,-0.284381 -0.0237,-0.189588 0.106643,-0.31993 l 1.516701,-1.5167 q 0.165889,-0.154041 0.355477,-0.0948 l 7.879736,1.884027 1.895875,-1.895876 q 0.900542,-0.900541 2.038068,-1.279716 1.137525,-0.379175 1.753686,0.14219 z"
+       style="fill:#008000;stroke:#000000;stroke-width:0.93743491;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4203"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

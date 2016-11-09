@@ -48,14 +48,14 @@ Ext.define('Traccar.DeviceImages', {
         svg.getElementById(device.get('rotateId')).setAttribute('transform', rotateTransform);
 
         // Adjust size and prepare scale transformation
-        width *= device.get('scale');
-        height *= device.get('scale');
+        width *= Traccar.Style.mapScaleNormal;
+        height *= Traccar.Style.mapScaleNormal;
         if (zoom) {
             width *= Traccar.Style.mapScaleSelected;
             height *= Traccar.Style.mapScaleSelected;
-            scaleTransform = 'scale(' + device.get('scale') * Traccar.Style.mapScaleSelected + ') ';
+            scaleTransform = 'scale(' + Traccar.Style.mapScaleSelected + ') ';
         } else {
-            scaleTransform = 'scale(' + device.get('scale') + ') ';
+            scaleTransform = 'scale(' + Traccar.Style.mapScaleNormal + ') ';
         }
 
         if (device.get('scaleId') !== device.get('rotateId')) {
