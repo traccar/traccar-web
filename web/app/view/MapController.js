@@ -86,12 +86,12 @@ Ext.define('Traccar.view.MapController', {
         }
     },
 
-    changeMarkerColor: function (style, color) {
+    changeMarkerColor: function (style, color, category) {
         var newStyle = new ol.style.Style({
             image: Traccar.DeviceImages.getImageIcon(color,
                     style.getImage().zoom,
                     style.getImage().angle,
-                    style.getImage().category),
+                    category),
             text: style.getText()
         });
         return newStyle;
@@ -111,7 +111,7 @@ Ext.define('Traccar.view.MapController', {
             if (deviceId in this.latestMarkers) {
                 marker = this.latestMarkers[deviceId];
                 marker.setStyle(
-                    this.changeMarkerColor(marker.getStyle(), this.getDeviceColor(device)));
+                    this.changeMarkerColor(marker.getStyle(), this.getDeviceColor(device), device.get('category')));
             }
         }
     },

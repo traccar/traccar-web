@@ -147,6 +147,7 @@ Ext.define('Traccar.view.DevicesController', {
 
     selectDevice: function (device, center) {
         this.getView().getSelectionModel().select([device], false, true);
+        this.updateButtons(this.getView().getSelectionModel());
         this.getView().getView().focusRow(device);
     },
 
