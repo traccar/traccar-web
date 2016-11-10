@@ -25,7 +25,7 @@ Ext.define('Traccar.DeviceImages', {
         if (category) {
             device = Ext.getStore('DeviceImages').findRecord('key', category, 0, false, false, true);
         }
-        if (device === undefined || device === null) {
+        if (!device) {
             device = Ext.getStore('DeviceImages').findRecord('key', 'default', 0, false, false, true);
         }
         svg = Ext.clone(device.get('svg'));
@@ -44,13 +44,13 @@ Ext.define('Traccar.DeviceImages', {
         rotateTransform = 'rotate(' + angle + ' ' + (width / 2) + ' ' + (height / 2) + ')';
         svg.getElementById(device.get('rotateId')).setAttribute('transform', rotateTransform);
 
-        width *= Traccar.Style.mapScaleNormal;
-        height *= Traccar.Style.mapScaleNormal;
         if (zoom) {
             width *= Traccar.Style.mapScaleSelected;
             height *= Traccar.Style.mapScaleSelected;
             scaleTransform = 'scale(' + Traccar.Style.mapScaleSelected + ') ';
         } else {
+            width *= Traccar.Style.mapScaleNormal;
+            height *= Traccar.Style.mapScaleNormal;
             scaleTransform = 'scale(' + Traccar.Style.mapScaleNormal + ') ';
         }
 
