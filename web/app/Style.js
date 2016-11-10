@@ -57,7 +57,7 @@ Ext.define('Traccar.Style', {
 
     mapColorOnline: 'rgba(77, 250, 144, 1.0)',
     mapColorUnknown: 'rgba(250, 190, 77, 1.0)',
-    mapColorOffline: 'rgba(255, 84, 104, 1.0)',
+    mapColorOffline: 'rgba(255, 162, 173, 1.0)',
 
     mapScaleNormal: 1,
     mapScaleSelected: 1.5,

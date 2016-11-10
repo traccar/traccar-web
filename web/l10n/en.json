@@ -187,6 +187,7 @@
     "statisticsRequests": "Requests",
     "statisticsMessagesReceived": "Messages Received",
     "statisticsMessagesStored": "Messages Stored",
+    "categoryArrow": "Arrow",
     "categoryDefault": "Default",
     "categoryCar": "Car",
     "categoryBus": "Bus",

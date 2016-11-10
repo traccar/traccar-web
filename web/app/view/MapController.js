@@ -71,7 +71,7 @@ Ext.define('Traccar.view.MapController', {
         this.lookupReference('showReportsButton').setVisible(Traccar.app.isMobile());
     },
 
-    showReports: function() {
+    showReports: function () {
         Traccar.app.showReports(true);
     },
 
@@ -290,7 +290,7 @@ Ext.define('Traccar.view.MapController', {
                     color: Traccar.Style.mapTextStrokeColor,
                     width: Traccar.Style.mapTextStrokeWidth
                 }),
-                offsetY: - image.getSize()[1] / 2 - Traccar.Style.mapTextOffset,
+                offsetY: -image.getSize()[1] / 2 - Traccar.Style.mapTextOffset,
                 font : Traccar.Style.mapTextFont
             })
         });
@@ -305,7 +305,7 @@ Ext.define('Traccar.view.MapController', {
         if (deviceId !== undefined) {
             index = deviceId % Traccar.Style.mapRouteColor.length;
         }
-        return this.getMarkerStyle(false, Traccar.Style.mapRouteColor[index], angle, 'route');
+        return this.getMarkerStyle(false, Traccar.Style.mapRouteColor[index], angle, 'arrow');
     },
 
     resizeMarker: function (style, zoom) {
@@ -315,13 +315,13 @@ Ext.define('Traccar.view.MapController', {
                 style.getImage().angle,
                 style.getImage().category);
         text = style.getText();
-        text.setOffsetY(- image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
-        return newStyle = new ol.style.Style({
+        text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
+        return new ol.style.Style({
             image: image,
             text: text
         });
     },
-    
+
     rotateMarker: function (style, angle) {
         var newStyle = new ol.style.Style({
             image: Traccar.DeviceImages.getImageIcon(style.getImage().fill,

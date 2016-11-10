@@ -18,24 +18,21 @@
 
 Ext.define('Traccar.DeviceImages', {
     singleton: true,
-    
-    getImageIcon: function(color, zoom, angle, category) {
-        var image, device, svg, width, height, rotateTransform, scaleTransform, transform, fill;
-        // Get right image or fallback to default arrow
+
+    getImageSvg: function (color, zoom, angle, category) {
+        var i, device, svg, width, height, rotateTransform, scaleTransform, fill;
+
         if (category) {
-            device = Ext.getStore('DeviceImages').findRecord('key', category);
+            device = Ext.getStore('DeviceImages').findRecord('key', category, 0, false, false, true);
         }
         if (device === undefined || device === null) {
-            device = Ext.getStore('DeviceImages').findRecord('key', 'default');
+            device = Ext.getStore('DeviceImages').findRecord('key', 'default', 0, false, false, true);
         }
-
-        // Duplicate svg object to not brake origin
         svg = Ext.clone(device.get('svg'));
 
-        // Get original dimensions
         width = parseFloat(svg.documentElement.getAttribute('width'));
         height = parseFloat(svg.documentElement.getAttribute('height'));
-        // Colorize
+
         fill = device.get('fillId');
         if (!Ext.isArray(fill)) {
             fill = [fill];
@@ -43,11 +40,10 @@ Ext.define('Traccar.DeviceImages', {
         for (i = 0; i < fill.length; i++) {
             svg.getElementById(fill[i]).style.fill = color;
         }
-        // Prepare rotate transformation
+
         rotateTransform = 'rotate(' + angle + ' ' + (width / 2) + ' ' + (height / 2) + ')';
         svg.getElementById(device.get('rotateId')).setAttribute('transform', rotateTransform);
 
-        // Adjust size and prepare scale transformation
         width *= Traccar.Style.mapScaleNormal;
         height *= Traccar.Style.mapScaleNormal;
         if (zoom) {
@@ -63,23 +59,30 @@ Ext.define('Traccar.DeviceImages', {
         } else {
             svg.getElementById(device.get('scaleId')).setAttribute('transform', scaleTransform + ' ' + rotateTransform);
         }
-        //transform = scaleTransform + ' ' + rotateTransform;
-        
 
-        // Set dimension attributes
         svg.documentElement.setAttribute('width', width);
         svg.documentElement.setAttribute('height', height);
         svg.documentElement.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
-   
+
+        return svg;
+    },
+
+    getImageIcon: function (color, zoom, angle, category) {
+        var image, svg, width, height;
+
+        svg = this.getImageSvg(color, zoom, angle, category);
+        width = parseFloat(svg.documentElement.getAttribute('width'));
+        height = parseFloat(svg.documentElement.getAttribute('height'));
+
         image =  new ol.style.Icon({
-            imgSize: [width, height], // Workaround for IE
+            imgSize: [width, height],
             src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement))
         });
         image.fill = color;
         image.zoom = zoom;
         image.angle = angle;
         image.category = category;
-        
+
         return image;
-    }        
+    }
 });

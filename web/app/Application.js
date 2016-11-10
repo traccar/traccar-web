@@ -127,7 +127,6 @@ Ext.define('Traccar.Application', {
     },
 
     showError: function (response) {
-        var data;
         if (Ext.isString(response)) {
             Ext.Msg.alert(Strings.errorTitle, response);
         } else if (response.responseText) {
