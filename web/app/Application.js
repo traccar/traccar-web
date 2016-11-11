@@ -69,7 +69,8 @@ Ext.define('Traccar.Application', {
         'ReportSummary',
         'ReportTypes',
         'ReportEventTypes',
-        'Statistics'
+        'Statistics',
+        'DeviceImages'
     ],
 
     controllers: [
@@ -126,7 +127,6 @@ Ext.define('Traccar.Application', {
     },
 
     showError: function (response) {
-        var data;
         if (Ext.isString(response)) {
             Ext.Msg.alert(Strings.errorTitle, response);
         } else if (response.responseText) {

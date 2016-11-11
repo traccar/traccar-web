@@ -1,24 +1,34 @@
 (function () {
+    var debugMode, touchMode, locale, localeParameter, extjsVersion, fontAwesomeVersion, olVersion;
 
     function addStyleFile(file) {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
         link.setAttribute('href', file);
-        document.head.appendChild(link)
+        document.head.appendChild(link);
     }
 
     function addScriptFile(file) {
         var script = document.createElement('script');
         script.setAttribute('src', file);
-        script.async = false
+        script.async = false;
         document.head.appendChild(script);
     }
 
-    var debugMode = document.getElementById('loadScript').getAttribute('mode') === 'debug';
-    var touchMode = 'ontouchstart' in window || navigator.maxTouchPoints;
+    function addSvgFile(file, id) {
+        var svg = document.createElement('object');
+        svg.setAttribute('id', id);
+        svg.setAttribute('data', file);
+        svg.setAttribute('type', 'image/svg+xml');
+        svg.setAttribute('style', 'visibility:hidden');
+        document.body.appendChild(svg);
+    }
 
-    var locale = {};
+    debugMode = document.getElementById('loadScript').getAttribute('mode') === 'debug';
+    touchMode = 'ontouchstart' in window || navigator.maxTouchPoints;
+
+    locale = {};
     window.Locale = locale;
 
     locale.languages = {
@@ -65,7 +75,7 @@
         'zh': { name: '中文', code: 'zh_CN' }
     };
 
-    var localeParameter = window.location.search.match(/locale=([^&#]+)/);
+    localeParameter = window.location.search.match(/locale=([^&#]+)/);
     locale.language = localeParameter && localeParameter[1];
     if (locale.language === undefined) {
         locale.language = window.navigator.userLanguage || window.navigator.language;
@@ -76,7 +86,7 @@
         locale.language = 'en'; // default
     }
 
-    window.addEventListener("load", function (event) {
+    window.addEventListener('load', function (event) {
 
         if (debugMode) {
             Ext.Loader.setConfig({
@@ -99,9 +109,9 @@
 
     });
 
-    var extjsVersion = '6.0.1';
-    var fontAwesomeVersion = '4.6.3';
-    var olVersion = '3.18.2';
+    extjsVersion = '6.0.1';
+    fontAwesomeVersion = '4.6.3';
+    olVersion = '3.18.2';
 
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
@@ -119,6 +129,16 @@
     addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
 
     addStyleFile('app.css');
-    addScriptFile('arrow.js');
+
+    addSvgFile('images/default.svg', 'defaultSvg');
+    addSvgFile('images/arrow.svg', 'arrowSvg');
+    addSvgFile('images/car.svg', 'carSvg');
+    addSvgFile('images/bus.svg', 'busSvg');
+    addSvgFile('images/truck.svg', 'truckSvg');
+    addSvgFile('images/ship.svg', 'shipSvg');
+    addSvgFile('images/plane.svg', 'planeSvg');
+    addSvgFile('images/motorcycle.svg', 'motorcycleSvg');
+    addSvgFile('images/bicycle.svg', 'bicycleSvg');
+    addSvgFile('images/person.svg', 'personSvg');
 
 })();

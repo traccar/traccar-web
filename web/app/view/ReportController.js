@@ -41,7 +41,7 @@ Ext.define('Traccar.view.ReportController', {
         }
     },
 
-    hideReports: function() {
+    hideReports: function () {
         Traccar.app.showReports(false);
     },
 
