@@ -30,64 +30,64 @@ Ext.define('Traccar.store.DeviceImages', {
         key: 'default',
         name: Strings.categoryDefault,
         svg: document.getElementById('defaultSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'car',
         name: Strings.categoryCar,
         svg: document.getElementById('carSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'bus',
         name: Strings.categoryBus,
         svg: document.getElementById('busSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'truck',
         name: Strings.categoryTruck,
         svg: document.getElementById('truckSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'ship',
         name: Strings.categoryShip,
         svg: document.getElementById('shipSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'plane',
         name: Strings.categoryPlane,
         svg: document.getElementById('planeSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'motorcycle',
         name: Strings.categoryMotorcycle,
         svg: document.getElementById('motorcycleSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'bicycle',
         name: Strings.categoryBicycle,
         svg: document.getElementById('bicycleSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }, {
         key: 'person',
         name: Strings.categoryPerson,
         svg: document.getElementById('personSvg').contentDocument,
-        fillId: 'path4724',
-        rotateId: 'path4724',
+        fillId: 'background',
+        rotateId: 'background',
         scaleId: 'layer1'
     }]
 });

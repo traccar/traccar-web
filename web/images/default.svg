@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -8,13 +7,11 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="40"
    height="40"
    viewBox="0 0 40 40"
    id="svg4145"
    version="1.1"
-   inkscape:version="0.91 r13725"
    sodipodi:docname="default.svg">
   <defs
      id="defs4147" />
@@ -23,20 +20,8 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="11.313708"
-     inkscape:cx="-7.4058825"
-     inkscape:cy="17.209557"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
      showgrid="false"
-     units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="981"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     units="px" />
   <metadata
      id="metadata4150">
     <rdf:RDF>
@@ -45,25 +30,21 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.94994837;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 33.525025,20 c 0,7.469665 -6.05536,13.525025 -13.525025,13.525025 -7.469665,0 -13.5250252,-6.05536 -13.5250254,-13.525025 -2e-7,-5.309252 3.0591749,-9.903995 7.5109944,-12.117699 L 20,1.4749746 26.049865,7.9001866 C 30.482258,10.120688 33.525025,14.705006 33.525025,20 Z"
-       id="path4724"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ssscccs" />
+       style="fill:#008000;fill-opacity:1;stroke:#333333;stroke-width:1.89999998;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 20.001953 3.6816406 L 18.871094 7.0722656 A 12.37437 12.37437 0 0 1 20.001953 7.0097656 A 12.37437 12.37437 0 0 1 21.130859 7.0664062 L 20.001953 3.6816406 z M 20 7.625 A 12.37437 12.37437 0 0 0 7.625 20 A 12.37437 12.37437 0 0 0 20 32.375 A 12.37437 12.37437 0 0 0 32.375 20 A 12.37437 12.37437 0 0 0 20 7.625 z "
+       id="background" />
     <circle
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.81362325;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path4250"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.90058905;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="icon"
        cx="20"
        cy="20"
-       r="5.2625632" />
+       r="5.8250632" />
   </g>
 </svg>
