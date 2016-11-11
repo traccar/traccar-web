@@ -1,5 +1,4 @@
 {
     "preset": "crockford",
-    "maxErrors": 100,
-    "excludeFiles": ["arrow.js"]
+    "maxErrors": 100
 }
