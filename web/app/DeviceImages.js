@@ -20,20 +20,15 @@ Ext.define('Traccar.DeviceImages', {
     singleton: true,
 
     getImageSvg: function (color, zoom, angle, category) {
-        var i, device, svg, width, height, rotateTransform, scaleTransform, fill;
+        var i, info, svg, width, height, rotateTransform, scaleTransform, fill;
 
-        if (category) {
-            device = Ext.getStore('DeviceImages').findRecord('key', category, 0, false, false, true);
-        }
-        if (!device) {
-            device = Ext.getStore('DeviceImages').findRecord('key', 'default', 0, false, false, true);
-        }
-        svg = Ext.clone(device.get('svg'));
+        info = Ext.getStore('DeviceImages').findRecord('key', category || 'default', 0, false, false, true);
+        svg = Ext.clone(info.get('svg'));
 
         width = parseFloat(svg.documentElement.getAttribute('width'));
         height = parseFloat(svg.documentElement.getAttribute('height'));
 
-        fill = device.get('fillId');
+        fill = info.get('fillId');
         if (!Ext.isArray(fill)) {
             fill = [fill];
         }
@@ -42,7 +37,7 @@ Ext.define('Traccar.DeviceImages', {
         }
 
         rotateTransform = 'rotate(' + angle + ' ' + (width / 2) + ' ' + (height / 2) + ')';
-        svg.getElementById(device.get('rotateId')).setAttribute('transform', rotateTransform);
+        svg.getElementById(info.get('rotateId')).setAttribute('transform', rotateTransform);
 
         if (zoom) {
             width *= Traccar.Style.mapScaleSelected;
@@ -54,10 +49,10 @@ Ext.define('Traccar.DeviceImages', {
             scaleTransform = 'scale(' + Traccar.Style.mapScaleNormal + ') ';
         }
 
-        if (device.get('scaleId') !== device.get('rotateId')) {
-            svg.getElementById(device.get('scaleId')).setAttribute('transform', scaleTransform);
+        if (info.get('scaleId') !== info.get('rotateId')) {
+            svg.getElementById(info.get('scaleId')).setAttribute('transform', scaleTransform);
         } else {
-            svg.getElementById(device.get('scaleId')).setAttribute('transform', scaleTransform + ' ' + rotateTransform);
+            svg.getElementById(info.get('scaleId')).setAttribute('transform', scaleTransform + ' ' + rotateTransform);
         }
 
         svg.documentElement.setAttribute('width', width);
