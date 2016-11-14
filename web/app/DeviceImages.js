@@ -62,6 +62,11 @@ Ext.define('Traccar.DeviceImages', {
         return svg;
     },
 
+    formatSrc: function (svg) {
+        return 'data:image/svg+xml;charset=utf-8,' +
+                encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement));
+    },
+
     getImageIcon: function (color, zoom, angle, category) {
         var image, svg, width, height;
 
@@ -71,14 +76,26 @@ Ext.define('Traccar.DeviceImages', {
 
         image =  new ol.style.Icon({
             imgSize: [width, height],
-            src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement))
+            src: this.formatSrc(svg)
         });
-        image.load();
         image.fill = color;
         image.zoom = zoom;
         image.angle = angle;
         image.category = category;
 
         return image;
+    },
+
+    rotateImageIcon: function (image, angle) {
+        var svg = Traccar.DeviceImages.getImageSvg(image.fill, image.zoom, angle, image.category);
+        image.getImage().src = this.formatSrc(svg);
+        image.angle = angle;
+    },
+
+    changeImageColor: function (image, color, category) {
+        var svg = Traccar.DeviceImages.getImageSvg(color, image.zoom, image.angle, category);
+        image.getImage().src = this.formatSrc(svg);
+        image.fill = color;
+        image.category = category;
     }
 });
