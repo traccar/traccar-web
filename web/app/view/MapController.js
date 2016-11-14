@@ -98,7 +98,7 @@ Ext.define('Traccar.view.MapController', {
     },
 
     updateDevice: function (store, data) {
-        var i, device, deviceId, marker;
+        var i, device, deviceId, marker, style;
 
         if (!Ext.isArray(data)) {
             data = [data];
@@ -110,8 +110,12 @@ Ext.define('Traccar.view.MapController', {
 
             if (deviceId in this.latestMarkers) {
                 marker = this.latestMarkers[deviceId];
-                marker.setStyle(
-                    this.changeMarkerColor(marker.getStyle(), this.getDeviceColor(device), device.get('category')));
+                style = marker.getStyle();
+                if (style.getImage().fill !== this.getDeviceColor(device) ||
+                        style.getImage().category !== device.get('category')) {
+                    marker.setStyle(
+                        this.changeMarkerColor(style, this.getDeviceColor(device), device.get('category')));
+                }
             }
         }
     },
@@ -151,8 +155,11 @@ Ext.define('Traccar.view.MapController', {
         deviceId = position.get('deviceId');
         if (deviceId in this.latestMarkers) {
             marker = this.latestMarkers[deviceId];
+            style = marker.getStyle();
+            if (style.getImage().angle !== position.get('course')) {
+                marker.setStyle(this.rotateMarker(marker.getStyle(), position.get('course')));
+            }
             marker.setGeometry(geometry);
-            marker.setStyle(this.rotateMarker(marker.getStyle(), position.get('course')));
         } else {
             marker = new ol.Feature(geometry);
             marker.set('record', device);

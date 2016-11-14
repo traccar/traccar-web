@@ -73,6 +73,7 @@ Ext.define('Traccar.DeviceImages', {
             imgSize: [width, height],
             src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement))
         });
+        image.load();
         image.fill = color;
         image.zoom = zoom;
         image.angle = angle;
