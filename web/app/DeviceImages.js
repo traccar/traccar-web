@@ -24,6 +24,9 @@ Ext.define('Traccar.DeviceImages', {
 
         info = Ext.getStore('DeviceImages').findRecord('key', category || 'default', 0, false, false, true);
         svg = Ext.clone(info.get('svg'));
+        if (!svg) {
+            svg = this.cloneDocument(info.get('svg'));
+        }
 
         width = parseFloat(svg.documentElement.getAttribute('width'));
         height = parseFloat(svg.documentElement.getAttribute('height'));
@@ -65,6 +68,14 @@ Ext.define('Traccar.DeviceImages', {
     formatSrc: function (svg) {
         return 'data:image/svg+xml;charset=utf-8,' +
                 encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement));
+    },
+
+    cloneDocument: function (document) {
+        var newDocument, newNode;
+        newDocument = document.implementation.createDocument(document.namespaceURI, null, null);
+        newNode = newDocument.importNode(document.documentElement, true);
+        newDocument.appendChild(newNode);
+        return newDocument;
     },
 
     getImageIcon: function (color, zoom, angle, category) {
