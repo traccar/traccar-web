@@ -44,6 +44,8 @@ Ext.define('Traccar.view.DeviceDistanceDialog', {
     }],
 
     buttons: [{
+        disabled: true,
+        reference: 'setButton',
         glyph: 'xf00c@FontAwesome',
         tooltip: Strings.sharedSet,
         tooltipType: 'title',
