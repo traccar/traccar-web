@@ -70,10 +70,10 @@ Ext.define('Traccar.DeviceImages', {
                 encodeURIComponent(new XMLSerializer().serializeToString(svg.documentElement));
     },
 
-    cloneDocument: function (document) {
+    cloneDocument: function (svgDocument) {
         var newDocument, newNode;
-        newDocument = document.implementation.createDocument(document.namespaceURI, null, null);
-        newNode = newDocument.importNode(document.documentElement, true);
+        newDocument = svgDocument.implementation.createDocument(svgDocument.namespaceURI, null, null);
+        newNode = newDocument.importNode(svgDocument.documentElement, true);
         newDocument.appendChild(newNode);
         return newDocument;
     },
