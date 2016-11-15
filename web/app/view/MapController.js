@@ -86,17 +86,6 @@ Ext.define('Traccar.view.MapController', {
         }
     },
 
-    changeMarkerColor: function (style, color, category) {
-        var newStyle = new ol.style.Style({
-            image: Traccar.DeviceImages.getImageIcon(color,
-                    style.getImage().zoom,
-                    style.getImage().angle,
-                    category),
-            text: style.getText()
-        });
-        return newStyle;
-    },
-
     updateDevice: function (store, data) {
         var i, device, deviceId, marker, style;
 
@@ -113,8 +102,9 @@ Ext.define('Traccar.view.MapController', {
                 style = marker.getStyle();
                 if (style.getImage().fill !== this.getDeviceColor(device) ||
                         style.getImage().category !== device.get('category')) {
-                    marker.setStyle(
-                        this.changeMarkerColor(style, this.getDeviceColor(device), device.get('category')));
+                    Traccar.DeviceImages.changeImageColor(style.getImage(),
+                            this.getDeviceColor(device), device.get('category'));
+                    marker.changed();
                 }
             }
         }
@@ -157,7 +147,7 @@ Ext.define('Traccar.view.MapController', {
             marker = this.latestMarkers[deviceId];
             style = marker.getStyle();
             if (style.getImage().angle !== position.get('course')) {
-                marker.setStyle(this.rotateMarker(marker.getStyle(), position.get('course')));
+                Traccar.DeviceImages.rotateImageIcon(style.getImage(), position.get('course'));
             }
             marker.setGeometry(geometry);
         } else {
@@ -327,17 +317,6 @@ Ext.define('Traccar.view.MapController', {
             image: image,
             text: text
         });
-    },
-
-    rotateMarker: function (style, angle) {
-        var newStyle = new ol.style.Style({
-            image: Traccar.DeviceImages.getImageIcon(style.getImage().fill,
-                    style.getImage().zoom,
-                    angle,
-                    style.getImage().category),
-            text: style.getText()
-        });
-        return newStyle;
     },
 
     selectMarker: function (marker, center) {
