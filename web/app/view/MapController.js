@@ -106,6 +106,10 @@ Ext.define('Traccar.view.MapController', {
                             this.getDeviceColor(device), device.get('category'));
                     marker.changed();
                 }
+                if (style.getText().getText() !== device.get('name')) {
+                    style.getText().setText(device.get('name'));
+                    marker.changed();
+                }
             }
         }
     },
