@@ -59,6 +59,13 @@ Ext.define('Traccar.view.Map', {
             enableToggle: true,
             tooltip: Strings.mapLiveRoutes
         }, {
+            reference: 'deviceFollowButton',
+            glyph: 'xf05b@FontAwesome',
+            tooltip: Strings.deviceFollow,
+            tooltipType: 'title',
+            enableToggle: true,
+            toggleHandler: 'onFollowClick'
+        }, {
             id: 'muteButton',
             glyph: 'xf1f7@FontAwesome',
             tooltip: Strings.sharedMute,
