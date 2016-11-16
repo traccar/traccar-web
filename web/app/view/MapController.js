@@ -114,8 +114,10 @@ Ext.define('Traccar.view.MapController', {
         }
     },
 
-    followSelected: function () {
-        return Ext.getCmp('deviceFollowButton') && Ext.getCmp('deviceFollowButton').pressed;
+    onFollowClick: function (button, pressed) {
+        if (pressed && this.selectedMarker) {
+            this.getView().getMapView().setCenter(this.selectedMarker.getGeometry().getCoordinates());
+        }
     },
 
     showLiveRoutes: function (button) {
@@ -168,7 +170,7 @@ Ext.define('Traccar.view.MapController', {
 
         }
 
-        if (marker === this.selectedMarker && this.followSelected()) {
+        if (marker === this.selectedMarker && this.lookupReference('deviceFollowButton').pressed) {
             this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
         }
     },
