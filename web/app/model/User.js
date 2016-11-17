@@ -62,6 +62,16 @@ Ext.define('Traccar.model.User', {
         name: 'coordinateFormat',
         type: 'string'
     }, {
+        name: 'disabled',
+        type: 'boolean'
+    }, {
+        name: 'expirationTime',
+        type: 'date',
+        dateFormat: 'c'
+    }, {
+        name: 'deviceLimit',
+        type: 'int'
+    }, {
         name: 'attributes'
     }],
 

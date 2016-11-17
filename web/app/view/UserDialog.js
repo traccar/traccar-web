@@ -47,14 +47,14 @@ Ext.define('Traccar.view.UserDialog', {
             name: 'readonly',
             fieldLabel: Strings.serverReadonly,
             allowBlank: false,
-            disabled: true,
+            hidden: true,
             reference: 'readonlyField'
         }, {
             xtype: 'checkboxfield',
             name: 'admin',
             fieldLabel: Strings.userAdmin,
             allowBlank: false,
-            disabled: true,
+            hidden: true,
             reference: 'adminField'
         }, {
             xtype: 'combobox',
@@ -110,6 +110,26 @@ Ext.define('Traccar.view.UserDialog', {
             displayField: 'name',
             valueField: 'key',
             editable: false
+        }, {
+            xtype: 'checkboxfield',
+            name: 'disabled',
+            fieldLabel: Strings.userDisabled,
+            hidden: true,
+            reference: 'disabledField'
+        }, {
+            xtype: 'datefield',
+            name: 'expirationTime',
+            fieldLabel: Strings.userExpirationTime,
+            disabled: true,
+            reference: 'expirationTimeField',
+            startDay: Traccar.Style.weekStartDay,
+            format: Traccar.Style.dateFormat
+        }, {
+            xtype: 'numberfield',
+            name: 'deviceLimit',
+            fieldLabel: Strings.userDeviceLimit,
+            disabled: true,
+            reference: 'deviceLimitField'
         }]
     },
 
