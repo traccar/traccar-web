@@ -97,6 +97,7 @@
     "serverZoom": "ชยาย +/-",
     "serverRegistration": "ลงทะเบียน",
     "serverReadonly": "อ่านได้อย่างเดียว",
+    "serverForceSettings": "บังคับ การตั้งค่า",
     "mapTitle": "แผนที่",
     "mapLayer": "ชั้นแผนที่",
     "mapCustom": "แผนที่ที่กำหนดเอง",
