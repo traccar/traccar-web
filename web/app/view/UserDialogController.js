@@ -26,7 +26,21 @@ Ext.define('Traccar.view.UserDialogController', {
             this.lookupReference('disabledField').setHidden(false);
             this.lookupReference('expirationTimeField').setDisabled(false);
             this.lookupReference('deviceLimitField').setDisabled(false);
+            this.lookupReference('tokenField').setDisabled(false);
         }
+    },
+
+    symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+
+    generateToken: function () {
+        var newToken, i;
+        newToken = '';
+
+        for (i = 0; i < 16; i++) {
+            newToken += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
+        }
+
+        this.lookupReference('tokenField').setValue(newToken);
     },
 
     onSaveClick: function (button) {
