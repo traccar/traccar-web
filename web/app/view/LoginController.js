@@ -50,7 +50,11 @@ Ext.define('Traccar.view.LoginController', {
                         this.fireViewEvent('login');
                     } else {
                         this.getView().setVisible(true);
-                        Traccar.app.showError(Strings.loginFailed);
+                        if (response.status === 401) {
+                            Traccar.app.showError(Strings.loginFailed);
+                        } else {
+                            Traccar.app.showError(response.responseText);
+                        }
                     }
                 }
             });
