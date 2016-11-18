@@ -110,8 +110,8 @@
     });
 
     extjsVersion = '6.0.1';
-    fontAwesomeVersion = '4.6.3';
-    olVersion = '3.18.2';
+    fontAwesomeVersion = '4.7.0';
+    olVersion = '3.19.1';
 
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
