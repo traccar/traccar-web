@@ -168,20 +168,20 @@
     "reportEndTime": "เวลาสิ้นสุด",
     "reportEndAddress": "จุดสิ้นสุด",
     "reportSpentFuel": "เชื้อเพลิงที่ใช้",
-    "statisticsTitle": "สถิติ"
-    "statisticsCaptureTime": "จับเวลา"
-    "statisticsActiveUsers": "ผู้ใช้ที่ใช้งานอยู่"
-    "statisticsActiveDevices": "อุปกรณ์ที่ใช้งานอยู่"
-    "statisticsRequests": "การร้องขอ"
-    "statisticsMessagesReceived": "ข้อความที่ได้รับ"
-    "statisticsMessagesStored": "ข้อความที่เก็บไว้"
-    "categoryDefault": "ค่าเริ่มต้น"
-    "categoryCar": "รถยนต์"
-    "categoryBus": "รถบัส"
-    "categoryTruck": "รถบรรทุก"
-    "categoryShip": "เรือ"
-    "categoryPlane": "เครื่องบิน"
-    "categoryMotorcycle": "รถจักรยานยนต์"
-    "categoryBicycle": "จักรยาน"
+    "statisticsTitle": "สถิติ",
+    "statisticsCaptureTime": "จับเวลา",
+    "statisticsActiveUsers": "ผู้ใช้ที่ใช้งานอยู่",
+    "statisticsActiveDevices": "อุปกรณ์ที่ใช้งานอยู่",
+    "statisticsRequests": "การร้องขอ",
+    "statisticsMessagesReceived": "ข้อความที่ได้รับ",
+    "statisticsMessagesStored": "ข้อความที่เก็บไว้",
+    "categoryDefault": "ค่าเริ่มต้น",
+    "categoryCar": "รถยนต์",
+    "categoryBus": "รถบัส",
+    "categoryTruck": "รถบรรทุก",
+    "categoryShip": "เรือ",
+    "categoryPlane": "เครื่องบิน",
+    "categoryMotorcycle": "รถจักรยานยนต์",
+    "categoryBicycle": "จักรยาน",
     "categoryPerson": "บุคคล"
 }
