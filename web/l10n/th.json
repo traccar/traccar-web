@@ -36,6 +36,9 @@
     "userPassword": "รหัสผ่าน",
     "userAdmin": "ผู้ดูแลระบบ",
     "userRemember": "จำไว้",
+    "userDisabled": "ปิดการใช้งาน",
+    "userExpirationTime": "กำหนดวันหมดอายุ",
+    "userDeviceLimit": "จำนวน เครื่อง/อุปกรณ์",
     "loginTitle": "เข้าสู่ระบบ",
     "loginLanguage": "ภาษา",
     "loginRegister": "ลงทะเบียน",
@@ -47,6 +50,10 @@
     "deviceDialog": "เครื่อง/อุปกรณ์",
     "deviceTitle": "เครื่อง/อุปกรณ์",
     "deviceIdentifier": "ระบุเลขอุปกรณ์",
+    "devicePhone": "เบอร์/เครื่อง/อุปกรณ์",
+    "deviceModel": "รุ่น",
+    "deviceContact": "เบอร์ติดต่อ",
+    "deviceCategory": "หมวดหมู่",
     "deviceLastUpdate": "แก้ไขล่าสุด",
     "deviceCommand": "คำสั่ง",
     "deviceFollow": "ติดตาม",
@@ -160,5 +167,21 @@
     "reportStartAddress": "จุดเริ่มต้น",
     "reportEndTime": "เวลาสิ้นสุด",
     "reportEndAddress": "จุดสิ้นสุด",
-    "reportSpentFuel": "เชื้อเพลิงที่ใช้"
+    "reportSpentFuel": "เชื้อเพลิงที่ใช้",
+    "statisticsTitle": "สถิติ"
+    "statisticsCaptureTime": "จับเวลา"
+    "statisticsActiveUsers": "ผู้ใช้ที่ใช้งานอยู่"
+    "statisticsActiveDevices": "อุปกรณ์ที่ใช้งานอยู่"
+    "statisticsRequests": "การร้องขอ"
+    "statisticsMessagesReceived": "ข้อความที่ได้รับ"
+    "statisticsMessagesStored": "ข้อความที่เก็บไว้"
+    "categoryDefault": "ค่าเริ่มต้น"
+    "categoryCar": "รถยนต์"
+    "categoryBus": "รถบัส"
+    "categoryTruck": "รถบรรทุก"
+    "categoryShip": "เรือ"
+    "categoryPlane": "เครื่องบิน"
+    "categoryMotorcycle": "รถจักรยานยนต์"
+    "categoryBicycle": "จักรยาน"
+    "categoryPerson": "บุคคล"
 }
