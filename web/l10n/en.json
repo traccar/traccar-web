@@ -50,6 +50,7 @@
     "userDisabled": "Disabled",
     "userExpirationTime": "Expiration",
     "userDeviceLimit": "Device Limit",
+    "userToken": "Token",
     "loginTitle": "Login",
     "loginLanguage": "Language",
     "loginRegister": "Register",

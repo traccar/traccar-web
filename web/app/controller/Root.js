@@ -34,11 +34,18 @@ Ext.define('Traccar.controller.Root', {
     },
 
     onServerReturn: function (options, success, response) {
+        var token, parameters = {};
         if (success) {
             Traccar.app.setServer(Ext.decode(response.responseText));
+            token = Ext.Object.fromQueryString(window.location.search).token;
+            if (token) {
+                parameters.token = token;
+            }
             Ext.Ajax.request({
                 scope: this,
                 url: 'api/session',
+                method: 'GET',
+                params: parameters,
                 callback: this.onSessionReturn
             });
         } else {
