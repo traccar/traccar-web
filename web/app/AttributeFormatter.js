@@ -47,6 +47,10 @@ Ext.define('Traccar.AttributeFormatter', {
         return (hours + ' ' + Strings.sharedHourAbbreviation + ' ' + minutes + ' ' + Strings.sharedMinuteAbbreviation);
     },
 
+    deviceIdFormatter: function (value) {
+        return Ext.getStore('Devices').getById(value).get('name');
+    },
+
     defaultFormatter: function (value) {
         if (typeof value === 'number') {
             return Number(value.toFixed(Traccar.Style.numberPrecision));
@@ -78,6 +82,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.hoursFormatter;
         } else if (key === 'duration') {
             return this.durationFormatter;
+        } else if (key === 'deviceId') {
+            return this.deviceIdFormatter;
         } else {
             return this.defaultFormatter;
         }
