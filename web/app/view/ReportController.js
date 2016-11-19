@@ -227,7 +227,7 @@ Ext.define('Traccar.view.ReportController', {
     routeColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('deviceName')
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
     }, {
         text: Strings.positionValid,
         dataIndex: 'valid',
@@ -267,7 +267,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('deviceName')
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
     }, {
         text: Strings.sharedType,
         dataIndex: 'type',
@@ -288,7 +288,7 @@ Ext.define('Traccar.view.ReportController', {
     summaryColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('deviceName')
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
@@ -310,7 +310,7 @@ Ext.define('Traccar.view.ReportController', {
     tripsColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('deviceName')
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
     }, {
         text: Strings.reportStartTime,
         dataIndex: 'startTime',

@@ -47,8 +47,8 @@ Ext.define('Traccar.AttributeFormatter', {
         return (hours + ' ' + Strings.sharedHourAbbreviation + ' ' + minutes + ' ' + Strings.sharedMinuteAbbreviation);
     },
 
-    deviceNameFormatter: function (value) {
-        return Ext.getStore('Devices').findRecord('id', value).get('name');
+    deviceIdFormatter: function (value) {
+        return Ext.getStore('Devices').getById(value).get('name');
     },
 
     defaultFormatter: function (value) {
@@ -82,8 +82,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.hoursFormatter;
         } else if (key === 'duration') {
             return this.durationFormatter;
-        } else if (key === 'deviceName') {
-            return this.deviceNameFormatter;
+        } else if (key === 'deviceId') {
+            return this.deviceIdFormatter;
         } else {
             return this.defaultFormatter;
         }
