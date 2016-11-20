@@ -136,15 +136,10 @@ Ext.define('Traccar.view.UserDialog', {
             reference: 'tokenField',
             fieldLabel: Strings.userToken,
             disabled: true,
-            editable: false,
             triggers: {
                 generate: {
                     cls: 'iconCls: x-fa fa-refresh',
                     handler: 'generateToken'
-                },
-                clear: {
-                    cls: 'iconCls: x-fa fa-remove',
-                    handler: 'clearToken'
                 }
             }
         }]
