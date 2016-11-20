@@ -35,7 +35,7 @@ Ext.define('Traccar.view.UserDialogController', {
     generateToken: function () {
         var i, newToken = '';
 
-        for (i = 0; i < 16; i++) {
+        for (i = 0; i < 32; i++) {
             newToken += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
         }
 
