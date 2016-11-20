@@ -38,7 +38,8 @@ Ext.define('Traccar.view.MapController', {
             store: {
                 '#Devices': {
                     add: 'updateDevice',
-                    update: 'updateDevice'
+                    update: 'updateDevice',
+                    remove: 'removeDevice'
                 },
                 '#LatestPositions': {
                     add: 'updateLatest',
@@ -110,6 +111,19 @@ Ext.define('Traccar.view.MapController', {
                     style.getText().setText(device.get('name'));
                     marker.changed();
                 }
+            }
+        }
+    },
+
+    removeDevice: function (store, data) {
+        var i, deviceId;
+        if (!Ext.isArray(data)) {
+            data = [data];
+        }
+        for (i = 0; i < data.length; i++) {
+            deviceId = data[i].get('id');
+            if (this.latestMarkers[deviceId]) {
+                this.getView().getLatestSource().removeFeature(this.latestMarkers[deviceId]);
             }
         }
     },
