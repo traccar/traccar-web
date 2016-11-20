@@ -35,11 +35,15 @@ Ext.define('Traccar.view.UserDialogController', {
     generateToken: function () {
         var i, newToken = '';
 
-        for (i = 0; i < 16; i++) {
+        for (i = 0; i < 20; i++) {
             newToken += this.symbols.charAt(Math.floor(Math.random() * this.symbols.length));
         }
 
         this.lookupReference('tokenField').setValue(newToken);
+    },
+
+    clearToken: function () {
+        this.lookupReference('tokenField').setValue('');
     },
 
     onSaveClick: function (button) {
