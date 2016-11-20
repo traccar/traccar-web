@@ -81,6 +81,14 @@ Ext.define('Traccar.view.Users', {
         }, {
             text: Strings.userAdmin,
             dataIndex: 'admin'
+        }, {
+            text: Strings.userDisabled,
+            dataIndex: 'disabled'
+        }, {
+            text: Strings.userExpirationTime,
+            dataIndex: 'expirationTime',
+            hidden: true,
+            renderer: Traccar.AttributeFormatter.getFormatter('expirationTime')
         }]
     }
 });
