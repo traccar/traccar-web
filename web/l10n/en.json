@@ -146,6 +146,7 @@
     "commandMessage": "Message",
     "eventAll": "All Events",
     "eventDeviceOnline": "Device is online",
+    "eventDeviceUnknown": "Device status is unknown",
     "eventDeviceOffline": "Device is offline",
     "eventDeviceMoving": "Device is moving",
     "eventDeviceStopped": "Device has stopped",

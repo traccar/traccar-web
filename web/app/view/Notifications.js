@@ -44,8 +44,7 @@ Ext.define('Traccar.view.Notifications', {
             text: Strings.notificationType,
             dataIndex: 'type',
             renderer: function (value) {
-                var typeKey = 'event' + value.charAt(0).toUpperCase() + value.slice(1);
-                return Strings[typeKey];
+                return Traccar.app.getEventString(value);
             }
         }, {
             text: Strings.notificationWeb,

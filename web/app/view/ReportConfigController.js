@@ -35,13 +35,11 @@ Ext.define('Traccar.view.ReportConfigController', {
             Ext.create('Traccar.store.AllNotifications').load({
                 scope: this,
                 callback: function (records, operation, success) {
-                    var i, value, name, typeKey;
+                    var i, value;
                     if (success) {
                         for (i = 0; i < records.length; i++) {
                             value = records[i].get('type');
-                            typeKey = 'event' + value.charAt(0).toUpperCase() + value.slice(1);
-                            name = Strings[typeKey];
-                            store.add({type: value, name: name});
+                            store.add({type: value, name: Traccar.app.getEventString(value)});
                         }
                     }
                 }

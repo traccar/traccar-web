@@ -81,6 +81,11 @@ Ext.define('Traccar.Application', {
         return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
     },
 
+    getEventString: function (eventType) {
+        var key = 'event' + eventType.charAt(0).toUpperCase() + eventType.slice(1);
+        return Strings[key] || key;
+    },
+
     showReports: function (show) {
         var rootPanel = Ext.getCmp('rootPanel');
         if (rootPanel) {

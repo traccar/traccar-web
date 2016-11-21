@@ -119,7 +119,7 @@ Ext.define('Traccar.controller.Root', {
         };
 
         socket.onmessage = function (event) {
-            var i, j, store, data, array, entity, device, typeKey, alarmKey, text, geofence;
+            var i, j, store, data, array, entity, device, alarmKey, text, geofence;
 
             data = Ext.decode(event.data);
 
@@ -184,20 +184,16 @@ Ext.define('Traccar.controller.Root', {
                             }
                         }
                     } else {
-                        typeKey = 'event' + array[i].type.charAt(0).toUpperCase() + array[i].type.slice(1);
-                        text = Strings[typeKey];
-                        if (!text) {
-                            text = typeKey;
-                        }
+                        text = Traccar.app.getEventString(array[i].type);
                     }
                     if (array[i].geofenceId !== 0) {
                         geofence = Ext.getStore('Geofences').getById(array[i].geofenceId);
-                        if (typeof geofence !== 'undefined') {
+                        if (geofence) {
                             text += ' \"' + geofence.get('name') + '"';
                         }
                     }
                     device = Ext.getStore('Devices').getById(array[i].deviceId);
-                    if (typeof device !== 'undefined') {
+                    if (device) {
                         if (self.mutePressed()) {
                             self.beep();
                         }
