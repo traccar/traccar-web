@@ -112,8 +112,8 @@ Ext.define('Traccar.view.ReportController', {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
                     type: this.eventType,
-                    from: from.toISOString(),
-                    to: to.toISOString()
+                    from: Ext.Date.format(from, 'c'),
+                    to: Ext.Date.format(to, 'c')
                 });
             }
         }
