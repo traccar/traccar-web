@@ -128,8 +128,6 @@
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
     addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
 
-    addStyleFile('app.css');
-
     addSvgFile('images/default.svg', 'defaultSvg');
     addSvgFile('images/arrow.svg', 'arrowSvg');
     addSvgFile('images/car.svg', 'carSvg');
