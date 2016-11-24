@@ -157,7 +157,7 @@
     "eventAlarm": "Alarms",
     "eventIgnitionOn": "Ignition is ON",
     "eventIgnitionOff": "Ignition is OFF",
-    "eventMaintenanceNeeded": "Maintenance is needed",
+    "eventMaintenance": "Maintenance required",
     "alarm": "Alarm",
     "alarmSos": "SOS Alarm",
     "alarmVibration": "Vibration Alarm",
