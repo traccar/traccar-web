@@ -25,7 +25,7 @@ Ext.define('Traccar.view.Login', {
 
     controller: 'login',
 
-    title: Strings.loginTitle,
+    header: false,
     closable: false,
     modal: false,
 
@@ -41,6 +41,15 @@ Ext.define('Traccar.view.Login', {
         },
 
         items: [{
+            xtype: 'image',
+            src: 'logo.svg',
+            width: 180,
+            height: 48,
+            style: {
+                display: 'block',
+                margin: '10px auto 25px'
+            }
+        }, {
             xtype: 'combobox',
             name: 'language',
             fieldLabel: Strings.loginLanguage,
