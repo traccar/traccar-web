@@ -103,9 +103,7 @@ Ext.define('Traccar.view.MapController', {
                 style = marker.getStyle();
                 if (style.getImage().fill !== this.getDeviceColor(device) ||
                         style.getImage().category !== device.get('category')) {
-                    Traccar.DeviceImages.changeImageColor(style.getImage(),
-                            this.getDeviceColor(device), device.get('category'));
-                    marker.changed();
+                    marker.setStyle(this.updateDeviceMarker(style, this.getDeviceColor(device), device.get('category')));
                 }
                 if (style.getText().getText() !== device.get('name')) {
                     style.getText().setText(device.get('name'));
@@ -331,6 +329,20 @@ Ext.define('Traccar.view.MapController', {
                 zoom,
                 style.getImage().angle,
                 style.getImage().category);
+        text = style.getText();
+        text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
+        return new ol.style.Style({
+            image: image,
+            text: text
+        });
+    },
+
+    updateDeviceMarker: function (style, color, category) {
+        var image, text;
+        image = Traccar.DeviceImages.getImageIcon(color,
+                style.getImage().zoom,
+                style.getImage().angle,
+                category);
         text = style.getText();
         text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
         return new ol.style.Style({
