@@ -111,6 +111,7 @@
     "mapBingAerial": "Bing Maps Aerial",
     "mapShapePolygon": "Polygon",
     "mapShapeCircle": "Circle",
+    "mapShapePolyline": "Polyline",
     "mapLiveRoutes": "Live Routes",
     "stateTitle": "State",
     "stateName": "Attribute",
