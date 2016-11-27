@@ -25,5 +25,8 @@ Ext.define('Traccar.store.GeofenceTypes', {
     }, {
         key: 'Circle',
         name: Strings.mapShapeCircle
+    }, {
+        key: 'LineString',
+        name: Strings.mapShapePolyline
     }]
 });

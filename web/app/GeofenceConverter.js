@@ -49,6 +49,20 @@ Ext.define('Traccar.GeofenceConverter', {
                     geometry = new ol.geom.Circle(center, radius);
                 }
             }
+        } else if (wkt.lastIndexOf('LINESTRING', 0) === 0) {
+            content = wkt.match(/\([^\(\)]+\)/);
+            if (content !== null) {
+                coordinates = content[0].match(/-?\d+\.?\d*/g);
+                if (coordinates !== null) {
+                    projection = mapView.getProjection();
+                    for (i = 0; i < coordinates.length; i += 2) {
+                        lat = Number(coordinates[i]);
+                        lon = Number(coordinates[i + 1]);
+                        points.push(ol.proj.transform([lon, lat], 'EPSG:4326', projection));
+                    }
+                    geometry = new ol.geom.LineString(points);
+                }
+            }
         }
         return geometry;
     },
@@ -74,6 +88,14 @@ Ext.define('Traccar.GeofenceConverter', {
                 result += points[0][i][1] + ' ' + points[0][i][0] + ', ';
             }
             result = result.substring(0, result.length - 2) + '))';
+        } else if (geometry instanceof ol.geom.LineString) {
+            geometry.transform(projection, 'EPSG:4326');
+            points = geometry.getCoordinates();
+            result = 'LINESTRING (';
+            for (i = 0; i < points.length; i += 1) {
+                result += points[i][1] + ' ' + points[i][0] + ', ';
+            }
+            result = result.substring(0, result.length - 2) + ')';
         }
         return result;
     }
