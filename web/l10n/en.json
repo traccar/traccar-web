@@ -58,6 +58,7 @@
     "loginFailed": "Incorrect email address or password",
     "loginCreated": "New user has been registered",
     "loginLogout": "Logout",
+    "loginLogo": "Logo",
     "devicesAndState": "Devices and State",
     "deviceTitle": "Devices",
     "deviceIdentifier": "Identifier",
