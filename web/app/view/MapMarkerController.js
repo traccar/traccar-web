@@ -1,5 +1,6 @@
 /*
  * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.MapController', {
+Ext.define('Traccar.view.MapMarkerController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.map',
+    alias: 'controller.mapMarker',
 
     requires: [
         'Traccar.model.Position',
         'Traccar.model.Device',
-        'Traccar.GeofenceConverter',
         'Traccar.DeviceImages'
     ],
 
@@ -31,8 +31,7 @@ Ext.define('Traccar.view.MapController', {
             controller: {
                 '*': {
                     selectdevice: 'selectDevice',
-                    selectreport: 'selectReport',
-                    mapstaterequest: 'getMapState'
+                    selectreport: 'selectReport'
                 }
             },
             store: {
@@ -48,12 +47,6 @@ Ext.define('Traccar.view.MapController', {
                 '#ReportRoute': {
                     load: 'loadReport',
                     clear: 'clearReport'
-                },
-                '#Geofences': {
-                    load: 'showGeofences',
-                    add: 'updateGeofences',
-                    update: 'updateGeofences',
-                    remove: 'updateGeofences'
                 }
             },
             component: {
@@ -69,11 +62,6 @@ Ext.define('Traccar.view.MapController', {
         this.reportMarkers = {};
         this.liveRoutes = {};
         this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
-        this.lookupReference('showReportsButton').setVisible(Traccar.app.isMobile());
-    },
-
-    showReports: function () {
-        Traccar.app.showReports(true);
     },
 
     getDeviceColor: function (device) {
@@ -124,16 +112,6 @@ Ext.define('Traccar.view.MapController', {
                 this.getView().getLatestSource().removeFeature(this.latestMarkers[deviceId]);
             }
         }
-    },
-
-    onFollowClick: function (button, pressed) {
-        if (pressed && this.selectedMarker) {
-            this.getView().getMapView().setCenter(this.selectedMarker.getGeometry().getCoordinates());
-        }
-    },
-
-    showLiveRoutes: function (button) {
-        this.getView().getLiveRouteLayer().setVisible(button.pressed);
     },
 
     updateLatest: function (store, data) {
@@ -386,58 +364,6 @@ Ext.define('Traccar.view.MapController', {
             } else {
                 this.fireEvent('selectreport', record, false);
             }
-        }
-    },
-
-    getMapState: function () {
-        var zoom, center, projection;
-        projection = this.getView().getMapView().getProjection();
-        center = ol.proj.transform(this.getView().getMapView().getCenter(), projection, 'EPSG:4326');
-        zoom = this.getView().getMapView().getZoom();
-        this.fireEvent('mapstate', center[1], center[0], zoom);
-    },
-
-    getGeofenceStyle: function (label) {
-        return new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: Traccar.Style.mapGeofenceOverlay
-                }),
-                stroke: new ol.style.Stroke({
-                    color: Traccar.Style.mapGeofenceColor,
-                    width: Traccar.Style.mapGeofenceWidth
-                }),
-                text: new ol.style.Text({
-                    text: label,
-                    fill: new ol.style.Fill({
-                        color: Traccar.Style.mapGeofenceTextColor
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: Traccar.Style.mapTextStrokeColor,
-                        width: Traccar.Style.mapTextStrokeWidth
-                    }),
-                    font : Traccar.Style.mapTextFont
-                })
-            });
-    },
-
-    showGeofences: function () {
-        if (this.lookupReference('showGeofencesButton').pressed) {
-            Ext.getStore('Geofences').each(function (geofence) {
-                var feature = new ol.Feature(Traccar.GeofenceConverter
-                        .wktToGeometry(this.getView().getMapView(), geofence.get('area')));
-                feature.setStyle(this.getGeofenceStyle(geofence.get('name')));
-                this.getView().getGeofencesSource().addFeature(feature);
-                return true;
-            }, this);
-        } else {
-            this.getView().getGeofencesSource().clear();
-        }
-    },
-
-    updateGeofences: function () {
-        if (this.lookupReference('showGeofencesButton').pressed) {
-            this.getView().getGeofencesSource().clear();
-            this.showGeofences();
         }
     }
 });
