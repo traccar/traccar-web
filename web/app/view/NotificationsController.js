@@ -44,9 +44,8 @@ Ext.define('Traccar.view.NotificationsController', {
     },
 
     onCheckChange: function (column, rowIndex, checked, eOpts) {
-        var record, attributes;
+        var record, attributes = {};
         record = this.getView().getStore().getAt(rowIndex);
-        attributes = {};
         if (record.get('attributes.web')) {
             attributes.web = 'true';
         }
