@@ -51,24 +51,14 @@ Ext.define('Traccar.view.Notifications', {
             dataIndex: 'attributes.web',
             xtype: 'checkcolumn',
             listeners: {
-                beforeCheckChange: 'onBeforeCheckChange',
                 checkChange: 'onCheckChange'
-            },
-            renderer: function (value, metaData, record) {
-                var fields = this.dataIndex.split('\.', 2);
-                return (new Ext.ux.CheckColumn()).renderer(record.get(fields[0])[fields[1]], metaData);
             }
         }, {
             text: Strings.notificationMail,
             dataIndex: 'attributes.mail',
             xtype: 'checkcolumn',
             listeners: {
-                beforeCheckChange: 'onBeforeCheckChange',
                 checkChange: 'onCheckChange'
-            },
-            renderer: function (value, metaData, record) {
-                var fields = this.dataIndex.split('\.', 2);
-                return (new Ext.ux.CheckColumn()).renderer(record.get(fields[0])[fields[1]], metaData);
             }
         }]
     }
