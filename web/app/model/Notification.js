@@ -30,5 +30,13 @@ Ext.define('Traccar.model.Notification', {
         type: 'int'
     }, {
         name: 'attributes'
+    }, {
+        name: 'attributes.web',
+        type: 'bool',
+        mapping: 'attributes.web'
+    }, {
+        name: 'attributes.mail',
+        type: 'bool',
+        mapping: 'attributes.mail'
     }]
 });
