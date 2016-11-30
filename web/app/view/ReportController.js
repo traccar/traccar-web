@@ -195,20 +195,20 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     loadEvents: function (store, data) {
-        var i, eventObject, positionIds = {};
+        var i, eventObject, positionIds = [];
         Ext.getStore('ReportRoute').removeAll();
         if (data.length > 0) {
             for (i = 0; i < data.length; i++) {
                 eventObject = data[i];
                 if (eventObject.get('positionId')) {
-                    positionIds[eventObject.get('positionId')] = true;
+                    positionIds.push(eventObject.get('positionId'));
                 }
             }
         }
-        if (Object.keys(positionIds).length > 0) {
+        if (positionIds.length > 0) {
             Ext.getStore('Positions').load({
                 params: {
-                    positionId: Object.keys(positionIds)
+                    id: positionIds
                 },
                 callback: function (records, operation, success) {
                     if (success) {

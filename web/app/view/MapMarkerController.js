@@ -202,48 +202,44 @@ Ext.define('Traccar.view.MapMarkerController', {
 
         this.addReportMarkers(store, data);
 
-        if (data.length > 0) {
-            this.reportRoute = [];
-            for (i = 0; i < data.length; i++) {
-                position = data[i];
-                point = ol.proj.fromLonLat([
-                    position.get('longitude'),
-                    position.get('latitude')
-                ]);
-                if (i === 0 || data[i].get('deviceId') !== data[i - 1].get('deviceId')) {
-                    this.reportRoute.push(new ol.Feature({
-                        geometry: new ol.geom.LineString([])
-                    }));
-                    this.reportRoute[this.reportRoute.length - 1].setStyle(this.getRouteStyle(data[i].get('deviceId')));
-                    this.getView().getRouteSource().addFeature(this.reportRoute[this.reportRoute.length - 1]);
-                }
-                this.reportRoute[this.reportRoute.length - 1].getGeometry().appendCoordinate(point);
+        this.reportRoute = [];
+        for (i = 0; i < data.length; i++) {
+            position = data[i];
+            point = ol.proj.fromLonLat([
+                position.get('longitude'),
+                position.get('latitude')
+            ]);
+            if (i === 0 || data[i].get('deviceId') !== data[i - 1].get('deviceId')) {
+                this.reportRoute.push(new ol.Feature({
+                    geometry: new ol.geom.LineString([])
+                }));
+                this.reportRoute[this.reportRoute.length - 1].setStyle(this.getRouteStyle(data[i].get('deviceId')));
+                this.getView().getRouteSource().addFeature(this.reportRoute[this.reportRoute.length - 1]);
             }
-
-            this.getView().getMapView().fit(this.reportRoute[0].getGeometry(), this.getView().getMap().getSize());
+            this.reportRoute[this.reportRoute.length - 1].getGeometry().appendCoordinate(point);
         }
+
+        this.getView().getMapView().fit(this.reportRoute[0].getGeometry(), this.getView().getMap().getSize());
     },
 
     addReportMarkers: function (store, data) {
         var i, position, point, geometry, marker, style;
         this.clearReport();
-        if (data.length > 0) {
-            for (i = 0; i < data.length; i++) {
-                position = data[i];
-                point = ol.proj.fromLonLat([
-                    position.get('longitude'),
-                    position.get('latitude')
-                ]);
-                geometry = new ol.geom.Point(point);
-                marker = new ol.Feature(geometry);
-                marker.set('record', position);
-                style = this.getReportMarker(position.get('deviceId'), position.get('course'));
-                /*style.getText().setText(
-                    Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
-                marker.setStyle(style);
-                this.reportMarkers[position.get('id')] = marker;
-                this.getView().getReportSource().addFeature(marker);
-            }
+        for (i = 0; i < data.length; i++) {
+            position = data[i];
+            point = ol.proj.fromLonLat([
+                position.get('longitude'),
+                position.get('latitude')
+            ]);
+            geometry = new ol.geom.Point(point);
+            marker = new ol.Feature(geometry);
+            marker.set('record', position);
+            style = this.getReportMarker(position.get('deviceId'), position.get('course'));
+            /*style.getText().setText(
+                Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
+            marker.setStyle(style);
+            this.reportMarkers[position.get('id')] = marker;
+            this.getView().getReportSource().addFeature(marker);
         }
     },
 
