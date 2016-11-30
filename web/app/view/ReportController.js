@@ -37,6 +37,11 @@ Ext.define('Traccar.view.ReportController', {
                 'map': {
                     selectreport: 'selectReport'
                 }
+            },
+            store: {
+                '#ReportEvents': {
+                    load: 'loadEvents'
+                }
             }
         }
     },
@@ -126,7 +131,7 @@ Ext.define('Traccar.view.ReportController', {
 
     clearReport: function (reportType) {
         this.getView().getStore().removeAll();
-        if (reportType === 'trips') {
+        if (reportType === 'trips' || reportType === 'events') {
             Ext.getStore('ReportRoute').removeAll();
         }
     },
@@ -139,6 +144,9 @@ Ext.define('Traccar.view.ReportController', {
             if (report instanceof Traccar.model.ReportTrip) {
                 this.selectTrip(report);
             }
+            if (report instanceof Traccar.model.Event) {
+                this.selectEvent(report);
+            }
         }
     },
 
@@ -149,10 +157,16 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     selectReport: function (object, center) {
-        var reportType = this.lookupReference('reportTypeField').getValue();
-        if (object instanceof Traccar.model.Position && reportType === 'route') {
-            this.getView().getSelectionModel().select([object], false, true);
-            this.getView().getView().focusRow(object);
+        var positionEvent, reportType = this.lookupReference('reportTypeField').getValue();
+        if (object instanceof Traccar.model.Position) {
+            if (reportType === 'route') {
+                this.getView().getSelectionModel().select([object], false, true);
+                this.getView().getView().focusRow(object);
+            } else if (reportType === 'events') {
+                positionEvent = this.getView().getStore().findRecord('positionId', object.get('id'), 0, false, true, true);
+                this.getView().getSelectionModel().select([positionEvent], false, true);
+                this.getView().getView().focusRow(positionEvent);
+            }
         }
     },
 
@@ -168,6 +182,39 @@ Ext.define('Traccar.view.ReportController', {
                 to: to.toISOString()
             }
         });
+    },
+
+    selectEvent: function (event) {
+        var position;
+        if (event.get('positionId')) {
+            position = Ext.getStore('ReportRoute').getById(event.get('positionId'));
+            if (position) {
+                this.fireEvent('selectreport', position, true);
+            }
+        }
+    },
+
+    loadEvents: function (store, data) {
+        var i, eventObject, positionIds = [];
+        Ext.getStore('ReportRoute').removeAll();
+        for (i = 0; i < data.length; i++) {
+            eventObject = data[i];
+            if (eventObject.get('positionId')) {
+                positionIds.push(eventObject.get('positionId'));
+            }
+        }
+        if (positionIds.length > 0) {
+            Ext.getStore('Positions').load({
+                params: {
+                    id: positionIds
+                },
+                callback: function (records, operation, success) {
+                    if (success) {
+                        Ext.getStore('ReportRoute').add(records);
+                    }
+                }
+            });
+        }
     },
 
     downloadFile: function (requestUrl, requestParams) {
