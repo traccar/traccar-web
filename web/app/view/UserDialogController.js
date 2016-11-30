@@ -42,6 +42,16 @@ Ext.define('Traccar.view.UserDialogController', {
         this.lookupReference('tokenField').setValue(newToken);
     },
 
+    testMail: function () {
+        Ext.Ajax.request({
+            url: 'api/users/notifications/test',
+            method: 'POST',
+            failure: function (response) {
+                Traccar.app.showError(response);
+            }
+        });
+    },
+
     onSaveClick: function (button) {
         var dialog, record, store;
         dialog = button.up('window').down('form');

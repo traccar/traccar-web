@@ -155,6 +155,14 @@ Ext.define('Traccar.view.UserDialog', {
         tooltip: Strings.sharedGetMapState,
         tooltipType: 'title'
     }, {
+        glyph: 'xf003@FontAwesome',
+        minWidth: 0,
+        handler: 'testMail',
+        hidden: true,
+        reference: 'testMailButton',
+        tooltip: Strings.sharedTestMail,
+        tooltipType: 'title'
+    }, {
         xtype: 'tbfill'
     }, {
         glyph: 'xf00c@FontAwesome',
