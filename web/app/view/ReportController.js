@@ -197,12 +197,10 @@ Ext.define('Traccar.view.ReportController', {
     loadEvents: function (store, data) {
         var i, eventObject, positionIds = [];
         Ext.getStore('ReportRoute').removeAll();
-        if (data.length > 0) {
-            for (i = 0; i < data.length; i++) {
-                eventObject = data[i];
-                if (eventObject.get('positionId')) {
-                    positionIds.push(eventObject.get('positionId'));
-                }
+        for (i = 0; i < data.length; i++) {
+            eventObject = data[i];
+            if (eventObject.get('positionId')) {
+                positionIds.push(eventObject.get('positionId'));
             }
         }
         if (positionIds.length > 0) {
