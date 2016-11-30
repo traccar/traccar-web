@@ -45,6 +45,7 @@ Ext.define('Traccar.view.MapMarkerController', {
                     update: 'updateLatest'
                 },
                 '#ReportRoute': {
+                    add: 'addReportMarkers',
                     load: 'loadReport',
                     clear: 'clearReport'
                 }
@@ -197,13 +198,18 @@ Ext.define('Traccar.view.MapMarkerController', {
     },
 
     loadReport: function (store, data) {
-        var i, position, point, geometry, marker, style;
+        var i, position, point;
 
-        this.clearReport(store);
+        this.addReportMarkers(store, data);
 
         if (data.length > 0) {
             this.reportRoute = [];
             for (i = 0; i < data.length; i++) {
+                position = data[i];
+                point = ol.proj.fromLonLat([
+                    position.get('longitude'),
+                    position.get('latitude')
+                ]);
                 if (i === 0 || data[i].get('deviceId') !== data[i - 1].get('deviceId')) {
                     this.reportRoute.push(new ol.Feature({
                         geometry: new ol.geom.LineString([])
@@ -211,25 +217,6 @@ Ext.define('Traccar.view.MapMarkerController', {
                     this.reportRoute[this.reportRoute.length - 1].setStyle(this.getRouteStyle(data[i].get('deviceId')));
                     this.getView().getRouteSource().addFeature(this.reportRoute[this.reportRoute.length - 1]);
                 }
-                position = data[i];
-
-                point = ol.proj.fromLonLat([
-                    position.get('longitude'),
-                    position.get('latitude')
-                ]);
-                geometry = new ol.geom.Point(point);
-
-                marker = new ol.Feature(geometry);
-                marker.set('record', position);
-                this.reportMarkers[position.get('id')] = marker;
-                this.getView().getReportSource().addFeature(marker);
-
-                style = this.getReportMarker(position.get('deviceId'), position.get('course'));
-                /*style.getText().setText(
-                    Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
-
-                marker.setStyle(style);
-
                 this.reportRoute[this.reportRoute.length - 1].getGeometry().appendCoordinate(point);
             }
 
@@ -237,7 +224,30 @@ Ext.define('Traccar.view.MapMarkerController', {
         }
     },
 
-    clearReport: function (store) {
+    addReportMarkers: function (store, data) {
+        var i, position, point, geometry, marker, style;
+        this.clearReport();
+        if (data.length > 0) {
+            for (i = 0; i < data.length; i++) {
+                position = data[i];
+                point = ol.proj.fromLonLat([
+                    position.get('longitude'),
+                    position.get('latitude')
+                ]);
+                geometry = new ol.geom.Point(point);
+                marker = new ol.Feature(geometry);
+                marker.set('record', position);
+                style = this.getReportMarker(position.get('deviceId'), position.get('course'));
+                /*style.getText().setText(
+                    Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
+                marker.setStyle(style);
+                this.reportMarkers[position.get('id')] = marker;
+                this.getView().getReportSource().addFeature(marker);
+            }
+        }
+    },
+
+    clearReport: function () {
         var key, i;
 
         if (this.reportRoute) {
