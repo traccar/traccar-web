@@ -53,6 +53,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onUserClick: function () {
         var dialog = Ext.create('Traccar.view.UserDialog');
         dialog.down('form').loadRecord(Traccar.app.getUser());
+        dialog.lookupReference('testMailButton').setHidden(false);
         dialog.show();
     },
 
