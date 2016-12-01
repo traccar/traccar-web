@@ -225,7 +225,7 @@ Ext.define('Traccar.view.MapMarkerController', {
     },
 
     addReportMarkers: function (store, data) {
-        var i, position, point, geometry, marker, style;
+        var i, position, point, geometry, marker, style, minx, miny, maxx, maxy;
         this.clearReport();
         for (i = 0; i < data.length; i++) {
             position = data[i];
@@ -233,6 +233,10 @@ Ext.define('Traccar.view.MapMarkerController', {
                 position.get('longitude'),
                 position.get('latitude')
             ]);
+            minx = minx ? Math.min(point[0], minx) : point[0];
+            miny = miny ? Math.min(point[1], miny) : point[1];
+            maxx = maxx ? Math.max(point[0], maxx) : point[0];
+            maxy = maxy ? Math.max(point[1], maxy) : point[1];
             geometry = new ol.geom.Point(point);
             marker = new ol.Feature(geometry);
             marker.set('record', position);
@@ -242,6 +246,15 @@ Ext.define('Traccar.view.MapMarkerController', {
             marker.setStyle(style);
             this.reportMarkers[position.get('id')] = marker;
             this.getView().getReportSource().addFeature(marker);
+        }
+        if (minx !== maxx || miny !== maxy) {
+            this.getView().getMapView().fit([minx, miny, maxx, maxy], this.getView().getMap().getSize());
+        } else if (geometry) {
+            this.getView().getMapView().fit(geometry, this.getView().getMap().getSize());
+        }
+        if (Traccar.app.hasEventId) {
+            this.fireEvent('selectreport', data[0], false);
+            Traccar.app.hasEventId = false;
         }
     },
 
