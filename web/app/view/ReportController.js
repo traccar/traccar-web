@@ -214,7 +214,7 @@ Ext.define('Traccar.view.ReportController', {
                 callback: function (records, operation, success) {
                     if (success) {
                         Ext.getStore('ReportRoute').add(records);
-                        if (this.singleEvent) {
+                        if (this.singleEvent && records.length > 0) {
                             this.singleEvent = false;
                             this.fireEvent('selectreport', records[0], false);
                         }
