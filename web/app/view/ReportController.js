@@ -210,9 +210,14 @@ Ext.define('Traccar.view.ReportController', {
                 params: {
                     id: positionIds
                 },
+                scope: this,
                 callback: function (records, operation, success) {
                     if (success) {
                         Ext.getStore('ReportRoute').add(records);
+                        if (this.singleEvent) {
+                            this.singleEvent = false;
+                            this.fireEvent('selectreport', records[0], false);
+                        }
                     }
                 }
             });
@@ -220,6 +225,7 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     showSingleEvent: function (eventId) {
+        this.singleEvent = true;
         this.lookupReference('reportTypeField').setValue('events');
         Ext.getStore('Events').load({
             id: eventId,
