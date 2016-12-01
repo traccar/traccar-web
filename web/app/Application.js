@@ -141,13 +141,5 @@ Ext.define('Traccar.Application', {
         } else {
             Ext.Msg.alert(Strings.errorTitle, Strings.errorConnection);
         }
-    },
-
-    removeUrlParameter: function (param) {
-        var params = Ext.Object.fromQueryString(window.location.search);
-        delete params[param];
-        window.history.pushState(null, null, window.location.pathname + '?' + Ext.Object.toQueryString(params));
-    },
-
-    hasEventId: false
+    }
 });

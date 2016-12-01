@@ -31,7 +31,8 @@ Ext.define('Traccar.view.MapMarkerController', {
             controller: {
                 '*': {
                     selectdevice: 'selectDevice',
-                    selectreport: 'selectReport'
+                    selectreport: 'selectReport',
+                    showsingleevent: 'showSingleEvent'
                 }
             },
             store: {
@@ -63,6 +64,10 @@ Ext.define('Traccar.view.MapMarkerController', {
         this.reportMarkers = {};
         this.liveRoutes = {};
         this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
+    },
+
+    showSingleEvent: function () {
+        this.singleEvent = true;
     },
 
     getDeviceColor: function (device) {
@@ -248,9 +253,9 @@ Ext.define('Traccar.view.MapMarkerController', {
         } else if (geometry) {
             this.getView().getMapView().fit(geometry, this.getView().getMap().getSize());
         }
-        if (Traccar.app.hasEventId) {
+        if (this.singleEvent) {
+            this.singleEvent = false;
             this.fireEvent('selectreport', data[0], false);
-            Traccar.app.hasEventId = false;
         }
     },
 

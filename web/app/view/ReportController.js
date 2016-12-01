@@ -32,7 +32,8 @@ Ext.define('Traccar.view.ReportController', {
         listen: {
             controller: {
                 '*': {
-                    selectdevice: 'selectDevice'
+                    selectdevice: 'selectDevice',
+                    showsingleevent: 'showSingleEvent'
                 },
                 'map': {
                     selectreport: 'selectReport'
@@ -44,25 +45,6 @@ Ext.define('Traccar.view.ReportController', {
                     load: 'loadEvents'
                 }
             }
-        }
-    },
-
-    init: function () {
-        var eventId = Ext.Object.fromQueryString(window.location.search).eventId;
-        if (eventId) {
-            this.lookupReference('reportTypeField').setValue('events');
-            Ext.getStore('Events').load({
-                params: {
-                    id: eventId
-                },
-                callback: function (records, operation, success) {
-                    if (success) {
-                        Ext.getStore('ReportEvents').add(records);
-                    }
-                }
-            });
-            Traccar.app.hasEventId = true;
-            Traccar.app.removeUrlParameter('eventId');
         }
     },
 
@@ -234,16 +216,31 @@ Ext.define('Traccar.view.ReportController', {
                     }
                 }
             });
-        } else if (Traccar.app.hasEventId && data.length > 0) {
-            this.getView().getSelectionModel().select([data[0]], false, true);
-            this.getView().getView().focusRow(data[0]);
-            if (Traccar.app.isMobile()) {
-                Traccar.app.showReports(true);
-            } else {
-                this.getView().expand();
-            }
-            Traccar.app.hasEventId = false;
         }
+    },
+
+    showSingleEvent: function (eventId) {
+        this.lookupReference('reportTypeField').setValue('events');
+        Ext.getStore('Events').load({
+            id: eventId,
+            scope: this,
+            callback: function (records, operation, success) {
+                if (success) {
+                    Ext.getStore('ReportEvents').add(records);
+                    if (records.length > 0) {
+                        if (!records[0].get('positionId')) {
+                            if (Traccar.app.isMobile()) {
+                                Traccar.app.showReports(true);
+                            } else {
+                                this.getView().expand();
+                            }
+                        }
+                        this.getView().getSelectionModel().select([records[0]], false, true);
+                        this.getView().getView().focusRow(records[0]);
+                    }
+                }
+            }
+        });
     },
 
     downloadFile: function (requestUrl, requestParams) {
