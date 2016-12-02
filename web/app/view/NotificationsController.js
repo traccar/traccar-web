@@ -24,42 +24,19 @@ Ext.define('Traccar.view.NotificationsController', {
     ],
 
     init: function () {
-        this.userId = this.getView().user.getId();
         this.getView().getStore().load({
-            scope: this,
-            callback: function (records, operation, success) {
-                Ext.create('Traccar.store.Notifications').load({
-                    params: {
-                        userId: this.userId
-                    },
-                    scope: this,
-                    callback: function (records, operation, success) {
-                        if (success) {
-                            this.getView().getStore().loadData(records);
-                        }
-                    }
-                });
+            params: {
+                userId: this.getView().user.getId()
             }
         });
     },
 
     onCheckChange: function (column, rowIndex, checked, eOpts) {
-        var record, attributes = {};
-        record = this.getView().getStore().getAt(rowIndex);
-        if (record.get('attributes.web')) {
-            attributes.web = 'true';
-        }
-        if (record.get('attributes.mail')) {
-            attributes.mail = 'true';
-        }
+        var record = this.getView().getStore().getAt(rowIndex);
         Ext.Ajax.request({
             scope: this,
             url: 'api/users/notifications',
-            jsonData: {
-                userId: this.userId,
-                type: record.get('type'),
-                attributes: attributes
-            },
+            jsonData: record.data,
             callback: function (options, success, response) {
                 if (!success) {
                     Traccar.app.showError(response);
