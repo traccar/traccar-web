@@ -97,7 +97,7 @@ Ext.define('Traccar.controller.Root', {
         eventId = Ext.Object.fromQueryString(window.location.search).eventId;
         if (eventId) {
             this.fireEvent('showsingleevent', eventId);
-            //this.removeUrlParameter('eventId');
+            this.removeUrlParameter('eventId');
         }
     },
 

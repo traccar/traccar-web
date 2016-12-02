@@ -229,10 +229,15 @@ Ext.define('Traccar.view.MapMarkerController', {
                 position.get('longitude'),
                 position.get('latitude')
             ]);
-            minx = minx ? Math.min(point[0], minx) : point[0];
-            miny = miny ? Math.min(point[1], miny) : point[1];
-            maxx = maxx ? Math.max(point[0], maxx) : point[0];
-            maxy = maxy ? Math.max(point[1], maxy) : point[1];
+            if (i === 0) {
+                minx = maxx = point[0];
+                miny = maxy = point[1];
+            } else {
+                minx = Math.min(point[0], minx);
+                miny = Math.min(point[1], miny);
+                maxx = Math.max(point[0], maxx);
+                maxy = Math.max(point[1], maxy);
+            }
             geometry = new ol.geom.Point(point);
             marker = new ol.Feature(geometry);
             marker.set('record', position);
