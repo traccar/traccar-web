@@ -32,7 +32,8 @@ Ext.define('Traccar.view.ReportController', {
         listen: {
             controller: {
                 '*': {
-                    selectdevice: 'selectDevice'
+                    selectdevice: 'selectDevice',
+                    showsingleevent: 'showSingleEvent'
                 },
                 'map': {
                     selectreport: 'selectReport'
@@ -40,6 +41,7 @@ Ext.define('Traccar.view.ReportController', {
             },
             store: {
                 '#ReportEvents': {
+                    add: 'loadEvents',
                     load: 'loadEvents'
                 }
             }
@@ -208,13 +210,41 @@ Ext.define('Traccar.view.ReportController', {
                 params: {
                     id: positionIds
                 },
+                scope: this,
                 callback: function (records, operation, success) {
                     if (success) {
                         Ext.getStore('ReportRoute').add(records);
+                        if (records.length === 1) {
+                            this.fireEvent('selectreport', records[0], false);
+                        }
                     }
                 }
             });
         }
+    },
+
+    showSingleEvent: function (eventId) {
+        this.lookupReference('reportTypeField').setValue('events');
+        Ext.getStore('Events').load({
+            id: eventId,
+            scope: this,
+            callback: function (records, operation, success) {
+                if (success) {
+                    Ext.getStore('ReportEvents').add(records);
+                    if (records.length > 0) {
+                        if (!records[0].get('positionId')) {
+                            if (Traccar.app.isMobile()) {
+                                Traccar.app.showReports(true);
+                            } else {
+                                this.getView().expand();
+                            }
+                        }
+                        this.getView().getSelectionModel().select([records[0]], false, true);
+                        this.getView().getView().focusRow(records[0]);
+                    }
+                }
+            }
+        });
     },
 
     downloadFile: function (requestUrl, requestParams) {

@@ -75,7 +75,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     loadApp: function () {
-        var attribution;
+        var attribution, eventId;
         Ext.getStore('Groups').load();
         Ext.getStore('Geofences').load();
         Ext.getStore('AttributeAliases').load();
@@ -94,6 +94,11 @@ Ext.define('Traccar.controller.Root', {
         } else {
             Ext.create('widget.main');
         }
+        eventId = Ext.Object.fromQueryString(window.location.search).eventId;
+        if (eventId) {
+            this.fireEvent('showsingleevent', eventId);
+            this.removeUrlParameter('eventId');
+        }
     },
 
     beep: function () {
@@ -106,6 +111,12 @@ Ext.define('Traccar.controller.Root', {
     mutePressed: function () {
         var muteButton = Ext.getCmp('muteButton');
         return muteButton && !muteButton.pressed;
+    },
+
+    removeUrlParameter: function (param) {
+        var params = Ext.Object.fromQueryString(window.location.search);
+        delete params[param];
+        window.history.pushState(null, null, window.location.pathname + '?' + Ext.Object.toQueryString(params));
     },
 
     asyncUpdate: function (first) {
