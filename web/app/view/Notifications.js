@@ -24,7 +24,7 @@ Ext.define('Traccar.view.Notifications', {
     ],
 
     controller: 'notificationsController',
-    store: 'AllNotifications',
+    store: 'Notifications',
 
     selModel: {
         selType: 'cellmodel'
@@ -48,14 +48,14 @@ Ext.define('Traccar.view.Notifications', {
             }
         }, {
             text: Strings.notificationWeb,
-            dataIndex: 'attributes.web',
+            dataIndex: 'web',
             xtype: 'checkcolumn',
             listeners: {
                 checkChange: 'onCheckChange'
             }
         }, {
             text: Strings.notificationMail,
-            dataIndex: 'attributes.mail',
+            dataIndex: 'mail',
             xtype: 'checkcolumn',
             listeners: {
                 checkChange: 'onCheckChange'

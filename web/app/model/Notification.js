@@ -17,7 +17,7 @@
 
 Ext.define('Traccar.model.Notification', {
     extend: 'Ext.data.Model',
-    identifier: 'negative',
+    idProperty: 'type',
 
     fields: [{
         name: 'id',
@@ -31,12 +31,10 @@ Ext.define('Traccar.model.Notification', {
     }, {
         name: 'attributes'
     }, {
-        name: 'attributes.web',
-        type: 'bool',
-        mapping: 'attributes.web'
+        name: 'web',
+        type: 'bool'
     }, {
-        name: 'attributes.mail',
-        type: 'bool',
-        mapping: 'attributes.mail'
+        name: 'mail',
+        type: 'bool'
     }]
 });
