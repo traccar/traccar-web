@@ -116,7 +116,11 @@ Ext.define('Traccar.controller.Root', {
     removeUrlParameter: function (param) {
         var params = Ext.Object.fromQueryString(window.location.search);
         delete params[param];
-        window.history.pushState(null, null, window.location.pathname + '?' + Ext.Object.toQueryString(params));
+        if (Ext.Object.isEmpty(params)) {
+            window.history.pushState(null, null, window.location.pathname);
+        } else {
+            window.history.pushState(null, null, window.location.pathname + '?' + Ext.Object.toQueryString(params));
+        }
     },
 
     asyncUpdate: function (first) {
