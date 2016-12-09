@@ -109,7 +109,7 @@
 
     });
 
-    extjsVersion = '6.0.1';
+    extjsVersion = '6.2.0';
     fontAwesomeVersion = '4.7.0';
     olVersion = '3.19.1';
 
