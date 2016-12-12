@@ -29,11 +29,15 @@ Ext.define('Traccar.view.ServerDialog', {
         xtype: 'form',
         items: [{
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'registration',
             fieldLabel: Strings.serverRegistration,
             allowBlank: false
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'readonly',
             fieldLabel: Strings.serverReadonly,
             allowBlank: false
@@ -88,11 +92,15 @@ Ext.define('Traccar.view.ServerDialog', {
             fieldLabel: Strings.serverZoom
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'twelveHourFormat',
             fieldLabel: Strings.settingsTwelveHourFormat,
             allowBlank: false
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'forceSettings',
             fieldLabel: Strings.serverForceSettings,
             allowBlank: false

@@ -44,6 +44,8 @@ Ext.define('Traccar.view.UserDialog', {
             allowBlank: false
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'readonly',
             fieldLabel: Strings.serverReadonly,
             allowBlank: false,
@@ -51,6 +53,8 @@ Ext.define('Traccar.view.UserDialog', {
             reference: 'readonlyField'
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'admin',
             fieldLabel: Strings.userAdmin,
             allowBlank: false,
@@ -99,6 +103,8 @@ Ext.define('Traccar.view.UserDialog', {
             fieldLabel: Strings.serverZoom
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'twelveHourFormat',
             fieldLabel: Strings.settingsTwelveHourFormat,
             allowBlank: false
@@ -112,6 +118,8 @@ Ext.define('Traccar.view.UserDialog', {
             editable: false
         }, {
             xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
             name: 'disabled',
             fieldLabel: Strings.userDisabled,
             hidden: true,
