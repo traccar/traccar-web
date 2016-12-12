@@ -212,7 +212,7 @@ Ext.define('Traccar.controller.Root', {
                         if (self.mutePressed()) {
                             self.beep();
                         }
-                        Ext.toast(text, device.get('name'));
+                        Ext.toast(text, device.get('name'), 'br');
                     }
                 }
             }
