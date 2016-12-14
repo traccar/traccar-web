@@ -1,5 +1,6 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,6 +59,13 @@ Ext.define('Traccar.view.Users', {
             reference: 'userNotificationsButton',
             glyph: 'xf003@FontAwesome',
             tooltip: Strings.sharedNotifications,
+            tooltipType: 'title'
+        }, {
+            disabled: true,
+            handler: 'onCalendarsClick',
+            reference: 'userCalendarsButton',
+            glyph: 'xf073@FontAwesome',
+            tooltip: Strings.sharedCalendars,
             tooltipType: 'title'
         }]
     },

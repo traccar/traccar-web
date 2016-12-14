@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.Geofence', {
+Ext.define('Traccar.model.Calendar', {
     extend: 'Ext.data.Model',
     identifier: 'negative',
 
@@ -26,14 +27,7 @@ Ext.define('Traccar.model.Geofence', {
         name: 'name',
         type: 'string'
     }, {
-        name: 'description',
-        type: 'string'
-    }, {
-        name: 'area',
-        type: 'string'
-    }, {
-        name: 'calendarId',
-        type: 'int'
+        name: 'calendarData'
     }, {
         name: 'attributes'
     }]

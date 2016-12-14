@@ -37,7 +37,8 @@ Ext.define('Traccar.Application', {
         'Notification',
         'AttributeAlias',
         'ReportSummary',
-        'ReportTrip'
+        'ReportTrip',
+        'Calendar'
     ],
 
     stores: [
@@ -70,7 +71,9 @@ Ext.define('Traccar.Application', {
         'ReportTypes',
         'ReportEventTypes',
         'Statistics',
-        'DeviceImages'
+        'DeviceImages',
+        'Calendars',
+        'AllCalendars'
     ],
 
     controllers: [

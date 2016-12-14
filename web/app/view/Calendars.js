@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +16,37 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.Geofence', {
-    extend: 'Ext.data.Model',
-    identifier: 'negative',
+Ext.define('Traccar.view.Calendars', {
+    extend: 'Ext.grid.Panel',
+    xtype: 'calendarsView',
 
-    fields: [{
-        name: 'id',
-        type: 'int'
-    }, {
-        name: 'name',
-        type: 'string'
-    }, {
-        name: 'description',
-        type: 'string'
-    }, {
-        name: 'area',
-        type: 'string'
-    }, {
-        name: 'calendarId',
-        type: 'int'
-    }, {
-        name: 'attributes'
-    }]
+    requires: [
+        'Traccar.view.CalendarsController',
+        'Traccar.view.EditToolbar'
+    ],
+
+    controller: 'calendars',
+    store: 'Calendars',
+
+    selType: 'rowmodel',
+
+    tbar: {
+        xtype: 'editToolbar'
+    },
+
+    listeners: {
+        selectionchange: 'onSelectionChange'
+    },
+
+    forceFit: true,
+
+    columns: {
+        defaults: {
+            minWidth: Traccar.Style.columnWidthNormal
+        },
+        items: [{
+            text: Strings.sharedName,
+            dataIndex: 'name'
+        }]
+    }
 });

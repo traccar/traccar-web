@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,41 +16,40 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.GeofencesController', {
+Ext.define('Traccar.view.CalendarsController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.geofences',
+    alias: 'controller.calendars',
 
     requires: [
-        'Traccar.view.GeofenceDialog',
-        'Traccar.model.Geofence'
+        'Traccar.view.CalendarDialog',
+        'Traccar.model.Calendar'
     ],
 
     init: function () {
-        Ext.getStore('Geofences').load();
         Ext.getStore('Calendars').load();
     },
 
     onAddClick: function () {
-        var geofence, dialog;
-        geofence = Ext.create('Traccar.model.Geofence');
-        geofence.store = this.getView().getStore();
-        dialog = Ext.create('Traccar.view.GeofenceDialog');
-        dialog.down('form').loadRecord(geofence);
+        var calendar, dialog;
+        calendar = Ext.create('Traccar.model.Calendar');
+        calendar.store = this.getView().getStore();
+        dialog = Ext.create('Traccar.view.CalendarDialog');
+        dialog.down('form').loadRecord(calendar);
         dialog.show();
     },
 
     onEditClick: function () {
-        var geofence, dialog;
-        geofence = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.GeofenceDialog');
-        dialog.down('form').loadRecord(geofence);
+        var calendar, dialog;
+        calendar = this.getView().getSelectionModel().getSelection()[0];
+        dialog = Ext.create('Traccar.view.CalendarDialog');
+        dialog.down('form').loadRecord(calendar);
         dialog.show();
     },
 
     onRemoveClick: function () {
-        var geofence = this.getView().getSelectionModel().getSelection()[0];
+        var calendar = this.getView().getSelectionModel().getSelection()[0];
         Ext.Msg.show({
-            title: Strings.sharedGeofence,
+            title: Strings.sharedCalendar,
             message: Strings.sharedRemoveConfirm,
             buttons: Ext.Msg.YESNO,
             buttonText: {
@@ -57,9 +57,9 @@ Ext.define('Traccar.view.GeofencesController', {
                 no: Strings.sharedCancel
             },
             fn: function (btn) {
-                var store = Ext.getStore('Geofences');
+                var store = Ext.getStore('Calendars');
                 if (btn === 'yes') {
-                    store.remove(geofence);
+                    store.remove(calendar);
                     store.sync();
                 }
             }
