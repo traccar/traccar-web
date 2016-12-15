@@ -43,6 +43,8 @@
     "sharedTestMail": "Send Test Email",
     "sharedCalendar": "Calendar",
     "sharedCalendars": "Calendars",
+    "sharedFile": "File",
+    "sharedSelectFile": "Select File",
     "errorTitle": "Error",
     "errorUnknown": "Unknown error",
     "errorConnection": "Connection error",
@@ -207,7 +209,5 @@
     "categoryPlane": "Plane",
     "categoryMotorcycle": "Motorcycle",
     "categoryBicycle": "Bicycle",
-    "categoryPerson": "Person",
-    "calendarFile": "Calendar File",
-    "calendarSelect": "Select Calendar File"
+    "categoryPerson": "Person"
 }

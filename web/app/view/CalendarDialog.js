@@ -36,12 +36,12 @@ Ext.define('Traccar.view.CalendarDialog', {
         }, {
             xtype: 'filefield',
             name: 'file',
-            fieldLabel: Strings.calendarFile,
+            fieldLabel: Strings.sharedFile,
             allowBlank: false,
             buttonConfig: {
                 glyph: 'xf093@FontAwesome',
                 text: '',
-                tooltip: Strings.calendarSelect,
+                tooltip: Strings.sharedSelectFile,
                 tooltipType: 'title',
                 minWidth: 0
             },
