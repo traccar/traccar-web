@@ -40,7 +40,7 @@ Ext.define('Traccar.view.CalendarDialog', {
             allowBlank: false,
             buttonConfig: {
                 glyph: 'xf093@FontAwesome',
-                text: "",
+                text: '',
                 tooltip: Strings.calendarSelect,
                 tooltipType: 'title',
                 minWidth: 0
