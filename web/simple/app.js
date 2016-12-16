@@ -51,17 +51,18 @@ var map = new ol.Map({
 });
 
 var ajax = function (method, url, callback) {
-    var x = new XMLHttpRequest();
-    x.open(method, url, true);
-    x.onreadystatechange = function () {
-        if (x.readyState == 4) {
-            callback(JSON.parse(x.responseText));
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.open(method, url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            callback(JSON.parse(xhr.responseText));
         }
     };
     if (method == 'POST') {
-        x.setRequestHeader('Content-type', 'application/json');
+        xhr.setRequestHeader('Content-type', 'application/json');
     }
-    x.send()
+    xhr.send()
 };
 
 ajax('GET', url + '/api/session?token=' + token, function(user) {
