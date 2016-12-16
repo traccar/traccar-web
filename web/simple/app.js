@@ -17,10 +17,30 @@
 var url = 'http://localhost:8082';
 var token = 'TOKEN';
 
+var style = new ol.style.Style({
+    image: new ol.style.Circle({
+        fill: new ol.style.Fill({
+            color: 'teal'
+        }),
+        stroke: new ol.style.Stroke({
+            color: 'navy',
+            width: 2
+        }),
+        radius: 7
+    })
+});
+
+var source = new ol.source.Vector();
+
+var markers = {};
+
 var map = new ol.Map({
     layers: [
         new ol.layer.Tile({
             source: new ol.source.OSM()
+        }),
+        new ol.layer.Vector({
+            source: source
         })
     ],
     target: 'map',
@@ -55,8 +75,21 @@ ajax('GET', url + '/api/session?token=' + token, function(user) {
 
         socket.onmessage = function (event) {
             var data = JSON.parse(event.data);
-
-            console.log(data);
+            if (data.positions) {
+                for (i = 0; i < data.positions.length; i++) {
+                    var position = data.positions[i];
+                    var marker = markers[position.deviceId];
+                    var point = new ol.geom.Point(ol.proj.fromLonLat([position.longitude, position.latitude]));
+                    if (!marker) {
+                        marker = new ol.Feature(point);
+                        marker.setStyle(style);
+                        markers[position.deviceId] = marker;
+                        source.addFeature(marker);
+                    } else {
+                        marker.setGeometry(point);
+                    }
+                }
+            }
         };
 
     });
