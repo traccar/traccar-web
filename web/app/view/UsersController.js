@@ -1,5 +1,6 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@ Ext.define('Traccar.view.UsersController', {
         'Traccar.view.UserDevices',
         'Traccar.view.UserGroups',
         'Traccar.view.UserGeofences',
+        'Traccar.view.UserCalendars',
         'Traccar.view.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
@@ -129,6 +131,22 @@ Ext.define('Traccar.view.UsersController', {
         }).show();
     },
 
+    onCalendarsClick: function () {
+        var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedCalendars,
+            items: {
+                xtype: 'userCalendarsView',
+                baseObjectName: 'userId',
+                linkObjectName: 'calendarId',
+                storeName: 'AllCalendars',
+                linkStoreName: 'Calendars',
+                urlApi: 'api/permissions/calendars',
+                baseObject: user.getId()
+            }
+        }).show();
+    },
+
     onSelectionChange: function (selected) {
         var disabled = selected.length > 0;
         this.lookupReference('toolbarEditButton').setDisabled(disabled);
@@ -137,5 +155,6 @@ Ext.define('Traccar.view.UsersController', {
         this.lookupReference('userGroupsButton').setDisabled(disabled);
         this.lookupReference('userGeofencesButton').setDisabled(disabled);
         this.lookupReference('userNotificationsButton').setDisabled(disabled);
+        this.lookupReference('userCalendarsButton').setDisabled(disabled);
     }
 });

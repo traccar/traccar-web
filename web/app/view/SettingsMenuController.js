@@ -30,6 +30,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.AttributeAliases',
         'Traccar.view.Statistics',
         'Traccar.view.DeviceDistanceDialog',
+        'Traccar.view.Calendars',
         'Traccar.view.BaseWindow'
     ],
 
@@ -47,6 +48,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
+            this.lookupReference('settingsCalendarsButton').setHidden(false);
         }
     },
 
@@ -128,6 +130,16 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onDeviceDistanceClick: function () {
         var dialog = Ext.create('Traccar.view.DeviceDistanceDialog');
         dialog.show();
+    },
+
+    onCalendarsClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedCalendars,
+            modal: false,
+            items: {
+                xtype: 'calendarsView'
+            }
+        }).show();
     },
 
     onLogoutClick: function () {
