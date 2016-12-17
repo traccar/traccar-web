@@ -18,6 +18,8 @@
 Ext.define('Traccar.Style', {
     singleton: true,
 
+    reconnectTimeout: 60 * 1000,
+
     normalPadding: 10,
 
     windowWidth: 640,

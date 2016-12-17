@@ -48,6 +48,7 @@
     "errorTitle": "Error",
     "errorUnknown": "Unknown error",
     "errorConnection": "Connection error",
+    "errorSocket": "Web socket connection error",
     "userEmail": "Email",
     "userPassword": "Password",
     "userAdmin": "Admin",

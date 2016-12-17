@@ -130,7 +130,28 @@ Ext.define('Traccar.controller.Root', {
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
 
         socket.onclose = function (event) {
-            self.asyncUpdate(false);
+            Ext.toast(Strings.errorSocket, Strings.errorTitle, 'br');
+
+            Ext.Ajax.request({
+                url: 'api/devices',
+                success: function(response) {
+                    self.updateDevices(Ext.decode(response.responseText));
+                }
+            });
+
+            Ext.Ajax.request({
+                url: 'api/positions',
+                headers: {
+                    Accept: 'application/json'
+                },
+                success: function(response) {
+                    self.updatePositions(Ext.decode(response.responseText));
+                }
+            });
+
+            setTimeout(function() {
+                self.asyncUpdate(false);
+            }, Traccar.Style.reconnectTimeout);
         };
 
         socket.onmessage = function (event) {
