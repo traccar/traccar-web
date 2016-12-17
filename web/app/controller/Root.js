@@ -124,7 +124,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     asyncUpdate: function (first) {
-        var protocol, pathname, socket, self = this;
+        var self = this, protocol, pathname, socket;
         protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
@@ -134,67 +134,75 @@ Ext.define('Traccar.controller.Root', {
         };
 
         socket.onmessage = function (event) {
-            var i, store, data, array, entity, device, alarmKey, text, geofence;
-
-            data = Ext.decode(event.data);
+            var data = Ext.decode(event.data);
 
             if (data.devices) {
-                array = data.devices;
-                store = Ext.getStore('Devices');
-                for (i = 0; i < array.length; i++) {
-                    entity = store.getById(array[i].id);
-                    if (entity) {
-                        entity.set({
-                            status: array[i].status,
-                            lastUpdate: array[i].lastUpdate
-                        }, {
-                            dirty: false
-                        });
-                    }
-                }
+                self.updateDevices(data.devices);
             }
-
             if (data.positions) {
-                array = data.positions;
-                store = Ext.getStore('LatestPositions');
-                for (i = 0; i < array.length; i++) {
-                    entity = store.findRecord('deviceId', array[i].deviceId, 0, false, false, true);
-                    if (entity) {
-                        entity.set(array[i]);
-                    } else {
-                        store.add(Ext.create('Traccar.model.Position', array[i]));
-                    }
-                }
+                self.updatePositions(data.positions);
             }
-
             if (data.events) {
-                array = data.events;
-                store = Ext.getStore('Events');
-                for (i = 0; i < array.length; i++) {
-                    store.add(array[i]);
-                    if (array[i].type === 'commandResult') {
-                        text = Strings.eventCommandResult + ': ' + array[i].attributes.result;
-                    } else if (array[i].type === 'alarm') {
-                        alarmKey = 'alarm' + array[i].attributes.alarm.charAt(0).toUpperCase() + array[i].attributes.alarm.slice(1);
-                        text = Strings[alarmKey] || alarmKey;
-                    } else {
-                        text = Traccar.app.getEventString(array[i].type);
-                    }
-                    if (array[i].geofenceId !== 0) {
-                        geofence = Ext.getStore('Geofences').getById(array[i].geofenceId);
-                        if (geofence) {
-                            text += ' \"' + geofence.get('name') + '"';
-                        }
-                    }
-                    device = Ext.getStore('Devices').getById(array[i].deviceId);
-                    if (device) {
-                        if (self.mutePressed()) {
-                            self.beep();
-                        }
-                        Ext.toast(text, device.get('name'), 'br');
-                    }
-                }
+                self.updateEvents(data.events);
             }
         };
+    },
+
+    updateDevices: function (array) {
+        var i, store, entity;
+        store = Ext.getStore('Devices');
+        for (i = 0; i < array.length; i++) {
+            entity = store.getById(array[i].id);
+            if (entity) {
+                entity.set({
+                    status: array[i].status,
+                    lastUpdate: array[i].lastUpdate
+                }, {
+                    dirty: false
+                });
+            }
+        }
+    },
+
+    updatePositions: function (array) {
+        var i, store, data, entity;
+        store = Ext.getStore('LatestPositions');
+        for (i = 0; i < array.length; i++) {
+            entity = store.findRecord('deviceId', array[i].deviceId, 0, false, false, true);
+            if (entity) {
+                entity.set(array[i]);
+            } else {
+                store.add(Ext.create('Traccar.model.Position', array[i]));
+            }
+        }
+    },
+
+    updateEvents: function (array) {
+        var i, store, device, alarmKey, text, geofence;
+        store = Ext.getStore('Events');
+        for (i = 0; i < array.length; i++) {
+            store.add(array[i]);
+            if (array[i].type === 'commandResult') {
+                text = Strings.eventCommandResult + ': ' + array[i].attributes.result;
+            } else if (array[i].type === 'alarm') {
+                alarmKey = 'alarm' + array[i].attributes.alarm.charAt(0).toUpperCase() + array[i].attributes.alarm.slice(1);
+                text = Strings[alarmKey] || alarmKey;
+            } else {
+                text = Traccar.app.getEventString(array[i].type);
+            }
+            if (array[i].geofenceId !== 0) {
+                geofence = Ext.getStore('Geofences').getById(array[i].geofenceId);
+                if (geofence) {
+                    text += ' \"' + geofence.get('name') + '"';
+                }
+            }
+            device = Ext.getStore('Devices').getById(array[i].deviceId);
+            if (device) {
+                if (this.mutePressed()) {
+                    this.beep();
+                }
+                Ext.toast(text, device.get('name'), 'br');
+            }
+        }
     }
 });
