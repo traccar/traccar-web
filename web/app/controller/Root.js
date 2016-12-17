@@ -134,7 +134,7 @@ Ext.define('Traccar.controller.Root', {
         };
 
         socket.onmessage = function (event) {
-            var i, j, store, data, array, entity, device, alarmKey, text, geofence;
+            var i, store, data, array, entity, device, alarmKey, text, geofence;
 
             data = Ext.decode(event.data);
 
@@ -154,7 +154,7 @@ Ext.define('Traccar.controller.Root', {
                 }
             }
 
-            if (data.positions && !data.events) {
+            if (data.positions) {
                 array = data.positions;
                 store = Ext.getStore('LatestPositions');
                 for (i = 0; i < array.length; i++) {
@@ -172,32 +172,11 @@ Ext.define('Traccar.controller.Root', {
                 store = Ext.getStore('Events');
                 for (i = 0; i < array.length; i++) {
                     store.add(array[i]);
-                    if (array[i].type === 'commandResult' && data.positions) {
-                        for (j = 0; j < data.positions.length; j++) {
-                            if (data.positions[j].id === array[i].positionId) {
-                                text = data.positions[j].attributes.result;
-                                break;
-                            }
-                        }
-                        text = Strings.eventCommandResult + ': ' + text;
-                    } else if (array[i].type === 'alarm' && data.positions) {
-                        alarmKey = 'alarm';
-                        text = Strings[alarmKey];
-                        if (!text) {
-                            text = alarmKey;
-                        }
-                        for (j = 0; j < data.positions.length; j++) {
-                            if (data.positions[j].id === array[i].positionId && data.positions[j].attributes.alarm !== null) {
-                                if (typeof data.positions[j].attributes.alarm === 'string' && data.positions[j].attributes.alarm.length >= 2) {
-                                    alarmKey = 'alarm' + data.positions[j].attributes.alarm.charAt(0).toUpperCase() + data.positions[j].attributes.alarm.slice(1);
-                                    text = Strings[alarmKey];
-                                    if (!text) {
-                                        text = alarmKey;
-                                    }
-                                }
-                                break;
-                            }
-                        }
+                    if (array[i].type === 'commandResult') {
+                        text = Strings.eventCommandResult + ': ' + array[i].attributes.result;
+                    } else if (array[i].type === 'alarm') {
+                        alarmKey = 'alarm' + array[i].attributes.alarm.charAt(0).toUpperCase() + array[i].attributes.alarm.slice(1);
+                        text = Strings[alarmKey] || alarmKey;
                     } else {
                         text = Traccar.app.getEventString(array[i].type);
                     }
