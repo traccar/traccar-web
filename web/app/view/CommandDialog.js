@@ -90,6 +90,20 @@ Ext.define('Traccar.view.CommandDialog', {
                 hidden: true
             }]
         }, {
+            xtype: 'fieldcontainer',
+            reference: 'paramSetTimezone',
+            name: 'attributes',
+            hidden: true,
+
+            items: [{
+                xtype: 'numberfield',
+                fieldLabel: Strings.commandTimezoneOffset,
+                name: 'timezone',
+                minValue: -12,
+                step: 0.5,
+                maxValue: +14
+            }]
+        }, {
             xtype: 'textfield',
             reference: 'paramCustom',
             fieldLabel: Strings.commandCustom,

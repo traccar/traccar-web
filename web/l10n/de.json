@@ -144,6 +144,7 @@
     "commandData": "Daten",
     "commandPhone": "Rufnummer",
     "commandMessage": "Nachricht",
+    "commandTimezoneOffset": "Zeitverschiebung zu UTC",
     "eventAll": "Alle Ereignisse",
     "eventDeviceOnline": "Gerät ist online",
     "eventDeviceOffline": "Gerät ist offline",
