@@ -49,11 +49,10 @@ Ext.define('Traccar.view.State', {
         selectionchange: 'onSelectionChange'
     },
 
-    forceFit: true,
-
     columns: {
         defaults: {
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            flex: 1
         },
         items: [{
             text: Strings.stateName,
