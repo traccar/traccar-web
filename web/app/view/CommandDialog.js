@@ -97,7 +97,7 @@ Ext.define('Traccar.view.CommandDialog', {
 
             items: [{
                 xtype: 'numberfield',
-                fieldLabel: Strings.commandTimezoneOffset,
+                fieldLabel: Strings.commandTimezone,
                 name: 'timezone',
                 minValue: -12,
                 step: 0.5,
