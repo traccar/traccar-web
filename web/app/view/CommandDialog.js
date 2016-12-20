@@ -104,6 +104,19 @@ Ext.define('Traccar.view.CommandDialog', {
                 maxValue: +14
             }]
         }, {
+            xtype: 'fieldcontainer',
+            reference: 'paramSetHearts',
+            name: 'attributes',
+            hidden: true,
+
+            items: [{
+                xtype: 'numberfield',
+                fieldLabel: Strings.commandHearts,
+                name: 'hearts',
+                minValue: 0,
+                maxValue: 99
+            }]
+        }, {
             xtype: 'textfield',
             reference: 'paramCustom',
             fieldLabel: Strings.commandCustom,
