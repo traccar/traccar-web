@@ -145,7 +145,7 @@
     "commandPhone": "Phone Number",
     "commandMessage": "Message",
     "commandTimezoneOffset": "Timezone Offset to UTC",
-    "commandHearts": "Hearts / Flowers",
+    "commandSetIndicator": "Set Indicator",
     "eventAll": "All Events",
     "eventDeviceOnline": "Device is online",
     "eventDeviceOffline": "Device is offline",

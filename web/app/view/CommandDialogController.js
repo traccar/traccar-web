@@ -30,8 +30,8 @@ Ext.define('Traccar.view.CommandDialogController', {
             selected.getValue() !== 'sendSms');
         this.lookupReference('paramSetTimezone').setHidden(
             selected.getValue() !== 'setTimezone');
-        this.lookupReference('paramSetHearts').setHidden(
-            selected.getValue() !== 'setHearts');
+        this.lookupReference('paramSetIndicator').setHidden(
+            selected.getValue() !== 'setIndicator');
         this.lookupReference('paramCustom').setHidden(
             selected.getValue() !== 'custom');
     },
@@ -90,11 +90,11 @@ Ext.define('Traccar.view.CommandDialogController', {
             });
         }
 
-        if (record.get('type') === 'setHearts') {
-            attributes = this.lookupReference('paramSetHearts');
-            value = attributes.down('numberfield[name="hearts"]').getValue();
+        if (record.get('type') === 'setIndicator') {
+            attributes = this.lookupReference('paramSetIndicator');
+            value = attributes.down('numberfield[name="data"]').getValue();
             record.set('attributes', {
-                hearts: value
+                data: value
             });
         }
 
