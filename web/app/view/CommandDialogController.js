@@ -86,7 +86,7 @@ Ext.define('Traccar.view.CommandDialogController', {
             attributes = this.lookupReference('paramSetTimezone');
             value = attributes.down('numberfield[name="timezone"]').getValue();
             record.set('attributes', {
-                timezone: value
+                timezone: value * 60
             });
         }
 
