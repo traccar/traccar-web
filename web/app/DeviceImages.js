@@ -95,11 +95,5 @@ Ext.define('Traccar.DeviceImages', {
         image.category = category;
 
         return image;
-    },
-
-    rotateImageIcon: function (image, angle) {
-        var svg = this.getImageSvg(image.fill, image.zoom, angle, image.category);
-        image.getImage().src = this.formatSrc(svg);
-        image.angle = angle;
     }
 });
