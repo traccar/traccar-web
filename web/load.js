@@ -77,13 +77,28 @@
 
     localeParameter = window.location.search.match(/locale=([^&#]+)/);
     locale.language = localeParameter && localeParameter[1];
-    if (locale.language === undefined) {
-        locale.language = window.navigator.userLanguage || window.navigator.language;
-        locale.language = locale.language.substr(0, 2);
-    }
-
     if (!(locale.language in locale.languages)) {
-        locale.language = 'en'; // default
+        if (window.navigator.languages !== undefined) {
+            for (var i = 0; i < window.navigator.languages.length; i ++) {
+                var language = window.navigator.languages[i].replace("-", "_");
+                if (language in locale.languages) {
+                    locale.language = language;
+                    break;
+                }
+            }
+        }
+    }
+    if (!(locale.language in locale.languages)) {
+        var language = window.navigator.userLanguage || window.navigator.language;
+        if (language in locale.languages) {
+            locale.language = language;
+        } else if (language.replace("-", "_") in locale.languages) {
+            locale.language = language.replace("-", "_");
+        } else if (language.substr(0, 2) in locale.languages) {
+            locale.language = language.substr(0, 2);
+        } else {
+            locale.language = "en"; // default
+        }
     }
 
     window.addEventListener('load', function (event) {
