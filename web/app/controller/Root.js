@@ -134,7 +134,7 @@ Ext.define('Traccar.controller.Root', {
 
             Ext.Ajax.request({
                 url: 'api/devices',
-                success: function(response) {
+                success: function (response) {
                     self.updateDevices(Ext.decode(response.responseText));
                 }
             });
@@ -144,12 +144,12 @@ Ext.define('Traccar.controller.Root', {
                 headers: {
                     Accept: 'application/json'
                 },
-                success: function(response) {
+                success: function (response) {
                     self.updatePositions(Ext.decode(response.responseText));
                 }
             });
 
-            setTimeout(function() {
+            setTimeout(function () {
                 self.asyncUpdate(false);
             }, Traccar.Style.reconnectTimeout);
         };
@@ -186,7 +186,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     updatePositions: function (array) {
-        var i, store, data, entity;
+        var i, store, entity;
         store = Ext.getStore('LatestPositions');
         for (i = 0; i < array.length; i++) {
             entity = store.findRecord('deviceId', array[i].deviceId, 0, false, false, true);

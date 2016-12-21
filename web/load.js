@@ -111,7 +111,7 @@
 
     extjsVersion = '6.2.0';
     fontAwesomeVersion = '4.7.0';
-    olVersion = '3.19.1';
+    olVersion = '3.20.0';
 
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
