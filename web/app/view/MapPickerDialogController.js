@@ -24,7 +24,8 @@ Ext.define('Traccar.view.MapPickerDialogController', {
         listen: {
             controller: {
                 '*': {
-                    mapstate: 'setMapState'
+                    mapstate: 'setMapState',
+                    togglestate: 'setToggleState'
                 }
             }
         }
@@ -34,9 +35,18 @@ Ext.define('Traccar.view.MapPickerDialogController', {
         this.fireEvent('mapstaterequest');
     },
 
+    getToggleState: function (button) {
+        this.fireEvent('togglestaterequest');
+    },
+
     setMapState: function (lat, lon, zoom) {
         this.lookupReference('latitude').setValue(lat);
         this.lookupReference('longitude').setValue(lon);
         this.lookupReference('zoom').setValue(zoom);
+    },
+
+    setToggleState: function (state) {
+        var record = this.getView().down('form').getRecord();
+        record.set('attributes', Ext.merge(record.get('attributes'), state));
     }
 });

@@ -125,6 +125,12 @@ Ext.define('Traccar.view.ServerDialog', {
         tooltip: Strings.sharedGetMapState,
         tooltipType: 'title'
     }, {
+        glyph: 'xf205@FontAwesome',
+        minWidth: 0,
+        handler: 'getToggleState',
+        tooltip: Strings.sharedGetToggleState,
+        tooltipType: 'title'
+    }, {
         xtype: 'tbfill'
     }, {
         glyph: 'xf00c@FontAwesome',

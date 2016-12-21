@@ -48,7 +48,6 @@ Ext.define('Traccar.view.Map', {
             reference: 'showGeofencesButton',
             glyph: 'xf21d@FontAwesome',
             enableToggle: true,
-            pressed: true,
             tooltip: Strings.sharedGeofences
         }, {
             xtype: 'button',
@@ -70,7 +69,6 @@ Ext.define('Traccar.view.Map', {
             glyph: 'xf1f7@FontAwesome',
             tooltip: Strings.sharedMute,
             tooltipType: 'title',
-            pressed : true,
             enableToggle: true,
             listeners: {
                 toggle: function (button, pressed) {
