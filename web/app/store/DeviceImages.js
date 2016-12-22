@@ -89,5 +89,12 @@ Ext.define('Traccar.store.DeviceImages', {
         fillId: 'background',
         rotateId: 'background',
         scaleId: 'layer1'
+    }, {
+        key: 'animal',
+        name: Strings.categoryAnimal,
+        svg: document.getElementById('animalSvg').contentDocument,
+        fillId: 'background',
+        rotateId: 'background',
+        scaleId: 'layer1'
     }]
 });

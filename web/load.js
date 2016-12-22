@@ -144,5 +144,6 @@
     addSvgFile('images/motorcycle.svg', 'motorcycleSvg');
     addSvgFile('images/bicycle.svg', 'bicycleSvg');
     addSvgFile('images/person.svg', 'personSvg');
+    addSvgFile('images/animal.svg', 'animalSvg');
 
 })();
