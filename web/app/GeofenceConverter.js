@@ -43,7 +43,7 @@ Ext.define('Traccar.GeofenceConverter', {
                     projection = mapView.getProjection();
                     center = ol.proj.transform([Number(coordinates[1]), Number(coordinates[0])], 'EPSG:4326', projection);
                     resolutionAtEquator = mapView.getResolution();
-                    pointResolution = projection.getPointResolution(resolutionAtEquator, center);
+                    pointResolution = ol.proj.getPointResolution(projection, resolutionAtEquator, center);
                     resolutionFactor = resolutionAtEquator / pointResolution;
                     radius = (Number(coordinates[2]) / ol.proj.METERS_PER_UNIT.m) * resolutionFactor;
                     geometry = new ol.geom.Circle(center, radius);

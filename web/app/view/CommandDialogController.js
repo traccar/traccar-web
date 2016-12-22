@@ -28,6 +28,10 @@ Ext.define('Traccar.view.CommandDialogController', {
             selected.getValue() !== 'sendSms' && selected.getValue() !== 'sendUssd');
         this.lookupReference('paramSmsMessage').setHidden(
             selected.getValue() !== 'sendSms');
+        this.lookupReference('paramSetTimezone').setHidden(
+            selected.getValue() !== 'setTimezone');
+        this.lookupReference('paramSetIndicator').setHidden(
+            selected.getValue() !== 'setIndicator');
         this.lookupReference('paramCustom').setHidden(
             selected.getValue() !== 'custom');
     },
@@ -75,6 +79,22 @@ Ext.define('Traccar.view.CommandDialogController', {
             record.set('attributes', {
                 phone: phone,
                 message: value
+            });
+        }
+
+        if (record.get('type') === 'setTimezone') {
+            attributes = this.lookupReference('paramSetTimezone');
+            value = attributes.down('numberfield[name="timezone"]').getValue();
+            record.set('attributes', {
+                timezone: value * 3600
+            });
+        }
+
+        if (record.get('type') === 'setIndicator') {
+            attributes = this.lookupReference('paramSetIndicator');
+            value = attributes.down('numberfield[name="data"]').getValue();
+            record.set('attributes', {
+                data: value
             });
         }
 

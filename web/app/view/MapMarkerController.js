@@ -92,7 +92,8 @@ Ext.define('Traccar.view.MapMarkerController', {
                 style = marker.getStyle();
                 if (style.getImage().fill !== this.getDeviceColor(device) ||
                         style.getImage().category !== device.get('category')) {
-                    marker.setStyle(this.updateDeviceMarker(style, this.getDeviceColor(device), device.get('category')));
+                    this.updateDeviceMarker(style, this.getDeviceColor(device), device.get('category'));
+                    marker.changed();
                 }
                 if (style.getText().getText() !== device.get('name')) {
                     style.getText().setText(device.get('name'));
@@ -144,7 +145,7 @@ Ext.define('Traccar.view.MapMarkerController', {
             marker = this.latestMarkers[deviceId];
             style = marker.getStyle();
             if (style.getImage().angle !== position.get('course')) {
-                Traccar.DeviceImages.rotateImageIcon(style.getImage(), position.get('course'));
+                this.rotateMarker(style, position.get('course'));
             }
             marker.setGeometry(geometry);
         } else {
@@ -327,10 +328,15 @@ Ext.define('Traccar.view.MapMarkerController', {
                 style.getImage().category);
         text = style.getText();
         text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
-        return new ol.style.Style({
-            image: image,
-            text: text
-        });
+        style.setText(text);
+        style.setImage(image);
+    },
+
+    rotateMarker: function (style, angle) {
+        style.setImage(Traccar.DeviceImages.getImageIcon(style.getImage().fill,
+                style.getImage().zoom,
+                angle,
+                style.getImage().category));
     },
 
     updateDeviceMarker: function (style, color, category) {
@@ -341,21 +347,19 @@ Ext.define('Traccar.view.MapMarkerController', {
                 category);
         text = style.getText();
         text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
-        return new ol.style.Style({
-            image: image,
-            text: text
-        });
+        style.setText(text);
+        style.setImage(image);
     },
 
     selectMarker: function (marker, center) {
         if (this.selectedMarker) {
-            this.selectedMarker.setStyle(
-                this.resizeMarker(this.selectedMarker.getStyle(), false));
+            this.resizeMarker(this.selectedMarker.getStyle(), false);
+            this.selectedMarker.changed();
         }
 
         if (marker) {
-            marker.setStyle(
-                this.resizeMarker(marker.getStyle(), true));
+            this.resizeMarker(marker.getStyle(), true);
+            marker.changed();
             if (center) {
                 this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
             }
