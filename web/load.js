@@ -1,5 +1,5 @@
 (function () {
-    var debugMode, touchMode, locale, localeParameter, extjsVersion, fontAwesomeVersion, olVersion;
+    var debugMode, touchMode, locale, localeParameter, extjsVersion, fontAwesomeVersion, olVersion, i, language, languages;
 
     function addStyleFile(file) {
         var link = document.createElement('link');
@@ -78,13 +78,13 @@
     localeParameter = window.location.search.match(/locale=([^&#]+)/);
     locale.language = localeParameter && localeParameter[1];
     if (!(locale.language in locale.languages)) {
-        var languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
-        var language = window.navigator.userLanguage || window.navigator.language;
+        languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
+        language = window.navigator.userLanguage || window.navigator.language;
         languages.push(language);
-        languages.push(language.substr(0,2));
-        languages.push("en"); //default
-        for (var i = 0; i < languages.length; i ++) {
-            var language = languages[i].replace("-", "_");
+        languages.push(language.substr(0, 2));
+        languages.push('en'); //default
+        for (i = 0; i < languages.length; i++) {
+            language = languages[i].replace('-', '_');
             if (language in locale.languages) {
                 locale.language = language;
                 break;
