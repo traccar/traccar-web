@@ -27,7 +27,8 @@ Ext.define('Traccar.view.MapController', {
         listen: {
             controller: {
                 '*': {
-                    mapstaterequest: 'getMapState'
+                    mapstaterequest: 'getMapState',
+                    togglestaterequest: 'getToggleState'
                 }
             },
             store: {
@@ -44,6 +45,14 @@ Ext.define('Traccar.view.MapController', {
     init: function () {
         this.callParent();
         this.lookupReference('showReportsButton').setVisible(Traccar.app.isMobile());
+        this.lookupReference('deviceFollowButton').setPressed(
+                Traccar.app.getAttributePreference('web.followToggle', 'false') === 'true');
+        this.lookupReference('showGeofencesButton').setPressed(
+                Traccar.app.getAttributePreference('web.geofenceToggle', 'true') === 'true');
+        this.lookupReference('showLiveRoutes').setPressed(
+                Traccar.app.getAttributePreference('web.liveRouteToggle', 'false') === 'true');
+        Ext.getCmp('muteButton').setPressed(
+                Traccar.app.getAttributePreference('web.muteToggle', 'true') === 'true');
     },
 
     showReports: function () {
@@ -66,6 +75,15 @@ Ext.define('Traccar.view.MapController', {
         center = ol.proj.transform(this.getView().getMapView().getCenter(), projection, 'EPSG:4326');
         zoom = this.getView().getMapView().getZoom();
         this.fireEvent('mapstate', center[1], center[0], zoom);
+    },
+
+    getToggleState: function () {
+        var state = {};
+        state['web.followToggle'] = this.lookupReference('deviceFollowButton').pressed.toString();
+        state['web.geofenceToggle'] = this.lookupReference('showGeofencesButton').pressed.toString();
+        state['web.liveRouteToggle'] = this.lookupReference('showLiveRoutes').pressed.toString();
+        state['web.muteToggle'] = Ext.getCmp('muteButton').pressed.toString();
+        this.fireEvent('togglestate', state);
     },
 
     getGeofenceStyle: function (label) {
