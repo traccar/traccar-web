@@ -213,5 +213,6 @@
     "categoryPlane": "Plane",
     "categoryMotorcycle": "Motorcycle",
     "categoryBicycle": "Bicycle",
-    "categoryPerson": "Person"
+    "categoryPerson": "Person",
+    "categoryAnimal": "Animal"
 }
