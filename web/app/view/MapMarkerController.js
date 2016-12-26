@@ -276,26 +276,10 @@ Ext.define('Traccar.view.MapMarkerController', {
         }
     },
 
-    getReportColor: function (deviceId) {
-        var index, reportColor, device = Ext.getStore('Devices').getById(deviceId);
-        if (device) {
-            reportColor = device.get('attributes')['web.reportColor'];
-        }
-        if (reportColor) {
-            return reportColor;
-        } else {
-            index = 0;
-            if (deviceId !== undefined) {
-                index = deviceId % Traccar.Style.mapRouteColor.length;
-            }
-            return Traccar.Style.mapRouteColor[index];
-        }
-    },
-
     getRouteStyle: function (deviceId) {
         return new ol.style.Style({
             stroke: new ol.style.Stroke({
-                color: this.getReportColor(deviceId),
+                color: Traccar.app.getReportColor(deviceId),
                 width: Traccar.Style.mapRouteWidth
             })
         });
@@ -325,7 +309,7 @@ Ext.define('Traccar.view.MapMarkerController', {
     },
 
     getReportMarker: function (deviceId, angle) {
-        return this.getMarkerStyle(false, this.getReportColor(deviceId), angle, 'arrow');
+        return this.getMarkerStyle(false, Traccar.app.getReportColor(deviceId), angle, 'arrow');
     },
 
     resizeMarker: function (style, zoom) {

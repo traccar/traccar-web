@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,15 @@ Ext.define('Traccar.store.SpeedUnits', {
         name: Strings.sharedMph,
         factor: 1.15078
     }],
+
+    convertValue: function (value, unit) {
+        var model;
+        if (!unit) {
+            unit = 'kn';
+        }
+        model = this.findRecord('key', unit);
+        return value * model.get('factor');
+    },
 
     formatValue: function (value, unit) {
         var model;
