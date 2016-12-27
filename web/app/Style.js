@@ -79,6 +79,7 @@ Ext.define('Traccar.Style', {
     numberPrecision: 2,
 
     reportTagfieldWidth: 375,
+    reportGridStyle: 'borderTop: 1px solid lightgray',
 
     chartPadding: {
         top: 20,

@@ -83,7 +83,7 @@ Ext.define('Traccar.view.Report', {
             items: [
             ]
         },
-        style: 'borderTop: 1px solid lightgray'
+        style: Traccar.Style.reportGridStyle
     }, {
         xtype: 'cartesian',
         itemId: 'chart',
