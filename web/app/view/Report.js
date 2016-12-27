@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.Report', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.panel.Panel',
     xtype: 'reportView',
 
     requires: [
@@ -67,17 +67,43 @@ Ext.define('Traccar.view.Report', {
         }]
     },
 
-    listeners: {
-        selectionchange: 'onSelectionChange'
-    },
+    layout: 'card',
 
-    forceFit: true,
-
-    columns: {
-        defaults: {
-            minWidth: Traccar.Style.columnWidthNormal
+    items: [{
+        xtype: 'grid',
+        itemId: 'grid',
+        listeners: {
+            selectionchange: 'onSelectionChange'
         },
-        items: [
-        ]
-    }
+        forceFit: true,
+        columns: {
+            defaults: {
+                minWidth: Traccar.Style.columnWidthNormal
+            },
+            items: [
+            ]
+        },
+        style: Traccar.Style.reportGridStyle
+    }, {
+        xtype: 'cartesian',
+        itemId: 'chart',
+        plugins: {
+            ptype: 'chartitemevents',
+            moveEvents: true
+        },
+        store: 'ReportRoute',
+        axes: [{
+            title: Strings.reportCharts,
+            type: 'numeric',
+            position: 'left'
+        }, {
+            type: 'time',
+            position: 'bottom',
+            fields: ['fixTime']
+        }],
+        listeners: {
+            itemclick: 'onChartMarkerClick'
+        },
+        insetPadding: Traccar.Style.chartPadding
+    }]
 });

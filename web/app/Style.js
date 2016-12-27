@@ -78,5 +78,10 @@ Ext.define('Traccar.Style', {
     coordinatePrecision: 6,
     numberPrecision: 2,
 
-    reportTagfieldWidth: 375
+    reportTagfieldWidth: 375,
+    reportGridStyle: 'borderTop: 1px solid lightgray',
+
+    chartPadding: '20 40 10 10',
+    chartMarkerRadius: 3,
+    chartMarkerHighlightScaling: 1.5
 });

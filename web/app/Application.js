@@ -70,6 +70,7 @@ Ext.define('Traccar.Application', {
         'ReportSummary',
         'ReportTypes',
         'ReportEventTypes',
+        'ReportChartTypes',
         'Statistics',
         'DeviceImages',
         'Calendars',
@@ -131,6 +132,22 @@ Ext.define('Traccar.Application', {
             return this.getServer().get('attributes')[key] || this.getUser().get('attributes')[key] || defaultValue;
         } else {
             return this.getUser().get('attributes')[key] || this.getServer().get('attributes')[key] || defaultValue;
+        }
+    },
+
+    getReportColor: function (deviceId) {
+        var index, reportColor, device = Ext.getStore('Devices').getById(deviceId);
+        if (device) {
+            reportColor = device.get('attributes')['web.reportColor'];
+        }
+        if (reportColor) {
+            return reportColor;
+        } else {
+            index = 0;
+            if (deviceId !== undefined) {
+                index = deviceId % Traccar.Style.mapRouteColor.length;
+            }
+            return Traccar.Style.mapRouteColor[index];
         }
     },
 
