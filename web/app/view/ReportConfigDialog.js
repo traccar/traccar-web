@@ -56,7 +56,7 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         displayField: 'name',
         queryMode: 'local'
     }, {
-        fieldLabel: Strings.reportChartTypes,
+        fieldLabel: Strings.reportChartType,
         xtype: 'combobox',
         width: Traccar.Style.reportTagfieldWidth,
         reference: 'chartTypeField',

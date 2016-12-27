@@ -93,7 +93,7 @@ Ext.define('Traccar.view.Report', {
         },
         store: 'ReportRoute',
         axes: [{
-            title: Strings.reportCharts,
+            title: Strings.reportChart,
             type: 'numeric',
             position: 'left'
         }, {
