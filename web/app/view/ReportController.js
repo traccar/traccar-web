@@ -55,9 +55,12 @@ Ext.define('Traccar.view.ReportController', {
         Traccar.app.showReports(false);
     },
 
-    init: function () {
-        this.grid = this.getView().getComponent('grid');
-        this.chart = this.getView().getComponent('chart');
+    getGrid: function () {
+        return this.getView().getComponent('grid');
+    },
+
+    getChart: function () {
+        return this.getView().getComponent('chart');
     },
 
     onConfigureClick: function () {
@@ -116,10 +119,10 @@ Ext.define('Traccar.view.ReportController', {
 
             if (button.reference === 'showButton') {
                 if (reportType === 'charts') {
-                    store = this.chart.getStore();
-                    this.chart.setSeries([]);
+                    store = this.getChart().getStore();
+                    this.getChart().setSeries([]);
                 } else {
-                    store = this.grid.getStore();
+                    store = this.getGrid().getStore();
                 }
                 store.load({
                     params: {
@@ -131,7 +134,7 @@ Ext.define('Traccar.view.ReportController', {
                     }
                 });
             } else if (button.reference === 'exportButton') {
-                url = this.grid.getStore().getProxy().url;
+                url = this.getGrid().getStore().getProxy().url;
                 this.downloadFile(url, {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
@@ -149,12 +152,12 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     clearReport: function (reportType) {
-        this.grid.getStore().removeAll();
+        this.getGrid().getStore().removeAll();
         if (reportType === 'trips' || reportType === 'events') {
             Ext.getStore('ReportRoute').removeAll();
         }
         if (reportType === 'charts') {
-            this.chart.getStore().removeAll();
+            this.getChart().getStore().removeAll();
         }
     },
 
@@ -174,7 +177,7 @@ Ext.define('Traccar.view.ReportController', {
 
     selectDevice: function (device) {
         if (device) {
-            this.grid.getSelectionModel().deselectAll();
+            this.getGrid().getSelectionModel().deselectAll();
         }
     },
 
@@ -182,12 +185,12 @@ Ext.define('Traccar.view.ReportController', {
         var positionEvent, reportType = this.lookupReference('reportTypeField').getValue();
         if (object instanceof Traccar.model.Position) {
             if (reportType === 'route') {
-                this.grid.getSelectionModel().select([object], false, true);
-                this.grid.getView().focusRow(object);
+                this.getGrid().getSelectionModel().select([object], false, true);
+                this.getGrid().getView().focusRow(object);
             } else if (reportType === 'events') {
-                positionEvent = this.grid.getStore().findRecord('positionId', object.get('id'), 0, false, true, true);
-                this.grid.getSelectionModel().select([positionEvent], false, true);
-                this.grid.getView().focusRow(positionEvent);
+                positionEvent = this.getGrid().getStore().findRecord('positionId', object.get('id'), 0, false, true, true);
+                this.getGrid().getSelectionModel().select([positionEvent], false, true);
+                this.getGrid().getView().focusRow(positionEvent);
             }
         }
     },
@@ -246,7 +249,7 @@ Ext.define('Traccar.view.ReportController', {
     loadRoute: function (store) {
         var i, deviceIds, chartSeries, deviceStore;
         if (this.lookupReference('reportTypeField').getValue() === 'charts') {
-            this.chart.getAxes()[0].setTitle(
+            this.getChart().getAxes()[0].setTitle(
                     Ext.getStore('ReportChartTypes').findRecord('key', this.chartType).get('name'));
             chartSeries = [];
             deviceIds = store.collect('deviceId');
@@ -274,7 +277,7 @@ Ext.define('Traccar.view.ReportController', {
                     }
                 });
             }
-            this.chart.setSeries(chartSeries);
+            this.getChart().setSeries(chartSeries);
         }
     },
 
@@ -298,8 +301,8 @@ Ext.define('Traccar.view.ReportController', {
                                 this.getView().expand();
                             }
                         }
-                        this.grid.getSelectionModel().select([records[0]], false, true);
-                        this.grid.getView().focusRow(records[0]);
+                        this.getGrid().getSelectionModel().select([records[0]], false, true);
+                        this.getGrid().getView().focusRow(records[0]);
                     }
                 }
             }
@@ -348,24 +351,19 @@ Ext.define('Traccar.view.ReportController', {
         }
 
         if (newValue === 'route') {
-            this.grid.reconfigure('ReportRoute', this.routeColumns);
-            this.chart.setHidden(true);
-            this.grid.setHidden(false);
+            this.getGrid().reconfigure('ReportRoute', this.routeColumns);
+            this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'events') {
-            this.grid.reconfigure('ReportEvents', this.eventsColumns);
-            this.chart.setHidden(true);
-            this.grid.setHidden(false);
+            this.getGrid().reconfigure('ReportEvents', this.eventsColumns);
+            this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'summary') {
-            this.grid.reconfigure('ReportSummary', this.summaryColumns);
-            this.chart.setHidden(true);
-            this.grid.setHidden(false);
+            this.getGrid().reconfigure('ReportSummary', this.summaryColumns);
+            this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'trips') {
-            this.grid.reconfigure('ReportTrips', this.tripsColumns);
-            this.chart.setHidden(true);
-            this.grid.setHidden(false);
+            this.getGrid().reconfigure('ReportTrips', this.tripsColumns);
+            this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'charts') {
-            this.grid.setHidden(true);
-            this.chart.setHidden(false);
+            this.getView().getLayout().setActiveItem('chart');
         }
 
         this.updateButtons();

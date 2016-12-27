@@ -67,9 +67,7 @@ Ext.define('Traccar.view.Report', {
         }]
     },
 
-    layout: {
-        type: 'fit'
-    },
+    layout: 'card',
 
     items: [{
         xtype: 'grid',
@@ -77,9 +75,7 @@ Ext.define('Traccar.view.Report', {
         listeners: {
             selectionchange: 'onSelectionChange'
         },
-        hidden: true,
         forceFit: true,
-        flex: 1,
         columns: {
             defaults: {
                 minWidth: Traccar.Style.columnWidthNormal
@@ -95,9 +91,6 @@ Ext.define('Traccar.view.Report', {
             ptype: 'chartitemevents',
             moveEvents: true
         },
-        hidden: true,
-        forceFit: true,
-        flex: 1,
         store: 'ReportRoute',
         axes: [{
             title: Strings.reportCharts,
