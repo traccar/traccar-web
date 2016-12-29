@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.GeofenceDialog', {
-    extend: 'Traccar.view.BaseDialog',
+    extend: 'Traccar.view.BaseEditDialog',
 
     requires: [
         'Traccar.view.GeofenceDialogController'
@@ -55,6 +55,9 @@ Ext.define('Traccar.view.GeofenceDialog', {
         text: Strings.sharedArea,
         glyph: 'xf21d@FontAwesome',
         handler: 'onAreaClick'
+    }, {
+        text: Strings.sharedAttributes,
+        handler: 'showAttributesView'
     }, {
         xtype: 'tbfill'
     }, {

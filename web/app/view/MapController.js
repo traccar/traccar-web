@@ -86,13 +86,22 @@ Ext.define('Traccar.view.MapController', {
         this.fireEvent('togglestate', state);
     },
 
-    getGeofenceStyle: function (label) {
+    getGeofenceStyle: function (label, color) {
+        var fillColor, strokeColor;
+        if (color) {
+            fillColor = ol.color.asArray(color);
+            strokeColor = color;
+        } else {
+            fillColor = ol.color.asArray(Traccar.Style.mapGeofenceColor);
+            strokeColor = Traccar.Style.mapGeofenceColor;
+        }
+        fillColor[3] = Traccar.Style.mapGeofenceOverlayOpacity;
         return new ol.style.Style({
                 fill: new ol.style.Fill({
-                    color: Traccar.Style.mapGeofenceOverlay
+                    color: fillColor
                 }),
                 stroke: new ol.style.Stroke({
-                    color: Traccar.Style.mapGeofenceColor,
+                    color: strokeColor,
                     width: Traccar.Style.mapGeofenceWidth
                 }),
                 text: new ol.style.Text({
@@ -114,7 +123,8 @@ Ext.define('Traccar.view.MapController', {
             Ext.getStore('Geofences').each(function (geofence) {
                 var feature = new ol.Feature(Traccar.GeofenceConverter
                         .wktToGeometry(this.getView().getMapView(), geofence.get('area')));
-                feature.setStyle(this.getGeofenceStyle(geofence.get('name')));
+                feature.setStyle(this.getGeofenceStyle(geofence.get('name'),
+                        geofence.get('attributes') ? geofence.get('attributes').color : null));
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;
             }, this);
