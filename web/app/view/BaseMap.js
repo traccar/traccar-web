@@ -120,9 +120,16 @@ Ext.define('Traccar.view.BaseMap', {
         });
 
         this.map.on('click', function (e) {
-            this.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
-                this.fireEvent('selectfeature', feature);
-            }.bind(this));
+            if (this.map.hasFeatureAtPixel(e.pixel, {
+                layerFilter: function (layer) {
+                    return layer.get('name') !== 'geofencesLayer';
+                }})) {
+                this.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+                    this.fireEvent('selectfeature', feature);
+                }.bind(this));
+            } else {
+                this.fireEvent('deselectfeature');
+            }
         }, this);
     },
 

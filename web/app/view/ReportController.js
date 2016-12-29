@@ -33,7 +33,8 @@ Ext.define('Traccar.view.ReportController', {
             controller: {
                 '*': {
                     selectdevice: 'selectDevice',
-                    showsingleevent: 'showSingleEvent'
+                    showsingleevent: 'showSingleEvent',
+                    deselectfeature: 'deselectFeature'
                 },
                 'map': {
                     selectreport: 'selectReport'
@@ -192,6 +193,12 @@ Ext.define('Traccar.view.ReportController', {
                 this.getGrid().getSelectionModel().select([positionEvent], false, true);
                 this.getGrid().getView().focusRow(positionEvent);
             }
+        }
+    },
+
+    deselectFeature: function () {
+        if (this.lookupReference('reportTypeField').getValue() !== 'trips') {
+            this.getGrid().getSelectionModel().deselectAll();
         }
     },
 

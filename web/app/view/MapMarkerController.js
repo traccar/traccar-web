@@ -52,7 +52,8 @@ Ext.define('Traccar.view.MapMarkerController', {
             },
             component: {
                 '#': {
-                    selectfeature: 'selectFeature'
+                    selectfeature: 'selectFeature',
+                    deselectfeature: 'deselectFeature'
                 }
             }
         }
@@ -379,5 +380,10 @@ Ext.define('Traccar.view.MapMarkerController', {
                 this.fireEvent('selectreport', record, false);
             }
         }
+    },
+
+    deselectFeature: function () {
+        this.selectMarker(null, false);
+        this.fireEvent('deselectfeature');
     }
 });

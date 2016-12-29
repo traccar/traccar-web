@@ -34,7 +34,8 @@ Ext.define('Traccar.view.StateController', {
                 '*': {
                     selectdevice: 'selectDevice',
                     selectreport: 'selectReport',
-                    updatealiases: 'updateAliases'
+                    updatealiases: 'updateAliases',
+                    deselectfeature: 'deselectFeature'
                 }
             },
             store: {
@@ -155,6 +156,12 @@ Ext.define('Traccar.view.StateController', {
             this.position = position;
             this.updatePosition();
         }
+    },
+
+    deselectFeature: function () {
+        this.deviceId = null;
+        this.position = null;
+        Ext.getStore('Attributes').removeAll();
     },
 
     clearReport: function (store) {

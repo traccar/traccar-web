@@ -114,6 +114,7 @@ Ext.define('Traccar.view.Map', {
 
         this.geofencesSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
+            name: 'geofencesLayer',
             source: this.geofencesSource
         }));
 
