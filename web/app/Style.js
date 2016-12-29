@@ -71,7 +71,7 @@ Ext.define('Traccar.Style', {
 
     mapGeofenceTextColor: 'rgba(14, 88, 141, 1.0)',
     mapGeofenceColor: 'rgba(21, 127, 204, 1.0)',
-    mapGeofenceOverlay: 'rgba(21, 127, 204, 0.2)',
+    mapGeofenceOverlayOpacity: 0.2,
     mapGeofenceWidth: 5,
     mapGeofenceRadius: 9,
 

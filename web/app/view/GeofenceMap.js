@@ -59,7 +59,7 @@ Ext.define('Traccar.view.GeofenceMap', {
     },
 
     initMap: function () {
-        var map, featureOverlay, geometry;
+        var map, featureOverlay, geometry, fillColor;
         this.callParent();
 
         map = this.map;
@@ -74,13 +74,15 @@ Ext.define('Traccar.view.GeofenceMap', {
                 this.mapView.setCenter(geometry.getCoordinates()[0][0]);
             }
         }
+        fillColor = ol.color.asArray(Traccar.Style.mapGeofenceColor);
+        fillColor[3] = Traccar.Style.mapGeofenceOverlayOpacity;
         featureOverlay = new ol.layer.Vector({
             source: new ol.source.Vector({
                 features: this.features
             }),
             style: new ol.style.Style({
                 fill: new ol.style.Fill({
-                    color: Traccar.Style.mapGeofenceOverlay
+                    color: fillColor
                 }),
                 stroke: new ol.style.Stroke({
                     color: Traccar.Style.mapGeofenceColor,
