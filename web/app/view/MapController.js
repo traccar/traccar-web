@@ -124,7 +124,7 @@ Ext.define('Traccar.view.MapController', {
                 var feature = new ol.Feature(Traccar.GeofenceConverter
                         .wktToGeometry(this.getView().getMapView(), geofence.get('area')));
                 feature.setStyle(this.getGeofenceStyle(geofence.get('name'),
-                        geofence.get('attributes') !== undefined ? geofence.get('attributes').color : undefined));
+                        geofence.get('attributes') ? geofence.get('attributes').color : null));
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;
             }, this);
