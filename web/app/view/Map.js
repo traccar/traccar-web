@@ -85,16 +85,12 @@ Ext.define('Traccar.view.Map', {
         }]
     },
 
-    getLatestSource: function () {
-        return this.latestSource;
+    getMarkersSource: function () {
+        return this.markersSource;
     },
 
     getRouteSource: function () {
         return this.routeSource;
-    },
-
-    getReportSource: function () {
-        return this.reportSource;
     },
 
     getGeofencesSource: function () {
@@ -125,19 +121,14 @@ Ext.define('Traccar.view.Map', {
         });
         this.map.addLayer(this.liveRouteLayer);
 
-        this.latestSource = new ol.source.Vector({});
-        this.map.addLayer(new ol.layer.Vector({
-            source: this.latestSource
-        }));
-
         this.routeSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
             source: this.routeSource
         }));
 
-        this.reportSource = new ol.source.Vector({});
+        this.markersSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
-            source: this.reportSource
+            source: this.markersSource
         }));
     }
 });
