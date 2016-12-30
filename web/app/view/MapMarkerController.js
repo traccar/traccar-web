@@ -222,8 +222,22 @@ Ext.define('Traccar.view.MapMarkerController', {
         }
     },
 
+    addReportMarker: function (position) {
+        var geometry, marker, style, point = ol.proj.fromLonLat([
+            position.get('longitude'),
+            position.get('latitude')
+        ]);
+        geometry = new ol.geom.Point(point);
+        marker = new ol.Feature(geometry);
+        marker.set('record', position);
+        style = this.getReportMarker(position.get('deviceId'), position.get('course'));
+        marker.setStyle(style);
+        this.reportMarkers[position.get('id')] = marker;
+        this.getView().getMarkersSource().addFeature(marker);
+    },
+
     addReportMarkers: function (store, data) {
-        var i, position, point, geometry, marker, style, minx, miny, maxx, maxy;
+        var i, position, point, minx, miny, maxx, maxy;
         this.clearReport();
         for (i = 0; i < data.length; i++) {
             position = data[i];
@@ -240,20 +254,14 @@ Ext.define('Traccar.view.MapMarkerController', {
                 maxx = Math.max(point[0], maxx);
                 maxy = Math.max(point[1], maxy);
             }
-            if (store.showMarkers !== false) {
-                geometry = new ol.geom.Point(point);
-                marker = new ol.Feature(geometry);
-                marker.set('record', position);
-                style = this.getReportMarker(position.get('deviceId'), position.get('course'));
-                marker.setStyle(style);
-                this.reportMarkers[position.get('id')] = marker;
-                this.getView().getMarkersSource().addFeature(marker);
+            if (store.showMarkers) {
+                this.addReportMarker(position);
             }
         }
         if (minx !== maxx || miny !== maxy) {
             this.getView().getMapView().fit([minx, miny, maxx, maxy], this.getView().getMap().getSize());
-        } else if (geometry) {
-            this.getView().getMapView().fit(geometry, this.getView().getMap().getSize());
+        } else if (point) {
+            this.getView().getMapView().fit(new ol.geom.Point(point), this.getView().getMap().getSize());
         }
     },
 
@@ -274,6 +282,10 @@ Ext.define('Traccar.view.MapMarkerController', {
                 }
             }
             this.reportMarkers = {};
+        }
+
+        if (this.selectedMarker && this.selectedMarker.get('record') instanceof Traccar.model.Position) {
+            this.selectedMarker = null;
         }
     },
 
@@ -346,9 +358,15 @@ Ext.define('Traccar.view.MapMarkerController', {
 
     selectMarker: function (marker, center) {
         if (this.selectedMarker) {
-            this.resizeMarker(this.selectedMarker.getStyle(), false);
-            this.selectedMarker.getStyle().setZIndex(0);
-            this.selectedMarker.changed();
+            if (!Ext.getStore('ReportRoute').showMarkers &&
+                    this.selectedMarker.get('record') instanceof Traccar.model.Position) {
+                this.getView().getMarkersSource().removeFeature(this.selectedMarker);
+                delete this.reportMarkers[this.selectedMarker.get('record').get('id')];
+            } else {
+                this.resizeMarker(this.selectedMarker.getStyle(), false);
+                this.selectedMarker.getStyle().setZIndex(0);
+                this.selectedMarker.changed();
+            }
         }
 
         if (marker) {
@@ -369,6 +387,9 @@ Ext.define('Traccar.view.MapMarkerController', {
 
     selectReport: function (position, center) {
         if (position instanceof Traccar.model.Position) {
+            if (!Ext.getStore('ReportRoute').showMarkers) {
+                this.addReportMarker(position);
+            }
             this.selectMarker(this.reportMarkers[position.get('id')], center);
         }
     },
