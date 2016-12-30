@@ -57,8 +57,9 @@ Ext.define('Traccar.view.ReportConfigController', {
         } else if (eventType.length === this.lookupReference('eventTypeField').getStore().getCount() - 1) {
             eventType = [Traccar.store.ReportEventTypes.allEvents];
         }
-        this.getView().callingPanel.chartType = this.lookupReference('chartTypeField').getValue();
         this.getView().callingPanel.eventType = eventType;
+        this.getView().callingPanel.chartType = this.lookupReference('chartTypeField').getValue();
+        this.getView().callingPanel.showMarkers = this.lookupReference('showMarkersField').getValue();
         this.getView().callingPanel.fromDate = this.lookupReference('fromDateField').getValue();
         this.getView().callingPanel.fromTime = this.lookupReference('fromTimeField').getValue();
         this.getView().callingPanel.toDate = this.lookupReference('toDateField').getValue();

@@ -240,15 +240,17 @@ Ext.define('Traccar.view.MapMarkerController', {
                 maxx = Math.max(point[0], maxx);
                 maxy = Math.max(point[1], maxy);
             }
-            geometry = new ol.geom.Point(point);
-            marker = new ol.Feature(geometry);
-            marker.set('record', position);
-            style = this.getReportMarker(position.get('deviceId'), position.get('course'));
-            /*style.getText().setText(
-                Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
-            marker.setStyle(style);
-            this.reportMarkers[position.get('id')] = marker;
-            this.getView().getMarkersSource().addFeature(marker);
+            if (store.showMarkers !== false) {
+                geometry = new ol.geom.Point(point);
+                marker = new ol.Feature(geometry);
+                marker.set('record', position);
+                style = this.getReportMarker(position.get('deviceId'), position.get('course'));
+                /*style.getText().setText(
+                    Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
+                marker.setStyle(style);
+                this.reportMarkers[position.get('id')] = marker;
+                this.getView().getMarkersSource().addFeature(marker);
+            }
         }
         if (minx !== maxx || miny !== maxy) {
             this.getView().getMapView().fit([minx, miny, maxx, maxy], this.getView().getMap().getSize());
