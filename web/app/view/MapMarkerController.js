@@ -52,7 +52,8 @@ Ext.define('Traccar.view.MapMarkerController', {
             },
             component: {
                 '#': {
-                    selectfeature: 'selectFeature'
+                    selectfeature: 'selectFeature',
+                    deselectfeature: 'deselectFeature'
                 }
             }
         }
@@ -111,7 +112,7 @@ Ext.define('Traccar.view.MapMarkerController', {
         for (i = 0; i < data.length; i++) {
             deviceId = data[i].get('id');
             if (this.latestMarkers[deviceId]) {
-                this.getView().getLatestSource().removeFeature(this.latestMarkers[deviceId]);
+                this.getView().getMarkersSource().removeFeature(this.latestMarkers[deviceId]);
             }
         }
     },
@@ -158,7 +159,7 @@ Ext.define('Traccar.view.MapMarkerController', {
             style.getText().setText(device.get('name'));
             marker.setStyle(style);
             this.latestMarkers[deviceId] = marker;
-            this.getView().getLatestSource().addFeature(marker);
+            this.getView().getMarkersSource().addFeature(marker);
 
         }
 
@@ -247,7 +248,7 @@ Ext.define('Traccar.view.MapMarkerController', {
                 Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
             marker.setStyle(style);
             this.reportMarkers[position.get('id')] = marker;
-            this.getView().getReportSource().addFeature(marker);
+            this.getView().getMarkersSource().addFeature(marker);
         }
         if (minx !== maxx || miny !== maxy) {
             this.getView().getMapView().fit([minx, miny, maxx, maxy], this.getView().getMap().getSize());
@@ -269,7 +270,7 @@ Ext.define('Traccar.view.MapMarkerController', {
         if (this.reportMarkers) {
             for (key in this.reportMarkers) {
                 if (this.reportMarkers.hasOwnProperty(key)) {
-                    this.getView().getReportSource().removeFeature(this.reportMarkers[key]);
+                    this.getView().getMarkersSource().removeFeature(this.reportMarkers[key]);
                 }
             }
             this.reportMarkers = {};
@@ -346,11 +347,13 @@ Ext.define('Traccar.view.MapMarkerController', {
     selectMarker: function (marker, center) {
         if (this.selectedMarker) {
             this.resizeMarker(this.selectedMarker.getStyle(), false);
+            this.selectedMarker.getStyle().setZIndex(0);
             this.selectedMarker.changed();
         }
 
         if (marker) {
             this.resizeMarker(marker.getStyle(), true);
+            marker.getStyle().setZIndex(1);
             marker.changed();
             if (center) {
                 this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
@@ -379,5 +382,10 @@ Ext.define('Traccar.view.MapMarkerController', {
                 this.fireEvent('selectreport', record, false);
             }
         }
+    },
+
+    deselectFeature: function () {
+        this.selectMarker(null, false);
+        this.fireEvent('deselectfeature');
     }
 });
