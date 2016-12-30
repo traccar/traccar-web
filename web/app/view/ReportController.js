@@ -79,6 +79,9 @@ Ext.define('Traccar.view.ReportController', {
         if (this.chartType !== undefined) {
             dialog.lookupReference('chartTypeField').setValue(this.chartType);
         }
+        if (this.showMarkers !== undefined) {
+            dialog.lookupReference('showMarkersField').setValue(this.showMarkers);
+        }
         if (this.fromDate !== undefined) {
             dialog.lookupReference('fromDateField').setValue(this.fromDate);
         }
@@ -125,6 +128,7 @@ Ext.define('Traccar.view.ReportController', {
                 } else {
                     store = this.getGrid().getStore();
                 }
+                store.showMarkers = this.showMarkers;
                 store.load({
                     params: {
                         deviceId: this.deviceId,
@@ -207,6 +211,7 @@ Ext.define('Traccar.view.ReportController', {
         from = new Date(trip.get('startTime'));
         to = new Date(trip.get('endTime'));
         Ext.getStore('ReportRoute').removeAll();
+        Ext.getStore('ReportRoute').showMarkers = this.showMarkers;
         Ext.getStore('ReportRoute').load({
             params: {
                 deviceId: trip.get('deviceId'),
@@ -243,6 +248,7 @@ Ext.define('Traccar.view.ReportController', {
                 scope: this,
                 callback: function (records, operation, success) {
                     if (success) {
+                        Ext.getStore('ReportRoute').showMarkers = this.showMarkers;
                         Ext.getStore('ReportRoute').add(records);
                         if (records.length === 1) {
                             this.fireEvent('selectreport', records[0], false);

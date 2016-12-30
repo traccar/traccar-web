@@ -67,6 +67,13 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         displayField: 'name',
         queryMode: 'local'
     }, {
+        fieldLabel: Strings.reportShowMarkers,
+        xtype: 'checkbox',
+        reference: 'showMarkersField',
+        inputValue: true,
+        uncheckedValue: false,
+        value: true
+    }, {
         xtype: 'fieldcontainer',
         layout: 'hbox',
         items: [{

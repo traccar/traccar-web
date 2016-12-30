@@ -189,6 +189,7 @@
     "reportConfigure": "Configure",
     "reportEventTypes": "Event Types",
     "reportChartType": "Chart Type",
+    "reportShowMarkers": "Show Markers",
     "reportExport": "Export",
     "reportDeviceName": "Device Name",
     "reportAverageSpeed": "Average Speed",
