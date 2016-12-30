@@ -245,8 +245,6 @@ Ext.define('Traccar.view.MapMarkerController', {
                 marker = new ol.Feature(geometry);
                 marker.set('record', position);
                 style = this.getReportMarker(position.get('deviceId'), position.get('course'));
-                /*style.getText().setText(
-                    Ext.Date.format(position.get('fixTime'), Traccar.Style.dateTimeFormat24));*/
                 marker.setStyle(style);
                 this.reportMarkers[position.get('id')] = marker;
                 this.getView().getMarkersSource().addFeature(marker);
