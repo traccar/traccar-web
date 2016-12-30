@@ -44,6 +44,9 @@ Ext.define('Traccar.model.Position', {
         name: 'valid',
         type: 'boolean'
     }, {
+        name: 'accuracy',
+        type: 'float'
+    }, {
         name: 'latitude',
         type: 'float'
     }, {

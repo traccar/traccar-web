@@ -97,6 +97,7 @@
     "reportClear": "Clear",
     "positionFixTime": "Time",
     "positionValid": "Valid",
+    "positionAccuracy": "Accuracy",
     "positionLatitude": "Latitude",
     "positionLongitude": "Longitude",
     "positionAltitude": "Altitude",
