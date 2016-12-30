@@ -72,7 +72,7 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         reference: 'showMarkersField',
         inputValue: true,
         uncheckedValue: false,
-        value: true
+        value: false
     }, {
         xtype: 'fieldcontainer',
         layout: 'hbox',
