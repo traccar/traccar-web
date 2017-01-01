@@ -25,6 +25,8 @@ Ext.define('Traccar.Style', {
     windowWidth: 640,
     windowHeight: 480,
 
+    formFieldWidth: 277,
+
     dateTimeFormat24: 'Y-m-d H:i:s',
     dateTimeFormat12: 'Y-m-d g:i:s a',
     timeFormat24: 'H:i',
@@ -35,7 +37,6 @@ Ext.define('Traccar.Style', {
     deviceWidth: 350,
 
     reportHeight: 250,
-    reportTime: 100,
 
     columnWidthNormal: 100,
 
@@ -78,7 +79,6 @@ Ext.define('Traccar.Style', {
     coordinatePrecision: 6,
     numberPrecision: 2,
 
-    reportTagfieldWidth: 375,
     reportGridStyle: 'borderTop: 1px solid lightgray',
 
     chartPadding: '20 40 10 10',

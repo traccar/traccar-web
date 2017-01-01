@@ -30,8 +30,8 @@ Ext.define('Traccar.view.ReportConfigDialog', {
     items: [{
         fieldLabel: Strings.reportDevice,
         xtype: 'tagfield',
-        width: Traccar.Style.reportTagfieldWidth,
         reference: 'deviceField',
+        maxWidth: Traccar.Style.formFieldWidth,
         store: 'Devices',
         valueField: 'id',
         displayField: 'name',
@@ -39,8 +39,8 @@ Ext.define('Traccar.view.ReportConfigDialog', {
     }, {
         fieldLabel: Strings.reportGroup,
         xtype: 'tagfield',
-        width: Traccar.Style.reportTagfieldWidth,
         reference: 'groupField',
+        maxWidth: Traccar.Style.formFieldWidth,
         store: 'Groups',
         valueField: 'id',
         displayField: 'name',
@@ -48,7 +48,6 @@ Ext.define('Traccar.view.ReportConfigDialog', {
     }, {
         fieldLabel: Strings.reportEventTypes,
         xtype: 'tagfield',
-        width: Traccar.Style.reportTagfieldWidth,
         reference: 'eventTypeField',
         store: 'ReportEventTypes',
         hidden: true,
@@ -58,7 +57,6 @@ Ext.define('Traccar.view.ReportConfigDialog', {
     }, {
         fieldLabel: Strings.reportChartType,
         xtype: 'combobox',
-        width: Traccar.Style.reportTagfieldWidth,
         reference: 'chartTypeField',
         store: 'ReportChartTypes',
         hidden: true,
@@ -75,10 +73,10 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         value: false
     }, {
         xtype: 'fieldcontainer',
-        layout: 'hbox',
+        layout: 'vbox',
+        fieldLabel: Strings.reportFrom,
         items: [{
             xtype: 'datefield',
-            fieldLabel: Strings.reportFrom,
             reference: 'fromDateField',
             startDay: Traccar.Style.weekStartDay,
             format: Traccar.Style.dateFormat,
@@ -86,15 +84,14 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         }, {
             xtype: 'customTimeField',
             reference: 'fromTimeField',
-            maxWidth: Traccar.Style.reportTime,
             value: new Date(new Date().getTime() - 30 * 60 * 1000)
         }]
     }, {
         xtype: 'fieldcontainer',
-        layout: 'hbox',
+        layout: 'vbox',
+        fieldLabel: Strings.reportTo,
         items: [{
             xtype: 'datefield',
-            fieldLabel: Strings.reportTo,
             reference: 'toDateField',
             startDay: Traccar.Style.weekStartDay,
             format: Traccar.Style.dateFormat,
@@ -102,7 +99,6 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         }, {
             xtype: 'customTimeField',
             reference: 'toTimeField',
-            maxWidth: Traccar.Style.reportTime,
             value: new Date()
         }]
     }],
