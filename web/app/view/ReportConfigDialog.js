@@ -49,6 +49,7 @@ Ext.define('Traccar.view.ReportConfigDialog', {
         fieldLabel: Strings.reportEventTypes,
         xtype: 'tagfield',
         reference: 'eventTypeField',
+        maxWidth: Traccar.Style.formFieldWidth,
         store: 'ReportEventTypes',
         hidden: true,
         valueField: 'type',
