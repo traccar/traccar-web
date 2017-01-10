@@ -21,7 +21,7 @@
         svg.setAttribute('id', id);
         svg.setAttribute('data', file);
         svg.setAttribute('type', 'image/svg+xml');
-        svg.setAttribute('style', 'visibility:hidden');
+        svg.setAttribute('style', 'visibility:hidden;position:absolute;left:-100px;');
         document.body.appendChild(svg);
     }
 
