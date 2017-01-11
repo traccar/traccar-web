@@ -50,9 +50,9 @@ Ext.define('Traccar.view.CalendarDialog', {
             }
         }, {
             xtype: 'hiddenfield',
-            name: 'calendarData',
+            name: 'data',
             allowBlank: false,
-            reference: 'calendarDataField'
+            reference: 'dataField'
         }]
     }
 });

@@ -27,7 +27,7 @@ Ext.define('Traccar.model.Calendar', {
         name: 'name',
         type: 'string'
     }, {
-        name: 'calendarData'
+        name: 'data'
     }, {
         name: 'attributes'
     }]
