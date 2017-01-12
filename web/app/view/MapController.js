@@ -86,44 +86,12 @@ Ext.define('Traccar.view.MapController', {
         this.fireEvent('togglestate', state);
     },
 
-    getGeofenceStyle: function (label, color) {
-        var fillColor, strokeColor;
-        if (color) {
-            fillColor = ol.color.asArray(color);
-            strokeColor = color;
-        } else {
-            fillColor = ol.color.asArray(Traccar.Style.mapGeofenceColor);
-            strokeColor = Traccar.Style.mapGeofenceColor;
-        }
-        fillColor[3] = Traccar.Style.mapGeofenceOverlayOpacity;
-        return new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: fillColor
-                }),
-                stroke: new ol.style.Stroke({
-                    color: strokeColor,
-                    width: Traccar.Style.mapGeofenceWidth
-                }),
-                text: new ol.style.Text({
-                    text: label,
-                    fill: new ol.style.Fill({
-                        color: Traccar.Style.mapGeofenceTextColor
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: Traccar.Style.mapTextStrokeColor,
-                        width: Traccar.Style.mapTextStrokeWidth
-                    }),
-                    font : Traccar.Style.mapTextFont
-                })
-            });
-    },
-
     showGeofences: function () {
         if (this.lookupReference('showGeofencesButton').pressed) {
             Ext.getStore('Geofences').each(function (geofence) {
                 var feature = new ol.Feature(Traccar.GeofenceConverter
                         .wktToGeometry(this.getView().getMapView(), geofence.get('area')));
-                feature.setStyle(this.getGeofenceStyle(geofence.get('name'),
+                feature.setStyle(this.getAreaStyle(geofence.get('name'),
                         geofence.get('attributes') ? geofence.get('attributes').color : null));
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;

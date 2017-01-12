@@ -122,7 +122,7 @@ Ext.define('Traccar.view.BaseMap', {
         this.map.on('click', function (e) {
             if (this.map.hasFeatureAtPixel(e.pixel, {
                 layerFilter: function (layer) {
-                    return layer.get('name') !== 'geofencesLayer';
+                    return !layer.get('name');
                 }
             })) {
                 this.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {

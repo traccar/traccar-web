@@ -70,6 +70,8 @@ Ext.define('Traccar.Style', {
     mapMaxZoom: 19,
     mapDelay: 500,
 
+    mapAccuracyColor: 'rgba(96, 96, 96, 1.0)',
+
     mapGeofenceTextColor: 'rgba(14, 88, 141, 1.0)',
     mapGeofenceColor: 'rgba(21, 127, 204, 1.0)',
     mapGeofenceOverlayOpacity: 0.2,
