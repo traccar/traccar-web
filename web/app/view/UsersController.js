@@ -1,6 +1,6 @@
 /*
- * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ Ext.define('Traccar.view.UsersController', {
         'Traccar.view.UserGroups',
         'Traccar.view.UserGeofences',
         'Traccar.view.UserCalendars',
+        'Traccar.view.UserUsers',
         'Traccar.view.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
@@ -33,6 +34,7 @@ Ext.define('Traccar.view.UsersController', {
 
     init: function () {
         Ext.getStore('Users').load();
+        this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('admin'));
     },
 
     onAddClick: function () {
@@ -147,8 +149,23 @@ Ext.define('Traccar.view.UsersController', {
         }).show();
     },
 
-    onSelectionChange: function (selected) {
-        var disabled = selected.length > 0;
+    onUsersClick: function () {
+        var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.settingsUsers,
+            items: {
+                xtype: 'userUsersView',
+                baseObjectName: 'userId',
+                linkObjectName: 'managedUserId',
+                storeName: 'Users',
+                urlApi: 'api/permissions/users',
+                baseObject: user.getId()
+            }
+        }).show();
+    },
+
+    onSelectionChange: function (selection, selected) {
+        var disabled = selected.length === 0;
         this.lookupReference('toolbarEditButton').setDisabled(disabled);
         this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
         this.lookupReference('userDevicesButton').setDisabled(disabled);
@@ -156,5 +173,6 @@ Ext.define('Traccar.view.UsersController', {
         this.lookupReference('userGeofencesButton').setDisabled(disabled);
         this.lookupReference('userNotificationsButton').setDisabled(disabled);
         this.lookupReference('userCalendarsButton').setDisabled(disabled);
+        this.lookupReference('userUsersButton').setDisabled(disabled || selected[0].get('userLimit') === 0);
     }
 });

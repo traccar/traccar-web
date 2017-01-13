@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,14 +35,17 @@ Ext.define('Traccar.view.SettingsMenuController', {
     ],
 
     init: function () {
-        var admin, readonly;
+        var admin, manager, readonly;
         admin = Traccar.app.getUser().get('admin');
+        manager = Traccar.app.getUser().get('userLimit') > 0;
         readonly = Traccar.app.getPreference('readonly', false);
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
-            this.lookupReference('settingsUsersButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
             this.lookupReference('settingsDeviceDistanceButton').setHidden(false);
+        }
+        if (admin || manager) {
+            this.lookupReference('settingsUsersButton').setHidden(false);
         }
         if (admin || !readonly) {
             this.lookupReference('settingsGroupsButton').setHidden(false);
