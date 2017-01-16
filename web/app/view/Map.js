@@ -89,6 +89,10 @@ Ext.define('Traccar.view.Map', {
         return this.markersSource;
     },
 
+    getAccuracySource: function () {
+        return this.accuracySource;
+    },
+
     getRouteSource: function () {
         return this.routeSource;
     },
@@ -124,6 +128,12 @@ Ext.define('Traccar.view.Map', {
         this.routeSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
             source: this.routeSource
+        }));
+
+        this.accuracySource = new ol.source.Vector({});
+        this.map.addLayer(new ol.layer.Vector({
+            name: 'accuracyLayer',
+            source: this.accuracySource
         }));
 
         this.markersSource = new ol.source.Vector({});

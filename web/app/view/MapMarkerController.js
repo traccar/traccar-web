@@ -62,8 +62,44 @@ Ext.define('Traccar.view.MapMarkerController', {
     init: function () {
         this.latestMarkers = {};
         this.reportMarkers = {};
+        this.accuracyCircles = {};
         this.liveRoutes = {};
         this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
+    },
+
+    getAreaStyle: function (label, color) {
+        var fillColor, strokeColor, styleConfig;
+        if (color) {
+            fillColor = ol.color.asArray(color);
+            strokeColor = color;
+        } else {
+            fillColor = ol.color.asArray(Traccar.Style.mapGeofenceColor);
+            strokeColor = Traccar.Style.mapGeofenceColor;
+        }
+        fillColor[3] = Traccar.Style.mapGeofenceOverlayOpacity;
+        styleConfig = {
+            fill: new ol.style.Fill({
+                color: fillColor
+            }),
+            stroke: new ol.style.Stroke({
+                color: strokeColor,
+                width: Traccar.Style.mapGeofenceWidth
+            })
+        };
+        if (label) {
+            styleConfig.text = new ol.style.Text({
+                text: label,
+                fill: new ol.style.Fill({
+                    color: Traccar.Style.mapGeofenceTextColor
+                }),
+                stroke: new ol.style.Stroke({
+                    color: Traccar.Style.mapTextStrokeColor,
+                    width: Traccar.Style.mapTextStrokeWidth
+                }),
+                font: Traccar.Style.mapTextFont
+            });
+        }
+        return new ol.style.Style(styleConfig);
     },
 
     getDeviceColor: function (device) {
@@ -129,9 +165,38 @@ Ext.define('Traccar.view.MapMarkerController', {
             device = Ext.getStore('Devices').findRecord('id', position.get('deviceId'), 0, false, false, true);
 
             if (device) {
+                this.updateAccuracy(position);
                 this.updateLatestMarker(position, device);
                 this.updateLiveRoute(position);
             }
+        }
+    },
+
+    updateAccuracy: function (position) {
+        var center, feature, mapView, projection, pointResolution;
+        mapView = this.getView().getMapView();
+        feature = this.accuracyCircles[position.get('deviceId')];
+
+        if (position.get('accuracy')) {
+            projection = mapView.getProjection();
+            center = ol.proj.fromLonLat([position.get('longitude'), position.get('latitude')]);
+            pointResolution = ol.proj.getPointResolution(projection, mapView.getResolution(), center);
+            radius = (position.get('accuracy') / ol.proj.METERS_PER_UNIT.m) * mapView.getResolution() / pointResolution;
+
+            if (feature) {
+                feature.getGeometry().setCenter(center);
+                feature.getGeometry().setRadius(radius);
+            } else {
+                feature = new ol.Feature(new ol.geom.Circle(center, radius));
+                feature.setStyle(this.getAreaStyle(null, Traccar.Style.mapAccuracyColor));
+                this.getView().getAccuracySource().addFeature(feature);
+                this.accuracyCircles[position.get('deviceId')] = feature;
+            }
+        } else {
+            if (feature) {
+                this.getView().getAccuracySource().removeFeature(feature);
+            }
+            delete this.accuracyCircles[position.get('deviceId')];
         }
     },
 
