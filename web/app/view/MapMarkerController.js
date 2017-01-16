@@ -173,7 +173,7 @@ Ext.define('Traccar.view.MapMarkerController', {
     },
 
     updateAccuracy: function (position) {
-        var center, feature, mapView, projection, pointResolution;
+        var center, radius, feature, mapView, projection, pointResolution;
         mapView = this.getView().getMapView();
         feature = this.accuracyCircles[position.get('deviceId')];
 
