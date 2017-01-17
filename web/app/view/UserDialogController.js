@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,17 @@ Ext.define('Traccar.view.UserDialogController', {
     extend: 'Traccar.view.MapPickerDialogController',
     alias: 'controller.userDialog',
 
-    init: function () {
+    onShow: function () {
         if (Traccar.app.getUser().get('admin')) {
             this.lookupReference('adminField').setHidden(false);
+            this.lookupReference('deviceLimitField').setDisabled(false);
+            this.lookupReference('userLimitField').setDisabled(false);
+        }
+        if (Traccar.app.getUser().get('admin') ||
+                Traccar.app.getUser().getId() !== this.getView().down('form').getRecord().getId()) {
             this.lookupReference('readonlyField').setHidden(false);
             this.lookupReference('disabledField').setHidden(false);
             this.lookupReference('expirationTimeField').setDisabled(false);
-            this.lookupReference('deviceLimitField').setDisabled(false);
             this.lookupReference('tokenField').setDisabled(false);
         }
     },

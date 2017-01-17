@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ Ext.define('Traccar.view.MapController', {
             },
             store: {
                 '#Geofences': {
-                    load: 'showGeofences',
+                    load: 'updateGeofences',
                     add: 'updateGeofences',
                     update: 'updateGeofences',
                     remove: 'updateGeofences'
@@ -86,7 +86,8 @@ Ext.define('Traccar.view.MapController', {
         this.fireEvent('togglestate', state);
     },
 
-    showGeofences: function () {
+    updateGeofences: function () {
+        this.getView().getGeofencesSource().clear();
         if (this.lookupReference('showGeofencesButton').pressed) {
             Ext.getStore('Geofences').each(function (geofence) {
                 var feature = new ol.Feature(Traccar.GeofenceConverter
@@ -96,15 +97,6 @@ Ext.define('Traccar.view.MapController', {
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;
             }, this);
-        } else {
-            this.getView().getGeofencesSource().clear();
-        }
-    },
-
-    updateGeofences: function () {
-        if (this.lookupReference('showGeofencesButton').pressed) {
-            this.getView().getGeofencesSource().clear();
-            this.showGeofences();
         }
     }
 });

@@ -1,6 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ Ext.define('Traccar.view.AttributeAliasesController', {
     ],
 
     init: function () {
-        var admin = Traccar.app.getUser().get('admin');
-        this.lookupReference('deviceField').setStore(admin ? 'AllDevices' : 'Devices');
+        var manager = Traccar.app.getUser().get('admin') || Traccar.app.getUser().get('userLimit') > 0;
+        this.lookupReference('deviceField').setStore(manager ? 'AllDevices' : 'Devices');
         this.lookupReference('toolbarAddButton').setDisabled(true);
         this.lookupReference('toolbarEditButton').setDisabled(true);
         this.lookupReference('toolbarRemoveButton').setDisabled(true);
@@ -88,11 +88,11 @@ Ext.define('Traccar.view.AttributeAliasesController', {
     },
 
     onDeviceChange: function (combobox, newValue, oldValue) {
-        var admin = Traccar.app.getUser().get('admin');
+        var manager = Traccar.app.getUser().get('admin') || Traccar.app.getUser().get('userLimit') > 0;
         this.onSelectionChange('');
         if (newValue !== null) {
             this.getView().getStore().filter('deviceId', newValue);
-            if (admin && this.getView().getStore().getCount() === 0) {
+            if (manager && this.getView().getStore().getCount() === 0) {
                 Ext.getStore('AttributeAliases').getProxy().setExtraParam('deviceId', newValue);
                 Ext.getStore('AttributeAliases').load({
                     addRecords: true
