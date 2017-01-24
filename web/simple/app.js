@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-var url = 'http://localhost:8082';
-var token = 'TOKEN';
+var url = window.location.protocol + '//' + window.location.host;
+var token = (window.location.search.match(/token=([^&#]+)/) || [])[1];
 
 var style = new ol.style.Style({
     image: new ol.style.Circle({
