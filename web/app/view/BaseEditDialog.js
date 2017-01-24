@@ -18,6 +18,12 @@
 Ext.define('Traccar.view.BaseEditDialog', {
     extend: 'Traccar.view.BaseDialog',
 
+    requires: [
+        'Traccar.view.BaseEditDialogController'
+    ],
+
+    controller: 'baseEditDialog',
+
     buttons: [{
         text: Strings.sharedAttributes,
         handler: 'showAttributesView'

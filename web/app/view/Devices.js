@@ -21,8 +21,7 @@ Ext.define('Traccar.view.Devices', {
 
     requires: [
         'Traccar.view.DevicesController',
-        'Traccar.view.EditToolbar',
-        'Traccar.view.SettingsMenu'
+        'Traccar.view.EditToolbar'
     ],
 
     controller: 'devices',

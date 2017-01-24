@@ -58,6 +58,7 @@
     "userExpirationTime": "Expiration",
     "userDeviceLimit": "Device Limit",
     "userUserLimit": "User Limit",
+    "userDeviceReadonly": "Device Readonly",
     "userToken": "Token",
     "loginTitle": "Login",
     "loginLanguage": "Language",

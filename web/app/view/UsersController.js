@@ -40,6 +40,12 @@ Ext.define('Traccar.view.UsersController', {
     onAddClick: function () {
         var user, dialog;
         user = Ext.create('Traccar.model.User');
+        if (Traccar.app.getUser().get('admin')) {
+            user.set('deviceLimit', -1);
+        }
+        if (Traccar.app.getUser().get('expirationTime')) {
+            user.set('expirationTime', Traccar.app.getUser().get('expirationTime'));
+        }
         dialog = Ext.create('Traccar.view.UserDialog');
         dialog.down('form').loadRecord(user);
         dialog.show();

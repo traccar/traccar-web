@@ -18,11 +18,6 @@
 Ext.define('Traccar.view.DeviceDialog', {
     extend: 'Traccar.view.BaseEditDialog',
 
-    requires: [
-        'Traccar.view.BaseEditDialog'
-    ],
-
-    controller: 'baseEditDialog',
     title: Strings.sharedDevice,
 
     items: {

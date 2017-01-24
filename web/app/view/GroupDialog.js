@@ -18,11 +18,6 @@
 Ext.define('Traccar.view.GroupDialog', {
     extend: 'Traccar.view.BaseEditDialog',
 
-    requires: [
-        'Traccar.view.BaseEditDialogController'
-    ],
-
-    controller: 'baseEditDialog',
     title: Strings.groupDialog,
 
     items: {

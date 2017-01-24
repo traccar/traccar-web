@@ -24,6 +24,7 @@ Ext.define('Traccar.view.MainMobile', {
     requires: [
         'Traccar.view.Devices',
         'Traccar.view.State',
+        'Traccar.view.Report',
         'Traccar.view.Map'
     ],
 

@@ -20,6 +20,7 @@ Ext.define('Traccar.view.GeofenceDialogController', {
     alias: 'controller.geofenceDialog',
 
     requires: [
+        'Traccar.view.BaseWindow',
         'Traccar.view.GeofenceMap'
     ],
 

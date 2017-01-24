@@ -19,10 +19,6 @@ Ext.define('Traccar.view.NotificationsController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.notificationsController',
 
-    requires: [
-        'Traccar.store.Notifications'
-    ],
-
     init: function () {
         this.getView().getStore().load({
             params: {

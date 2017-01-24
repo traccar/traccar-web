@@ -20,6 +20,7 @@ Ext.define('Traccar.view.BaseEditDialogController', {
     alias: 'controller.baseEditDialog',
 
     requires: [
+        'Traccar.view.BaseWindow',
         'Traccar.view.Attributes'
     ],
 
