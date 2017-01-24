@@ -17,18 +17,32 @@
 var url = window.location.protocol + '//' + window.location.host;
 var token = (window.location.search.match(/token=([^&#]+)/) || [])[1];
 
-var style = new ol.style.Style({
-    image: new ol.style.Circle({
-        fill: new ol.style.Fill({
-            color: 'teal'
+var style = function (label) {
+    return new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: new ol.style.Fill({
+                color: 'teal'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'black',
+                width: 2
+            }),
+            radius: 7
         }),
-        stroke: new ol.style.Stroke({
-            color: 'navy',
-            width: 2
-        }),
-        radius: 7
-    })
-});
+        text: new ol.style.Text({
+            text: label,
+            fill: new ol.style.Fill({
+                color: 'black'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 2
+            }),
+            font: 'bold 12px sans-serif',
+            offsetY: -16
+        })
+    });
+};
 
 var source = new ol.source.Vector();
 
@@ -82,8 +96,9 @@ ajax('GET', url + '/api/session?token=' + token, function(user) {
                     var marker = markers[position.deviceId];
                     var point = new ol.geom.Point(ol.proj.fromLonLat([position.longitude, position.latitude]));
                     if (!marker) {
+                        var device = devices.find(function (device) { return device.id === position.deviceId });
                         marker = new ol.Feature(point);
-                        marker.setStyle(style);
+                        marker.setStyle(style(device.name));
                         markers[position.deviceId] = marker;
                         source.addFeature(marker);
                     } else {
