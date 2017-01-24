@@ -14,6 +14,21 @@
  * limitations under the License.
  */
 
+if (!Array.prototype.find) {
+  Object.defineProperty(Array.prototype, "find", {
+    value: function(predicate) {
+      var value;
+      for (var i = 0; i < this.length; i++) {
+        value = list[i];
+        if (predicate.call(arguments[1], value, i, list)) {
+          return value;
+        }
+      }
+      return undefined;
+    }
+  });
+}
+
 var url = window.location.protocol + '//' + window.location.host;
 var token = (window.location.search.match(/token=([^&#]+)/) || [])[1];
 
@@ -79,34 +94,43 @@ var ajax = function (method, url, callback) {
     xhr.send()
 };
 
-ajax('GET', url + '/api/session?token=' + token, function(user) {
-    ajax('GET', url + '/api/devices', function(devices) {
+ajax('GET', url + '/api/server', function(server) {
+    ajax('GET', url + '/api/session?token=' + token, function(user) {
 
-        var socket = new WebSocket('ws' + url.substring(4) + '/api/socket');
+        map.getView().setCenter(ol.proj.fromLonLat([
+            user.longitude || server.longitude || 0.0,
+            user.latitude || server.latitude || 0.0
+        ]));
+        map.getView().setZoom(user.zoom || server.zoom || 2);
 
-        socket.onclose = function (event) {
-            console.log('socket closed');
-        };
+        ajax('GET', url + '/api/devices', function(devices) {
 
-        socket.onmessage = function (event) {
-            var data = JSON.parse(event.data);
-            if (data.positions) {
-                for (i = 0; i < data.positions.length; i++) {
-                    var position = data.positions[i];
-                    var marker = markers[position.deviceId];
-                    var point = new ol.geom.Point(ol.proj.fromLonLat([position.longitude, position.latitude]));
-                    if (!marker) {
-                        var device = devices.find(function (device) { return device.id === position.deviceId });
-                        marker = new ol.Feature(point);
-                        marker.setStyle(style(device.name));
-                        markers[position.deviceId] = marker;
-                        source.addFeature(marker);
-                    } else {
-                        marker.setGeometry(point);
+            var socket = new WebSocket('ws' + url.substring(4) + '/api/socket');
+
+            socket.onclose = function (event) {
+                console.log('socket closed');
+            };
+
+            socket.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if (data.positions) {
+                    for (i = 0; i < data.positions.length; i++) {
+                        var position = data.positions[i];
+                        var marker = markers[position.deviceId];
+                        var point = new ol.geom.Point(ol.proj.fromLonLat([position.longitude, position.latitude]));
+                        if (!marker) {
+                            var device = devices.find(function (device) { return device.id === position.deviceId });
+                            marker = new ol.Feature(point);
+                            marker.setStyle(style(device.name));
+                            markers[position.deviceId] = marker;
+                            source.addFeature(marker);
+                        } else {
+                            marker.setGeometry(point);
+                        }
                     }
                 }
-            }
-        };
+            };
 
+        });
     });
 });
