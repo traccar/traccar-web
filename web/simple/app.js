@@ -19,8 +19,8 @@ if (!Array.prototype.find) {
     value: function(predicate) {
       var value;
       for (var i = 0; i < this.length; i++) {
-        value = list[i];
-        if (predicate.call(arguments[1], value, i, list)) {
+        value = this[i];
+        if (predicate.call(arguments[1], value, i, this)) {
           return value;
         }
       }
