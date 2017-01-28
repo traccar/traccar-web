@@ -20,7 +20,8 @@ Ext.define('Traccar.view.Map', {
     xtype: 'mapView',
 
     requires: [
-        'Traccar.view.MapController'
+        'Traccar.view.MapController',
+        'Traccar.view.SettingsMenu'
     ],
 
     controller: 'map',

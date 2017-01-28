@@ -55,6 +55,8 @@ Ext.define('Traccar.view.StateController', {
     },
 
     init: function () {
+        var visible = !Traccar.app.getUser().get('deviceReadonly') && !Traccar.app.getPreference('readonly', false);
+        this.lookupReference('aliasEditButton').setVisible(visible);
         this.aliasesStore = Ext.getStore('AttributeAliases');
     },
 

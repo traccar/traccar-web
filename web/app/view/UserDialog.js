@@ -145,11 +145,18 @@ Ext.define('Traccar.view.UserDialog', {
             disabled: true,
             reference: 'userLimitField'
         }, {
+            xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
+            name: 'deviceReadonly',
+            fieldLabel: Strings.userDeviceReadonly,
+            disabled: true,
+            reference: 'deviceReadonlyField'
+        }, {
             xtype: 'textfield',
             name: 'token',
             reference: 'tokenField',
             fieldLabel: Strings.userToken,
-            disabled: true,
             triggers: {
                 generate: {
                     cls: 'iconCls: x-fa fa-refresh',

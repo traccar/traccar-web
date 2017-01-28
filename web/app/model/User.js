@@ -75,6 +75,9 @@ Ext.define('Traccar.model.User', {
         name: 'userLimit',
         type: 'int'
     }, {
+        name: 'deviceReadonly',
+        type: 'boolean'
+    }, {
         name: 'token',
         type: 'string'
     }, {

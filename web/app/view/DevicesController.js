@@ -48,10 +48,12 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     init: function () {
-        var readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
-        this.lookupReference('toolbarAddButton').setVisible(!readonly);
-        this.lookupReference('toolbarEditButton').setVisible(!readonly);
-        this.lookupReference('toolbarRemoveButton').setVisible(!readonly);
+        var readonly, deviceReadonly;
+        deviceReadonly = Traccar.app.getUser().get('deviceReadonly');
+        readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
+        this.lookupReference('toolbarAddButton').setVisible(!readonly && !deviceReadonly);
+        this.lookupReference('toolbarEditButton').setVisible(!readonly && !deviceReadonly);
+        this.lookupReference('toolbarRemoveButton').setVisible(!readonly && !deviceReadonly);
         this.lookupReference('toolbarGeofencesButton').setVisible(!readonly);
     },
 
@@ -87,7 +89,12 @@ Ext.define('Traccar.view.DevicesController', {
                 if (btn === 'yes') {
                     store = Ext.getStore('Devices');
                     store.remove(device);
-                    store.sync();
+                    store.sync({
+                        failure: function (batch) {
+                            store.rejectChanges();
+                            Traccar.app.showError(batch.exceptions[0].getError().response);
+                        }
+                    });
                 }
             }
         });
