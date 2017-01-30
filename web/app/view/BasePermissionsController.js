@@ -47,7 +47,7 @@ Ext.define('Traccar.view.BasePermissionsController', {
         });
     },
 
-    onBeforeSelect: function (object, record, index) {
+    onBeforeSelect: function (selection, record, index) {
         var data = {};
         data[this.getView().baseObjectName] = this.getView().baseObject;
         data[this.getView().linkObjectName] = record.getId();
@@ -57,13 +57,14 @@ Ext.define('Traccar.view.BasePermissionsController', {
             jsonData: Ext.util.JSON.encode(data),
             callback: function (options, success, response) {
                 if (!success) {
+                    selection.deselect(record);
                     Traccar.app.showError(response);
                 }
             }
         });
     },
 
-    onBeforeDeselect: function (object, record, index) {
+    onBeforeDeselect: function (selection, record, index) {
         var data = {};
         data[this.getView().baseObjectName] = this.getView().baseObject;
         data[this.getView().linkObjectName] = record.getId();
@@ -74,6 +75,7 @@ Ext.define('Traccar.view.BasePermissionsController', {
             jsonData: Ext.util.JSON.encode(data),
             callback: function (options, success, response) {
                 if (!success) {
+                    selection.select(record);
                     Traccar.app.showError(response);
                 }
             }
