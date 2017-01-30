@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.GroupsController', {
-    extend: 'Ext.app.ViewController',
+    extend: 'Traccar.view.EditToolbarController',
     alias: 'controller.groups',
 
     requires: [
@@ -26,42 +26,9 @@ Ext.define('Traccar.view.GroupsController', {
         'Traccar.model.Group'
     ],
 
-    onAddClick: function () {
-        var group, dialog;
-        group = Ext.create('Traccar.model.Group');
-        group.store = this.getView().getStore();
-        dialog = Ext.create('Traccar.view.GroupDialog');
-        dialog.down('form').loadRecord(group);
-        dialog.show();
-    },
-
-    onEditClick: function () {
-        var group, dialog;
-        group = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.GroupDialog');
-        dialog.down('form').loadRecord(group);
-        dialog.show();
-    },
-
-    onRemoveClick: function () {
-        var group = this.getView().getSelectionModel().getSelection()[0];
-        Ext.Msg.show({
-            title: Strings.groupDialog,
-            message: Strings.sharedRemoveConfirm,
-            buttons: Ext.Msg.YESNO,
-            buttonText: {
-                yes: Strings.sharedRemove,
-                no: Strings.sharedCancel
-            },
-            fn: function (btn) {
-                var store = Ext.getStore('Groups');
-                if (btn === 'yes') {
-                    store.remove(group);
-                    store.sync();
-                }
-            }
-        });
-    },
+    objectModel: 'Traccar.model.Group',
+    objectDialog: 'Traccar.view.GroupDialog',
+    removeTitle: Strings.groupDialog,
 
     onGeofencesClick: function () {
         var admin, group;
@@ -82,8 +49,7 @@ Ext.define('Traccar.view.GroupsController', {
 
     onSelectionChange: function (selected) {
         var disabled = selected.length > 0;
-        this.lookupReference('toolbarEditButton').setDisabled(disabled);
-        this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
         this.lookupReference('toolbarGeofencesButton').setDisabled(disabled);
+        this.callParent(arguments);
     }
 });

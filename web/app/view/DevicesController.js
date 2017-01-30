@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.DevicesController', {
-    extend: 'Ext.app.ViewController',
+    extend: 'Traccar.view.EditToolbarController',
     alias: 'controller.devices',
 
     requires: [
@@ -47,6 +47,10 @@ Ext.define('Traccar.view.DevicesController', {
         }
     },
 
+    objectModel: 'Traccar.model.Device',
+    objectDialog: 'Traccar.view.DeviceDialog',
+    removeTitle: Strings.sharedDevice,
+
     init: function () {
         var readonly, deviceReadonly;
         deviceReadonly = Traccar.app.getUser().get('deviceReadonly');
@@ -55,49 +59,6 @@ Ext.define('Traccar.view.DevicesController', {
         this.lookupReference('toolbarEditButton').setVisible(!readonly && !deviceReadonly);
         this.lookupReference('toolbarRemoveButton').setVisible(!readonly && !deviceReadonly);
         this.lookupReference('toolbarGeofencesButton').setVisible(!readonly);
-    },
-
-    onAddClick: function () {
-        var device, dialog;
-        device = Ext.create('Traccar.model.Device');
-        device.store = Ext.getStore('Devices');
-        dialog = Ext.create('Traccar.view.DeviceDialog');
-        dialog.down('form').loadRecord(device);
-        dialog.show();
-    },
-
-    onEditClick: function () {
-        var device, dialog;
-        device = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.DeviceDialog');
-        dialog.down('form').loadRecord(device);
-        dialog.show();
-    },
-
-    onRemoveClick: function () {
-        var device = this.getView().getSelectionModel().getSelection()[0];
-        Ext.Msg.show({
-            title: Strings.deviceDialog,
-            message: Strings.sharedRemoveConfirm,
-            buttons: Ext.Msg.YESNO,
-            buttonText: {
-                yes: Strings.sharedRemove,
-                no: Strings.sharedCancel
-            },
-            fn: function (btn) {
-                var store;
-                if (btn === 'yes') {
-                    store = Ext.getStore('Devices');
-                    store.remove(device);
-                    store.sync({
-                        failure: function (batch) {
-                            store.rejectChanges();
-                            Traccar.app.showError(batch.exceptions[0].getError().response);
-                        }
-                    });
-                }
-            }
-        });
     },
 
     onGeofencesClick: function () {

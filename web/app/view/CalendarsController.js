@@ -1,6 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
  */
 
 Ext.define('Traccar.view.CalendarsController', {
-    extend: 'Ext.app.ViewController',
+    extend: 'Traccar.view.EditToolbarController',
     alias: 'controller.calendars',
 
     requires: [
@@ -25,50 +25,11 @@ Ext.define('Traccar.view.CalendarsController', {
         'Traccar.model.Calendar'
     ],
 
+    objectModel: 'Traccar.model.Calendar',
+    objectDialog: 'Traccar.view.CalendarDialog',
+    removeTitle: Strings.sharedCalendar,
+
     init: function () {
         Ext.getStore('Calendars').load();
-    },
-
-    onAddClick: function () {
-        var calendar, dialog;
-        calendar = Ext.create('Traccar.model.Calendar');
-        calendar.store = this.getView().getStore();
-        dialog = Ext.create('Traccar.view.CalendarDialog');
-        dialog.down('form').loadRecord(calendar);
-        dialog.show();
-    },
-
-    onEditClick: function () {
-        var calendar, dialog;
-        calendar = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.CalendarDialog');
-        dialog.down('form').loadRecord(calendar);
-        dialog.show();
-    },
-
-    onRemoveClick: function () {
-        var calendar = this.getView().getSelectionModel().getSelection()[0];
-        Ext.Msg.show({
-            title: Strings.sharedCalendar,
-            message: Strings.sharedRemoveConfirm,
-            buttons: Ext.Msg.YESNO,
-            buttonText: {
-                yes: Strings.sharedRemove,
-                no: Strings.sharedCancel
-            },
-            fn: function (btn) {
-                var store = Ext.getStore('Calendars');
-                if (btn === 'yes') {
-                    store.remove(calendar);
-                    store.sync();
-                }
-            }
-        });
-    },
-
-    onSelectionChange: function (selected) {
-        var disabled = selected.length > 0;
-        this.lookupReference('toolbarEditButton').setDisabled(disabled);
-        this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
     }
 });

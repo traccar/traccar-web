@@ -17,7 +17,7 @@
  */
 
 Ext.define('Traccar.view.UsersController', {
-    extend: 'Ext.app.ViewController',
+    extend: 'Traccar.view.EditToolbarController',
     alias: 'controller.users',
 
     requires: [
@@ -31,6 +31,10 @@ Ext.define('Traccar.view.UsersController', {
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
     ],
+
+    objectModel: 'Traccar.model.User',
+    objectDialog: 'Traccar.view.UserDialog',
+    removeTitle: Strings.settingsUser,
 
     init: function () {
         Ext.getStore('Users').load();
@@ -49,34 +53,6 @@ Ext.define('Traccar.view.UsersController', {
         dialog = Ext.create('Traccar.view.UserDialog');
         dialog.down('form').loadRecord(user);
         dialog.show();
-    },
-
-    onEditClick: function () {
-        var user, dialog;
-        user = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.UserDialog');
-        dialog.down('form').loadRecord(user);
-        dialog.show();
-    },
-
-    onRemoveClick: function () {
-        var user = this.getView().getSelectionModel().getSelection()[0];
-        Ext.Msg.show({
-            title: Strings.settingsUser,
-            message: Strings.sharedRemoveConfirm,
-            buttons: Ext.Msg.YESNO,
-            buttonText: {
-                yes: Strings.sharedRemove,
-                no: Strings.sharedCancel
-            },
-            fn: function (btn) {
-                var store = Ext.getStore('Users');
-                if (btn === 'yes') {
-                    store.remove(user);
-                    store.sync();
-                }
-            }
-        });
     },
 
     onDevicesClick: function () {
@@ -172,13 +148,12 @@ Ext.define('Traccar.view.UsersController', {
 
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
-        this.lookupReference('toolbarEditButton').setDisabled(disabled);
-        this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
         this.lookupReference('userDevicesButton').setDisabled(disabled);
         this.lookupReference('userGroupsButton').setDisabled(disabled);
         this.lookupReference('userGeofencesButton').setDisabled(disabled);
         this.lookupReference('userNotificationsButton').setDisabled(disabled);
         this.lookupReference('userCalendarsButton').setDisabled(disabled);
         this.lookupReference('userUsersButton').setDisabled(disabled || selected[0].get('userLimit') === 0);
+        this.callParent(arguments);
     }
 });

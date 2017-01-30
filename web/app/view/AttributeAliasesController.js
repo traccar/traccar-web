@@ -17,13 +17,17 @@
  */
 
 Ext.define('Traccar.view.AttributeAliasesController', {
-    extend: 'Ext.app.ViewController',
+    extend: 'Traccar.view.EditToolbarController',
     alias: 'controller.attributeAliases',
 
     requires: [
         'Traccar.view.AttributeAliasDialog',
         'Traccar.model.AttributeAlias'
     ],
+
+    objectModel: 'Traccar.model.AttributeAlias',
+    objectDialog: 'Traccar.view.AttributeAliasDialog',
+    removeTitle: Strings.sharedAttributeAlias,
 
     init: function () {
         var manager = Traccar.app.getUser().get('admin') || Traccar.app.getUser().get('userLimit') > 0;
@@ -47,36 +51,6 @@ Ext.define('Traccar.view.AttributeAliasesController', {
         dialog = Ext.create('Traccar.view.AttributeAliasDialog');
         dialog.down('form').loadRecord(attributeAlias);
         dialog.show();
-    },
-
-    onEditClick: function () {
-        var attributeAlias, dialog;
-        attributeAlias = this.getView().getSelectionModel().getSelection()[0];
-        attributeAlias.store = Ext.getStore('AttributeAliases');
-        dialog = Ext.create('Traccar.view.AttributeAliasDialog');
-        dialog.down('form').loadRecord(attributeAlias);
-        dialog.show();
-    },
-
-    onRemoveClick: function () {
-        var attributeAlias = this.getView().getSelectionModel().getSelection()[0];
-        Ext.Msg.show({
-            title: Strings.sharedAttributeAlias,
-            message: Strings.sharedRemoveConfirm,
-            buttons: Ext.Msg.YESNO,
-            buttonText: {
-                yes: Strings.sharedRemove,
-                no: Strings.sharedCancel
-            },
-            scope: this,
-            fn: function (btn) {
-                var store = Ext.getStore('AttributeAliases');
-                if (btn === 'yes') {
-                    store.remove(attributeAlias);
-                    store.sync();
-                }
-            }
-        });
     },
 
     onSelectionChange: function (selected) {
