@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.AttributesController', {
-    extend: 'Ext.app.ViewController',
+    extend: 'Traccar.view.EditToolbarController',
     alias: 'controller.attributes',
 
     requires: [
@@ -24,6 +24,10 @@ Ext.define('Traccar.view.AttributesController', {
         'Traccar.store.Attributes',
         'Traccar.model.Attribute'
     ],
+
+    objectModel: 'Traccar.model.Attribute',
+    objectDialog: 'Traccar.view.AttributeDialog',
+    removeTitle: Strings.stateName,
 
     init: function () {
         var store, propertyName, i = 0, attributes;
@@ -67,49 +71,5 @@ Ext.define('Traccar.view.AttributesController', {
         }, this);
 
         this.getView().setStore(store);
-    },
-
-    onAddClick: function () {
-        var attribute, dialog;
-        attribute = Ext.create('Traccar.model.Attribute');
-        attribute.store = this.getView().getStore();
-        dialog = Ext.create('Traccar.view.AttributeDialog');
-        dialog.down('form').loadRecord(attribute);
-        dialog.show();
-    },
-
-    onEditClick: function () {
-        var attribute, dialog;
-        attribute = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.AttributeDialog');
-        dialog.down('form').loadRecord(attribute);
-        dialog.show();
-    },
-
-    onRemoveClick: function () {
-        var attribute = this.getView().getSelectionModel().getSelection()[0];
-        Ext.Msg.show({
-            title: Strings.stateName,
-            message: Strings.sharedRemoveConfirm,
-            buttons: Ext.Msg.YESNO,
-            buttonText: {
-                yes: Strings.sharedRemove,
-                no: Strings.sharedCancel
-            },
-            scope: this,
-            fn: function (btn) {
-                var store = this.getView().getStore();
-                if (btn === 'yes') {
-                    store.remove(attribute);
-                    store.sync();
-                }
-            }
-        });
-    },
-
-    onSelectionChange: function (selected) {
-        var disabled = selected.length > 0;
-        this.lookupReference('toolbarEditButton').setDisabled(disabled);
-        this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
     }
 });
