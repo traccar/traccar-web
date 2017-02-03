@@ -22,6 +22,9 @@ Ext.define('Traccar.view.EditToolbarController', {
     onAddClick: function () {
         var dialog, objectInstance = Ext.create(this.objectModel);
         objectInstance.store = this.getView().getStore();
+        if (objectInstance.store instanceof Ext.data.ChainedStore) {
+            objectInstance.store = objectInstance.store.getSource();
+        }
         dialog = Ext.create(this.objectDialog);
         dialog.down('form').loadRecord(objectInstance);
         dialog.show();
