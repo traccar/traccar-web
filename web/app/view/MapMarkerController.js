@@ -149,6 +149,15 @@ Ext.define('Traccar.view.MapMarkerController', {
             deviceId = data[i].get('id');
             if (this.latestMarkers[deviceId]) {
                 this.getView().getMarkersSource().removeFeature(this.latestMarkers[deviceId]);
+                delete this.latestMarkers[deviceId];
+            }
+            if (this.accuracyCircles[deviceId]) {
+                this.getView().getAccuracySource().removeFeature(this.accuracyCircles[deviceId]);
+                delete this.accuracyCircles[deviceId];
+            }
+            if (this.liveRoutes[deviceId]) {
+                this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId]);
+                delete this.liveRoutes[deviceId];
             }
         }
     },
