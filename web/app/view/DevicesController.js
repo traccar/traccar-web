@@ -58,6 +58,7 @@ Ext.define('Traccar.view.DevicesController', {
         this.lookupReference('toolbarAddButton').setVisible(!readonly && !deviceReadonly);
         this.lookupReference('toolbarEditButton').setVisible(!readonly && !deviceReadonly);
         this.lookupReference('toolbarRemoveButton').setVisible(!readonly && !deviceReadonly);
+        this.lookupReference('deviceCommandButton').setVisible(!readonly && !deviceReadonly);
         this.lookupReference('toolbarGeofencesButton').setVisible(!readonly);
     },
 
