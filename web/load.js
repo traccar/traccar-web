@@ -49,6 +49,7 @@
         'id': { name: 'Bahasa Indonesia', code: 'id' },
         'it': { name: 'Italiano', code: 'it' },
         'ka': { name: 'ქართული', code: 'en' },
+        'km': { name: 'ភាសាខ្មែរ', code: 'en' },
         'lo': { name: 'ລາວ', code: 'en' },
         'lt': { name: 'Lietuvių', code: 'lt' },
         'ml': { name: 'മലയാളം', code: 'en' },
@@ -71,6 +72,7 @@
         'th': { name: 'ไทย', code: 'th' },
         'tr': { name: 'Türkçe', code: 'tr' },
         'uk': { name: 'Українська', code: 'ukr' },
+        'uz': { name: 'Oʻzbekcha', code: 'en' },
         'vi': { name: 'Tiếng Việt', code: 'en' },
         'zh': { name: '中文', code: 'zh_CN' }
     };
