@@ -34,10 +34,9 @@ Ext.define('Traccar.view.Notifications', {
         markDirty: false
     },
 
-    forceFit: true,
-
     columns: {
         defaults: {
+            flex: 1,
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{

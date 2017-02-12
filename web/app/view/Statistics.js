@@ -48,10 +48,9 @@ Ext.define('Traccar.view.Statistics', {
         handler: 'onShowClick'
     }],
 
-    forceFit: true,
-
     columns: {
         defaults: {
+            flex: 1,
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{

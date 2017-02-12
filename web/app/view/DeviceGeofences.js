@@ -36,12 +36,13 @@ Ext.define('Traccar.view.DeviceGeofences', {
         beforeselect: 'onBeforeSelect'
     },
 
-    forceFit: true,
-
     columns: {
+        defaults: {
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal
+        },
         items: [{
             text: Strings.sharedName,
-            minWidth: Traccar.Style.columnWidthNormal,
             dataIndex: 'name'
         }]
     }
