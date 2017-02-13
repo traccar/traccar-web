@@ -171,7 +171,7 @@ Ext.define('Traccar.view.MapMarkerController', {
 
         for (i = 0; i < data.length; i++) {
             position = data[i];
-            device = Ext.getStore('Devices').findRecord('id', position.get('deviceId'), 0, false, false, true);
+            device = Ext.getStore('Devices').getById(position.get('deviceId'));
 
             if (device) {
                 this.updateAccuracy(position);
@@ -333,9 +333,9 @@ Ext.define('Traccar.view.MapMarkerController', {
             }
         }
         if (minx !== maxx || miny !== maxy) {
-            this.getView().getMapView().fit([minx, miny, maxx, maxy], this.getView().getMap().getSize());
+            this.getView().getMapView().fit([minx, miny, maxx, maxy]);
         } else if (point) {
-            this.getView().getMapView().fit(new ol.geom.Point(point), this.getView().getMap().getSize());
+            this.getView().getMapView().fit(new ol.geom.Point(point));
         }
     },
 
