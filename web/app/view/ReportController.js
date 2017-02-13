@@ -437,7 +437,7 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'geofenceId',
         renderer: function (value) {
             if (value !== 0) {
-                return Ext.getStore('Geofences').findRecord('id', value).get('name');
+                return Ext.getStore('Geofences').getById(value).get('name');
             }
         }
     }],
