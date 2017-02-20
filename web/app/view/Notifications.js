@@ -59,6 +59,13 @@ Ext.define('Traccar.view.Notifications', {
             listeners: {
                 checkChange: 'onCheckChange'
             }
+        }, {
+            text: Strings.notificationSms,
+            dataIndex: 'sms',
+            xtype: 'checkcolumn',
+            listeners: {
+                checkChange: 'onCheckChange'
+            }
         }]
     }
 });

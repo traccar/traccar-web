@@ -32,6 +32,9 @@ Ext.define('Traccar.model.User', {
         name: 'password',
         type: 'string'
     }, {
+        name: 'phone',
+        type: 'string'
+    }, {
         name: 'readonly',
         type: 'boolean'
     }, {

@@ -43,7 +43,7 @@ Ext.define('Traccar.view.DeviceDialog', {
         }, {
             xtype: 'textfield',
             name: 'phone',
-            fieldLabel: Strings.devicePhone
+            fieldLabel: Strings.sharedPhone
         }, {
             xtype: 'textfield',
             name: 'model',
