@@ -29,6 +29,9 @@ Ext.define('Traccar.model.Server', {
         name: 'readonly',
         type: 'boolean'
     }, {
+        name: 'deviceReadonly',
+        type: 'boolean'
+    }, {
         name: 'map',
         type: 'string'
     }, {

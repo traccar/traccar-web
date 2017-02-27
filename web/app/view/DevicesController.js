@@ -53,13 +53,9 @@ Ext.define('Traccar.view.DevicesController', {
 
     init: function () {
         var readonly, deviceReadonly;
-        deviceReadonly = Traccar.app.getUser().get('deviceReadonly');
+        deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('admin');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
-        this.lookupReference('toolbarAddButton').setVisible(!readonly && !deviceReadonly);
-        this.lookupReference('toolbarEditButton').setVisible(!readonly && !deviceReadonly);
-        this.lookupReference('toolbarRemoveButton').setVisible(!readonly && !deviceReadonly);
-        this.lookupReference('deviceCommandButton').setVisible(!readonly && !deviceReadonly);
-        this.lookupReference('toolbarGeofencesButton').setVisible(!readonly);
+        this.lookupReference('toolbarAddButton').setDisabled(readonly || deviceReadonly);
     },
 
     onGeofencesClick: function () {
@@ -91,11 +87,15 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     updateButtons: function (selected) {
-        var empty = selected.getCount() === 0;
-        this.lookupReference('toolbarEditButton').setDisabled(empty);
-        this.lookupReference('toolbarRemoveButton').setDisabled(empty);
-        this.lookupReference('toolbarGeofencesButton').setDisabled(empty);
-        this.lookupReference('deviceCommandButton').setDisabled(empty || (selected.getLastSelected().get('status') !== 'online'));
+        var readonly, deviceReadonly, empty, online;
+        deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('admin');
+        readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
+        empty = selected.getCount() === 0;
+        online = selected.getLastSelected().get('status') === 'online';
+        this.lookupReference('toolbarEditButton').setDisabled(empty || readonly || deviceReadonly);
+        this.lookupReference('toolbarRemoveButton').setDisabled(empty || readonly || deviceReadonly);
+        this.lookupReference('toolbarGeofencesButton').setDisabled(empty || readonly);
+        this.lookupReference('deviceCommandButton').setDisabled(empty || readonly || !online);
     },
 
     onSelectionChange: function (selected) {
