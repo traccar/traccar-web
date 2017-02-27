@@ -42,6 +42,13 @@ Ext.define('Traccar.view.ServerDialog', {
             fieldLabel: Strings.serverReadonly,
             allowBlank: false
         }, {
+            xtype: 'checkboxfield',
+            inputValue: true,
+            uncheckedValue: false,
+            name: 'deviceReadonly',
+            fieldLabel: Strings.userDeviceReadonly,
+            allowBlank: false
+        }, {
             xtype: 'combobox',
             name: 'map',
             fieldLabel: Strings.mapLayer,

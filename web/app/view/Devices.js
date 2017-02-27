@@ -47,6 +47,7 @@ Ext.define('Traccar.view.Devices', {
             xtype: 'tbfill'
         }, {
             xtype: 'button',
+            disabled: true,
             handler: 'onAddClick',
             reference: 'toolbarAddButton',
             glyph: 'xf067@FontAwesome',
