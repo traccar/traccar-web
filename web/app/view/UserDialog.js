@@ -43,6 +43,10 @@ Ext.define('Traccar.view.UserDialog', {
             inputType: 'password',
             allowBlank: false
         }, {
+            xtype: 'textfield',
+            name: 'phone',
+            fieldLabel: Strings.sharedPhone
+        }, {
             xtype: 'checkboxfield',
             inputValue: true,
             uncheckedValue: false,
