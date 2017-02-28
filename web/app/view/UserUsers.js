@@ -38,13 +38,11 @@ Ext.define('Traccar.view.UserUsers', {
     },
 
     columns: {
-        defaults: {
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
-        },
         items: [{
             text: Strings.sharedName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal
         }]
     }
 });

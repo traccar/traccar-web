@@ -42,6 +42,7 @@ Ext.define('Traccar.view.Notifications', {
         items: [{
             text: Strings.notificationType,
             dataIndex: 'type',
+            flex: 2,
             renderer: function (value) {
                 return Traccar.app.getEventString(value);
             }
