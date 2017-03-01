@@ -60,6 +60,7 @@ Ext.define('Traccar.view.DeviceDialog', {
             queryMode: 'local',
             displayField: 'name',
             valueField: 'key',
+            editable: false,
             listConfig: {
                 getInnerTpl: function () {
                     return '<table><tr valign="middle" ><td><div align="center" style="width:40px;height:40px;" >' +
