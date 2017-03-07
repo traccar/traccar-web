@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -113,9 +113,18 @@ Ext.define('Traccar.view.CommandDialogController', {
         });
     },
 
+    onTextChannelChange: function (checkbox, newValue) {
+        var typesStore = this.lookupReference('commandType').getStore();
+        typesStore.getProxy().setExtraParam('textChannel', newValue);
+        typesStore.reload();
+    },
+
     onSendResult: function (options, success, response) {
         if (success) {
-            Ext.toast(Strings.commandSent);
+            Ext.toast({
+                html: Strings.commandSent,
+                align: 'br'
+            });
             this.closeView();
         } else {
             Traccar.app.showError(response);
