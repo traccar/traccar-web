@@ -22,6 +22,7 @@ Ext.define('Traccar.view.BaseDialog', {
     resizable: false,
     modal: true,
     autoScroll: true,
+    constrain: true,
 
     initComponent: function () {
         if (window.innerHeight) {
