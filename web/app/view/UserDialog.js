@@ -192,10 +192,10 @@ Ext.define('Traccar.view.UserDialog', {
     }, {
         glyph: 'xf003@FontAwesome',
         minWidth: 0,
-        handler: 'testMail',
+        handler: 'testNotification',
         hidden: true,
-        reference: 'testMailButton',
-        tooltip: Strings.sharedTestMail,
+        reference: 'testNotificationButton',
+        tooltip: Strings.sharedTestNotification,
         tooltipType: 'title'
     }, {
         xtype: 'tbfill'
