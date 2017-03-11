@@ -41,6 +41,15 @@ Ext.define('Traccar.view.UsersController', {
         this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('admin'));
     },
 
+    onEditClick: function () {
+        var dialog, user = this.getView().getSelectionModel().getSelection()[0];
+        dialog = Ext.create('Traccar.view.UserDialog', {
+            selfEdit: user.get('id') === Traccar.app.getUser().get('id')
+        });
+        dialog.down('form').loadRecord(user);
+        dialog.show();
+    },
+
     onAddClick: function () {
         var user, dialog;
         user = Ext.create('Traccar.model.User');
