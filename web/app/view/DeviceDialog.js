@@ -38,7 +38,7 @@ Ext.define('Traccar.view.DeviceDialog', {
             }]
         }, {
             xtype: 'fieldset',
-            title: Strings.sharedPreferences,
+            title: Strings.sharedExtra,
             collapsible: true,
             collapsed: true,
             items: [{
