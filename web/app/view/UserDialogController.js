@@ -19,16 +19,15 @@ Ext.define('Traccar.view.UserDialogController', {
     extend: 'Traccar.view.MapPickerDialogController',
     alias: 'controller.userDialog',
 
-    onShow: function () {
+    init: function () {
         if (Traccar.app.getUser().get('admin')) {
-            this.lookupReference('adminField').setHidden(false);
+            this.lookupReference('adminField').setDisabled(false);
             this.lookupReference('deviceLimitField').setDisabled(false);
             this.lookupReference('userLimitField').setDisabled(false);
         }
-        if (Traccar.app.getUser().get('admin') ||
-                Traccar.app.getUser().getId() !== this.getView().down('form').getRecord().getId()) {
-            this.lookupReference('readonlyField').setHidden(false);
-            this.lookupReference('disabledField').setHidden(false);
+        if (Traccar.app.getUser().get('admin') || !this.getView().selfEdit) {
+            this.lookupReference('readonlyField').setDisabled(false);
+            this.lookupReference('disabledField').setDisabled(false);
             this.lookupReference('expirationTimeField').setDisabled(false);
             this.lookupReference('deviceReadonlyField').setDisabled(false);
         }

@@ -123,7 +123,7 @@ Ext.define('Traccar.view.UserDialog', {
                 uncheckedValue: false,
                 name: 'disabled',
                 fieldLabel: Strings.userDisabled,
-                hidden: true,
+                disabled: true,
                 reference: 'disabledField'
             }, {
                 xtype: 'checkboxfield',
@@ -131,8 +131,7 @@ Ext.define('Traccar.view.UserDialog', {
                 uncheckedValue: false,
                 name: 'admin',
                 fieldLabel: Strings.userAdmin,
-                allowBlank: false,
-                hidden: true,
+                disabled: true,
                 reference: 'adminField'
             }, {
                 xtype: 'checkboxfield',
@@ -140,8 +139,7 @@ Ext.define('Traccar.view.UserDialog', {
                 uncheckedValue: false,
                 name: 'readonly',
                 fieldLabel: Strings.serverReadonly,
-                allowBlank: false,
-                hidden: true,
+                disabled: true,
                 reference: 'readonlyField'
             }, {
                 xtype: 'checkboxfield',
@@ -184,10 +182,6 @@ Ext.define('Traccar.view.UserDialog', {
                 }
             }]
         }]
-    },
-
-    listeners: {
-        show: 'onShow'
     },
 
     buttons: [{

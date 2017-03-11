@@ -28,26 +28,36 @@ Ext.define('Traccar.view.GeofenceDialog', {
     items: {
         xtype: 'form',
         items: [{
-            xtype: 'textfield',
-            name: 'name',
-            fieldLabel: Strings.sharedName
+            xtype: 'fieldset',
+            title: Strings.sharedRequired,
+            items: [{
+                xtype: 'textfield',
+                name: 'name',
+                fieldLabel: Strings.sharedName
+            }]
         }, {
-            xtype: 'textfield',
-            name: 'description',
-            fieldLabel: Strings.sharedDescription
-        }, {
-            xtype: 'combobox',
-            name: 'calendarId',
-            store: 'Calendars',
-            queryMode: 'local',
-            displayField: 'name',
-            valueField: 'id',
-            fieldLabel: Strings.sharedCalendar
-        }, {
-            xtype: 'hiddenfield',
-            name: 'area',
-            allowBlank: false,
-            reference: 'areaField'
+            xtype: 'fieldset',
+            title: Strings.sharedExtra,
+            collapsible: true,
+            collapsed: true,
+            items: [{
+                xtype: 'textfield',
+                name: 'description',
+                fieldLabel: Strings.sharedDescription
+            }, {
+                xtype: 'combobox',
+                name: 'calendarId',
+                store: 'Calendars',
+                queryMode: 'local',
+                displayField: 'name',
+                valueField: 'id',
+                fieldLabel: Strings.sharedCalendar
+            }, {
+                xtype: 'hiddenfield',
+                name: 'area',
+                allowBlank: false,
+                reference: 'areaField'
+            }]
         }]
     },
 

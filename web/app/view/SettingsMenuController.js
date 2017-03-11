@@ -61,7 +61,9 @@ Ext.define('Traccar.view.SettingsMenuController', {
     },
 
     onUserClick: function () {
-        var dialog = Ext.create('Traccar.view.UserDialog');
+        var dialog = Ext.create('Traccar.view.UserDialog', {
+            selfEdit: true
+        });
         dialog.down('form').loadRecord(Traccar.app.getUser());
         dialog.lookupReference('testNotificationButton').setHidden(false);
         dialog.show();
