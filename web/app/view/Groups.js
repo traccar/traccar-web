@@ -27,8 +27,6 @@ Ext.define('Traccar.view.Groups', {
     controller: 'groups',
     store: 'Groups',
 
-    selType: 'rowmodel',
-
     tbar: {
         xtype: 'editToolbar',
         items: [{
