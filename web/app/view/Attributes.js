@@ -26,8 +26,6 @@ Ext.define('Traccar.view.Attributes', {
 
     controller: 'attributes',
 
-    selType: 'rowmodel',
-
     tbar: {
         xtype: 'editToolbar'
     },

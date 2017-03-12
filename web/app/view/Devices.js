@@ -35,8 +35,6 @@ Ext.define('Traccar.view.Devices', {
         this.callParent();
     },
 
-    selType: 'rowmodel',
-
     tbar: {
         componentCls: 'toolbar-header-style',
         items: [{

@@ -27,8 +27,6 @@ Ext.define('Traccar.view.AttributeAliases', {
 
     controller: 'attributeAliases',
 
-    selType: 'rowmodel',
-
     tbar: {
         xtype: 'editToolbar',
         items: ['-', {

@@ -28,8 +28,6 @@ Ext.define('Traccar.view.Calendars', {
     controller: 'calendars',
     store: 'Calendars',
 
-    selType: 'rowmodel',
-
     tbar: {
         xtype: 'editToolbar'
     },

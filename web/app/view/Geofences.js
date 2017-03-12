@@ -27,8 +27,6 @@ Ext.define('Traccar.view.Geofences', {
     controller: 'geofences',
     store: 'Geofences',
 
-    selType: 'rowmodel',
-
     tbar: {
         xtype: 'editToolbar'
     },

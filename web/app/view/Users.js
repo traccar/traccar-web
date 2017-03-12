@@ -28,8 +28,6 @@ Ext.define('Traccar.view.Users', {
     controller: 'users',
     store: 'Users',
 
-    selType: 'rowmodel',
-
     tbar: {
         xtype: 'editToolbar',
         items: [{
