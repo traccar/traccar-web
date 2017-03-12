@@ -29,25 +29,29 @@ Ext.define('Traccar.view.CalendarDialog', {
     items: {
         xtype: 'form',
         items: [{
-            xtype: 'textfield',
-            name: 'name',
-            fieldLabel: Strings.sharedName,
-            allowBlank: false
-        }, {
-            xtype: 'filefield',
-            name: 'file',
-            fieldLabel: Strings.sharedFile,
-            allowBlank: false,
-            buttonConfig: {
-                glyph: 'xf093@FontAwesome',
-                text: '',
-                tooltip: Strings.sharedSelectFile,
-                tooltipType: 'title',
-                minWidth: 0
-            },
-            listeners: {
-                change: 'onFileChange'
-            }
+            xtype: 'fieldset',
+            title: Strings.sharedRequired,
+            items: [{
+                xtype: 'textfield',
+                name: 'name',
+                fieldLabel: Strings.sharedName,
+                allowBlank: false
+            }, {
+                xtype: 'filefield',
+                name: 'file',
+                fieldLabel: Strings.sharedFile,
+                allowBlank: false,
+                buttonConfig: {
+                    glyph: 'xf093@FontAwesome',
+                    text: '',
+                    tooltip: Strings.sharedSelectFile,
+                    tooltipType: 'title',
+                    minWidth: 0
+                },
+                listeners: {
+                    change: 'onFileChange'
+                }
+            }]
         }, {
             xtype: 'hiddenfield',
             name: 'data',
