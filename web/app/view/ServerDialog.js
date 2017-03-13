@@ -101,6 +101,14 @@ Ext.define('Traccar.view.ServerDialog', {
                 displayField: 'name',
                 valueField: 'key',
                 editable: false
+            }, {
+                xtype: 'combobox',
+                name: 'timezone',
+                fieldLabel: Strings.sharedTimezone,
+                store: 'AllTimezones',
+                queryMode: 'local',
+                displayField: 'key',
+                editable: false
             }]
         }, {
             xtype: 'fieldset',

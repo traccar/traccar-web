@@ -65,6 +65,9 @@ Ext.define('Traccar.model.Server', {
         name: 'coordinateFormat',
         type: 'string'
     }, {
+        name: 'timezone',
+        type: 'string'
+    }, {
         name: 'attributes'
     }],
 
