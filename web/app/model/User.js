@@ -84,6 +84,9 @@ Ext.define('Traccar.model.User', {
         name: 'token',
         type: 'string'
     }, {
+        name: 'timezone',
+        type: 'string'
+    }, {
         name: 'attributes'
     }],
 

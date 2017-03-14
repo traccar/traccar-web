@@ -51,6 +51,7 @@
     "sharedPreferences": "Preferences",
     "sharedPermissions": "Permissions",
     "sharedExtra": "Extra",
+    "sharedTimezone": "Timezone",
     "errorTitle": "Error",
     "errorUnknown": "Unknown error",
     "errorConnection": "Connection error",
