@@ -124,7 +124,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     asyncUpdate: function (first) {
-        var self = this, protocol, pathname, socket;
+        var self = this, protocol, pathname, socket, firstPositions = first;
         protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
@@ -161,15 +161,13 @@ Ext.define('Traccar.controller.Root', {
                 self.updateDevices(data.devices);
             }
             if (data.positions) {
-                self.updatePositions(data.positions);
+                self.updatePositions(data.positions, firstPositions);
+                firstPositions = false;
             }
             if (data.events) {
                 self.updateEvents(data.events);
             }
         };
-        if (first) {
-            this.first = true;
-        }
     },
 
     updateDevices: function (array) {
@@ -188,7 +186,7 @@ Ext.define('Traccar.controller.Root', {
         }
     },
 
-    updatePositions: function (array) {
+    updatePositions: function (array, first) {
         var i, store, entity;
         store = Ext.getStore('LatestPositions');
         for (i = 0; i < array.length; i++) {
@@ -199,9 +197,8 @@ Ext.define('Traccar.controller.Root', {
                 store.add(Ext.create('Traccar.model.Position', array[i]));
             }
         }
-        if (this.first) {
+        if (first) {
             this.zoomToAllDevices();
-            this.first = false;
         }
     },
 
