@@ -167,6 +167,9 @@ Ext.define('Traccar.controller.Root', {
                 self.updateEvents(data.events);
             }
         };
+        if (first) {
+            this.first = true;
+        }
     },
 
     updateDevices: function (array) {
@@ -196,6 +199,10 @@ Ext.define('Traccar.controller.Root', {
                 store.add(Ext.create('Traccar.model.Position', array[i]));
             }
         }
+        if (this.first) {
+            this.zoomToAllDevices();
+            this.first = false;
+        }
     },
 
     updateEvents: function (array) {
@@ -224,6 +231,16 @@ Ext.define('Traccar.controller.Root', {
                 }
                 Ext.toast(text, device.get('name'), 'br');
             }
+        }
+    },
+
+    zoomToAllDevices: function () {
+        var lat, lon, zoom;
+        lat = Traccar.app.getPreference('latitude', 0);
+        lon = Traccar.app.getPreference('longitude', 0);
+        zoom = Traccar.app.getPreference('zoom', 0);
+        if (lat === 0 && lon === 0 && zoom === 0) {
+            this.fireEvent('zoomtoalldevices');
         }
     }
 });
