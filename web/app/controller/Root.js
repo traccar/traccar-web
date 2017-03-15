@@ -124,7 +124,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     asyncUpdate: function (first) {
-        var self = this, protocol, pathname, socket, firstPositions = first;
+        var self = this, protocol, pathname, socket;
         protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
         pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
@@ -161,8 +161,8 @@ Ext.define('Traccar.controller.Root', {
                 self.updateDevices(data.devices);
             }
             if (data.positions) {
-                self.updatePositions(data.positions, firstPositions);
-                firstPositions = false;
+                self.updatePositions(data.positions, first);
+                first = false;
             }
             if (data.events) {
                 self.updateEvents(data.events);
