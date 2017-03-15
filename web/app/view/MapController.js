@@ -28,7 +28,8 @@ Ext.define('Traccar.view.MapController', {
             controller: {
                 '*': {
                     mapstaterequest: 'getMapState',
-                    togglestaterequest: 'getToggleState'
+                    togglestaterequest: 'getToggleState',
+                    zoomtoalldevices: 'zoomToAllDevices'
                 }
             },
             store: {
@@ -98,5 +99,9 @@ Ext.define('Traccar.view.MapController', {
                 return true;
             }, this);
         }
+    },
+
+    zoomToAllDevices: function () {
+        this.zoomToAllPositions(Ext.getStore('LatestPositions').getData().items);
     }
 });
