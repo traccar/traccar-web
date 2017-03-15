@@ -102,27 +102,6 @@ Ext.define('Traccar.view.MapController', {
     },
 
     zoomToAllDevices: function () {
-        var data, i, point, minx, miny, maxx, maxy;
-        data = Ext.getStore('LatestPositions').getData();
-        for (i = 0; i < data.items.length; i++) {
-            point = ol.proj.fromLonLat([
-                data.items[i].get('longitude'),
-                data.items[i].get('latitude')
-            ]);
-            if (i === 0) {
-                minx = maxx = point[0];
-                miny = maxy = point[1];
-            } else {
-                minx = Math.min(point[0], minx);
-                miny = Math.min(point[1], miny);
-                maxx = Math.max(point[0], maxx);
-                maxy = Math.max(point[1], maxy);
-            }
-        }
-        if (minx !== maxx || miny !== maxy) {
-            this.getView().getMapView().fit([minx, miny, maxx, maxy]);
-        } else if (point) {
-            this.getView().getMapView().fit(new ol.geom.Point(point));
-        }
+        this.zoomToAllPositions(Ext.getStore('LatestPositions').getData().items);
     }
 });

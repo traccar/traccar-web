@@ -311,32 +311,14 @@ Ext.define('Traccar.view.MapMarkerController', {
     },
 
     addReportMarkers: function (store, data) {
-        var i, position, point, minx, miny, maxx, maxy;
+        var i;
         this.clearReport();
         for (i = 0; i < data.length; i++) {
-            position = data[i];
-            point = ol.proj.fromLonLat([
-                position.get('longitude'),
-                position.get('latitude')
-            ]);
-            if (i === 0) {
-                minx = maxx = point[0];
-                miny = maxy = point[1];
-            } else {
-                minx = Math.min(point[0], minx);
-                miny = Math.min(point[1], miny);
-                maxx = Math.max(point[0], maxx);
-                maxy = Math.max(point[1], maxy);
-            }
             if (store.showMarkers) {
-                this.addReportMarker(position);
+                this.addReportMarker(data[i]);
             }
         }
-        if (minx !== maxx || miny !== maxy) {
-            this.getView().getMapView().fit([minx, miny, maxx, maxy]);
-        } else if (point) {
-            this.getView().getMapView().fit(new ol.geom.Point(point));
-        }
+        this.zoomToAllPositions(data);
     },
 
     clearReport: function () {
@@ -482,5 +464,29 @@ Ext.define('Traccar.view.MapMarkerController', {
     deselectFeature: function () {
         this.selectMarker(null, false);
         this.fireEvent('deselectfeature');
+    },
+
+    zoomToAllPositions: function (data) {
+        var i, point, minx, miny, maxx, maxy;
+        for (i = 0; i < data.length; i++) {
+            point = ol.proj.fromLonLat([
+                data[i].get('longitude'),
+                data[i].get('latitude')
+            ]);
+            if (i === 0) {
+                minx = maxx = point[0];
+                miny = maxy = point[1];
+            } else {
+                minx = Math.min(point[0], minx);
+                miny = Math.min(point[1], miny);
+                maxx = Math.max(point[0], maxx);
+                maxy = Math.max(point[1], maxy);
+            }
+        }
+        if (minx !== maxx || miny !== maxy) {
+            this.getView().getMapView().fit([minx, miny, maxx, maxy]);
+        } else if (point) {
+            this.getView().getMapView().fit(new ol.geom.Point(point));
+        }
     }
 });
