@@ -38,7 +38,7 @@ Ext.define('Traccar.view.AttributeAliases', {
             store: 'Devices',
             displayField: 'name',
             valueField: 'id',
-            typeAhead: true,
+            editable: false,
             listeners: {
                 change: 'onDeviceChange'
             }

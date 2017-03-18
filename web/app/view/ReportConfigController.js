@@ -25,28 +25,6 @@ Ext.define('Traccar.view.ReportConfigController', {
         'Traccar.store.AllNotifications'
     ],
 
-    init: function () {
-        var store = this.lookupReference('eventTypeField').getStore();
-        if (store.getCount() === 0) {
-            store.add({
-                type: Traccar.store.ReportEventTypes.allEvents,
-                name: Strings.eventAll
-            });
-            Ext.create('Traccar.store.AllNotifications').load({
-                scope: this,
-                callback: function (records, operation, success) {
-                    var i, value;
-                    if (success) {
-                        for (i = 0; i < records.length; i++) {
-                            value = records[i].get('type');
-                            store.add({type: value, name: Traccar.app.getEventString(value)});
-                        }
-                    }
-                }
-            });
-        }
-    },
-
     onSaveClick: function (button) {
         var eventType;
         this.getView().callingPanel.deviceId = this.lookupReference('deviceField').getValue();
