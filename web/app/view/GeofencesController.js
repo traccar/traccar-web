@@ -24,11 +24,6 @@ Ext.define('Traccar.view.GeofencesController', {
         'Traccar.model.Geofence'
     ],
 
-    init: function () {
-        Ext.getStore('Geofences').load();
-        Ext.getStore('Calendars').load();
-    },
-
     objectModel: 'Traccar.model.Geofence',
     objectDialog: 'Traccar.view.GeofenceDialog',
     removeTitle: Strings.sharedGeofence

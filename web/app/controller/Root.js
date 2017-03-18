@@ -78,7 +78,9 @@ Ext.define('Traccar.controller.Root', {
         var attribution, eventId;
         Ext.getStore('Groups').load();
         Ext.getStore('Geofences').load();
+        Ext.getStore('Calendars').load();
         Ext.getStore('AttributeAliases').load();
+        this.initReportEventTypesStore();
         Ext.getStore('Devices').load({
             scope: this,
             callback: function () {
@@ -239,5 +241,25 @@ Ext.define('Traccar.controller.Root', {
         if (lat === 0 && lon === 0 && zoom === 0) {
             this.fireEvent('zoomtoalldevices');
         }
+    },
+
+    initReportEventTypesStore: function () {
+        var store = Ext.getStore('ReportEventTypes');
+        store.add({
+            type: Traccar.store.ReportEventTypes.allEvents,
+            name: Strings.eventAll
+        });
+        Ext.create('Traccar.store.AllNotifications').load({
+            scope: this,
+            callback: function (records, operation, success) {
+                var i, value;
+                if (success) {
+                    for (i = 0; i < records.length; i++) {
+                        value = records[i].get('type');
+                        store.add({type: value, name: Traccar.app.getEventString(value)});
+                    }
+                }
+            }
+        });
     }
 });

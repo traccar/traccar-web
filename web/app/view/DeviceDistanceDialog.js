@@ -33,6 +33,7 @@ Ext.define('Traccar.view.DeviceDistanceDialog', {
         store: 'AllDevices',
         displayField: 'name',
         valueField: 'id',
+        editable: false,
         listeners: {
             change: 'onDeviceChange'
         }

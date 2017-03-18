@@ -27,9 +27,6 @@ Ext.define('Traccar.view.CalendarsController', {
 
     objectModel: 'Traccar.model.Calendar',
     objectDialog: 'Traccar.view.CalendarDialog',
-    removeTitle: Strings.sharedCalendar,
+    removeTitle: Strings.sharedCalendar
 
-    init: function () {
-        Ext.getStore('Calendars').load();
-    }
 });
