@@ -214,6 +214,8 @@ Ext.define('Traccar.controller.Root', {
             } else if (array[i].type === 'alarm') {
                 alarmKey = 'alarm' + array[i].attributes.alarm.charAt(0).toUpperCase() + array[i].attributes.alarm.slice(1);
                 text = Strings[alarmKey] || alarmKey;
+            } else if (array[i].type === 'textMessage') {
+                text = Strings.eventTextMessage + ': ' + array[i].attributes.message;
             } else {
                 text = Traccar.app.getEventString(array[i].type);
             }
