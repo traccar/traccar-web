@@ -156,8 +156,10 @@ Ext.define('Traccar.view.Devices', {
                 store: 'DeviceStatuses'
             },
             renderer: function (value, metaData) {
-                metaData.tdCls = Ext.getStore('DeviceStatuses').getById(value).get('tdCls');
-                return Ext.getStore('DeviceStatuses').getById(value).get('name');
+                if (value) {
+                    metaData.tdCls = Ext.getStore('DeviceStatuses').getById(value).get('tdCls');
+                    return Ext.getStore('DeviceStatuses').getById(value).get('name');
+                }
             }
         }]
     }
