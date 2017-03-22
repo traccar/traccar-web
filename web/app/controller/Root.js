@@ -25,6 +25,10 @@ Ext.define('Traccar.controller.Root', {
         'Traccar.model.Position'
     ],
 
+    init: function () {
+        Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+    },
+
     onLaunch: function () {
         Ext.Ajax.request({
             scope: this,

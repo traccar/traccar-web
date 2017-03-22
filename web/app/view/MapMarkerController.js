@@ -40,6 +40,12 @@ Ext.define('Traccar.view.MapMarkerController', {
                     update: 'updateDevice',
                     remove: 'removeDevice'
                 },
+                '#VisibleDevices': {
+                    add: 'updateVisibleDevice',
+                    update: 'updateVisibleDevice',
+                    remove: 'updateVisibleDevice',
+                    refresh: 'filterDevices'
+                },
                 '#LatestPositions': {
                     add: 'updateLatest',
                     update: 'updateLatest'
@@ -198,11 +204,11 @@ Ext.define('Traccar.view.MapMarkerController', {
             } else {
                 feature = new ol.Feature(new ol.geom.Circle(center, radius));
                 feature.setStyle(this.getAreaStyle(null, Traccar.Style.mapAccuracyColor));
-                this.getView().getAccuracySource().addFeature(feature);
+                feature.setId(position.get('deviceId'));
                 this.accuracyCircles[position.get('deviceId')] = feature;
             }
         } else {
-            if (feature) {
+            if (feature && this.getView().getAccuracySource().getFeatureById(feature.getId())) {
                 this.getView().getAccuracySource().removeFeature(feature);
             }
             delete this.accuracyCircles[position.get('deviceId')];
@@ -232,9 +238,9 @@ Ext.define('Traccar.view.MapMarkerController', {
                     device.get('category'));
             style.getText().setText(device.get('name'));
             marker.setStyle(style);
+            marker.setId(device.get('id'));
             this.latestMarkers[deviceId] = marker;
-            this.getView().getMarkersSource().addFeature(marker);
-
+            this.checkDeviceVisibility(device);
         }
 
         if (marker === this.selectedMarker && this.lookupReference('deviceFollowButton').pressed) {
@@ -268,8 +274,8 @@ Ext.define('Traccar.view.MapMarkerController', {
                 ])
             });
             liveLine.setStyle(this.getRouteStyle(deviceId));
+            liveLine.setId(position.get('deviceId'));
             this.liveRoutes[deviceId] = liveLine;
-            this.getView().getLiveRouteSource().addFeature(liveLine);
         }
     },
 
@@ -488,5 +494,56 @@ Ext.define('Traccar.view.MapMarkerController', {
         } else if (point) {
             this.getView().getMapView().fit(new ol.geom.Point(point));
         }
+    },
+
+    updateVisibleDevice: function (store, data) {
+        var i, device;
+
+        if (!Ext.isArray(data)) {
+            data = [data];
+        }
+
+        for (i = 0; i < data.length; i++) {
+            device = data[i];
+            if (device.get('id') in this.latestMarkers) {
+                this.checkDeviceVisibility(device);
+            }
+        }
+    },
+
+    checkDeviceVisibility: function (device) {
+        var deviceId, accuracy, liveLine, marker;
+        deviceId = device.get('id');
+        marker = this.latestMarkers[deviceId];
+        accuracy = this.accuracyCircles[deviceId];
+        liveLine = this.liveRoutes[deviceId];
+        if (Ext.getStore('VisibleDevices').contains(device)) {
+            if (marker && !this.getView().getMarkersSource().getFeatureById(marker.getId())) {
+                this.getView().getMarkersSource().addFeature(marker);
+            }
+            if (accuracy && !this.getView().getAccuracySource().getFeatureById(accuracy.getId())) {
+                this.getView().getAccuracySource().addFeature(accuracy);
+            }
+            if (liveLine && !this.getView().getLiveRouteSource().getFeatureById(liveLine.getId())) {
+                this.getView().getLiveRouteSource().addFeature(liveLine);
+            }
+        } else {
+            if (marker && this.getView().getMarkersSource().getFeatureById(marker.getId())) {
+                this.getView().getMarkersSource().removeFeature(marker);
+            }
+            if (this.selectedMarker && marker && marker.getId() === this.selectedMarker.getId()) {
+                this.deselectFeature();
+            }
+            if (accuracy && this.getView().getAccuracySource().getFeatureById(accuracy.getId())) {
+                this.getView().getAccuracySource().removeFeature(accuracy);
+            }
+            if (liveLine && this.getView().getLiveRouteSource().getFeatureById(liveLine.getId())) {
+                this.getView().getLiveRouteSource().removeFeature(liveLine);
+            }
+        }
+    },
+
+    filterDevices: function (store) {
+        Ext.getStore('Devices').each(this.checkDeviceVisibility, this, false);
     }
 });
