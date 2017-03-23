@@ -17,19 +17,19 @@
  */
 Ext.define('Traccar.store.DeviceStatuses', {
     extend: 'Ext.data.Store',
-    fields: ['id', 'name', 'tdCls'],
+    fields: ['id', 'name', 'color'],
 
     data: [{
         id: 'online',
         name: Strings.deviceStatusOnline,
-        tdCls: 'view-color-green'
+        color: 'view-color-green'
     }, {
         id: 'offline',
         name: Strings.deviceStatusOffline,
-        tdCls: 'view-color-red'
+        color: 'view-color-red'
     }, {
         id: 'unknown',
         name: Strings.deviceStatusUnknown,
-        tdCls: 'view-color-yellow'
+        color: 'view-color-yellow'
     }]
 });

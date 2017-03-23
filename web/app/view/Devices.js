@@ -96,12 +96,7 @@ Ext.define('Traccar.view.Devices', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
-            filter: {
-                type: 'string',
-                itemDefaults: {
-                    emptyText: Strings.deviceSearchFor
-                }
-            }
+            filter: 'string'
         }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
@@ -156,9 +151,13 @@ Ext.define('Traccar.view.Devices', {
                 store: 'DeviceStatuses'
             },
             renderer: function (value, metaData) {
+                var status;
                 if (value) {
-                    metaData.tdCls = Ext.getStore('DeviceStatuses').getById(value).get('tdCls');
-                    return Ext.getStore('DeviceStatuses').getById(value).get('name');
+                    status = Ext.getStore('DeviceStatuses').getById(value);
+                    if (status) {
+                        metaData.tdCls = status.get('color');
+                        return status.get('name');
+                    }
                 }
             }
         }]
