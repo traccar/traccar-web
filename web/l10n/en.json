@@ -35,7 +35,6 @@
     "sharedHourAbbreviation": "h",
     "sharedMinuteAbbreviation": "m",
     "sharedGetMapState": "Get Map State",
-    "sharedGetToggleState": "Get Toggle State",
     "sharedAttributeAlias": "Attribute Alias",
     "sharedAttributeAliases": "Attribute Aliases",
     "sharedAlias": "Alias",
