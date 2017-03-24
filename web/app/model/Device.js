@@ -30,19 +30,24 @@ Ext.define('Traccar.model.Device', {
         type: 'string'
     }, {
         name: 'phone',
-        type: 'string'
+        type: 'string',
+        allowNull: true
     }, {
         name: 'model',
-        type: 'string'
+        type: 'string',
+        allowNull: true
     }, {
         name: 'contact',
-        type: 'string'
+        type: 'string',
+        allowNull: true
     }, {
         name: 'category',
-        type: 'string'
+        type: 'string',
+        allowNull: true
     }, {
         name: 'status',
-        type: 'string'
+        type: 'string',
+        allowNull: true
     }, {
         name: 'lastUpdate',
         type: 'date',

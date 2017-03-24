@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,20 +20,19 @@ Ext.define('Traccar.view.Devices', {
     xtype: 'devicesView',
 
     requires: [
+        'Ext.grid.filters.Filters',
         'Traccar.view.DevicesController',
         'Traccar.view.EditToolbar'
     ],
 
     controller: 'devices',
-    rootVisible: false,
 
-    initComponent: function () {
-        this.store = Ext.create('Ext.data.ChainedStore', {
-            source: 'Devices',
-            groupField: 'groupId'
-        });
-        this.callParent();
-    },
+    plugins: 'gridfilters',
+
+    store: 'VisibleDevices',
+
+    stateful: true,
+    stateId: 'devices-grid',
 
     tbar: {
         componentCls: 'toolbar-header-style',
@@ -85,79 +84,25 @@ Ext.define('Traccar.view.Devices', {
         }]
     },
 
-    bbar: [{
-        xtype: 'tbtext',
-        html: Strings.groupParent
-    }, {
-        xtype: 'combobox',
-        store: 'Groups',
-        queryMode: 'local',
-        displayField: 'name',
-        valueField: 'id',
-        flex: 1,
-        listeners: {
-            change: function () {
-                if (Ext.isNumber(this.getValue())) {
-                    this.up('grid').store.filter({
-                        id: 'groupFilter',
-                        filterFn: function (item) {
-                            var groupId, group, groupStore, filter = true;
-                            groupId = item.get('groupId');
-                            groupStore = Ext.getStore('Groups');
-
-                            while (groupId) {
-                                group = groupStore.getById(groupId);
-                                if (group) {
-                                    if (group.get('id') === this.getValue()) {
-                                        filter = false;
-                                        break;
-                                    }
-                                    groupId = group.get('groupId');
-                                } else {
-                                    groupId = 0;
-                                }
-                            }
-
-                            return !filter;
-                        },
-                        scope: this
-                    });
-                } else {
-                    this.up('grid').store.removeFilter('groupFilter');
-                }
-            }
-        }
-    }, {
-        xtype: 'tbtext',
-        html: Strings.sharedSearch
-    }, {
-        xtype: 'textfield',
-        flex: 1,
-        listeners: {
-            change: function () {
-                this.up('grid').store.filter('name', this.getValue());
-            }
-        }
-    }],
-
     listeners: {
         selectionchange: 'onSelectionChange'
     },
 
     columns: {
         defaults: {
-            flex: 1,
+            flex: 2,
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{
             text: Strings.sharedName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            filter: 'string'
         }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
             hidden: true
         }, {
-            text: Strings.devicePhone,
+            text: Strings.sharedPhone,
             dataIndex: 'phone',
             hidden: true
         }, {
@@ -169,24 +114,50 @@ Ext.define('Traccar.view.Devices', {
             dataIndex: 'contact',
             hidden: true
         }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            hidden: true,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'Groups'
+            },
+            renderer: function (value) {
+                var group;
+                if (value !== 0) {
+                    group = Ext.getStore('Groups').getById(value);
+                    return group ? group.get('name') : value;
+                }
+            }
+        }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
-            renderer: function (value, metaData, record) {
-                switch (record.get('status')) {
-                    case 'online':
-                        metaData.tdCls = 'view-color-green';
-                        break;
-                    case 'offline':
-                        metaData.tdCls = 'view-color-red';
-                        break;
-                    default:
-                        metaData.tdCls = 'view-color-yellow';
-                        break;
+            renderer: function (value) {
+                if (value) {
+                    if (Traccar.app.getPreference('twelveHourFormat', false)) {
+                        return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
+                    } else {
+                        return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
+                    }
                 }
-                if (Traccar.app.getPreference('twelveHourFormat', false)) {
-                    return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
-                } else {
-                    return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
+            }
+        }, {
+            text: Strings.deviceStatus,
+            dataIndex: 'status',
+            flex: 1,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'DeviceStatuses'
+            },
+            renderer: function (value, metaData) {
+                var status;
+                if (value) {
+                    status = Ext.getStore('DeviceStatuses').getById(value);
+                    if (status) {
+                        metaData.tdCls = status.get('color');
+                        return status.get('name');
+                    }
                 }
             }
         }]

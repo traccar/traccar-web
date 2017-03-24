@@ -32,6 +32,9 @@ Ext.define('Traccar.view.MapMarkerController', {
                 '*': {
                     selectdevice: 'selectDevice',
                     selectreport: 'selectReport'
+                },
+                'devices': {
+                    deselectfeature: 'deselectDevice'
                 }
             },
             store: {
@@ -39,6 +42,12 @@ Ext.define('Traccar.view.MapMarkerController', {
                     add: 'updateDevice',
                     update: 'updateDevice',
                     remove: 'removeDevice'
+                },
+                '#VisibleDevices': {
+                    add: 'updateVisibleDevices',
+                    update: 'updateVisibleDevices',
+                    remove: 'updateVisibleDevices',
+                    refresh: 'filterDevices'
                 },
                 '#LatestPositions': {
                     add: 'updateLatest',
@@ -174,14 +183,14 @@ Ext.define('Traccar.view.MapMarkerController', {
             device = Ext.getStore('Devices').getById(position.get('deviceId'));
 
             if (device) {
-                this.updateAccuracy(position);
+                this.updateAccuracy(position, device);
                 this.updateLatestMarker(position, device);
-                this.updateLiveRoute(position);
+                this.updateLiveRoute(position, device);
             }
         }
     },
 
-    updateAccuracy: function (position) {
+    updateAccuracy: function (position, device) {
         var center, radius, feature, mapView, projection, pointResolution;
         mapView = this.getView().getMapView();
         feature = this.accuracyCircles[position.get('deviceId')];
@@ -198,11 +207,14 @@ Ext.define('Traccar.view.MapMarkerController', {
             } else {
                 feature = new ol.Feature(new ol.geom.Circle(center, radius));
                 feature.setStyle(this.getAreaStyle(null, Traccar.Style.mapAccuracyColor));
-                this.getView().getAccuracySource().addFeature(feature);
+                feature.setId(position.get('deviceId'));
                 this.accuracyCircles[position.get('deviceId')] = feature;
+                if (this.isDeviceVisible(device)) {
+                    this.getView().getAccuracySource().addFeature(feature);
+                }
             }
         } else {
-            if (feature) {
+            if (feature && this.getView().getAccuracySource().getFeatureById(feature.getId())) {
                 this.getView().getAccuracySource().removeFeature(feature);
             }
             delete this.accuracyCircles[position.get('deviceId')];
@@ -232,9 +244,11 @@ Ext.define('Traccar.view.MapMarkerController', {
                     device.get('category'));
             style.getText().setText(device.get('name'));
             marker.setStyle(style);
+            marker.setId(device.get('id'));
             this.latestMarkers[deviceId] = marker;
-            this.getView().getMarkersSource().addFeature(marker);
-
+            if (this.isDeviceVisible(device)) {
+                this.getView().getMarkersSource().addFeature(marker);
+            }
         }
 
         if (marker === this.selectedMarker && this.lookupReference('deviceFollowButton').pressed) {
@@ -242,7 +256,7 @@ Ext.define('Traccar.view.MapMarkerController', {
         }
     },
 
-    updateLiveRoute: function (position) {
+    updateLiveRoute: function (position, device) {
         var deviceId, liveLine, liveCoordinates, lastLiveCoordinates, newCoordinates;
         deviceId = position.get('deviceId');
         if (deviceId in this.liveRoutes) {
@@ -268,8 +282,11 @@ Ext.define('Traccar.view.MapMarkerController', {
                 ])
             });
             liveLine.setStyle(this.getRouteStyle(deviceId));
+            liveLine.setId(position.get('deviceId'));
             this.liveRoutes[deviceId] = liveLine;
-            this.getView().getLiveRouteSource().addFeature(liveLine);
+            if (this.isDeviceVisible(device)) {
+                this.getView().getMarkersSource().addFeature(liveLine);
+            }
         }
     },
 
@@ -462,8 +479,12 @@ Ext.define('Traccar.view.MapMarkerController', {
     },
 
     deselectFeature: function () {
-        this.selectMarker(null, false);
+        this.deselectDevice();
         this.fireEvent('deselectfeature');
+    },
+
+    deselectDevice: function () {
+        this.selectMarker(null, false);
     },
 
     zoomToAllPositions: function (data) {
@@ -488,5 +509,57 @@ Ext.define('Traccar.view.MapMarkerController', {
         } else if (point) {
             this.getView().getMapView().fit(new ol.geom.Point(point));
         }
+    },
+
+    updateVisibleDevices: function (store, data) {
+        var i, device;
+
+        if (!Ext.isArray(data)) {
+            data = [data];
+        }
+
+        for (i = 0; i < data.length; i++) {
+            device = data[i];
+            if (device.get('id') in this.latestMarkers) {
+                this.updateDeviceVisibility(device);
+            }
+        }
+    },
+
+    isDeviceVisible: function (device) {
+        return Ext.getStore('VisibleDevices').contains(device);
+    },
+
+    updateDeviceVisibility: function (device) {
+        var deviceId, accuracy, liveLine, marker;
+        deviceId = device.get('id');
+        marker = this.latestMarkers[deviceId];
+        accuracy = this.accuracyCircles[deviceId];
+        liveLine = this.liveRoutes[deviceId];
+        if (this.isDeviceVisible(device)) {
+            if (marker && !this.getView().getMarkersSource().getFeatureById(marker.getId())) {
+                this.getView().getMarkersSource().addFeature(marker);
+            }
+            if (accuracy && !this.getView().getAccuracySource().getFeatureById(accuracy.getId())) {
+                this.getView().getAccuracySource().addFeature(accuracy);
+            }
+            if (liveLine && !this.getView().getLiveRouteSource().getFeatureById(liveLine.getId())) {
+                this.getView().getLiveRouteSource().addFeature(liveLine);
+            }
+        } else {
+            if (marker && this.getView().getMarkersSource().getFeatureById(marker.getId())) {
+                this.getView().getMarkersSource().removeFeature(marker);
+            }
+            if (accuracy && this.getView().getAccuracySource().getFeatureById(accuracy.getId())) {
+                this.getView().getAccuracySource().removeFeature(accuracy);
+            }
+            if (liveLine && this.getView().getLiveRouteSource().getFeatureById(liveLine.getId())) {
+                this.getView().getLiveRouteSource().removeFeature(liveLine);
+            }
+        }
+    },
+
+    filterDevices: function (store) {
+        Ext.getStore('Devices').each(this.updateDeviceVisibility, this, false);
     }
 });
