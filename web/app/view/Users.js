@@ -21,12 +21,15 @@ Ext.define('Traccar.view.Users', {
     xtype: 'usersView',
 
     requires: [
+        'Ext.grid.filters.Filters',
         'Traccar.view.UsersController',
         'Traccar.view.EditToolbar'
     ],
 
     controller: 'users',
     store: 'Users',
+
+    plugins: 'gridfilters',
 
     tbar: {
         xtype: 'editToolbar',
@@ -89,10 +92,19 @@ Ext.define('Traccar.view.Users', {
             dataIndex: 'name'
         }, {
             text: Strings.userEmail,
-            dataIndex: 'email'
+            dataIndex: 'email',
+            filter: 'string'
         }, {
             text: Strings.userAdmin,
             dataIndex: 'admin'
+        }, {
+            text: Strings.serverReadonly,
+            dataIndex: 'readonly',
+            hidden: true
+        }, {
+            text: Strings.userDeviceReadonly,
+            dataIndex: 'deviceReadonly',
+            hidden: true
         }, {
             text: Strings.userDisabled,
             dataIndex: 'disabled'

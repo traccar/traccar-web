@@ -41,6 +41,8 @@ Ext.define('Traccar.view.Main', {
         title: Strings.devicesAndState,
         titleCollapse: true,
         floatable: false,
+        stateful: true,
+        stateId: 'devices-and-state-panel',
 
         defaults: {
             split: true,
