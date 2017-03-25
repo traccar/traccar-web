@@ -114,9 +114,9 @@ Ext.define('Traccar.controller.Root', {
         this.beepSound.play();
     },
 
-    mutePressed: function () {
-        var muteButton = Ext.getCmp('muteButton');
-        return muteButton && !muteButton.pressed;
+    soundPressed: function () {
+        var soundButton = Ext.getCmp('soundButton');
+        return soundButton && soundButton.pressed;
     },
 
     removeUrlParameter: function (param) {
@@ -231,7 +231,7 @@ Ext.define('Traccar.controller.Root', {
             }
             device = Ext.getStore('Devices').getById(array[i].deviceId);
             if (device) {
-                if (this.mutePressed()) {
+                if (this.soundPressed()) {
                     this.beep();
                 }
                 Ext.toast(text, device.get('name'), 'br');

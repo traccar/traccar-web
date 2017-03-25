@@ -71,23 +71,10 @@ Ext.define('Traccar.view.Map', {
             stateId: 'device-follow-button',
             toggleHandler: 'onFollowClick'
         }, {
-            id: 'muteButton',
-            glyph: 'xf1f7@FontAwesome',
-            tooltip: Strings.sharedMute,
-            pressed: true,
-            stateId: 'mute-button',
-            listeners: {
-                toggle: function (button, pressed) {
-                    if (pressed) {
-                        button.setGlyph('xf1f7@FontAwesome');
-                    } else {
-                        button.setGlyph('xf0a2@FontAwesome');
-                    }
-                }
-            },
-            applyState: function (state) {
-                this.toggle(state.pressed);
-            }
+            id: 'soundButton',
+            glyph: 'xf0a2@FontAwesome',
+            tooltip: Strings.sharedSound,
+            stateId: 'sound-button'
         }, {
             xtype: 'settingsMenu',
             enableToggle: false
