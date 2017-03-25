@@ -29,6 +29,15 @@ Ext.define('Traccar.view.Map', {
     title: Strings.mapTitle,
     tbar: {
         componentCls: 'toolbar-header-style',
+        defaults: {
+            xtype: 'button',
+            tooltipType: 'title',
+            stateEvents: ['toggle'],
+            enableToggle: true,
+            stateful: {
+                pressed: true
+            }
+        },
         items: [{
             xtype: 'tbtext',
             html: Strings.mapTitle,
@@ -36,53 +45,39 @@ Ext.define('Traccar.view.Map', {
         }, {
             xtype: 'tbfill'
         }, {
-            xtype: 'button',
-            tooltipType: 'title',
             handler: 'showReports',
             reference: 'showReportsButton',
             glyph: 'xf0f6@FontAwesome',
+            stateful: false,
+            enableToggle: false,
             tooltip: Strings.reportTitle
         }, {
-            xtype: 'button',
-            tooltipType: 'title',
             handler: 'updateGeofences',
             reference: 'showGeofencesButton',
             glyph: 'xf21d@FontAwesome',
-            enableToggle: true,
+            pressed: true,
+            stateId: 'show-geofences-button',
             tooltip: Strings.sharedGeofences
         }, {
-            xtype: 'button',
-            tooltipType: 'title',
             handler: 'showLiveRoutes',
             reference: 'showLiveRoutes',
             glyph: 'xf1b0@FontAwesome',
-            enableToggle: true,
+            stateId: 'show-live-routes-button',
             tooltip: Strings.mapLiveRoutes
         }, {
             reference: 'deviceFollowButton',
             glyph: 'xf05b@FontAwesome',
             tooltip: Strings.deviceFollow,
-            tooltipType: 'title',
-            enableToggle: true,
+            stateId: 'device-follow-button',
             toggleHandler: 'onFollowClick'
         }, {
-            id: 'muteButton',
-            glyph: 'xf1f7@FontAwesome',
-            tooltip: Strings.sharedMute,
-            tooltipType: 'title',
-            enableToggle: true,
-            listeners: {
-                toggle: function (button, pressed) {
-                    if (pressed) {
-                        button.setGlyph('xf1f7@FontAwesome');
-                    } else {
-                        button.setGlyph('xf0a2@FontAwesome');
-                    }
-                },
-                scope: this
-            }
+            id: 'soundButton',
+            glyph: 'xf0a2@FontAwesome',
+            tooltip: Strings.sharedSound,
+            stateId: 'sound-button'
         }, {
-            xtype: 'settingsMenu'
+            xtype: 'settingsMenu',
+            enableToggle: false
         }]
     },
 
