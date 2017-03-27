@@ -110,8 +110,9 @@ Ext.define('Traccar.view.ReportController', {
     onReportClick: function (button) {
         var reportType, from, to, store, url;
 
-        reportType = this.lookupReference('reportTypeField').getValue();
+        this.getGrid().getSelectionModel().deselectAll();
 
+        reportType = this.lookupReference('reportTypeField').getValue();
         if (reportType && (this.deviceId || this.groupId)) {
             from = new Date(
                 this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate(),
