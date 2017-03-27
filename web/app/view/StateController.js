@@ -167,8 +167,10 @@ Ext.define('Traccar.view.StateController', {
     },
 
     clearReport: function (store) {
-        this.position = null;
-        Ext.getStore('Attributes').removeAll();
+        if (!this.deviceId) {
+            this.position = null;
+            Ext.getStore('Attributes').removeAll();
+        }
     },
 
     onSelectionChange: function (selected, records) {
