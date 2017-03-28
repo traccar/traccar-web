@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.GeofenceMap', {
-    extend: 'Traccar.view.BaseMap',
+Ext.define('Traccar.view.map.GeofenceMap', {
+    extend: 'Traccar.view.map.BaseMap',
     xtype: 'geofenceMapView',
 
     requires: [
-        'Traccar.view.GeofenceMapController',
+        'Traccar.view.map.GeofenceMapController',
         'Traccar.GeofenceConverter'
     ],
 
