@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.GeofenceDialogController', {
-    extend: 'Traccar.view.BaseEditDialogController',
-    alias: 'controller.geofenceDialog',
+Ext.define('Traccar.view.dialog.GeofenceController', {
+    extend: 'Traccar.view.dialog.BaseEditController',
+    alias: 'controller.geofence',
 
     requires: [
         'Traccar.view.BaseWindow',

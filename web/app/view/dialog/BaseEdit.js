@@ -1,6 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,42 +15,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.DeviceDistanceDialog', {
-    extend: 'Traccar.view.BaseDialog',
+Ext.define('Traccar.view.dialog.BaseEdit', {
+    extend: 'Traccar.view.dialog.Base',
 
     requires: [
-        'Traccar.view.DeviceDistanceController'
+        'Traccar.view.dialog.BaseEditController'
     ],
 
-    controller: 'deviceDistanceDialog',
-    title: Strings.sharedDeviceDistance,
-
-    items: [{
-        xtype: 'combobox',
-        reference: 'deviceId',
-        fieldLabel: Strings.sharedDevice,
-        store: 'AllDevices',
-        displayField: 'name',
-        valueField: 'id',
-        editable: false,
-        listeners: {
-            change: 'onDeviceChange'
-        }
-    }, {
-        xtype: 'numberfield',
-        reference: 'totalDistance',
-        fieldLabel: Strings.deviceTotalDistance,
-        value: 0
-    }],
+    controller: 'baseEdit',
 
     buttons: [{
-        disabled: true,
-        reference: 'setButton',
+        text: Strings.sharedAttributes,
+        handler: 'showAttributesView'
+    }, {
+        xtype: 'tbfill'
+    }, {
         glyph: 'xf00c@FontAwesome',
-        tooltip: Strings.sharedSet,
+        tooltip: Strings.sharedSave,
         tooltipType: 'title',
         minWidth: 0,
-        handler: 'onSetClick'
+        handler: 'onSaveClick'
     }, {
         glyph: 'xf00d@FontAwesome',
         tooltip: Strings.sharedCancel,

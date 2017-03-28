@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.DeviceDialog', {
-    extend: 'Traccar.view.BaseEditDialog',
+Ext.define('Traccar.view.dialog.Device', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
     title: Strings.sharedDevice,
 

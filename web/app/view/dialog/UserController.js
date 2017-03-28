@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.UserDialogController', {
-    extend: 'Traccar.view.MapPickerDialogController',
-    alias: 'controller.userDialog',
+Ext.define('Traccar.view.dialog.UserController', {
+    extend: 'Traccar.view.dialog.MapPickerController',
+    alias: 'controller.user',
 
     init: function () {
         if (Traccar.app.getUser().get('admin')) {

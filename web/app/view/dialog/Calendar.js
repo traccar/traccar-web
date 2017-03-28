@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.GroupDialog', {
-    extend: 'Traccar.view.BaseEditDialog',
+Ext.define('Traccar.view.dialog.Calendar', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
-    title: Strings.groupDialog,
+    requires: [
+        'Traccar.view.dialog.CalendarController'
+    ],
+
+    controller: 'calendar',
+    title: Strings.sharedCalendar,
 
     items: {
         xtype: 'form',
@@ -30,21 +36,27 @@ Ext.define('Traccar.view.GroupDialog', {
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false
+            }, {
+                xtype: 'filefield',
+                name: 'file',
+                fieldLabel: Strings.sharedFile,
+                allowBlank: false,
+                buttonConfig: {
+                    glyph: 'xf093@FontAwesome',
+                    text: '',
+                    tooltip: Strings.sharedSelectFile,
+                    tooltipType: 'title',
+                    minWidth: 0
+                },
+                listeners: {
+                    change: 'onFileChange'
+                }
             }]
         }, {
-            xtype: 'fieldset',
-            title: Strings.sharedExtra,
-            collapsible: true,
-            collapsed: true,
-            items: [{
-                xtype: 'combobox',
-                name: 'groupId',
-                fieldLabel: Strings.groupParent,
-                store: 'Groups',
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'id'
-            }]
+            xtype: 'hiddenfield',
+            name: 'data',
+            allowBlank: false,
+            reference: 'dataField'
         }]
     }
 });
