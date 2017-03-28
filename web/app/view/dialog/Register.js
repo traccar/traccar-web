@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.dialog.Register', {
-    extend: 'Traccar.view.dialog.BaseDialog',
+    extend: 'Traccar.view.dialog.Base',
 
     requires: [
         'Traccar.view.dialog.RegisterController'

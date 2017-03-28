@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.dialog.Login', {
-    extend: 'Traccar.view.dialog.BaseDialog',
+    extend: 'Traccar.view.dialog.Base',
     alias: 'widget.login',
 
     requires: [

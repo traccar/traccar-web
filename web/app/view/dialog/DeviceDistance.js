@@ -16,14 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.DeviceDistanceDialog', {
-    extend: 'Traccar.view.dialog.BaseDialog',
+Ext.define('Traccar.view.dialog.DeviceDistance', {
+    extend: 'Traccar.view.dialog.Base',
 
     requires: [
         'Traccar.view.dialog.DeviceDistanceController'
     ],
 
-    controller: 'deviceDistanceDialog',
+    controller: 'deviceDistance',
     title: Strings.sharedDeviceDistance,
 
     items: [{

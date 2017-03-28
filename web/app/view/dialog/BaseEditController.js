@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.BaseEditDialogController', {
+Ext.define('Traccar.view.dialog.BaseEditController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.baseEditDialog',
+    alias: 'controller.baseEdit',
 
     requires: [
         'Traccar.view.BaseWindow',

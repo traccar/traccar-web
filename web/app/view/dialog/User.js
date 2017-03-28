@@ -15,22 +15,47 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.ServerDialog', {
-    extend: 'Traccar.view.dialog.BaseEditDialog',
+Ext.define('Traccar.view.dialog.User', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.dialog.MapPickerDialogController'
+        'Traccar.view.dialog.UserController'
     ],
 
-    controller: 'mapPickerDialog',
-    title: Strings.serverTitle,
+    controller: 'user',
+    title: Strings.settingsUser,
 
     items: {
         xtype: 'form',
         items: [{
             xtype: 'fieldset',
-            title: Strings.sharedPreferences,
+            title: Strings.sharedRequired,
             items: [{
+                xtype: 'textfield',
+                name: 'name',
+                fieldLabel: Strings.sharedName
+            }, {
+                xtype: 'textfield',
+                name: 'email',
+                fieldLabel: Strings.userEmail,
+                allowBlank: false
+            }, {
+                xtype: 'textfield',
+                name: 'password',
+                fieldLabel: Strings.userPassword,
+                inputType: 'password',
+                allowBlank: false
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: Strings.sharedPreferences,
+            collapsible: true,
+            collapsed: true,
+            items: [{
+                xtype: 'textfield',
+                name: 'phone',
+                fieldLabel: Strings.sharedPhone
+            }, {
                 xtype: 'combobox',
                 name: 'map',
                 fieldLabel: Strings.mapLayer,
@@ -38,14 +63,6 @@ Ext.define('Traccar.view.dialog.ServerDialog', {
                 displayField: 'name',
                 valueField: 'key',
                 editable: false
-            }, {
-                xtype: 'textfield',
-                name: 'bingKey',
-                fieldLabel: Strings.mapBingKey
-            }, {
-                xtype: 'textfield',
-                name: 'mapUrl',
-                fieldLabel: Strings.mapCustom
             }, {
                 xtype: 'combobox',
                 name: 'distanceUnit',
@@ -87,13 +104,6 @@ Ext.define('Traccar.view.dialog.ServerDialog', {
                 fieldLabel: Strings.settingsTwelveHourFormat,
                 allowBlank: false
             }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'forceSettings',
-                fieldLabel: Strings.serverForceSettings,
-                allowBlank: false
-            }, {
                 xtype: 'combobox',
                 name: 'coordinateFormat',
                 fieldLabel: Strings.settingsCoordinateFormat,
@@ -119,23 +129,65 @@ Ext.define('Traccar.view.dialog.ServerDialog', {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
-                name: 'registration',
-                fieldLabel: Strings.serverRegistration,
-                allowBlank: false
+                name: 'disabled',
+                fieldLabel: Strings.userDisabled,
+                disabled: true,
+                reference: 'disabledField'
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'admin',
+                fieldLabel: Strings.userAdmin,
+                disabled: true,
+                reference: 'adminField'
             }, {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'readonly',
                 fieldLabel: Strings.serverReadonly,
-                allowBlank: false
+                disabled: true,
+                reference: 'readonlyField'
             }, {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'deviceReadonly',
                 fieldLabel: Strings.userDeviceReadonly,
-                allowBlank: false
+                disabled: true,
+                reference: 'deviceReadonlyField'
+            }, {
+                xtype: 'datefield',
+                name: 'expirationTime',
+                fieldLabel: Strings.userExpirationTime,
+                disabled: true,
+                reference: 'expirationTimeField',
+                startDay: Traccar.Style.weekStartDay,
+                format: Traccar.Style.dateFormat
+            }, {
+                xtype: 'numberfield',
+                name: 'deviceLimit',
+                fieldLabel: Strings.userDeviceLimit,
+                disabled: true,
+                reference: 'deviceLimitField'
+            }, {
+                xtype: 'numberfield',
+                name: 'userLimit',
+                fieldLabel: Strings.userUserLimit,
+                disabled: true,
+                reference: 'userLimitField'
+            }, {
+                xtype: 'textfield',
+                name: 'token',
+                reference: 'tokenField',
+                fieldLabel: Strings.userToken,
+                triggers: {
+                    generate: {
+                        cls: 'iconCls: x-fa fa-refresh',
+                        handler: 'generateToken'
+                    }
+                }
             }]
         }]
     },
@@ -148,6 +200,14 @@ Ext.define('Traccar.view.dialog.ServerDialog', {
         minWidth: 0,
         handler: 'getMapState',
         tooltip: Strings.sharedGetMapState,
+        tooltipType: 'title'
+    }, {
+        glyph: 'xf003@FontAwesome',
+        minWidth: 0,
+        handler: 'testNotification',
+        hidden: true,
+        reference: 'testNotificationButton',
+        tooltip: Strings.sharedTestNotification,
         tooltipType: 'title'
     }, {
         xtype: 'tbfill'

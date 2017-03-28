@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,30 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.AttributeDialog', {
-    extend: 'Traccar.view.dialog.BaseDialog',
+Ext.define('Traccar.view.dialog.BaseEdit', {
+    extend: 'Traccar.view.dialog.Base',
 
     requires: [
-        'Traccar.view.dialog.AttributeController'
+        'Traccar.view.dialog.BaseEditController'
     ],
 
-    controller: 'attributeDialog',
-    title: Strings.sharedAttribute,
-
-    items: {
-        xtype: 'form',
-        items: [{
-            xtype: 'textfield',
-            name: 'name',
-            fieldLabel: Strings.sharedName
-        }, {
-            xtype: 'textfield',
-            name: 'value',
-            fieldLabel: Strings.stateValue
-        }]
-    },
+    controller: 'baseEdit',
 
     buttons: [{
+        text: Strings.sharedAttributes,
+        handler: 'showAttributesView'
+    }, {
+        xtype: 'tbfill'
+    }, {
         glyph: 'xf00c@FontAwesome',
         tooltip: Strings.sharedSave,
         tooltipType: 'title',

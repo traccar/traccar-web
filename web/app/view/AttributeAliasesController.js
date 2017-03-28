@@ -21,12 +21,12 @@ Ext.define('Traccar.view.AttributeAliasesController', {
     alias: 'controller.attributeAliases',
 
     requires: [
-        'Traccar.view.dialog.AttributeAliasDialog',
+        'Traccar.view.dialog.AttributeAlias',
         'Traccar.model.AttributeAlias'
     ],
 
     objectModel: 'Traccar.model.AttributeAlias',
-    objectDialog: 'Traccar.view.dialog.AttributeAliasDialog',
+    objectDialog: 'Traccar.view.dialog.AttributeAlias',
     removeTitle: Strings.sharedAttributeAlias,
 
     init: function () {
@@ -48,7 +48,7 @@ Ext.define('Traccar.view.AttributeAliasesController', {
         attributeAlias.store = Ext.getStore('AttributeAliases');
         deviceId = this.lookupReference('deviceField').getValue();
         attributeAlias.set('deviceId', deviceId);
-        dialog = Ext.create('Traccar.view.dialog.AttributeAliasDialog');
+        dialog = Ext.create('Traccar.view.dialog.AttributeAlias');
         dialog.down('form').loadRecord(attributeAlias);
         dialog.show();
     },

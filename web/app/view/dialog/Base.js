@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.BaseDialog', {
+Ext.define('Traccar.view.dialog.Base', {
     extend: 'Ext.window.Window',
 
     bodyPadding: Traccar.Style.normalPadding,

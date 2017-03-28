@@ -21,12 +21,12 @@ Ext.define('Traccar.view.CalendarsController', {
     alias: 'controller.calendars',
 
     requires: [
-        'Traccar.view.dialog.CalendarDialog',
+        'Traccar.view.dialog.Calendar',
         'Traccar.model.Calendar'
     ],
 
     objectModel: 'Traccar.model.Calendar',
-    objectDialog: 'Traccar.view.dialog.CalendarDialog',
+    objectDialog: 'Traccar.view.dialog.Calendar',
     removeTitle: Strings.sharedCalendar
 
 });

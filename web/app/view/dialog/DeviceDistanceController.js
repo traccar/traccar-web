@@ -18,7 +18,7 @@
 
 Ext.define('Traccar.view.dialog.DeviceDistanceController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.deviceDistanceDialog',
+    alias: 'controller.deviceDistance',
 
     onDeviceChange: function (combobox, newValue) {
         this.lookupReference('setButton').setDisabled(newValue === null);

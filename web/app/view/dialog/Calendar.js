@@ -16,14 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.CalendarDialog', {
-    extend: 'Traccar.view.dialog.BaseEditDialog',
+Ext.define('Traccar.view.dialog.Calendar', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.dialog.CalendarDialogController'
+        'Traccar.view.dialog.CalendarController'
     ],
 
-    controller: 'calendarDialog',
+    controller: 'calendar',
     title: Strings.sharedCalendar,
 
     items: {

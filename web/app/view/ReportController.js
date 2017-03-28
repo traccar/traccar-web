@@ -24,7 +24,7 @@ Ext.define('Traccar.view.ReportController', {
         'Traccar.AttributeFormatter',
         'Traccar.model.Position',
         'Traccar.model.ReportTrip',
-        'Traccar.view.dialog.ReportConfigDialog',
+        'Traccar.view.dialog.ReportConfig',
         'Traccar.store.ReportEventTypes'
     ],
 
@@ -65,7 +65,7 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     onConfigureClick: function () {
-        var dialog = Ext.create('Traccar.view.dialog.ReportConfigDialog');
+        var dialog = Ext.create('Traccar.view.dialog.ReportConfig');
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');
         dialog.lookupReference('chartTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'chart');
         dialog.callingPanel = this;

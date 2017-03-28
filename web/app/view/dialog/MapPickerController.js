@@ -16,22 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.CalendarDialogController', {
-    extend: 'Traccar.view.dialog.BaseEditDialogController',
-    alias: 'controller.calendarDialog',
+Ext.define('Traccar.view.dialog.MapPickerController', {
+    extend: 'Traccar.view.dialog.BaseEditController',
+    alias: 'controller.mapPicker',
 
-    onFileChange: function (fileField) {
-        var reader;
-        if (fileField.fileInputEl.dom.files.length > 0) {
-            reader = new FileReader();
-            reader.onload = function (event) {
-                fileField.up('window').lookupReference('dataField').setValue(
-                        btoa(String.fromCharCode.apply(null, new Uint8Array(event.target.result))));
-            };
-            reader.onerror = function (event) {
-                Traccar.app.showError(event.target.error);
-            };
-            reader.readAsArrayBuffer(fileField.fileInputEl.dom.files[0]);
+    config: {
+        listen: {
+            controller: {
+                '*': {
+                    mapstate: 'setMapState'
+                }
+            }
         }
+    },
+
+    getMapState: function (button) {
+        this.fireEvent('mapstaterequest');
+    },
+
+    setMapState: function (lat, lon, zoom) {
+        this.lookupReference('latitude').setValue(lat);
+        this.lookupReference('longitude').setValue(lon);
+        this.lookupReference('zoom').setValue(zoom);
     }
 });

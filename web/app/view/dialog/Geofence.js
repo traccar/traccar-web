@@ -15,14 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.GeofenceDialog', {
-    extend: 'Traccar.view.dialog.BaseEditDialog',
+Ext.define('Traccar.view.dialog.Geofence', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.dialog.GeofenceDialogController'
+        'Traccar.view.dialog.GeofenceController'
     ],
 
-    controller: 'geofenceDialog',
+    controller: 'geofence',
     title: Strings.sharedGeofence,
 
     items: {

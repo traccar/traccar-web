@@ -18,7 +18,7 @@
 
 Ext.define('Traccar.view.dialog.ReportConfigController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.reportConfigDialog',
+    alias: 'controller.reportConfig',
 
     requires: [
         'Traccar.store.ReportEventTypes',

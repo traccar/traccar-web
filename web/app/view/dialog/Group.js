@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.GroupDialog', {
-    extend: 'Traccar.view.dialog.BaseEditDialog',
+Ext.define('Traccar.view.dialog.Group', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
     title: Strings.groupDialog,
 

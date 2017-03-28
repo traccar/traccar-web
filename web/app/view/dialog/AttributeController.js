@@ -17,7 +17,7 @@
 
 Ext.define('Traccar.view.dialog.AttributeController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.attributeDialog',
+    alias: 'controller.attribute',
 
     onSaveClick: function (button) {
         var dialog, store, record;

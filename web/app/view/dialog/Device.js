@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.DeviceDialog', {
-    extend: 'Traccar.view.dialog.BaseEditDialog',
+Ext.define('Traccar.view.dialog.Device', {
+    extend: 'Traccar.view.dialog.BaseEdit',
 
     title: Strings.sharedDevice,
 
