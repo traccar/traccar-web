@@ -20,13 +20,13 @@ Ext.define('Traccar.view.AttributesController', {
     alias: 'controller.attributes',
 
     requires: [
-        'Traccar.view.AttributeDialog',
+        'Traccar.view.dialog.AttributeDialog',
         'Traccar.store.Attributes',
         'Traccar.model.Attribute'
     ],
 
     objectModel: 'Traccar.model.Attribute',
-    objectDialog: 'Traccar.view.AttributeDialog',
+    objectDialog: 'Traccar.view.dialog.AttributeDialog',
     removeTitle: Strings.stateName,
 
     init: function () {

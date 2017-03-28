@@ -20,14 +20,14 @@ Ext.define('Traccar.view.GroupsController', {
     alias: 'controller.groups',
 
     requires: [
-        'Traccar.view.GroupDialog',
+        'Traccar.view.dialog.GroupDialog',
         'Traccar.view.GroupGeofences',
         'Traccar.view.BaseWindow',
         'Traccar.model.Group'
     ],
 
     objectModel: 'Traccar.model.Group',
-    objectDialog: 'Traccar.view.GroupDialog',
+    objectDialog: 'Traccar.view.dialog.GroupDialog',
     removeTitle: Strings.groupDialog,
 
     onGeofencesClick: function () {

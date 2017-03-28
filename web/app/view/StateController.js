@@ -24,7 +24,7 @@ Ext.define('Traccar.view.StateController', {
        'Traccar.model.Attribute',
        'Traccar.model.AttributeAlias',
        'Traccar.model.Position',
-       'Traccar.view.AttributeAliasDialog'
+       'Traccar.view.dialog.AttributeAliasDialog'
 
     ],
 
@@ -192,7 +192,7 @@ Ext.define('Traccar.view.StateController', {
             });
             attributeAlias.store = this.aliasesStore;
         }
-        dialog = Ext.create('Traccar.view.AttributeAliasDialog');
+        dialog = Ext.create('Traccar.view.dialog.AttributeAliasDialog');
         dialog.down('form').loadRecord(attributeAlias);
         dialog.show();
     },

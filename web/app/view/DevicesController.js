@@ -20,8 +20,8 @@ Ext.define('Traccar.view.DevicesController', {
     alias: 'controller.devices',
 
     requires: [
-        'Traccar.view.CommandDialog',
-        'Traccar.view.DeviceDialog',
+        'Traccar.view.dialog.CommandDialog',
+        'Traccar.view.dialog.DeviceDialog',
         'Traccar.view.DeviceGeofences',
         'Traccar.view.BaseWindow',
         'Traccar.model.Device',
@@ -48,7 +48,7 @@ Ext.define('Traccar.view.DevicesController', {
     },
 
     objectModel: 'Traccar.model.Device',
-    objectDialog: 'Traccar.view.DeviceDialog',
+    objectDialog: 'Traccar.view.dialog.DeviceDialog',
     removeTitle: Strings.sharedDevice,
 
     init: function () {
@@ -83,7 +83,7 @@ Ext.define('Traccar.view.DevicesController', {
         command.set('deviceId', deviceId);
         command.set('textChannel', !online);
 
-        dialog = Ext.create('Traccar.view.CommandDialog');
+        dialog = Ext.create('Traccar.view.dialog.CommandDialog');
 
         typesStore = dialog.lookupReference('commandType').getStore();
         typesStore.getProxy().setExtraParam('deviceId', deviceId);

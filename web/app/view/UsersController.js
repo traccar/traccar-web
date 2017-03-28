@@ -21,7 +21,7 @@ Ext.define('Traccar.view.UsersController', {
     alias: 'controller.users',
 
     requires: [
-        'Traccar.view.UserDialog',
+        'Traccar.view.dialog.UserDialog',
         'Traccar.view.UserDevices',
         'Traccar.view.UserGroups',
         'Traccar.view.UserGeofences',
@@ -33,7 +33,7 @@ Ext.define('Traccar.view.UsersController', {
     ],
 
     objectModel: 'Traccar.model.User',
-    objectDialog: 'Traccar.view.UserDialog',
+    objectDialog: 'Traccar.view.dialog.UserDialog',
     removeTitle: Strings.settingsUser,
 
     init: function () {
@@ -43,7 +43,7 @@ Ext.define('Traccar.view.UsersController', {
 
     onEditClick: function () {
         var dialog, user = this.getView().getSelectionModel().getSelection()[0];
-        dialog = Ext.create('Traccar.view.UserDialog', {
+        dialog = Ext.create('Traccar.view.dialog.UserDialog', {
             selfEdit: user.get('id') === Traccar.app.getUser().get('id')
         });
         dialog.down('form').loadRecord(user);

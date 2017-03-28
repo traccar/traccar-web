@@ -15,11 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.CommandDialog', {
-    extend: 'Traccar.view.BaseDialog',
+Ext.define('Traccar.view.dialog.CommandDialog', {
+    extend: 'Traccar.view.dialog.BaseDialog',
 
     requires: [
-        'Traccar.view.CommandDialogController'
+        'Traccar.view.dialog.CommandDialogController'
     ],
 
     controller: 'commandDialog',

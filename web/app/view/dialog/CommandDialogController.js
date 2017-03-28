@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.CommandDialogController', {
+Ext.define('Traccar.view.dialog.CommandDialogController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.commandDialog',
 
