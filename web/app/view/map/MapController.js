@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.MapController', {
-    extend: 'Traccar.view.MapMarkerController',
+Ext.define('Traccar.view.map.MapController', {
+    extend: 'Traccar.view.map.MapMarkerController',
     alias: 'controller.map',
 
     requires: [
