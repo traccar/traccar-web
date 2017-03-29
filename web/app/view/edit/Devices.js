@@ -21,6 +21,7 @@ Ext.define('Traccar.view.edit.Devices', {
 
     requires: [
         'Ext.grid.filters.Filters',
+        'Traccar.AttributeFormatter',
         'Traccar.view.edit.DevicesController'
     ],
 
@@ -129,18 +130,6 @@ Ext.define('Traccar.view.edit.Devices', {
                 }
             }
         }, {
-            text: Strings.deviceLastUpdate,
-            dataIndex: 'lastUpdate',
-            renderer: function (value) {
-                if (value) {
-                    if (Traccar.app.getPreference('twelveHourFormat', false)) {
-                        return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
-                    } else {
-                        return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
-                    }
-                }
-            }
-        }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',
             flex: 1,
@@ -159,6 +148,10 @@ Ext.define('Traccar.view.edit.Devices', {
                     }
                 }
             }
+        }, {
+            text: Strings.deviceLastUpdate,
+            dataIndex: 'lastUpdate',
+            renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
         }]
     }
 });
