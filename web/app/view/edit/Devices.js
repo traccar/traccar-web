@@ -90,7 +90,7 @@ Ext.define('Traccar.view.edit.Devices', {
 
     columns: {
         defaults: {
-            flex: 2,
+            flex: 1,
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{
@@ -132,7 +132,6 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',
-            flex: 1,
             filter: {
                 type: 'list',
                 labelField: 'name',
@@ -151,7 +150,27 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
-            renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
+            renderer: function (value, metaData, record) {
+                var status, seconds, interval;
+
+                status = record.get('status');
+                if (status) {
+                    metaData.tdCls = Ext.getStore('DeviceStatuses').getById(status).get('color');
+                }
+
+                if (value) {
+                    seconds = Math.floor((new Date() - value) / 1000);
+                    interval = Math.floor(seconds / 86400);
+                    if (interval > 1) {
+                        return interval + ' ' + Strings.sharedDays;
+                    }
+                    interval = Math.floor(seconds / 3600);
+                    if (interval > 1) {
+                        return interval + ' ' + Strings.sharedHours;
+                    }
+                    return Math.floor(seconds / 60) + ' ' + Strings.sharedMinutes;
+                }
+            }
         }]
     }
 });

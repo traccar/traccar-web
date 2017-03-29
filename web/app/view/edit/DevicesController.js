@@ -52,10 +52,14 @@ Ext.define('Traccar.view.edit.DevicesController', {
     removeTitle: Strings.sharedDevice,
 
     init: function () {
-        var readonly, deviceReadonly;
+        var self = this, readonly, deviceReadonly;
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('admin');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
         this.lookupReference('toolbarAddButton').setDisabled(readonly || deviceReadonly);
+
+        setInterval(function () {
+            self.getView().getView().refresh();
+        }, Traccar.Style.refreshPeriod);
     },
 
     onGeofencesClick: function () {
