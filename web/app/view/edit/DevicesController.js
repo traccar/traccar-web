@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.DevicesController', {
-    extend: 'Traccar.view.EditToolbarController',
+Ext.define('Traccar.view.edit.DevicesController', {
+    extend: 'Traccar.view.edit.ToolbarController',
     alias: 'controller.devices',
 
     requires: [

@@ -1,6 +1,5 @@
 /*
  * Copyright 2016 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.Calendars', {
+Ext.define('Traccar.view.edit.Geofences', {
     extend: 'Ext.grid.Panel',
-    xtype: 'calendarsView',
+    xtype: 'geofencesView',
 
     requires: [
-        'Traccar.view.CalendarsController',
-        'Traccar.view.EditToolbar'
+        'Traccar.view.edit.GeofencesController',
+        'Traccar.view.edit.Toolbar'
     ],
 
-    controller: 'calendars',
-    store: 'Calendars',
+    controller: 'geofences',
+    store: 'Geofences',
 
     tbar: {
         xtype: 'editToolbar'
@@ -44,6 +43,9 @@ Ext.define('Traccar.view.Calendars', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name'
+        }, {
+            text: Strings.sharedDescription,
+            dataIndex: 'description'
         }]
     }
 });

@@ -15,14 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.Devices', {
+Ext.define('Traccar.view.edit.Devices', {
     extend: 'Ext.grid.Panel',
     xtype: 'devicesView',
 
     requires: [
         'Ext.grid.filters.Filters',
-        'Traccar.view.DevicesController',
-        'Traccar.view.EditToolbar'
+        'Traccar.view.edit.DevicesController'
     ],
 
     controller: 'devices',

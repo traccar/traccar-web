@@ -1,6 +1,5 @@
 /*
  * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.CalendarsController', {
-    extend: 'Traccar.view.EditToolbarController',
-    alias: 'controller.calendars',
+Ext.define('Traccar.view.edit.GeofencesController', {
+    extend: 'Traccar.view.edit.ToolbarController',
+    alias: 'controller.geofences',
 
     requires: [
-        'Traccar.view.dialog.Calendar',
-        'Traccar.model.Calendar'
+        'Traccar.view.dialog.Geofence',
+        'Traccar.model.Geofence'
     ],
 
-    objectModel: 'Traccar.model.Calendar',
-    objectDialog: 'Traccar.view.dialog.Calendar',
-    removeTitle: Strings.sharedCalendar
-
+    objectModel: 'Traccar.model.Geofence',
+    objectDialog: 'Traccar.view.dialog.Geofence',
+    removeTitle: Strings.sharedGeofence
 });

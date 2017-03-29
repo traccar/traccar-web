@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,28 +16,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.Groups', {
+Ext.define('Traccar.view.edit.AttributeAliases', {
     extend: 'Ext.grid.Panel',
-    xtype: 'groupsView',
+    xtype: 'attributeAliasesView',
 
     requires: [
-        'Traccar.view.GroupsController',
-        'Traccar.view.EditToolbar'
+        'Traccar.view.edit.AttributeAliasesController',
+        'Traccar.view.edit.Toolbar'
     ],
 
-    controller: 'groups',
-    store: 'Groups',
+    controller: 'attributeAliases',
 
     tbar: {
         xtype: 'editToolbar',
-        items: [{
-            xtype: 'button',
-            disabled: true,
-            handler: 'onGeofencesClick',
-            reference: 'toolbarGeofencesButton',
-            glyph: 'xf21d@FontAwesome',
-            tooltip: Strings.sharedGeofences,
-            tooltipType: 'title'
+        items: ['-', {
+            xtype: 'tbtext',
+            html: Strings.sharedDevice
+        }, {
+            xtype: 'combobox',
+            reference: 'deviceField',
+            store: 'Devices',
+            displayField: 'name',
+            valueField: 'id',
+            editable: false,
+            listeners: {
+                change: 'onDeviceChange'
+            }
         }]
     },
 
@@ -50,8 +55,11 @@ Ext.define('Traccar.view.Groups', {
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{
-            text: Strings.sharedName,
-            dataIndex: 'name'
+            text: Strings.sharedAttribute,
+            dataIndex: 'attribute'
+        }, {
+            text: Strings.sharedAlias,
+            dataIndex: 'alias'
         }]
     }
 });

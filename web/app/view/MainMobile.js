@@ -22,7 +22,7 @@ Ext.define('Traccar.view.MainMobile', {
     id: 'rootPanel',
 
     requires: [
-        'Traccar.view.Devices',
+        'Traccar.view.edit.Devices',
         'Traccar.view.State',
         'Traccar.view.Report',
         'Traccar.view.map.Map'

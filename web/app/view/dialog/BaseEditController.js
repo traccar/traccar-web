@@ -21,7 +21,7 @@ Ext.define('Traccar.view.dialog.BaseEditController', {
 
     requires: [
         'Traccar.view.BaseWindow',
-        'Traccar.view.Attributes'
+        'Traccar.view.edit.Attributes'
     ],
 
     onSaveClick: function (button) {

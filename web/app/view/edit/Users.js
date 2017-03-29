@@ -16,14 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.Users', {
+Ext.define('Traccar.view.edit.Users', {
     extend: 'Ext.grid.Panel',
     xtype: 'usersView',
 
     requires: [
         'Ext.grid.filters.Filters',
-        'Traccar.view.UsersController',
-        'Traccar.view.EditToolbar'
+        'Traccar.view.edit.UsersController',
+        'Traccar.view.edit.Toolbar'
     ],
 
     controller: 'users',
