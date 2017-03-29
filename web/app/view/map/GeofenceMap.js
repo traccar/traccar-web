@@ -65,7 +65,7 @@ Ext.define('Traccar.view.map.GeofenceMap', {
         map = this.map;
 
         this.features = new ol.Collection();
-        if (this.area !== '') {
+        if (this.area) {
             geometry = Traccar.GeofenceConverter.wktToGeometry(this.mapView, this.area);
             this.features.push(new ol.Feature(geometry));
             this.mapView.fit(geometry);
