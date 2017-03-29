@@ -22,7 +22,7 @@ Ext.define('Traccar.view.DevicesController', {
     requires: [
         'Traccar.view.dialog.Command',
         'Traccar.view.dialog.Device',
-        'Traccar.view.DeviceGeofences',
+        'Traccar.view.permissions.DeviceGeofences',
         'Traccar.view.BaseWindow',
         'Traccar.model.Device',
         'Traccar.model.Command'
