@@ -22,11 +22,11 @@ Ext.define('Traccar.view.UsersController', {
 
     requires: [
         'Traccar.view.dialog.User',
-        'Traccar.view.UserDevices',
-        'Traccar.view.UserGroups',
-        'Traccar.view.UserGeofences',
-        'Traccar.view.UserCalendars',
-        'Traccar.view.UserUsers',
+        'Traccar.view.permissions.UserDevices',
+        'Traccar.view.permissions.UserGroups',
+        'Traccar.view.permissions.UserGeofences',
+        'Traccar.view.permissions.UserCalendars',
+        'Traccar.view.permissions.UserUsers',
         'Traccar.view.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'

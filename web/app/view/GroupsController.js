@@ -21,7 +21,7 @@ Ext.define('Traccar.view.GroupsController', {
 
     requires: [
         'Traccar.view.dialog.Group',
-        'Traccar.view.GroupGeofences',
+        'Traccar.view.permissions.GroupGeofences',
         'Traccar.view.BaseWindow',
         'Traccar.model.Group'
     ],
