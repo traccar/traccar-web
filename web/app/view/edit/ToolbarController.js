@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.view.EditToolbarController', {
+Ext.define('Traccar.view.edit.ToolbarController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.editToolbarController',
+    alias: 'controller.toolbarController',
 
     onAddClick: function () {
         var dialog, objectInstance = Ext.create(this.objectModel);

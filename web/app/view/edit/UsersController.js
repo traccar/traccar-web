@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.UsersController', {
-    extend: 'Traccar.view.EditToolbarController',
+Ext.define('Traccar.view.edit.UsersController', {
+    extend: 'Traccar.view.edit.ToolbarController',
     alias: 'controller.users',
 
     requires: [

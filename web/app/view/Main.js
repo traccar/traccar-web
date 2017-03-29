@@ -20,7 +20,7 @@ Ext.define('Traccar.view.Main', {
     alias: 'widget.main',
 
     requires: [
-        'Traccar.view.Devices',
+        'Traccar.view.edit.Devices',
         'Traccar.view.State',
         'Traccar.view.Report',
         'Traccar.view.map.Map'

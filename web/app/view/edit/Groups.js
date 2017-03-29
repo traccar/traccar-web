@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.Attributes', {
+Ext.define('Traccar.view.edit.Groups', {
     extend: 'Ext.grid.Panel',
-    xtype: 'attributesView',
+    xtype: 'groupsView',
 
     requires: [
-        'Traccar.view.AttributesController',
-        'Traccar.view.EditToolbar'
+        'Traccar.view.edit.GroupsController',
+        'Traccar.view.edit.Toolbar'
     ],
 
-    controller: 'attributes',
+    controller: 'groups',
+    store: 'Groups',
 
     tbar: {
-        xtype: 'editToolbar'
+        xtype: 'editToolbar',
+        items: [{
+            xtype: 'button',
+            disabled: true,
+            handler: 'onGeofencesClick',
+            reference: 'toolbarGeofencesButton',
+            glyph: 'xf21d@FontAwesome',
+            tooltip: Strings.sharedGeofences,
+            tooltipType: 'title'
+        }]
     },
 
     listeners: {
@@ -42,9 +52,6 @@ Ext.define('Traccar.view.Attributes', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name'
-        }, {
-            text: Strings.stateValue,
-            dataIndex: 'value'
         }]
     }
 });

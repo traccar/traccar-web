@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.AttributesController', {
-    extend: 'Traccar.view.EditToolbarController',
+Ext.define('Traccar.view.edit.AttributesController', {
+    extend: 'Traccar.view.edit.ToolbarController',
     alias: 'controller.attributes',
 
     requires: [
