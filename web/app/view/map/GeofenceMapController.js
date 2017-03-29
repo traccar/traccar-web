@@ -23,6 +23,16 @@ Ext.define('Traccar.view.map.GeofenceMapController', {
         'Traccar.GeofenceConverter'
     ],
 
+    config: {
+        listen: {
+            controller: {
+                '*': {
+                    mapstate: 'setMapState'
+                }
+            }
+        }
+    },
+
     onSaveClick: function (button) {
         var geometry, projection;
         if (this.getView().getFeatures().getLength() > 0) {
@@ -40,5 +50,10 @@ Ext.define('Traccar.view.map.GeofenceMapController', {
     onTypeSelect: function (combo) {
         this.getView().removeInteraction();
         this.getView().addInteraction(combo.getValue());
+    },
+
+    setMapState: function (lat, lon, zoom) {
+        this.getView().getMapView().setCenter(ol.proj.fromLonLat([lon, lat]));
+        this.getView().getMapView().setZoom(zoom);
     }
 });

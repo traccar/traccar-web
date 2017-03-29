@@ -68,11 +68,9 @@ Ext.define('Traccar.view.map.GeofenceMap', {
         if (this.area !== '') {
             geometry = Traccar.GeofenceConverter.wktToGeometry(this.mapView, this.area);
             this.features.push(new ol.Feature(geometry));
-            if (geometry instanceof ol.geom.Circle) {
-                this.mapView.setCenter(geometry.getCenter());
-            } else if (geometry instanceof ol.geom.Polygon) {
-                this.mapView.setCenter(geometry.getCoordinates()[0][0]);
-            }
+            this.mapView.fit(geometry);
+        } else {
+            this.controller.fireEvent('mapstaterequest');
         }
         fillColor = ol.color.asArray(Traccar.Style.mapGeofenceColor);
         fillColor[3] = Traccar.Style.mapGeofenceOverlayOpacity;
