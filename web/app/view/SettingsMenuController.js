@@ -153,6 +153,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     },
 
     onLogoutClick: function () {
-        Ext.create('Traccar.view.LoginController').logout();
+        Ext.create('Traccar.view.dialog.LoginController').logout();
     }
 });
