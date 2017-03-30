@@ -88,6 +88,15 @@ Ext.define('Traccar.view.edit.Devices', {
         selectionchange: 'onSelectionChange'
     },
 
+    viewConfig: {
+        getRowClass: function (record) {
+            var status = record.get('status');
+            if (status) {
+                return Ext.getStore('DeviceStatuses').getById(status).get('color');
+            }
+        }
+    },
+
     columns: {
         defaults: {
             flex: 1,
@@ -142,7 +151,6 @@ Ext.define('Traccar.view.edit.Devices', {
                 if (value) {
                     status = Ext.getStore('DeviceStatuses').getById(value);
                     if (status) {
-                        metaData.tdCls = status.get('color');
                         return status.get('name');
                     }
                 }
@@ -151,12 +159,7 @@ Ext.define('Traccar.view.edit.Devices', {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
             renderer: function (value, metaData, record) {
-                var status, seconds, interval;
-
-                status = record.get('status');
-                if (status) {
-                    metaData.tdCls = Ext.getStore('DeviceStatuses').getById(status).get('color');
-                }
+                var seconds, interval;
 
                 if (value) {
                     seconds = Math.floor((new Date() - value) / 1000);
