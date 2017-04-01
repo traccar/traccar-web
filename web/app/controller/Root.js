@@ -142,6 +142,11 @@ Ext.define('Traccar.controller.Root', {
                 url: 'api/devices',
                 success: function (response) {
                     self.updateDevices(Ext.decode(response.responseText));
+                },
+                failure: function(response) {
+                    if (response.status === 401) {
+                        window.location.reload();
+                    }
                 }
             });
 
