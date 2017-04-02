@@ -47,7 +47,8 @@ Ext.define('Traccar.view.MainMobile', {
             collapsed: true,
             collapseMode: 'mini',
             titleCollapse: true,
-            floatable: false
+            floatable: false,
+            stateId: 'mobile-state-grid'
         }, {
             region: 'center',
             xtype: 'mapView',
@@ -60,7 +61,8 @@ Ext.define('Traccar.view.MainMobile', {
             flex: 1,
             collapsed: true,
             titleCollapse: true,
-            floatable: false
+            floatable: false,
+            stateId: 'mobile-devices-grid'
         }]
     }, {
         xtype: 'reportView'

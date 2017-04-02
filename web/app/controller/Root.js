@@ -143,7 +143,7 @@ Ext.define('Traccar.controller.Root', {
                 success: function (response) {
                     self.updateDevices(Ext.decode(response.responseText));
                 },
-                failure: function(response) {
+                failure: function (response) {
                     if (response.status === 401) {
                         window.location.reload();
                     }
