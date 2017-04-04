@@ -19,7 +19,8 @@ Ext.define('Traccar.view.dialog.Attribute', {
     extend: 'Traccar.view.dialog.Base',
 
     requires: [
-        'Traccar.view.dialog.AttributeController'
+        'Traccar.view.dialog.AttributeController',
+        'Traccar.view.ColorPicker'
     ],
 
     controller: 'attribute',

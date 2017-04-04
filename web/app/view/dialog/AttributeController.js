@@ -72,14 +72,7 @@ Ext.define('Traccar.view.dialog.AttributeController', {
                 config.inputValue = true;
                 config.uncheckedValue = false;
             } else if (type === 'color') {
-                config.xtype = 'colorfield';
-                config.format = '#hex6';
-                config.beforeBodyEl = [
-                    '<div class="' + Ext.baseCSSPrefix + 'colorpicker-field-swatch custom-color-picker-swatch">' +
-                    '<div id="{id}-swatchEl" data-ref="swatchEl" class="' + Ext.baseCSSPrefix +
-                            'colorpicker-field-swatch-inner"></div>' +
-                    '</div>'
-                ];
+                config.xtype = 'customcolorpicker';
             } else {
                 config.xtype = 'textfield';
             }
