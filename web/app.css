@@ -12,6 +12,11 @@
     background-color: #5fa2dd !important;
 }
 
+/* workaround for https://www.sencha.com/forum/showthread.php?330718-6-2-ColorField-color-preview-doesn-t-match-color */ 
+.custom-color-picker-swatch {
+    z-index: 10 !important;
+}
+
 body.x-border-layout-ct, div.x-border-layout-ct {
     background-color: #bbbbbb !important;
 }

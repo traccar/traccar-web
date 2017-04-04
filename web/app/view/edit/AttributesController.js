@@ -25,8 +25,6 @@ Ext.define('Traccar.view.edit.AttributesController', {
         'Traccar.model.Attribute'
     ],
 
-    objectModel: 'Traccar.model.Attribute',
-    objectDialog: 'Traccar.view.dialog.Attribute',
     removeTitle: Strings.stateName,
 
     init: function () {
@@ -42,18 +40,18 @@ Ext.define('Traccar.view.edit.AttributesController', {
                 store.add(Ext.create('Traccar.model.Attribute', {
                     priority: i++,
                     name: propertyName,
-                    value: this.getView().record.get('attributes')[propertyName]
+                    value: attributes[propertyName]
                 }));
             }
         }
-        store.addListener('add', function (store, records, index, eOpts) {
+        store.addListener('add', function (store, records) {
             var i;
             for (i = 0; i < records.length; i++) {
                 this.getView().record.get('attributes')[records[i].get('name')] = records[i].get('value');
             }
             this.getView().record.dirty = true;
         }, this);
-        store.addListener('update', function (store, record, operation, modifiedFieldNames, details, eOpts) {
+        store.addListener('update', function (store, record, operation) {
             if (operation === Ext.data.Model.EDIT) {
                 if (record.modified.name !== record.get('name')) {
                     delete this.getView().record.get('attributes')[record.modified.name];
@@ -62,7 +60,7 @@ Ext.define('Traccar.view.edit.AttributesController', {
                 this.getView().record.dirty = true;
             }
         }, this);
-        store.addListener('remove', function (store, records, index, isMove, eOpts) {
+        store.addListener('remove', function (store, records) {
             var i;
             for (i = 0; i < records.length; i++) {
                 delete this.getView().record.get('attributes')[records[i].get('name')];
@@ -71,5 +69,55 @@ Ext.define('Traccar.view.edit.AttributesController', {
         }, this);
 
         this.getView().setStore(store);
+    },
+
+    comboConfig: {
+        xtype: 'combobox',
+        reference: 'nameComboField',
+        name: 'name',
+        fieldLabel: Strings.sharedName,
+        displayField: 'key',
+        allowBlank: false,
+        listeners: {
+            change: 'onNameChange'
+        }
+    },
+
+    replaceNameField: function (dialog, config) {
+        var nameTextField = dialog.lookupReference('nameTextField');
+        dialog.down('form').insert(0, config);
+        dialog.down('form').remove(nameTextField);
+    },
+
+    initDialog: function (record) {
+        var dialog = Ext.create('Traccar.view.dialog.Attribute');
+        if (this.getView().record instanceof Traccar.model.Device) {
+            this.comboConfig.store = 'DeviceAttributes';
+            this.replaceNameField(dialog, this.comboConfig);
+        } else if (this.getView().record instanceof Traccar.model.Geofence) {
+            this.comboConfig.store = 'GeofenceAttributes';
+            this.replaceNameField(dialog, this.comboConfig);
+        } else if (this.getView().record instanceof Traccar.model.Group) {
+            this.comboConfig.store = 'GroupAttributes';
+            this.replaceNameField(dialog, this.comboConfig);
+        } else if (this.getView().record instanceof Traccar.model.Server) {
+            this.comboConfig.store = 'ServerAttributes';
+            this.replaceNameField(dialog, this.comboConfig);
+        } else if (this.getView().record instanceof Traccar.model.User) {
+            this.comboConfig.store = 'UserAttributes';
+            this.replaceNameField(dialog, this.comboConfig);
+        }
+        dialog.down('form').loadRecord(record);
+        dialog.show();
+    },
+
+    onAddClick: function () {
+        var objectInstance = Ext.create('Traccar.model.Attribute');
+        objectInstance.store = this.getView().getStore();
+        this.initDialog(objectInstance);
+    },
+
+    onEditClick: function () {
+        this.initDialog(this.getView().getSelectionModel().getSelection()[0]);
     }
 });

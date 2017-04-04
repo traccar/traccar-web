@@ -39,5 +39,57 @@ Ext.define('Traccar.view.dialog.AttributeController', {
             record.save();
         }
         button.up('window').close();
+    },
+
+    onValidityChange: function (form, valid) {
+        this.lookupReference('saveButton').setDisabled(!valid);
+    },
+
+    defaultFieldConfig: {
+        name: 'value',
+        reference: 'valueField',
+        allowBlank: false,
+        fieldLabel: Strings.stateValue
+    },
+
+    onNameChange: function (combobox, newValue) {
+        var type, config, valueField = this.lookupReference('valueField'),
+            attribute = combobox.getStore().getById(newValue);
+        if (attribute) {
+            type = attribute.get('type');
+            config = Ext.clone(this.defaultFieldConfig);
+            if (type === 'number') {
+                config.xtype = 'numberfield';
+                config.allowDecimals = false;
+                if (attribute.get('maxValue')) {
+                    config.maxValue = attribute.get('maxValue');
+                }
+                if (attribute.get('minValue')) {
+                    config.minValue = attribute.get('minValue');
+                }
+            } else if (type === 'boolean') {
+                config.xtype = 'checkboxfield';
+                config.inputValue = true;
+                config.uncheckedValue = false;
+            } else if (type === 'color') {
+                config.xtype = 'colorfield';
+                config.format = '#hex6';
+                config.beforeBodyEl = [
+                    '<div class="' + Ext.baseCSSPrefix + 'colorpicker-field-swatch custom-color-picker-swatch">' +
+                    '<div id="{id}-swatchEl" data-ref="swatchEl" class="' + Ext.baseCSSPrefix +
+                            'colorpicker-field-swatch-inner"></div>' +
+                    '</div>'
+                ];
+            } else {
+                config.xtype = 'textfield';
+            }
+            if (valueField.getXType() !== config.xtype) {
+                this.getView().down('form').insert(this.getView().down('form').items.indexOf(valueField), config);
+                this.getView().down('form').remove(valueField);
+            } else if (config.xtype === 'numberfield') {
+                valueField.setMinValue(config.minValue);
+                valueField.setMaxValue(config.maxValue);
+            }
+        }
     }
 });
