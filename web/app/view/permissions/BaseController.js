@@ -57,7 +57,7 @@ Ext.define('Traccar.view.permissions.BaseController', {
             jsonData: Ext.util.JSON.encode(data),
             callback: function (options, success, response) {
                 if (!success) {
-                    selection.deselect(record);
+                    selection.deselect(record, true);
                     Traccar.app.showError(response);
                 }
             }
@@ -75,7 +75,7 @@ Ext.define('Traccar.view.permissions.BaseController', {
             jsonData: Ext.util.JSON.encode(data),
             callback: function (options, success, response) {
                 if (!success) {
-                    selection.select(record);
+                    selection.select(record, true, true);
                     Traccar.app.showError(response);
                 }
             }
