@@ -31,6 +31,7 @@ Ext.define('Traccar.store.ServerAttributes', {
         type: 'number'
     }, {
         key: 'web.liveRouteLength',
-        type: 'number'
+        type: 'number',
+        allowDecimals: false
     }]
 });

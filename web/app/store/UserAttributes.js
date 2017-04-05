@@ -26,6 +26,7 @@ Ext.define('Traccar.store.UserAttributes', {
     }, {
         key: 'mail.smtp.port',
         type: 'number',
+        allowDecimals: false,
         minValue: 1,
         maxValue: 65535
     }, {
@@ -57,6 +58,7 @@ Ext.define('Traccar.store.UserAttributes', {
         type: 'string'
     }, {
         key: 'web.liveRouteLength',
-        type: 'number'
+        type: 'number',
+        allowDecimals: false
     }]
 });

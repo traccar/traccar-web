@@ -54,19 +54,19 @@ Ext.define('Traccar.view.dialog.AttributeController', {
 
     onNameChange: function (combobox, newValue) {
         var type, config, valueField = this.lookupReference('valueField'),
-            attribute = combobox.getStore().getById(newValue);
+                attribute = combobox.getStore().getById(newValue);
         if (attribute) {
             type = attribute.get('type');
             config = Ext.clone(this.defaultFieldConfig);
             if (type === 'number') {
                 config.xtype = 'numberfield';
-                config.allowDecimals = false;
-                if (attribute.get('maxValue')) {
-                    config.maxValue = attribute.get('maxValue');
+                if (attribute.get('allowDecimals') !== undefined) {
+                    config.allowDecimals = attribute.get('allowDecimals');
+                } else {
+                    config.allowDecimals = true;
                 }
-                if (attribute.get('minValue')) {
-                    config.minValue = attribute.get('minValue');
-                }
+                config.maxValue = attribute.get('maxValue');
+                config.minValue = attribute.get('minValue');
             } else if (type === 'boolean') {
                 config.xtype = 'checkboxfield';
                 config.inputValue = true;
@@ -80,8 +80,7 @@ Ext.define('Traccar.view.dialog.AttributeController', {
                 this.getView().down('form').insert(this.getView().down('form').items.indexOf(valueField), config);
                 this.getView().down('form').remove(valueField);
             } else if (config.xtype === 'numberfield') {
-                valueField.setMinValue(config.minValue);
-                valueField.setMaxValue(config.maxValue);
+                valueField.setConfig(config);
             }
         }
     }
