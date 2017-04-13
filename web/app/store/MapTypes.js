@@ -32,6 +32,18 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'bingAerial',
         name: Strings.mapBingAerial
     }, {
+        key: 'bingHybrid',
+        name: Strings.mapBingHybrid
+    }, {
+        key: 'baidu',
+        name: Strings.mapBaidu
+    }, {
+        key: 'yandexMap',
+        name: Strings.mapYandexMap
+    }, {
+        key: 'yandexSat',
+        name: Strings.mapYandexSat
+    }, {
         key: 'custom',
         name: Strings.mapCustom
     }]

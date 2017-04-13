@@ -1,5 +1,5 @@
 (function () {
-    var debugMode, touchMode, locale, localeParameter, extjsVersion, fontAwesomeVersion, olVersion, i, language, languages;
+    var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, fontAwesomeVersion, olVersion, i, language, languages;
 
     function addStyleFile(file) {
         var link = document.createElement('link');
@@ -120,6 +120,7 @@
     extjsVersion = '6.2.0';
     fontAwesomeVersion = '4.7.0';
     olVersion = '4.0.0';
+    proj4jsVersion = '2.4.3';
 
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
@@ -142,6 +143,12 @@
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
     } else {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.js');
+    }
+
+    if (debugMode) {
+        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/proj4js/' + proj4jsVersion + '/proj4-src.js');
+    } else {
+        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/proj4js/' + proj4jsVersion + '/proj4.js');
     }
 
     addSvgFile('images/default.svg', 'defaultSvg');

@@ -62,19 +62,85 @@ Ext.define('Traccar.view.map.BaseMap', {
                     imagerySet: 'Aerial'
                 })
             });
+        } else if (type === 'bingHybrid') {
+            layer = new ol.layer.Tile({
+                source: new ol.source.BingMaps({
+                    key: bingKey,
+                    imagerySet: 'AerialWithLabels'
+                })
+            });
         } else if (type === 'osm') {
             layer = new ol.layer.Tile({
                 source: new ol.source.OSM({})
             });
+        } else if (type === 'baidu') {
+            layer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    projection: 'BD-MC',
+                    tileUrlFunction: function (tileCoord) {
+                        var URLS_LENGTH = 5;
+
+                        var x = tileCoord[1];
+                        var y = tileCoord[2];
+                        var z = tileCoord[0];
+
+                        var hash = (x << z) + y;
+                        var index = hash % URLS_LENGTH;
+                        index = index < 0 ? index + URLS_LENGTH : index;
+
+                        if (x < 0) {
+                            x = 'M' + (-x)
+                        }
+                        if (y < 0) {
+                            y = 'M' + (-y)
+                        }
+                        return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
+                            .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
+                    },
+                    tileGrid: new ol.tilegrid.TileGrid({
+                        extent: ol.proj.transformExtent([-180, -74, 180, 74], 'EPSG:4326', 'BD-MC'),
+                        origin: [0, 0],
+                        minZoom: 3,
+                        resolutions: [
+                            262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048,
+                            1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
+                        ]
+                    }),
+                    attributions: [
+                        new ol.Attribution({
+                            html: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
+                        })
+                    ]
+                })
+            });
+        } else if (type === 'yandexMap') {
+            layer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
+                    projection: 'EPSG:3395',
+                    attributions: [
+                        new ol.Attribution({
+                            html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
+                        })
+                    ]
+                })
+            });
+        } else if (type === 'yandexSat') {
+            layer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
+                    projection: 'EPSG:3395',
+                    attributions: [
+                        new ol.Attribution({
+                            html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
+                        })
+                    ]
+                })
+            });
         } else {
             layer = new ol.layer.Tile({
                 source: new ol.source.XYZ({
-                    urls: [
-                        'https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                        'https://cartodb-basemaps-b.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                        'https://cartodb-basemaps-c.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                        'https://cartodb-basemaps-d.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png'
-                    ],
+                    url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
                     attributions: [
                         new ol.Attribution({
                             html: [
@@ -143,4 +209,10 @@ Ext.define('Traccar.view.map.BaseMap', {
             this.map.updateSize();
         }
     }
+}, function () {
+
+    proj4.defs('BD-MC','+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
+    proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
+    ol.proj.get('EPSG:3395').setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
+
 });
