@@ -41,8 +41,8 @@ Ext.define('Traccar.Style', {
 
     columnWidthNormal: 100,
 
-    mapDefaultLat: 12.966667,
-    mapDefaultLon: 77.566667,
+    mapDefaultLat: 1.283333,
+    mapDefaultLon: 103.833333,
     mapDefaultZoom: 4,
 
     mapRouteColor: [
