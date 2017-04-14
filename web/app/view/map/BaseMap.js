@@ -78,21 +78,17 @@ Ext.define('Traccar.view.map.BaseMap', {
                 source: new ol.source.XYZ({
                     projection: 'BD-MC',
                     tileUrlFunction: function (tileCoord) {
-                        var URLS_LENGTH = 5;
+                        var urlsLength = 5, z = tileCoord[0], x = tileCoord[1], y = tileCoord[2], hash, index;
 
-                        var x = tileCoord[1];
-                        var y = tileCoord[2];
-                        var z = tileCoord[0];
-
-                        var hash = (x << z) + y;
-                        var index = hash % URLS_LENGTH;
-                        index = index < 0 ? index + URLS_LENGTH : index;
+                        hash = (x << z) + y;
+                        index = hash % urlsLength;
+                        index = index < 0 ? index + urlsLength : index;
 
                         if (x < 0) {
-                            x = 'M' + (-x)
+                            x = 'M' + (-x);
                         }
                         if (y < 0) {
-                            y = 'M' + (-y)
+                            y = 'M' + (-y);
                         }
                         return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
                             .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
@@ -211,7 +207,7 @@ Ext.define('Traccar.view.map.BaseMap', {
     }
 }, function () {
 
-    proj4.defs('BD-MC','+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
+    proj4.defs('BD-MC', '+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
     proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
     ol.proj.get('EPSG:3395').setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
 
