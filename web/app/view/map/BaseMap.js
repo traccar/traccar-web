@@ -69,9 +69,19 @@ Ext.define('Traccar.view.map.BaseMap', {
                     imagerySet: 'AerialWithLabels'
                 })
             });
-        } else if (type === 'osm') {
+        } else if (type === 'carto') {
             layer = new ol.layer.Tile({
-                source: new ol.source.OSM({})
+                source: new ol.source.XYZ({
+                    url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                    attributions: [
+                        new ol.Attribution({
+                            html: [
+                                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
+                                'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                            ]
+                        })
+                    ]
+                })
             });
         } else if (type === 'baidu') {
             layer = new ol.layer.Tile({
@@ -135,17 +145,7 @@ Ext.define('Traccar.view.map.BaseMap', {
             });
         } else {
             layer = new ol.layer.Tile({
-                source: new ol.source.XYZ({
-                    url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                    attributions: [
-                        new ol.Attribution({
-                            html: [
-                                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-                                    'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                            ]
-                        })
-                    ]
-                })
+                source: new ol.source.OSM({})
             });
         }
 
