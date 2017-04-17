@@ -183,6 +183,7 @@
     "eventDeviceMoving": "Device is moving",
     "eventDeviceStopped": "Device has stopped",
     "eventDeviceOverspeed": "Device exceeds the speed",
+    "eventDeviceFuelDrop": "Fuel drop event",
     "eventCommandResult": "Command result",
     "eventGeofenceEnter": "Device has entered geofence",
     "eventGeofenceExit": "Device has exited geofence",
