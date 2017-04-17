@@ -119,6 +119,8 @@
     "positionAddress": "Address",
     "positionProtocol": "Protocol",
     "positionDistance": "Distance",
+    "positionRpm": "RPM",
+    "positionFuel": "Fuel",
     "serverTitle": "Server Settings",
     "serverZoom": "Zoom",
     "serverRegistration": "Registration",

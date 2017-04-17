@@ -26,5 +26,11 @@ Ext.define('Traccar.store.ReportChartTypes', {
     }, {
         key: 'distanceConverted',
         name: Strings.positionDistance
+    }, {
+        key: 'rpm',
+        name: Strings.positionRpm
+    }, {
+        key: 'fuel',
+        name: Strings.positionFuel
     }]
 });
