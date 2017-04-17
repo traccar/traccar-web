@@ -463,6 +463,10 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.reportEngineHours,
         dataIndex: 'engineHours',
         renderer: Traccar.AttributeFormatter.getFormatter('hours')
+    }, {
+        text: Strings.reportSpentFuel,
+        dataIndex: 'spentFuel',
+        renderer: Traccar.AttributeFormatter.getFormatter('spentFuel')
     }],
 
     tripsColumns: [{
