@@ -22,6 +22,7 @@ Ext.define('Traccar.store.GeofenceAttributes', {
 
     data: [{
         key: 'color',
+        name: Strings.sharedAttributeColor,
         type: 'color'
     }]
 });

@@ -69,6 +69,17 @@ Ext.define('Traccar.view.edit.AttributesController', {
         }, this);
 
         this.getView().setStore(store);
+        if (this.getView().record instanceof Traccar.model.Device) {
+            this.getView().attributesStore = 'DeviceAttributes';
+        } else if (this.getView().record instanceof Traccar.model.Geofence) {
+            this.getView().attributesStore = 'GeofenceAttributes';
+        } else if (this.getView().record instanceof Traccar.model.Group) {
+            this.getView().attributesStore = 'GroupAttributes';
+        } else if (this.getView().record instanceof Traccar.model.Server) {
+            this.getView().attributesStore = 'ServerAttributes';
+        } else if (this.getView().record instanceof Traccar.model.User) {
+            this.getView().attributesStore = 'UserAttributes';
+        }
     },
 
     comboConfig: {
@@ -76,36 +87,21 @@ Ext.define('Traccar.view.edit.AttributesController', {
         reference: 'nameComboField',
         name: 'name',
         fieldLabel: Strings.sharedName,
-        displayField: 'key',
+        displayField: 'name',
+        valueField: 'key',
         allowBlank: false,
         listeners: {
             change: 'onNameChange'
         }
     },
 
-    replaceNameField: function (dialog, config) {
-        var nameTextField = dialog.lookupReference('nameTextField');
-        dialog.down('form').insert(0, config);
-        dialog.down('form').remove(nameTextField);
-    },
-
     initDialog: function (record) {
-        var dialog = Ext.create('Traccar.view.dialog.Attribute');
-        if (this.getView().record instanceof Traccar.model.Device) {
-            this.comboConfig.store = 'DeviceAttributes';
-            this.replaceNameField(dialog, this.comboConfig);
-        } else if (this.getView().record instanceof Traccar.model.Geofence) {
-            this.comboConfig.store = 'GeofenceAttributes';
-            this.replaceNameField(dialog, this.comboConfig);
-        } else if (this.getView().record instanceof Traccar.model.Group) {
-            this.comboConfig.store = 'GroupAttributes';
-            this.replaceNameField(dialog, this.comboConfig);
-        } else if (this.getView().record instanceof Traccar.model.Server) {
-            this.comboConfig.store = 'ServerAttributes';
-            this.replaceNameField(dialog, this.comboConfig);
-        } else if (this.getView().record instanceof Traccar.model.User) {
-            this.comboConfig.store = 'UserAttributes';
-            this.replaceNameField(dialog, this.comboConfig);
+        var nameTextField, dialog = Ext.create('Traccar.view.dialog.Attribute');
+        if (this.getView().attributesStore) {
+            this.comboConfig.store = this.getView().attributesStore;
+            nameTextField = dialog.lookupReference('nameTextField');
+            dialog.down('form').insert(0, this.comboConfig);
+            dialog.down('form').remove(nameTextField);
         }
         dialog.down('form').loadRecord(record);
         dialog.show();

@@ -22,42 +22,54 @@ Ext.define('Traccar.store.UserAttributes', {
 
     data: [{
         key: 'mail.smtp.host',
+        name: Strings.sharedAttributeMailSmtpHost,
         type: 'string'
     }, {
         key: 'mail.smtp.port',
+        name: Strings.sharedAttributeMailSmtpPort,
         type: 'number',
         allowDecimals: false,
         minValue: 1,
         maxValue: 65535
     }, {
         key: 'mail.smtp.starttls.enable',
+        name: Strings.sharedAttributeMailSmtpStarttlsEnable,
         type: 'boolean'
     }, {
         key: 'mail.smtp.starttls.required',
+        name: Strings.sharedAttributeMailSmtpStarttlsRequired,
         type: 'boolean'
     }, {
         key: 'mail.smtp.ssl.enable',
+        name: Strings.sharedAttributeMailSmtpSslEnable,
         type: 'boolean'
     }, {
         key: 'mail.smtp.ssl.trust',
+        name: Strings.sharedAttributeMailSmtpSslTrust,
         type: 'string'
     }, {
         key: 'mail.smtp.ssl.protocols',
+        name: Strings.sharedAttributeMailSmtpSslProtocols,
         type: 'string'
     }, {
         key: 'mail.smtp.from',
+        name: Strings.sharedAttributeMailSmtpFrom,
         type: 'string'
     }, {
         key: 'mail.smtp.auth',
+        name: Strings.sharedAttributeMailSmtpAuth,
         type: 'boolean'
     }, {
         key: 'mail.smtp.username',
+        name: Strings.sharedAttributeMailSmtpUsername,
         type: 'string'
     }, {
         key: 'mail.smtp.password',
+        name: Strings.sharedAttributeMailSmtpPassword,
         type: 'string'
     }, {
         key: 'web.liveRouteLength',
+        name: Strings.sharedAttributeWebLiveRouteLength,
         type: 'number',
         allowDecimals: false
     }]
