@@ -22,54 +22,54 @@ Ext.define('Traccar.store.UserAttributes', {
 
     data: [{
         key: 'mail.smtp.host',
-        name: Strings.sharedAttributeMailSmtpHost,
+        name: Strings.attributeMailSmtpHost,
         type: 'string'
     }, {
         key: 'mail.smtp.port',
-        name: Strings.sharedAttributeMailSmtpPort,
+        name: Strings.attributeMailSmtpPort,
         type: 'number',
         allowDecimals: false,
         minValue: 1,
         maxValue: 65535
     }, {
         key: 'mail.smtp.starttls.enable',
-        name: Strings.sharedAttributeMailSmtpStarttlsEnable,
+        name: Strings.attributeMailSmtpStarttlsEnable,
         type: 'boolean'
     }, {
         key: 'mail.smtp.starttls.required',
-        name: Strings.sharedAttributeMailSmtpStarttlsRequired,
+        name: Strings.attributeMailSmtpStarttlsRequired,
         type: 'boolean'
     }, {
         key: 'mail.smtp.ssl.enable',
-        name: Strings.sharedAttributeMailSmtpSslEnable,
+        name: Strings.attributeMailSmtpSslEnable,
         type: 'boolean'
     }, {
         key: 'mail.smtp.ssl.trust',
-        name: Strings.sharedAttributeMailSmtpSslTrust,
+        name: Strings.attributeMailSmtpSslTrust,
         type: 'string'
     }, {
         key: 'mail.smtp.ssl.protocols',
-        name: Strings.sharedAttributeMailSmtpSslProtocols,
+        name: Strings.attributeMailSmtpSslProtocols,
         type: 'string'
     }, {
         key: 'mail.smtp.from',
-        name: Strings.sharedAttributeMailSmtpFrom,
+        name: Strings.attributeMailSmtpFrom,
         type: 'string'
     }, {
         key: 'mail.smtp.auth',
-        name: Strings.sharedAttributeMailSmtpAuth,
+        name: Strings.attributeMailSmtpAuth,
         type: 'boolean'
     }, {
         key: 'mail.smtp.username',
-        name: Strings.sharedAttributeMailSmtpUsername,
+        name: Strings.attributeMailSmtpUsername,
         type: 'string'
     }, {
         key: 'mail.smtp.password',
-        name: Strings.sharedAttributeMailSmtpPassword,
+        name: Strings.attributeMailSmtpPassword,
         type: 'string'
     }, {
         key: 'web.liveRouteLength',
-        name: Strings.sharedAttributeWebLiveRouteLength,
+        name: Strings.attributeWebLiveRouteLength,
         type: 'number',
         allowDecimals: false
     }]

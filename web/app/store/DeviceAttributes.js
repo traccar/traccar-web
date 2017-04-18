@@ -22,31 +22,31 @@ Ext.define('Traccar.store.DeviceAttributes', {
 
     data: [{
         key: 'speedLimit',
-        name: Strings.sharedAttributeSpeedLimit,
+        name: Strings.attributeSpeedLimit,
         type: 'number'
     }, {
         key: 'report.ignoreOdometer',
-        name: Strings.sharedAttributeReportIgnoreOdometer,
+        name: Strings.attributeReportIgnoreOdometer,
         type: 'boolean'
     }, {
         key: 'maintenance.start',
-        name: Strings.sharedAttributeMaintenanceStart,
+        name: Strings.attributeMaintenanceStart,
         type: 'number'
     }, {
         key: 'maintenance.interval',
-        name: Strings.sharedAttributeMaintenanceInterval,
+        name: Strings.attributeMaintenanceInterval,
         type: 'number'
     }, {
         key: 'web.reportColor',
-        name: Strings.sharedAttributeWebReportColor,
+        name: Strings.attributeWebReportColor,
         type: 'color'
     }, {
         key: 'devicePassword',
-        name: Strings.sharedAttributeDevicePassword,
+        name: Strings.attributeDevicePassword,
         type: 'string'
     }, {
         key: 'processing.copyAttributes',
-        name: Strings.sharedAttributeProcessingCopyAttributes,
+        name: Strings.attributeProcessingCopyAttributes,
         type: 'string'
     }]
 });

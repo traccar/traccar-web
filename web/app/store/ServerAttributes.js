@@ -22,19 +22,19 @@ Ext.define('Traccar.store.ServerAttributes', {
 
     data: [{
         key: 'speedLimit',
-        name: Strings.sharedAttributeSpeedLimit,
+        name: Strings.attributeSpeedLimit,
         type: 'number'
     }, {
         key: 'maintenance.start',
-        name: Strings.sharedAttributeMaintenanceStart,
+        name: Strings.attributeMaintenanceStart,
         type: 'number'
     }, {
         key: 'maintenance.interval',
-        name: Strings.sharedAttributeMaintenanceInterval,
+        name: Strings.attributeMaintenanceInterval,
         type: 'number'
     }, {
         key: 'web.liveRouteLength',
-        name: Strings.sharedAttributeWebLiveRouteLength,
+        name: Strings.attributeWebLiveRouteLength,
         type: 'number',
         allowDecimals: false
     }]

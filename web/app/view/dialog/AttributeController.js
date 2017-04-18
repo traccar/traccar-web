@@ -53,8 +53,8 @@ Ext.define('Traccar.view.dialog.AttributeController', {
     },
 
     onNameChange: function (combobox, newValue) {
-        var type, config, valueField = this.lookupReference('valueField'),
-                attribute = combobox.getStore().getById(newValue);
+        var type, config, attribute, valueField = this.lookupReference('valueField');
+        attribute = combobox.getStore().getById(newValue);
         if (attribute) {
             type = attribute.get('type');
             config = Ext.clone(this.defaultFieldConfig);
