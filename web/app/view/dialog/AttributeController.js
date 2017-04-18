@@ -39,5 +39,49 @@ Ext.define('Traccar.view.dialog.AttributeController', {
             record.save();
         }
         button.up('window').close();
+    },
+
+    onValidityChange: function (form, valid) {
+        this.lookupReference('saveButton').setDisabled(!valid);
+    },
+
+    defaultFieldConfig: {
+        name: 'value',
+        reference: 'valueField',
+        allowBlank: false,
+        fieldLabel: Strings.stateValue
+    },
+
+    onNameChange: function (combobox, newValue) {
+        var type, config, attribute, valueField = this.lookupReference('valueField');
+        attribute = combobox.getStore().getById(newValue);
+        if (attribute) {
+            type = attribute.get('type');
+            config = Ext.clone(this.defaultFieldConfig);
+            if (type === 'number') {
+                config.xtype = 'numberfield';
+                if (attribute.get('allowDecimals') !== undefined) {
+                    config.allowDecimals = attribute.get('allowDecimals');
+                } else {
+                    config.allowDecimals = true;
+                }
+                config.maxValue = attribute.get('maxValue');
+                config.minValue = attribute.get('minValue');
+            } else if (type === 'boolean') {
+                config.xtype = 'checkboxfield';
+                config.inputValue = true;
+                config.uncheckedValue = false;
+            } else if (type === 'color') {
+                config.xtype = 'customcolorpicker';
+            } else {
+                config.xtype = 'textfield';
+            }
+            if (valueField.getXType() !== config.xtype) {
+                this.getView().down('form').insert(this.getView().down('form').items.indexOf(valueField), config);
+                this.getView().down('form').remove(valueField);
+            } else if (config.xtype === 'numberfield') {
+                valueField.setConfig(config);
+            }
+        }
     }
 });

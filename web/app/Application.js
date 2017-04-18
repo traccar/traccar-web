@@ -38,7 +38,8 @@ Ext.define('Traccar.Application', {
         'AttributeAlias',
         'ReportSummary',
         'ReportTrip',
-        'Calendar'
+        'Calendar',
+        'KnownAttribute'
     ],
 
     stores: [
@@ -77,7 +78,12 @@ Ext.define('Traccar.Application', {
         'AllCalendars',
         'AllTimezones',
         'VisibleDevices',
-        'DeviceStatuses'
+        'DeviceStatuses',
+        'DeviceAttributes',
+        'GeofenceAttributes',
+        'GroupAttributes',
+        'ServerAttributes',
+        'UserAttributes'
     ],
 
     controllers: [

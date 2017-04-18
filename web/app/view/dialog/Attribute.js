@@ -19,7 +19,8 @@ Ext.define('Traccar.view.dialog.Attribute', {
     extend: 'Traccar.view.dialog.Base',
 
     requires: [
-        'Traccar.view.dialog.AttributeController'
+        'Traccar.view.dialog.AttributeController',
+        'Traccar.view.ColorPicker'
     ],
 
     controller: 'attribute',
@@ -27,19 +28,27 @@ Ext.define('Traccar.view.dialog.Attribute', {
 
     items: {
         xtype: 'form',
+        listeners: {
+            validitychange: 'onValidityChange'
+        },
         items: [{
             xtype: 'textfield',
+            reference: 'nameTextField',
             name: 'name',
+            allowBlank: false,
             fieldLabel: Strings.sharedName
         }, {
             xtype: 'textfield',
             name: 'value',
+            reference: 'valueField',
+            allowBlank: false,
             fieldLabel: Strings.stateValue
         }]
     },
 
     buttons: [{
         glyph: 'xf00c@FontAwesome',
+        reference: 'saveButton',
         tooltip: Strings.sharedSave,
         tooltipType: 'title',
         minWidth: 0,
