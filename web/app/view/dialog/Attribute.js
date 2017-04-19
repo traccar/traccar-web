@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.Attribute', {
 
     requires: [
         'Traccar.view.dialog.AttributeController',
-        'Traccar.view.ColorPicker'
+        'Traccar.view.ColorPicker',
+        'Traccar.view.CustomNumberField'
     ],
 
     controller: 'attribute',
