@@ -59,12 +59,13 @@ Ext.define('Traccar.view.dialog.AttributeController', {
             type = attribute.get('type');
             config = Ext.clone(this.defaultFieldConfig);
             if (type === 'number') {
-                config.xtype = 'numberfield';
+                config.xtype = 'customNumberField';
                 if (attribute.get('allowDecimals') !== undefined) {
                     config.allowDecimals = attribute.get('allowDecimals');
                 } else {
                     config.allowDecimals = true;
                 }
+                config.convert = attribute.get('convert');
                 config.maxValue = attribute.get('maxValue');
                 config.minValue = attribute.get('minValue');
             } else if (type === 'boolean') {
@@ -76,7 +77,7 @@ Ext.define('Traccar.view.dialog.AttributeController', {
             } else {
                 config.xtype = 'textfield';
             }
-            if (valueField.getXType() !== config.xtype) {
+            if (valueField.getXType() !== config.xtype || valueField.convert !== config.convert) {
                 this.getView().down('form').insert(this.getView().down('form').items.indexOf(valueField), config);
                 this.getView().down('form').remove(valueField);
             } else if (config.xtype === 'numberfield') {

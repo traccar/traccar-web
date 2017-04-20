@@ -43,15 +43,28 @@ Ext.define('Traccar.view.edit.Attributes', {
             text: Strings.sharedName,
             dataIndex: 'name',
             renderer: function (value, metaData) {
-                var result;
+                var attribute;
                 if (this.attributesStore) {
-                    result = Ext.getStore(this.attributesStore).getById(value);
+                    attribute = Ext.getStore(this.attributesStore).getById(value);
                 }
-                return result && result.get('name') ? result.get('name') : value;
+                return attribute && attribute.get('name') ? attribute.get('name') : value;
             }
         }, {
             text: Strings.stateValue,
-            dataIndex: 'value'
+            dataIndex: 'value',
+            renderer: function (value, metaData, record) {
+                var attribute;
+                if (this.attributesStore) {
+                    attribute = Ext.getStore(this.attributesStore).getById(record.get('name'));
+                }
+                if (attribute && attribute.get('convert') === 'speed') {
+                    return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit', 'kn'));
+                } else if (attribute && attribute.get('convert') === 'distance') {
+                    return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit', 'km'));
+                } else {
+                    return value;
+                }
+            }
         }]
     }
 });

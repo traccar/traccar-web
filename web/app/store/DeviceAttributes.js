@@ -23,7 +23,8 @@ Ext.define('Traccar.store.DeviceAttributes', {
     data: [{
         key: 'speedLimit',
         name: Strings.attributeSpeedLimit,
-        type: 'number'
+        type: 'number',
+        convert: 'speed'
     }, {
         key: 'report.ignoreOdometer',
         name: Strings.attributeReportIgnoreOdometer,
@@ -31,11 +32,13 @@ Ext.define('Traccar.store.DeviceAttributes', {
     }, {
         key: 'maintenance.start',
         name: Strings.attributeMaintenanceStart,
-        type: 'number'
+        type: 'number',
+        convert: 'distance'
     }, {
         key: 'maintenance.interval',
         name: Strings.attributeMaintenanceInterval,
-        type: 'number'
+        type: 'number',
+        convert: 'distance'
     }, {
         key: 'web.reportColor',
         name: Strings.attributeWebReportColor,
