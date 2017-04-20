@@ -61,9 +61,6 @@ Ext.define('Traccar.view.edit.Attributes', {
                     return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit', 'kn'));
                 } else if (attribute && attribute.get('convert') === 'distance') {
                     return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit', 'km'));
-                } else if (attribute && attribute.get('type') === 'color') {
-                    metaData.tdStyle = 'background-color:' + value;
-                    return value;
                 } else {
                     return value;
                 }
