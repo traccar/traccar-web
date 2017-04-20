@@ -157,15 +157,21 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         for (i = 0; i < data.length; i++) {
             deviceId = data[i].get('id');
             if (this.latestMarkers[deviceId]) {
-                this.getView().getMarkersSource().removeFeature(this.latestMarkers[deviceId]);
+                if (this.getView().getMarkersSource().getFeatureById(this.latestMarkers[deviceId].getId())) {
+                    this.getView().getMarkersSource().removeFeature(this.latestMarkers[deviceId]);
+                }
                 delete this.latestMarkers[deviceId];
             }
             if (this.accuracyCircles[deviceId]) {
-                this.getView().getAccuracySource().removeFeature(this.accuracyCircles[deviceId]);
+                if (this.getView().getAccuracySource().getFeatureById(this.accuracyCircles[deviceId].getId())) {
+                    this.getView().getAccuracySource().removeFeature(this.accuracyCircles[deviceId]);
+                }
                 delete this.accuracyCircles[deviceId];
             }
             if (this.liveRoutes[deviceId]) {
-                this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId]);
+                if (this.getView().getLiveRouteSource().getFeatureById(this.liveRoutes[deviceId].getId())) {
+                    this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId]);
+                }
                 delete this.liveRoutes[deviceId];
             }
         }
@@ -282,7 +288,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 ])
             });
             liveLine.setStyle(this.getRouteStyle(deviceId));
-            liveLine.setId(position.get('deviceId'));
+            liveLine.setId(deviceId);
             this.liveRoutes[deviceId] = liveLine;
             if (this.isDeviceVisible(device)) {
                 this.getView().getMarkersSource().addFeature(liveLine);
