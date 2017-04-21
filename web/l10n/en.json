@@ -141,8 +141,8 @@
     "positionDistance": "Distance",
     "positionRpm": "RPM",
     "positionFuel": "Fuel",
-    "positionPower": "Power"
-    "positionBattery": "Battery"
+    "positionPower": "Power",
+    "positionBattery": "Battery",
     "serverTitle": "Server Settings",
     "serverZoom": "Zoom",
     "serverRegistration": "Registration",
