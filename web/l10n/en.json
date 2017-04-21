@@ -141,6 +141,8 @@
     "positionDistance": "Distance",
     "positionRpm": "RPM",
     "positionFuel": "Fuel",
+    "positionPower": "Power"
+    "positionBattery": "Battery"
     "serverTitle": "Server Settings",
     "serverZoom": "Zoom",
     "serverRegistration": "Registration",
@@ -219,6 +221,7 @@
     "alarmOverspeed": "Overspeed Alarm",
     "alarmFallDown": "FallDown Alarm",
     "alarmLowBattery": "LowBattery Alarm",
+    "alarmLowPower": "LowPower Alarm",	
     "alarmFault": "Fault Alarm",
     "alarmPowerOff": "Power Off Alarm",
     "alarmPowerOn": "Power On Alarm",
@@ -233,6 +236,7 @@
     "alarmHardBreaking": "Hard Breaking Alarm",
     "alarmFatigueDriving": "Fatigue Driving Alarm",
     "alarmPowerCut": "Power Cut Alarm",
+    "alarmPowerRestored": "Power Restored Alarm",	
     "alarmJamming": "Jamming Alarm",
     "alarmTemperature": "Temperature Alarm",
     "alarmParking": "Parking Alarm",
