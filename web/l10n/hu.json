@@ -141,8 +141,8 @@
     "positionDistance": "Távolság",
     "positionRpm": "Fordulat",
     "positionFuel": "Üzemanyagszint",
-    "positionPower": "Tápfeszültség"
-    "positionBattery": "Akkumulátor"
+    "positionPower": "Tápfeszültség",
+    "positionBattery": "Akkumulátor",
     "serverTitle": "Szerver beállítások",
     "serverZoom": "Nagyítás",
     "serverRegistration": "Regisztráció",
