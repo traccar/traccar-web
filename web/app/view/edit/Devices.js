@@ -163,6 +163,9 @@ Ext.define('Traccar.view.edit.Devices', {
 
                 if (value) {
                     seconds = Math.floor((new Date() - value) / 1000);
+                    if (seconds < 0) {
+                        seconds = 0;
+                    }
                     interval = Math.floor(seconds / 86400);
                     if (interval > 1) {
                         return interval + ' ' + Strings.sharedDays;
