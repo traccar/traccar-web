@@ -75,7 +75,7 @@
     "attributeMailSmtpUsername": "Mail: SMTP Username",
     "attributeMailSmtpPassword": "Mail: SMTP Password",
     "errorTitle": "Error",
-    "errorUnknown": "Unknown error",
+    "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",
     "errorSocket": "Web socket connection error",
     "userEmail": "Email",
