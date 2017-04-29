@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,6 +73,18 @@ Ext.define('Traccar.view.Statistics', {
         }, {
             text: Strings.statisticsMessagesStored,
             dataIndex: 'messagesStored'
+        }, {
+            text: Strings.notificationMail,
+            dataIndex: 'mailSent'
+        }, {
+            text: Strings.notificationSms,
+            dataIndex: 'smsSent'
+        }, {
+            text: Strings.statisticsGeocoder,
+            dataIndex: 'geocoderRequests'
+        }, {
+            text: Strings.statisticsGeolocation,
+            dataIndex: 'geolocationRequests'
         }]
     }
 });

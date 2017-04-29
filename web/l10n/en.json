@@ -276,6 +276,8 @@
     "statisticsRequests": "Requests",
     "statisticsMessagesReceived": "Messages Received",
     "statisticsMessagesStored": "Messages Stored",
+    "statisticsGeocoder": "Geocoder Requests",
+    "statisticsGeolocation": "Geolocation Requests",
     "categoryArrow": "Arrow",
     "categoryDefault": "Default",
     "categoryCar": "Car",
