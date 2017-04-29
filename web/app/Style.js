@@ -23,8 +23,8 @@ Ext.define('Traccar.Style', {
 
     normalPadding: 10,
 
-    windowWidth: 640,
-    windowHeight: 480,
+    windowWidth: 800,
+    windowHeight: 600,
 
     formFieldWidth: 277,
 
