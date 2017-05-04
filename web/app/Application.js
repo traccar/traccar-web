@@ -164,9 +164,9 @@ Ext.define('Traccar.Application', {
         if (Ext.isString(error)) {
             Ext.Msg.alert(Strings.errorTitle, error);
         } else if (error.responseText) {
-            Ext.Msg.alert(Strings.errorTitle, Strings.errorGeneral
-                    + '<br><br><textarea readonly rows="5" style="resize: none; width: 100%;">'
-                    + error.responseText + '</textarea>');
+            Ext.Msg.alert(Strings.errorTitle, Strings.errorGeneral +
+                    '<br><br><textarea readonly rows="5" style="resize: none; width: 100%;">' +
+                    error.responseText + '</textarea>');
         } else if (error.statusText) {
             Ext.Msg.alert(Strings.errorTitle, error.statusText);
         } else {

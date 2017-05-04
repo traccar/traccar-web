@@ -21,7 +21,14 @@ Ext.define('Traccar.view.dialog.DeviceDistanceController', {
     alias: 'controller.deviceDistance',
 
     onDeviceChange: function (combobox, newValue) {
+        var position;
         this.lookupReference('setButton').setDisabled(newValue === null);
+        if (newValue) {
+            position = Ext.getStore('LatestPositions').findRecord('deviceId', newValue, 0, false, false, true);
+            if (position) {
+                this.lookupReference('totalDistance').setValue(position.get('attributes').totalDistance);
+            }
+        }
     },
 
     onSetClick: function (button) {
