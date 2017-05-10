@@ -84,6 +84,7 @@ Ext.define('Traccar.controller.Root', {
         Ext.getStore('Geofences').load();
         Ext.getStore('Calendars').load();
         Ext.getStore('AttributeAliases').load();
+        Ext.getStore('ComputedAttributes').load();
         this.initReportEventTypesStore();
         Ext.getStore('Devices').load({
             scope: this,

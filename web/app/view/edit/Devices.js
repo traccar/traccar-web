@@ -75,6 +75,14 @@ Ext.define('Traccar.view.edit.Devices', {
             tooltip: Strings.sharedGeofences,
             tooltipType: 'title'
         }, {
+            xtype: 'button',
+            disabled: true,
+            handler: 'onAttributesClick',
+            reference: 'toolbarAttributesButton',
+            glyph: 'xf0ae@FontAwesome',
+            tooltip: Strings.sharedComputedAttributes,
+            tooltipType: 'title'
+        }, {
             disabled: true,
             handler: 'onCommandClick',
             reference: 'deviceCommandButton',

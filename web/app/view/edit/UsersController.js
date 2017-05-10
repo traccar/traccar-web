@@ -27,6 +27,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         'Traccar.view.permissions.UserGeofences',
         'Traccar.view.permissions.UserCalendars',
         'Traccar.view.permissions.UserUsers',
+        'Traccar.view.permissions.UserAttributes',
         'Traccar.view.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
@@ -155,6 +156,23 @@ Ext.define('Traccar.view.edit.UsersController', {
         }).show();
     },
 
+    onAttributesClick: function () {
+        var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedCalendars,
+            items: {
+                xtype: 'userAttributesView',
+                baseObjectName: 'userId',
+                linkObjectName: 'attributeId',
+                storeName: 'AllComputedAttributes',
+                linkStoreName: 'ComputedAttributes',
+                urlApi: 'api/permissions/attributes',
+                baseObject: user.getId()
+            }
+        }).show();
+    },
+
+
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
         this.lookupReference('userDevicesButton').setDisabled(disabled);
@@ -162,6 +180,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         this.lookupReference('userGeofencesButton').setDisabled(disabled);
         this.lookupReference('userNotificationsButton').setDisabled(disabled);
         this.lookupReference('userCalendarsButton').setDisabled(disabled);
+        this.lookupReference('userAttributesButton').setDisabled(disabled);
         this.lookupReference('userUsersButton').setDisabled(disabled || selected[0].get('userLimit') === 0);
         this.callParent(arguments);
     }

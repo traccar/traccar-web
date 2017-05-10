@@ -83,7 +83,9 @@ Ext.define('Traccar.Application', {
         'GeofenceAttributes',
         'GroupAttributes',
         'ServerAttributes',
-        'UserAttributes'
+        'UserAttributes',
+        'ComputedAttributes',
+        'AllComputedAttributes'
     ],
 
     controllers: [

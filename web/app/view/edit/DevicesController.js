@@ -23,6 +23,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         'Traccar.view.dialog.Command',
         'Traccar.view.dialog.Device',
         'Traccar.view.permissions.DeviceGeofences',
+        'Traccar.view.permissions.DeviceAttributes',
         'Traccar.view.BaseWindow',
         'Traccar.model.Device',
         'Traccar.model.Command'
@@ -77,6 +78,21 @@ Ext.define('Traccar.view.edit.DevicesController', {
         }).show();
     },
 
+    onAttributesClick: function () {
+        var device = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedComputedAttributes,
+            items: {
+                xtype: 'deviceAttributesView',
+                baseObjectName: 'deviceId',
+                linkObjectName: 'attributeId',
+                storeName: 'ComputedAttributes',
+                urlApi: 'api/devices/attributes',
+                baseObject: device.getId()
+            }
+        }).show();
+    },
+
     onCommandClick: function () {
         var device, deviceId, command, dialog, typesStore, online;
         device = this.getView().getSelectionModel().getSelection()[0];
@@ -105,6 +121,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         this.lookupReference('toolbarEditButton').setDisabled(empty || readonly || deviceReadonly);
         this.lookupReference('toolbarRemoveButton').setDisabled(empty || readonly || deviceReadonly);
         this.lookupReference('toolbarGeofencesButton').setDisabled(empty || readonly);
+        this.lookupReference('toolbarAttributesButton').setDisabled(empty || readonly);
         this.lookupReference('deviceCommandButton').setDisabled(empty || readonly);
     },
 

@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,37 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.edit.Groups', {
+Ext.define('Traccar.view.edit.ComputedAttributes', {
     extend: 'Ext.grid.Panel',
-    xtype: 'groupsView',
+    xtype: 'computedAttributesView',
 
     requires: [
-        'Traccar.view.edit.GroupsController',
+        'Traccar.view.edit.ComputedAttributesController',
         'Traccar.view.edit.Toolbar'
     ],
 
-    controller: 'groups',
-    store: 'Groups',
+    controller: 'computedAttributes',
+    store: 'ComputedAttributes',
 
     tbar: {
-        xtype: 'editToolbar',
-        items: [{
-            xtype: 'button',
-            disabled: true,
-            handler: 'onGeofencesClick',
-            reference: 'toolbarGeofencesButton',
-            glyph: 'xf21d@FontAwesome',
-            tooltip: Strings.sharedGeofences,
-            tooltipType: 'title'
-        }, {
-            xtype: 'button',
-            disabled: true,
-            handler: 'onAttributesClick',
-            reference: 'toolbarAttributesButton',
-            glyph: 'xf0ae@FontAwesome',
-            tooltip: Strings.sharedComputedAttributes,
-            tooltipType: 'title'
-        }]
+        xtype: 'editToolbar'
     },
 
     listeners: {
@@ -58,8 +42,17 @@ Ext.define('Traccar.view.edit.Groups', {
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{
-            text: Strings.sharedName,
-            dataIndex: 'name'
+            text: Strings.sharedDescription,
+            dataIndex: 'description'
+        }, {
+            text: Strings.sharedAttribute,
+            dataIndex: 'attribute'
+        }, {
+            text: Strings.sharedExpression,
+            dataIndex: 'expression'
+        }, {
+            text: Strings.sharedType,
+            dataIndex: 'type'
         }]
     }
 });
