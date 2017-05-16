@@ -74,6 +74,12 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsAttributeAliasesButton'
         }, {
             hidden: true,
+            text: Strings.sharedComputedAttributes,
+            glyph: 'xf0ae@FontAwesome',
+            handler: 'onComputedAttributesClick',
+            reference: 'settingsComputedAttributesButton'
+        }, {
+            hidden: true,
             text: Strings.sharedDeviceDistance,
             glyph: 'xf0e4@FontAwesome',
             handler: 'onDeviceDistanceClick',

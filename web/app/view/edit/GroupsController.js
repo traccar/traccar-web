@@ -22,6 +22,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
     requires: [
         'Traccar.view.dialog.Group',
         'Traccar.view.permissions.GroupGeofences',
+        'Traccar.view.permissions.GroupAttributes',
         'Traccar.view.BaseWindow',
         'Traccar.model.Group'
     ],
@@ -47,9 +48,27 @@ Ext.define('Traccar.view.edit.GroupsController', {
         }).show();
     },
 
+    onAttributesClick: function () {
+        var admin, group;
+        admin = Traccar.app.getUser().get('admin');
+        group = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedComputedAttributes,
+            items: {
+                xtype: 'groupAttributesView',
+                baseObjectName: 'groupId',
+                linkObjectName: 'attributeId',
+                storeName: admin ? 'AllComputedAttributes' : 'ComputedAttributes',
+                urlApi: 'api/groups/attributes',
+                baseObject: group.getId()
+            }
+        }).show();
+    },
+
     onSelectionChange: function (selected) {
         var disabled = selected.length > 0;
         this.lookupReference('toolbarGeofencesButton').setDisabled(disabled);
+        this.lookupReference('toolbarAttributesButton').setDisabled(disabled);
         this.callParent(arguments);
     }
 });

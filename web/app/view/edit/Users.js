@@ -75,6 +75,13 @@ Ext.define('Traccar.view.edit.Users', {
             glyph: 'xf073@FontAwesome',
             tooltip: Strings.sharedCalendars,
             tooltipType: 'title'
+        }, {
+            disabled: true,
+            handler: 'onAttributesClick',
+            reference: 'userAttributesButton',
+            glyph: 'xf0ae@FontAwesome',
+            tooltip: Strings.sharedComputedAttributes,
+            tooltipType: 'title'
         }]
     },
 

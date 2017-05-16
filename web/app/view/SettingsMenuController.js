@@ -28,6 +28,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.edit.Geofences',
         'Traccar.view.Notifications',
         'Traccar.view.edit.AttributeAliases',
+        'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.Statistics',
         'Traccar.view.dialog.DeviceDistance',
         'Traccar.view.edit.Calendars',
@@ -57,6 +58,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         }
         if (admin || (!deviceReadonly && !readonly)) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
+            this.lookupReference('settingsComputedAttributesButton').setHidden(false);
         }
     },
 
@@ -123,6 +125,16 @@ Ext.define('Traccar.view.SettingsMenuController', {
             modal: false,
             items: {
                 xtype: 'attributeAliasesView'
+            }
+        }).show();
+    },
+
+    onComputedAttributesClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedComputedAttributes,
+            modal: false,
+            items: {
+                xtype: 'computedAttributesView'
             }
         }).show();
     },
