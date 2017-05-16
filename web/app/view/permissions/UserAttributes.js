@@ -26,6 +26,11 @@ Ext.define('Traccar.view.permissions.UserAttributes', {
             dataIndex: 'description',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal
+        }, {
+            text: Strings.sharedAttribute,
+            dataIndex: 'attribute',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal
         }]
     }
 });

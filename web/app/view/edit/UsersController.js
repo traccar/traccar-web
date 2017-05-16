@@ -159,7 +159,7 @@ Ext.define('Traccar.view.edit.UsersController', {
     onAttributesClick: function () {
         var user = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedCalendars,
+            title: Strings.sharedComputedAttributes,
             items: {
                 xtype: 'userAttributesView',
                 baseObjectName: 'userId',
