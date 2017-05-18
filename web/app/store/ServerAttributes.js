@@ -23,22 +23,22 @@ Ext.define('Traccar.store.ServerAttributes', {
     data: [{
         key: 'speedLimit',
         name: Strings.attributeSpeedLimit,
-        type: 'number',
-        convert: 'speed'
+        valueType: 'number',
+        dataType: 'speed'
     }, {
         key: 'maintenance.start',
         name: Strings.attributeMaintenanceStart,
-        type: 'number',
-        convert: 'distance'
+        valueType: 'number',
+        dataType: 'distance'
     }, {
         key: 'maintenance.interval',
         name: Strings.attributeMaintenanceInterval,
-        type: 'number',
-        convert: 'distance'
+        valueType: 'number',
+        dataType: 'distance'
     }, {
         key: 'web.liveRouteLength',
         name: Strings.attributeWebLiveRouteLength,
-        type: 'number',
+        valueType: 'number',
         allowDecimals: false
     }]
 });

@@ -35,6 +35,26 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit'));
     },
 
+    voltageFormatter: function (value) {
+        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedVoltAbbreviation;
+    },
+
+    percentageFormatter: function (value) {
+        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &#37;';
+    },
+
+    temperatureFormatter: function (value) {
+        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &deg;C';
+    },
+
+    volumeFormatter: function (value) {
+        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterAbbreviation;
+    },
+
+    consumptionFormatter: function (value) {
+        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterPerHourAbbreviation;
+    },
+
     hoursFormatter: function (value) {
         var hours = Math.round(value / 3600000);
         return (hours + ' ' + Strings.sharedHourAbbreviation);
@@ -76,7 +96,7 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.speedFormatter;
         } else if (key === 'course') {
             return this.courseFormatter;
-        } else if (key === 'distance' || key === 'odometer' || key === 'totalDistance' || key === 'accuracy') {
+        } else if (key === 'accuracy') {
             return this.distanceFormatter;
         } else if (key === 'hours') {
             return this.hoursFormatter;
@@ -86,6 +106,31 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.deviceIdFormatter;
         } else {
             return this.defaultFormatter;
+        }
+    },
+
+    getAttributeFormatter: function (key) {
+        var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
+        if (!dataType) {
+            return this.defaultFormatter;
+        } else {
+            if (dataType === 'distance') {
+                return this.distanceFormatter;
+            } else if (dataType === 'speed') {
+                return this.speedFormatter;
+            } else if (dataType === 'voltage') {
+                return this.voltageFormatter;
+            } else if (dataType === 'percentage') {
+                return this.percentageFormatter;
+            } else if (dataType === 'temperature') {
+                return this.temperatureFormatter;
+            } else if (dataType === 'volume') {
+                return this.volumeFormatter;
+            } else if (dataType === 'consumption') {
+                return this.consumptionFormatter;
+            } else {
+                return this.defaultFormatter;
+            }
         }
     }
 });

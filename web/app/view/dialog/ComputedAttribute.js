@@ -19,6 +19,11 @@
 Ext.define('Traccar.view.dialog.ComputedAttribute', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
+    requires: [
+        'Traccar.view.dialog.ComputedAttributeController'
+    ],
+
+    controller: 'computedAttribute',
     title: Strings.sharedComputedAttribute,
 
     items: {
@@ -28,20 +33,29 @@ Ext.define('Traccar.view.dialog.ComputedAttribute', {
             name: 'description',
             fieldLabel: Strings.sharedDescription
         }, {
-            xtype: 'textfield',
+            xtype: 'combobox',
             name: 'attribute',
             fieldLabel: Strings.sharedAttribute,
-            allowBlank: false
+            store: 'PositionAttributes',
+            displayField: 'name',
+            valueField: 'key',
+            listeners: {
+                change: 'onAttributeChange'
+            }
         }, {
             xtype: 'textareafield',
             name: 'expression',
             fieldLabel: Strings.sharedExpression,
             allowBlank: false
         }, {
-            xtype: 'textfield',
+            xtype: 'combobox',
             name: 'type',
+            reference: 'typeComboField',
+            store: 'AttributeValueTypes',
             fieldLabel: Strings.sharedType,
-            allowBlank: false
+            displayField: 'name',
+            valueField: 'id',
+            editable: false
         }]
     },
 

@@ -30,7 +30,15 @@ Ext.define('Traccar.view.permissions.GroupAttributes', {
             text: Strings.sharedAttribute,
             dataIndex: 'attribute',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            renderer: function (value) {
+                var attribute = Ext.getStore('PositionAttributes').getById(value);
+                if (attribute) {
+                    return attribute.get('name');
+                } else {
+                    return value;
+                }
+            }
         }]
     }
 });

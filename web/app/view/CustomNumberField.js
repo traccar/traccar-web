@@ -24,7 +24,7 @@ Ext.define('Traccar.view.CustomNumberField', {
 
     constructor: function (config) {
         var unit;
-        if (config.convert === 'speed') {
+        if (config.dataType === 'speed') {
             unit = Traccar.app.getPreference('speedUnit', 'kn');
             config.beforeSubTpl = this.beforeEl;
             config.afterSubTpl = this.unitEl + Ext.getStore('SpeedUnits').findRecord('key', unit).get('name') + '</div></div>';
@@ -34,7 +34,7 @@ Ext.define('Traccar.view.CustomNumberField', {
             config.valueToRaw = function (value) {
                 return Ext.getStore('SpeedUnits').convertValue(value, Traccar.app.getPreference('speedUnit', 'kn'));
             };
-        } else if (config.convert === 'distance') {
+        } else if (config.dataType === 'distance') {
             config.beforeSubTpl = this.beforeEl;
             unit = Traccar.app.getPreference('distanceUnit', 'km');
             config.afterSubTpl =  this.unitEl + Ext.getStore('DistanceUnits').findRecord('key', unit).get('name') + '</div></div>';

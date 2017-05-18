@@ -124,15 +124,13 @@ Ext.define('Traccar.view.StateController', {
                     if (aliasIndex !== -1) {
                         name = this.aliasesStore.getAt(aliasIndex).get('alias');
                     } else {
-                        name = key.replace(/^./, function (match) {
-                            return match.toUpperCase();
-                        });
+                        name = Ext.getStore('PositionAttributes').getAttributeName(key);
                     }
                     store.add(Ext.create('Traccar.model.Attribute', {
                         priority: 1024,
                         name: name,
                         attribute: key,
-                        value: Traccar.AttributeFormatter.getFormatter(key)(attributes[key])
+                        value: Traccar.AttributeFormatter.getAttributeFormatter(key)(attributes[key])
                     }));
                 }
             }

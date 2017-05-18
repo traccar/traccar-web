@@ -15,33 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.store.GroupAttributes', {
+Ext.define('Traccar.store.AttributeValueTypes', {
     extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownAttribute',
+    fields: ['id', 'name'],
     proxy: 'memory',
 
     data: [{
-        key: 'speedLimit',
-        name: Strings.attributeSpeedLimit,
-        valueType: 'number',
-        dataType: 'speed'
+        id: 'string',
+        name: Strings.sharedTypeString
     }, {
-        key: 'report.ignoreOdometer',
-        name: Strings.attributeReportIgnoreOdometer,
-        valueType: 'boolean'
+        id: 'number',
+        name: Strings.sharedTypeNumber
     }, {
-        key: 'maintenance.start',
-        name: Strings.attributeMaintenanceStart,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
-        key: 'maintenance.interval',
-        name: Strings.attributeMaintenanceInterval,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
-        key: 'processing.copyAttributes',
-        name: Strings.attributeProcessingCopyAttributes,
-        valueType: 'string'
+        id: 'boolean',
+        name: Strings.sharedTypeBoolean
     }]
 });
