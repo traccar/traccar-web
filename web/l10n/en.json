@@ -188,7 +188,7 @@
     "positionOperator": "Operator",
     "positionCommand": "Acceleration",
     "positionBlocked": "Blocked",
-    "positionDtcs": "DTCS",
+    "positionDtcs": "DTCs",
     "positionObdSpeed": "OBD Speed",
     "positionObdOdometer": "OBD Odometer",
     "serverTitle": "Server Settings",
