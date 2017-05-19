@@ -124,7 +124,7 @@ Ext.define('Traccar.view.StateController', {
                     if (aliasIndex !== -1) {
                         name = this.aliasesStore.getAt(aliasIndex).get('alias');
                     } else {
-                        name = Ext.getStore('PositionAttributes').getAttributeName(key);
+                        name = Ext.getStore('PositionAttributes').getAttributeName(key, true);
                     }
                     store.add(Ext.create('Traccar.model.Attribute', {
                         priority: 1024,

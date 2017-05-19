@@ -39,7 +39,7 @@ Ext.define('Traccar.view.dialog.DeviceDistance', {
         }
     }, {
         xtype: 'customNumberField',
-        convert: 'distance',
+        dataType: 'distance',
         reference: 'totalDistance',
         fieldLabel: Strings.deviceTotalDistance
     }],

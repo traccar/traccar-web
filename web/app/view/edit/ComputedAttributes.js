@@ -48,12 +48,7 @@ Ext.define('Traccar.view.edit.ComputedAttributes', {
             text: Strings.sharedAttribute,
             dataIndex: 'attribute',
             renderer: function (value) {
-                var attribute = Ext.getStore('PositionAttributes').getById(value);
-                if (attribute) {
-                    return attribute.get('name');
-                } else {
-                    return value;
-                }
+                return Ext.getStore('PositionAttributes').getAttributeName(value);
             }
         }, {
             text: Strings.sharedExpression,

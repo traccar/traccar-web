@@ -32,12 +32,7 @@ Ext.define('Traccar.view.permissions.DeviceAttributes', {
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
             renderer: function (value) {
-                var attribute = Ext.getStore('PositionAttributes').getById(value);
-                if (attribute) {
-                    return attribute.get('name');
-                } else {
-                    return value;
-                }
+                return Ext.getStore('PositionAttributes').getAttributeName(value);
             }
         }]
     }

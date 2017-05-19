@@ -236,14 +236,18 @@ Ext.define('Traccar.store.PositionAttributes', {
         valueType: 'string'
     }],
 
-    getAttributeName: function (key) {
+    getAttributeName: function (key, capitalize) {
         var model = this.getById(key);
         if (model) {
             return model.get('name');
         } else {
-            return key.replace(/^./, function (match) {
-                return match.toUpperCase();
-            });
+            if (capitalize) {
+                return key.replace(/^./, function (match) {
+                    return match.toUpperCase();
+                });
+            } else {
+                return key;
+            }
         }
     },
 
