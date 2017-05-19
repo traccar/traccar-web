@@ -15,14 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.store.GeofenceAttributes', {
-    extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownAttribute',
-    proxy: 'memory',
 
-    data: [{
-        key: 'color',
-        name: Strings.attributeColor,
-        valueType: 'color'
-    }]
+Ext.define('Traccar.view.dialog.ComputedAttributeController', {
+    extend: 'Traccar.view.dialog.BaseEditController',
+    alias: 'controller.computedAttribute',
+
+    onAttributeChange: function (combobox, newValue) {
+        var attribute = Ext.getStore('PositionAttributes').getById(newValue);
+        if (attribute) {
+            this.getView().lookupReference('typeComboField').setValue(attribute.get('valueType'));
+            this.getView().lookupReference('typeComboField').setReadOnly(true);
+        } else {
+            this.getView().lookupReference('typeComboField').setReadOnly(false);
+        }
+    }
 });

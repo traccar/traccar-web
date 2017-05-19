@@ -23,54 +23,54 @@ Ext.define('Traccar.store.UserAttributes', {
     data: [{
         key: 'mail.smtp.host',
         name: Strings.attributeMailSmtpHost,
-        type: 'string'
+        valueType: 'string'
     }, {
         key: 'mail.smtp.port',
         name: Strings.attributeMailSmtpPort,
-        type: 'number',
+        valueType: 'number',
         allowDecimals: false,
         minValue: 1,
         maxValue: 65535
     }, {
         key: 'mail.smtp.starttls.enable',
         name: Strings.attributeMailSmtpStarttlsEnable,
-        type: 'boolean'
+        valueType: 'boolean'
     }, {
         key: 'mail.smtp.starttls.required',
         name: Strings.attributeMailSmtpStarttlsRequired,
-        type: 'boolean'
+        valueType: 'boolean'
     }, {
         key: 'mail.smtp.ssl.enable',
         name: Strings.attributeMailSmtpSslEnable,
-        type: 'boolean'
+        valueType: 'boolean'
     }, {
         key: 'mail.smtp.ssl.trust',
         name: Strings.attributeMailSmtpSslTrust,
-        type: 'string'
+        valueType: 'string'
     }, {
         key: 'mail.smtp.ssl.protocols',
         name: Strings.attributeMailSmtpSslProtocols,
-        type: 'string'
+        valueType: 'string'
     }, {
         key: 'mail.smtp.from',
         name: Strings.attributeMailSmtpFrom,
-        type: 'string'
+        valueType: 'string'
     }, {
         key: 'mail.smtp.auth',
         name: Strings.attributeMailSmtpAuth,
-        type: 'boolean'
+        valueType: 'boolean'
     }, {
         key: 'mail.smtp.username',
         name: Strings.attributeMailSmtpUsername,
-        type: 'string'
+        valueType: 'string'
     }, {
         key: 'mail.smtp.password',
         name: Strings.attributeMailSmtpPassword,
-        type: 'string'
+        valueType: 'string'
     }, {
         key: 'web.liveRouteLength',
         name: Strings.attributeWebLiveRouteLength,
-        type: 'number',
+        valueType: 'number',
         allowDecimals: false
     }]
 });

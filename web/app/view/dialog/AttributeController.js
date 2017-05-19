@@ -53,26 +53,26 @@ Ext.define('Traccar.view.dialog.AttributeController', {
     },
 
     onNameChange: function (combobox, newValue) {
-        var type, config, attribute, valueField = this.lookupReference('valueField');
+        var valueType, config, attribute, valueField = this.lookupReference('valueField');
         attribute = combobox.getStore().getById(newValue);
         if (attribute) {
-            type = attribute.get('type');
+            valueType = attribute.get('valueType');
             config = Ext.clone(this.defaultFieldConfig);
-            if (type === 'number') {
+            if (valueType === 'number') {
                 config.xtype = 'customNumberField';
                 if (attribute.get('allowDecimals') !== undefined) {
                     config.allowDecimals = attribute.get('allowDecimals');
                 } else {
                     config.allowDecimals = true;
                 }
-                config.convert = attribute.get('convert');
+                config.dataType = attribute.get('dataType');
                 config.maxValue = attribute.get('maxValue');
                 config.minValue = attribute.get('minValue');
-            } else if (type === 'boolean') {
+            } else if (valueType === 'boolean') {
                 config.xtype = 'checkboxfield';
                 config.inputValue = true;
                 config.uncheckedValue = false;
-            } else if (type === 'color') {
+            } else if (valueType === 'color') {
                 config.xtype = 'customcolorpicker';
             } else {
                 config.xtype = 'textfield';

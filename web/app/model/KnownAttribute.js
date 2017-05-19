@@ -26,7 +26,10 @@ Ext.define('Traccar.model.KnownAttribute', {
         name: 'name',
         type: 'string'
     }, {
-        name: 'type',
+        name: 'valueType',
+        type: 'string'
+    }, {
+        name: 'dataType',
         type: 'string'
     }]
 });

@@ -85,7 +85,9 @@ Ext.define('Traccar.Application', {
         'ServerAttributes',
         'UserAttributes',
         'ComputedAttributes',
-        'AllComputedAttributes'
+        'AllComputedAttributes',
+        'PositionAttributes',
+        'AttributeValueTypes'
     ],
 
     controllers: [
