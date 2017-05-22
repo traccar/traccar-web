@@ -147,7 +147,7 @@ Ext.define('Traccar.store.PositionAttributes', {
     }, {
         key: 'charge',
         name: Strings.positionCharge,
-        valueType: 'string'
+        valueType: 'boolean'
     }, {
         key: 'ip',
         name: Strings.positionIp,
@@ -206,8 +206,7 @@ Ext.define('Traccar.store.PositionAttributes', {
     }, {
         key: 'operator',
         name: Strings.positionOperator,
-        valueType: 'number',
-        dataType: 'temperature'
+        valueType: 'string'
     }, {
         key: 'command',
         name: Strings.deviceCommand,
