@@ -30,11 +30,7 @@ Ext.define('Traccar.view.dialog.SelectDeviceController', {
             jsonData: Ext.util.JSON.encode(record),
             callback: function (options, success, response) {
                 if (success) {
-                    if (response.responseText) {
-                        Ext.Msg.alert(Strings.sharedInfoTitle, response.responseText);
-                    } else if (response.statusText) {
-                        Ext.Msg.alert(Strings.sharedInfoTitle, response.statusText);
-                    }
+                    Ext.Msg.alert(Strings.sharedInfoTitle, response.responseText || response.statusText);
                 } else {
                     Traccar.app.showError(response);
                 }
