@@ -96,7 +96,7 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.speedFormatter;
         } else if (key === 'course') {
             return this.courseFormatter;
-        } else if (key === 'accuracy') {
+        } else if (key === 'distance' || key === 'accuracy') {
             return this.distanceFormatter;
         } else if (key === 'hours') {
             return this.hoursFormatter;
