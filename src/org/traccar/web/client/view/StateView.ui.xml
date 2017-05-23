@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder
+    xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui"
+    xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+    xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client"
+    xmlns:toolbar="urn:import:com.sencha.gxt.widget.core.client.toolbar"
+    xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid"
+    xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
+
+  <ui:with type="com.sencha.gxt.data.shared.ListStore" field="stateStore" />
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="columnModel" />
+
+  <ui:with type="com.sencha.gxt.widget.core.client.grid.GridView" field="view">
+    <ui:attributes stripeRows="true" autoFill="true" />
+  </ui:with>
+
+  <gxt:ContentPanel ui:field="contentPanel" headingText="State">
+    <grid:Grid ui:field="grid" store="{stateStore}" cm="{columnModel}" view="{view}" />
+  </gxt:ContentPanel>
+
+</ui:UiBinder>
