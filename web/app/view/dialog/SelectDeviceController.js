@@ -29,7 +29,17 @@ Ext.define('Traccar.view.dialog.SelectDeviceController', {
             method: 'POST',
             jsonData: Ext.util.JSON.encode(record),
             callback: function (options, success, response) {
-                Traccar.app.showError(response, success);
+                if (success) {
+                    if (response.responseText) {
+                        Ext.Msg.alert(Strings.sharedInfoTitle, Strings.sharedInfoGeneral +
+                                '<br><br><textarea readonly rows="5" style="resize: none; width: 100%;">' +
+                                response.responseText + '</textarea>');
+                    } else if (response.statusText) {
+                        Ext.Msg.alert(Strings.sharedInfoTitle, response.statusText);
+                    }
+                } else {
+                    Traccar.app.showError(response);
+                }
             }
         });
         button.up('window').close();
