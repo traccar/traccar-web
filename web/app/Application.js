@@ -164,15 +164,24 @@ Ext.define('Traccar.Application', {
         }
     },
 
-    showError: function (error) {
+    showError: function (error, success) {
+        var title, general;
+        if (success) {
+            title = Strings.infoTitle;
+            general = Strings.infoGeneral;
+        } else {
+            title = Strings.errorTitle;
+            general = Strings.errorGeneral;
+        }
+
         if (Ext.isString(error)) {
-            Ext.Msg.alert(Strings.errorTitle, error);
+            Ext.Msg.alert(title, error);
         } else if (error.responseText) {
-            Ext.Msg.alert(Strings.errorTitle, Strings.errorGeneral +
+            Ext.Msg.alert(title, general +
                     '<br><br><textarea readonly rows="5" style="resize: none; width: 100%;">' +
                     error.responseText + '</textarea>');
         } else if (error.statusText) {
-            Ext.Msg.alert(Strings.errorTitle, error.statusText);
+            Ext.Msg.alert(title, error.statusText);
         } else {
             Ext.Msg.alert(Strings.errorTitle, Strings.errorConnection);
         }

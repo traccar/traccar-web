@@ -15,62 +15,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-Ext.define('Traccar.view.dialog.ComputedAttribute', {
-    extend: 'Traccar.view.dialog.BaseEdit',
+Ext.define('Traccar.view.dialog.SelectDevice', {
+    extend: 'Traccar.view.dialog.Base',
 
     requires: [
-        'Traccar.view.dialog.ComputedAttributeController'
+        'Traccar.view.dialog.SelectDeviceController'
     ],
 
-    controller: 'computedAttribute',
-    title: Strings.sharedComputedAttribute,
+    controller: 'selectDevice',
+    title: Strings.sharedSelectDevice,
 
     items: {
         xtype: 'form',
         items: [{
-            xtype: 'textfield',
-            name: 'description',
-            fieldLabel: Strings.sharedDescription
-        }, {
             xtype: 'combobox',
-            name: 'attribute',
-            fieldLabel: Strings.sharedAttribute,
-            store: 'PositionAttributes',
-            displayField: 'name',
-            valueField: 'key',
-            listeners: {
-                change: 'onAttributeChange'
-            }
-        }, {
-            xtype: 'textareafield',
-            name: 'expression',
-            fieldLabel: Strings.sharedExpression,
-            allowBlank: false
-        }, {
-            xtype: 'combobox',
-            name: 'type',
-            reference: 'typeComboField',
-            store: 'AttributeValueTypes',
-            fieldLabel: Strings.sharedType,
+            reference: 'deviceField',
+            store: 'Devices',
+            queryMode: 'local',
             displayField: 'name',
             valueField: 'id',
-            editable: false
+            editable: false,
+            listeners: {
+                change: 'onDeviceChange'
+            }
         }]
     },
 
     buttons: [{
-        glyph: 'xf128@FontAwesome',
-        tooltip: Strings.sharedCheckComputedAttribute,
-        tooltipType: 'title',
-        minWidth: 0,
-        handler: 'onCheckClick'
-    }, {
         glyph: 'xf00c@FontAwesome',
+        reference: 'saveButton',
         tooltip: Strings.sharedSave,
         tooltipType: 'title',
         minWidth: 0,
-        handler: 'onSaveClick'
+        handler: 'onSaveClick',
+        disabled: true
     }, {
         glyph: 'xf00d@FontAwesome',
         tooltip: Strings.sharedCancel,
