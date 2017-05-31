@@ -25,6 +25,7 @@ Ext.define('Traccar.view.MainMobile', {
         'Traccar.view.edit.Devices',
         'Traccar.view.State',
         'Traccar.view.Report',
+        'Traccar.view.Events',
         'Traccar.view.map.Map'
     ],
 
@@ -66,5 +67,7 @@ Ext.define('Traccar.view.MainMobile', {
         }]
     }, {
         xtype: 'reportView'
+    }, {
+        xtype: 'eventsView'
     }]
 });

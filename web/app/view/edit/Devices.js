@@ -166,25 +166,7 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
-            renderer: function (value, metaData, record) {
-                var seconds, interval;
-
-                if (value) {
-                    seconds = Math.floor((new Date() - value) / 1000);
-                    if (seconds < 0) {
-                        seconds = 0;
-                    }
-                    interval = Math.floor(seconds / 86400);
-                    if (interval > 1) {
-                        return interval + ' ' + Strings.sharedDays;
-                    }
-                    interval = Math.floor(seconds / 3600);
-                    if (interval > 1) {
-                        return interval + ' ' + Strings.sharedHours;
-                    }
-                    return Math.floor(seconds / 60) + ' ' + Strings.sharedMinutes;
-                }
-            }
+            renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
         }]
     }
 });
