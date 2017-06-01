@@ -110,6 +110,13 @@ Ext.define('Traccar.Application', {
         }
     },
 
+    showEvents: function (show) {
+        var rootPanel = Ext.getCmp('rootPanel');
+        if (rootPanel) {
+            rootPanel.setActiveItem(show ? 2 : 0);
+        }
+    },
+
     setUser: function (data) {
         var reader = Ext.create('Ext.data.reader.Json', {
             model: 'Traccar.model.User'

@@ -52,6 +52,13 @@ Ext.define('Traccar.view.map.Map', {
             enableToggle: false,
             tooltip: Strings.reportTitle
         }, {
+            handler: 'showEvents',
+            reference: 'showEventsButton',
+            glyph: 'xf27b@FontAwesome',
+            stateful: false,
+            enableToggle: false,
+            tooltip: Strings.reportEvents
+        }, {
             handler: 'updateGeofences',
             reference: 'showGeofencesButton',
             glyph: 'xf21d@FontAwesome',
@@ -70,11 +77,6 @@ Ext.define('Traccar.view.map.Map', {
             tooltip: Strings.deviceFollow,
             stateId: 'device-follow-button',
             toggleHandler: 'onFollowClick'
-        }, {
-            id: 'soundButton',
-            glyph: 'xf0a2@FontAwesome',
-            tooltip: Strings.sharedSound,
-            stateId: 'sound-button'
         }, {
             xtype: 'settingsMenu',
             enableToggle: false

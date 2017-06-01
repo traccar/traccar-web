@@ -23,6 +23,7 @@ Ext.define('Traccar.view.Main', {
         'Traccar.view.edit.Devices',
         'Traccar.view.State',
         'Traccar.view.Report',
+        'Traccar.view.Events',
         'Traccar.view.map.Map'
     ],
 
@@ -67,5 +68,12 @@ Ext.define('Traccar.view.Main', {
         region: 'center',
         xtype: 'mapView',
         collapsible: false
+    }, {
+        region: 'east',
+        xtype: 'eventsView',
+        width: Traccar.Style.deviceWidth,
+        collapsed: true,
+        titleCollapse: true,
+        floatable: false
     }]
 });

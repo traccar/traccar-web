@@ -45,10 +45,15 @@ Ext.define('Traccar.view.map.MapController', {
     init: function () {
         this.callParent();
         this.lookupReference('showReportsButton').setVisible(Traccar.app.isMobile());
+        this.lookupReference('showEventsButton').setVisible(Traccar.app.isMobile());
     },
 
     showReports: function () {
         Traccar.app.showReports(true);
+    },
+
+    showEvents: function () {
+        Traccar.app.showEvents(true);
     },
 
     onFollowClick: function (button, pressed) {

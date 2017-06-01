@@ -264,7 +264,7 @@
     "eventIgnitionOff": "Ignition is OFF",
     "eventMaintenance": "Maintenance required",
     "eventTextMessage": "Text message received",
-    "alarm": "Alarm",
+    "eventsScrollToLast": "Scroll To Last",
     "alarmSos": "SOS Alarm",
     "alarmVibration": "Vibration Alarm",
     "alarmMovement": "Movement Alarm",

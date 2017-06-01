@@ -1,5 +1,6 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +39,28 @@ Ext.define('Traccar.model.Event', {
     }, {
         name: 'geofenceId',
         type: 'int'
+    }, {
+        name: 'text',
+        calculate: function (data) {
+            var text, alarmKey, geofence;
+            if (data.type === 'commandResult') {
+                text = Strings.eventCommandResult + ': ' + data.attributes.result;
+            } else if (data.type === 'alarm') {
+                alarmKey = 'alarm' + data.attributes.alarm.charAt(0).toUpperCase() + data.attributes.alarm.slice(1);
+                text = Strings[alarmKey] || alarmKey;
+            } else if (data.type === 'textMessage') {
+                text = Strings.eventTextMessage + ': ' + data.attributes.message;
+            } else {
+                text = Traccar.app.getEventString(data.type);
+            }
+            if (data.geofenceId !== 0) {
+                geofence = Ext.getStore('Geofences').getById(data.geofenceId);
+                if (geofence) {
+                    text += ' \"' + geofence.get('name') + '"';
+                }
+            }
+            return text;
+        }
     }, {
         name: 'attributes'
     }]
