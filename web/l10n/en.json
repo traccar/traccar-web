@@ -248,7 +248,7 @@
     "commandPhone": "Phone Number",
     "commandMessage": "Message",
     "commandTimezone": "Timezone Offset",
-    "commandgetGsmstatus": "GSM Status",
+    "commandgetModemstatus": "GSM Status",
     "commandgetDevicestatus": "Device Status",
     "eventAll": "All Events",
     "eventDeviceOnline": "Device is online",
