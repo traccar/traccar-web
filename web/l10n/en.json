@@ -248,6 +248,8 @@
     "commandPhone": "Phone Number",
     "commandMessage": "Message",
     "commandTimezone": "Timezone Offset",
+    "commandgetModemStatus": "Modem Status",
+    "commandgetDeviceStatus": "Device Status",
     "eventAll": "All Events",
     "eventDeviceOnline": "Device is online",
     "eventDeviceUnknown": "Device status is unknown",
