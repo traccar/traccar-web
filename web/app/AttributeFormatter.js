@@ -26,6 +26,10 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit'));
     },
 
+    speedConverter: function (value) {
+        return Ext.getStore('SpeedUnits').convertValue(value, Traccar.app.getPreference('speedUnit'));
+    },
+
     courseFormatter: function (value) {
         var courseValues = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
         return courseValues[Math.floor(value / 45)];
@@ -35,24 +39,49 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit'));
     },
 
+    distanceConverter: function (value) {
+        return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit'));
+    },
+
     voltageFormatter: function (value) {
         return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedVoltAbbreviation;
+    },
+
+    voltageConverter: function (value) {
+        return Number(value);
     },
 
     percentageFormatter: function (value) {
         return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &#37;';
     },
 
+    percentageConverter: function (value) {
+        return Number(value);
+    },
+
     temperatureFormatter: function (value) {
         return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &deg;C';
     },
+
+    temperatureConverter: function (value) {
+        return Number(value);
+    },
+
 
     volumeFormatter: function (value) {
         return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterAbbreviation;
     },
 
+    volumeConverter: function (value) {
+        return Number(value);
+    },
+
     consumptionFormatter: function (value) {
         return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterPerHourAbbreviation;
+    },
+
+    consumptionConverter: function (value) {
+        return Number(value);
     },
 
     hoursFormatter: function (value) {
@@ -131,6 +160,18 @@ Ext.define('Traccar.AttributeFormatter', {
         }
     },
 
+    getConverter: function (key) {
+        if (key === 'speed') {
+            return this.speedConverter;
+        } else if (key === 'distance' || key === 'accuracy') {
+            return this.distanceConverter;
+        } else {
+            return function (value) {
+                return value;
+            };
+        }
+    },
+
     getAttributeFormatter: function (key) {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
         if (!dataType) {
@@ -152,6 +193,35 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.consumptionFormatter;
             } else {
                 return this.defaultFormatter;
+            }
+        }
+    },
+
+    getAttributeConverter: function (key) {
+        var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
+        if (!dataType) {
+            return function (value) {
+                return value;
+            };
+        } else {
+            if (dataType === 'distance') {
+                return this.distanceConverter;
+            } else if (dataType === 'speed') {
+                return this.speedConverter;
+            } else if (dataType === 'voltage') {
+                return this.voltageConverter;
+            } else if (dataType === 'percentage') {
+                return this.percentageConverter;
+            } else if (dataType === 'temperature') {
+                return this.temperatureConverter;
+            } else if (dataType === 'volume') {
+                return this.volumeConverter;
+            } else if (dataType === 'consumption') {
+                return this.consumptionConverter;
+            } else {
+                return function (value) {
+                    return value;
+                };
             }
         }
     }

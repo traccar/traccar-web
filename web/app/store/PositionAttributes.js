@@ -62,7 +62,7 @@ Ext.define('Traccar.store.PositionAttributes', {
         valueType: 'string'
     }, {
         key: 'alarm',
-        name: Strings.alarm,
+        name: Strings.positionAlarm,
         valueType: 'string'
     }, {
         key: 'status',

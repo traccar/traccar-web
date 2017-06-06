@@ -48,6 +48,15 @@ Ext.define('Traccar.store.DistanceUnits', {
             unit = 'km';
         }
         model = this.findRecord('key', unit);
+        return value.toFixed(2) + ' ' + model.get('name');
+    },
+
+    convertAndFormat: function (value, unit) {
+        var model;
+        if (!unit) {
+            unit = 'km';
+        }
+        model = this.findRecord('key', unit);
         return this.convertValue(value, unit).toFixed(2) + ' ' + model.get('name');
     }
 });

@@ -64,6 +64,10 @@ Ext.define('Traccar.view.ReportController', {
         return this.getView().getComponent('chart');
     },
 
+    init: function () {
+        this.addAttributeColumns();
+    },
+
     onConfigureClick: function () {
         var dialog = Ext.create('Traccar.view.dialog.ReportConfig');
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');
@@ -381,6 +385,20 @@ Ext.define('Traccar.view.ReportController', {
         }
 
         this.updateButtons();
+    },
+
+    addAttributeColumns: function () {
+        var i, data, attribute;
+        data = Ext.getStore('PositionAttributes').getData().items;
+        for (i = 0; i < data.length; i++) {
+            attribute = data[i];
+            this.routeColumns.push({
+                text: attribute.get('name'),
+                dataIndex: 'attribute.' + attribute.get('key'),
+                renderer: Traccar.AttributeFormatter.getAttributeFormatter(attribute.get('key')),
+                hidden: true
+            });
+        }
     },
 
     routeColumns: [{
