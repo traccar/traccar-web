@@ -58,9 +58,9 @@ Ext.define('Traccar.view.edit.Attributes', {
                     attribute = Ext.getStore(this.attributesStore).getById(record.get('name'));
                 }
                 if (attribute && attribute.get('dataType') === 'speed') {
-                    return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit', 'kn'));
+                    return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit', 'kn'), true);
                 } else if (attribute && attribute.get('dataType') === 'distance') {
-                    return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit', 'km'));
+                    return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit', 'km'), true);
                 } else {
                     return value;
                 }

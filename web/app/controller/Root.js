@@ -26,7 +26,31 @@ Ext.define('Traccar.controller.Root', {
     ],
 
     init: function () {
+        var i, data, attribute, chartTypesStore = Ext.getStore('ReportChartTypes');
         Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+        data = Ext.getStore('PositionAttributes').getData().items;
+        for (i = 0; i < data.length; i++) {
+            attribute = data[i];
+            Traccar.model.Position.addFields([{
+                name: 'attribute.' + attribute.get('key'),
+                attributeKey: attribute.get('key'),
+                calculate: this.calculateAttribute,
+                persist: false
+            }]);
+            if (attribute.get('valueType') === 'number') {
+                chartTypesStore.add({
+                    key: 'attribute.' + attribute.get('key'),
+                    name: attribute.get('name')
+                });
+            }
+        }
+    },
+
+    calculateAttribute: function (data) {
+        var value = data.attributes[this.attributeKey];
+        if (value !== undefined) {
+            return Traccar.AttributeFormatter.getAttributeConverter(this.attributeKey)(value);
+        }
     },
 
     onLaunch: function () {

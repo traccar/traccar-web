@@ -18,12 +18,24 @@
 Ext.define('Traccar.AttributeFormatter', {
     singleton: true,
 
+    numberFormatterFactory: function (precision, suffix) {
+        return function (value) {
+            if (value !== undefined) {
+                return Number(value.toFixed(precision)) + ' ' + suffix;
+            }
+        };
+    },
+
     coordinateFormatter: function (key, value) {
         return Ext.getStore('CoordinateFormats').formatValue(key, value, Traccar.app.getPreference('coordinateFormat'));
     },
 
     speedFormatter: function (value) {
         return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit'));
+    },
+
+    speedConverter: function (value) {
+        return Ext.getStore('SpeedUnits').convertValue(value, Traccar.app.getPreference('speedUnit'));
     },
 
     courseFormatter: function (value) {
@@ -35,24 +47,8 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit'));
     },
 
-    voltageFormatter: function (value) {
-        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedVoltAbbreviation;
-    },
-
-    percentageFormatter: function (value) {
-        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &#37;';
-    },
-
-    temperatureFormatter: function (value) {
-        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &deg;C';
-    },
-
-    volumeFormatter: function (value) {
-        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterAbbreviation;
-    },
-
-    consumptionFormatter: function (value) {
-        return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterPerHourAbbreviation;
+    distanceConverter: function (value) {
+        return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit'));
     },
 
     hoursFormatter: function (value) {
@@ -131,6 +127,18 @@ Ext.define('Traccar.AttributeFormatter', {
         }
     },
 
+    getConverter: function (key) {
+        if (key === 'speed') {
+            return this.speedConverter;
+        } else if (key === 'distance' || key === 'accuracy') {
+            return this.distanceConverter;
+        } else {
+            return function (value) {
+                return value;
+            };
+        }
+    },
+
     getAttributeFormatter: function (key) {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
         if (!dataType) {
@@ -141,17 +149,36 @@ Ext.define('Traccar.AttributeFormatter', {
             } else if (dataType === 'speed') {
                 return this.speedFormatter;
             } else if (dataType === 'voltage') {
-                return this.voltageFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
             } else if (dataType === 'percentage') {
-                return this.percentageFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&#37;');
             } else if (dataType === 'temperature') {
-                return this.temperatureFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
             } else if (dataType === 'volume') {
-                return this.volumeFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
             } else if (dataType === 'consumption') {
-                return this.consumptionFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
             } else {
                 return this.defaultFormatter;
+            }
+        }
+    },
+
+    getAttributeConverter: function (key) {
+        var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
+        if (!dataType) {
+            return function (value) {
+                return value;
+            };
+        } else {
+            if (dataType === 'distance') {
+                return this.distanceConverter;
+            } else if (dataType === 'speed') {
+                return this.speedConverter;
+            } else {
+                return function (value) {
+                    return value;
+                };
             }
         }
     }

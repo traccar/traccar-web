@@ -61,7 +61,7 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         reference: 'chartTypeField',
         store: 'ReportChartTypes',
         hidden: true,
-        value: 'speedConverted',
+        value: 'speed',
         valueField: 'key',
         displayField: 'name',
         queryMode: 'local'

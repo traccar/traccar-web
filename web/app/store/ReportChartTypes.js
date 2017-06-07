@@ -21,16 +21,10 @@ Ext.define('Traccar.store.ReportChartTypes', {
     fields: ['key', 'name'],
 
     data: [{
-        key: 'speedConverted',
+        key: 'speed',
         name: Strings.positionSpeed
     }, {
-        key: 'distanceConverted',
-        name: Strings.positionDistance
-    }, {
-        key: 'rpm',
-        name: Strings.positionRpm
-    }, {
-        key: 'fuel',
-        name: Strings.positionFuel
+        key: 'accuracy',
+        name: Strings.positionAccuracy
     }]
 });
