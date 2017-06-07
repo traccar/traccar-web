@@ -18,6 +18,14 @@
 Ext.define('Traccar.AttributeFormatter', {
     singleton: true,
 
+    numberFormatterFactory: function (precision, suffix) {
+        return function (value) {
+            if (value !== undefined) {
+                return Number(value.toFixed(precision)) + ' ' + suffix;
+            }
+        };
+    },
+
     coordinateFormatter: function (key, value) {
         return Ext.getStore('CoordinateFormats').formatValue(key, value, Traccar.app.getPreference('coordinateFormat'));
     },
@@ -41,36 +49,6 @@ Ext.define('Traccar.AttributeFormatter', {
 
     distanceConverter: function (value) {
         return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit'));
-    },
-
-    voltageFormatter: function (value) {
-        if (value !== undefined) {
-            return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedVoltAbbreviation;
-        }
-    },
-
-    percentageFormatter: function (value) {
-        if (value !== undefined) {
-            return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &#37;';
-        }
-    },
-
-    temperatureFormatter: function (value) {
-        if (value !== undefined) {
-            return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' &deg;C';
-        }
-    },
-
-    volumeFormatter: function (value) {
-        if (value !== undefined) {
-            return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterAbbreviation;
-        }
-    },
-
-    consumptionFormatter: function (value) {
-        if (value !== undefined) {
-            return Number(value.toFixed(Traccar.Style.numberPrecision)) + ' ' + Strings.sharedLiterPerHourAbbreviation;
-        }
     },
 
     hoursFormatter: function (value) {
@@ -171,15 +149,15 @@ Ext.define('Traccar.AttributeFormatter', {
             } else if (dataType === 'speed') {
                 return this.speedFormatter;
             } else if (dataType === 'voltage') {
-                return this.voltageFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
             } else if (dataType === 'percentage') {
-                return this.percentageFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&#37;');
             } else if (dataType === 'temperature') {
-                return this.temperatureFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
             } else if (dataType === 'volume') {
-                return this.volumeFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
             } else if (dataType === 'consumption') {
-                return this.consumptionFormatter;
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
             } else {
                 return this.defaultFormatter;
             }
