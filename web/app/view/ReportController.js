@@ -65,7 +65,17 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     init: function () {
-        this.addAttributeColumns();
+        var i, data, attribute;
+        data = Ext.getStore('PositionAttributes').getData().items;
+        for (i = 0; i < data.length; i++) {
+            attribute = data[i];
+            this.routeColumns.push({
+                text: attribute.get('name'),
+                dataIndex: 'attribute.' + attribute.get('key'),
+                renderer: Traccar.AttributeFormatter.getAttributeFormatter(attribute.get('key')),
+                hidden: true
+            });
+        }
     },
 
     onConfigureClick: function () {
@@ -385,20 +395,6 @@ Ext.define('Traccar.view.ReportController', {
         }
 
         this.updateButtons();
-    },
-
-    addAttributeColumns: function () {
-        var i, data, attribute;
-        data = Ext.getStore('PositionAttributes').getData().items;
-        for (i = 0; i < data.length; i++) {
-            attribute = data[i];
-            this.routeColumns.push({
-                text: attribute.get('name'),
-                dataIndex: 'attribute.' + attribute.get('key'),
-                renderer: Traccar.AttributeFormatter.getAttributeFormatter(attribute.get('key')),
-                hidden: true
-            });
-        }
     },
 
     routeColumns: [{
