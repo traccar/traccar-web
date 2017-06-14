@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,27 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.ReportTypes', {
+Ext.define('Traccar.store.ReportStops', {
     extend: 'Ext.data.Store',
-    fields: ['key', 'name'],
+    model: 'Traccar.model.ReportStop',
 
-    data: [{
-        key: 'route',
-        name: Strings.reportRoute
-    }, {
-        key: 'events',
-        name: Strings.reportEvents
-    }, {
-        key: 'trips',
-        name: Strings.reportTrips
-    }, {
-        key: 'stops',
-        name: Strings.reportStops
-    }, {
-        key: 'summary',
-        name: Strings.reportSummary
-    }, {
-        key: 'chart',
-        name: Strings.reportChart
-    }]
+    proxy: {
+        type: 'rest',
+        url: 'api/reports/stops',
+        headers: {
+            'Accept': 'application/json'
+        }
+    }
 });

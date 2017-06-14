@@ -38,6 +38,7 @@ Ext.define('Traccar.Application', {
         'AttributeAlias',
         'ReportSummary',
         'ReportTrip',
+        'ReportStop',
         'Calendar',
         'KnownAttribute'
     ],
@@ -68,6 +69,7 @@ Ext.define('Traccar.Application', {
         'ReportRoute',
         'ReportEvents',
         'ReportTrips',
+        'ReportStops',
         'ReportSummary',
         'ReportTypes',
         'ReportEventTypes',

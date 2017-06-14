@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,27 +16,35 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.ReportTypes', {
-    extend: 'Ext.data.Store',
-    fields: ['key', 'name'],
+Ext.define('Traccar.model.ReportStop', {
+    extend: 'Ext.data.Model',
+    identifier: 'negative',
 
-    data: [{
-        key: 'route',
-        name: Strings.reportRoute
+    fields: [{
+        name: 'deviceId',
+        type: 'int'
     }, {
-        key: 'events',
-        name: Strings.reportEvents
+        name: 'deviceName',
+        type: 'string'
     }, {
-        key: 'trips',
-        name: Strings.reportTrips
+        name: 'duration',
+        type: 'int'
     }, {
-        key: 'stops',
-        name: Strings.reportStops
+        name: 'startTime',
+        type: 'date',
+        dateFormat: 'c'
     }, {
-        key: 'summary',
-        name: Strings.reportSummary
+        name: 'address',
+        type: 'string'
     }, {
-        key: 'chart',
-        name: Strings.reportChart
+        name: 'endTime',
+        type: 'date',
+        dateFormat: 'c'
+    }, {
+        name: 'engineHours',
+        type: 'int'
+    }, {
+        name: 'positionId',
+        type: 'int'
     }]
 });
