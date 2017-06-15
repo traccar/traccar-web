@@ -482,7 +482,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportEngineHours,
         dataIndex: 'engineHours',
-        renderer: Traccar.AttributeFormatter.getFormatter('hours')
+        renderer: Traccar.AttributeFormatter.getFormatter('duration')
     }, {
         text: Strings.reportSpentFuel,
         dataIndex: 'spentFuel',
