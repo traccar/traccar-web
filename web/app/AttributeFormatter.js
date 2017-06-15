@@ -51,11 +51,6 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit'));
     },
 
-    hoursFormatter: function (value) {
-        var hours = Math.round(value / 3600000);
-        return (hours + ' ' + Strings.sharedHourAbbreviation);
-    },
-
     durationFormatter: function (value) {
         var hours, minutes;
         hours = Math.floor(value / 3600000);
@@ -114,8 +109,6 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.courseFormatter;
         } else if (key === 'distance' || key === 'accuracy') {
             return this.distanceFormatter;
-        } else if (key === 'hours') {
-            return this.hoursFormatter;
         } else if (key === 'duration') {
             return this.durationFormatter;
         } else if (key === 'deviceId') {
