@@ -42,11 +42,14 @@ Ext.define('Traccar.view.ReportController', {
             },
             store: {
                 '#ReportEvents': {
-                    add: 'loadEvents',
-                    load: 'loadEvents'
+                    add: 'loadRelatedPositions',
+                    load: 'loadRelatedPositions'
                 },
                 '#ReportRoute': {
                     load: 'loadRoute'
+                },
+                '#ReportStops': {
+                    load: 'loadRelatedPositions'
                 }
             }
         }
@@ -173,7 +176,7 @@ Ext.define('Traccar.view.ReportController', {
 
     clearReport: function (reportType) {
         this.getGrid().getStore().removeAll();
-        if (reportType === 'trips' || reportType === 'events') {
+        if (reportType === 'trips' || reportType === 'events' || reportType === 'stops') {
             Ext.getStore('ReportRoute').removeAll();
         }
         if (reportType === 'chart') {
@@ -189,8 +192,8 @@ Ext.define('Traccar.view.ReportController', {
             if (report instanceof Traccar.model.ReportTrip) {
                 this.selectTrip(report);
             }
-            if (report instanceof Traccar.model.Event) {
-                this.selectEvent(report);
+            if (report instanceof Traccar.model.Event || report instanceof Traccar.model.ReportStop) {
+                this.selectPositionRelated(report);
             }
         }
     },
@@ -202,15 +205,15 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     selectReport: function (object, center) {
-        var positionEvent, reportType = this.lookupReference('reportTypeField').getValue();
+        var positionRelated, reportType = this.lookupReference('reportTypeField').getValue();
         if (object instanceof Traccar.model.Position) {
             if (reportType === 'route') {
                 this.getGrid().getSelectionModel().select([object], false, true);
                 this.getGrid().getView().focusRow(object);
-            } else if (reportType === 'events') {
-                positionEvent = this.getGrid().getStore().findRecord('positionId', object.get('id'), 0, false, true, true);
-                this.getGrid().getSelectionModel().select([positionEvent], false, true);
-                this.getGrid().getView().focusRow(positionEvent);
+            } else if (reportType === 'events' || reportType === 'stops') {
+                positionRelated = this.getGrid().getStore().findRecord('positionId', object.get('id'), 0, false, true, true);
+                this.getGrid().getSelectionModel().select([positionRelated], false, true);
+                this.getGrid().getView().focusRow(positionRelated);
             }
         }
     },
@@ -236,23 +239,23 @@ Ext.define('Traccar.view.ReportController', {
         });
     },
 
-    selectEvent: function (event) {
+    selectPositionRelated: function (report) {
         var position;
-        if (event.get('positionId')) {
-            position = Ext.getStore('ReportRoute').getById(event.get('positionId'));
+        if (report.get('positionId')) {
+            position = Ext.getStore('ReportRoute').getById(report.get('positionId'));
             if (position) {
                 this.fireEvent('selectreport', position, true);
             }
         }
     },
 
-    loadEvents: function (store, data) {
-        var i, eventObject, positionIds = [];
+    loadRelatedPositions: function (store, data) {
+        var i, reportObject, positionIds = [];
         Ext.getStore('ReportRoute').removeAll();
         for (i = 0; i < data.length; i++) {
-            eventObject = data[i];
-            if (eventObject.get('positionId')) {
-                positionIds.push(eventObject.get('positionId'));
+            reportObject = data[i];
+            if (reportObject.get('positionId')) {
+                positionIds.push(reportObject.get('positionId'));
             }
         }
         if (positionIds.length > 0) {
@@ -390,6 +393,9 @@ Ext.define('Traccar.view.ReportController', {
         } else if (newValue === 'trips') {
             this.getGrid().reconfigure('ReportTrips', this.tripsColumns);
             this.getView().getLayout().setActiveItem('grid');
+        } else if (newValue === 'stops') {
+            this.getGrid().reconfigure('ReportStops', this.stopsColumns);
+            this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'chart') {
             this.getView().getLayout().setActiveItem('chart');
         }
@@ -520,6 +526,38 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportDuration,
         dataIndex: 'duration',
+        renderer: Traccar.AttributeFormatter.getFormatter('duration')
+    }, {
+        text: Strings.reportSpentFuel,
+        dataIndex: 'spentFuel',
+        renderer: Traccar.AttributeFormatter.getFormatter('spentFuel')
+    }],
+
+    stopsColumns: [{
+        text: Strings.reportDeviceName,
+        dataIndex: 'deviceId',
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
+    }, {
+        text: Strings.reportStartTime,
+        dataIndex: 'startTime',
+        xtype: 'datecolumn',
+        renderer: Traccar.AttributeFormatter.getFormatter('startTime')
+    }, {
+        text: Strings.positionAddress,
+        dataIndex: 'address',
+        renderer: Traccar.AttributeFormatter.getFormatter('address')
+    }, {
+        text: Strings.reportEndTime,
+        dataIndex: 'endTime',
+        xtype: 'datecolumn',
+        renderer: Traccar.AttributeFormatter.getFormatter('endTime')
+    }, {
+        text: Strings.reportDuration,
+        dataIndex: 'duration',
+        renderer: Traccar.AttributeFormatter.getFormatter('duration')
+    }, {
+        text: Strings.reportEngineHours,
+        dataIndex: 'engineHours',
         renderer: Traccar.AttributeFormatter.getFormatter('duration')
     }, {
         text: Strings.reportSpentFuel,

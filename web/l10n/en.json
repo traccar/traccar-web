@@ -306,6 +306,7 @@
     "reportRoute": "Route",
     "reportEvents": "Events",
     "reportTrips": "Trips",
+    "reportStops": "Stops",
     "reportSummary": "Summary",
     "reportChart": "Chart",
     "reportConfigure": "Configure",
