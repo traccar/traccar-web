@@ -299,6 +299,7 @@
     "alarmFootBrake": "Foot Brake Alarm",
     "alarmOilLeak": "Oil Leak Alarm",
     "alarmTampering": "Tampering Alarm",
+    "alarmRemoving": "Removing Alarm",
     "notificationType": "Type of Notification",
     "notificationWeb": "Send via Web",
     "notificationMail": "Send via Mail",

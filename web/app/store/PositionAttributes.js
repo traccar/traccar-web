@@ -185,7 +185,7 @@ Ext.define('Traccar.store.PositionAttributes', {
     }, {
         key: 'motion',
         name: Strings.positionMotion,
-        valueType: 'number'
+        valueType: 'boolean'
     }, {
         key: 'armed',
         name: Strings.positionArmed,
