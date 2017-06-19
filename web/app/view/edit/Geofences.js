@@ -20,9 +20,12 @@ Ext.define('Traccar.view.edit.Geofences', {
     xtype: 'geofencesView',
 
     requires: [
+        'Ext.grid.filters.Filters',
         'Traccar.view.edit.GeofencesController',
         'Traccar.view.edit.Toolbar'
     ],
+
+    plugins: 'gridfilters',
 
     controller: 'geofences',
     store: 'Geofences',
@@ -42,10 +45,12 @@ Ext.define('Traccar.view.edit.Geofences', {
         },
         items: [{
             text: Strings.sharedName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            filter: 'string'
         }, {
             text: Strings.sharedDescription,
-            dataIndex: 'description'
+            dataIndex: 'description',
+            filter: 'string'
         }]
     }
 });

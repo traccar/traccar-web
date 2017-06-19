@@ -19,12 +19,32 @@ Ext.define('Traccar.view.permissions.UserGroups', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'userGroupsView',
 
+    requires: [
+        'Ext.grid.filters.Filters',
+        'Traccar.AttributeFormatter'
+    ],
+
+    plugins: 'gridfilters',
+
     columns: {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
+        }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            hidden: true,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'AllGroups'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }]
     }
 });

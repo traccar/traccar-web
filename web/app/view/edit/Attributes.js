@@ -20,9 +20,12 @@ Ext.define('Traccar.view.edit.Attributes', {
     xtype: 'attributesView',
 
     requires: [
+        'Ext.grid.filters.Filters',
         'Traccar.view.edit.AttributesController',
         'Traccar.view.edit.Toolbar'
     ],
+
+    plugins: 'gridfilters',
 
     controller: 'attributes',
 
@@ -42,6 +45,7 @@ Ext.define('Traccar.view.edit.Attributes', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
+            filter: 'string',
             renderer: function (value, metaData) {
                 var attribute;
                 if (this.attributesStore) {

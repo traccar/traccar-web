@@ -21,9 +21,12 @@ Ext.define('Traccar.view.edit.ComputedAttributes', {
     xtype: 'computedAttributesView',
 
     requires: [
+        'Ext.grid.filters.Filters',
         'Traccar.view.edit.ComputedAttributesController',
         'Traccar.view.edit.Toolbar'
     ],
+
+    plugins: 'gridfilters',
 
     controller: 'computedAttributes',
     store: 'ComputedAttributes',
@@ -43,10 +46,16 @@ Ext.define('Traccar.view.edit.ComputedAttributes', {
         },
         items: [{
             text: Strings.sharedDescription,
-            dataIndex: 'description'
+            dataIndex: 'description',
+            filter: 'string'
         }, {
             text: Strings.sharedAttribute,
             dataIndex: 'attribute',
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'PositionAttributes'
+            },
             renderer: function (value) {
                 return Ext.getStore('PositionAttributes').getAttributeName(value);
             }
@@ -56,6 +65,11 @@ Ext.define('Traccar.view.edit.ComputedAttributes', {
         }, {
             text: Strings.sharedType,
             dataIndex: 'type',
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'AttributeValueTypes'
+            },
             renderer: function (value) {
                 var type = Ext.getStore('AttributeValueTypes').getById(value);
                 if (type) {

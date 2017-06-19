@@ -19,17 +19,59 @@ Ext.define('Traccar.view.permissions.UserDevices', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'userDevicesView',
 
+    requires: [
+        'Ext.grid.filters.Filters',
+        'Traccar.AttributeFormatter'
+    ],
+
+    plugins: 'gridfilters',
+
     columns: {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
         }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
+        }, {
+            text: Strings.sharedPhone,
+            dataIndex: 'phone',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.deviceModel,
+            dataIndex: 'model',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.deviceContact,
+            dataIndex: 'contact',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            hidden: true,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'AllGroups'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }]
     }
 });

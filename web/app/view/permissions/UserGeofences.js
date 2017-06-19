@@ -19,12 +19,19 @@ Ext.define('Traccar.view.permissions.UserGeofences', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'userGeofencesView',
 
+    requires: [
+        'Ext.grid.filters.Filters'
+    ],
+
+    plugins: 'gridfilters',
+
     columns: {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
         }]
     }
 });

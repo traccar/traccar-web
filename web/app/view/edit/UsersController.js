@@ -67,6 +67,7 @@ Ext.define('Traccar.view.edit.UsersController', {
 
     onDevicesClick: function () {
         var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.getStore('AllGroups').load();
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.deviceTitle,
             items: {

@@ -20,9 +20,13 @@ Ext.define('Traccar.view.edit.Groups', {
     xtype: 'groupsView',
 
     requires: [
+        'Ext.grid.filters.Filters',
+        'Traccar.AttributeFormatter',
         'Traccar.view.edit.GroupsController',
         'Traccar.view.edit.Toolbar'
     ],
+
+    plugins: 'gridfilters',
 
     controller: 'groups',
     store: 'Groups',
@@ -59,7 +63,18 @@ Ext.define('Traccar.view.edit.Groups', {
         },
         items: [{
             text: Strings.sharedName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            filter: 'string'
+        }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            hidden: true,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'AllGroups'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }]
     }
 });

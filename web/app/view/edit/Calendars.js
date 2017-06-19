@@ -21,9 +21,12 @@ Ext.define('Traccar.view.edit.Calendars', {
     xtype: 'calendarsView',
 
     requires: [
+        'Ext.grid.filters.Filters',
         'Traccar.view.edit.CalendarsController',
         'Traccar.view.edit.Toolbar'
     ],
+
+    plugins: 'gridfilters',
 
     controller: 'calendars',
     store: 'Calendars',
@@ -43,7 +46,8 @@ Ext.define('Traccar.view.edit.Calendars', {
         },
         items: [{
             text: Strings.sharedName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            filter: 'string'
         }]
     }
 });
