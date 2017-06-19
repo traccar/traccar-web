@@ -65,11 +65,7 @@ Ext.define('Traccar.AttributeFormatter', {
     groupIdFormatter: function (value) {
         var group;
         if (value !== 0) {
-            if (Ext.getStore('AllGroups').getTotalCount() === 0) {
-                group = Ext.getStore('Groups').getById(value);
-            } else {
-                group = Ext.getStore('AllGroups').getById(value);
-            }
+            group = Ext.getStore(Ext.getStore('AllGroups').getTotalCount() === 0 ? 'Groups' : 'AllGroups').getById(value);
             return group ? group.get('name') : value;
         }
     },
