@@ -139,13 +139,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 labelField: 'name',
                 store: 'Groups'
             },
-            renderer: function (value) {
-                var group;
-                if (value !== 0) {
-                    group = Ext.getStore('Groups').getById(value);
-                    return group ? group.get('name') : value;
-                }
-            }
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',

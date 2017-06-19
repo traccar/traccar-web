@@ -96,30 +96,36 @@ Ext.define('Traccar.view.edit.Users', {
         },
         items: [{
             text: Strings.sharedName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            filter: 'string'
         }, {
             text: Strings.userEmail,
             dataIndex: 'email',
             filter: 'string'
         }, {
             text: Strings.userAdmin,
-            dataIndex: 'admin'
+            dataIndex: 'admin',
+            filter: 'boolean'
         }, {
             text: Strings.serverReadonly,
             dataIndex: 'readonly',
-            hidden: true
+            hidden: true,
+            filter: 'boolean'
         }, {
             text: Strings.userDeviceReadonly,
             dataIndex: 'deviceReadonly',
-            hidden: true
+            hidden: true,
+            filter: 'boolean'
         }, {
             text: Strings.userDisabled,
-            dataIndex: 'disabled'
+            dataIndex: 'disabled',
+            filter: 'boolean'
         }, {
             text: Strings.userExpirationTime,
             dataIndex: 'expirationTime',
             hidden: true,
-            renderer: Traccar.AttributeFormatter.getFormatter('expirationTime')
+            renderer: Traccar.AttributeFormatter.getFormatter('expirationTime'),
+            filter: 'date'
         }]
     }
 });

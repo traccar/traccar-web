@@ -25,7 +25,8 @@ Ext.define('Traccar.view.permissions.UserUsers', {
             text: Strings.sharedName,
             dataIndex: 'name',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
         }]
     }
 });

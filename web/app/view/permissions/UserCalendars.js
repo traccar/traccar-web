@@ -20,12 +20,19 @@ Ext.define('Traccar.view.permissions.UserCalendars', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'userCalendarsView',
 
+    requires: [
+        'Ext.grid.filters.Filters'
+    ],
+
+    plugins: 'gridfilters',
+
     columns: {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
         }]
     }
 });

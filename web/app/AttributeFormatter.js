@@ -62,6 +62,18 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('Devices').getById(value).get('name');
     },
 
+    groupIdFormatter: function (value) {
+        var group;
+        if (value !== 0) {
+            if (Ext.getStore('AllGroups').getTotalCount() === 0) {
+                group = Ext.getStore('Groups').getById(value);
+            } else {
+                group = Ext.getStore('AllGroups').getById(value);
+            }
+            return group ? group.get('name') : value;
+        }
+    },
+
     lastUpdateFormatter: function (value) {
         var seconds, interval;
 
@@ -113,6 +125,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.durationFormatter;
         } else if (key === 'deviceId') {
             return this.deviceIdFormatter;
+        } else if (key === 'groupId') {
+            return this.groupIdFormatter;
         } else if (key === 'lastUpdate') {
             return this.lastUpdateFormatter;
         } else {

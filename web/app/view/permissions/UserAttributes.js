@@ -20,17 +20,29 @@ Ext.define('Traccar.view.permissions.UserAttributes', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'userAttributesView',
 
+    requires: [
+        'Ext.grid.filters.Filters'
+    ],
+
+    plugins: 'gridfilters',
+
     columns: {
         items: [{
             text: Strings.sharedDescription,
             dataIndex: 'description',
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: Traccar.Style.columnWidthNormal,
+            filter: 'string'
         }, {
             text: Strings.sharedAttribute,
             dataIndex: 'attribute',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'PositionAttributes'
+            },
             renderer: function (value) {
                 return Ext.getStore('PositionAttributes').getAttributeName(value);
             }
