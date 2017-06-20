@@ -74,6 +74,7 @@
     "attributeProcessingCopyAttributes": "Processing: Copy Attributes",
     "attributeColor": "Color",
     "attributeWebLiveRouteLength": "Web: Live Route Length",
+    "attributeWebSelectZoom": "Web: Zoom On Select",
     "attributeMailSmtpHost": "Mail: SMTP Host",
     "attributeMailSmtpPort": "Mail: SMTP Port",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS Enable",

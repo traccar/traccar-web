@@ -72,5 +72,12 @@ Ext.define('Traccar.store.UserAttributes', {
         name: Strings.attributeWebLiveRouteLength,
         valueType: 'number',
         allowDecimals: false
+    }, {
+        key: 'web.selectZoom',
+        name: Strings.attributeWebSelectZoom,
+        valueType: 'number',
+        allowDecimals: false,
+        minValue: Traccar.Style.mapDefaultZoom,
+        maxValue: Traccar.Style.mapMaxZoom
     }]
 });
