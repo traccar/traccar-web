@@ -129,6 +129,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.groupIdFormatter;
         } else if (key === 'lastUpdate') {
             return this.lastUpdateFormatter;
+        } else if (key === 'spentFuel') {
+            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
         } else {
             return this.defaultFormatter;
         }
