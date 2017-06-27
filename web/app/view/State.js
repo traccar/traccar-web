@@ -21,8 +21,8 @@ Ext.define('Traccar.view.State', {
     
     viewConfig: {
         enableTextSelection: true
-    },    
-
+    },
+    
     requires: [
         'Traccar.view.StateController'
     ],
