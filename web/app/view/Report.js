@@ -72,6 +72,9 @@ Ext.define('Traccar.view.Report', {
     items: [{
         xtype: 'grid',
         itemId: 'grid',
+        viewConfig: {
+        enableTextSelection: true
+     },
         listeners: {
             selectionchange: 'onSelectionChange'
         },
