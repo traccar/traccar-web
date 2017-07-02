@@ -191,7 +191,7 @@
     "positionAcceleration": "Acceleration",
     "positionDeviceTemp": "Device Temperature",
     "positionOperator": "Operator",
-    "positionCommand": "Acceleration",
+    "positionCommand": "Command",
     "positionBlocked": "Blocked",
     "positionDtcs": "DTCs",
     "positionObdSpeed": "OBD Speed",
