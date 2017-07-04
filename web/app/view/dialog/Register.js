@@ -40,7 +40,13 @@ Ext.define('Traccar.view.dialog.Register', {
             xtype: 'textfield',
             name: 'email',
             fieldLabel: Strings.userEmail,
-            vtype: 'email',
+            validator: function (val) {
+                if (/(.+)@(.+){2,}\.(.+){2,}/.test(val)) {
+                  return true;
+                } else {
+                  return Ext.form.field.VTypes.emailText;
+                }
+            },
             allowBlank: false
         }, {
             xtype: 'textfield',
