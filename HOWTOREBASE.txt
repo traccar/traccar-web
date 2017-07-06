@@ -16,3 +16,7 @@ git checkout master
 # other branch:
 
 git rebase upstream/master
+
+# Then
+git pull
+git push
