@@ -161,7 +161,7 @@ Ext.define('Traccar.controller.Root', {
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
 
         socket.onclose = function (event) {
-            Ext.toast(Strings.errorSocket, Strings.errorTitle, 'br');
+            Traccar.app.showToast(Strings.errorSocket, Strings.errorTitle);
 
             Ext.Ajax.request({
                 url: 'api/devices',
@@ -248,7 +248,7 @@ Ext.define('Traccar.controller.Root', {
                 if (this.soundPressed()) {
                     this.beep();
                 }
-                Ext.toast(array[i].text, device.get('name'), 'br');
+                Traccar.app.showToast(array[i].text, device.get('name'));
             }
         }
     },

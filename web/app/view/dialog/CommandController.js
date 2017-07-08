@@ -121,11 +121,8 @@ Ext.define('Traccar.view.dialog.CommandController', {
 
     onSendResult: function (options, success, response) {
         if (success) {
-            Ext.toast({
-                html: Strings.commandSent,
-                align: 'br'
-            });
             this.closeView();
+            Traccar.app.showToast(Strings.commandSent);
         } else {
             Traccar.app.showError(response);
         }

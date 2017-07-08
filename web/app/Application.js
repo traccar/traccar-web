@@ -185,5 +185,14 @@ Ext.define('Traccar.Application', {
         } else {
             Ext.Msg.alert(Strings.errorTitle, Strings.errorConnection);
         }
+    },
+
+    showToast: function (message, title) {
+        Ext.toast({
+            html: message,
+            title: title,
+            width: Traccar.Style.toastWidth,
+            align: 'br'
+        });
     }
 });
