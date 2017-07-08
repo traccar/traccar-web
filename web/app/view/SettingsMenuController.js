@@ -74,7 +74,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onGroupsClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.settingsGroups,
-            modal: false,
             items: {
                 xtype: 'groupsView'
             }
@@ -84,7 +83,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onGeofencesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedGeofences,
-            modal: false,
             items: {
                 xtype: 'geofencesView'
             }
@@ -100,7 +98,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onUsersClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.settingsUsers,
-            modal: false,
             items: {
                 xtype: 'usersView'
             }
@@ -111,7 +108,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
         var user = Traccar.app.getUser();
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedNotifications,
-            modal: false,
             items: {
                 xtype: 'notificationsView',
                 user: user
@@ -122,7 +118,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onAttributeAliasesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedAttributeAliases,
-            modal: false,
             items: {
                 xtype: 'attributeAliasesView'
             }
@@ -132,7 +127,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onComputedAttributesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedComputedAttributes,
-            modal: false,
             items: {
                 xtype: 'computedAttributesView'
             }
@@ -142,7 +136,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onStatisticsClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.statisticsTitle,
-            modal: false,
             items: {
                 xtype: 'statisticsView'
             }
@@ -157,7 +150,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     onCalendarsClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedCalendars,
-            modal: false,
             items: {
                 xtype: 'calendarsView'
             }

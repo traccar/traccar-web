@@ -52,7 +52,6 @@ Ext.define('Traccar.view.dialog.BaseEditController', {
         record = dialog.getRecord();
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedAttributes,
-            modal: false,
             items: {
                 xtype: 'attributesView',
                 record: record

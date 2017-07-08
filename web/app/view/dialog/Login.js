@@ -27,7 +27,6 @@ Ext.define('Traccar.view.dialog.Login', {
 
     header: false,
     closable: false,
-    modal: false,
 
     items: {
         xtype: 'form',

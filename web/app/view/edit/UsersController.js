@@ -118,7 +118,6 @@ Ext.define('Traccar.view.edit.UsersController', {
         var user = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedNotifications,
-            modal: false,
             items: {
                 xtype: 'notificationsView',
                 user: user

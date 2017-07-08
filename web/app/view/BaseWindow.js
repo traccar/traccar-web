@@ -21,7 +21,6 @@ Ext.define('Traccar.view.BaseWindow', {
     width: Traccar.Style.windowWidth,
     height: Traccar.Style.windowHeight,
     layout: 'fit',
-    modal: true,
 
     initComponent: function () {
         if (window.innerWidth < Traccar.Style.windowWidth || window.innerHeight < Traccar.Style.windowHeight) {
