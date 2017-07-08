@@ -41,26 +41,28 @@ Ext.define('Traccar.model.Event', {
         type: 'int'
     }, {
         name: 'text',
-        calculate: function (data) {
+        convert: function (v, rec) {
             var text, alarmKey, geofence;
-            if (data.type === 'commandResult') {
-                text = Strings.eventCommandResult + ': ' + data.attributes.result;
-            } else if (data.type === 'alarm') {
-                alarmKey = 'alarm' + data.attributes.alarm.charAt(0).toUpperCase() + data.attributes.alarm.slice(1);
+            if (rec.get('type') === 'commandResult') {
+                text = Strings.eventCommandResult + ': ' + rec.get('attributes')['result'];
+            } else if (rec.get('type') === 'alarm') {
+                alarmKey = rec.get('attributes')['alarm'];
+                alarmKey = 'alarm' + alarmKey.charAt(0).toUpperCase() + alarmKey.slice(1);
                 text = Strings[alarmKey] || alarmKey;
-            } else if (data.type === 'textMessage') {
-                text = Strings.eventTextMessage + ': ' + data.attributes.message;
+            } else if (rec.get('type') === 'textMessage') {
+                text = Strings.eventTextMessage + ': ' + rec.get('attributes')['message'];
             } else {
-                text = Traccar.app.getEventString(data.type);
+                text = Traccar.app.getEventString(rec.get('type'));
             }
-            if (data.geofenceId !== 0) {
-                geofence = Ext.getStore('Geofences').getById(data.geofenceId);
+            if (rec.get('geofenceId')) {
+                geofence = Ext.getStore('Geofences').getById(rec.get('geofenceId'));
                 if (geofence) {
                     text += ' \"' + geofence.get('name') + '"';
                 }
             }
             return text;
-        }
+        },
+        depends: ['type', 'attributes', 'geofenceId']
     }, {
         name: 'attributes'
     }]
