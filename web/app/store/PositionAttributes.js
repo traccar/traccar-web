@@ -233,6 +233,11 @@ Ext.define('Traccar.store.PositionAttributes', {
         key: 'result',
         name: Strings.eventCommandResult,
         valueType: 'string'
+    }, {
+        key: 'driverUniqueId',
+        name: Strings.positionDriverUniqueId,
+        valueType: 'string',
+        dataType: 'driverUniqueId'
     }],
 
     getAttributeName: function (key, capitalize) {

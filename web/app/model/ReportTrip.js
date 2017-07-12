@@ -55,5 +55,8 @@ Ext.define('Traccar.model.ReportTrip', {
     }, {
         name: 'endAddress',
         type: 'string'
+    }, {
+        name: 'driverName',
+        type: 'string'
     }]
 });
