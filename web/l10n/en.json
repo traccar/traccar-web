@@ -31,6 +31,8 @@
     "sharedNotifications": "Notifications",
     "sharedAttributes": "Attributes",
     "sharedAttribute": "Attribute",
+    "sharedDrivers": "Drivers",
+    "sharedDriver": "Driver",
     "sharedArea": "Area",
     "sharedSound": "Notification Sound",
     "sharedType": "Type",

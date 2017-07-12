@@ -26,6 +26,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.edit.Users',
         'Traccar.view.edit.Groups',
         'Traccar.view.edit.Geofences',
+        'Traccar.view.edit.Drivers',
         'Traccar.view.Notifications',
         'Traccar.view.edit.AttributeAliases',
         'Traccar.view.edit.ComputedAttributes',
@@ -55,6 +56,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
             this.lookupReference('settingsCalendarsButton').setHidden(false);
+            this.lookupReference('settingsDriversButton').setHidden(false);
         }
         if (admin || (!deviceReadonly && !readonly)) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
@@ -152,6 +154,15 @@ Ext.define('Traccar.view.SettingsMenuController', {
             title: Strings.sharedCalendars,
             items: {
                 xtype: 'calendarsView'
+            }
+        }).show();
+    },
+
+    onDriversClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedDrivers,
+            items: {
+                xtype: 'driversView'
             }
         }).show();
     },
