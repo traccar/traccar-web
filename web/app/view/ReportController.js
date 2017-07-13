@@ -532,9 +532,9 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'spentFuel',
         renderer: Traccar.AttributeFormatter.getFormatter('spentFuel')
     }, {
-        text: Strings.reportDriverName,
-        dataIndex: 'driverName',
-        renderer: Traccar.AttributeFormatter.getFormatter('driverName')
+        text: Strings.sharedDriver,
+        dataIndex: 'driverUniqueId',
+        renderer: Traccar.AttributeFormatter.getFormatter('driverUniqueId')
     }],
 
     stopsColumns: [{

@@ -143,6 +143,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.lastUpdateFormatter;
         } else if (key === 'spentFuel') {
             return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
+        } else if (key === 'driverUniqueId') {
+            return this.driverUniqueIdFormatter;
         } else {
             return this.defaultFormatter;
         }
