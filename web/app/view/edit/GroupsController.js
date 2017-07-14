@@ -23,6 +23,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         'Traccar.view.dialog.Group',
         'Traccar.view.permissions.GroupGeofences',
         'Traccar.view.permissions.GroupAttributes',
+        'Traccar.view.permissions.GroupDrivers',
         'Traccar.view.BaseWindow',
         'Traccar.model.Group'
     ],
@@ -65,10 +66,28 @@ Ext.define('Traccar.view.edit.GroupsController', {
         }).show();
     },
 
+    onDriversClick: function () {
+        var admin, group;
+        admin = Traccar.app.getUser().get('admin');
+        group = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedDrivers,
+            items: {
+                xtype: 'groupDriversView',
+                baseObjectName: 'groupId',
+                linkObjectName: 'driverId',
+                storeName: admin ? 'AllDrivers' : 'Drivers',
+                urlApi: 'api/groups/drivers',
+                baseObject: group.getId()
+            }
+        }).show();
+    },
+
     onSelectionChange: function (selected) {
         var disabled = selected.length > 0;
         this.lookupReference('toolbarGeofencesButton').setDisabled(disabled);
         this.lookupReference('toolbarAttributesButton').setDisabled(disabled);
+        this.lookupReference('toolbarDriversButton').setDisabled(disabled);
         this.callParent(arguments);
     }
 });

@@ -121,10 +121,6 @@ Ext.define('Traccar.store.PositionAttributes', {
         valueType: 'number',
         dataType: 'consumption'
     }, {
-        key: 'rfid',
-        name: Strings.positionRfid,
-        valueType: 'string'
-    }, {
         key: 'versionFw',
         name: Strings.positionVersionFw,
         valueType: 'string'
@@ -233,6 +229,11 @@ Ext.define('Traccar.store.PositionAttributes', {
         key: 'result',
         name: Strings.eventCommandResult,
         valueType: 'string'
+    }, {
+        key: 'driverUniqueId',
+        name: Strings.positionDriverUniqueId,
+        valueType: 'string',
+        dataType: 'driverUniqueId'
     }],
 
     getAttributeName: function (key, capitalize) {

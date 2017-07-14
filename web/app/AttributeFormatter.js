@@ -74,6 +74,18 @@ Ext.define('Traccar.AttributeFormatter', {
         }
     },
 
+    driverUniqueIdFormatter: function (value) {
+        var driver, store;
+        if (value !== 0) {
+            store = Ext.getStore('AllDrivers');
+            if (store.getTotalCount() === 0) {
+                store = Ext.getStore('Drivers');
+            }
+            driver = store.findRecord('uniqueId', value, 0, false, true, true);
+            return driver ? value + ' (' + driver.get('name') + ')' : value;
+        }
+    },
+
     lastUpdateFormatter: function (value) {
         var seconds, interval;
 
@@ -131,6 +143,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.lastUpdateFormatter;
         } else if (key === 'spentFuel') {
             return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
+        } else if (key === 'driverUniqueId') {
+            return this.driverUniqueIdFormatter;
         } else {
             return this.defaultFormatter;
         }
@@ -157,6 +171,8 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.distanceFormatter;
             } else if (dataType === 'speed') {
                 return this.speedFormatter;
+            } else if (dataType === 'driverUniqueId') {
+                return this.driverUniqueIdFormatter;
             } else if (dataType === 'voltage') {
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
             } else if (dataType === 'percentage') {

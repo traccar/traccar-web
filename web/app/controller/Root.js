@@ -105,6 +105,7 @@ Ext.define('Traccar.controller.Root', {
     loadApp: function () {
         var attribution, eventId;
         Ext.getStore('Groups').load();
+        Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();
         Ext.getStore('Calendars').load();
         Ext.getStore('AttributeAliases').load();

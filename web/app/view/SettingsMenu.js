@@ -44,6 +44,12 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsGroupsButton'
         }, {
             hidden: true,
+            text: Strings.sharedDrivers,
+            glyph: 'xf2c2@FontAwesome',
+            handler: 'onDriversClick',
+            reference: 'settingsDriversButton'
+        }, {
+            hidden: true,
             text: Strings.sharedGeofences,
             glyph: 'xf21d@FontAwesome',
             handler: 'onGeofencesClick',

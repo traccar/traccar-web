@@ -28,6 +28,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         'Traccar.view.permissions.UserCalendars',
         'Traccar.view.permissions.UserUsers',
         'Traccar.view.permissions.UserAttributes',
+        'Traccar.view.permissions.UserDrivers',
         'Traccar.view.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
@@ -172,6 +173,22 @@ Ext.define('Traccar.view.edit.UsersController', {
         }).show();
     },
 
+    onDriversClick: function () {
+        var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedDrivers,
+            items: {
+                xtype: 'userDriversView',
+                baseObjectName: 'userId',
+                linkObjectName: 'driverId',
+                storeName: 'AllDrivers',
+                linkStoreName: 'Drivers',
+                urlApi: 'api/permissions/drivers',
+                baseObject: user.getId()
+            }
+        }).show();
+    },
+
 
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
@@ -181,6 +198,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         this.lookupReference('userNotificationsButton').setDisabled(disabled);
         this.lookupReference('userCalendarsButton').setDisabled(disabled);
         this.lookupReference('userAttributesButton').setDisabled(disabled);
+        this.lookupReference('userDriversButton').setDisabled(disabled);
         this.lookupReference('userUsersButton').setDisabled(disabled || selected[0].get('userLimit') === 0);
         this.callParent(arguments);
     }

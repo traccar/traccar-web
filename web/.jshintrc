@@ -55,7 +55,7 @@
     "proto"         : false,    // true: Tolerate using the `__proto__` property
     "scripturl"     : false,    // true: Tolerate script-targeted URLs
     "shadow"        : false,    // true: Allows re-define variables later in code e.g. `var x=1; x=2;`
-    "sub"           : false,    // true: Tolerate using `[]` notation when it can still be expressed in dot notation
+    "sub"           : true,     // true: Tolerate using `[]` notation when it can still be expressed in dot notation
     "supernew"      : false,    // true: Tolerate `new function () { ... };` and `new Object;`
     "validthis"     : false,    // true: Tolerate using this in a non-constructor function
 
