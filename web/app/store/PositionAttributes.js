@@ -121,10 +121,6 @@ Ext.define('Traccar.store.PositionAttributes', {
         valueType: 'number',
         dataType: 'consumption'
     }, {
-        key: 'rfid',
-        name: Strings.positionRfid,
-        valueType: 'string'
-    }, {
         key: 'versionFw',
         name: Strings.positionVersionFw,
         valueType: 'string'

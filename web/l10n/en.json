@@ -272,7 +272,7 @@
     "eventIgnitionOff": "Ignition is OFF",
     "eventMaintenance": "Maintenance required",
     "eventTextMessage": "Text message received",
-    "eventDriverUnauthorized": "Driver Unauthorized",
+    "eventDriverChanged": "Driver has changed",
     "eventsScrollToLast": "Scroll To Last",
     "alarmSos": "SOS Alarm",
     "alarmVibration": "Vibration Alarm",

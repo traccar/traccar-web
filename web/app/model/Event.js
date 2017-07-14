@@ -51,8 +51,8 @@ Ext.define('Traccar.model.Event', {
                 text = Strings[alarmKey] || alarmKey;
             } else if (rec.get('type') === 'textMessage') {
                 text = Strings.eventTextMessage + ': ' + rec.get('attributes')['message'];
-            } else if (rec.get('type') === 'driverUnauthorized') {
-                text = Strings.eventDriverUnauthorized + ': ' + Traccar.AttributeFormatter.driverUniqueIdFormatter(
+            } else if (rec.get('type') === 'driverChanged') {
+                text = Strings.eventDriverChanged + ': ' + Traccar.AttributeFormatter.driverUniqueIdFormatter(
                         rec.get('attributes')['driverUniqueId']);
             } else {
                 text = Traccar.app.getEventString(rec.get('type'));
