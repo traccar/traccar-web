@@ -233,6 +233,9 @@ Ext.define('Traccar.controller.Root', {
             } else {
                 store.add(Ext.create('Traccar.model.Position', array[i]));
             }
+            if (Ext.getStore('Events').findRecord('positionId', array[i].id, 0, false, false, true)) {
+                Ext.getStore('EventPositions').add(Ext.create('Traccar.model.Position', array[i]));
+            }
         }
         if (first) {
             this.zoomToAllDevices();

@@ -184,10 +184,10 @@ Ext.define('Traccar.view.ReportController', {
         }
     },
 
-    onSelectionChange: function (selected) {
+    onSelectionChange: function (selection, selected) {
         var report;
-        if (selected.getCount() > 0) {
-            report = selected.getLastSelected();
+        if (selected.length > 0) {
+            report = selected[0];
             this.fireEvent('selectreport', report, true);
             if (report instanceof Traccar.model.ReportTrip) {
                 this.selectTrip(report);

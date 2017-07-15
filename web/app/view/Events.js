@@ -60,7 +60,7 @@ Ext.define('Traccar.view.Events', {
             toggleHandler: 'onScrollToLastClick',
             stateId: 'events-scroll-to-last-button',
             tooltip: Strings.eventsScrollToLast,
-            reference: 'scrollToLast'
+            reference: 'scrollToLastButton'
         }, {
             id: 'soundButton',
             glyph: 'xf0a2@FontAwesome',
@@ -68,6 +68,14 @@ Ext.define('Traccar.view.Events', {
             stateId: 'sound-button'
         }, {
             glyph: 'xf014@FontAwesome',
+            tooltip: Strings.sharedRemove,
+            handler: 'onRemoveClick',
+            reference: 'removeEventButton',
+            disabled: true,
+            stateful: false,
+            enableToggle: false
+        }, {
+            glyph: 'xf1f8@FontAwesome',
             tooltip: Strings.reportClear,
             handler: 'onClearClick',
             stateful: false,
@@ -76,11 +84,15 @@ Ext.define('Traccar.view.Events', {
             glyph: 'xf00d@FontAwesome',
             tooltip: Strings.sharedHide,
             handler: 'onHideEvents',
-            reference: 'hideEvents',
+            reference: 'hideEventsButton',
             hidden: true,
             stateful: false,
             enableToggle: false
         }]
+    },
+
+    listeners: {
+        selectionchange: 'onSelectionChange'
     },
 
     columns: {
@@ -89,7 +101,7 @@ Ext.define('Traccar.view.Events', {
             minWidth: Traccar.Style.columnWidthNormal
         },
         items: [{
-            text: Strings.reportDeviceName,
+            text: Strings.sharedDevice,
             dataIndex: 'deviceId',
             renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
         }, {

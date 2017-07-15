@@ -83,7 +83,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         }).show();
     },
 
-    onSelectionChange: function (selected) {
+    onSelectionChange: function (selection, selected) {
         var disabled = selected.length > 0;
         this.lookupReference('toolbarGeofencesButton').setDisabled(disabled);
         this.lookupReference('toolbarAttributesButton').setDisabled(disabled);

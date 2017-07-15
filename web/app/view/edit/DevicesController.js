@@ -133,7 +133,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         var readonly, deviceReadonly, empty;
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('admin');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
-        empty = selected.getCount() === 0;
+        empty = selected.length === 0;
         this.lookupReference('toolbarEditButton').setDisabled(empty || readonly || deviceReadonly);
         this.lookupReference('toolbarRemoveButton').setDisabled(empty || readonly || deviceReadonly);
         this.lookupReference('toolbarGeofencesButton').setDisabled(empty || readonly);
@@ -142,10 +142,10 @@ Ext.define('Traccar.view.edit.DevicesController', {
         this.lookupReference('deviceCommandButton').setDisabled(empty || readonly);
     },
 
-    onSelectionChange: function (selected) {
+    onSelectionChange: function (selection, selected) {
         this.updateButtons(selected);
-        if (selected.getCount() > 0) {
-            this.fireEvent('selectdevice', selected.getLastSelected(), true);
+        if (selected.length > 0) {
+            this.fireEvent('selectdevice', selected[0], true);
         } else {
             this.fireEvent('deselectfeature');
         }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2015 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,14 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.Events', {
+Ext.define('Traccar.store.EventPositions', {
     extend: 'Ext.data.Store',
-    model: 'Traccar.model.Event',
+    model: 'Traccar.model.Position',
 
     trackRemoved: false,
 
     proxy: {
         type: 'rest',
-        url: 'api/events'
+        url: 'api/positions',
+        headers: {
+            'Accept': 'application/json'
+        }
     }
 });

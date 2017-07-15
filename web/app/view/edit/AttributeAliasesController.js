@@ -53,17 +53,17 @@ Ext.define('Traccar.view.edit.AttributeAliasesController', {
         dialog.show();
     },
 
-    onSelectionChange: function (selected) {
+    onSelectionChange: function (selection, selected) {
         var disabled = !this.lookupReference('deviceField').getValue();
         this.lookupReference('toolbarAddButton').setDisabled(disabled);
-        disabled = selected.length === 0 || !this.lookupReference('deviceField').getValue();
+        disabled = !selected || selected.length === 0 || !this.lookupReference('deviceField').getValue();
         this.lookupReference('toolbarEditButton').setDisabled(disabled);
         this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
     },
 
     onDeviceChange: function (combobox, newValue, oldValue) {
         var manager = Traccar.app.getUser().get('admin') || Traccar.app.getUser().get('userLimit') > 0;
-        this.onSelectionChange('');
+        this.onSelectionChange();
         if (newValue !== null) {
             this.getView().getStore().filter('deviceId', newValue);
             if (manager && this.getView().getStore().getCount() === 0) {

@@ -51,6 +51,7 @@ Ext.define('Traccar.Application', {
         'AllDevices',
         'Positions',
         'LatestPositions',
+        'EventPositions',
         'Users',
         'Attributes',
         'MapTypes',

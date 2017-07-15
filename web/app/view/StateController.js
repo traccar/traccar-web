@@ -176,8 +176,8 @@ Ext.define('Traccar.view.StateController', {
         }
     },
 
-    onSelectionChange: function (selected, records) {
-        var enabled = selected.getCount() > 0 && records[0].get('priority') === 1024;
+    onSelectionChange: function (selection, selected) {
+        var enabled = selected.length > 0 && selected[0].get('priority') === 1024;
         this.lookupReference('aliasEditButton').setDisabled(!enabled);
     },
 
