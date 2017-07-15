@@ -454,7 +454,9 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         if (this.selectedMarker) {
             if (this.selectedMarker.get('event')) {
                 this.getView().getMarkersSource().removeFeature(this.selectedMarker);
-                this.fireEvent('deselectevent');
+                if (!marker || !marker.get('event')) {
+                    this.fireEvent('deselectevent');
+                }
             } else if (!Ext.getStore('ReportRoute').showMarkers &&
                     this.selectedMarker.get('record') instanceof Traccar.model.Position) {
                 this.getView().getMarkersSource().removeFeature(this.selectedMarker);
@@ -495,6 +497,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     selectEvent: function (position) {
+        this.fireEvent('deselectfeature');
         if (position) {
             var maker = this.addReportMarker(position);
             maker.set('event', true);
