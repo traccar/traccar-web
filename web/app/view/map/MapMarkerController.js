@@ -377,9 +377,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
 
     clearEvent: function () {
         if (this.selectedMarker && this.selectedMarker.get('event')) {
-            if (!Ext.getStore('EventPositions').getById(this.selectedMarker.get('record').getId())) {
-                this.selectMarker(null, false);
-            }
+            this.selectMarker(null, false);
         }
     },
 
