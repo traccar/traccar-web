@@ -59,7 +59,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                     load: 'loadReport',
                     clear: 'clearReport'
                 },
-                '#EventPositions': {
+                '#Events': {
                     remove: 'clearEvent',
                     clear: 'clearEvent'
                 }
