@@ -495,9 +495,13 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     selectEvent: function (position) {
-        var maker = this.addReportMarker(position);
-        maker.set('event', true);
-        this.selectMarker(maker, true);
+        if (position) {
+            var maker = this.addReportMarker(position);
+            maker.set('event', true);
+            this.selectMarker(maker, true);
+        } else if (this.selectedMarker && this.selectedMarker.get('event')) {
+            this.selectMarker(null, false);
+        }
     },
 
     selectFeature: function (feature) {

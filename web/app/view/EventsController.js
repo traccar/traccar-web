@@ -88,9 +88,9 @@ Ext.define('Traccar.view.EventsController', {
         event = selected.length > 0 ? selected[0] : null;
         if (event && event.get('positionId')) {
             position = Ext.getStore('EventPositions').getById(event.get('positionId'));
-            if (position) {
-                this.fireEvent('selectevent', position);
-            }
+            this.fireEvent('selectevent', position);
+        } else {
+            this.fireEvent('selectevent');
         }
         this.lookupReference('removeEventButton').setDisabled(!event);
     }
