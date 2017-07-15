@@ -47,12 +47,13 @@ Ext.define('Traccar.view.EventsController', {
     },
 
     onRemoveClick: function (button) {
-        var event = this.getView().getSelectionModel().getSelection()[0];
+        var event, positionId;
+        event = this.getView().getSelectionModel().getSelection()[0];
         if (event) {
             Ext.getStore('Events').remove(event);
-            if (event.get('positionId')) {
-                Ext.getStore('EventPositions').remove(
-                        Ext.getStore('EventPositions').getById(event.get('positionId')));
+            positionId = event.get('positionId');
+            if (positionId && !Ext.getStore('Events').findRecord('positionId', positionId, 0, false, false, true)) {
+                Ext.getStore('EventPositions').remove(Ext.getStore('EventPositions').getById(positionId));
             }
         }
     },
