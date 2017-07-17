@@ -23,9 +23,8 @@ Ext.define('Traccar.view.ArrayListFilter', {
     type: 'arraylist',
 
     constructor: function (config) {
-        var me = this;
-        me.callParent([config]);
-        me.filter.setFilterFn(function (item) {
+        this.callParent([config]);
+        this.filter.setFilterFn(function (item) {
             var i, property, value;
             property = item.get(this.getProperty());
             value = this.getValue();
