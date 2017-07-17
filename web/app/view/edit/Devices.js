@@ -22,7 +22,8 @@ Ext.define('Traccar.view.edit.Devices', {
     requires: [
         'Ext.grid.filters.Filters',
         'Traccar.AttributeFormatter',
-        'Traccar.view.edit.DevicesController'
+        'Traccar.view.edit.DevicesController',
+        'Traccar.view.ArrayListFilter'
     ],
 
     controller: 'devices',
@@ -149,6 +150,24 @@ Ext.define('Traccar.view.edit.Devices', {
             },
             renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }, {
+            text: Strings.sharedGeofences,
+            dataIndex: 'geofenceIds',
+            hidden: true,
+            filter: {
+                type: 'arraylist',
+                idField: 'id',
+                labelField: 'name',
+                store: 'Geofences'
+            },
+            renderer: function (value) {
+                var i, result = '';
+                for (i = 0; i < value.length; i++) {
+                    result += Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
+                    result += (i < value.length - 1) ? ', ' : '';
+                }
+                return result;
+            }
+        }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',
             filter: {
@@ -156,7 +175,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 labelField: 'name',
                 store: 'DeviceStatuses'
             },
-            renderer: function (value, metaData) {
+            renderer: function (value) {
                 var status;
                 if (value) {
                     status = Ext.getStore('DeviceStatuses').getById(value);

@@ -74,6 +74,18 @@ Ext.define('Traccar.AttributeFormatter', {
         }
     },
 
+    geofenceIdFormatter: function (value) {
+        var geofence, store;
+        if (value !== 0) {
+            store = Ext.getStore('AllGeofences');
+            if (store.getTotalCount() === 0) {
+                store = Ext.getStore('Geofences');
+            }
+            geofence = store.getById(value);
+            return geofence ? geofence.get('name') : value;
+        }
+    },
+
     driverUniqueIdFormatter: function (value) {
         var driver, store;
         if (value !== 0) {
@@ -139,6 +151,8 @@ Ext.define('Traccar.AttributeFormatter', {
             return this.deviceIdFormatter;
         } else if (key === 'groupId') {
             return this.groupIdFormatter;
+        } else if (key === 'geofenceId') {
+            return this.geofenceIdFormatter;
         } else if (key === 'lastUpdate') {
             return this.lastUpdateFormatter;
         } else if (key === 'spentFuel') {
