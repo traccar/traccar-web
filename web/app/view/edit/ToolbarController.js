@@ -63,7 +63,7 @@ Ext.define('Traccar.view.edit.ToolbarController', {
     },
 
     onSelectionChange: function (selection, selected) {
-        var disabled = selected.length > 0;
+        var disabled = selected.length === 0;
         this.lookupReference('toolbarEditButton').setDisabled(disabled);
         this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
     }
