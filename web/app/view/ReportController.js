@@ -456,11 +456,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
-        renderer: function (value) {
-            if (value !== 0) {
-                return Ext.getStore('Geofences').getById(value).get('name');
-            }
-        }
+        renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
     }],
 
     summaryColumns: [{

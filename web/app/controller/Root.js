@@ -215,7 +215,8 @@ Ext.define('Traccar.controller.Root', {
             if (entity) {
                 entity.set({
                     status: array[i].status,
-                    lastUpdate: array[i].lastUpdate
+                    lastUpdate: array[i].lastUpdate,
+                    geofenceIds: array[i].geofenceIds
                 }, {
                     dirty: false
                 });
