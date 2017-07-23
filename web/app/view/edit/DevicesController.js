@@ -73,7 +73,6 @@ Ext.define('Traccar.view.edit.DevicesController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'geofenceId',
                 storeName: 'Geofences',
-                urlApi: 'api/devices/geofences',
                 baseObject: device.getId()
             }
         }).show();
@@ -88,7 +87,6 @@ Ext.define('Traccar.view.edit.DevicesController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'attributeId',
                 storeName: 'ComputedAttributes',
-                urlApi: 'api/devices/attributes',
                 baseObject: device.getId()
             }
         }).show();
@@ -103,7 +101,6 @@ Ext.define('Traccar.view.edit.DevicesController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'driverId',
                 storeName: 'Drivers',
-                urlApi: 'api/devices/drivers',
                 baseObject: device.getId()
             }
         }).show();

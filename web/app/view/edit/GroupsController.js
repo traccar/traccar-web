@@ -43,7 +43,6 @@ Ext.define('Traccar.view.edit.GroupsController', {
                 baseObjectName: 'groupId',
                 linkObjectName: 'geofenceId',
                 storeName: admin ? 'AllGeofences' : 'Geofences',
-                urlApi: 'api/groups/geofences',
                 baseObject: group.getId()
             }
         }).show();
@@ -60,7 +59,6 @@ Ext.define('Traccar.view.edit.GroupsController', {
                 baseObjectName: 'groupId',
                 linkObjectName: 'attributeId',
                 storeName: admin ? 'AllComputedAttributes' : 'ComputedAttributes',
-                urlApi: 'api/groups/attributes',
                 baseObject: group.getId()
             }
         }).show();
@@ -77,7 +75,6 @@ Ext.define('Traccar.view.edit.GroupsController', {
                 baseObjectName: 'groupId',
                 linkObjectName: 'driverId',
                 storeName: admin ? 'AllDrivers' : 'Drivers',
-                urlApi: 'api/groups/drivers',
                 baseObject: group.getId()
             }
         }).show();

@@ -161,9 +161,11 @@ Ext.define('Traccar.view.edit.Devices', {
             },
             renderer: function (value) {
                 var i, result = '';
-                for (i = 0; i < value.length; i++) {
-                    result += Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
-                    result += (i < value.length - 1) ? ', ' : '';
+                if (Ext.isArray(value)) {
+                    for (i = 0; i < value.length; i++) {
+                        result += Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
+                        result += (i < value.length - 1) ? ', ' : '';
+                    }
                 }
                 return result;
             }
