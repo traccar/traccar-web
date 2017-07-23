@@ -1,19 +1,37 @@
 #!/bin/sh
 
-cd $(dirname $0)/../web
-
 # Sencha Variables
 SENCHAROOT="../../.."
 SDK="${SENCHAROOT}/ext-6.2.0"
 CORE="${SDK}/packages/core"
 CLASSIC="${SDK}/classic/classic"
 
-INPUTFILE="app.js"
-OUTPUTFILE="app.min.js"
-APPDIR="app"
+if [ ${#} -gt 1 ]
+then
+	echo "usage: $(basename ${0}) <traccar-web directory>"
+	exit 1
+fi
+
+if [ ${#} -eq 0 ]
+then
+	# Maintain default behavior where CWD is assumed to be traccar-web/tools.
+	TRACCARWEB="$(dirname $0)/../web"
+else
+	TRACCARWEB="${1}"
+fi
+
+if [ ! -d "${TRACCARWEB}" ]
+then
+	echo "${TRACCARWEB}: directory not found" 1>&2
+	exit 2
+fi
+
+INPUTFILE="${TRACCARWEB}/app.js"
+OUTPUTFILE="${TRACCARWEB}/app.min.js"
+APPDIR="${TRACCARWEB}/app" 
 
 # Assemble CLASSPATH
-CLASSPATH="${INPUTFILE},${APPDIR}" 
+CLASSPATH="${INPUTFILE},${APPDIR}"
 
 for d in "${CORE}" "${CLASSIC}"
 do
