@@ -164,7 +164,9 @@ Ext.define('Traccar.view.edit.Devices', {
                 if (Ext.isArray(value)) {
                     for (i = 0; i < value.length; i++) {
                         name = Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
-                        result += name ? name + ((i < value.length - 1) ? ', ' : '') : '';
+                        if (name) {
+                            result += name + ((i < value.length - 1) ? ', ' : '');
+                        }
                     }
                 }
                 return result;
