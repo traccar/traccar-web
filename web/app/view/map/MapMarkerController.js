@@ -495,11 +495,12 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     selectEvent: function (position) {
+        var marker;
         this.fireEvent('deselectfeature');
         if (position) {
-            var maker = this.addReportMarker(position);
-            maker.set('event', true);
-            this.selectMarker(maker, true);
+            marker = this.addReportMarker(position);
+            marker.set('event', true);
+            this.selectMarker(marker, true);
         } else if (this.selectedMarker && this.selectedMarker.get('event')) {
             this.selectMarker(null, false);
         }

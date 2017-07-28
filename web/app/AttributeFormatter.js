@@ -82,7 +82,7 @@ Ext.define('Traccar.AttributeFormatter', {
                 store = Ext.getStore('Geofences');
             }
             geofence = store.getById(value);
-            return geofence ? geofence.get('name') : value;
+            return geofence ? geofence.get('name') : '';
         }
     },
 
