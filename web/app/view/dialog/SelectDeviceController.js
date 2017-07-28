@@ -25,7 +25,7 @@ Ext.define('Traccar.view.dialog.SelectDeviceController', {
         deviceId = this.lookupReference('deviceField').getValue();
         record = this.getView().record.data;
         Ext.Ajax.request({
-            url: 'api/attributes/computed?deviceId=' + deviceId,
+            url: 'api/attributes/computed/test?deviceId=' + deviceId,
             method: 'POST',
             jsonData: Ext.util.JSON.encode(record),
             callback: function (options, success, response) {

@@ -160,11 +160,13 @@ Ext.define('Traccar.view.edit.Devices', {
                 store: 'Geofences'
             },
             renderer: function (value) {
-                var i, result = '';
+                var i, name, result = '';
                 if (Ext.isArray(value)) {
                     for (i = 0; i < value.length; i++) {
-                        result += Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
-                        result += (i < value.length - 1) ? ', ' : '';
+                        name = Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
+                        if (name) {
+                            result += name + ((i < value.length - 1) ? ', ' : '');
+                        }
                     }
                 }
                 return result;
