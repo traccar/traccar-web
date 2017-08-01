@@ -125,9 +125,9 @@ Ext.define('Traccar.controller.Root', {
             Ext.create('widget.mainMobile');
         } else {
             main = Ext.create('widget.main');
-            if (Traccar.app.getAttributePreference('web.disableReport', false)) {
+            if (Traccar.app.getAttributePreference('web.disableReport', false).toString() === 'true') {
                 for (i = 0; i < main.items.length; i++) {
-                    if (main.items.items[i].xtype === 'reportView') {
+                    if (main.items.items[i].isXType('reportView')) {
                         main.items.items[i].hide();
                         break;
                     }
