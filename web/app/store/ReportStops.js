@@ -25,6 +25,11 @@ Ext.define('Traccar.store.ReportStops', {
         url: 'api/reports/stops',
         headers: {
             'Accept': 'application/json'
+        },
+        listeners: {
+            exception: function (proxy, exception) {
+                Traccar.app.showError(exception);
+            }
         }
     }
 });
