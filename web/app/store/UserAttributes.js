@@ -79,5 +79,9 @@ Ext.define('Traccar.store.UserAttributes', {
         allowDecimals: false,
         minValue: Traccar.Style.mapDefaultZoom,
         maxValue: Traccar.Style.mapMaxZoom
+    }, {
+        key: 'web.disableReport',
+        name: Strings.attributeWebDisableReport,
+        valueType: 'boolean'
     }]
 });
