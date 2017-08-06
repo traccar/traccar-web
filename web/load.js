@@ -1,5 +1,5 @@
 (function () {
-    var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, fontAwesomeVersion, olVersion, i, language, languages;
+    var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, fontAwesomeVersion, olVersion, i, language, languages, languageDefault;
 
     function addStyleFile(file) {
         var link = document.createElement('link');
@@ -83,6 +83,7 @@
         'zh_TW': { name: '中文 (Taiwan)', code: 'zh_TW' }
     };
 
+    languageDefault = 'en';
     localeParameter = window.location.search.match(/locale=([^&#]+)/);
     locale.language = localeParameter && localeParameter[1];
     if (!(locale.language in locale.languages)) {
@@ -90,7 +91,7 @@
         language = window.navigator.userLanguage || window.navigator.language;
         languages.push(language);
         languages.push(language.substr(0, 2));
-        languages.push('en'); //default
+        languages.push(languageDefault);
         for (i = 0; i < languages.length; i++) {
             language = languages[i].replace('-', '_');
             if (language in locale.languages) {
@@ -109,14 +110,24 @@
         }
 
         Ext.Ajax.request({
-            url: 'l10n/' + Locale.language + '.json',
+            url: 'l10n/' + languageDefault + '.json',
             callback: function (options, success, response) {
                 window.Strings = Ext.decode(response.responseText);
-
-                if (debugMode) {
-                    addScriptFile('app.js');
-                } else {
-                    addScriptFile('app.min.js');
+                if (Locale.language !== languageDefault) {
+                    Ext.Ajax.request({
+                        url: 'l10n/' + Locale.language + '.json',
+                        callback: function (options, success, response) {
+                            var key, data = Ext.decode(response.responseText);
+                            for (key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    window.Strings[key] = data[key];
+                                }
+                            }
+                            addScriptFile(debugMode ? 'app.js' : 'app.min.js');
+                        }
+                    });
+                } else  {
+                    addScriptFile(debugMode ? 'app.js' : 'app.min.js');
                 }
             }
         });
