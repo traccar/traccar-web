@@ -242,7 +242,7 @@ Ext.define('Traccar.controller.Root', {
         if (first) {
             deviceId = Ext.Object.fromQueryString(window.location.search).deviceId;
             if (deviceId) {
-                device = Ext.getStore('Devices').getById(deviceId);
+                device = Ext.getStore('VisibleDevices').findRecord('id', deviceId, 0, false, true, true);
                 if (device) {
                     this.fireEvent('selectdevice', device, true);
                 }
