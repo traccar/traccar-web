@@ -36,6 +36,9 @@ Ext.define('Traccar.view.edit.DevicesController', {
                 '*': {
                     selectreport: 'selectReport'
                 },
+                'root': {
+                    selectdevice: 'selectDevice'
+                },
                 'map': {
                     selectdevice: 'selectDevice',
                     deselectfeature: 'deselectFeature'

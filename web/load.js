@@ -126,7 +126,7 @@
                             addScriptFile(debugMode ? 'app.js' : 'app.min.js');
                         }
                     });
-                } else  {
+                } else {
                     addScriptFile(debugMode ? 'app.js' : 'app.min.js');
                 }
             }

@@ -17,6 +17,7 @@
 
 Ext.define('Traccar.controller.Root', {
     extend: 'Ext.app.Controller',
+    alias: 'controller.root',
 
     requires: [
         'Traccar.view.dialog.Login',
@@ -225,7 +226,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     updatePositions: function (array, first) {
-        var i, store, entity;
+        var i, store, entity, deviceId, device;
         store = Ext.getStore('LatestPositions');
         for (i = 0; i < array.length; i++) {
             entity = store.findRecord('deviceId', array[i].deviceId, 0, false, false, true);
@@ -239,7 +240,16 @@ Ext.define('Traccar.controller.Root', {
             }
         }
         if (first) {
-            this.zoomToAllDevices();
+            deviceId = Ext.Object.fromQueryString(window.location.search).deviceId;
+            if (deviceId) {
+                device = Ext.getStore('VisibleDevices').findRecord('id', deviceId, 0, false, true, true);
+                if (device) {
+                    this.fireEvent('selectdevice', device, true);
+                }
+            }
+            if (!device) {
+                this.zoomToAllDevices();
+            }
         }
     },
 
