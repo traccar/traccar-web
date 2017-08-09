@@ -73,7 +73,7 @@ Ext.define('Traccar.view.dialog.Login', {
                 specialKey: 'onSpecialKey',
                 afterrender: 'onAfterRender'
             },
-            inputAttrTpl: ['autocomplete="on"']
+            inputAttrTpl: ['autocomplete="on" autocapitalize="none"']
         }, {
             xtype: 'textfield',
             name: 'password',
