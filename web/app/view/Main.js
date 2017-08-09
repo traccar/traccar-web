@@ -20,12 +20,15 @@ Ext.define('Traccar.view.Main', {
     alias: 'widget.main',
 
     requires: [
+        'Traccar.view.MainController',
         'Traccar.view.edit.Devices',
         'Traccar.view.State',
         'Traccar.view.Report',
         'Traccar.view.Events',
         'Traccar.view.map.Map'
     ],
+
+    controller: 'mainController',
 
     layout: 'border',
 
@@ -60,6 +63,7 @@ Ext.define('Traccar.view.Main', {
     }, {
         region: 'south',
         xtype: 'reportView',
+        reference: 'reportView',
         height: Traccar.Style.reportHeight,
         collapsed: true,
         titleCollapse: true,
