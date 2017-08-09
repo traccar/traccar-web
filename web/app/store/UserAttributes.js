@@ -80,8 +80,8 @@ Ext.define('Traccar.store.UserAttributes', {
         minValue: Traccar.Style.mapDefaultZoom,
         maxValue: Traccar.Style.mapMaxZoom
     }, {
-        key: 'web.disableReport',
-        name: Strings.attributeWebDisableReport,
+        key: 'ui.disableReport',
+        name: Strings.attributeUiDisableReport,
         valueType: 'boolean'
     }]
 });

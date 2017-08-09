@@ -27,6 +27,19 @@ Ext.define('Traccar.view.Main', {
         'Traccar.view.map.Map'
     ],
 
+    initComponent: function () {
+        var i;
+        if (Traccar.app.getAttributePreference('ui.disableReport', false).toString() === 'true') {
+            for (i = 0; i < this.items.length; i++) {
+                if (this.items[i].xtype === 'reportView') {
+                    this.items[i].hidden = true;
+                    break;
+                }
+            }
+        }
+        this.callParent(arguments);
+    },
+
     layout: 'border',
 
     defaults: {

@@ -103,7 +103,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     loadApp: function () {
-        var attribution, eventId, main, i;
+        var attribution, eventId;
         Ext.getStore('Groups').load();
         Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();
@@ -124,15 +124,7 @@ Ext.define('Traccar.controller.Root', {
         if (Traccar.app.isMobile()) {
             Ext.create('widget.mainMobile');
         } else {
-            main = Ext.create('widget.main');
-            if (Traccar.app.getAttributePreference('web.disableReport', false).toString() === 'true') {
-                for (i = 0; i < main.items.length; i++) {
-                    if (main.items.items[i].isXType('reportView')) {
-                        main.items.items[i].hide();
-                        break;
-                    }
-                }
-            }
+            Ext.create('widget.main');
         }
         eventId = Ext.Object.fromQueryString(window.location.search).eventId;
         if (eventId) {
