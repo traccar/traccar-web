@@ -69,6 +69,7 @@ Ext.define('Traccar.view.dialog.Login', {
             fieldLabel: Strings.userEmail,
             allowBlank: false,
             enableKeyEvents: true,
+            
             listeners: {
                 specialKey: 'onSpecialKey',
                 afterrender: 'onAfterRender'
