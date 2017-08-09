@@ -20,6 +20,7 @@ Ext.define('Traccar.view.Main', {
     alias: 'widget.main',
 
     requires: [
+        'Traccar.view.MainController',
         'Traccar.view.edit.Devices',
         'Traccar.view.State',
         'Traccar.view.Report',
@@ -27,18 +28,7 @@ Ext.define('Traccar.view.Main', {
         'Traccar.view.map.Map'
     ],
 
-    initComponent: function () {
-        var i;
-        if (Traccar.app.getAttributePreference('ui.disableReport', false).toString() === 'true') {
-            for (i = 0; i < this.items.length; i++) {
-                if (this.items[i].xtype === 'reportView') {
-                    this.items[i].hidden = true;
-                    break;
-                }
-            }
-        }
-        this.callParent(arguments);
-    },
+    controller: 'mainController',
 
     layout: 'border',
 
@@ -73,6 +63,7 @@ Ext.define('Traccar.view.Main', {
     }, {
         region: 'south',
         xtype: 'reportView',
+        reference: 'reportView',
         height: Traccar.Style.reportHeight,
         collapsed: true,
         titleCollapse: true,
