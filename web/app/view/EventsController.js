@@ -84,12 +84,28 @@ Ext.define('Traccar.view.EventsController', {
     },
 
     onSelectionChange: function (selection, selected) {
-        var event, positionId;
+        var event, positionId, position;
         event = selected.length > 0 ? selected[0] : null;
         if (event) {
             positionId = event.get('positionId');
             if (positionId) {
-                this.fireEvent('selectevent', Ext.getStore('EventPositions').getById(positionId));
+                position = Ext.getStore('EventPositions').getById(positionId);
+                if (position) {
+                    this.fireEvent('selectevent', position);
+                } else {
+                    Ext.getStore('EventPositions').load({
+                        params: {
+                            id: positionId
+                        },
+                        scope: this,
+                        addRecords: true,
+                        callback: function (records, operation, success) {
+                            if (success && records.length > 0) {
+                                this.fireEvent('selectevent', records[0]);
+                            }
+                        }
+                    });
+                }
             } else {
                 this.fireEvent('selectevent');
             }
