@@ -55,5 +55,13 @@ Ext.define('Traccar.store.ServerAttributes', {
         key: 'ui.disableVehicleFetures',
         name: Strings.attributeUiDisableVehicleFetures,
         valueType: 'boolean'
+    }, {
+        key: 'ui.disableDrivers',
+        name: Strings.attributeUiDisableDrivers,
+        valueType: 'boolean'
+    }, {
+        key: 'ui.disableComputedAttributes',
+        name: Strings.attributeUiDisableComputedAttributes,
+        valueType: 'boolean'
     }]
 });

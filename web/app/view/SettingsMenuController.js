@@ -56,11 +56,13 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
             this.lookupReference('settingsCalendarsButton').setHidden(false);
-            this.lookupReference('settingsDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled());
+            this.lookupReference('settingsDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled() ||
+                    Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         }
         if (admin || (!deviceReadonly && !readonly)) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
-            this.lookupReference('settingsComputedAttributesButton').setHidden(false);
+            this.lookupReference('settingsComputedAttributesButton').setHidden(
+                    Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         }
     },
 
