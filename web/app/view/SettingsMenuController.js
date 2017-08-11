@@ -45,7 +45,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
-            this.lookupReference('settingsDeviceDistanceButton').setHidden(false);
+            this.lookupReference('settingsDeviceDistanceButton').setHidden(Traccar.app.isVehicleFeaturesDisabled());
         }
         if (admin || manager) {
             this.lookupReference('settingsUsersButton').setHidden(false);
@@ -56,7 +56,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
             this.lookupReference('settingsCalendarsButton').setHidden(false);
-            this.lookupReference('settingsDriversButton').setHidden(false);
+            this.lookupReference('settingsDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled());
         }
         if (admin || (!deviceReadonly && !readonly)) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);

@@ -61,6 +61,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('admin');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
         this.lookupReference('toolbarAddButton').setDisabled(readonly || deviceReadonly);
+        this.lookupReference('toolbarDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled());
 
         setInterval(function () {
             self.getView().getView().refresh();

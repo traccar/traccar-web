@@ -104,6 +104,10 @@ Ext.define('Traccar.Application', {
         return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
     },
 
+    isVehicleFeaturesDisabled: function () {
+        return this.getBooleanAttributePreference('ui.disableVehicleFetures');
+    },
+
     getEventString: function (eventType) {
         var key = 'event' + eventType.charAt(0).toUpperCase() + eventType.slice(1);
         return Strings[key] || key;
@@ -159,6 +163,10 @@ Ext.define('Traccar.Application', {
         } else {
             return this.getUser().get('attributes')[key] || this.getServer().get('attributes')[key] || defaultValue;
         }
+    },
+
+    getBooleanAttributePreference: function (key) {
+        return this.getAttributePreference(key, false).toString() === 'true';
     },
 
     getReportColor: function (deviceId) {

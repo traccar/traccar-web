@@ -89,6 +89,7 @@
     "attributeMailSmtpUsername": "Mail: SMTP Username",
     "attributeMailSmtpPassword": "Mail: SMTP Password",
     "attributeUiDisableReport": "UI: Disable Report",
+    "attributeUiDisableVehicleFetures": "UI: Disable Vehicle Fetures",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",

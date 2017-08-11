@@ -83,5 +83,9 @@ Ext.define('Traccar.store.UserAttributes', {
         key: 'ui.disableReport',
         name: Strings.attributeUiDisableReport,
         valueType: 'boolean'
+    }, {
+        key: 'ui.disableVehicleFetures',
+        name: Strings.attributeUiDisableVehicleFetures,
+        valueType: 'boolean'
     }]
 });
