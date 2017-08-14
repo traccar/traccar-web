@@ -45,6 +45,8 @@ Ext.define('Traccar.view.edit.UsersController', {
                 Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('userAttributesButton').setHidden(
                 Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+        this.lookupReference('userCalendarsButton').setHidden(
+                Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
     },
 
     onEditClick: function () {

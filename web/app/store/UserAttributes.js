@@ -95,5 +95,9 @@ Ext.define('Traccar.store.UserAttributes', {
         key: 'ui.disableComputedAttributes',
         name: Strings.attributeUiDisableComputedAttributes,
         valueType: 'boolean'
+    }, {
+        key: 'ui.disableCalendars',
+        name: Strings.attributeUiDisableCalendars,
+        valueType: 'boolean'
     }]
 });

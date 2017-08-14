@@ -55,7 +55,8 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
-            this.lookupReference('settingsCalendarsButton').setHidden(false);
+            this.lookupReference('settingsCalendarsButton').setHidden(
+                    Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
             this.lookupReference('settingsDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled() ||
                     Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         }
