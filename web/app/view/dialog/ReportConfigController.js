@@ -26,8 +26,9 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
     ],
 
     onSaveClick: function (button) {
-        var eventType;
-        var callingPanel = this.getView().callingPanel;
+        var eventType,callingPanel;
+        callingPanel = this.getView().callingPanel;
+
         callingPanel.deviceId = this.lookupReference('deviceField').getValue();
         callingPanel.groupId = this.lookupReference('groupField').getValue();
         eventType = this.lookupReference('eventTypeField').getValue();

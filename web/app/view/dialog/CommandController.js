@@ -42,9 +42,8 @@ Ext.define('Traccar.view.dialog.CommandController', {
         form = button.up('window').down('form');
         form.updateRecord();
         record = form.getRecord();
-        
 
-        switch(record.get('type')){
+        switch (record.get('type')) {
             case 'positionPeriodic':
                 attributes = this.lookupReference('paramPositionPeriodic');
                 value = attributes.down('numberfield[name="frequency"]').getValue();
