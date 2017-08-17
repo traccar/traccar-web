@@ -1,0 +1,7 @@
+{
+    "scripts": {
+     "lint": "./node_modules/.bin/eslint web",
+     "build": "echo \"Warning: no build specified\" && exit 0",
+     "test": "echo \"Warning: no test specified\" && exit 0"
+    }
+}
