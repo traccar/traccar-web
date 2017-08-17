@@ -20,7 +20,7 @@ Ext.define('Traccar.GeofenceConverter', {
 
     wktToGeometry: function (mapView, wkt) {
         var geometry, projection, resolutionAtEquator, pointResolution, resolutionFactor, points = [], center, radius,
-                content, i, lat, lon, coordinates;
+            content, i, lat, lon, coordinates;
         if (wkt.lastIndexOf('POLYGON', 0) === 0) {
             content = wkt.match(/\([^\(\)]+\)/);
             if (content !== null) {

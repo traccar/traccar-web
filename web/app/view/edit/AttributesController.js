@@ -45,27 +45,31 @@ Ext.define('Traccar.view.edit.AttributesController', {
             }
         }
         store.addListener('add', function (store, records) {
-            var i;
+            var i, view;
+            view = this.getView();
             for (i = 0; i < records.length; i++) {
-                this.getView().record.get('attributes')[records[i].get('name')] = records[i].get('value');
+                view.record.get('attributes')[records[i].get('name')] = records[i].get('value');
             }
-            this.getView().record.dirty = true;
+            view.record.dirty = true;
         }, this);
         store.addListener('update', function (store, record, operation) {
+            var view;
+            view = this.getView();
             if (operation === Ext.data.Model.EDIT) {
                 if (record.modified.name !== record.get('name')) {
-                    delete this.getView().record.get('attributes')[record.modified.name];
+                    delete view.record.get('attributes')[record.modified.name];
                 }
-                this.getView().record.get('attributes')[record.get('name')] = record.get('value');
-                this.getView().record.dirty = true;
+                view.record.get('attributes')[record.get('name')] = record.get('value');
+                view.record.dirty = true;
             }
         }, this);
         store.addListener('remove', function (store, records) {
-            var i;
+            var i, view;
+            view = this.getView();
             for (i = 0; i < records.length; i++) {
-                delete this.getView().record.get('attributes')[records[i].get('name')];
+                delete view.record.get('attributes')[records[i].get('name')];
             }
-            this.getView().record.dirty = true;
+            view.record.dirty = true;
         }, this);
 
         this.getView().setStore(store);

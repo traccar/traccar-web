@@ -135,90 +135,90 @@ Ext.define('Traccar.AttributeFormatter', {
 
     getFormatter: function (key) {
         var self = this;
-        if (key === 'latitude' || key === 'longitude') {
-            return function (value) {
-                return self.coordinateFormatter(key, value);
-            };
-        } else if (key === 'speed') {
-            return this.speedFormatter;
-        } else if (key === 'course') {
-            return this.courseFormatter;
-        } else if (key === 'distance' || key === 'accuracy') {
-            return this.distanceFormatter;
-        } else if (key === 'duration') {
-            return this.durationFormatter;
-        } else if (key === 'deviceId') {
-            return this.deviceIdFormatter;
-        } else if (key === 'groupId') {
-            return this.groupIdFormatter;
-        } else if (key === 'geofenceId') {
-            return this.geofenceIdFormatter;
-        } else if (key === 'lastUpdate') {
-            return this.lastUpdateFormatter;
-        } else if (key === 'spentFuel') {
-            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
-        } else if (key === 'driverUniqueId') {
-            return this.driverUniqueIdFormatter;
-        } else {
-            return this.defaultFormatter;
+
+        switch (key) {
+            case 'latitude':
+            case 'longitude':
+                return function (value) {
+                    return self.coordinateFormatter(key, value);
+                };
+            case 'speed':
+                return this.speedFormatter;
+            case 'course':
+                return this.courseFormatter;
+            case 'distance':
+            case 'accuracy':
+                return this.distanceFormatter;
+            case 'duration':
+                return this.durationFormatter;
+            case 'deviceId':
+                return this.deviceIdFormatter;
+            case 'groupId':
+                return this.groupIdFormatter;
+            case 'geofenceId':
+                return this.geofenceIdFormatter;
+            case 'lastUpdate':
+                return this.lastUpdateFormatter;
+            case 'spentFuel':
+                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
+            case 'driverUniqueId':
+                return this.driverUniqueIdFormatter;
+            default:
+                return this.defaultFormatter;
         }
     },
 
     getConverter: function (key) {
-        if (key === 'speed') {
-            return this.speedConverter;
-        } else if (key === 'distance' || key === 'accuracy') {
-            return this.distanceConverter;
-        } else {
-            return function (value) {
-                return value;
-            };
+        switch (key) {
+            case 'speed':
+                return this.speedConverter;
+            case 'distance':
+            case 'accuracy':
+                return this.distanceConverter;
+            default:
+                return function (value) {
+                    return value;
+                };
         }
     },
 
     getAttributeFormatter: function (key) {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
-        if (!dataType) {
-            return this.defaultFormatter;
-        } else {
-            if (dataType === 'distance') {
+
+        switch (dataType) {
+            case 'distance':
                 return this.distanceFormatter;
-            } else if (dataType === 'speed') {
+            case 'speed':
                 return this.speedFormatter;
-            } else if (dataType === 'driverUniqueId') {
+            case 'driverUniqueId':
                 return this.driverUniqueIdFormatter;
-            } else if (dataType === 'voltage') {
+            case 'voltage':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
-            } else if (dataType === 'percentage') {
+            case 'percentage':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&#37;');
-            } else if (dataType === 'temperature') {
+            case 'temperature':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
-            } else if (dataType === 'volume') {
+            case 'volume':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
-            } else if (dataType === 'consumption') {
+            case 'consumption':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
-            } else {
+            default:
                 return this.defaultFormatter;
-            }
         }
     },
 
     getAttributeConverter: function (key) {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
-        if (!dataType) {
-            return function (value) {
-                return value;
-            };
-        } else {
-            if (dataType === 'distance') {
+
+        switch (dataType){
+            case 'distance':
                 return this.distanceConverter;
-            } else if (dataType === 'speed') {
+            case 'speed':
                 return this.speedConverter;
-            } else {
+            default:
                 return function (value) {
                     return value;
                 };
-            }
         }
     }
 });

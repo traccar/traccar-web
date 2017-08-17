@@ -156,27 +156,30 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     removeDevice: function (store, data) {
-        var i, deviceId;
+        var i, deviceId, markersSource;
         if (!Ext.isArray(data)) {
             data = [data];
         }
+
+        markersSource = this.getView().getMarkersSource();
+
         for (i = 0; i < data.length; i++) {
             deviceId = data[i].get('id');
             if (this.latestMarkers[deviceId]) {
-                if (this.getView().getMarkersSource().getFeatureById(this.latestMarkers[deviceId].getId())) {
-                    this.getView().getMarkersSource().removeFeature(this.latestMarkers[deviceId]);
+                if (markersSource.getFeatureById(this.latestMarkers[deviceId].getId())) {
+                    markersSource.removeFeature(this.latestMarkers[deviceId]);
                 }
                 delete this.latestMarkers[deviceId];
             }
             if (this.accuracyCircles[deviceId]) {
-                if (this.getView().getAccuracySource().getFeatureById(this.accuracyCircles[deviceId].getId())) {
-                    this.getView().getAccuracySource().removeFeature(this.accuracyCircles[deviceId]);
+                if (markersSource.getFeatureById(this.accuracyCircles[deviceId].getId())) {
+                    markersSource.removeFeature(this.accuracyCircles[deviceId]);
                 }
                 delete this.accuracyCircles[deviceId];
             }
             if (this.liveRoutes[deviceId]) {
-                if (this.getView().getLiveRouteSource().getFeatureById(this.liveRoutes[deviceId].getId())) {
-                    this.getView().getLiveRouteSource().removeFeature(this.liveRoutes[deviceId]);
+                if (markersSource.getFeatureById(this.liveRoutes[deviceId].getId())) {
+                    markersSource.removeFeature(this.liveRoutes[deviceId]);
                 }
                 delete this.liveRoutes[deviceId];
             }
@@ -184,15 +187,17 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     updateLatest: function (store, data) {
-        var i, position, device;
+        var i, position, device, deviceStore;
 
         if (!Ext.isArray(data)) {
             data = [data];
         }
 
+        deviceStore = Ext.getStore('Devices');
+
         for (i = 0; i < data.length; i++) {
             position = data[i];
-            device = Ext.getStore('Devices').getById(position.get('deviceId'));
+            device = deviceStore.getById(position.get('deviceId'));
 
             if (device) {
                 this.updateAccuracy(position, device);
@@ -303,9 +308,10 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     loadReport: function (store, data) {
-        var i, position, point;
+        var i, position, point, routeSource;
         if (data) {
             this.addReportMarkers(store, data);
+            routeSource = this.getView().getRouteSource();
 
             this.reportRoute = [];
             for (i = 0; i < data.length; i++) {
@@ -319,7 +325,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                         geometry: new ol.geom.LineString([])
                     }));
                     this.reportRoute[this.reportRoute.length - 1].setStyle(this.getRouteStyle(data[i].get('deviceId')));
-                    this.getView().getRouteSource().addFeature(this.reportRoute[this.reportRoute.length - 1]);
+                    routeSource.addFeature(this.reportRoute[this.reportRoute.length - 1]);
                 }
                 this.reportRoute[this.reportRoute.length - 1].getGeometry().appendCoordinate(point);
             }
@@ -352,19 +358,22 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     clearReport: function () {
-        var key, i;
+        var key, i, reportSource, markersSource;
+
+        reportSource = this.getView().getRouteSource();
 
         if (this.reportRoute) {
             for (i = 0; i < this.reportRoute.length; i++) {
-                this.getView().getRouteSource().removeFeature(this.reportRoute[i]);
+                reportSource.removeFeature(this.reportRoute[i]);
             }
             this.reportRoute = null;
         }
 
         if (this.reportMarkers) {
+            markersSource = this.getView().getMarkersSource();
             for (key in this.reportMarkers) {
                 if (this.reportMarkers.hasOwnProperty(key)) {
-                    this.getView().getMarkersSource().removeFeature(this.reportMarkers[key]);
+                    markersSource.removeFeature(this.reportMarkers[key]);
                 }
             }
             this.reportMarkers = {};
@@ -405,7 +414,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                     width: Traccar.Style.mapTextStrokeWidth
                 }),
                 offsetY: -image.getSize()[1] / 2 - Traccar.Style.mapTextOffset,
-                font : Traccar.Style.mapTextFont
+                font: Traccar.Style.mapTextFont
             })
         });
     },
