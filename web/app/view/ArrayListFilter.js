@@ -34,10 +34,8 @@ Ext.define('Traccar.view.ArrayListFilter', {
                         return true;
                     }
                 }
-            } else {
-                if (value.indexOf(property) !== -1) {
-                    return true;
-                }
+            } else if (value.indexOf(property) !== -1) {
+                return true;
             }
             return false;
         });

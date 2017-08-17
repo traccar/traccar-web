@@ -151,7 +151,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         }
     },
 
-    selectDevice: function (device, center) {
+    selectDevice: function (device) {
         this.getView().getSelectionModel().select([device], false, true);
         this.updateButtons(this.getView().getSelectionModel());
         this.getView().getView().focusRow(device);
@@ -163,7 +163,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         }
     },
 
-    onUpdateDevice: function (store, data) {
+    onUpdateDevice: function () {
         this.updateButtons(this.getView().getSelectionModel());
     },
 

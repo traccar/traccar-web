@@ -97,6 +97,8 @@ Ext.define('Traccar.view.dialog.CommandController', {
                     data: value
                 });
                 break;
+            default:
+                break;
         }
 
         Ext.Ajax.request({

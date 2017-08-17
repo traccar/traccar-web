@@ -39,7 +39,7 @@ Ext.define('Traccar.DeviceImages', {
             svg.getElementById(fill[i]).style.fill = color;
         }
 
-        rotateTransform = 'rotate(' + angle + ' ' + (width / 2) + ' ' + (height / 2) + ')';
+        rotateTransform = 'rotate(' + angle + ' ' + width / 2 + ' ' + height / 2 + ')';
         svg.getElementById(info.get('rotateId')).setAttribute('transform', rotateTransform);
 
         if (zoom) {
@@ -85,7 +85,7 @@ Ext.define('Traccar.DeviceImages', {
         width = parseFloat(svg.documentElement.getAttribute('width'));
         height = parseFloat(svg.documentElement.getAttribute('height'));
 
-        image =  new ol.style.Icon({
+        image = new ol.style.Icon({
             imgSize: [width, height],
             src: this.formatSrc(svg)
         });

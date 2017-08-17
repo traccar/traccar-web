@@ -52,6 +52,7 @@ Ext.define('Traccar.controller.Root', {
         if (value !== undefined) {
             return Traccar.AttributeFormatter.getAttributeConverter(this.attributeKey)(value);
         }
+        return null;
     },
 
     onLaunch: function () {
@@ -162,7 +163,7 @@ Ext.define('Traccar.controller.Root', {
         pathname = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
 
-        socket.onclose = function (event) {
+        socket.onclose = function () {
             Traccar.app.showToast(Strings.errorSocket, Strings.errorTitle);
 
             Ext.Ajax.request({
@@ -291,7 +292,10 @@ Ext.define('Traccar.controller.Root', {
                 if (success) {
                     for (i = 0; i < records.length; i++) {
                         value = records[i].get('type');
-                        store.add({type: value, name: Traccar.app.getEventString(value)});
+                        store.add({
+                            type: value,
+                            name: Traccar.app.getEventString(value)
+                        });
                     }
                 }
             }

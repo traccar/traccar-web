@@ -58,7 +58,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsCalendarsButton').setHidden(false);
             this.lookupReference('settingsDriversButton').setHidden(false);
         }
-        if (admin || (!deviceReadonly && !readonly)) {
+        if (admin || !deviceReadonly && !readonly) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
             this.lookupReference('settingsComputedAttributesButton').setHidden(false);
         }

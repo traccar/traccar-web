@@ -95,10 +95,10 @@ Ext.define('Traccar.view.map.BaseMap', {
                         index = index < 0 ? index + urlsLength : index;
 
                         if (x < 0) {
-                            x = 'M' + (-x);
+                            x = 'M' + -x;
                         }
                         if (y < 0) {
-                            y = 'M' + (-y);
+                            y = 'M' + -y;
                         }
                         return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
                             .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
@@ -171,7 +171,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
 
         this.map.on('pointermove', function (e) {
-            var hit = this.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+            var hit = this.forEachFeatureAtPixel(e.pixel, function () {
                 return true;
             });
             if (hit) {
@@ -187,7 +187,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                     return !layer.get('name');
                 }
             })) {
-                this.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+                this.map.forEachFeatureAtPixel(e.pixel, function (feature) {
                     this.fireEvent('selectfeature', feature);
                 }.bind(this));
             } else {
@@ -206,9 +206,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
     }
 }, function () {
-
     proj4.defs('BD-MC', '+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
     proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
     ol.proj.get('EPSG:3395').setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
-
 });

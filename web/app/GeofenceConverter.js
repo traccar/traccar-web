@@ -19,10 +19,10 @@ Ext.define('Traccar.GeofenceConverter', {
     singleton: true,
 
     wktToGeometry: function (mapView, wkt) {
-        var geometry, projection, resolutionAtEquator, pointResolution, resolutionFactor, points = [], center, radius,
-                content, i, lat, lon, coordinates;
+        var geometry, projection, resolutionAtEquator, pointResolution, resolutionFactor,
+            points = [], center, radius, content, i, lat, lon, coordinates;
         if (wkt.lastIndexOf('POLYGON', 0) === 0) {
-            content = wkt.match(/\([^\(\)]+\)/);
+            content = wkt.match(/\([^()]+\)/);
             if (content !== null) {
                 coordinates = content[0].match(/-?\d+\.?\d*/g);
                 if (coordinates !== null) {
@@ -36,7 +36,7 @@ Ext.define('Traccar.GeofenceConverter', {
                 }
             }
         } else if (wkt.lastIndexOf('CIRCLE', 0) === 0) {
-            content = wkt.match(/\([^\(\)]+\)/);
+            content = wkt.match(/\([^()]+\)/);
             if (content !== null) {
                 coordinates = content[0].match(/-?\d+\.?\d*/g);
                 if (coordinates !== null) {
@@ -45,12 +45,12 @@ Ext.define('Traccar.GeofenceConverter', {
                     resolutionAtEquator = mapView.getResolution();
                     pointResolution = ol.proj.getPointResolution(projection, resolutionAtEquator, center);
                     resolutionFactor = resolutionAtEquator / pointResolution;
-                    radius = (Number(coordinates[2]) / ol.proj.METERS_PER_UNIT.m) * resolutionFactor;
+                    radius = Number(coordinates[2]) / ol.proj.METERS_PER_UNIT.m * resolutionFactor;
                     geometry = new ol.geom.Circle(center, radius);
                 }
             }
         } else if (wkt.lastIndexOf('LINESTRING', 0) === 0) {
-            content = wkt.match(/\([^\(\)]+\)/);
+            content = wkt.match(/\([^()]+\)/);
             if (content !== null) {
                 coordinates = content[0].match(/-?\d+\.?\d*/g);
                 if (coordinates !== null) {
@@ -79,7 +79,7 @@ Ext.define('Traccar.GeofenceConverter', {
                 ol.proj.transform(edgeCoordinate, projection, 'EPSG:4326'));
             result = 'CIRCLE (';
             result += center[1] + ' ' + center[0] + ', ';
-            result += Number((groundRadius).toFixed(1)) + ')';
+            result += groundRadius.toFixed(1) + ')';
         } else if (geometry instanceof ol.geom.Polygon) {
             geometry.transform(projection, 'EPSG:4326');
             points = geometry.getCoordinates();

@@ -26,7 +26,7 @@ Ext.define('Traccar.view.dialog.CalendarController', {
             reader = new FileReader();
             reader.onload = function (event) {
                 fileField.up('window').lookupReference('dataField').setValue(
-                        btoa(String.fromCharCode.apply(null, new Uint8Array(event.target.result))));
+                    btoa(String.fromCharCode.apply(null, new Uint8Array(event.target.result))));
             };
             reader.onerror = function (event) {
                 Traccar.app.showError(event.target.error);

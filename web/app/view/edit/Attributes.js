@@ -46,7 +46,7 @@ Ext.define('Traccar.view.edit.Attributes', {
             text: Strings.sharedName,
             dataIndex: 'name',
             filter: 'string',
-            renderer: function (value, metaData) {
+            renderer: function (value) {
                 var attribute;
                 if (this.attributesStore) {
                     attribute = Ext.getStore(this.attributesStore).getById(value);
