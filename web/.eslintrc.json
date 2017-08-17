@@ -18,7 +18,12 @@
     "rules": {
         "indent": ["error", 4, 
             {
-                "SwitchCase":1
+                "SwitchCase":1,
+                "VariableDeclarator":2,
+                "CallExpression":{
+                    "arguments": 2
+                },
+                "MemberExpression": 2
             }
         ],
         "comma-spacing": [2,
