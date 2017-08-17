@@ -2,5 +2,6 @@
     "preset": "crockford",
     "maxErrors": 100,
     "excludeFiles": ["simple/app.js"],
-    "requireDotNotation": false
+    "requireDotNotation": false,
+    "requireSpaceAfterComma": true
 }
