@@ -1,0 +1,27 @@
+{
+    "extends": "crockford",
+
+    // Custom Globals
+    "globals"       : {
+        "Ext"       : false,
+        "ol"        : false,
+        "Traccar"   : false,
+        "Strings"   : false,
+        "Locale"    : false,
+        "proj4"     : false
+    },
+
+    "rules": {
+        "indent": ["error", 4, 
+            {
+                "SwitchCase":1
+            }
+        ],
+        "dot-notation": 0,
+        "comma-spacing": [2,
+            {
+                "after": true
+            }
+        ]
+    }
+}
