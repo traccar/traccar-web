@@ -182,14 +182,15 @@ Ext.define('Traccar.view.map.BaseMap', {
         });
 
         this.map.on('click', function (e) {
-            if (this.map.hasFeatureAtPixel(e.pixel, {
+            var i, features = this.map.getFeaturesAtPixel(e.pixel, {
                 layerFilter: function (layer) {
                     return !layer.get('name');
                 }
-            })) {
-                this.map.forEachFeatureAtPixel(e.pixel, function (feature) {
-                    this.fireEvent('selectfeature', feature);
-                }.bind(this));
+            });
+            if (features) {
+                for (i = 0; i < features.length; i++) {
+                    this.fireEvent('selectfeature', features[i]);
+                }
             } else {
                 this.fireEvent('deselectfeature');
             }
