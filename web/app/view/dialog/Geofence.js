@@ -46,6 +46,7 @@ Ext.define('Traccar.view.dialog.Geofence', {
                 fieldLabel: Strings.sharedDescription
             }, {
                 xtype: 'combobox',
+                reference: 'calendarCombo',
                 name: 'calendarId',
                 store: 'Calendars',
                 queryMode: 'local',

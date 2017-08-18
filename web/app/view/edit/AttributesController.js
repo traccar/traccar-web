@@ -90,6 +90,7 @@ Ext.define('Traccar.view.edit.AttributesController', {
         displayField: 'name',
         valueField: 'key',
         allowBlank: false,
+        queryMode: 'local',
         listeners: {
             change: 'onNameChange'
         }

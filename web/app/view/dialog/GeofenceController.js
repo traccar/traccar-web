@@ -34,6 +34,11 @@ Ext.define('Traccar.view.dialog.GeofenceController', {
         }
     },
 
+    init: function () {
+        this.lookupReference('calendarCombo').setHidden(
+            Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
+    },
+
     saveArea: function (value) {
         this.lookupReference('areaField').setValue(value);
     },

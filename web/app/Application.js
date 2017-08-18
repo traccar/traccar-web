@@ -83,10 +83,12 @@ Ext.define('Traccar.Application', {
         'AllTimezones',
         'VisibleDevices',
         'DeviceStatuses',
+        'CommonDeviceAttributes',
         'DeviceAttributes',
         'GeofenceAttributes',
         'GroupAttributes',
         'ServerAttributes',
+        'CommonUserAttributes',
         'UserAttributes',
         'ComputedAttributes',
         'AllComputedAttributes',
@@ -102,6 +104,10 @@ Ext.define('Traccar.Application', {
 
     isMobile: function () {
         return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    },
+
+    getVehicleFeaturesDisabled: function () {
+        return this.getBooleanAttributePreference('ui.disableVehicleFetures');
     },
 
     getEventString: function (eventType) {
@@ -159,6 +165,10 @@ Ext.define('Traccar.Application', {
         } else {
             return this.getUser().get('attributes')[key] || this.getServer().get('attributes')[key] || defaultValue;
         }
+    },
+
+    getBooleanAttributePreference: function (key) {
+        return this.getAttributePreference(key, false).toString() === 'true';
     },
 
     getReportColor: function (deviceId) {

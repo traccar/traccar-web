@@ -79,6 +79,23 @@ Ext.define('Traccar.view.ReportController', {
                 hidden: true
             });
         }
+        if (Traccar.app.getVehicleFeaturesDisabled()) {
+            for (i = 0; i < this.summaryColumns.length; i++) {
+                if (this.summaryColumns[i].dataIndex.match('engineHours|spentFuel')) {
+                    this.summaryColumns[i].hidden = true;
+                }
+            }
+            for (i = 0; i < this.tripsColumns.length; i++) {
+                if (this.tripsColumns[i].dataIndex.match('spentFuel|driverUniqueId')) {
+                    this.tripsColumns[i].hidden = true;
+                }
+            }
+            for (i = 0; i < this.stopsColumns.length; i++) {
+                if (this.stopsColumns[i].dataIndex.match('engineHours|spentFuel')) {
+                    this.stopsColumns[i].hidden = true;
+                }
+            }
+        }
     },
 
     onConfigureClick: function () {

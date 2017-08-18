@@ -113,6 +113,13 @@ Ext.define('Traccar.controller.Root', {
         Ext.getStore('AttributeAliases').load();
         Ext.getStore('ComputedAttributes').load();
         this.initReportEventTypesStore();
+
+        Ext.getStore('ServerAttributes').loadData(Ext.getStore('CommonDeviceAttributes').getData().items, true);
+        Ext.getStore('ServerAttributes').loadData(Ext.getStore('CommonUserAttributes').getData().items, true);
+        Ext.getStore('UserAttributes').loadData(Ext.getStore('CommonUserAttributes').getData().items, true);
+        Ext.getStore('DeviceAttributes').loadData(Ext.getStore('CommonDeviceAttributes').getData().items, true);
+        Ext.getStore('GroupAttributes').loadData(Ext.getStore('CommonDeviceAttributes').getData().items, true);
+
         Ext.getStore('Devices').load({
             scope: this,
             callback: function () {
