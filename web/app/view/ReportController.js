@@ -79,7 +79,7 @@ Ext.define('Traccar.view.ReportController', {
                 hidden: true
             });
         }
-        if (Traccar.app.isVehicleFeaturesDisabled()) {
+        if (Traccar.app.getVehicleFeaturesDisabled()) {
             for (i = 0; i < this.summaryColumns.length; i++) {
                 if (this.summaryColumns[i].dataIndex.match('engineHours|spentFuel')) {
                     this.summaryColumns[i].hidden = true;

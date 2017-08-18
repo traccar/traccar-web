@@ -18,7 +18,6 @@
 Ext.define('Traccar.store.UserAttributes', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.KnownAttribute',
-    proxy: 'memory',
 
     data: [{
         key: 'mail.smtp.host',
@@ -67,37 +66,5 @@ Ext.define('Traccar.store.UserAttributes', {
         key: 'mail.smtp.password',
         name: Strings.attributeMailSmtpPassword,
         valueType: 'string'
-    }, {
-        key: 'web.liveRouteLength',
-        name: Strings.attributeWebLiveRouteLength,
-        valueType: 'number',
-        allowDecimals: false
-    }, {
-        key: 'web.selectZoom',
-        name: Strings.attributeWebSelectZoom,
-        valueType: 'number',
-        allowDecimals: false,
-        minValue: Traccar.Style.mapDefaultZoom,
-        maxValue: Traccar.Style.mapMaxZoom
-    }, {
-        key: 'ui.disableReport',
-        name: Strings.attributeUiDisableReport,
-        valueType: 'boolean'
-    }, {
-        key: 'ui.disableVehicleFetures',
-        name: Strings.attributeUiDisableVehicleFetures,
-        valueType: 'boolean'
-    }, {
-        key: 'ui.disableDrivers',
-        name: Strings.attributeUiDisableDrivers,
-        valueType: 'boolean'
-    }, {
-        key: 'ui.disableComputedAttributes',
-        name: Strings.attributeUiDisableComputedAttributes,
-        valueType: 'boolean'
-    }, {
-        key: 'ui.disableCalendars',
-        name: Strings.attributeUiDisableCalendars,
-        valueType: 'boolean'
     }]
 });

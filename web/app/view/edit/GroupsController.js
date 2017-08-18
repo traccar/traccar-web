@@ -33,8 +33,8 @@ Ext.define('Traccar.view.edit.GroupsController', {
     removeTitle: Strings.groupDialog,
 
     init: function () {
-        this.lookupReference('toolbarDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled() ||
-                Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
+        this.lookupReference('toolbarDriversButton').setHidden(
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('toolbarAttributesButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
     },

@@ -83,10 +83,12 @@ Ext.define('Traccar.Application', {
         'AllTimezones',
         'VisibleDevices',
         'DeviceStatuses',
+        'CommonDeviceAttributes',
         'DeviceAttributes',
         'GeofenceAttributes',
         'GroupAttributes',
         'ServerAttributes',
+        'CommonUserAttributes',
         'UserAttributes',
         'ComputedAttributes',
         'AllComputedAttributes',
@@ -104,7 +106,7 @@ Ext.define('Traccar.Application', {
         return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
     },
 
-    isVehicleFeaturesDisabled: function () {
+    getVehicleFeaturesDisabled: function () {
         return this.getBooleanAttributePreference('ui.disableVehicleFetures');
     },
 

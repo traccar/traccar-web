@@ -15,9 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.store.ServerAttributes', {
+Ext.define('Traccar.store.CommonDeviceAttributes', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.KnownAttribute',
 
-    data: []
+    data: [{
+        key: 'speedLimit',
+        name: Strings.attributeSpeedLimit,
+        valueType: 'number',
+        dataType: 'speed'
+    }, {
+        key: 'report.ignoreOdometer',
+        name: Strings.attributeReportIgnoreOdometer,
+        valueType: 'boolean'
+    }, {
+        key: 'maintenance.start',
+        name: Strings.attributeMaintenanceStart,
+        valueType: 'number',
+        dataType: 'distance'
+    }, {
+        key: 'maintenance.interval',
+        name: Strings.attributeMaintenanceInterval,
+        valueType: 'number',
+        dataType: 'distance'
+    }]
 });
