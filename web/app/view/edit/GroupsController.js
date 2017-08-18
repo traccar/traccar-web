@@ -36,7 +36,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         this.lookupReference('toolbarDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled() ||
                 Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('toolbarAttributesButton').setHidden(
-                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+            Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
     },
 
     onGeofencesClick: function () {

@@ -64,7 +64,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         this.lookupReference('toolbarDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled() ||
                 Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('toolbarAttributesButton').setHidden(
-                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+            Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
 
         setInterval(function () {
             self.getView().getView().refresh();
