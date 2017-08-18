@@ -17,8 +17,7 @@
             "Traccar": false,
             "Strings": false,
             "Locale": false,
-            "proj4": false,
-            "Uint8Array": false
+            "proj4": false
         },
         "rules": {
             "strict": "off",
