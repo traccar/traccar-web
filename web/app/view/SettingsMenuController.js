@@ -60,7 +60,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsDriversButton').setHidden(Traccar.app.isVehicleFeaturesDisabled() ||
                     Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         }
-        if (admin || (!deviceReadonly && !readonly)) {
+        if (admin || !deviceReadonly && !readonly) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
             this.lookupReference('settingsComputedAttributesButton').setHidden(
                     Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));

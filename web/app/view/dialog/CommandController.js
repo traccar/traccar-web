@@ -43,66 +43,62 @@ Ext.define('Traccar.view.dialog.CommandController', {
         form.updateRecord();
         record = form.getRecord();
 
-        if (record.get('type') === 'positionPeriodic') {
-            attributes = this.lookupReference('paramPositionPeriodic');
-            value = attributes.down('numberfield[name="frequency"]').getValue();
-            value *= attributes.down('combobox[name="unit"]').getValue();
-
-            record.set('attributes', {
-                frequency: value
-            });
-        }
-
-        if (record.get('type') === 'outputControl') {
-            attributes = this.lookupReference('paramOutputControl');
-            index = attributes.down('numberfield[name="index"]').getValue();
-            value = attributes.down('textfield[name="data"]').getValue();
-
-            record.set('attributes', {
-                index: index,
-                data: value
-            });
-        }
-
-        if (record.get('type') === 'sendUssd') {
-            attributes = this.lookupReference('paramSendSmsUssd');
-            phone = attributes.down('textfield[name="phone"]').getValue();
-            record.set('attributes', {
-                phone: phone
-            });
-        }
-
-        if (record.get('type') === 'sendSms') {
-            attributes = this.lookupReference('paramSendSmsUssd');
-            phone = attributes.down('textfield[name="phone"]').getValue();
-            value = attributes.down('textfield[name="message"]').getValue();
-            record.set('attributes', {
-                phone: phone,
-                message: value
-            });
-        }
-
-        if (record.get('type') === 'setTimezone') {
-            attributes = this.lookupReference('paramSetTimezone');
-            value = attributes.down('numberfield[name="timezone"]').getValue();
-            record.set('attributes', {
-                timezone: value * 3600
-            });
-        }
-
-        if (record.get('type') === 'setIndicator') {
-            attributes = this.lookupReference('paramSetIndicator');
-            value = attributes.down('numberfield[name="data"]').getValue();
-            record.set('attributes', {
-                data: value
-            });
-        }
-
-        if (record.get('type') === 'custom') {
-            value = this.lookupReference('paramCustom').getValue();
-            record.set('attributes', {
-                data: value
-            });
+        switch (record.get('type')) {
+            case 'positionPeriodic':
+                attributes = this.lookupReference('paramPositionPeriodic');
+                value = attributes.down('numberfield[name="frequency"]').getValue();
+                value *= attributes.down('combobox[name="unit"]').getValue();
+                record.set('attributes', {
+                    frequency: value
+                });
+                break;
+            case 'outputControl':
+                attributes = this.lookupReference('paramOutputControl');
+                index = attributes.down('numberfield[name="index"]').getValue();
+                value = attributes.down('textfield[name="data"]').getValue();
+                record.set('attributes', {
+                    index: index,
+                    data: value
+                });
+                break;
+            case 'sendUssd':
+                attributes = this.lookupReference('paramSendSmsUssd');
+                phone = attributes.down('textfield[name="phone"]').getValue();
+                record.set('attributes', {
+                    phone: phone
+                });
+                break;
+            case 'sendSms':
+                attributes = this.lookupReference('paramSendSmsUssd');
+                phone = attributes.down('textfield[name="phone"]').getValue();
+                value = attributes.down('textfield[name="message"]').getValue();
+                record.set('attributes', {
+                    phone: phone,
+                    message: value
+                });
+                break;
+            case 'setTimezone':
+                attributes = this.lookupReference('paramSetTimezone');
+                value = attributes.down('numberfield[name="timezone"]').getValue();
+                record.set('attributes', {
+                    timezone: value * 3600
+                });
+                break;
+            case 'setIndicator':
+                attributes = this.lookupReference('paramSetIndicator');
+                value = attributes.down('numberfield[name="data"]').getValue();
+                record.set('attributes', {
+                    data: value
+                });
+                break;
+            case 'custom':
+                value = this.lookupReference('paramCustom').getValue();
+                record.set('attributes', {
+                    data: value
+                });
+                break;
+            default:
+                break;
         }
 
         Ext.Ajax.request({

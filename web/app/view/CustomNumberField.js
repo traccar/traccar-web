@@ -37,7 +37,7 @@ Ext.define('Traccar.view.CustomNumberField', {
         } else if (config.dataType === 'distance') {
             config.beforeSubTpl = this.beforeEl;
             unit = Traccar.app.getPreference('distanceUnit', 'km');
-            config.afterSubTpl =  this.unitEl + Ext.getStore('DistanceUnits').findRecord('key', unit).get('name') + '</div></div>';
+            config.afterSubTpl = this.unitEl + Ext.getStore('DistanceUnits').findRecord('key', unit).get('name') + '</div></div>';
             config.rawToValue = function (rawValue) {
                 return Ext.getStore('DistanceUnits').convertValue(rawValue, Traccar.app.getPreference('distanceUnit', 'km'), true);
             };

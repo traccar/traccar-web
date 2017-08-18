@@ -26,23 +26,25 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
     ],
 
     onSaveClick: function (button) {
-        var eventType;
-        this.getView().callingPanel.deviceId = this.lookupReference('deviceField').getValue();
-        this.getView().callingPanel.groupId = this.lookupReference('groupField').getValue();
+        var eventType, callingPanel;
+        callingPanel = this.getView().callingPanel;
+
+        callingPanel.deviceId = this.lookupReference('deviceField').getValue();
+        callingPanel.groupId = this.lookupReference('groupField').getValue();
         eventType = this.lookupReference('eventTypeField').getValue();
         if (eventType.indexOf(Traccar.store.ReportEventTypes.allEvents) > -1) {
             eventType = [Traccar.store.ReportEventTypes.allEvents];
         } else if (eventType.length === this.lookupReference('eventTypeField').getStore().getCount() - 1) {
             eventType = [Traccar.store.ReportEventTypes.allEvents];
         }
-        this.getView().callingPanel.eventType = eventType;
-        this.getView().callingPanel.chartType = this.lookupReference('chartTypeField').getValue();
-        this.getView().callingPanel.showMarkers = this.lookupReference('showMarkersField').getValue();
-        this.getView().callingPanel.fromDate = this.lookupReference('fromDateField').getValue();
-        this.getView().callingPanel.fromTime = this.lookupReference('fromTimeField').getValue();
-        this.getView().callingPanel.toDate = this.lookupReference('toDateField').getValue();
-        this.getView().callingPanel.toTime = this.lookupReference('toTimeField').getValue();
-        this.getView().callingPanel.updateButtons();
+        callingPanel.eventType = eventType;
+        callingPanel.chartType = this.lookupReference('chartTypeField').getValue();
+        callingPanel.showMarkers = this.lookupReference('showMarkersField').getValue();
+        callingPanel.fromDate = this.lookupReference('fromDateField').getValue();
+        callingPanel.fromTime = this.lookupReference('fromTimeField').getValue();
+        callingPanel.toDate = this.lookupReference('toDateField').getValue();
+        callingPanel.toTime = this.lookupReference('toTimeField').getValue();
+        callingPanel.updateButtons();
         button.up('window').close();
     }
 });

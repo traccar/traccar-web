@@ -26,12 +26,12 @@ Ext.define('Traccar.view.dialog.CalendarController', {
             reader = new FileReader();
             reader.onload = function (event) {
                 fileField.up('window').lookupReference('dataField').setValue(
-                        btoa(String.fromCharCode.apply(null, new Uint8Array(event.target.result))));
+                    event.target.result.substr(event.target.result.indexOf(',') + 1));
             };
             reader.onerror = function (event) {
                 Traccar.app.showError(event.target.error);
             };
-            reader.readAsArrayBuffer(fileField.fileInputEl.dom.files[0]);
+            reader.readAsDataURL(fileField.fileInputEl.dom.files[0]);
         }
     }
 });

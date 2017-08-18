@@ -2,3 +2,7 @@
 .settings
 .DS_Store
 nbproject/
+web/app.min.js
+sencha-error-*
+node_modules
+package-lock.json

@@ -27,5 +27,8 @@ Ext.define('Traccar.store.AllNotifications', {
         }
     },
     sortOnLoad: true,
-    sorters: { property: 'type', direction : 'ASC' }
+    sorters: {
+        property: 'type',
+        direction: 'ASC'
+    }
 });

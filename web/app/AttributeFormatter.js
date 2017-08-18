@@ -23,6 +23,7 @@ Ext.define('Traccar.AttributeFormatter', {
             if (value !== undefined) {
                 return Number(value.toFixed(precision)) + ' ' + suffix;
             }
+            return null;
         };
     },
 
@@ -54,8 +55,8 @@ Ext.define('Traccar.AttributeFormatter', {
     durationFormatter: function (value) {
         var hours, minutes;
         hours = Math.floor(value / 3600000);
-        minutes = Math.round((value % 3600000) / 60000);
-        return (hours + ' ' + Strings.sharedHourAbbreviation + ' ' + minutes + ' ' + Strings.sharedMinuteAbbreviation);
+        minutes = Math.round(value % 3600000 / 60000);
+        return hours + ' ' + Strings.sharedHourAbbreviation + ' ' + minutes + ' ' + Strings.sharedMinuteAbbreviation;
     },
 
     deviceIdFormatter: function (value) {
@@ -72,6 +73,7 @@ Ext.define('Traccar.AttributeFormatter', {
             group = store.getById(value);
             return group ? group.get('name') : value;
         }
+        return null;
     },
 
     geofenceIdFormatter: function (value) {
@@ -84,6 +86,7 @@ Ext.define('Traccar.AttributeFormatter', {
             geofence = store.getById(value);
             return geofence ? geofence.get('name') : '';
         }
+        return null;
     },
 
     driverUniqueIdFormatter: function (value) {
@@ -96,11 +99,11 @@ Ext.define('Traccar.AttributeFormatter', {
             driver = store.findRecord('uniqueId', value, 0, false, true, true);
             return driver ? value + ' (' + driver.get('name') + ')' : value;
         }
+        return null;
     },
 
     lastUpdateFormatter: function (value) {
         var seconds, interval;
-
         if (value) {
             seconds = Math.floor((new Date() - value) / 1000);
             if (seconds < 0) {
@@ -116,6 +119,7 @@ Ext.define('Traccar.AttributeFormatter', {
             }
             return Math.floor(seconds / 60) + ' ' + Strings.sharedMinutes;
         }
+        return null;
     },
 
     defaultFormatter: function (value) {
@@ -180,26 +184,24 @@ Ext.define('Traccar.AttributeFormatter', {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
         if (!dataType) {
             return this.defaultFormatter;
+        } else if (dataType === 'distance') {
+            return this.distanceFormatter;
+        } else if (dataType === 'speed') {
+            return this.speedFormatter;
+        } else if (dataType === 'driverUniqueId') {
+            return this.driverUniqueIdFormatter;
+        } else if (dataType === 'voltage') {
+            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
+        } else if (dataType === 'percentage') {
+            return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&#37;');
+        } else if (dataType === 'temperature') {
+            return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
+        } else if (dataType === 'volume') {
+            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
+        } else if (dataType === 'consumption') {
+            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
         } else {
-            if (dataType === 'distance') {
-                return this.distanceFormatter;
-            } else if (dataType === 'speed') {
-                return this.speedFormatter;
-            } else if (dataType === 'driverUniqueId') {
-                return this.driverUniqueIdFormatter;
-            } else if (dataType === 'voltage') {
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
-            } else if (dataType === 'percentage') {
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&#37;');
-            } else if (dataType === 'temperature') {
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
-            } else if (dataType === 'volume') {
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
-            } else if (dataType === 'consumption') {
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
-            } else {
-                return this.defaultFormatter;
-            }
+            return this.defaultFormatter;
         }
     },
 
@@ -209,16 +211,14 @@ Ext.define('Traccar.AttributeFormatter', {
             return function (value) {
                 return value;
             };
+        } else if (dataType === 'distance') {
+            return this.distanceConverter;
+        } else if (dataType === 'speed') {
+            return this.speedConverter;
         } else {
-            if (dataType === 'distance') {
-                return this.distanceConverter;
-            } else if (dataType === 'speed') {
-                return this.speedConverter;
-            } else {
-                return function (value) {
-                    return value;
-                };
-            }
+            return function (value) {
+                return value;
+            };
         }
     }
 });

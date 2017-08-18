@@ -86,14 +86,12 @@ Ext.define('Traccar.view.dialog.LoginController', {
             prefix = url.substring(0, url.indexOf(paramName));
             suffix = url.substring(url.indexOf(paramName));
             suffix = suffix.substring(suffix.indexOf('=') + 1);
-            suffix = (suffix.indexOf('&') >= 0) ? suffix.substring(suffix.indexOf('&')) : '';
+            suffix = suffix.indexOf('&') >= 0 ? suffix.substring(suffix.indexOf('&')) : '';
             url = prefix + paramName + '=' + paramValue + suffix;
+        } else if (url.indexOf('?') < 0) {
+            url += '?' + paramName + '=' + paramValue;
         } else {
-            if (url.indexOf('?') < 0) {
-                url += '?' + paramName + '=' + paramValue;
-            } else {
-                url += '&' + paramName + '=' + paramValue;
-            }
+            url += '&' + paramName + '=' + paramValue;
         }
         window.location.href = url;
     },

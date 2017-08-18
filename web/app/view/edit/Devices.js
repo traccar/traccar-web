@@ -111,6 +111,7 @@ Ext.define('Traccar.view.edit.Devices', {
             if (status) {
                 return Ext.getStore('DeviceStatuses').getById(status).get('color');
             }
+            return null;
         }
     },
 
@@ -165,7 +166,7 @@ Ext.define('Traccar.view.edit.Devices', {
                     for (i = 0; i < value.length; i++) {
                         name = Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
                         if (name) {
-                            result += name + ((i < value.length - 1) ? ', ' : '');
+                            result += name + (i < value.length - 1 ? ', ' : '');
                         }
                     }
                 }
@@ -187,6 +188,7 @@ Ext.define('Traccar.view.edit.Devices', {
                         return status.get('name');
                     }
                 }
+                return null;
             }
         }, {
             text: Strings.deviceLastUpdate,

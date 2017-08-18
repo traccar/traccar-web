@@ -46,7 +46,7 @@ Ext.define('Traccar.view.EventsController', {
         }
     },
 
-    onRemoveClick: function (button) {
+    onRemoveClick: function () {
         var event, positionId;
         event = this.getView().getSelectionModel().getSelection()[0];
         if (event) {
@@ -58,12 +58,12 @@ Ext.define('Traccar.view.EventsController', {
         }
     },
 
-    onClearClick: function (button) {
+    onClearClick: function () {
         Ext.getStore('Events').removeAll();
         Ext.getStore('EventPositions').removeAll();
     },
 
-    onAddEvent: function (store, data) {
+    onAddEvent: function () {
         if (this.lookupReference('scrollToLastButton').pressed) {
             this.getView().scrollBy(0, Number.POSITIVE_INFINITY, true);
         }

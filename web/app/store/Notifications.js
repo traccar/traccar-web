@@ -24,5 +24,8 @@ Ext.define('Traccar.store.Notifications', {
         url: 'api/users/notifications'
     },
     sortOnLoad: true,
-    sorters: { property: 'type', direction : 'ASC' }
+    sorters: {
+        property: 'type',
+        direction: 'ASC'
+    }
 });
