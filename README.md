@@ -5,9 +5,7 @@
 
 Traccar is open source server for various GPS tracking devices. This repository contains web interface for the Traccar platform. For back-end checkout [main Traccar repository](https://github.com/tananaev/traccar).
 
-Icons are generously provided by [Font Awesome](http://fontawesome.io/) and [Icons8](https://icons8.com/).
-
-We are using ![BrowserStack](http://www.tananaev.com/badges/browserstack.svg) [BrowserStack](https://www.browserstack.com/) to test compatibility with various browser versions and platforms.
+Icons are generously provided by [Font Awesome](http://fontawesome.io/) and [Icons8](https://icons8.com/). We are also using [BrowserStack](https://www.browserstack.com/) to test compatibility with various platforms and browser versions.
 
 ## Team
 
