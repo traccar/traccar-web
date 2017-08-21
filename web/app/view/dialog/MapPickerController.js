@@ -30,7 +30,7 @@ Ext.define('Traccar.view.dialog.MapPickerController', {
         }
     },
 
-    getMapState: function (button) {
+    getMapState: function () {
         this.fireEvent('mapstaterequest');
     },
 

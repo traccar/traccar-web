@@ -216,7 +216,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             projection = mapView.getProjection();
             center = ol.proj.fromLonLat([position.get('longitude'), position.get('latitude')]);
             pointResolution = ol.proj.getPointResolution(projection, mapView.getResolution(), center);
-            radius = (position.get('accuracy') / ol.proj.METERS_PER_UNIT.m) * mapView.getResolution() / pointResolution;
+            radius = position.get('accuracy') / ol.proj.METERS_PER_UNIT.m * mapView.getResolution() / pointResolution;
 
             if (feature) {
                 feature.getGeometry().setCenter(center);
@@ -257,8 +257,8 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             marker.set('record', device);
 
             style = this.getLatestMarker(this.getDeviceColor(device),
-                    position.get('course'),
-                    device.get('category'));
+                position.get('course'),
+                device.get('category'));
             style.getText().setText(device.get('name'));
             marker.setStyle(style);
             marker.setId(device.get('id'));
@@ -429,10 +429,8 @@ Ext.define('Traccar.view.map.MapMarkerController', {
 
     resizeMarker: function (style, zoom) {
         var image, text;
-        image = Traccar.DeviceImages.getImageIcon(style.getImage().fill,
-                zoom,
-                style.getImage().angle,
-                style.getImage().category);
+        image = Traccar.DeviceImages.getImageIcon(
+            style.getImage().fill, zoom, style.getImage().angle, style.getImage().category);
         text = style.getText();
         text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
         style.setText(text);
@@ -440,18 +438,14 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     rotateMarker: function (style, angle) {
-        style.setImage(Traccar.DeviceImages.getImageIcon(style.getImage().fill,
-                style.getImage().zoom,
-                angle,
-                style.getImage().category));
+        style.setImage(Traccar.DeviceImages.getImageIcon(
+            style.getImage().fill, style.getImage().zoom, angle, style.getImage().category));
     },
 
     updateDeviceMarker: function (style, color, category) {
         var image, text;
-        image = Traccar.DeviceImages.getImageIcon(color,
-                style.getImage().zoom,
-                style.getImage().angle,
-                category);
+        image = Traccar.DeviceImages.getImageIcon(
+            color, style.getImage().zoom, style.getImage().angle, category);
         text = style.getText();
         text.setOffsetY(-image.getSize()[1] / 2 - Traccar.Style.mapTextOffset);
         style.setText(text);
@@ -608,7 +602,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         }
     },
 
-    filterDevices: function (store) {
+    filterDevices: function () {
         Ext.getStore('Devices').each(this.updateDeviceVisibility, this, false);
     }
 });

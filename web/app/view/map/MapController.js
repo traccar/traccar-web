@@ -44,8 +44,8 @@ Ext.define('Traccar.view.map.MapController', {
 
     init: function () {
         this.callParent();
-        this.lookupReference('showReportsButton').setVisible(Traccar.app.isMobile() &&
-                !Traccar.app.getAttributePreference('ui.disableReport', false));
+        this.lookupReference('showReportsButton').setVisible(
+            Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableReport'));
         this.lookupReference('showEventsButton').setVisible(Traccar.app.isMobile());
     },
 
@@ -79,10 +79,10 @@ Ext.define('Traccar.view.map.MapController', {
         this.getView().getGeofencesSource().clear();
         if (this.lookupReference('showGeofencesButton').pressed) {
             Ext.getStore('Geofences').each(function (geofence) {
-                var feature = new ol.Feature(Traccar.GeofenceConverter
-                        .wktToGeometry(this.getView().getMapView(), geofence.get('area')));
-                feature.setStyle(this.getAreaStyle(geofence.get('name'),
-                        geofence.get('attributes') ? geofence.get('attributes').color : null));
+                var feature = new ol.Feature(
+                    Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), geofence.get('area')));
+                feature.setStyle(this.getAreaStyle(
+                    geofence.get('name'), geofence.get('attributes') ? geofence.get('attributes').color : null));
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;
             }, this);

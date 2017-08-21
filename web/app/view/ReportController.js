@@ -79,6 +79,23 @@ Ext.define('Traccar.view.ReportController', {
                 hidden: true
             });
         }
+        if (Traccar.app.getVehicleFeaturesDisabled()) {
+            for (i = 0; i < this.summaryColumns.length; i++) {
+                if (this.summaryColumns[i].dataIndex.match('engineHours|spentFuel')) {
+                    this.summaryColumns[i].hidden = true;
+                }
+            }
+            for (i = 0; i < this.tripsColumns.length; i++) {
+                if (this.tripsColumns[i].dataIndex.match('spentFuel|driverUniqueId')) {
+                    this.tripsColumns[i].hidden = true;
+                }
+            }
+            for (i = 0; i < this.stopsColumns.length; i++) {
+                if (this.stopsColumns[i].dataIndex.match('engineHours|spentFuel')) {
+                    this.stopsColumns[i].hidden = true;
+                }
+            }
+        }
     },
 
     onConfigureClick: function () {
@@ -117,7 +134,7 @@ Ext.define('Traccar.view.ReportController', {
     updateButtons: function () {
         var reportType, disabled, devices, time;
         reportType = this.lookupReference('reportTypeField').getValue();
-        devices = (this.deviceId && this.deviceId.length !== 0) || (this.groupId && this.groupId.length !== 0);
+        devices = this.deviceId && this.deviceId.length !== 0 || this.groupId && this.groupId.length !== 0;
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time;
         this.lookupReference('showButton').setDisabled(disabled);
@@ -204,7 +221,7 @@ Ext.define('Traccar.view.ReportController', {
         }
     },
 
-    selectReport: function (object, center) {
+    selectReport: function (object) {
         var positionRelated, reportType = this.lookupReference('reportTypeField').getValue();
         if (object instanceof Traccar.model.Position) {
             if (reportType === 'route') {
@@ -281,15 +298,15 @@ Ext.define('Traccar.view.ReportController', {
         var i, deviceIds, chartSeries, deviceStore;
         if (this.lookupReference('reportTypeField').getValue() === 'chart') {
             this.getChart().getAxes()[0].setTitle(
-                    Ext.getStore('ReportChartTypes').findRecord('key', this.chartType).get('name'));
+                Ext.getStore('ReportChartTypes').findRecord('key', this.chartType).get('name'));
             chartSeries = [];
             deviceIds = store.collect('deviceId');
             for (i = 0; i < deviceIds.length; i++) {
-                deviceStore = new Ext.create('Ext.data.ChainedStore', {
+                deviceStore = Ext.create('Ext.data.ChainedStore', {
                     source: 'ReportRoute',
                     filters: [{
                         property: 'deviceId',
-                        value   : deviceIds[i]
+                        value: deviceIds[i]
                     }]
                 });
                 chartSeries.push({

@@ -240,14 +240,12 @@ Ext.define('Traccar.store.PositionAttributes', {
         var model = this.getById(key);
         if (model) {
             return model.get('name');
+        } else if (capitalize) {
+            return key.replace(/^./, function (match) {
+                return match.toUpperCase();
+            });
         } else {
-            if (capitalize) {
-                return key.replace(/^./, function (match) {
-                    return match.toUpperCase();
-                });
-            } else {
-                return key;
-            }
+            return key;
         }
     },
 

@@ -52,15 +52,15 @@ Ext.define('Traccar.model.Event', {
             } else if (rec.get('type') === 'textMessage') {
                 text = Strings.eventTextMessage + ': ' + rec.get('attributes')['message'];
             } else if (rec.get('type') === 'driverChanged') {
-                text = Strings.eventDriverChanged + ': ' + Traccar.AttributeFormatter.driverUniqueIdFormatter(
-                        rec.get('attributes')['driverUniqueId']);
+                text = Strings.eventDriverChanged + ': ' +
+                    Traccar.AttributeFormatter.driverUniqueIdFormatter(rec.get('attributes')['driverUniqueId']);
             } else {
                 text = Traccar.app.getEventString(rec.get('type'));
             }
             if (rec.get('geofenceId')) {
                 geofence = Ext.getStore('Geofences').getById(rec.get('geofenceId'));
                 if (geofence) {
-                    text += ' \"' + geofence.get('name') + '"';
+                    text += ' "' + geofence.get('name') + '"';
                 }
             }
             return text;

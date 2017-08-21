@@ -117,11 +117,45 @@ Ext.define('Traccar.view.map.BaseMap', {
                                 262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048,
                                 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
                             ]
+<<<<<<< HEAD
                         }),
                         attributions: [
                             new ol.Attribution({
                                 html: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
                             })
+=======
+                        })
+                    ]
+                })
+            });
+        } else if (type === 'baidu') {
+            layer = new ol.layer.Tile({
+                source: new ol.source.XYZ({
+                    projection: 'BD-MC',
+                    tileUrlFunction: function (tileCoord) {
+                        var urlsLength = 5, z = tileCoord[0], x = tileCoord[1], y = tileCoord[2], hash, index;
+
+                        hash = (x << z) + y;
+                        index = hash % urlsLength;
+                        index = index < 0 ? index + urlsLength : index;
+
+                        if (x < 0) {
+                            x = 'M' + -x;
+                        }
+                        if (y < 0) {
+                            y = 'M' + -y;
+                        }
+                        return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
+                            .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
+                    },
+                    tileGrid: new ol.tilegrid.TileGrid({
+                        extent: ol.proj.transformExtent([-180, -74, 180, 74], 'EPSG:4326', 'BD-MC'),
+                        origin: [0, 0],
+                        minZoom: 3,
+                        resolutions: [
+                            262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048,
+                            1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
+>>>>>>> e0bb9b92d07176677b3043530660af3bc30774d7
                         ]
                     })
                 });
@@ -180,7 +214,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
 
         this.map.on('pointermove', function (e) {
-            var hit = this.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
+            var hit = this.forEachFeatureAtPixel(e.pixel, function () {
                 return true;
             });
             if (hit) {
@@ -191,14 +225,15 @@ Ext.define('Traccar.view.map.BaseMap', {
         });
 
         this.map.on('click', function (e) {
-            if (this.map.hasFeatureAtPixel(e.pixel, {
+            var i, features = this.map.getFeaturesAtPixel(e.pixel, {
                 layerFilter: function (layer) {
                     return !layer.get('name');
                 }
-            })) {
-                this.map.forEachFeatureAtPixel(e.pixel, function (feature, layer) {
-                    this.fireEvent('selectfeature', feature);
-                }.bind(this));
+            });
+            if (features) {
+                for (i = 0; i < features.length; i++) {
+                    this.fireEvent('selectfeature', features[i]);
+                }
             } else {
                 this.fireEvent('deselectfeature');
             }
@@ -215,9 +250,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
     }
 }, function () {
-
     proj4.defs('BD-MC', '+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
     proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
     ol.proj.get('EPSG:3395').setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
-
 });

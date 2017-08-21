@@ -61,13 +61,13 @@ Ext.define('Traccar.view.edit.AttributeAliasesController', {
         this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
     },
 
-    onDeviceChange: function (combobox, newValue, oldValue) {
+    onDeviceChange: function (combobox, value) {
         var manager = Traccar.app.getUser().get('admin') || Traccar.app.getUser().get('userLimit') > 0;
         this.onSelectionChange();
-        if (newValue !== null) {
-            this.getView().getStore().filter('deviceId', newValue);
+        if (value !== null) {
+            this.getView().getStore().filter('deviceId', value);
             if (manager && this.getView().getStore().getCount() === 0) {
-                Ext.getStore('AttributeAliases').getProxy().setExtraParam('deviceId', newValue);
+                Ext.getStore('AttributeAliases').getProxy().setExtraParam('deviceId', value);
                 Ext.getStore('AttributeAliases').load({
                     addRecords: true
                 });

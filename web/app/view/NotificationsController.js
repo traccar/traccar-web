@@ -27,7 +27,7 @@ Ext.define('Traccar.view.NotificationsController', {
         });
     },
 
-    onCheckChange: function (column, rowIndex, checked, eOpts) {
+    onCheckChange: function (column, rowIndex) {
         var record = this.getView().getStore().getAt(rowIndex);
         Ext.Ajax.request({
             scope: this,

@@ -32,6 +32,13 @@ Ext.define('Traccar.view.edit.GroupsController', {
     objectDialog: 'Traccar.view.dialog.Group',
     removeTitle: Strings.groupDialog,
 
+    init: function () {
+        this.lookupReference('toolbarDriversButton').setHidden(
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
+        this.lookupReference('toolbarAttributesButton').setHidden(
+            Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+    },
+
     onGeofencesClick: function () {
         var admin, group;
         admin = Traccar.app.getUser().get('admin');

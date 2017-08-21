@@ -21,7 +21,7 @@ Ext.define('Traccar.store.AllTimezones', {
 
     sorters: {
         property: 'key',
-        direction : 'ASC'
+        direction: 'ASC'
     },
 
     data: [{

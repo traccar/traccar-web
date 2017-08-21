@@ -20,12 +20,11 @@ Ext.define('Traccar.view.StateController', {
     alias: 'controller.state',
 
     requires: [
-       'Traccar.AttributeFormatter',
-       'Traccar.model.Attribute',
-       'Traccar.model.AttributeAlias',
-       'Traccar.model.Position',
-       'Traccar.view.dialog.AttributeAlias'
-
+        'Traccar.AttributeFormatter',
+        'Traccar.model.Attribute',
+        'Traccar.model.AttributeAlias',
+        'Traccar.model.Position',
+        'Traccar.view.dialog.AttributeAlias'
     ],
 
     config: {
@@ -73,7 +72,7 @@ Ext.define('Traccar.view.StateController', {
             };
         }
         return result;
-    }()),
+    })(),
 
     updateLatest: function (store, data) {
         var i;
@@ -89,7 +88,7 @@ Ext.define('Traccar.view.StateController', {
     },
 
     formatValue: function (value) {
-        if (typeof (id) === 'number') {
+        if (typeof id === 'number') {
             return Number(value.toFixed(2));
         } else {
             return value;
@@ -169,7 +168,7 @@ Ext.define('Traccar.view.StateController', {
         Ext.getStore('Attributes').removeAll();
     },
 
-    clearReport: function (store) {
+    clearReport: function () {
         if (!this.deviceId) {
             this.position = null;
             Ext.getStore('Attributes').removeAll();

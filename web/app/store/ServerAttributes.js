@@ -18,38 +18,6 @@
 Ext.define('Traccar.store.ServerAttributes', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.KnownAttribute',
-    proxy: 'memory',
 
-    data: [{
-        key: 'speedLimit',
-        name: Strings.attributeSpeedLimit,
-        valueType: 'number',
-        dataType: 'speed'
-    }, {
-        key: 'maintenance.start',
-        name: Strings.attributeMaintenanceStart,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
-        key: 'maintenance.interval',
-        name: Strings.attributeMaintenanceInterval,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
-        key: 'web.liveRouteLength',
-        name: Strings.attributeWebLiveRouteLength,
-        valueType: 'number',
-        allowDecimals: false
-    }, {
-        key: 'web.selectZoom',
-        name: Strings.attributeWebSelectZoom,
-        valueType: 'number',
-        allowDecimals: false,
-        minValue: Traccar.Style.mapDefaultZoom,
-        maxValue: Traccar.Style.mapMaxZoom
-    }, {
-        key: 'ui.disableReport',
-        name: Strings.attributeUiDisableReport,
-        valueType: 'boolean'
-    }]
+    data: []
 });

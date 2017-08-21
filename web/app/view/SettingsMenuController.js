@@ -45,7 +45,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
-            this.lookupReference('settingsDeviceDistanceButton').setHidden(false);
+            this.lookupReference('settingsDeviceDistanceButton').setHidden(Traccar.app.getVehicleFeaturesDisabled());
         }
         if (admin || manager) {
             this.lookupReference('settingsUsersButton').setHidden(false);
@@ -55,12 +55,15 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
-            this.lookupReference('settingsCalendarsButton').setHidden(false);
-            this.lookupReference('settingsDriversButton').setHidden(false);
+            this.lookupReference('settingsCalendarsButton').setHidden(
+                Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
+            this.lookupReference('settingsDriversButton').setHidden(
+                Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         }
-        if (admin || (!deviceReadonly && !readonly)) {
+        if (admin || !deviceReadonly && !readonly) {
             this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
-            this.lookupReference('settingsComputedAttributesButton').setHidden(false);
+            this.lookupReference('settingsComputedAttributesButton').setHidden(
+                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         }
     },
 

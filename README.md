@@ -1,10 +1,11 @@
 # [Traccar Web Interface](https://www.traccar.org)
+[![Build Status](https://travis-ci.org/tananaev/traccar-web.svg?branch=master)](https://travis-ci.org/tananaev/traccar-web)
 
 ## Overview
 
 Traccar is open source server for various GPS tracking devices. This repository contains web interface for the Traccar platform. For back-end checkout [main Traccar repository](https://github.com/tananaev/traccar).
 
-Icons are generously provided by [Font Awesome](http://fontawesome.io/) and [Icons8](https://icons8.com/).
+Icons are generously provided by [Font Awesome](http://fontawesome.io/) and [Icons8](https://icons8.com/). We are also using [BrowserStack](https://www.browserstack.com/) to test compatibility with various platforms and browser versions.
 
 ## Team
 

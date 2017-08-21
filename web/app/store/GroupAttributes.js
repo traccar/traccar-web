@@ -18,28 +18,8 @@
 Ext.define('Traccar.store.GroupAttributes', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.KnownAttribute',
-    proxy: 'memory',
 
     data: [{
-        key: 'speedLimit',
-        name: Strings.attributeSpeedLimit,
-        valueType: 'number',
-        dataType: 'speed'
-    }, {
-        key: 'report.ignoreOdometer',
-        name: Strings.attributeReportIgnoreOdometer,
-        valueType: 'boolean'
-    }, {
-        key: 'maintenance.start',
-        name: Strings.attributeMaintenanceStart,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
-        key: 'maintenance.interval',
-        name: Strings.attributeMaintenanceInterval,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
         key: 'processing.copyAttributes',
         name: Strings.attributeProcessingCopyAttributes,
         valueType: 'string'
