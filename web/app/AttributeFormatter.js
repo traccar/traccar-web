@@ -188,7 +188,6 @@ Ext.define('Traccar.AttributeFormatter', {
 
     getAttributeFormatter: function (key) {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
-<<<<<<< HEAD
 
         switch (dataType) {
             case 'distance':
@@ -209,36 +208,13 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
             default:
                 return this.defaultFormatter;
-=======
-        if (!dataType) {
-            return this.defaultFormatter;
-        } else if (dataType === 'distance') {
-            return this.distanceFormatter;
-        } else if (dataType === 'speed') {
-            return this.speedFormatter;
-        } else if (dataType === 'driverUniqueId') {
-            return this.driverUniqueIdFormatter;
-        } else if (dataType === 'voltage') {
-            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedVoltAbbreviation);
-        } else if (dataType === 'percentage') {
-            return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&#37;');
-        } else if (dataType === 'temperature') {
-            return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
-        } else if (dataType === 'volume') {
-            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
-        } else if (dataType === 'consumption') {
-            return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
-        } else {
-            return this.defaultFormatter;
->>>>>>> e0bb9b92d07176677b3043530660af3bc30774d7
         }
     },
 
     getAttributeConverter: function (key) {
         var dataType = Ext.getStore('PositionAttributes').getAttributeDataType(key);
-<<<<<<< HEAD
 
-        switch (dataType){
+        switch (dataType) {
             case 'distance':
                 return this.distanceConverter;
             case 'speed':
@@ -247,20 +223,6 @@ Ext.define('Traccar.AttributeFormatter', {
                 return function (value) {
                     return value;
                 };
-=======
-        if (!dataType) {
-            return function (value) {
-                return value;
-            };
-        } else if (dataType === 'distance') {
-            return this.distanceConverter;
-        } else if (dataType === 'speed') {
-            return this.speedConverter;
-        } else {
-            return function (value) {
-                return value;
-            };
->>>>>>> e0bb9b92d07176677b3043530660af3bc30774d7
         }
     }
 });
