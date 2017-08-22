@@ -37,116 +37,125 @@ Ext.define('Traccar.view.map.BaseMap', {
         type = Traccar.app.getPreference('map', null);
         bingKey = server.get('bingKey');
 
-        if (type === 'custom') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.XYZ({
-                    url: server.get('mapUrl'),
-                    attributions: [
-                        new ol.Attribution({
-                            html: ''
-                        })
-                    ]
-                })
-            });
-        } else if (type === 'bingRoad') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.BingMaps({
-                    key: bingKey,
-                    imagerySet: 'Road'
-                })
-            });
-        } else if (type === 'bingAerial') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.BingMaps({
-                    key: bingKey,
-                    imagerySet: 'Aerial'
-                })
-            });
-        } else if (type === 'bingHybrid') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.BingMaps({
-                    key: bingKey,
-                    imagerySet: 'AerialWithLabels'
-                })
-            });
-        } else if (type === 'carto') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.XYZ({
-                    url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                    attributions: [
-                        new ol.Attribution({
-                            html: [
-                                '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-                                'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                            ]
-                        })
-                    ]
-                })
-            });
-        } else if (type === 'baidu') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.XYZ({
-                    projection: 'BD-MC',
-                    tileUrlFunction: function (tileCoord) {
-                        var urlsLength = 5, z = tileCoord[0], x = tileCoord[1], y = tileCoord[2], hash, index;
-
-                        hash = (x << z) + y;
-                        index = hash % urlsLength;
-                        index = index < 0 ? index + urlsLength : index;
-
-                        if (x < 0) {
-                            x = 'M' + -x;
-                        }
-                        if (y < 0) {
-                            y = 'M' + -y;
-                        }
-                        return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
-                            .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
-                    },
-                    tileGrid: new ol.tilegrid.TileGrid({
-                        extent: ol.proj.transformExtent([-180, -74, 180, 74], 'EPSG:4326', 'BD-MC'),
-                        origin: [0, 0],
-                        minZoom: 3,
-                        resolutions: [
-                            262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048,
-                            1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
+        switch (type) {
+            case 'custom':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: server.get('mapUrl'),
+                        attributions: [
+                            new ol.Attribution({
+                                html: ''
+                            })
                         ]
-                    }),
-                    attributions: [
-                        new ol.Attribution({
-                            html: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
-                        })
-                    ]
-                })
-            });
-        } else if (type === 'yandexMap') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.XYZ({
-                    url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
-                    projection: 'EPSG:3395',
-                    attributions: [
-                        new ol.Attribution({
-                            html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                        })
-                    ]
-                })
-            });
-        } else if (type === 'yandexSat') {
-            layer = new ol.layer.Tile({
-                source: new ol.source.XYZ({
-                    url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
-                    projection: 'EPSG:3395',
-                    attributions: [
-                        new ol.Attribution({
-                            html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                        })
-                    ]
-                })
-            });
-        } else {
-            layer = new ol.layer.Tile({
-                source: new ol.source.OSM({})
-            });
+                    })
+                });
+                break;
+            case 'bingRoad':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.BingMaps({
+                        key: bingKey,
+                        imagerySet: 'Road'
+                    })
+                });
+                break;
+            case 'bingAerial':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.BingMaps({
+                        key: bingKey,
+                        imagerySet: 'Aerial'
+                    })
+                });
+                break;
+            case 'bingHybrid':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.BingMaps({
+                        key: bingKey,
+                        imagerySet: 'AerialWithLabels'
+                    })
+                });
+                break;
+            case 'carto':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
+                        attributions: [
+                            new ol.Attribution({
+                                html: [
+                                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
+                                    'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                                ]
+                            })
+                        ]
+                    })
+                });
+                break;
+            case 'baidu':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        projection: 'BD-MC',
+                        tileUrlFunction: function (tileCoord) {
+                            var urlsLength = 5, z = tileCoord[0], x = tileCoord[1], y = tileCoord[2], hash, index;
+
+                            hash = (x << z) + y;
+                            index = hash % urlsLength;
+                            index = index < 0 ? index + urlsLength : index;
+
+                            if (x < 0) {
+                                x = 'M' + -x;
+                            }
+                            if (y < 0) {
+                                y = 'M' + -y;
+                            }
+                            return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
+                                .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
+                        },
+                        tileGrid: new ol.tilegrid.TileGrid({
+                            extent: ol.proj.transformExtent([-180, -74, 180, 74], 'EPSG:4326', 'BD-MC'),
+                            origin: [0, 0],
+                            minZoom: 3,
+                            resolutions: [
+                                262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048,
+                                1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
+                            ]
+                        }),
+                        attributions: [
+                            new ol.Attribution({
+                                html: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
+                            })
+                        ]
+                    })
+                });
+                break;
+            case 'yandexMap':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
+                        projection: 'EPSG:3395',
+                        attributions: [
+                            new ol.Attribution({
+                                html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
+                            })
+                        ]
+                    })
+                });
+                break;
+            case 'yandexSat':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
+                        projection: 'EPSG:3395',
+                        attributions: [
+                            new ol.Attribution({
+                                html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
+                            })
+                        ]
+                    })
+                });
+                break;
+            default:
+                layer = new ol.layer.Tile({
+                    source: new ol.source.OSM({})
+                });
         }
 
         lat = Traccar.app.getPreference('latitude', Traccar.Style.mapDefaultLat);
