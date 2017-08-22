@@ -440,7 +440,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.positionLongitude,
         dataIndex: 'longitude',
-        renderer: Traccar.AttributeFormatter.getFormatter('latitude')
+        renderer: Traccar.AttributeFormatter.getFormatter('longitude')
     }, {
         text: Strings.positionAltitude,
         dataIndex: 'altitude',
