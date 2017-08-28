@@ -1,5 +1,6 @@
 .project
 .settings
+.tern-project
 .DS_Store
 nbproject/
 web/app.min.js
