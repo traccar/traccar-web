@@ -188,6 +188,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                 break;
             default:
                 this.map.addControl(new ol.control.ScaleLine());
+                break;
         }
 
         target = this.map.getTarget();
