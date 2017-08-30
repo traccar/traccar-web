@@ -175,6 +175,22 @@ Ext.define('Traccar.view.map.BaseMap', {
             view: this.mapView
         });
 
+        switch (Traccar.app.getPreference('distanceUnit', 'km')) {
+            case 'mi':
+                this.map.addControl(new ol.control.ScaleLine({
+                    units: 'us'
+                }));
+                break;
+            case 'nmi':
+                this.map.addControl(new ol.control.ScaleLine({
+                    units: 'nautical'
+                }));
+                break;
+            default:
+                this.map.addControl(new ol.control.ScaleLine());
+                break;
+        }
+
         target = this.map.getTarget();
         if (typeof target === 'string') {
             target = Ext.get(target).dom;
