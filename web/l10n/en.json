@@ -77,6 +77,7 @@
     "attributeColor": "Color",
     "attributeWebLiveRouteLength": "Web: Live Route Length",
     "attributeWebSelectZoom": "Web: Zoom On Select",
+    "attributeWebMaxZoom": "Web: Maximum Zoom",
     "attributeMailSmtpHost": "Mail: SMTP Host",
     "attributeMailSmtpPort": "Mail: SMTP Port",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS Enable",
