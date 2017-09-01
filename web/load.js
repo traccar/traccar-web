@@ -33,7 +33,9 @@
 
     locale.languages = {
         'ar': { name: 'العربية', code: 'en' },
+        'az': { name: 'Azərbaycanca', code: 'en' },
         'bg': { name: 'Български', code: 'bg' },
+        'bn': { name: 'বাংলা', code: 'en' },
         'cs': { name: 'Čeština', code: 'cs' },
         'de': { name: 'Deutsch', code: 'de' },
         'da': { name: 'Dansk', code: 'da' },
@@ -56,6 +58,7 @@
         'km': { name: 'ភាសាខ្មែរ', code: 'en' },
         'lo': { name: 'ລາວ', code: 'en' },
         'lt': { name: 'Lietuvių', code: 'lt' },
+        'lv': { name: 'Latviešu', code: 'lv' },
         'ml': { name: 'മലയാളം', code: 'en' },
         'ms': { name: 'بهاس ملايو', code: 'en' },
         'nb': { name: 'Norsk bokmål', code: 'no_NB' },
