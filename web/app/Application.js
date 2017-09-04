@@ -41,7 +41,8 @@ Ext.define('Traccar.Application', {
         'ReportStop',
         'Calendar',
         'KnownAttribute',
-        'Driver'
+        'Driver',
+        'KnownCommand'
     ],
 
     stores: [
@@ -95,7 +96,8 @@ Ext.define('Traccar.Application', {
         'PositionAttributes',
         'AttributeValueTypes',
         'Drivers',
-        'AllDrivers'
+        'AllDrivers',
+        'KnownCommands'
     ],
 
     controllers: [

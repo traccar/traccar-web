@@ -19,87 +19,68 @@ Ext.define('Traccar.view.dialog.CommandController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.command',
 
+    defaultFieldConfig: {
+        allowBlank: false
+    },
+
     onSelect: function (selected) {
-        this.lookupReference('paramPositionPeriodic').setHidden(
-            selected.getValue() !== 'positionPeriodic');
-        this.lookupReference('paramOutputControl').setHidden(
-            selected.getValue() !== 'outputControl');
-        this.lookupReference('paramSendSmsUssd').setHidden(
-            selected.getValue() !== 'sendSms' && selected.getValue() !== 'sendUssd');
-        this.lookupReference('paramSmsMessage').setHidden(
-            selected.getValue() !== 'sendSms');
-        this.lookupReference('paramSetTimezone').setHidden(
-            selected.getValue() !== 'setTimezone');
-        this.lookupReference('paramSetIndicator').setHidden(
-            selected.getValue() !== 'setIndicator');
-        this.lookupReference('paramCustom').setHidden(
-            selected.getValue() !== 'custom');
+        var i, config, command, parameters, parameter;
+        this.lookupReference('parameters').removeAll();
+        command = Ext.getStore('KnownCommands').getById(selected.getValue());
+        if (command && command.get('parameters')) {
+            parameters = command.get('parameters');
+            for (i = 0; i < parameters.length; i++) {
+                parameter = new Traccar.model.KnownAttribute(parameters[i]);
+                config = Ext.clone(this.defaultFieldConfig);
+                config.key = parameter.get('key');
+                config.fieldLabel = parameter.get('name');
+                switch (parameter.get('valueType')) {
+                    case 'number':
+                        config.xtype = 'customNumberField';
+                        if (parameter.get('allowDecimals') !== undefined) {
+                            config.allowDecimals = parameter.get('allowDecimals');
+                        } else {
+                            config.allowDecimals = true;
+                        }
+                        config.dataType = parameter.get('dataType');
+                        config.maxValue = parameter.get('maxValue');
+                        config.minValue = parameter.get('minValue');
+                        break;
+                    case 'boolean':
+                        config.xtype = 'checkboxfield';
+                        config.inputValue = true;
+                        config.uncheckedValue = false;
+                        break;
+                    default:
+                        if (parameter.get('dataType') && parameter.get('dataType') === 'timezone') {
+                            config.xtype = 'combobox';
+                            config.queryMode = 'local';
+                            config.displayField = 'key';
+                            config.editable = false;
+                            config.store = 'AllTimezones';
+                        } else {
+                            config.xtype = 'textfield';
+                        }
+                }
+                this.lookupReference('parameters').add(config);
+            }
+        }
     },
 
     onSendClick: function (button) {
-        var attributes, value, record, form, index, phone;
+        var i, record, form, parameters, attributes = {};
 
         form = button.up('window').down('form');
         form.updateRecord();
         record = form.getRecord();
+        parameters = this.lookupReference('parameters').items.items;
 
-        switch (record.get('type')) {
-            case 'positionPeriodic':
-                attributes = this.lookupReference('paramPositionPeriodic');
-                value = attributes.down('numberfield[name="frequency"]').getValue();
-                value *= attributes.down('combobox[name="unit"]').getValue();
-                record.set('attributes', {
-                    frequency: value
-                });
-                break;
-            case 'outputControl':
-                attributes = this.lookupReference('paramOutputControl');
-                index = attributes.down('numberfield[name="index"]').getValue();
-                value = attributes.down('textfield[name="data"]').getValue();
-                record.set('attributes', {
-                    index: index,
-                    data: value
-                });
-                break;
-            case 'sendUssd':
-                attributes = this.lookupReference('paramSendSmsUssd');
-                phone = attributes.down('textfield[name="phone"]').getValue();
-                record.set('attributes', {
-                    phone: phone
-                });
-                break;
-            case 'sendSms':
-                attributes = this.lookupReference('paramSendSmsUssd');
-                phone = attributes.down('textfield[name="phone"]').getValue();
-                value = attributes.down('textfield[name="message"]').getValue();
-                record.set('attributes', {
-                    phone: phone,
-                    message: value
-                });
-                break;
-            case 'setTimezone':
-                attributes = this.lookupReference('paramSetTimezone');
-                value = attributes.down('numberfield[name="timezone"]').getValue();
-                record.set('attributes', {
-                    timezone: value * 3600
-                });
-                break;
-            case 'setIndicator':
-                attributes = this.lookupReference('paramSetIndicator');
-                value = attributes.down('numberfield[name="data"]').getValue();
-                record.set('attributes', {
-                    data: value
-                });
-                break;
-            case 'custom':
-                value = this.lookupReference('paramCustom').getValue();
-                record.set('attributes', {
-                    data: value
-                });
-                break;
-            default:
-                break;
+        if (parameters.length > 0) {
+            for (i = 0; i < parameters.length; i++) {
+                attributes[parameters[i].key] = parameters[i].getValue();
+            }
         }
+        record.set('attributes', attributes);
 
         Ext.Ajax.request({
             scope: this,
@@ -107,6 +88,10 @@ Ext.define('Traccar.view.dialog.CommandController', {
             jsonData: record.getData(),
             callback: this.onSendResult
         });
+    },
+
+    onValidityChange: function (form, valid) {
+        this.lookupReference('sendButton').setDisabled(!valid);
     },
 
     onTextChannelChange: function (checkbox, newValue) {

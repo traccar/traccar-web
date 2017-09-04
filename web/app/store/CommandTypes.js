@@ -18,28 +18,11 @@
 
 Ext.define('Traccar.store.CommandTypes', {
     extend: 'Ext.data.Store',
-    fields: ['type', 'name'],
+    model: 'Traccar.model.KnownCommand',
 
     proxy: {
         type: 'rest',
         url: 'api/commandtypes',
-        reader: {
-            type: 'json',
-            getData: function (data) {
-                Ext.each(data, function (entry) {
-                    var nameKey, name;
-                    entry.name = entry.type;
-                    if (typeof entry.type !== 'undefined') {
-                        nameKey = 'command' + entry.type.charAt(0).toUpperCase() + entry.type.slice(1);
-                        name = Strings[nameKey];
-                        if (typeof name !== 'undefined') {
-                            entry.name = name;
-                        }
-                    }
-                });
-                return data;
-            }
-        },
         listeners: {
             'exception': function (proxy, response) {
                 Traccar.app.showError(response);

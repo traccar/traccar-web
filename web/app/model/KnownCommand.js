@@ -1,5 +1,6 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,19 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+Ext.define('Traccar.model.KnownCommand', {
+    extend: 'Ext.data.Model',
+    idProperty: 'type',
 
-Ext.define('Traccar.store.TimeUnits', {
-    extend: 'Ext.data.Store',
-    fields: ['name', 'factor'],
-
-    data: [{
-        name: Strings.sharedSecondAbbreviation,
-        factor: 1
+    fields: [{
+        name: 'type',
+        type: 'string'
     }, {
-        name: Strings.sharedMinuteAbbreviation,
-        factor: 60
+        name: 'name',
+        convert: function (v, rec) {
+            var name = Strings['command' + rec.get('type').charAt(0).toUpperCase() + rec.get('type').slice(1)];
+            return name ? name : rec.get('type');
+        },
+        depends: ['type']
     }, {
-        name: Strings.sharedHourAbbreviation,
-        factor: 3600
+        name: 'parameters'
     }]
 });

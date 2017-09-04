@@ -20,7 +20,7 @@ Ext.define('Traccar.view.CustomNumberField', {
     xtype: 'customNumberField',
 
     beforeEl: '<div style="width:100%;display:inline-table;">',
-    unitEl: '<div style="display:table-cell;padding-left:10px;vertical-align:middle;">',
+    unitEl: '<div id="unitEl" style="display:table-cell;padding-left:10px;vertical-align:middle;width:30%">',
 
     constructor: function (config) {
         var unit;
@@ -43,6 +43,38 @@ Ext.define('Traccar.view.CustomNumberField', {
             };
             config.valueToRaw = function (value) {
                 return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit', 'km'));
+            };
+        } else if (config.dataType === 'frequency') {
+            config.beforeSubTpl = this.beforeEl;
+            config.afterSubTpl = this.unitEl + '</div></div>';
+            config.listeners = {
+                afterrender: function (numberField) {
+                    if (!numberField.timeUnits) {
+                        numberField.timeUnits = Ext.create({
+                            xtype: 'combobox',
+                            renderTo: 'unitEl',
+                            store: 'TimeUnits',
+                            displayField: 'name',
+                            valueField: 'factor',
+                            value: 1,
+                            width: 70
+                        });
+                    }
+                }
+            };
+            config.rawToValue = function (rawValue) {
+                if (this.timeUnits) {
+                    return rawValue * this.timeUnits.getValue();
+                } else {
+                    return rawValue;
+                }
+            };
+            config.valueToRaw = function (value) {
+                if (this.timeUnits) {
+                    return value / this.timeUnits.getValue();
+                } else {
+                    return value;
+                }
             };
         }
         this.callParent(arguments);
