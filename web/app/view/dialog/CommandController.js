@@ -75,11 +75,10 @@ Ext.define('Traccar.view.dialog.CommandController', {
         record = form.getRecord();
         parameters = this.lookupReference('parameters').items.items;
 
-        if (parameters.length > 0) {
-            for (i = 0; i < parameters.length; i++) {
-                attributes[parameters[i].key] = parameters[i].getValue();
-            }
+        for (i = 0; i < parameters.length; i++) {
+            attributes[parameters[i].key] = parameters[i].getValue();
         }
+
         record.set('attributes', attributes);
 
         Ext.Ajax.request({
