@@ -137,6 +137,12 @@
 
     });
 
+    // Hack for new versions of Android
+    if (navigator.userAgent.indexOf('Android') !== -1 && navigator.userAgent.indexOf('OPR') !== -1) {
+        var __originalUserAgent = navigator.userAgent;
+        navigator.__defineGetter__('userAgent', function () { return __originalUserAgent.replace(/\/OPR[^)]*/g, ''); });
+    }
+
     extjsVersion = '6.2.0';
     fontAwesomeVersion = '4.7.0';
     olVersion = '4.3.2';
