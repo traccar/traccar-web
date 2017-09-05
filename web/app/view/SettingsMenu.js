@@ -74,12 +74,6 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsNotificationsButton'
         }, {
             hidden: true,
-            text: Strings.sharedAttributeAliases,
-            glyph: 'xf02c@FontAwesome',
-            handler: 'onAttributeAliasesClick',
-            reference: 'settingsAttributeAliasesButton'
-        }, {
-            hidden: true,
             text: Strings.sharedComputedAttributes,
             glyph: 'xf0ae@FontAwesome',
             handler: 'onComputedAttributesClick',
