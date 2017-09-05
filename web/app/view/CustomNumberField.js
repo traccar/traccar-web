@@ -20,30 +20,79 @@ Ext.define('Traccar.view.CustomNumberField', {
     xtype: 'customNumberField',
 
     beforeEl: '<div style="width:100%;display:inline-table;">',
-    unitEl: '<div style="display:table-cell;padding-left:10px;vertical-align:middle;">',
+    unitEl: '<div id="numberUnitEl" style="display:table-cell;padding-left:10px;vertical-align:middle;width:1px;white-space:nowrap;">',
 
     constructor: function (config) {
-        var unit;
-        if (config.dataType === 'speed') {
-            unit = Traccar.app.getPreference('speedUnit', 'kn');
-            config.beforeSubTpl = this.beforeEl;
-            config.afterSubTpl = this.unitEl + Ext.getStore('SpeedUnits').findRecord('key', unit).get('name') + '</div></div>';
+        var unitName = '';
+        if (config.dataType) {
+            config.beforeBodyEl = this.beforeEl;
+            switch (config.dataType) {
+                case 'speed':
+                    config.units = {};
+                    config.units.getStore = function () {
+                        return Ext.getStore('SpeedUnits');
+                    };
+                    config.units.getValue = function () {
+                        return Traccar.app.getPreference('speedUnit', 'kn');
+                    };
+                    unitName = Ext.getStore('SpeedUnits').findRecord('key', config.units.getValue()).get('name');
+                    break;
+                case 'distance':
+                    config.units = {};
+                    config.units.getStore = function () {
+                        return Ext.getStore('DistanceUnits');
+                    };
+                    config.units.getValue = function () {
+                        return Traccar.app.getPreference('distanceUnit', 'km');
+                    };
+                    unitName = Ext.getStore('DistanceUnits').findRecord('key', config.units.getValue()).get('name');
+                    break;
+                case 'frequency':
+                    if (!config.listeners) {
+                        config.listeners = {};
+                    }
+                    config.listeners.afterrender = function () {
+                        if (!this.units) {
+                            this.units = Ext.create({
+                                xtype: 'combobox',
+                                renderTo: 'numberUnitEl',
+                                store: 'TimeUnits',
+                                displayField: 'name',
+                                valueField: 'key',
+                                editable: false,
+                                numberField: this,
+                                value: 's',
+                                width: '70px',
+                                listeners: {
+                                    select: function () {
+                                        this.numberField.step = this.getStore().convertValue(1, this.getValue(), true);
+                                    }
+                                }
+                            });
+                        }
+                    };
+                    break;
+                default:
+                    break;
+            }
+            config.afterBodyEl = this.unitEl + unitName + '</div></div>';
             config.rawToValue = function (rawValue) {
-                return Ext.getStore('SpeedUnits').convertValue(rawValue, Traccar.app.getPreference('speedUnit', 'kn'), true);
+                if (this.units) {
+                    return this.units.getStore().convertValue(rawValue, this.units.getValue(), true);
+                } else {
+                    return this.parseValue(rawValue);
+                }
             };
             config.valueToRaw = function (value) {
-                return Ext.getStore('SpeedUnits').convertValue(value, Traccar.app.getPreference('speedUnit', 'kn'));
+                if (this.units) {
+                    return this.units.getStore().convertValue(value, this.units.getValue(), false);
+                } else {
+                    return this.parseValue(value);
+                }
             };
-        } else if (config.dataType === 'distance') {
-            config.beforeSubTpl = this.beforeEl;
-            unit = Traccar.app.getPreference('distanceUnit', 'km');
-            config.afterSubTpl = this.unitEl + Ext.getStore('DistanceUnits').findRecord('key', unit).get('name') + '</div></div>';
-            config.rawToValue = function (rawValue) {
-                return Ext.getStore('DistanceUnits').convertValue(rawValue, Traccar.app.getPreference('distanceUnit', 'km'), true);
-            };
-            config.valueToRaw = function (value) {
-                return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit', 'km'));
-            };
+            if (config.units) {
+                config.step = config.units.getStore().convertValue(1, config.units.getValue(), true);
+            }
         }
         this.callParent(arguments);
     }

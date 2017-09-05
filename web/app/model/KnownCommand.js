@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Gabor Somogyi (gabor.g.somogyi@gmail.com)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
  * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+Ext.define('Traccar.model.KnownCommand', {
+    extend: 'Ext.data.Model',
+    idProperty: 'type',
 
-Ext.define('Traccar.store.CommandTypes', {
-    extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownCommand',
-
-    proxy: {
-        type: 'rest',
-        url: 'api/commandtypes',
-        listeners: {
-            'exception': function (proxy, response) {
-                Traccar.app.showError(response);
-            }
-        }
-    }
+    fields: [{
+        name: 'type',
+        type: 'string'
+    }, {
+        name: 'name',
+        convert: function (v, rec) {
+            var name = Strings['command' + rec.get('type').charAt(0).toUpperCase() + rec.get('type').slice(1)];
+            return name ? name : rec.get('type');
+        },
+        depends: ['type']
+    }, {
+        name: 'parameters'
+    }]
 });
