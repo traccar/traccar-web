@@ -22,9 +22,7 @@ Ext.define('Traccar.view.StateController', {
     requires: [
         'Traccar.AttributeFormatter',
         'Traccar.model.Attribute',
-        'Traccar.model.AttributeAlias',
-        'Traccar.model.Position',
-        'Traccar.view.dialog.AttributeAlias'
+        'Traccar.model.Position'
     ],
 
     config: {
@@ -33,7 +31,6 @@ Ext.define('Traccar.view.StateController', {
                 '*': {
                     selectdevice: 'selectDevice',
                     selectreport: 'selectReport',
-                    updatealiases: 'updateAliases',
                     deselectfeature: 'deselectFeature'
                 }
             },
@@ -44,19 +41,9 @@ Ext.define('Traccar.view.StateController', {
                 },
                 '#ReportRoute': {
                     clear: 'clearReport'
-                },
-                '#AttributeAliases': {
-                    add: 'updateAliases',
-                    update: 'updateAliases'
                 }
             }
         }
-    },
-
-    init: function () {
-        var visible = !Traccar.app.getUser().get('deviceReadonly') && !Traccar.app.getPreference('readonly', false);
-        this.lookupReference('aliasEditButton').setVisible(visible);
-        this.aliasesStore = Ext.getStore('AttributeAliases');
     },
 
     keys: (function () {
@@ -100,7 +87,7 @@ Ext.define('Traccar.view.StateController', {
     },
 
     updatePosition: function () {
-        var attributes, store, key, aliasIndex, name, value;
+        var attributes, store, key, name, value;
         store = Ext.getStore('Attributes');
         store.removeAll();
 
@@ -119,12 +106,7 @@ Ext.define('Traccar.view.StateController', {
             for (key in attributes) {
                 if (attributes.hasOwnProperty(key)) {
                     this.lookupAttribute = key;
-                    aliasIndex = this.aliasesStore.findBy(this.findAttribute, this);
-                    if (aliasIndex !== -1) {
-                        name = this.aliasesStore.getAt(aliasIndex).get('alias');
-                    } else {
-                        name = Ext.getStore('PositionAttributes').getAttributeName(key, true);
-                    }
+                    name = Ext.getStore('PositionAttributes').getAttributeName(key, true);
                     if (this.position.get('attribute.' + key) !== undefined) {
                         value = Traccar.AttributeFormatter.getAttributeFormatter(key)(this.position.get('attribute.' + key));
                     } else {
@@ -172,36 +154,6 @@ Ext.define('Traccar.view.StateController', {
         if (!this.deviceId) {
             this.position = null;
             Ext.getStore('Attributes').removeAll();
-        }
-    },
-
-    onSelectionChange: function (selection, selected) {
-        var enabled = selected.length > 0 && selected[0].get('priority') === 1024;
-        this.lookupReference('aliasEditButton').setDisabled(!enabled);
-    },
-
-    onAliasEditClick: function () {
-        var attribute, aliasIndex, attributeAlias, dialog;
-        attribute = this.getView().getSelectionModel().getSelection()[0];
-        this.lookupAttribute = attribute.get('attribute');
-        aliasIndex = this.aliasesStore.findBy(this.findAttribute, this);
-        if (aliasIndex !== -1) {
-            attributeAlias = this.aliasesStore.getAt(aliasIndex);
-        } else {
-            attributeAlias = Ext.create('Traccar.model.AttributeAlias', {
-                deviceId: this.position.get('deviceId'),
-                attribute: attribute.get('attribute')
-            });
-            attributeAlias.store = this.aliasesStore;
-        }
-        dialog = Ext.create('Traccar.view.dialog.AttributeAlias');
-        dialog.down('form').loadRecord(attributeAlias);
-        dialog.show();
-    },
-
-    updateAliases: function () {
-        if (this.position) {
-            this.updatePosition();
         }
     }
 });

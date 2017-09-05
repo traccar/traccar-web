@@ -28,7 +28,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.edit.Geofences',
         'Traccar.view.edit.Drivers',
         'Traccar.view.Notifications',
-        'Traccar.view.edit.AttributeAliases',
         'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.Statistics',
         'Traccar.view.dialog.DeviceDistance',
@@ -61,7 +60,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
                 Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         }
         if (admin || !deviceReadonly && !readonly) {
-            this.lookupReference('settingsAttributeAliasesButton').setHidden(false);
             this.lookupReference('settingsComputedAttributesButton').setHidden(
                 Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         }
@@ -116,15 +114,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
             items: {
                 xtype: 'notificationsView',
                 user: user
-            }
-        }).show();
-    },
-
-    onAttributeAliasesClick: function () {
-        Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedAttributeAliases,
-            items: {
-                xtype: 'attributeAliasesView'
             }
         }).show();
     },

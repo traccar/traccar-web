@@ -35,21 +35,7 @@ Ext.define('Traccar.view.State', {
             xtype: 'tbtext',
             html: Strings.stateTitle,
             baseCls: 'x-panel-header-title-default'
-        }, {
-            xtype: 'tbfill'
-        }, {
-            xtype: 'button',
-            disabled: true,
-            handler: 'onAliasEditClick',
-            reference: 'aliasEditButton',
-            glyph: 'xf02b@FontAwesome',
-            tooltip: Strings.sharedEdit,
-            tooltipType: 'title'
         }]
-    },
-
-    listeners: {
-        selectionchange: 'onSelectionChange'
     },
 
     columns: {
