@@ -22,7 +22,9 @@ Ext.define('Traccar.view.StateController', {
     requires: [
         'Traccar.AttributeFormatter',
         'Traccar.model.Attribute',
-        'Traccar.model.Position'
+        'Traccar.model.Position',
+        'Traccar.view.BaseWindow',
+        'Traccar.view.edit.ComputedAttributes'
     ],
 
     config: {
@@ -44,6 +46,24 @@ Ext.define('Traccar.view.StateController', {
                 }
             }
         }
+    },
+
+
+    init: function () {
+        if (Traccar.app.getUser().get('admin') ||
+                !Traccar.app.getUser().get('deviceReadonly') && !Traccar.app.getPreference('readonly', false)) {
+            this.lookupReference('computedAttributesButton').setDisabled(
+                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+        }
+    },
+
+    onComputedAttributesClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedComputedAttributes,
+            items: {
+                xtype: 'computedAttributesView'
+            }
+        }).show();
     },
 
     keys: (function () {
