@@ -55,6 +55,7 @@
         "no-prototype-builtins": "off",
         "no-multi-assign": "off",
         "no-bitwise": "off",
-        "prefer-rest-params": "off"
+        "prefer-rest-params": "off",
+        "function-paren-newline": "off"
     }
 }
