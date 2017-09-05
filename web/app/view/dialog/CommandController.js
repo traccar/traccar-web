@@ -52,7 +52,7 @@ Ext.define('Traccar.view.dialog.CommandController', {
                         config.uncheckedValue = false;
                         break;
                     default:
-                        if (parameter.get('dataType') && parameter.get('dataType') === 'timezone') {
+                        if (parameter.get('dataType') === 'timezone') {
                             config.xtype = 'combobox';
                             config.queryMode = 'local';
                             config.displayField = 'key';
