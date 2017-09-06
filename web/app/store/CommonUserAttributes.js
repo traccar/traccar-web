@@ -60,7 +60,7 @@ Ext.define('Traccar.store.CommonUserAttributes', {
         valueType: 'boolean'
     }, {
         key: 'distanceUnit',
-        name: Strings.sharedDistance,
+        name: Strings.settingsDistanceUnit,
         valueType: 'string',
         dataType: 'distanceUnit'
     }, {
@@ -70,7 +70,7 @@ Ext.define('Traccar.store.CommonUserAttributes', {
         dataType: 'speedUnit'
     }, {
         key: 'volumeUnit',
-        name: Strings.sharedVolumeUnit,
+        name: Strings.settingsVolumeUnit,
         valueType: 'string',
         dataType: 'volumeUnit'
     }, {
