@@ -56,6 +56,10 @@ Ext.define('Traccar.model.ReportTrip', {
         name: 'endAddress',
         type: 'string'
     }, {
+        name: 'spentFuel',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('spentFuel')
+    }, {
         name: 'driverUniqueId',
         type: 'string'
     }, {

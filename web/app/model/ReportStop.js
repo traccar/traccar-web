@@ -46,5 +46,9 @@ Ext.define('Traccar.model.ReportStop', {
     }, {
         name: 'positionId',
         type: 'int'
+    }, {
+        name: 'spentFuel',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('spentFuel')
     }]
 });

@@ -58,5 +58,25 @@ Ext.define('Traccar.store.CommonUserAttributes', {
         key: 'ui.disableCalendars',
         name: Strings.attributeUiDisableCalendars,
         valueType: 'boolean'
+    }, {
+        key: 'distanceUnit',
+        name: Strings.settingsDistanceUnit,
+        valueType: 'string',
+        dataType: 'distanceUnit'
+    }, {
+        key: 'speedUnit',
+        name: Strings.settingsSpeedUnit,
+        valueType: 'string',
+        dataType: 'speedUnit'
+    }, {
+        key: 'volumeUnit',
+        name: Strings.settingsVolumeUnit,
+        valueType: 'string',
+        dataType: 'volumeUnit'
+    }, {
+        key: 'timezone',
+        name: Strings.sharedTimezone,
+        valueType: 'string',
+        dataType: 'timezone'
     }]
 });
