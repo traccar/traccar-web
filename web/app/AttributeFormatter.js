@@ -32,11 +32,11 @@ Ext.define('Traccar.AttributeFormatter', {
     },
 
     speedFormatter: function (value) {
-        return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getPreference('speedUnit'));
+        return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getAttributePreference('speedUnit'));
     },
 
     speedConverter: function (value) {
-        return Ext.getStore('SpeedUnits').convertValue(value, Traccar.app.getPreference('speedUnit'));
+        return Ext.getStore('SpeedUnits').convertValue(value, Traccar.app.getAttributePreference('speedUnit'));
     },
 
     courseFormatter: function (value) {
@@ -45,11 +45,19 @@ Ext.define('Traccar.AttributeFormatter', {
     },
 
     distanceFormatter: function (value) {
-        return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getPreference('distanceUnit'));
+        return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getAttributePreference('distanceUnit'));
     },
 
     distanceConverter: function (value) {
-        return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getPreference('distanceUnit'));
+        return Ext.getStore('DistanceUnits').convertValue(value, Traccar.app.getAttributePreference('distanceUnit'));
+    },
+
+    volumeFormatter: function (value) {
+        return Ext.getStore('VolumeUnits').formatValue(value, Traccar.app.getAttributePreference('volumeUnit'));
+    },
+
+    volumeConverter: function (value) {
+        return Ext.getStore('VolumeUnits').convertValue(value, Traccar.app.getAttributePreference('volumeUnit'));
     },
 
     durationFormatter: function (value) {
@@ -164,7 +172,7 @@ Ext.define('Traccar.AttributeFormatter', {
             case 'lastUpdate':
                 return this.lastUpdateFormatter;
             case 'spentFuel':
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
+                return this.volumeFormatter;
             case 'driverUniqueId':
                 return this.driverUniqueIdFormatter;
             default:
@@ -179,6 +187,8 @@ Ext.define('Traccar.AttributeFormatter', {
             case 'distance':
             case 'accuracy':
                 return this.distanceConverter;
+            case 'spentFuel':
+                return this.volumeConverter;
             default:
                 return function (value) {
                     return value;
@@ -203,7 +213,7 @@ Ext.define('Traccar.AttributeFormatter', {
             case 'temperature':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, '&deg;C');
             case 'volume':
-                return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterAbbreviation);
+                return this.volumeFormatter;
             case 'consumption':
                 return this.numberFormatterFactory(Traccar.Style.numberPrecision, Strings.sharedLiterPerHourAbbreviation);
             default:
@@ -219,6 +229,8 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.distanceConverter;
             case 'speed':
                 return this.speedConverter;
+            case 'volume':
+                return this.volumeConverter;
             default:
                 return function (value) {
                     return value;

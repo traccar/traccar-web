@@ -64,22 +64,6 @@ Ext.define('Traccar.view.dialog.User', {
                 valueField: 'key',
                 editable: false
             }, {
-                xtype: 'combobox',
-                name: 'distanceUnit',
-                fieldLabel: Strings.sharedDistance,
-                store: 'DistanceUnits',
-                displayField: 'name',
-                valueField: 'key',
-                editable: false
-            }, {
-                xtype: 'combobox',
-                name: 'speedUnit',
-                fieldLabel: Strings.settingsSpeedUnit,
-                store: 'SpeedUnits',
-                displayField: 'name',
-                valueField: 'key',
-                editable: false
-            }, {
                 xtype: 'numberfield',
                 reference: 'latitude',
                 name: 'latitude',
@@ -110,14 +94,6 @@ Ext.define('Traccar.view.dialog.User', {
                 store: 'CoordinateFormats',
                 displayField: 'name',
                 valueField: 'key',
-                editable: false
-            }, {
-                xtype: 'combobox',
-                name: 'timezone',
-                fieldLabel: Strings.sharedTimezone,
-                store: 'AllTimezones',
-                queryMode: 'local',
-                displayField: 'key',
                 editable: false
             }]
         }, {

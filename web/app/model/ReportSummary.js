@@ -41,5 +41,9 @@ Ext.define('Traccar.model.ReportSummary', {
     }, {
         name: 'engineHours',
         type: 'int'
+    }, {
+        name: 'spentFuel',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('spentFuel')
     }]
 });
