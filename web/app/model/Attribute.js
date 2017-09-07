@@ -25,8 +25,7 @@ Ext.define('Traccar.model.Attribute', {
         name: 'name',
         type: 'string'
     }, {
-        name: 'value',
-        type: 'string'
+        name: 'value'
     }, {
         name: 'attribute',
         type: 'string'

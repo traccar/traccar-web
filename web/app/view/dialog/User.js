@@ -85,8 +85,7 @@ Ext.define('Traccar.view.dialog.User', {
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'twelveHourFormat',
-                fieldLabel: Strings.settingsTwelveHourFormat,
-                allowBlank: false
+                fieldLabel: Strings.settingsTwelveHourFormat
             }, {
                 xtype: 'combobox',
                 name: 'coordinateFormat',

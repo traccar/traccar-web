@@ -25,28 +25,31 @@ Ext.define('Traccar.view.Statistics', {
     controller: 'statistics',
     store: 'Statistics',
 
-    tbar: [{
-        xtype: 'tbtext',
-        html: Strings.reportFrom
-    }, {
-        xtype: 'datefield',
-        reference: 'fromDateField',
-        startDay: Traccar.Style.weekStartDay,
-        format: Traccar.Style.dateFormat,
-        value: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
-    }, '-', {
-        xtype: 'tbtext',
-        html: Strings.reportTo
-    }, {
-        xtype: 'datefield',
-        reference: 'toDateField',
-        startDay: Traccar.Style.weekStartDay,
-        format: Traccar.Style.dateFormat,
-        value: new Date()
-    }, '-', {
-        text: Strings.reportShow,
-        handler: 'onShowClick'
-    }],
+    tbar: {
+        scrollable: true,
+        items: [{
+            xtype: 'tbtext',
+            html: Strings.reportFrom
+        }, {
+            xtype: 'datefield',
+            reference: 'fromDateField',
+            startDay: Traccar.Style.weekStartDay,
+            format: Traccar.Style.dateFormat,
+            value: new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
+        }, '-', {
+            xtype: 'tbtext',
+            html: Strings.reportTo
+        }, {
+            xtype: 'datefield',
+            reference: 'toDateField',
+            startDay: Traccar.Style.weekStartDay,
+            format: Traccar.Style.dateFormat,
+            value: new Date()
+        }, '-', {
+            text: Strings.reportShow,
+            handler: 'onShowClick'
+        }]
+    },
 
     columns: {
         defaults: {
