@@ -33,6 +33,7 @@ Ext.define('Traccar.view.edit.Users', {
 
     tbar: {
         xtype: 'editToolbar',
+        scrollable: true,
         items: [{
             disabled: true,
             handler: 'onGeofencesClick',

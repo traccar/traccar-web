@@ -68,15 +68,13 @@ Ext.define('Traccar.view.dialog.Server', {
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'twelveHourFormat',
-                fieldLabel: Strings.settingsTwelveHourFormat,
-                allowBlank: false
+                fieldLabel: Strings.settingsTwelveHourFormat
             }, {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'forceSettings',
-                fieldLabel: Strings.serverForceSettings,
-                allowBlank: false
+                fieldLabel: Strings.serverForceSettings
             }, {
                 xtype: 'combobox',
                 name: 'coordinateFormat',
@@ -96,22 +94,19 @@ Ext.define('Traccar.view.dialog.Server', {
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'registration',
-                fieldLabel: Strings.serverRegistration,
-                allowBlank: false
+                fieldLabel: Strings.serverRegistration
             }, {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'readonly',
-                fieldLabel: Strings.serverReadonly,
-                allowBlank: false
+                fieldLabel: Strings.serverReadonly
             }, {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'deviceReadonly',
-                fieldLabel: Strings.userDeviceReadonly,
-                allowBlank: false
+                fieldLabel: Strings.userDeviceReadonly
             }]
         }]
     },
