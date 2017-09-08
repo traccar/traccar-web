@@ -19,7 +19,7 @@
 Ext.define('Traccar.view.dialog.Driver', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
-    title: Strings.sharedDevice,
+    title: Strings.sharedDriver,
 
     items: {
         xtype: 'form',
