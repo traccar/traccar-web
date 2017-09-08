@@ -48,7 +48,8 @@ Ext.define('Traccar.view.dialog.Device', {
                 store: 'Groups',
                 queryMode: 'local',
                 displayField: 'name',
-                valueField: 'id'
+                valueField: 'id',
+                editable: false
             }, {
                 xtype: 'textfield',
                 name: 'phone',

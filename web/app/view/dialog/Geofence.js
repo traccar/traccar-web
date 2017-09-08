@@ -52,6 +52,7 @@ Ext.define('Traccar.view.dialog.Geofence', {
                 queryMode: 'local',
                 displayField: 'name',
                 valueField: 'id',
+                editable: false,
                 fieldLabel: Strings.sharedCalendar
             }, {
                 xtype: 'hiddenfield',
