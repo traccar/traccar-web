@@ -52,7 +52,7 @@ Ext.define('Traccar.controller.Root', {
         if (value !== undefined) {
             return Traccar.AttributeFormatter.getAttributeConverter(this.attributeKey)(value);
         }
-        return null;
+        return value;
     },
 
     onLaunch: function () {
