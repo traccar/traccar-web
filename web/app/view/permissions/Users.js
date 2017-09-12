@@ -16,34 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.GroupAttributes', {
+Ext.define('Traccar.view.permissions.Users', {
     extend: 'Traccar.view.permissions.Base',
-    xtype: 'groupAttributesView',
-
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
+    xtype: 'linkUsersView',
 
     columns: {
         items: [{
-            text: Strings.sharedDescription,
-            dataIndex: 'description',
+            text: Strings.sharedName,
+            dataIndex: 'name',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
             filter: 'string'
-        }, {
-            text: Strings.sharedAttribute,
-            dataIndex: 'attribute',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
-            filter: {
-                type: 'list',
-                labelField: 'name',
-                store: 'PositionAttributes'
-            },
-            renderer: function (value) {
-                return Ext.getStore('PositionAttributes').getAttributeName(value);
-            }
         }]
     }
 });

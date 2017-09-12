@@ -96,7 +96,11 @@ Ext.define('Traccar.Application', {
         'Drivers',
         'AllDrivers',
         'KnownCommands',
-        'VolumeUnits'
+        'VolumeUnits',
+        'AllCommandTypes',
+        'Commands',
+        'AllCommands',
+        'DeviceCommands'
     ],
 
     controllers: [

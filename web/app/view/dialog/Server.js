@@ -107,6 +107,12 @@ Ext.define('Traccar.view.dialog.Server', {
                 uncheckedValue: false,
                 name: 'deviceReadonly',
                 fieldLabel: Strings.userDeviceReadonly
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'limitCommands',
+                fieldLabel: Strings.userLimitCommands
             }]
         }]
     },

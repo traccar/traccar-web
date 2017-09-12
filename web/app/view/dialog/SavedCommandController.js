@@ -15,18 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.CommandController', {
-    extend: 'Ext.app.ViewController',
-    alias: 'controller.command',
+Ext.define('Traccar.view.dialog.SavedCommandController', {
+    extend: 'Traccar.view.dialog.BaseEditController',
+    alias: 'controller.savedCommand',
 
     defaultFieldConfig: {
         allowBlank: false
     },
 
-    onSelect: function (selected) {
-        var i, config, command, parameters, parameter;
+    onTypeChange: function (combo, newValue) {
+        var i, config, command, parameters, parameter, record;
+        record = combo.up('window').down('form').getRecord();
         this.lookupReference('parameters').removeAll();
-        command = Ext.getStore('KnownCommands').getById(selected.getValue());
+        command = Ext.getStore('KnownCommands').getById(newValue);
         if (command && command.get('parameters')) {
             parameters = command.get('parameters');
             for (i = 0; i < parameters.length; i++) {
@@ -34,6 +35,10 @@ Ext.define('Traccar.view.dialog.CommandController', {
                 config = Ext.clone(this.defaultFieldConfig);
                 config.key = parameter.get('key');
                 config.fieldLabel = parameter.get('name');
+                if (record.get('attributes')) {
+                    config.value = record.get('attributes')[parameter.get('key')];
+                }
+                config.disabled = combo.isDisabled();
                 switch (parameter.get('valueType')) {
                     case 'number':
                         config.xtype = 'customNumberField';
@@ -67,8 +72,8 @@ Ext.define('Traccar.view.dialog.CommandController', {
         }
     },
 
-    onSendClick: function (button) {
-        var i, record, form, parameters, attributes = {};
+    fillAttributes: function (button) {
+        var i, form, record, parameters, attributes = {};
 
         form = button.up('window').down('form');
         form.updateRecord();
@@ -80,31 +85,15 @@ Ext.define('Traccar.view.dialog.CommandController', {
         }
 
         record.set('attributes', attributes);
+    },
 
-        Ext.Ajax.request({
-            scope: this,
-            url: 'api/commands',
-            jsonData: record.getData(),
-            callback: this.onSendResult
-        });
+    onSaveClick: function (button) {
+        this.fillAttributes(button);
+        this.callParent(arguments);
     },
 
     onValidityChange: function (form, valid) {
-        this.lookupReference('sendButton').setDisabled(!valid);
-    },
-
-    onTextChannelChange: function (checkbox, newValue) {
-        var typesStore = this.lookupReference('commandType').getStore();
-        typesStore.getProxy().setExtraParam('textChannel', newValue);
-        typesStore.reload();
-    },
-
-    onSendResult: function (options, success, response) {
-        if (success) {
-            this.closeView();
-            Traccar.app.showToast(Strings.commandSent);
-        } else {
-            Traccar.app.showError(response);
-        }
+        this.lookupReference('saveButton').setDisabled(!valid);
     }
+
 });

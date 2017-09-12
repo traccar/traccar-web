@@ -32,6 +32,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.Statistics',
         'Traccar.view.dialog.DeviceDistance',
         'Traccar.view.edit.Calendars',
+        'Traccar.view.edit.SavedCommands',
         'Traccar.view.BaseWindow'
     ],
 
@@ -58,6 +59,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
                 Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
             this.lookupReference('settingsDriversButton').setHidden(
                 Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
+            this.lookupReference('settingsCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
         }
         if (admin || !deviceReadonly && !readonly) {
             this.lookupReference('settingsComputedAttributesButton').setHidden(
@@ -155,6 +157,15 @@ Ext.define('Traccar.view.SettingsMenuController', {
             title: Strings.sharedDrivers,
             items: {
                 xtype: 'driversView'
+            }
+        }).show();
+    },
+
+    onCommandsClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedSavedCommands,
+            items: {
+                xtype: 'savedCommandsView'
             }
         }).show();
     },

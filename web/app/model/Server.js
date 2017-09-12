@@ -32,6 +32,9 @@ Ext.define('Traccar.model.Server', {
         name: 'deviceReadonly',
         type: 'boolean'
     }, {
+        name: 'limitCommands',
+        type: 'boolean'
+    }, {
         name: 'map',
         type: 'string'
     }, {

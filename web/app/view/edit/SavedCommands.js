@@ -16,36 +16,51 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.DeviceAttributes', {
-    extend: 'Traccar.view.permissions.Base',
-    xtype: 'deviceAttributesView',
+Ext.define('Traccar.view.edit.SavedCommands', {
+    extend: 'Ext.grid.Panel',
+    xtype: 'savedCommandsView',
 
     requires: [
-        'Ext.grid.filters.Filters'
+        'Ext.grid.filters.Filters',
+        'Traccar.view.edit.SavedCommandsController',
+        'Traccar.view.edit.Toolbar'
     ],
 
     plugins: 'gridfilters',
 
+    controller: 'savedCommands',
+    store: 'Commands',
+
+    tbar: {
+        xtype: 'editToolbar'
+    },
+
+    listeners: {
+        selectionchange: 'onSelectionChange'
+    },
+
     columns: {
+        defaults: {
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal
+        },
         items: [{
             text: Strings.sharedDescription,
             dataIndex: 'description',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
             filter: 'string'
         }, {
-            text: Strings.sharedAttribute,
-            dataIndex: 'attribute',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
+            text: Strings.sharedType,
+            dataIndex: 'name',
             filter: {
                 type: 'list',
+                idField: 'name',
                 labelField: 'name',
-                store: 'PositionAttributes'
-            },
-            renderer: function (value) {
-                return Ext.getStore('PositionAttributes').getAttributeName(value);
+                store: 'AllCommandTypes'
             }
+        }, {
+            text: Strings.notificationSms,
+            dataIndex: 'textChannel',
+            filter: 'boolean'
         }]
     }
 });

@@ -21,9 +21,10 @@ Ext.define('Traccar.view.edit.GroupsController', {
 
     requires: [
         'Traccar.view.dialog.Group',
-        'Traccar.view.permissions.GroupGeofences',
-        'Traccar.view.permissions.GroupAttributes',
-        'Traccar.view.permissions.GroupDrivers',
+        'Traccar.view.permissions.Geofences',
+        'Traccar.view.permissions.ComputedAttributes',
+        'Traccar.view.permissions.Drivers',
+        'Traccar.view.permissions.SavedCommands',
         'Traccar.view.BaseWindow',
         'Traccar.model.Group'
     ],
@@ -37,6 +38,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('toolbarAttributesButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+        this.lookupReference('toolbarCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
     },
 
     onGeofencesClick: function () {
@@ -46,7 +48,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedGeofences,
             items: {
-                xtype: 'groupGeofencesView',
+                xtype: 'linkGeofencesView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'geofenceId',
                 storeName: admin ? 'AllGeofences' : 'Geofences',
@@ -62,7 +64,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedComputedAttributes,
             items: {
-                xtype: 'groupAttributesView',
+                xtype: 'linkComputedAttributesView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'attributeId',
                 storeName: admin ? 'AllComputedAttributes' : 'ComputedAttributes',
@@ -78,10 +80,26 @@ Ext.define('Traccar.view.edit.GroupsController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedDrivers,
             items: {
-                xtype: 'groupDriversView',
+                xtype: 'linkDriversView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'driverId',
                 storeName: admin ? 'AllDrivers' : 'Drivers',
+                baseObject: group.getId()
+            }
+        }).show();
+    },
+
+    onCommandsClick: function () {
+        var admin, group;
+        admin = Traccar.app.getUser().get('admin');
+        group = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedSavedCommands,
+            items: {
+                xtype: 'linkSavedCommandsView',
+                baseObjectName: 'groupId',
+                linkObjectName: 'commandId',
+                storeName: admin ? 'AllCommands' : 'Commands',
                 baseObject: group.getId()
             }
         }).show();
@@ -92,6 +110,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         this.lookupReference('toolbarGeofencesButton').setDisabled(disabled);
         this.lookupReference('toolbarAttributesButton').setDisabled(disabled);
         this.lookupReference('toolbarDriversButton').setDisabled(disabled);
+        this.lookupReference('toolbarCommandsButton').setDisabled(disabled);
         this.callParent(arguments);
     }
 });

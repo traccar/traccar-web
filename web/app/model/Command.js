@@ -20,11 +20,25 @@ Ext.define('Traccar.model.Command', {
     identifier: 'negative',
 
     fields: [{
+        name: 'id',
+        type: 'int'
+    }, {
+        name: 'description',
+        type: 'string'
+    }, {
         name: 'deviceId',
         type: 'int'
     }, {
         name: 'type',
         type: 'string'
+    }, {
+        name: 'name',
+        convert: function (v, rec) {
+            var name = Strings['command' + rec.get('type').charAt(0).toUpperCase() + rec.get('type').slice(1)];
+            return name ? name : rec.get('type');
+        },
+        depends: ['type'],
+        persist: false
     }, {
         name: 'textChannel',
         type: 'boolean'
