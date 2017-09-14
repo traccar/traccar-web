@@ -29,7 +29,7 @@ Ext.define('Traccar.view.dialog.SendCommand', {
     items: [{
         xtype: 'combobox',
         reference: 'commandsComboBox',
-        fieldLabel: Strings.sharedSavedCommand,
+        fieldLabel: Strings.deviceCommand,
         displayField: 'description',
         valueField: 'id',
         store: 'DeviceCommands',

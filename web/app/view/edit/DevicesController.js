@@ -126,7 +126,6 @@ Ext.define('Traccar.view.edit.DevicesController', {
 
         commandsStore = dialog.lookupReference('commandsComboBox').getStore();
         commandsStore.getProxy().setExtraParam('deviceId', deviceId);
-        commandsStore.removeAll();
         if (!Traccar.app.getPreference('limitCommands', false)) {
             commandsStore.add({
                 id: 0,

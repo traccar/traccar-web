@@ -35,15 +35,16 @@ Ext.define('Traccar.view.permissions.SavedCommands', {
             filter: 'string'
         }, {
             text: Strings.sharedType,
-            dataIndex: 'name',
+            dataIndex: 'type',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
             filter: {
                 type: 'list',
-                idField: 'name',
+                idField: 'type',
                 labelField: 'name',
                 store: 'AllCommandTypes'
-            }
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('commandType')
         }, {
             text: Strings.notificationSms,
             dataIndex: 'textChannel',

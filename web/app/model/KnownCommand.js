@@ -25,8 +25,7 @@ Ext.define('Traccar.model.KnownCommand', {
     }, {
         name: 'name',
         convert: function (v, rec) {
-            var name = Strings['command' + rec.get('type').charAt(0).toUpperCase() + rec.get('type').slice(1)];
-            return name ? name : rec.get('type');
+            return Traccar.AttributeFormatter.getFormatter('commandType')(rec.get('type'));
         },
         depends: ['type']
     }, {

@@ -43,7 +43,7 @@ Ext.define('Traccar.view.dialog.BaseEditController', {
         } else {
             record.save();
         }
-        button.up('window').close();
+        this.closeView();
     },
 
     showAttributesView: function (button) {

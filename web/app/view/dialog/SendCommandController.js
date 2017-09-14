@@ -36,9 +36,7 @@ Ext.define('Traccar.view.dialog.SendCommandController', {
         Ext.Ajax.request({
             scope: this,
             url: 'api/commands/send',
-            jsonData: record.getData({
-                persist: true
-            }),
+            jsonData: record.getData(),
             callback: this.onSendResult
         });
     },
@@ -89,5 +87,10 @@ Ext.define('Traccar.view.dialog.SendCommandController', {
         } else {
             Traccar.app.showError(response);
         }
+    },
+
+    closeView: function () {
+        this.lookupReference('commandsComboBox').getStore().removeAll();
+        this.callParent(arguments);
     }
 });

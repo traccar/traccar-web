@@ -32,14 +32,6 @@ Ext.define('Traccar.model.Command', {
         name: 'type',
         type: 'string'
     }, {
-        name: 'name',
-        convert: function (v, rec) {
-            var name = Strings['command' + rec.get('type').charAt(0).toUpperCase() + rec.get('type').slice(1)];
-            return name ? name : rec.get('type');
-        },
-        depends: ['type'],
-        persist: false
-    }, {
         name: 'textChannel',
         type: 'boolean'
     }, {

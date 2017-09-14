@@ -130,6 +130,11 @@ Ext.define('Traccar.AttributeFormatter', {
         return null;
     },
 
+    commandTypeFormatter: function (value) {
+        var name = Strings['command' + value.charAt(0).toUpperCase() + value.slice(1)];
+        return name ? name : value;
+    },
+
     defaultFormatter: function (value) {
         if (typeof value === 'number') {
             return Number(value.toFixed(Traccar.Style.numberPrecision));
@@ -175,6 +180,8 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.volumeFormatter;
             case 'driverUniqueId':
                 return this.driverUniqueIdFormatter;
+            case 'commandType':
+                return this.commandTypeFormatter;
             default:
                 return this.defaultFormatter;
         }

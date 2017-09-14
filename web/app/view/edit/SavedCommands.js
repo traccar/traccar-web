@@ -50,13 +50,14 @@ Ext.define('Traccar.view.edit.SavedCommands', {
             filter: 'string'
         }, {
             text: Strings.sharedType,
-            dataIndex: 'name',
+            dataIndex: 'type',
             filter: {
                 type: 'list',
-                idField: 'name',
+                idField: 'type',
                 labelField: 'name',
                 store: 'AllCommandTypes'
-            }
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('commandType')
         }, {
             text: Strings.notificationSms,
             dataIndex: 'textChannel',
