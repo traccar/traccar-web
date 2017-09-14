@@ -16,17 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.UserUsers', {
-    extend: 'Traccar.view.permissions.Base',
-    xtype: 'userUsersView',
+Ext.define('Traccar.store.AllCommandTypes', {
+    extend: 'Ext.data.Store',
+    model: 'Traccar.model.KnownCommand',
 
-    columns: {
-        items: [{
-            text: Strings.sharedName,
-            dataIndex: 'name',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
-            filter: 'string'
-        }]
+    proxy: {
+        type: 'rest',
+        url: 'api/commandtypes',
+        listeners: {
+            'exception': function (proxy, response) {
+                Traccar.app.showError(response);
+            }
+        }
     }
 });

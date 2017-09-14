@@ -16,9 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.UserAttributes', {
+Ext.define('Traccar.view.permissions.ComputedAttributes', {
     extend: 'Traccar.view.permissions.Base',
-    xtype: 'userAttributesView',
+    xtype: 'linkComputedAttributesView',
 
     requires: [
         'Ext.grid.filters.Filters'

@@ -22,13 +22,14 @@ Ext.define('Traccar.view.edit.UsersController', {
 
     requires: [
         'Traccar.view.dialog.User',
-        'Traccar.view.permissions.UserDevices',
-        'Traccar.view.permissions.UserGroups',
-        'Traccar.view.permissions.UserGeofences',
-        'Traccar.view.permissions.UserCalendars',
-        'Traccar.view.permissions.UserUsers',
-        'Traccar.view.permissions.UserAttributes',
-        'Traccar.view.permissions.UserDrivers',
+        'Traccar.view.permissions.Devices',
+        'Traccar.view.permissions.Groups',
+        'Traccar.view.permissions.Geofences',
+        'Traccar.view.permissions.Calendars',
+        'Traccar.view.permissions.Users',
+        'Traccar.view.permissions.ComputedAttributes',
+        'Traccar.view.permissions.Drivers',
+        'Traccar.view.permissions.SavedCommands',
         'Traccar.view.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
@@ -47,6 +48,7 @@ Ext.define('Traccar.view.edit.UsersController', {
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('userCalendarsButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
+        this.lookupReference('userCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
     },
 
     onEditClick: function () {
@@ -78,7 +80,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.deviceTitle,
             items: {
-                xtype: 'userDevicesView',
+                xtype: 'linkDevicesView',
                 baseObjectName: 'userId',
                 linkObjectName: 'deviceId',
                 storeName: 'AllDevices',
@@ -93,7 +95,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.settingsGroups,
             items: {
-                xtype: 'userGroupsView',
+                xtype: 'linkGroupsView',
                 baseObjectName: 'userId',
                 linkObjectName: 'groupId',
                 storeName: 'AllGroups',
@@ -108,7 +110,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedGeofences,
             items: {
-                xtype: 'userGeofencesView',
+                xtype: 'linkGeofencesView',
                 baseObjectName: 'userId',
                 linkObjectName: 'geofenceId',
                 storeName: 'AllGeofences',
@@ -134,7 +136,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedCalendars,
             items: {
-                xtype: 'userCalendarsView',
+                xtype: 'linkCalendarsView',
                 baseObjectName: 'userId',
                 linkObjectName: 'calendarId',
                 storeName: 'AllCalendars',
@@ -149,7 +151,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.settingsUsers,
             items: {
-                xtype: 'userUsersView',
+                xtype: 'linkUsersView',
                 baseObjectName: 'userId',
                 linkObjectName: 'managedUserId',
                 storeName: 'Users',
@@ -163,7 +165,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedComputedAttributes,
             items: {
-                xtype: 'userAttributesView',
+                xtype: 'linkComputedAttributesView',
                 baseObjectName: 'userId',
                 linkObjectName: 'attributeId',
                 storeName: 'AllComputedAttributes',
@@ -178,7 +180,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedDrivers,
             items: {
-                xtype: 'userDriversView',
+                xtype: 'linkDriversView',
                 baseObjectName: 'userId',
                 linkObjectName: 'driverId',
                 storeName: 'AllDrivers',
@@ -188,6 +190,20 @@ Ext.define('Traccar.view.edit.UsersController', {
         }).show();
     },
 
+    onCommandsClick: function () {
+        var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedSavedCommands,
+            items: {
+                xtype: 'linkSavedCommandsView',
+                baseObjectName: 'userId',
+                linkObjectName: 'commandId',
+                storeName: 'AllCommands',
+                linkStoreName: 'Commands',
+                baseObject: user.getId()
+            }
+        }).show();
+    },
 
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
@@ -198,6 +214,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         this.lookupReference('userCalendarsButton').setDisabled(disabled);
         this.lookupReference('userAttributesButton').setDisabled(disabled);
         this.lookupReference('userDriversButton').setDisabled(disabled);
+        this.lookupReference('userCommandsButton').setDisabled(disabled);
         this.lookupReference('userUsersButton').setDisabled(disabled || selected[0].get('userLimit') === 0);
         this.callParent(arguments);
     }

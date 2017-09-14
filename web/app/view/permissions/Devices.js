@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.UserDevices', {
+Ext.define('Traccar.view.permissions.Devices', {
     extend: 'Traccar.view.permissions.Base',
-    xtype: 'userDevicesView',
+    xtype: 'linkDevicesView',
 
     requires: [
         'Ext.grid.filters.Filters',

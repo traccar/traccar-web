@@ -20,6 +20,12 @@ Ext.define('Traccar.model.Command', {
     identifier: 'negative',
 
     fields: [{
+        name: 'id',
+        type: 'int'
+    }, {
+        name: 'description',
+        type: 'string'
+    }, {
         name: 'deviceId',
         type: 'int'
     }, {

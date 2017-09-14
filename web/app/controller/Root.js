@@ -111,6 +111,8 @@ Ext.define('Traccar.controller.Root', {
         Ext.getStore('Geofences').load();
         Ext.getStore('Calendars').load();
         Ext.getStore('ComputedAttributes').load();
+        Ext.getStore('AllCommandTypes').load();
+        Ext.getStore('Commands').load();
         this.initReportEventTypesStore();
 
         Ext.getStore('ServerAttributes').loadData(Ext.getStore('CommonDeviceAttributes').getData().items, true);

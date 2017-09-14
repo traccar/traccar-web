@@ -15,13 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.UserGroups', {
+Ext.define('Traccar.view.permissions.Geofences', {
     extend: 'Traccar.view.permissions.Base',
-    xtype: 'userGroupsView',
+    xtype: 'linkGeofencesView',
 
     requires: [
-        'Ext.grid.filters.Filters',
-        'Traccar.AttributeFormatter'
+        'Ext.grid.filters.Filters'
     ],
 
     plugins: 'gridfilters',
@@ -33,18 +32,6 @@ Ext.define('Traccar.view.permissions.UserGroups', {
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
             filter: 'string'
-        }, {
-            text: Strings.groupDialog,
-            dataIndex: 'groupId',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
-            hidden: true,
-            filter: {
-                type: 'list',
-                labelField: 'name',
-                store: 'AllGroups'
-            },
-            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }]
     }
 });

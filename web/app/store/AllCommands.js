@@ -16,29 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.permissions.UserDrivers', {
-    extend: 'Traccar.view.permissions.Base',
-    xtype: 'userDriversView',
+Ext.define('Traccar.store.AllCommands', {
+    extend: 'Ext.data.Store',
+    model: 'Traccar.model.Command',
 
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
-
-    plugins: 'gridfilters',
-
-    columns: {
-        items: [{
-            text: Strings.sharedName,
-            dataIndex: 'name',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
-            filter: 'string'
-        }, {
-            text: Strings.deviceIdentifier,
-            dataIndex: 'uniqueId',
-            flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal,
-            filter: 'string'
-        }]
+    proxy: {
+        type: 'rest',
+        url: 'api/commands',
+        extraParams: {
+            all: true
+        }
     }
 });

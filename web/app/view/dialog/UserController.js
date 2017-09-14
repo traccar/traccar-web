@@ -30,6 +30,7 @@ Ext.define('Traccar.view.dialog.UserController', {
             this.lookupReference('disabledField').setDisabled(false);
             this.lookupReference('expirationTimeField').setDisabled(false);
             this.lookupReference('deviceReadonlyField').setDisabled(false);
+            this.lookupReference('limitCommandsField').setDisabled(false);
         }
     },
 
