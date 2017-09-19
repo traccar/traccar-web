@@ -27,7 +27,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.edit.Groups',
         'Traccar.view.edit.Geofences',
         'Traccar.view.edit.Drivers',
-        'Traccar.view.Notifications',
+        'Traccar.view.edit.Notifications',
         'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.Statistics',
         'Traccar.view.dialog.DeviceDistance',
@@ -110,12 +110,10 @@ Ext.define('Traccar.view.SettingsMenuController', {
     },
 
     onNotificationsClick: function () {
-        var user = Traccar.app.getUser();
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedNotifications,
             items: {
-                xtype: 'notificationsView',
-                user: user
+                xtype: 'notificationsView'
             }
         }).show();
     },

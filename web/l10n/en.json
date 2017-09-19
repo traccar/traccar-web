@@ -340,6 +340,7 @@
     "alarmTampering": "Tampering Alarm",
     "alarmRemoving": "Removing Alarm",
     "notificationType": "Type of Notification",
+    "notificationAlways": "Send Always",
     "notificationWeb": "Send via Web",
     "notificationMail": "Send via Mail",
     "notificationSms": "Send via SMS",

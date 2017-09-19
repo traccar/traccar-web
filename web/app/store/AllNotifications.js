@@ -21,14 +21,9 @@ Ext.define('Traccar.store.AllNotifications', {
 
     proxy: {
         type: 'rest',
-        url: 'api/users/notifications',
+        url: 'api/notifications',
         extraParams: {
             all: true
         }
-    },
-    sortOnLoad: true,
-    sorters: {
-        property: 'type',
-        direction: 'ASC'
     }
 });

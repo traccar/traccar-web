@@ -30,7 +30,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         'Traccar.view.permissions.ComputedAttributes',
         'Traccar.view.permissions.Drivers',
         'Traccar.view.permissions.SavedCommands',
-        'Traccar.view.Notifications',
+        'Traccar.view.permissions.Notifications',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
     ],
@@ -125,8 +125,12 @@ Ext.define('Traccar.view.edit.UsersController', {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedNotifications,
             items: {
-                xtype: 'notificationsView',
-                user: user
+                xtype: 'linkNotificationsView',
+                baseObjectName: 'userId',
+                linkObjectName: 'notificationId',
+                storeName: 'AllNotifications',
+                linkStoreName: 'Notifications',
+                baseObject: user.getId()
             }
         }).show();
     },

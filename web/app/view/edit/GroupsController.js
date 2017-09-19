@@ -105,12 +105,29 @@ Ext.define('Traccar.view.edit.GroupsController', {
         }).show();
     },
 
+    onNotificationsClick: function () {
+        var admin, group;
+        admin = Traccar.app.getUser().get('admin');
+        group = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedSavedCommands,
+            items: {
+                xtype: 'linkNotificationsView',
+                baseObjectName: 'groupId',
+                linkObjectName: 'notificationId',
+                storeName: admin ? 'AllNotifications' : 'Notifications',
+                baseObject: group.getId()
+            }
+        }).show();
+    },
+
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
         this.lookupReference('toolbarGeofencesButton').setDisabled(disabled);
         this.lookupReference('toolbarAttributesButton').setDisabled(disabled);
         this.lookupReference('toolbarDriversButton').setDisabled(disabled);
         this.lookupReference('toolbarCommandsButton').setDisabled(disabled);
+        this.lookupReference('toolbarNotificationsButton').setDisabled(disabled);
         this.callParent(arguments);
     }
 });

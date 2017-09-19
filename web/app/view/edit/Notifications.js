@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,23 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.Notifications', {
+Ext.define('Traccar.view.edit.Notifications', {
     extend: 'Ext.grid.Panel',
     xtype: 'notificationsView',
 
     requires: [
-        'Traccar.view.NotificationsController'
+        'Ext.grid.filters.Filters',
+        'Traccar.view.edit.NotificationsController',
+        'Traccar.view.edit.Toolbar'
     ],
 
-    controller: 'notificationsController',
+    plugins: 'gridfilters',
+
+    controller: 'notifications',
     store: 'Notifications',
 
-    selModel: {
-        selType: 'cellmodel'
+    tbar: {
+        xtype: 'editToolbar'
     },
 
-    viewConfig: {
-        markDirty: false
+    listeners: {
+        selectionchange: 'onSelectionChange'
     },
 
     columns: {
@@ -45,28 +50,33 @@ Ext.define('Traccar.view.Notifications', {
             flex: 2,
             renderer: function (value) {
                 return Traccar.app.getEventString(value);
+            },
+            filter: {
+                type: 'list',
+                idField: 'type',
+                labelField: 'name',
+                store: 'AllNotificationTypes'
             }
+        }, {
+            text: Strings.notificationAlways,
+            dataIndex: 'always',
+            renderer: Traccar.AttributeFormatter.getFormatter('always'),
+            filter: 'boolean'
         }, {
             text: Strings.notificationWeb,
             dataIndex: 'web',
-            xtype: 'checkcolumn',
-            listeners: {
-                checkChange: 'onCheckChange'
-            }
+            renderer: Traccar.AttributeFormatter.getFormatter('web'),
+            filter: 'boolean'
         }, {
             text: Strings.notificationMail,
             dataIndex: 'mail',
-            xtype: 'checkcolumn',
-            listeners: {
-                checkChange: 'onCheckChange'
-            }
+            renderer: Traccar.AttributeFormatter.getFormatter('mail'),
+            filter: 'boolean'
         }, {
             text: Strings.notificationSms,
             dataIndex: 'sms',
-            xtype: 'checkcolumn',
-            listeners: {
-                checkChange: 'onCheckChange'
-            }
+            renderer: Traccar.AttributeFormatter.getFormatter('sms'),
+            filter: 'boolean'
         }]
     }
 });

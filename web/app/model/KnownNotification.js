@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,30 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-Ext.define('Traccar.model.Notification', {
+Ext.define('Traccar.model.KnownNotification', {
     extend: 'Ext.data.Model',
-    identifier: 'negative',
+    idProperty: 'type',
 
     fields: [{
-        name: 'id',
-        type: 'int'
-    }, {
         name: 'type',
         type: 'string'
     }, {
-        name: 'always',
-        type: 'bool'
-    }, {
-        name: 'attributes'
-    }, {
-        name: 'web',
-        type: 'bool'
-    }, {
-        name: 'mail',
-        type: 'bool'
-    }, {
-        name: 'sms',
-        type: 'bool'
+        name: 'name',
+        convert: function (v, rec) {
+            return Traccar.app.getEventString(rec.get('type'));
+        },
+        depends: ['type']
     }]
 });
