@@ -61,6 +61,7 @@ Ext.define('Traccar.view.edit.SavedCommands', {
         }, {
             text: Strings.notificationSms,
             dataIndex: 'textChannel',
+            renderer: Traccar.AttributeFormatter.getFormatter('textChannel'),
             filter: 'boolean'
         }]
     }

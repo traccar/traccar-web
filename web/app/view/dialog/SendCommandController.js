@@ -24,10 +24,6 @@ Ext.define('Traccar.view.dialog.SendCommandController', {
         'Traccar.view.permissions.SavedCommands'
     ],
 
-    init: function () {
-        this.lookupReference('linkButton').setHidden(Traccar.app.getPreference('limitCommands', false));
-    },
-
     onSendClick: function (button) {
         var record;
         this.fillAttributes(button);
@@ -65,19 +61,6 @@ Ext.define('Traccar.view.dialog.SendCommandController', {
         this.lookupReference('newCommandFields').setDisabled(command.getId() !== 0);
         this.lookupReference('textChannelCheckBox').setDisabled(command.getId() !== 0 || !this.getView().online);
         this.lookupReference('sendButton').setDisabled(command.getId() === 0);
-    },
-
-    onLinkCommands: function () {
-        Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedSavedCommands,
-            items: {
-                xtype: 'linkSavedCommandsView',
-                baseObjectName: 'deviceId',
-                linkObjectName: 'commandId',
-                storeName: 'Commands',
-                baseObject: this.getView().deviceId
-            }
-        }).show();
     },
 
     onSendResult: function (options, success, response) {

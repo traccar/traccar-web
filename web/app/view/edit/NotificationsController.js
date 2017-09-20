@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,29 +16,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.Notification', {
-    extend: 'Ext.data.Model',
-    identifier: 'negative',
+Ext.define('Traccar.view.edit.NotificationsController', {
+    extend: 'Traccar.view.edit.ToolbarController',
+    alias: 'controller.notifications',
 
-    fields: [{
-        name: 'id',
-        type: 'int'
-    }, {
-        name: 'type',
-        type: 'string'
-    }, {
-        name: 'always',
-        type: 'bool'
-    }, {
-        name: 'attributes'
-    }, {
-        name: 'web',
-        type: 'bool'
-    }, {
-        name: 'mail',
-        type: 'bool'
-    }, {
-        name: 'sms',
-        type: 'bool'
-    }]
+    requires: [
+        'Traccar.view.dialog.Notification',
+        'Traccar.model.Notification'
+    ],
+
+    objectModel: 'Traccar.model.Notification',
+    objectDialog: 'Traccar.view.dialog.Notification',
+    removeTitle: Strings.sharedNotification
 });

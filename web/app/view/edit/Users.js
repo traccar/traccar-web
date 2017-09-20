@@ -121,20 +121,24 @@ Ext.define('Traccar.view.edit.Users', {
         }, {
             text: Strings.userAdmin,
             dataIndex: 'admin',
+            renderer: Traccar.AttributeFormatter.getFormatter('admin'),
             filter: 'boolean'
         }, {
             text: Strings.serverReadonly,
             dataIndex: 'readonly',
             hidden: true,
+            renderer: Traccar.AttributeFormatter.getFormatter('readonly'),
             filter: 'boolean'
         }, {
             text: Strings.userDeviceReadonly,
             dataIndex: 'deviceReadonly',
+            renderer: Traccar.AttributeFormatter.getFormatter('deviceReadonly'),
             hidden: true,
             filter: 'boolean'
         }, {
             text: Strings.userDisabled,
             dataIndex: 'disabled',
+            renderer: Traccar.AttributeFormatter.getFormatter('disabled'),
             filter: 'boolean'
         }, {
             text: Strings.userExpirationTime,

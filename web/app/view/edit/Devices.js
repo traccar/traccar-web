@@ -23,7 +23,8 @@ Ext.define('Traccar.view.edit.Devices', {
         'Ext.grid.filters.Filters',
         'Traccar.AttributeFormatter',
         'Traccar.view.edit.DevicesController',
-        'Traccar.view.ArrayListFilter'
+        'Traccar.view.ArrayListFilter',
+        'Traccar.view.DeviceMenu'
     ],
 
     controller: 'devices',
@@ -65,26 +66,14 @@ Ext.define('Traccar.view.edit.Devices', {
             glyph: 'xf00d@FontAwesome',
             tooltip: Strings.sharedRemove
         }, {
-            handler: 'onGeofencesClick',
-            reference: 'toolbarGeofencesButton',
-            glyph: 'xf21d@FontAwesome',
-            tooltip: Strings.sharedGeofences
-        }, {
-            handler: 'onAttributesClick',
-            reference: 'toolbarAttributesButton',
-            glyph: 'xf0ae@FontAwesome',
-            tooltip: Strings.sharedComputedAttributes
-        }, {
-            xtype: 'button',
-            handler: 'onDriversClick',
-            reference: 'toolbarDriversButton',
-            glyph: 'xf2c2@FontAwesome',
-            tooltip: Strings.sharedDrivers
-        }, {
             handler: 'onCommandClick',
             reference: 'deviceCommandButton',
             glyph: 'xf093@FontAwesome',
             tooltip: Strings.deviceCommand
+        }, {
+            xtype: 'deviceMenu',
+            reference: 'toolbarDeviceMenu',
+            enableToggle: false
         }]
     },
 

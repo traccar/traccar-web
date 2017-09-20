@@ -79,12 +79,6 @@ Ext.define('Traccar.view.dialog.SendCommand', {
     }],
 
     buttons: [{
-        glyph: 'xf093@FontAwesome',
-        text: Strings.sharedSavedCommands,
-        reference: 'linkButton',
-        handler: 'onLinkCommands',
-        hidden: true
-    }, {
         xtype: 'tbfill'
     }, {
         glyph: 'xf093@FontAwesome',

@@ -28,5 +28,4 @@ Ext.define('Traccar.view.edit.CalendarsController', {
     objectModel: 'Traccar.model.Calendar',
     objectDialog: 'Traccar.view.dialog.Calendar',
     removeTitle: Strings.sharedCalendar
-
 });
