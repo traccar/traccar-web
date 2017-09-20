@@ -56,6 +56,12 @@ Ext.define('Traccar.view.DeviceMenu', {
             glyph: 'xf093@FontAwesome',
             handler: 'onCommandsClick',
             reference: 'menuCommandsButton'
+        }, {
+            hidden: true,
+            text: Strings.sharedDeviceDistance,
+            glyph: 'xf0e4@FontAwesome',
+            handler: 'onDeviceDistanceClick',
+            reference: 'menuDeviceDistanceButton'
         }]
     }
 });

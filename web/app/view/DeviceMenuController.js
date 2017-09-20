@@ -35,6 +35,8 @@ Ext.define('Traccar.view.DeviceMenuController', {
         this.lookupReference('menuComputedAttributesButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('menuCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
+        this.lookupReference('menuDeviceDistanceButton').setHidden(
+            !Traccar.app.getUser().get('admin') || Traccar.app.getVehicleFeaturesDisabled());
     },
 
     onGeofencesClick: function () {
@@ -100,5 +102,15 @@ Ext.define('Traccar.view.DeviceMenuController', {
                 baseObject: this.getView().up('deviceMenu').device.getId()
             }
         }).show();
+    },
+
+    onDeviceDistanceClick: function () {
+        var position, dialog = Ext.create('Traccar.view.dialog.DeviceDistance');
+        dialog.deviceId = this.getView().up('deviceMenu').device.getId();
+        position = Ext.getStore('LatestPositions').findRecord('deviceId', dialog.deviceId, 0, false, false, true);
+        if (position) {
+            dialog.lookupReference('totalDistance').setValue(position.get('attributes').totalDistance);
+        }
+        dialog.show();
     }
 });

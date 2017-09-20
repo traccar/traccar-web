@@ -22,7 +22,7 @@ Ext.define('Traccar.store.CommandTypes', {
 
     proxy: {
         type: 'rest',
-        url: 'api/commandtypes',
+        url: 'api/commands/types',
         listeners: {
             'exception': function (proxy, response) {
                 Traccar.app.showError(response);
