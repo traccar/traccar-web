@@ -27,17 +27,6 @@ Ext.define('Traccar.view.dialog.DeviceDistance', {
     title: Strings.sharedDeviceDistance,
 
     items: [{
-        xtype: 'combobox',
-        reference: 'deviceId',
-        fieldLabel: Strings.sharedDevice,
-        store: 'AllDevices',
-        displayField: 'name',
-        valueField: 'id',
-        editable: false,
-        listeners: {
-            change: 'onDeviceChange'
-        }
-    }, {
         xtype: 'customNumberField',
         dataType: 'distance',
         reference: 'totalDistance',
@@ -45,7 +34,6 @@ Ext.define('Traccar.view.dialog.DeviceDistance', {
     }],
 
     buttons: [{
-        disabled: true,
         reference: 'setButton',
         glyph: 'xf00c@FontAwesome',
         tooltip: Strings.sharedSet,

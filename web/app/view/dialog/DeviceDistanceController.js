@@ -20,21 +20,11 @@ Ext.define('Traccar.view.dialog.DeviceDistanceController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.deviceDistance',
 
-    onDeviceChange: function (combobox, newValue) {
-        var position;
-        this.lookupReference('setButton').setDisabled(newValue === null);
-        if (newValue) {
-            position = Ext.getStore('LatestPositions').findRecord('deviceId', newValue, 0, false, false, true);
-            if (position) {
-                this.lookupReference('totalDistance').setValue(position.get('attributes').totalDistance);
-            }
-        }
-    },
-
-    onSetClick: function (button) {
-        var data = {};
-        data.deviceId = this.lookupReference('deviceId').getValue();
-        data.totalDistance = this.lookupReference('totalDistance').getValue();
+    onSetClick: function () {
+        var data = {
+            deviceId: this.getView().deviceId,
+            totalDistance: this.lookupReference('totalDistance').getValue()
+        };
         Ext.Ajax.request({
             scope: this,
             method: 'PUT',
@@ -46,6 +36,6 @@ Ext.define('Traccar.view.dialog.DeviceDistanceController', {
                 }
             }
         });
-        button.up('window').close();
+        this.closeView();
     }
 });

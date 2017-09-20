@@ -80,12 +80,6 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsComputedAttributesButton'
         }, {
             hidden: true,
-            text: Strings.sharedDeviceDistance,
-            glyph: 'xf0e4@FontAwesome',
-            handler: 'onDeviceDistanceClick',
-            reference: 'settingsDeviceDistanceButton'
-        }, {
-            hidden: true,
             text: Strings.statisticsTitle,
             glyph: 'xf080@FontAwesome',
             handler: 'onStatisticsClick',
