@@ -28,5 +28,4 @@ Ext.define('Traccar.view.edit.SavedCommandsController', {
     objectModel: 'Traccar.model.Command',
     objectDialog: 'Traccar.view.dialog.SavedCommand',
     removeTitle: Strings.sharedSavedCommand
-
 });

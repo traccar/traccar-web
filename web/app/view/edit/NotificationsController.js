@@ -28,5 +28,4 @@ Ext.define('Traccar.view.edit.NotificationsController', {
     objectModel: 'Traccar.model.Notification',
     objectDialog: 'Traccar.view.dialog.Notification',
     removeTitle: Strings.sharedNotification
-
 });

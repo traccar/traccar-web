@@ -45,7 +45,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'geofenceId',
                 storeName: 'Geofences',
-                baseObject: this.getView().ownerCmp.device.getId()
+                baseObject: this.getView().up('deviceMenu').device.getId()
             }
         }).show();
     },
@@ -58,7 +58,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'notificationId',
                 storeName: 'Notifications',
-                baseObject: this.getView().ownerCmp.device.getId()
+                baseObject: this.getView().up('deviceMenu').device.getId()
             }
         }).show();
     },
@@ -71,7 +71,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'attributeId',
                 storeName: 'ComputedAttributes',
-                baseObject: this.getView().ownerCmp.device.getId()
+                baseObject: this.getView().up('deviceMenu').device.getId()
             }
         }).show();
     },
@@ -84,7 +84,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'driverId',
                 storeName: 'Drivers',
-                baseObject: this.getView().ownerCmp.device.getId()
+                baseObject: this.getView().up('deviceMenu').device.getId()
             }
         }).show();
     },
@@ -97,7 +97,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
                 baseObjectName: 'deviceId',
                 linkObjectName: 'commandId',
                 storeName: 'Commands',
-                baseObject: this.getView().ownerCmp.device.getId()
+                baseObject: this.getView().up('deviceMenu').device.getId()
             }
         }).show();
     }
