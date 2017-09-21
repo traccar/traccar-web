@@ -59,6 +59,10 @@ Ext.define('Traccar.store.CommonUserAttributes', {
         name: Strings.attributeUiDisableCalendars,
         valueType: 'boolean'
     }, {
+        key: 'ui.hidePositionAttributes',
+        name: Strings.attributeUiHidePositionAttributes,
+        valueType: 'string'
+    }, {
         key: 'distanceUnit',
         name: Strings.settingsDistanceUnit,
         valueType: 'string',
