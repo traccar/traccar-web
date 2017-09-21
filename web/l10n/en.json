@@ -99,7 +99,7 @@
     "attributeUiDisableDrivers": "UI: Disable Drivers",
     "attributeUiDisableComputedAttributes": "UI: Disable Computed Attributes",
     "attributeUiDisableCalendars": "UI: Disable Calendars",
-    "attributeUiHiddenPositionAttributes": "UI: Hidden Position Attributes",
+    "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",
