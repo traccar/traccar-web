@@ -50,10 +50,19 @@ Ext.define('Traccar.view.StateController', {
 
 
     init: function () {
+        var i, hiddenAttributesPreference, attributesList;
         if (Traccar.app.getUser().get('admin') ||
                 !Traccar.app.getUser().get('deviceReadonly') && !Traccar.app.getPreference('readonly', false)) {
             this.lookupReference('computedAttributesButton').setDisabled(
                 Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+        }
+        hiddenAttributesPreference = Traccar.app.getAttributePreference('ui.hiddenPositionAttributes');
+        this.hiddenAttributes = {};
+        if (hiddenAttributesPreference) {
+            attributesList = hiddenAttributesPreference.split(/[ ,]+/).filter(Boolean);
+            for (i = 0; i < attributesList.length; i++) {
+                this.hiddenAttributes[attributesList[i]] = true;
+            }
         }
     },
 
@@ -124,7 +133,7 @@ Ext.define('Traccar.view.StateController', {
         attributes = this.position.get('attributes');
         if (attributes instanceof Object) {
             for (key in attributes) {
-                if (attributes.hasOwnProperty(key)) {
+                if (attributes.hasOwnProperty(key) && !this.hiddenAttributes[key]) {
                     this.lookupAttribute = key;
                     name = Ext.getStore('PositionAttributes').getAttributeName(key, true);
                     if (this.position.get('attribute.' + key) !== undefined) {
