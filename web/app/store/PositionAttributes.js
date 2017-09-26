@@ -57,6 +57,10 @@ Ext.define('Traccar.store.PositionAttributes', {
         name: Strings.positionGps,
         valueType: 'number'
     }, {
+        key: 'roaming',
+        name: Strings.positionRoaming,
+        valueType: 'boolean'
+    }, {
         key: 'event',
         name: Strings.positionEvent,
         valueType: 'string'
@@ -87,6 +91,10 @@ Ext.define('Traccar.store.PositionAttributes', {
         key: 'hours',
         name: Strings.positionHours,
         valueType: 'string'
+    }, {
+        key: 'steps',
+        name: Strings.positionSteps,
+        valueType: 'number'
     }, {
         key: 'input',
         name: Strings.positionInput,
