@@ -329,7 +329,7 @@
     "alarmAccident": "Accident Alarm",
     "alarmTow": "Tow Alarm",
     "alarmHardAcceleration": "Hard Acceleration Alarm",
-    "alarmHardBreaking": "Hard Breaking Alarm",
+    "alarmHardBraking": "Hard Braking Alarm",
     "alarmFatigueDriving": "Fatigue Driving Alarm",
     "alarmPowerCut": "Power Cut Alarm",
     "alarmPowerRestored": "Power Restored Alarm",
