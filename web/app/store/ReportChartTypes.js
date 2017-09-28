@@ -26,5 +26,8 @@ Ext.define('Traccar.store.ReportChartTypes', {
     }, {
         key: 'accuracy',
         name: Strings.positionAccuracy
+    }, {
+        key: 'altitude',
+        name: Strings.positionAltitude
     }]
 });
