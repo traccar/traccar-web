@@ -12,7 +12,6 @@ fi
 SDK="${SENCHAROOT}/ext-6.2.0"
 CORE="${SDK}/packages/core"
 CLASSIC="${SDK}/classic/classic"
-CMDDIR="${SENCHAROOT}/Cmd"
 
 if [ ${#} -gt 1 ]
 then
@@ -55,8 +54,11 @@ do
 	done
 done
 
+# Currently assumes "sencha" is in the PATH since I cannot expect
+# Sencha/Cmd to be installed in the same relative place to the SDK.
+#
 # Minify
-"${CMDDIR}/sencha" compile \
+sencha compile \
 	--classpath="${CLASSPATH}" \
 	exclude -all and \
 	include -recursive -file "${INPUTFILE}" and \
