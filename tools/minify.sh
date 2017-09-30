@@ -3,7 +3,10 @@
 # Sencha Variables
 if [ -z "${SENCHAROOT}" ]
 then
-	SENCHAROOT="../../.."
+	# Maintain default behavior where the Sencha root
+	# is relative to the location of the script.
+	# "$(dirname $0)/../web/" + "../../.."
+	SENCHAROOT="$(dirname $0)/../../.."
 fi
 
 SDK="${SENCHAROOT}/ext-6.2.0"
