@@ -46,5 +46,35 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         callingPanel.toTime = this.lookupReference('toTimeField').getValue();
         callingPanel.updateButtons();
         button.up('window').close();
+    },
+
+    onPeriodChange: function (combobox, newValue) {
+        var day, first, from = new Date(), to = new Date();
+        switch (newValue) {
+            case 'today':
+                to.setDate(to.getDate() + 1);
+                break;
+            case 'yesterday':
+                from.setDate(to.getDate() - 1);
+                break;
+            case 'thisWeek':
+                day = from.getDay();
+                first = from.getDate() - day + (day === 0 ? -6 : 1);
+                from.setDate(first);
+                to.setDate(first + 7);
+                break;
+            case 'thisMonth':
+                from.setDate(1);
+                to.setDate(1);
+                to.setMonth(from.getMonth() + 1);
+                break;
+            default:
+        }
+        from.setHours(0, 0, 0, 0);
+        to.setHours(0, 0, 0, 0);
+        this.lookupReference('fromDateField').setValue(from);
+        this.lookupReference('fromTimeField').setValue(from);
+        this.lookupReference('toDateField').setValue(to);
+        this.lookupReference('toTimeField').setValue(to);
     }
 });
