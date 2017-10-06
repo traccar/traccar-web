@@ -73,8 +73,22 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         uncheckedValue: false,
         value: false
     }, {
+        fieldLabel: Strings.reportPeriod,
+        reference: 'periodField',
+        xtype: 'combobox',
+        store: 'ReportPeriods',
+        editable: false,
+        valueField: 'key',
+        displayField: 'name',
+        queryMode: 'local',
+        listeners: {
+            change: 'onPeriodChange'
+        }
+    }, {
         xtype: 'fieldcontainer',
         layout: 'vbox',
+        reference: 'fromContainer',
+        hidden: true,
         fieldLabel: Strings.reportFrom,
         items: [{
             xtype: 'datefield',
@@ -90,6 +104,8 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
     }, {
         xtype: 'fieldcontainer',
         layout: 'vbox',
+        reference: 'toContainer',
+        hidden: true,
         fieldLabel: Strings.reportTo,
         items: [{
             xtype: 'datefield',

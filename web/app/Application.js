@@ -76,6 +76,7 @@ Ext.define('Traccar.Application', {
         'ReportTypes',
         'ReportEventTypes',
         'ReportChartTypes',
+        'ReportPeriods',
         'Statistics',
         'DeviceImages',
         'Calendars',
