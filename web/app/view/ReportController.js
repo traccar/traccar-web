@@ -128,6 +128,9 @@ Ext.define('Traccar.view.ReportController', {
         if (this.toTime !== undefined) {
             dialog.lookupReference('toTimeField').setValue(this.toTime);
         }
+        if (this.period !== undefined) {
+            dialog.lookupReference('periodField').setValue(this.period);
+        }
         dialog.show();
     },
 

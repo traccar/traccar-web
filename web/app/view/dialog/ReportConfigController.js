@@ -44,6 +44,7 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         callingPanel.fromTime = this.lookupReference('fromTimeField').getValue();
         callingPanel.toDate = this.lookupReference('toDateField').getValue();
         callingPanel.toTime = this.lookupReference('toTimeField').getValue();
+        callingPanel.period = this.lookupReference('periodField').getValue();
         callingPanel.updateButtons();
         button.up('window').close();
     },
@@ -51,6 +52,10 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
     onPeriodChange: function (combobox, newValue) {
         var day, first, from = new Date(), to = new Date();
         switch (newValue) {
+            case 'custom':
+                this.lookupReference('fromContainer').setHidden(false);
+                this.lookupReference('toContainer').setHidden(false);
+                return;
             case 'today':
                 to.setDate(to.getDate() + 1);
                 break;
@@ -63,10 +68,21 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
                 from.setDate(first);
                 to.setDate(first + 7);
                 break;
+            case 'previousWeek':
+                day = from.getDay();
+                first = from.getDate() - day + (day === 0 ? -6 : 1);
+                from.setDate(first - 7);
+                to.setDate(first);
+                break;
             case 'thisMonth':
                 from.setDate(1);
                 to.setDate(1);
                 to.setMonth(from.getMonth() + 1);
+                break;
+            case 'previousMonth':
+                from.setDate(1);
+                from.setMonth(from.getMonth() - 1);
+                to.setDate(1);
                 break;
             default:
         }
@@ -76,5 +92,7 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         this.lookupReference('fromTimeField').setValue(from);
         this.lookupReference('toDateField').setValue(to);
         this.lookupReference('toTimeField').setValue(to);
+        this.lookupReference('fromContainer').setHidden(true);
+        this.lookupReference('toContainer').setHidden(true);
     }
 });

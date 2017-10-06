@@ -75,6 +75,8 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
     }, {
         xtype: 'fieldcontainer',
         layout: 'vbox',
+        reference: 'fromContainer',
+        hidden: true,
         fieldLabel: Strings.reportFrom,
         items: [{
             xtype: 'datefield',
@@ -90,6 +92,8 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
     }, {
         xtype: 'fieldcontainer',
         layout: 'vbox',
+        reference: 'toContainer',
+        hidden: true,
         fieldLabel: Strings.reportTo,
         items: [{
             xtype: 'datefield',
@@ -104,6 +108,7 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         }]
     }, {
         fieldLabel: Strings.reportPeriod,
+        reference: 'periodField',
         xtype: 'combobox',
         store: 'ReportPeriods',
         editable: false,
