@@ -119,7 +119,7 @@ Ext.define('Traccar.view.map.Map', {
         this.liveRouteSource = new ol.source.Vector({});
         this.liveRouteLayer = new ol.layer.Vector({
             source: this.liveRouteSource,
-            visible: false
+            visible: this.lookupReference('showLiveRoutes').pressed
         });
         this.map.addLayer(this.liveRouteLayer);
 
