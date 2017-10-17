@@ -16,16 +16,13 @@
  */
 
 Ext.define('Traccar.view.edit.Attributes', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'attributesView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.AttributesController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'attributes',
 

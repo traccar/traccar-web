@@ -16,16 +16,13 @@
  */
 
 Ext.define('Traccar.view.edit.Geofences', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'geofencesView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.GeofencesController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'geofences',
     store: 'Geofences',

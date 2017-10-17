@@ -20,11 +20,8 @@ Ext.define('Traccar.view.permissions.Groups', {
     xtype: 'linkGroupsView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.AttributeFormatter'
     ],
-
-    plugins: 'gridfilters',
 
     columns: {
         items: [{

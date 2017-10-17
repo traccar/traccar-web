@@ -16,11 +16,10 @@
  */
 
 Ext.define('Traccar.view.edit.Devices', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'devicesView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.AttributeFormatter',
         'Traccar.view.edit.DevicesController',
         'Traccar.view.ArrayListFilter',
@@ -28,8 +27,6 @@ Ext.define('Traccar.view.edit.Devices', {
     ],
 
     controller: 'devices',
-
-    plugins: 'gridfilters',
 
     store: 'VisibleDevices',
 
@@ -82,6 +79,7 @@ Ext.define('Traccar.view.edit.Devices', {
     },
 
     viewConfig: {
+        enableTextSelection: true,
         getRowClass: function (record) {
             var status = record.get('status');
             if (status) {

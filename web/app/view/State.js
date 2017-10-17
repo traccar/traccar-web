@@ -16,7 +16,7 @@
  */
 
 Ext.define('Traccar.view.State', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'stateView',
 
     requires: [

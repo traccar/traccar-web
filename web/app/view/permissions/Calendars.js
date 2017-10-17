@@ -20,12 +20,6 @@ Ext.define('Traccar.view.permissions.Calendars', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'linkCalendarsView',
 
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
-
-    plugins: 'gridfilters',
-
     columns: {
         items: [{
             text: Strings.sharedName,

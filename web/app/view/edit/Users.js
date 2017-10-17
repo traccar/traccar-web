@@ -17,19 +17,16 @@
  */
 
 Ext.define('Traccar.view.edit.Users', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'usersView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.UsersController',
         'Traccar.view.edit.Toolbar'
     ],
 
     controller: 'users',
     store: 'Users',
-
-    plugins: 'gridfilters',
 
     tbar: {
         xtype: 'editToolbar',

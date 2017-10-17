@@ -17,16 +17,13 @@
  */
 
 Ext.define('Traccar.view.edit.Drivers', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'driversView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.DriversController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'drivers',
     store: 'Drivers',

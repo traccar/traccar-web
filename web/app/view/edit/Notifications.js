@@ -17,16 +17,13 @@
  */
 
 Ext.define('Traccar.view.edit.Notifications', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'notificationsView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.NotificationsController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'notifications',
     store: 'Notifications',

@@ -20,12 +20,6 @@ Ext.define('Traccar.view.permissions.Notifications', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'linkNotificationsView',
 
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
-
-    plugins: 'gridfilters',
-
     columns: {
         items: [{
             text: Strings.notificationType,
