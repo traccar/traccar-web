@@ -19,12 +19,6 @@ Ext.define('Traccar.view.permissions.Geofences', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'linkGeofencesView',
 
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
-
-    plugins: 'gridfilters',
-
     columns: {
         items: [{
             text: Strings.sharedName,

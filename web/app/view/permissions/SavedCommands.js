@@ -20,12 +20,6 @@ Ext.define('Traccar.view.permissions.SavedCommands', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'linkSavedCommandsView',
 
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
-
-    plugins: 'gridfilters',
-
     columns: {
         items: [{
             text: Strings.sharedDescription,

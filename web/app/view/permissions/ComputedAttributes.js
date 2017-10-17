@@ -20,12 +20,6 @@ Ext.define('Traccar.view.permissions.ComputedAttributes', {
     extend: 'Traccar.view.permissions.Base',
     xtype: 'linkComputedAttributesView',
 
-    requires: [
-        'Ext.grid.filters.Filters'
-    ],
-
-    plugins: 'gridfilters',
-
     columns: {
         items: [{
             text: Strings.sharedDescription,

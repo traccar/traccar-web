@@ -17,7 +17,7 @@
  */
 
 Ext.define('Traccar.view.Events', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'eventsView',
 
     requires: [

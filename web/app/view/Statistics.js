@@ -15,7 +15,7 @@
  */
 
 Ext.define('Traccar.view.Statistics', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'statisticsView',
 
     requires: [

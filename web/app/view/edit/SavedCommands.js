@@ -17,16 +17,13 @@
  */
 
 Ext.define('Traccar.view.edit.SavedCommands', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'savedCommandsView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.SavedCommandsController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'savedCommands',
     store: 'Commands',

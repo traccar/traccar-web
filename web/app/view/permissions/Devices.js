@@ -20,11 +20,8 @@ Ext.define('Traccar.view.permissions.Devices', {
     xtype: 'linkDevicesView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.AttributeFormatter'
     ],
-
-    plugins: 'gridfilters',
 
     columns: {
         items: [{

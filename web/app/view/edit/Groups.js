@@ -16,17 +16,14 @@
  */
 
 Ext.define('Traccar.view.edit.Groups', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'groupsView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.AttributeFormatter',
         'Traccar.view.edit.GroupsController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'groups',
     store: 'Groups',

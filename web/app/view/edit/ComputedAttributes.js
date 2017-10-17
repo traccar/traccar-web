@@ -17,16 +17,13 @@
  */
 
 Ext.define('Traccar.view.edit.ComputedAttributes', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'computedAttributesView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.ComputedAttributesController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'computedAttributes',
     store: 'ComputedAttributes',

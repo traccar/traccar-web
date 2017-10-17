@@ -20,7 +20,8 @@ Ext.define('Traccar.view.Report', {
     xtype: 'reportView',
 
     requires: [
-        'Traccar.view.ReportController'
+        'Traccar.view.ReportController',
+        'Traccar.view.GridPanel'
     ],
 
     controller: 'report',
@@ -70,7 +71,7 @@ Ext.define('Traccar.view.Report', {
     layout: 'card',
 
     items: [{
-        xtype: 'grid',
+        xtype: 'customGridPanel',
         itemId: 'grid',
         listeners: {
             selectionchange: 'onSelectionChange'

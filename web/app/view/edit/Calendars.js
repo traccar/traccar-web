@@ -17,16 +17,13 @@
  */
 
 Ext.define('Traccar.view.edit.Calendars', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Traccar.view.GridPanel',
     xtype: 'calendarsView',
 
     requires: [
-        'Ext.grid.filters.Filters',
         'Traccar.view.edit.CalendarsController',
         'Traccar.view.edit.Toolbar'
     ],
-
-    plugins: 'gridfilters',
 
     controller: 'calendars',
     store: 'Calendars',
