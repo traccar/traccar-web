@@ -18,7 +18,11 @@
 Ext.define('Traccar.view.State', {
     extend: 'Traccar.view.GridPanel',
     xtype: 'stateView',
-
+    
+    viewConfig: {
+        enableTextSelection: true
+    },
+    
     requires: [
         'Traccar.view.StateController'
     ],
