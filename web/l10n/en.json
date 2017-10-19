@@ -243,6 +243,7 @@
     "commandTitle": "Command",
     "commandSend": "Send",
     "commandSent": "Command has been sent",
+    "commandQueued": "Command has been queued",
     "commandUnit": "Unit",
     "commandCustom": "Custom command",
     "commandDeviceIdentification": "Device Identification",
