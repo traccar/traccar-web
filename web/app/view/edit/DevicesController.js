@@ -70,29 +70,28 @@ Ext.define('Traccar.view.edit.DevicesController', {
     },
 
     onCommandClick: function () {
-        var device, deviceId, dialog, typesStore, online, commandsStore;
+        var device, deviceId, dialog, typesStore, commandsStore;
         device = this.getView().getSelectionModel().getSelection()[0];
-        online = device.get('status') === 'online';
         deviceId = device.get('id');
 
         dialog = Ext.create('Traccar.view.dialog.SendCommand');
         dialog.deviceId = deviceId;
-        dialog.online = online;
 
         commandsStore = dialog.lookupReference('commandsComboBox').getStore();
         commandsStore.getProxy().setExtraParam('deviceId', deviceId);
         if (!Traccar.app.getPreference('limitCommands', false)) {
             commandsStore.add({
                 id: 0,
-                description: Strings.sharedNew,
-                textChannel: !online
+                description: Strings.sharedNew
             });
-            typesStore = dialog.lookupReference('commandType').getStore();
-            typesStore.getProxy().setExtraParam('deviceId', deviceId);
         }
         commandsStore.load({
             addRecords: true
         });
+
+        typesStore = dialog.lookupReference('commandType').getStore();
+        typesStore.getProxy().setExtraParam('deviceId', deviceId);
+        typesStore.load();
 
         dialog.show();
     },

@@ -59,14 +59,13 @@ Ext.define('Traccar.view.dialog.SendCommandController', {
         }
 
         this.lookupReference('newCommandFields').setDisabled(command.getId() !== 0);
-        this.lookupReference('textChannelCheckBox').setDisabled(command.getId() !== 0 || !this.getView().online);
         this.lookupReference('sendButton').setDisabled(command.getId() === 0);
     },
 
     onSendResult: function (options, success, response) {
         if (success) {
             this.closeView();
-            Traccar.app.showToast(Strings.commandSent);
+            Traccar.app.showToast(response.status === 202 ? Strings.commandQueued : Strings.commandSent);
         } else {
             Traccar.app.showError(response);
         }
