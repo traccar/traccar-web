@@ -16,6 +16,10 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     background-color: #bbbbbb !important;
 }
 
+.x-fieldset {
+    overflow: visible !important; /* workaround for Safari issue */
+}
+
 #attribution {
     position: absolute;
     bottom: 10px;
