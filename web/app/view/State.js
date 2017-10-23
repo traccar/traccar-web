@@ -59,6 +59,7 @@ Ext.define('Traccar.view.State', {
         }, {
             text: Strings.stateValue,
             dataIndex: 'value',
+            cellWrap: true,
             renderer: function (value, metaData, record) {
                 if (record.get('attribute') === 'alarm') {
                     metaData.tdCls = 'view-color-red';
