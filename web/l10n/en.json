@@ -95,6 +95,7 @@
     "attributeMailSmtpUsername": "Mail: SMTP Username",
     "attributeMailSmtpPassword": "Mail: SMTP Password",
     "attributeUiDisableReport": "UI: Disable Report",
+    "attributeUiDisableEvents": "UI: Disable Events",
     "attributeUiDisableVehicleFetures": "UI: Disable Vehicle Fetures",
     "attributeUiDisableDrivers": "UI: Disable Drivers",
     "attributeUiDisableComputedAttributes": "UI: Disable Computed Attributes",

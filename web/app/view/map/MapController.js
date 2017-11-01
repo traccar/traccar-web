@@ -46,7 +46,8 @@ Ext.define('Traccar.view.map.MapController', {
         this.callParent();
         this.lookupReference('showReportsButton').setVisible(
             Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableReport'));
-        this.lookupReference('showEventsButton').setVisible(Traccar.app.isMobile());
+        this.lookupReference('showEventsButton').setVisible(
+            Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableEvents'));
     },
 
     showReports: function () {
