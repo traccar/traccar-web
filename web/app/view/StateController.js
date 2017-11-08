@@ -36,6 +36,9 @@ Ext.define('Traccar.view.StateController', {
                     deselectfeature: 'deselectFeature'
                 }
             },
+            global: {
+                stategeocode: 'onGeocode'
+            },
             store: {
                 '#LatestPositions': {
                     add: 'updateLatest',
@@ -47,7 +50,6 @@ Ext.define('Traccar.view.StateController', {
             }
         }
     },
-
 
     init: function () {
         var i, hideAttributesPreference, attributesList;
@@ -183,6 +185,30 @@ Ext.define('Traccar.view.StateController', {
         if (!this.deviceId) {
             this.position = null;
             Ext.getStore('Attributes').removeAll();
+        }
+    },
+
+    onGeocode: function () {
+        var positionId = this.position.getId();
+        if (!this.position.get('address')) {
+            Ext.Ajax.request({
+                scope: this,
+                method: 'GET',
+                url: 'api/server/geocode',
+                params: {
+                    latitude: this.position.get('latitude'),
+                    longitude: this.position.get('longitude')
+                },
+                success: function (response) {
+                    if (this.position && this.position.getId() === positionId) {
+                        this.position.set('address', response.responseText);
+                        this.updatePosition();
+                    }
+                },
+                failure: function (response) {
+                    Traccar.app.showError(response);
+                }
+            });
         }
     }
 });

@@ -241,6 +241,7 @@
     "stateTitle": "State",
     "stateName": "Attribute",
     "stateValue": "Value",
+    "stateShowAddress": "Show Address",
     "commandTitle": "Command",
     "commandSend": "Send",
     "commandSent": "Command has been sent",
