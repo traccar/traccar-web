@@ -26,6 +26,9 @@ Ext.define('Traccar.model.User', {
         name: 'name',
         type: 'string'
     }, {
+        name: 'login',
+        type: 'string'
+    }, {
         name: 'email',
         type: 'string'
     }, {
