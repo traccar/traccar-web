@@ -40,6 +40,9 @@ Ext.define('Traccar.view.ReportController', {
                     selectreport: 'selectReport'
                 }
             },
+            global: {
+                routegeocode: 'onGeocode'
+            },
             store: {
                 '#ReportEvents': {
                     add: 'loadRelatedPositions',
@@ -423,6 +426,29 @@ Ext.define('Traccar.view.ReportController', {
         this.updateButtons();
     },
 
+    onGeocode: function (positionId) {
+        var position = Ext.getStore('ReportRoute').getById(positionId);
+        if (position && !position.get('address')) {
+            Ext.Ajax.request({
+                scope: this,
+                method: 'GET',
+                url: 'api/server/geocode',
+                params: {
+                    latitude: position.get('latitude'),
+                    longitude: position.get('longitude')
+                },
+                success: function (response) {
+                    position.set('address', response.responseText);
+                    position.commit();
+                    this.fireEvent('selectReport', position);
+                },
+                failure: function (response) {
+                    Traccar.app.showError(response);
+                }
+            });
+        }
+    },
+
     routeColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
@@ -455,7 +481,14 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',
-        renderer: Traccar.AttributeFormatter.getFormatter('address')
+        renderer: function (value, metaData, record) {
+            if (!value) {
+                return '<a href="#" onclick="Ext.fireEvent(\'routegeocode\', ' +
+                    record.getId() + ')" >' +
+                    Strings.stateShowAddress + '</a>';
+            }
+            return Traccar.AttributeFormatter.getFormatter('address')(value);
+        }
     }],
 
     eventsColumns: [{

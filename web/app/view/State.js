@@ -63,6 +63,9 @@ Ext.define('Traccar.view.State', {
             renderer: function (value, metaData, record) {
                 if (record.get('attribute') === 'alarm') {
                     metaData.tdCls = 'view-color-red';
+                } else if (record.get('name') === Strings.positionAddress && !value) {
+                    return '<a href="#" onclick="Ext.fireEvent(\'stategeocode\')" >' +
+                        Strings.sharedShowAddress + '</a>';
                 }
                 return value;
             }
