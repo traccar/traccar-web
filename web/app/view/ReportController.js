@@ -440,6 +440,7 @@ Ext.define('Traccar.view.ReportController', {
                 success: function (response) {
                     position.set('address', response.responseText);
                     position.commit();
+                    this.fireEvent('selectReport', position);
                 },
                 failure: function (response) {
                     Traccar.app.showError(response);
