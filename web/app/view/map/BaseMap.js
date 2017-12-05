@@ -42,11 +42,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: server.get('mapUrl'),
-                        attributions: [
-                            new ol.Attribution({
-                                html: ''
-                            })
-                        ]
+                        attributions: ''
                     })
                 });
                 break;
@@ -78,14 +74,8 @@ Ext.define('Traccar.view.map.BaseMap', {
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                        attributions: [
-                            new ol.Attribution({
-                                html: [
-                                    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-                                    'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                                ]
-                            })
-                        ]
+                        attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
+                            'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
                     })
                 });
                 break;
@@ -118,11 +108,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                                 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
                             ]
                         }),
-                        attributions: [
-                            new ol.Attribution({
-                                html: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
-                            })
-                        ]
+                        attributions: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
                     })
                 });
                 break;
@@ -131,11 +117,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                     source: new ol.source.XYZ({
                         url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
                         projection: 'EPSG:3395',
-                        attributions: [
-                            new ol.Attribution({
-                                html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                            })
-                        ]
+                        attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
                     })
                 });
                 break;
@@ -144,11 +126,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                     source: new ol.source.XYZ({
                         url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
                         projection: 'EPSG:3395',
-                        attributions: [
-                            new ol.Attribution({
-                                html: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                            })
-                        ]
+                        attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
                     })
                 });
                 break;
