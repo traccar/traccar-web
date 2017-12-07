@@ -104,7 +104,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         if (label) {
             styleConfig.text = new ol.style.Text({
                 text: label,
-                exceedLength: true,
+                overflow: true,
                 fill: new ol.style.Fill({
                     color: Traccar.Style.mapGeofenceTextColor
                 }),
