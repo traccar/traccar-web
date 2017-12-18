@@ -37,14 +37,26 @@ Ext.define('Traccar.view.dialog.Group', {
             collapsible: true,
             collapsed: true,
             items: [{
-                xtype: 'combobox',
-                name: 'groupId',
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
                 fieldLabel: Strings.groupParent,
-                store: 'Groups',
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'id',
-                editable: false
+                items: [{
+                    xtype: 'combobox',
+                    name: 'groupId',
+                    store: 'Groups',
+                    queryMode: 'local',
+                    displayField: 'name',
+                    valueField: 'id',
+                    width: Traccar.Style.formFieldWithButtonWidth,
+                    editable: false
+                }, {
+                    xtype:'button',
+                    glyph: 'xf00d@FontAwesome',
+                    margin: '0 0 0 3px',
+                    handler: function (button) {
+                        button.up().down().clearValue();
+                    }
+                }]
             }]
         }]
     }
