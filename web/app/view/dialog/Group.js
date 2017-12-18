@@ -50,7 +50,7 @@ Ext.define('Traccar.view.dialog.Group', {
                     width: Traccar.Style.formFieldWithButtonWidth,
                     editable: false
                 }, {
-                    xtype:'button',
+                    xtype: 'button',
                     glyph: 'xf00d@FontAwesome',
                     margin: '0 0 0 3px',
                     handler: function (button) {
