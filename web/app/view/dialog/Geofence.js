@@ -19,6 +19,7 @@ Ext.define('Traccar.view.dialog.Geofence', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
+        'Traccar.view.ClearableComboBox',
         'Traccar.view.dialog.GeofenceController'
     ],
 
@@ -45,14 +46,13 @@ Ext.define('Traccar.view.dialog.Geofence', {
                 name: 'description',
                 fieldLabel: Strings.sharedDescription
             }, {
-                xtype: 'combobox',
+                xtype: 'clearableComboBox',
                 reference: 'calendarCombo',
                 name: 'calendarId',
                 store: 'Calendars',
                 queryMode: 'local',
                 displayField: 'name',
                 valueField: 'id',
-                editable: false,
                 fieldLabel: Strings.sharedCalendar
             }, {
                 xtype: 'hiddenfield',
