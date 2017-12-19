@@ -18,6 +18,10 @@
 Ext.define('Traccar.view.dialog.Device', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
+    requires: [
+        'Traccar.view.CustomComboBox'
+    ],
+
     title: Strings.sharedDevice,
 
     items: {
@@ -42,26 +46,13 @@ Ext.define('Traccar.view.dialog.Device', {
             collapsible: true,
             collapsed: true,
             items: [{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
+                xtype: 'customComboBox',
+                name: 'groupId',
                 fieldLabel: Strings.groupParent,
-                items: [{
-                    xtype: 'combobox',
-                    name: 'groupId',
-                    store: 'Groups',
-                    queryMode: 'local',
-                    displayField: 'name',
-                    valueField: 'id',
-                    width: Traccar.Style.formFieldWithButtonWidth,
-                    editable: false
-                }, {
-                    xtype: 'button',
-                    glyph: 'xf00d@FontAwesome',
-                    margin: '0 0 0 3px',
-                    handler: function (button) {
-                        button.up().down().clearValue();
-                    }
-                }]
+                store: 'Groups',
+                queryMode: 'local',
+                displayField: 'name',
+                valueField: 'id'
             }, {
                 xtype: 'textfield',
                 name: 'phone',
