@@ -19,7 +19,7 @@ Ext.define('Traccar.view.dialog.Server', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.CustomComboBox',
+        'Traccar.view.ClearableComboBox',
         'Traccar.view.dialog.MapPickerController'
     ],
 
@@ -32,7 +32,7 @@ Ext.define('Traccar.view.dialog.Server', {
             xtype: 'fieldset',
             title: Strings.sharedPreferences,
             items: [{
-                xtype: 'customComboBox',
+                xtype: 'clearableComboBox',
                 name: 'map',
                 fieldLabel: Strings.mapLayer,
                 store: 'MapTypes',
@@ -76,7 +76,7 @@ Ext.define('Traccar.view.dialog.Server', {
                 name: 'forceSettings',
                 fieldLabel: Strings.serverForceSettings
             }, {
-                xtype: 'customComboBox',
+                xtype: 'clearableComboBox',
                 name: 'coordinateFormat',
                 fieldLabel: Strings.settingsCoordinateFormat,
                 store: 'CoordinateFormats',

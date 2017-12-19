@@ -19,7 +19,7 @@ Ext.define('Traccar.view.dialog.Device', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.CustomComboBox'
+        'Traccar.view.ClearableComboBox'
     ],
 
     title: Strings.sharedDevice,
@@ -46,7 +46,7 @@ Ext.define('Traccar.view.dialog.Device', {
             collapsible: true,
             collapsed: true,
             items: [{
-                xtype: 'customComboBox',
+                xtype: 'clearableComboBox',
                 name: 'groupId',
                 fieldLabel: Strings.groupParent,
                 store: 'Groups',

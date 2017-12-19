@@ -19,7 +19,7 @@ Ext.define('Traccar.view.dialog.User', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.CustomComboBox',
+        'Traccar.view.ClearableComboBox',
         'Traccar.view.dialog.UserController'
     ],
 
@@ -57,7 +57,7 @@ Ext.define('Traccar.view.dialog.User', {
                 name: 'phone',
                 fieldLabel: Strings.sharedPhone
             }, {
-                xtype: 'customComboBox',
+                xtype: 'clearableComboBox',
                 name: 'map',
                 fieldLabel: Strings.mapLayer,
                 store: 'MapTypes',
@@ -87,7 +87,7 @@ Ext.define('Traccar.view.dialog.User', {
                 name: 'twelveHourFormat',
                 fieldLabel: Strings.settingsTwelveHourFormat
             }, {
-                xtype: 'customComboBox',
+                xtype: 'clearableComboBox',
                 name: 'coordinateFormat',
                 fieldLabel: Strings.settingsCoordinateFormat,
                 store: 'CoordinateFormats',
