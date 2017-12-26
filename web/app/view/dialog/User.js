@@ -104,7 +104,7 @@ Ext.define('Traccar.view.dialog.User', {
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'disabled',
-                fieldLabel: Strings.userDisabled,
+                fieldLabel: Strings.sharedDisabled,
                 disabled: true,
                 reference: 'disabledField'
             }, {

@@ -19,9 +19,11 @@ Ext.define('Traccar.view.dialog.Device', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.ClearableComboBox'
+        'Traccar.view.ClearableComboBox',
+        'Traccar.view.dialog.DeviceController'
     ],
 
+    controller: 'device',
     title: Strings.sharedDevice,
 
     items: {
@@ -82,6 +84,14 @@ Ext.define('Traccar.view.dialog.Device', {
                         '<td>{name}</td></tr></table>';
                     }
                 }
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'disabled',
+                fieldLabel: Strings.sharedDisabled,
+                hidden: true,
+                reference: 'disabledField'
             }]
         }]
     }
