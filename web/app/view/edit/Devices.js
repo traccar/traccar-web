@@ -81,7 +81,7 @@ Ext.define('Traccar.view.edit.Devices', {
     viewConfig: {
         enableTextSelection: true,
         getRowClass: function (record) {
-            var status = record.get('status'), result = '';
+            var result = '', status = record.get('status');
             if (record.get('disabled')) {
                 result = 'view-item-disabled ';
             }
