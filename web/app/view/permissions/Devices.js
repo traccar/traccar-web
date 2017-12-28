@@ -58,6 +58,14 @@ Ext.define('Traccar.view.permissions.Devices', {
             hidden: true,
             filter: 'string'
         }, {
+            text: Strings.sharedDisabled,
+            dataIndex: 'disabled',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            renderer: Traccar.AttributeFormatter.getFormatter('disabled'),
+            hidden: true,
+            filter: 'boolean'
+        }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
             flex: 1,

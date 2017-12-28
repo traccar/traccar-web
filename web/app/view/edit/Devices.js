@@ -81,11 +81,14 @@ Ext.define('Traccar.view.edit.Devices', {
     viewConfig: {
         enableTextSelection: true,
         getRowClass: function (record) {
-            var status = record.get('status');
-            if (status) {
-                return Ext.getStore('DeviceStatuses').getById(status).get('color');
+            var result = '', status = record.get('status');
+            if (record.get('disabled')) {
+                result = 'view-item-disabled ';
             }
-            return null;
+            if (status) {
+                result += Ext.getStore('DeviceStatuses').getById(status).get('color');
+            }
+            return result;
         }
     },
 
@@ -124,6 +127,12 @@ Ext.define('Traccar.view.edit.Devices', {
                 store: 'Groups'
             },
             renderer: Traccar.AttributeFormatter.getFormatter('groupId')
+        }, {
+            text: Strings.sharedDisabled,
+            dataIndex: 'disabled',
+            renderer: Traccar.AttributeFormatter.getFormatter('disabled'),
+            hidden: true,
+            filter: 'boolean'
         }, {
             text: Strings.sharedGeofences,
             dataIndex: 'geofenceIds',
