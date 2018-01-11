@@ -43,6 +43,7 @@ Ext.define('Traccar.view.dialog.Group', {
             items: [{
                 xtype: 'clearableComboBox',
                 name: 'groupId',
+                fieldLabel: Strings.groupParent,
                 store: 'Groups',
                 queryMode: 'local',
                 displayField: 'name',
