@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2018 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ Ext.define('Traccar.view.map.BaseMap', {
     },
 
     initMap: function () {
-        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target;
+        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer;
 
         server = Traccar.app.getServer();
 
@@ -152,6 +152,17 @@ Ext.define('Traccar.view.map.BaseMap', {
             layers: [layer],
             view: this.mapView
         });
+
+        poiLayer = Traccar.app.getPreference('poiLayer', null);
+
+        if (poiLayer) {
+            this.map.addLayer(new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    url: poiLayer,
+                    format: new ol.format.KML()
+                })
+            }));
+        }
 
         this.body.dom.tabIndex = 0;
 
