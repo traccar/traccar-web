@@ -110,7 +110,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
         admin = Traccar.app.getUser().get('admin');
         group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedSavedCommands,
+            title: Strings.sharedNotifications,
             items: {
                 xtype: 'linkNotificationsView',
                 baseObjectName: 'groupId',
