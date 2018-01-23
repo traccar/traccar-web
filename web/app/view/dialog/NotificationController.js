@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,32 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.Notification', {
-    extend: 'Ext.data.Model',
-    identifier: 'negative',
+Ext.define('Traccar.view.dialog.NotificationController', {
+    extend: 'Traccar.view.dialog.BaseEditController',
+    alias: 'controller.notification',
 
-    fields: [{
-        name: 'id',
-        type: 'int'
-    }, {
-        name: 'type',
-        type: 'string'
-    }, {
-        name: 'always',
-        type: 'bool'
-    }, {
-        name: 'attributes'
-    }, {
-        name: 'web',
-        type: 'bool'
-    }, {
-        name: 'mail',
-        type: 'bool'
-    }, {
-        name: 'sms',
-        type: 'bool'
-    }, {
-        name: 'calendarId',
-        type: 'int'
-    }]
+    init: function () {
+        this.lookupReference('calendarCombo').setHidden(
+            Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
+    }
 });
