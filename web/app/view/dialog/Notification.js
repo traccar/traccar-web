@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,12 @@
 Ext.define('Traccar.view.dialog.Notification', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
+    requires: [
+        'Traccar.view.ClearableComboBox',
+        'Traccar.view.dialog.NotificationController'
+    ],
+
+    controller: 'notification',
     title: Strings.sharedNotification,
 
     items: {
@@ -60,6 +66,15 @@ Ext.define('Traccar.view.dialog.Notification', {
                 uncheckedValue: false,
                 name: 'sms',
                 fieldLabel: Strings.notificationSms
+            }, {
+                xtype: 'clearableComboBox',
+                reference: 'calendarCombo',
+                name: 'calendarId',
+                store: 'Calendars',
+                queryMode: 'local',
+                displayField: 'name',
+                valueField: 'id',
+                fieldLabel: Strings.sharedCalendar
             }]
         }]
     }
