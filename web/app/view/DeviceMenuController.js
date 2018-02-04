@@ -36,7 +36,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('menuCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
         this.lookupReference('menuDeviceDistanceButton').setHidden(
-            !Traccar.app.getUser().get('admin') || Traccar.app.getVehicleFeaturesDisabled());
+            !Traccar.app.getUser().get('admin') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
     },
 
     onGeofencesClick: function () {
