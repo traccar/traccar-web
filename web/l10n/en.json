@@ -219,6 +219,8 @@
     "positionObdSpeed": "OBD Speed",
     "positionObdOdometer": "OBD Odometer",
     "positionDriverUniqueId": "Driver Unique Id",
+    "positionImage": "Image",
+    "positionAudio": "Audio",
     "serverTitle": "Server Settings",
     "serverZoom": "Zoom",
     "serverRegistration": "Registration",
