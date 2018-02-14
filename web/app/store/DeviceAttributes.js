@@ -31,5 +31,10 @@ Ext.define('Traccar.store.DeviceAttributes', {
         key: 'processing.copyAttributes',
         name: Strings.attributeProcessingCopyAttributes,
         valueType: 'string'
+    }, {
+        key: 'decoder.timezone',
+        name: Strings.sharedTimezone,
+        valueType: 'string',
+        dataType: 'timezone'
     }]
 });
