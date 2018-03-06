@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2018 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,80 +42,70 @@ Ext.define('Traccar.view.edit.GroupsController', {
     },
 
     onGeofencesClick: function () {
-        var admin, group;
-        admin = Traccar.app.getUser().get('admin');
-        group = this.getView().getSelectionModel().getSelection()[0];
+        var group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedGeofences,
             items: {
                 xtype: 'linkGeofencesView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'geofenceId',
-                storeName: admin ? 'AllGeofences' : 'Geofences',
+                storeName: 'Geofences',
                 baseObject: group.getId()
             }
         }).show();
     },
 
     onAttributesClick: function () {
-        var admin, group;
-        admin = Traccar.app.getUser().get('admin');
-        group = this.getView().getSelectionModel().getSelection()[0];
+        var group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedComputedAttributes,
             items: {
                 xtype: 'linkComputedAttributesView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'attributeId',
-                storeName: admin ? 'AllComputedAttributes' : 'ComputedAttributes',
+                storeName: 'ComputedAttributes',
                 baseObject: group.getId()
             }
         }).show();
     },
 
     onDriversClick: function () {
-        var admin, group;
-        admin = Traccar.app.getUser().get('admin');
-        group = this.getView().getSelectionModel().getSelection()[0];
+        var group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedDrivers,
             items: {
                 xtype: 'linkDriversView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'driverId',
-                storeName: admin ? 'AllDrivers' : 'Drivers',
+                storeName: 'Drivers',
                 baseObject: group.getId()
             }
         }).show();
     },
 
     onCommandsClick: function () {
-        var admin, group;
-        admin = Traccar.app.getUser().get('admin');
-        group = this.getView().getSelectionModel().getSelection()[0];
+        var group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedSavedCommands,
             items: {
                 xtype: 'linkSavedCommandsView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'commandId',
-                storeName: admin ? 'AllCommands' : 'Commands',
+                storeName: 'Commands',
                 baseObject: group.getId()
             }
         }).show();
     },
 
     onNotificationsClick: function () {
-        var admin, group;
-        admin = Traccar.app.getUser().get('admin');
-        group = this.getView().getSelectionModel().getSelection()[0];
+        var group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedNotifications,
             items: {
                 xtype: 'linkNotificationsView',
                 baseObjectName: 'groupId',
                 linkObjectName: 'notificationId',
-                storeName: admin ? 'AllNotifications' : 'Notifications',
+                storeName: 'Notifications',
                 baseObject: group.getId()
             }
         }).show();
