@@ -66,7 +66,13 @@ Ext.define('Traccar.view.dialog.Notification', {
                 uncheckedValue: false,
                 name: 'sms',
                 fieldLabel: Strings.notificationSms
-            }, {
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: Strings.sharedExtra,
+            collapsible: true,
+            collapsed: true,
+            items: [{
                 xtype: 'clearableComboBox',
                 reference: 'calendarCombo',
                 name: 'calendarId',
