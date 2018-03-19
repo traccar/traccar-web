@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2018 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,6 +97,19 @@ Ext.define('Traccar.AttributeFormatter', {
         return null;
     },
 
+    calendarIdFormatter: function (value) {
+        var calendar, store;
+        if (value !== 0) {
+            store = Ext.getStore('AllCalendars');
+            if (store.getTotalCount() === 0) {
+                store = Ext.getStore('Calendars');
+            }
+            calendar = store.getById(value);
+            return calendar ? calendar.get('name') : '';
+        }
+        return null;
+    },
+
     driverUniqueIdFormatter: function (value) {
         var driver, store;
         if (value !== 0) {
@@ -174,6 +187,8 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.groupIdFormatter;
             case 'geofenceId':
                 return this.geofenceIdFormatter;
+            case 'calendarId':
+                return this.calendarIdFormatter;
             case 'lastUpdate':
                 return this.lastUpdateFormatter;
             case 'spentFuel':

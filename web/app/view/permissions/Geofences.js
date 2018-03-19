@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2018 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,18 @@ Ext.define('Traccar.view.permissions.Geofences', {
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
             filter: 'string'
+        }, {
+            text: Strings.sharedCalendar,
+            dataIndex: 'calendarId',
+            flex: 1,
+            minWidth: Traccar.Style.columnWidthNormal,
+            hidden: true,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'AllCalendars'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('calendarId')
         }]
     }
 });
