@@ -165,10 +165,16 @@
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/font-awesome/' + fontAwesomeVersion + '/css/font-awesome.min.css');
 
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
+    addStyleFile('//cdn.rawgit.com/jonataswalker/ol-geocoder/54b23aea/dist/ol-geocoder.min.css');
+    addStyleFile('//cdn.rawgit.com/walkermatt/ol-popup/494a42c0/src/ol-popup.css');
+    
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
     } else {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.js');
+        addScriptFile('//cdn.rawgit.com/walkermatt/ol-popup/494a42c0/dist/ol-popup.js');
+	    addScriptFile('//cdn.rawgit.com/jonataswalker/ol-geocoder/54b23aea/dist/ol-geocoder.js');
+
     }
 
     if (debugMode) {
