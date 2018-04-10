@@ -4,6 +4,7 @@
     "sharedSave": "Save",
     "sharedSet": "Set",
     "sharedCancel": "Cancel",
+    "sharedClose": "Close",
     "sharedAdd": "Add",
     "sharedEdit": "Edit",
     "sharedRemove": "Remove",
@@ -77,6 +78,7 @@
     "sharedDisabled": "Disabled",
     "sharedMaintenance": "Maintenance",
     "sharedMaintenances": "Maintenances",
+    "sharedAboutTraccar": "About Traccar",
     "attributeSpeedLimit": "Speed Limit",
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",
     "attributeWebReportColor": "Web: Report Color",
@@ -411,7 +413,12 @@
     "categoryShip": "Ship",
     "categoryTractor": "Tractor",
     "categoryTruck": "Truck",
+<<<<<<< HEAD
     "categoryVan": "Van",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }
+=======
+    "categoryVan": "Van"
+}
+>>>>>>> Add "About Traccar" menu option
