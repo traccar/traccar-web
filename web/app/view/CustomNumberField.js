@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,16 +78,16 @@ Ext.define('Traccar.view.CustomNumberField', {
             config.afterBodyEl = this.unitEl + unitName + '</div></div>';
             config.rawToValue = function (rawValue) {
                 if (this.units) {
-                    return this.units.getStore().convertValue(rawValue, this.units.getValue(), true);
+                    return this.units.getStore().convertValue(this.parseValue(rawValue), this.units.getValue(), true);
                 } else {
                     return this.parseValue(rawValue);
                 }
             };
             config.valueToRaw = function (value) {
                 if (this.units) {
-                    return this.units.getStore().convertValue(value, this.units.getValue(), false);
+                    return String(this.units.getStore().convertValue(value, this.units.getValue(), false));
                 } else {
-                    return this.parseValue(value);
+                    return String(value);
                 }
             };
             if (config.units) {

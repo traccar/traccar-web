@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2018 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.dialog.DeviceDistance',
         'Traccar.view.edit.Calendars',
         'Traccar.view.edit.SavedCommands',
+        'Traccar.view.edit.Maintenances',
         'Traccar.view.BaseWindow'
     ],
 
@@ -59,6 +60,8 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsDriversButton').setHidden(
                 Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
             this.lookupReference('settingsCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
+            this.lookupReference('settingsMaintenancesButton').setHidden(
+                Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
         }
         if (admin || !deviceReadonly && !readonly) {
             this.lookupReference('settingsComputedAttributesButton').setHidden(
@@ -158,6 +161,15 @@ Ext.define('Traccar.view.SettingsMenuController', {
             title: Strings.sharedSavedCommands,
             items: {
                 xtype: 'savedCommandsView'
+            }
+        }).show();
+    },
+
+    onMaintenancesClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedMaintenances,
+            items: {
+                xtype: 'maintenancesView'
             }
         }).show();
     },

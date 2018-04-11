@@ -123,6 +123,19 @@ Ext.define('Traccar.AttributeFormatter', {
         return null;
     },
 
+    maintenanceIdFormatter: function (value) {
+        var maintenance, store;
+        if (value !== 0) {
+            store = Ext.getStore('AllMaintenances');
+            if (store.getTotalCount() === 0) {
+                store = Ext.getStore('Maintenances');
+            }
+            maintenance = store.getById(value);
+            return maintenance ? maintenance.get('name') : '';
+        }
+        return null;
+    },
+
     lastUpdateFormatter: function (value) {
         var seconds, interval;
         if (value) {
@@ -187,6 +200,8 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.groupIdFormatter;
             case 'geofenceId':
                 return this.geofenceIdFormatter;
+            case 'maintenanceId':
+                return this.maintenanceIdFormatter;
             case 'calendarId':
                 return this.calendarIdFormatter;
             case 'lastUpdate':
@@ -257,6 +272,16 @@ Ext.define('Traccar.AttributeFormatter', {
                 return function (value) {
                     return value;
                 };
+        }
+    },
+
+    renderAttribute: function (value, attribute) {
+        if (attribute && attribute.get('dataType') === 'speed') {
+            return Ext.getStore('SpeedUnits').formatValue(value, Traccar.app.getAttributePreference('speedUnit', 'kn'), true);
+        } else if (attribute && attribute.get('dataType') === 'distance') {
+            return Ext.getStore('DistanceUnits').formatValue(value, Traccar.app.getAttributePreference('distanceUnit', 'km'), true);
+        } else {
+            return value;
         }
     }
 });
