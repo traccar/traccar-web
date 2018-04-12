@@ -133,7 +133,7 @@ Ext.define('Traccar.view.edit.Users', {
             hidden: true,
             filter: 'boolean'
         }, {
-            text: Strings.userDisabled,
+            text: Strings.sharedDisabled,
             dataIndex: 'disabled',
             renderer: Traccar.AttributeFormatter.getFormatter('disabled'),
             filter: 'boolean'

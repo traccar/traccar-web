@@ -485,7 +485,7 @@ Ext.define('Traccar.view.ReportController', {
             if (!value) {
                 return '<a href="#" onclick="Ext.fireEvent(\'routegeocode\', ' +
                     record.getId() + ')" >' +
-                    Strings.stateShowAddress + '</a>';
+                    Strings.sharedShowAddress + '</a>';
             }
             return Traccar.AttributeFormatter.getFormatter('address')(value);
         }

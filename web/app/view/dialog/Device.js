@@ -18,6 +18,12 @@
 Ext.define('Traccar.view.dialog.Device', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
+    requires: [
+        'Traccar.view.ClearableComboBox',
+        'Traccar.view.dialog.DeviceController'
+    ],
+
+    controller: 'device',
     title: Strings.sharedDevice,
 
     items: {
@@ -42,14 +48,13 @@ Ext.define('Traccar.view.dialog.Device', {
             collapsible: true,
             collapsed: true,
             items: [{
-                xtype: 'combobox',
+                xtype: 'clearableComboBox',
                 name: 'groupId',
                 fieldLabel: Strings.groupParent,
                 store: 'Groups',
                 queryMode: 'local',
                 displayField: 'name',
-                valueField: 'id',
-                editable: false
+                valueField: 'id'
             }, {
                 xtype: 'textfield',
                 name: 'phone',
@@ -79,6 +84,14 @@ Ext.define('Traccar.view.dialog.Device', {
                         '<td>{name}</td></tr></table>';
                     }
                 }
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'disabled',
+                fieldLabel: Strings.sharedDisabled,
+                hidden: true,
+                reference: 'disabledField'
             }]
         }]
     }

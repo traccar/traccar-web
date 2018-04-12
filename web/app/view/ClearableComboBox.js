@@ -15,18 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.store.GroupAttributes', {
-    extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownAttribute',
+Ext.define('Traccar.view.ClearableComboBox', {
+    extend: 'Ext.form.field.ComboBox',
+    xtype: 'clearableComboBox',
 
-    data: [{
-        key: 'processing.copyAttributes',
-        name: Strings.attributeProcessingCopyAttributes,
-        valueType: 'string'
-    }, {
-        key: 'decoder.timezone',
-        name: Strings.sharedTimezone,
-        valueType: 'string',
-        dataType: 'timezone'
-    }]
+    editable: false,
+    triggers: {
+        clear: {
+            cls: 'iconCls: x-fa fa-times',
+            handler: function (button) {
+                button.clearValue();
+            }
+        }
+    }
 });

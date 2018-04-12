@@ -145,7 +145,7 @@
 
     extjsVersion = '6.2.0';
     fontAwesomeVersion = '4.7.0';
-    olVersion = '4.6.3';
+    olVersion = '4.6.4';
     proj4jsVersion = '2.4.4';
 
     if (debugMode) {

@@ -15,18 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.store.GroupAttributes', {
-    extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownAttribute',
 
-    data: [{
-        key: 'processing.copyAttributes',
-        name: Strings.attributeProcessingCopyAttributes,
-        valueType: 'string'
-    }, {
-        key: 'decoder.timezone',
-        name: Strings.sharedTimezone,
-        valueType: 'string',
-        dataType: 'timezone'
-    }]
+Ext.define('Traccar.view.dialog.DeviceController', {
+    extend: 'Traccar.view.dialog.BaseEditController',
+    alias: 'controller.device',
+
+    init: function () {
+        if (Traccar.app.getUser().get('admin')) {
+            this.lookupReference('disabledField').setHidden(false);
+        }
+    }
+
 });

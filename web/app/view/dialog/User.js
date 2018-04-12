@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2018 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ Ext.define('Traccar.view.dialog.User', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
+        'Traccar.view.ClearableComboBox',
         'Traccar.view.dialog.UserController'
     ],
 
@@ -56,13 +57,12 @@ Ext.define('Traccar.view.dialog.User', {
                 name: 'phone',
                 fieldLabel: Strings.sharedPhone
             }, {
-                xtype: 'combobox',
+                xtype: 'clearableComboBox',
                 name: 'map',
                 fieldLabel: Strings.mapLayer,
                 store: 'MapTypes',
                 displayField: 'name',
-                valueField: 'key',
-                editable: false
+                valueField: 'key'
             }, {
                 xtype: 'numberfield',
                 reference: 'latitude',
@@ -87,13 +87,16 @@ Ext.define('Traccar.view.dialog.User', {
                 name: 'twelveHourFormat',
                 fieldLabel: Strings.settingsTwelveHourFormat
             }, {
-                xtype: 'combobox',
+                xtype: 'clearableComboBox',
                 name: 'coordinateFormat',
                 fieldLabel: Strings.settingsCoordinateFormat,
                 store: 'CoordinateFormats',
                 displayField: 'name',
-                valueField: 'key',
-                editable: false
+                valueField: 'key'
+            }, {
+                xtype: 'textfield',
+                name: 'poiLayer',
+                fieldLabel: Strings.mapPoiLayer
             }]
         }, {
             xtype: 'fieldset',
@@ -105,7 +108,7 @@ Ext.define('Traccar.view.dialog.User', {
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'disabled',
-                fieldLabel: Strings.userDisabled,
+                fieldLabel: Strings.sharedDisabled,
                 disabled: true,
                 reference: 'disabledField'
             }, {

@@ -8,6 +8,10 @@
     background-color: rgba(255, 84, 104, 0.3);
 }
 
+.view-item-disabled {
+    opacity: 0.5;
+}
+
 .toolbar-header-style {
     background-color: #5fa2dd !important;
 }
