@@ -39,6 +39,14 @@ Ext.define('Traccar.model.ReportSummary', {
         type: 'float',
         convert: Traccar.AttributeFormatter.getConverter('distance')
     }, {
+        name: 'startOdometer',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('distance')
+    }, {
+        name: 'endOdometer',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('distance')
+    }, {
         name: 'engineHours',
         type: 'int'
     }, {

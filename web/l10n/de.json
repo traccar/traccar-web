@@ -383,6 +383,8 @@
     "reportEndTime": "Zielzeit",
     "reportEndAddress": "Zielort",
     "reportSpentFuel": "Kraftstoffverbrauch",
+    "reportStartOdometer": "Kilometerzähler Start",
+    "reportEndOdometer": "Kilometerzähler End",
     "statisticsTitle": "Statistiken",
     "statisticsCaptureTime": "Zeitpunkt",
     "statisticsActiveUsers": "Aktive Benutzer",
