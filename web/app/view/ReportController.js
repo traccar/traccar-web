@@ -612,7 +612,7 @@ Ext.define('Traccar.view.ReportController', {
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('startTime')
     }, {
-        text: Strings.reportStartOdometer,
+        text: Strings.reportOdometer,
         dataIndex: 'startOdometer',
         renderer: Traccar.AttributeFormatter.getFormatter('distance'),
     }, {
