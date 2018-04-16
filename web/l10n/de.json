@@ -197,6 +197,8 @@
     "positionOutput": "Output",
     "positionBatteryLevel": "Batteriestand",
     "positionFuelConsumption": "Kraftstoffverbrauch",
+    "reportStartOdometer": "Kilometerzähler Start",
+    "reportEndOdometer": "Kilometerzähler Ende",
     "positionRfid": "RFID",
     "positionVersionFw": "Firmware Version",
     "positionVersionHw": "Hardware Version",
