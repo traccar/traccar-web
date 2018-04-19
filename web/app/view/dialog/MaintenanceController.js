@@ -32,8 +32,21 @@ Ext.define('Traccar.view.dialog.MaintenanceController', {
         this.lookupReference('saveButton').setDisabled(!valid);
     },
 
+    updateFieldConfig: function (fieldReference, initialConfig, newConfig) {
+        var field = this.lookupReference(fieldReference);
+        if (field.dataType !== newConfig.dataType) {
+            this.getView().down('fieldset').insert(this.getView().down('fieldset').items.indexOf(field),
+                Ext.merge({}, initialConfig, newConfig));
+            this.getView().down('fieldset').remove(field);
+            this.lookupReference(fieldReference).validate();
+        } else {
+            field.setConfig(newConfig);
+            field.validate();
+        }
+    },
+
     onNameChange: function (combobox, newValue) {
-        var attribute, startField, periodField, config = {};
+        var attribute, config = {};
         attribute = combobox.getStore().getById(newValue);
         if (attribute) {
             if (attribute.get('allowDecimals') !== undefined) {
@@ -45,26 +58,8 @@ Ext.define('Traccar.view.dialog.MaintenanceController', {
             config.maxValue = attribute.get('maxValue');
             config.minValue = attribute.get('minValue');
         }
-        startField = this.lookupReference('startField');
-        if (startField.dataType !== config.dataType) {
-            this.getView().down('fieldset').insert(this.getView().down('fieldset').items.indexOf(startField),
-                Ext.merge({}, this.startConfig, config));
-            this.getView().down('fieldset').remove(startField);
-            this.lookupReference('startField').validate();
-        } else {
-            startField.setConfig(config);
-            startField.validate();
-        }
 
-        periodField = this.lookupReference('periodField');
-        if (periodField.dataType !== config.dataType) {
-            this.getView().down('fieldset').insert(this.getView().down('fieldset').items.indexOf(periodField),
-                Ext.merge({}, this.periodConfig, config));
-            this.getView().down('fieldset').remove(periodField);
-            this.lookupReference('periodField').validate();
-        } else {
-            periodField.setConfig(config);
-            periodField.validate();
-        }
+        this.updateFieldConfig('startField', this.startConfig, config);
+        this.updateFieldConfig('periodField', this.periodConfig, config);
     }
 });

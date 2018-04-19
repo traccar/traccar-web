@@ -40,7 +40,7 @@ Ext.define('Traccar.view.permissions.Maintenances', {
             },
             renderer: function (value) {
                 var attribute = Ext.getStore('MaintenanceTypes').getById(value);
-                return attribute && attribute.get('name') ? attribute.get('name') : value;
+                return attribute && attribute.get('name') || value;
             }
         }, {
             text: Strings.maintenanceStart,
