@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,18 +15,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('Traccar.store.CommonDeviceAttributes', {
-    extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownAttribute',
 
-    data: [{
-        key: 'speedLimit',
-        name: Strings.attributeSpeedLimit,
-        valueType: 'number',
-        dataType: 'speed'
-    }, {
-        key: 'report.ignoreOdometer',
-        name: Strings.attributeReportIgnoreOdometer,
-        valueType: 'boolean'
-    }]
+Ext.define('Traccar.store.AllMaintenances', {
+    extend: 'Ext.data.Store',
+    model: 'Traccar.model.Maintenance',
+
+    proxy: {
+        type: 'rest',
+        url: 'api/maintenances',
+        extraParams: {
+            all: true
+        }
+    }
 });

@@ -1,6 +1,6 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2015 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,9 +40,12 @@ Ext.define('Traccar.model.Event', {
         name: 'geofenceId',
         type: 'int'
     }, {
+        name: 'maintenanceId',
+        type: 'int'
+    }, {
         name: 'text',
         convert: function (v, rec) {
-            var text, alarmKey, geofence;
+            var text, alarmKey, geofence, maintenance;
             if (rec.get('type') === 'commandResult') {
                 text = Strings.eventCommandResult + ': ' + rec.get('attributes')['result'];
             } else if (rec.get('type') === 'alarm') {
@@ -63,9 +66,15 @@ Ext.define('Traccar.model.Event', {
                     text += ' "' + geofence.get('name') + '"';
                 }
             }
+            if (rec.get('maintenanceId')) {
+                maintenance = Ext.getStore('Maintenances').getById(rec.get('maintenanceId'));
+                if (maintenance) {
+                    text += ' "' + maintenance.get('name') + '"';
+                }
+            }
             return text;
         },
-        depends: ['type', 'attributes', 'geofenceId']
+        depends: ['type', 'attributes', 'geofenceId', 'maintenanceId']
     }, {
         name: 'attributes'
     }]

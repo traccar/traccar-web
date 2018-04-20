@@ -42,7 +42,8 @@ Ext.define('Traccar.Application', {
         'KnownAttribute',
         'Driver',
         'KnownCommand',
-        'KnownNotification'
+        'KnownNotification',
+        'Maintenance'
     ],
 
     stores: [
@@ -103,7 +104,10 @@ Ext.define('Traccar.Application', {
         'Commands',
         'AllCommands',
         'DeviceCommands',
-        'AllNotificationTypes'
+        'AllNotificationTypes',
+        'Maintenances',
+        'AllMaintenances',
+        'MaintenanceTypes'
     ],
 
     controllers: [

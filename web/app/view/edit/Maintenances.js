@@ -1,5 +1,6 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.edit.Attributes', {
+Ext.define('Traccar.view.edit.Maintenances', {
     extend: 'Traccar.view.GridPanel',
-    xtype: 'attributesView',
+    xtype: 'maintenancesView',
 
     requires: [
-        'Traccar.view.edit.AttributesController',
+        'Traccar.view.edit.MaintenancesController',
         'Traccar.view.edit.Toolbar'
     ],
 
-    controller: 'attributes',
+    controller: 'maintenances',
+    store: 'Maintenances',
 
     tbar: {
         xtype: 'editToolbar'
@@ -42,23 +44,33 @@ Ext.define('Traccar.view.edit.Attributes', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
-            filter: 'string',
+            filter: 'string'
+        }, {
+            text: Strings.sharedType,
+            dataIndex: 'type',
+            filter: {
+                type: 'list',
+                idField: 'key',
+                labelField: 'name',
+                store: 'MaintenanceTypes'
+            },
             renderer: function (value) {
-                var attribute;
-                if (this.attributesStore) {
-                    attribute = Ext.getStore(this.attributesStore).getById(value);
-                }
+                var attribute = Ext.getStore('MaintenanceTypes').getById(value);
                 return attribute && attribute.get('name') || value;
             }
         }, {
-            text: Strings.stateValue,
-            dataIndex: 'value',
+            text: Strings.maintenanceStart,
+            dataIndex: 'start',
             renderer: function (value, metaData, record) {
-                var attribute;
-                if (this.attributesStore) {
-                    attribute = Ext.getStore(this.attributesStore).getById(record.get('name'));
-                }
-                return Traccar.AttributeFormatter.renderAttribute(value, attribute);
+                return Traccar.AttributeFormatter.renderAttribute(
+                    value, Ext.getStore('MaintenanceTypes').getById(record.get('type')));
+            }
+        }, {
+            text: Strings.maintenancePeriod,
+            dataIndex: 'period',
+            renderer: function (value, metaData, record) {
+                return Traccar.AttributeFormatter.renderAttribute(
+                    value, Ext.getStore('MaintenanceTypes').getById(record.get('type')));
             }
         }]
     }

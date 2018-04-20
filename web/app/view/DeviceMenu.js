@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,11 @@ Ext.define('Traccar.view.DeviceMenu', {
             glyph: 'xf093@FontAwesome',
             handler: 'onCommandsClick',
             reference: 'menuCommandsButton'
+        }, {
+            text: Strings.sharedMaintenances,
+            glyph: 'xf0ad@FontAwesome',
+            handler: 'onMaintenancesClick',
+            reference: 'menuMaintenancesButton'
         }, {
             hidden: true,
             text: Strings.sharedDeviceDistance,
