@@ -57,7 +57,7 @@ Ext.define('Traccar.view.SettingsMenu', {
         }, {
             hidden: true,
             text: Strings.settingsServer,
-            glyph: 'xf0ad@FontAwesome',
+            glyph: 'xf233@FontAwesome',
             handler: 'onServerClick',
             reference: 'settingsServerButton'
         }, {
