@@ -66,7 +66,7 @@ Ext.define('Traccar.view.dialog.Maintenance', {
                 allowBlank: false,
                 fieldLabel: Strings.maintenancePeriod,
                 validator: function (value) {
-                    return this.parseValue(value) !== 0 ? true : 'Can\'t be zero';
+                    return this.parseValue(value) !== 0 ? true : Strings.errorZero;
                 }
             }]
         }]
