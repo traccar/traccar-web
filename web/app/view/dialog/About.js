@@ -23,6 +23,8 @@ Ext.define('Traccar.view.dialog.About', {
     controller: 'about',
     title: Strings.sharedAboutTraccar,
 
+    resizable: true,
+
     requires: [
         'Traccar.view.dialog.AboutController'
     ],

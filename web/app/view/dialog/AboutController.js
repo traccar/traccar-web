@@ -27,9 +27,26 @@ Ext.define('Traccar.view.dialog.AboutController', {
     ],
 
     init: function () {
+        var view = this.getView();
+
         Ext.getCmp('librariesListExtJS').update({extJSVersion: Ext.getVersion()});
         Ext.getCmp('librariesListOpenLayers').update({openLayersVersion: ol.VERSION});
         Ext.getCmp('librariesListProj4js').update({proj4jsVersion: proj4.version});
+
+        // Modified version of web/app/view/dialog/Base.js -> initComponent
+        if (window.innerWidth) {
+            view.maxWidth = window.innerWidth - Traccar.Style.normalPadding * 2;
+            if (window.innerWidth < 600) {
+                view.width = view.maxWidth;
+            } else {
+                view.width = 0.5 * view.maxWidth;
+            }
+        }
+
+        if (window.innerHeight) {
+            view.maxHeight = window.innerHeight - Traccar.Style.normalPadding * 2;
+            view.height = view.maxHeight - Traccar.Style.normalPadding * 2;
+        }
     },
 
 
