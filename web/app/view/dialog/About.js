@@ -63,25 +63,33 @@ Ext.define('Traccar.view.dialog.About', {
               'Copyright (C) other authors (see copyright notices in source code and git history) <br> &nbsp;'
     }, {
         xtype: 'tbtext',
+        style: {
+            // Inspired by Jukebox's comment at http://stackoverflow.com/a/35493572
+            whiteSpace: 'normal'
+        },
         /*
          * ExtJS is licensed under GNU GPLv3 "only", so even though files belonging to
          * traccar-web are licensed under GNU GPLv3 "or later", the whole work
          * is licensed under GNU GPLv3 "only".
          */
-        html: 'This program is free software: you can redistribute it and/or modify <br>' +
-              'it under the terms of the GNU General Public License version 3, as published by <br>' +
-              'the Free Software Foundation, with conditions added under section 7 <br>' +
+        html: 'This program is free software: you can redistribute it and/or modify ' +
+              'it under the terms of the GNU General Public License version 3, as published by ' +
+              'the Free Software Foundation, with conditions added under section 7 ' +
               'of the GNU General Public License version 3. <br>' +
-              'The additional conditions are specified by the terms of the Apache 2.0 license and in <br>' +
+              'The additional conditions are specified by the terms of the Apache 2.0 license and in ' +
               'license terms of libraries that this program uses (see below). <br> &nbsp;'
                // TODO: add notice to translators about translating "free software",
                // TODO: czy trzeba by dać tutaj jeszcze jakieś zastrzeżenia dot. licencji Apache 2.0
                //
+               //
     }, {
         xtype: 'tbtext',
-        html: 'This program is distributed in the hope that it will be useful, <br>' +
-              'but WITHOUT ANY WARRANTY; without even the implied warranty of  <br>' +
-              'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the   <br>' +
+        style: {
+            whiteSpace: 'normal'
+        },
+        html: 'This program is distributed in the hope that it will be useful, ' +
+              'but WITHOUT ANY WARRANTY; without even the implied warranty of ' +
+              'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the ' +
               'GNU General Public License for more details. <br> &nbsp;'
     }, {
         xtype: 'button',
@@ -89,6 +97,9 @@ Ext.define('Traccar.view.dialog.About', {
         handler: 'onGplClick'
     }, {
         xtype: 'tbtext',
+        style: {
+            whiteSpace: 'normal'
+        },
         html: 'This program makes use of many components and libraries, the most important of which are: '
     }, {
 
