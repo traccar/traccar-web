@@ -175,9 +175,8 @@ Ext.define('Traccar.view.SettingsMenuController', {
         }).show();
     },
 
-    onAboutClick: function() {
+    onAboutClick: function () {
         var dialog = Ext.create('Traccar.view.dialog.About');
-        //dialog.down('form').loadRecord(Traccar.app.getServer());
         dialog.show();
     },
 
