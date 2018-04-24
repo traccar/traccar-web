@@ -180,7 +180,7 @@ Ext.define('Traccar.view.dialog.About', {
                 whiteSpace: 'normal',
                 marginTop: '0em',
                 marginBottom: '0em'
-            },
+            }
         },
 
         /*
