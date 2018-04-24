@@ -102,7 +102,6 @@ Ext.define('Traccar.view.dialog.About', {
         },
         html: 'This program makes use of many components and libraries, the most important of which are: '
     }, {
-
         /*
          * This is based on example source code in
          * https://docs.sencha.com/extjs/6.0.1/classic/Ext.Component.html#cfg-autoEl
@@ -111,12 +110,10 @@ Ext.define('Traccar.view.dialog.About', {
         autoEl: {
             tag: 'ul'
         },
+        /*
+         * Only libraries used by traccar-web are displayed below.
+         */
         items: [{
-            xtype: 'box',
-            autoEl: 'li',
-            html: 'Java Runtime Environment;',
-            id: 'librariesJava'
-        }, {
             xtype: 'box',
             autoEl: 'li',
             tpl: 'ExtJS, version {extJSVersion}, distributed under the GNU GPLv3 license;',
