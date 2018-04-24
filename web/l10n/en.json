@@ -418,5 +418,9 @@
     "maintenancePeriod": "Period",
     "aboutDescription": "Modern GPS Tracking Platform",
     "aboutAdvertisement": "Professional, Secure, Open Source",
-    "aboutOtherAuthorsNote": "other authors (see copyright notices in source code and git history)"
+    "aboutOtherAuthorsNote": "other authors (see copyright notices in source code and git history)",
+    "aboutLibrariesListHeader": "This program makes use of many components and libraries, the most important of which are: ",
+    "aboutLibraryExtJS": "ExtJS, version {extJSVersion}, distributed under the GNU GPLv3 license;",
+    "aboutLibraryOpenLayers": "OpenLayers, version {openLayersVersion}, distributed under the two-clause BSD license;",
+    "aboutLibraryProj4js": "Proj4js, version {proj4jsVersion}, distributed under the MIT license."
 }

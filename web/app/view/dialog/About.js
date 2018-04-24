@@ -120,7 +120,7 @@ Ext.define('Traccar.view.dialog.About', {
         handler: 'onGplClick'
     }, {
         xtype: 'tbtext',
-        html: 'This program makes use of many components and libraries, the most important of which are: '
+        html: Strings.aboutLibrariesListHeader
     }, {
 
         /*
@@ -138,17 +138,17 @@ Ext.define('Traccar.view.dialog.About', {
         items: [{
             xtype: 'box',
             autoEl: 'li',
-            tpl: 'ExtJS, version {extJSVersion}, distributed under the GNU GPLv3 license;',
+            tpl: Strings.aboutLibraryExtJS,
             id: 'librariesListExtJS'
         }, {
             xtype: 'box',
             autoEl: 'li',
-            tpl: 'OpenLayers, version {openLayersVersion}, distributed under the two-clause BSD license;',
+            tpl: Strings.aboutLibraryOpenLayers,
             id: 'librariesListOpenLayers'
         }, {
             xtype: 'box',
             autoEl: 'li',
-            tpl: 'Proj4js, version {proj4jsVersion}, distributed under the MIT license.',
+            tpl: Strings.aboutLibraryProj4js,
             id: 'librariesListProj4js'
         }]
     }],
