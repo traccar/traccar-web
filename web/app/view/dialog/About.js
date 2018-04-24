@@ -90,7 +90,7 @@ Ext.define('Traccar.view.dialog.About', {
          * native language of the interface. So just leave it untranslated for now.
          */
         html: 'This program is free <!-- notice to translators: the word "free" ' +
-              'is connected with "freedom", not "no cost" --> software: you can ' +
+              'here is connected with "freedom", not "no cost" --> software: you can ' +
               'redistribute it and/or modify ' +
               'it under the terms of the GNU General Public License version 3, as published by ' +
               'the Free Software Foundation, with conditions added under section 7 ' +
@@ -99,10 +99,6 @@ Ext.define('Traccar.view.dialog.About', {
               'license (if the Traccar server and the Traccar web interface are ' +
               'considered a single work for the purposes of GNU GPL version 3) and in ' +
               'license terms of libraries that this program uses. <br> &nbsp;'
-
-        /*
-         * TODO: czy trzeba by dać tutaj jeszcze jakieś zastrzeżenia dot. licencji Apache 2.0
-         */
     }, {
         xtype: 'tbtext',
         html: 'This program is distributed in the hope that it will be useful, ' +
