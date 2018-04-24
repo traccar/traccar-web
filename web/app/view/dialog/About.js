@@ -129,12 +129,13 @@ Ext.define('Traccar.view.dialog.About', {
               '(note that Traccar source code is distributed under the terms of ' +
               'GNU GPL version 3 "or any later version", but use of some libraries ' +
               'requires dropping the "or any later version" clause when distributing ' +
-              'the whole work). <br> <br> ' +
-
-              'The additional conditions are specified by the terms of the Apache 2.0 ' +
+              'the whole work).'
+    }, {
+        xtype: 'tbtext',
+        html: 'The additional conditions are specified by the terms of the Apache 2.0 ' +
               'license (if the Traccar server and the Traccar web interface are ' +
               'considered a single work for the purposes of GNU GPL version 3) and in ' +
-              'license terms of libraries that this program uses.',
+              'license terms of libraries that this program uses.'
     }, {
         xtype: 'tbtext',
         html: 'This program is distributed in the hope that it will be useful, ' +
