@@ -1,6 +1,8 @@
 /*
  * Copyright 2015 - 2018 Anton Tananaev (anton@traccar.org)
  * Copyright 2018 Mateusz Jończyk (mat.jonczyk@o2.pl)
+ *      - Mateusz's work on this file was funded by Partner Security
+ *        (www.partnersecurity.pl)
  * Based on web/app/view/dialog/Server.js
  *
  * This program is free software: you can redistribute it and/or modify
