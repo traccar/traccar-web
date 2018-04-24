@@ -169,6 +169,19 @@ Ext.define('Traccar.view.dialog.About', {
         autoEl: {
             tag: 'ul'
         },
+        style: {
+            whiteSpace: 'normal',
+            marginTop: '0',
+            marginBottom: '0.5em'
+        },
+
+        defaults: {
+            style: {
+                whiteSpace: 'normal',
+                marginTop: '0em',
+                marginBottom: '0em'
+            },
+        },
 
         /*
          * Only libraries used by traccar-web are displayed below.
