@@ -52,12 +52,27 @@ Ext.define('Traccar.view.dialog.About', {
     }, {
 
         /*
-         * TODO: Display here information about client and server version,
+         * TODO: Display here information about client and server version.
          */
         xtype: 'tbtext',
 
-        // See: https://en.wikipedia.org/wiki/Copyright_notice
-        html: 'Copyright &copy; 2010–2018 Anton Tananaev  <br>' +
+        /*
+         * See: https://en.wikipedia.org/wiki/Copyright_notice
+         *
+         * According to notices in source code, the server and web code when
+         * taken as a whole is
+         *      Copyright &copy; 2010–2018 Anton Tananaev
+         * but the web code when taken alone is
+         *      Copyright &copy; 2015–2018 Anton Tananaev
+         *
+         * In both cases
+         *      Copyright &copy; 2016–2018 Andrey Kunitsyn
+         *
+         * It is unclear if the server code and web code are considered a single
+         * work under the terms of GNU GPLv3.
+         *
+         */
+        html: 'Copyright &copy; 2015–2018 Anton Tananaev  <br>' +
               'Copyright &copy; 2016–2018 Andrey Kunitsyn <br>' +
               'Copyright &copy; ' + Strings.aboutOtherAuthorsNote + ' <br> &nbsp;'
     }, {
@@ -76,8 +91,10 @@ Ext.define('Traccar.view.dialog.About', {
               'redistribute it and/or modify ' +
               'it under the terms of the GNU General Public License version 3, as published by ' +
               'the Free Software Foundation, with conditions added under section 7 ' +
-              'of the GNU General Public License version 3. <br>' +
-              'The additional conditions are specified by the terms of the Apache 2.0 license and in ' +
+              'of the GNU General Public License version 3. <br><br>' +
+              'The additional conditions are specified by the terms of the Apache 2.0 ' +
+              'license (if the Traccar server and the Traccar web interface are ' +
+              'considered a single work for the purposes of GNU GPL version 3) and in ' +
               'license terms of libraries that this program uses. <br> &nbsp;'
 
         /*
