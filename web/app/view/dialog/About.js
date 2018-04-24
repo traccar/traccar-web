@@ -45,26 +45,18 @@ Ext.define('Traccar.view.dialog.About', {
         }
     }, {
         xtype: 'tbtext',
-        // baseCls: 'x-panel-header-title-default',
         html: Strings.aboutDescription
     }, {
         xtype: 'tbtext',
-        // baseCls: 'x-panel-header-title-default',
         html: Strings.aboutAdvertisement
     }, {
 
         /*
+         * TODO: Display here information about client and server version,
+         */
         xtype: 'tbtext',
-        //baseCls: 'x-panel-header-title-default',
-        html: 'Server version: '
-    }, {
-        xtype: 'tbtext',
-        //baseCls: 'x-panel-header-title-default',
-        html: 'Web client version: '
-    }, {
-        */
-        xtype: 'tbtext',
-        // baseCls: 'x-panel-header-title-default',
+
+        // See: https://en.wikipedia.org/wiki/Copyright_notice
         html: 'Copyright &copy; 2010–2018 Anton Tananaev  <br>' +
               'Copyright &copy; 2016–2018 Andrey Kunitsyn <br>' +
               'Copyright &copy; ' + Strings.aboutOtherAuthorsNote + ' <br> &nbsp;'
@@ -87,10 +79,10 @@ Ext.define('Traccar.view.dialog.About', {
               'of the GNU General Public License version 3. <br>' +
               'The additional conditions are specified by the terms of the Apache 2.0 license and in ' +
               'license terms of libraries that this program uses. <br> &nbsp;'
-               // TODO: add notice to translators about translating "free software",
-               // TODO: czy trzeba by dać tutaj jeszcze jakieś zastrzeżenia dot. licencji Apache 2.0
-               //
-               //
+
+        /*
+         * TODO: czy trzeba by dać tutaj jeszcze jakieś zastrzeżenia dot. licencji Apache 2.0
+         */
     }, {
         xtype: 'tbtext',
         html: 'This program is distributed in the hope that it will be useful, ' +
@@ -119,6 +111,7 @@ Ext.define('Traccar.view.dialog.About', {
         autoEl: {
             tag: 'ul'
         },
+
         /*
          * Only libraries used by traccar-web are displayed below.
          */
