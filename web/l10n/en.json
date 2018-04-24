@@ -413,12 +413,7 @@
     "categoryShip": "Ship",
     "categoryTractor": "Tractor",
     "categoryTruck": "Truck",
-<<<<<<< HEAD
     "categoryVan": "Van",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }
-=======
-    "categoryVan": "Van"
-}
->>>>>>> Add "About Traccar" menu option
