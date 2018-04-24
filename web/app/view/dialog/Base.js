@@ -20,7 +20,7 @@ Ext.define('Traccar.view.dialog.Base', {
 
     bodyPadding: Traccar.Style.normalPadding,
     resizable: false,
-    autoScroll: true,
+    scrollable: true,
     constrain: true,
 
     initComponent: function () {
