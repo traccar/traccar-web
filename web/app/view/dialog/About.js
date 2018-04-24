@@ -46,11 +46,11 @@ Ext.define('Traccar.view.dialog.About', {
     }, {
         xtype: 'tbtext',
         // baseCls: 'x-panel-header-title-default',
-        html: 'Modern GPS Tracking Platform'
+        html: Strings.aboutDescription
     }, {
         xtype: 'tbtext',
         // baseCls: 'x-panel-header-title-default',
-        html: 'Professional, Secure, Open Source'
+        html: Strings.aboutAdvertisement
     }, {
 
         /*
@@ -67,7 +67,7 @@ Ext.define('Traccar.view.dialog.About', {
         // baseCls: 'x-panel-header-title-default',
         html: 'Copyright &copy; 2010–2018 Anton Tananaev  <br>' +
               'Copyright &copy; 2016–2018 Andrey Kunitsyn <br>' +
-              'Copyright &copy; other authors (see copyright notices in source code and git history) <br> &nbsp;'
+              'Copyright &copy; ' + Strings.aboutOtherAuthorsNote + ' <br> &nbsp;'
     }, {
         xtype: 'tbtext',
 
@@ -75,8 +75,13 @@ Ext.define('Traccar.view.dialog.About', {
          * ExtJS is licensed under GNU GPLv3 "only", so even though files belonging to
          * traccar-web are licensed under GNU GPLv3 "or later", the whole work
          * is licensed under GNU GPLv3 "only".
+         *
+         * The license notice below should be probably written both in English and
+         * native language of the interface. So just leave it untranslated for now.
          */
-        html: 'This program is free software: you can redistribute it and/or modify ' +
+        html: 'This program is free <!-- notice to translators: the word "free" ' +
+              'is connected with "freedom", not "no cost" --> software: you can ' +
+              'redistribute it and/or modify ' +
               'it under the terms of the GNU General Public License version 3, as published by ' +
               'the Free Software Foundation, with conditions added under section 7 ' +
               'of the GNU General Public License version 3. <br>' +
@@ -94,12 +99,18 @@ Ext.define('Traccar.view.dialog.About', {
               'GNU General Public License for more details. <br> &nbsp;'
     }, {
         xtype: 'button',
+
+        /*
+         * The text on this button should also probably be written both in
+         * English and native language - for consistency.
+         */
         text: 'Show the text of the GNU General Public License version 3',
         handler: 'onGplClick'
     }, {
         xtype: 'tbtext',
         html: 'This program makes use of many components and libraries, the most important of which are: '
     }, {
+
         /*
          * This is based on example source code in
          * https://docs.sencha.com/extjs/6.0.1/classic/Ext.Component.html#cfg-autoEl

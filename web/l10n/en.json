@@ -415,5 +415,8 @@
     "categoryTruck": "Truck",
     "categoryVan": "Van",
     "maintenanceStart": "Start",
-    "maintenancePeriod": "Period"
+    "maintenancePeriod": "Period",
+    "aboutDescription": "Modern GPS Tracking Platform",
+    "aboutAdvertisement": "Professional, Secure, Open Source",
+    "aboutOtherAuthorsNote": "other authors (see copyright notices in source code and git history)"
 }
