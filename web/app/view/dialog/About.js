@@ -35,7 +35,9 @@ Ext.define('Traccar.view.dialog.About', {
     defaults: {
         style: {
             // Inspired by Jukebox's comment at http://stackoverflow.com/a/35493572
-            whiteSpace: 'normal'
+            whiteSpace: 'normal',
+            marginTop: '0.5em',
+            marginBottom: '0.5em'
         }
     },
 
@@ -100,7 +102,7 @@ Ext.define('Traccar.view.dialog.About', {
          */
         html: 'Copyright &copy; 2015–2018 Anton Tananaev  <br>' +
               'Copyright &copy; 2016–2018 Andrey Kunitsyn <br>' +
-              'Copyright &copy; ' + Strings.aboutOtherAuthorsNote + ' <br> &nbsp;'
+              'Copyright &copy; ' + Strings.aboutOtherAuthorsNote
     }, {
         xtype: 'tbtext',
 
@@ -132,13 +134,13 @@ Ext.define('Traccar.view.dialog.About', {
               'The additional conditions are specified by the terms of the Apache 2.0 ' +
               'license (if the Traccar server and the Traccar web interface are ' +
               'considered a single work for the purposes of GNU GPL version 3) and in ' +
-              'license terms of libraries that this program uses. <br> &nbsp;'
+              'license terms of libraries that this program uses.',
     }, {
         xtype: 'tbtext',
         html: 'This program is distributed in the hope that it will be useful, ' +
               'but <strong>WITHOUT ANY WARRANTY</strong>; without even the implied warranty of ' +
               '<strong>MERCHANTABILITY</strong> or <strong>FITNESS FOR A PARTICULAR PURPOSE</strong>.  See the ' +
-              'GNU General Public License for more details. <br> &nbsp;'
+              'GNU General Public License for more details.'
     }, {
         xtype: 'button',
 
@@ -150,7 +152,12 @@ Ext.define('Traccar.view.dialog.About', {
         handler: 'onGplClick'
     }, {
         xtype: 'tbtext',
-        html: Strings.aboutLibrariesListHeader
+        html: Strings.aboutLibrariesListHeader,
+        style: {
+            whiteSpace: 'normal',
+            marginTop: '0.5em',
+            marginBottom: '0'
+        }
     }, {
 
         /*
