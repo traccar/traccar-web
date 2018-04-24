@@ -58,9 +58,9 @@ Ext.define('Traccar.view.dialog.About', {
         */
         xtype: 'tbtext',
         // baseCls: 'x-panel-header-title-default',
-        html: 'Copyright (C) 2010–2018 Anton Tananaev  <br>' +
-              'Copyright (C) 2016–2018 Andrey Kunitsyn <br>' +
-              'Copyright (C) other authors (see copyright notices in source code and git history) <br> &nbsp;'
+        html: 'Copyright &copy; 2010–2018 Anton Tananaev  <br>' +
+              'Copyright &copy; 2016–2018 Andrey Kunitsyn <br>' +
+              'Copyright &copy; other authors (see copyright notices in source code and git history) <br> &nbsp;'
     }, {
         xtype: 'tbtext',
         style: {
