@@ -29,6 +29,13 @@ Ext.define('Traccar.view.dialog.About', {
         'Traccar.view.dialog.AboutController'
     ],
 
+    defaults: {
+        style: {
+            // Inspired by Jukebox's comment at http://stackoverflow.com/a/35493572
+            whiteSpace: 'normal'
+        }
+    },
+
     items: [{
         xtype: 'box',
         autoEl: {
@@ -63,10 +70,7 @@ Ext.define('Traccar.view.dialog.About', {
               'Copyright &copy; other authors (see copyright notices in source code and git history) <br> &nbsp;'
     }, {
         xtype: 'tbtext',
-        style: {
-            // Inspired by Jukebox's comment at http://stackoverflow.com/a/35493572
-            whiteSpace: 'normal'
-        },
+
         /*
          * ExtJS is licensed under GNU GPLv3 "only", so even though files belonging to
          * traccar-web are licensed under GNU GPLv3 "or later", the whole work
@@ -84,9 +88,6 @@ Ext.define('Traccar.view.dialog.About', {
                //
     }, {
         xtype: 'tbtext',
-        style: {
-            whiteSpace: 'normal'
-        },
         html: 'This program is distributed in the hope that it will be useful, ' +
               'but WITHOUT ANY WARRANTY; without even the implied warranty of ' +
               'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the ' +
@@ -97,9 +98,6 @@ Ext.define('Traccar.view.dialog.About', {
         handler: 'onGplClick'
     }, {
         xtype: 'tbtext',
-        style: {
-            whiteSpace: 'normal'
-        },
         html: 'This program makes use of many components and libraries, the most important of which are: '
     }, {
         /*
