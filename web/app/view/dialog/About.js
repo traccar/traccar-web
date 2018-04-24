@@ -45,13 +45,36 @@ Ext.define('Traccar.view.dialog.About', {
             tag: 'img',
             src: '/logo.svg',
             alt: 'Traccar'
+        },
+        style: {
+            // This is a way to center an image:
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+
+            marginTop: '1em',
+            marginBottom: '0.5em'
         }
     }, {
         xtype: 'tbtext',
-        html: Strings.aboutDescription
+        html: Strings.aboutDescription,
+        style: {
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'bold',
+            marginTop: '1em',
+            marginBottom: '0.5em'
+        }
     }, {
         xtype: 'tbtext',
-        html: Strings.aboutAdvertisement
+        html: Strings.aboutAdvertisement,
+        style: {
+            textAlign: 'center',
+            fontSize: 'large',
+            fontWeight: 'bold',
+            marginTop: '0.5em',
+            marginBottom: '2em'
+        }
     }, {
 
         /*
