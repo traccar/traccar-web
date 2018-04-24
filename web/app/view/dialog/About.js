@@ -112,10 +112,11 @@ Ext.define('Traccar.view.dialog.About', {
          * The license notice below should be probably written both in English and
          * native language of the interface. So just leave it untranslated for now.
          */
-        html: 'This program is free <!-- notice to translators: the word "free" ' +
-              'here is connected with "freedom", not "no cost" --> software: you can ' +
+        html: 'This program is <strong>free <!-- notice to translators: the word "free" ' +
+              'here is connected with "freedom", not "no cost" --> software</strong>: you can ' +
               'redistribute it and/or modify ' +
-              'it under the terms of the GNU General Public License version 3, as published by ' +
+              'it under the terms of the <strong>GNU General Public License version 3</strong>, ' +
+              'as published by ' +
               'the Free Software Foundation, with conditions added under section 7 ' +
               'of the GNU General Public License version 3 ' +
 
@@ -135,8 +136,8 @@ Ext.define('Traccar.view.dialog.About', {
     }, {
         xtype: 'tbtext',
         html: 'This program is distributed in the hope that it will be useful, ' +
-              'but WITHOUT ANY WARRANTY; without even the implied warranty of ' +
-              'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the ' +
+              'but <strong>WITHOUT ANY WARRANTY</strong>; without even the implied warranty of ' +
+              '<strong>MERCHANTABILITY</strong> or <strong>FITNESS FOR A PARTICULAR PURPOSE</strong>.  See the ' +
               'GNU General Public License for more details. <br> &nbsp;'
     }, {
         xtype: 'button',
