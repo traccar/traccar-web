@@ -94,7 +94,17 @@ Ext.define('Traccar.view.dialog.About', {
               'redistribute it and/or modify ' +
               'it under the terms of the GNU General Public License version 3, as published by ' +
               'the Free Software Foundation, with conditions added under section 7 ' +
-              'of the GNU General Public License version 3. <br><br>' +
+              'of the GNU General Public License version 3 ' +
+
+              /*
+               * The note below is important: Traccar contributors must be
+               * aware that they are submitting work under GNU GPLv3 "or later".
+               */
+              '(note that Traccar source code is distributed under the terms of ' +
+              'GNU GPL version 3 "or any later version", but use of some libraries ' +
+              'requires dropping the "or any later version" clause when distributing ' +
+              'the whole work). <br> <br> ' +
+
               'The additional conditions are specified by the terms of the Apache 2.0 ' +
               'license (if the Traccar server and the Traccar web interface are ' +
               'considered a single work for the purposes of GNU GPL version 3) and in ' +
