@@ -77,7 +77,7 @@ Ext.define('Traccar.view.dialog.About', {
               'the Free Software Foundation, with conditions added under section 7 ' +
               'of the GNU General Public License version 3. <br>' +
               'The additional conditions are specified by the terms of the Apache 2.0 license and in ' +
-              'license terms of libraries that this program uses (see below). <br> &nbsp;'
+              'license terms of libraries that this program uses. <br> &nbsp;'
                // TODO: add notice to translators about translating "free software",
                // TODO: czy trzeba by dać tutaj jeszcze jakieś zastrzeżenia dot. licencji Apache 2.0
                //
@@ -129,10 +129,6 @@ Ext.define('Traccar.view.dialog.About', {
             tpl: 'Proj4js, version {proj4jsVersion}, distributed under the MIT license.',
             id: 'librariesListProj4js'
         }]
-    }, {
-        xtype: 'button',
-        text: 'Show the full list of components and libraries this project uses (with their license terms).',
-        handler: 'onLibrariesClick'
     }],
 
     buttons: [{

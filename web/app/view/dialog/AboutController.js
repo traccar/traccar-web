@@ -49,11 +49,6 @@ Ext.define('Traccar.view.dialog.AboutController', {
         }
     },
 
-
-    onLibrariesClick: function () {
-        window.alert('Libraries click');
-    },
-
     onGplClick: function () {
         var dialog = Ext.create('Traccar.view.dialog.ShowIframe', {
             fileToDisplay: '/LICENSE_GPL.html',
