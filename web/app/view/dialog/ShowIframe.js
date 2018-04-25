@@ -53,12 +53,24 @@ Ext.define('Traccar.view.dialog.ShowIframe', {
         // Modified version of web/app/view/dialog/Base.js -> initComponent
         if (window.innerWidth) {
             this.maxWidth = window.innerWidth - Traccar.Style.normalPadding * 2;
-            this.width = 0.75 * (window.innerWidth - Traccar.Style.normalPadding * 2);
+
+            // If we are on mobile devices
+            if (window.innerWidth < 600) {
+                this.width = this.maxWidth;
+            } else {
+                this.width = 0.75 * this.maxWidth;
+            }
         }
 
         if (window.innerHeight) {
             this.maxHeight = window.innerHeight - Traccar.Style.normalPadding * 2;
-            this.height = 0.75 * (window.innerHeight - Traccar.Style.normalPadding * 2);
+
+            // If we are on mobile devices
+            if (window.innerWidth && window.innerWidth < 600) {
+                this.height = this.maxHeight;
+            } else {
+                this.height = 0.75 * this.maxHeight;
+            }
         }
         this.callParent();
 
