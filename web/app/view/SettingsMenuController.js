@@ -174,6 +174,10 @@ Ext.define('Traccar.view.SettingsMenuController', {
         }).show();
     },
 
+    onAboutClick: function () {
+        window.open('/LICENSE.html', '_blank');
+    },
+
     onLogoutClick: function () {
         Ext.create('Traccar.view.dialog.LoginController').logout();
     }
