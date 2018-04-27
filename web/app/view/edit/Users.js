@@ -125,8 +125,8 @@ Ext.define('Traccar.view.edit.Users', {
             filter: 'string'
         }, {
             text: Strings.userAdmin,
-            dataIndex: 'admin',
-            renderer: Traccar.AttributeFormatter.getFormatter('admin'),
+            dataIndex: 'administrator',
+            renderer: Traccar.AttributeFormatter.getFormatter('administrator'),
             filter: 'boolean'
         }, {
             text: Strings.serverReadonly,

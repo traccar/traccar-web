@@ -41,7 +41,7 @@ Ext.define('Traccar.model.User', {
         name: 'readonly',
         type: 'boolean'
     }, {
-        name: 'admin',
+        name: 'administrator',
         type: 'boolean'
     }, {
         name: 'map',
