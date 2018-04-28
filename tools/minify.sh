@@ -2,9 +2,9 @@
 
 cd $(dirname $0)/../web
 
-SDK="../../../ext-6.2.0"
+EXT="../../../ext-6.2.0"
 
-sencha compile --classpath=app.js,app,$SDK/packages/core/src,$SDK/packages/core/overrides,$SDK/classic/classic/src,$SDK/classic/classic/overrides \
+sencha compile --classpath=app.js,app,$EXT/packages/core/src,$EXT/packages/core/overrides,$EXT/classic/classic/src,$EXT/classic/classic/overrides \
        exclude -all \
        and \
        include -recursive -file app.js \
