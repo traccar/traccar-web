@@ -78,6 +78,7 @@
     "sharedMaintenance": "Maintenance",
     "sharedMaintenances": "Maintenances",
     "attributeSpeedLimit": "Speed Limit",
+    "attributePolylineDistance": "Polyline Distance",
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",
     "attributeWebReportColor": "Web: Report Color",
     "attributeDevicePassword": "Device Password",
