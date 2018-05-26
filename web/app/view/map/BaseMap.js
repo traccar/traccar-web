@@ -140,7 +140,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                     source: new ol.source.OSM({
                         url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
                     })
-                })
+                });
                 break;
         }
 
