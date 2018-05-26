@@ -44,6 +44,9 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'yandexSat',
         name: Strings.mapYandexSat
     }, {
+        key: 'wikimedia',
+        name: Strings.mapWikimedia
+    }, {
         key: 'custom',
         name: Strings.mapCustom
     }]
