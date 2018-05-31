@@ -72,6 +72,16 @@ Ext.define('Traccar.view.CustomNumberField', {
                         }
                     };
                     break;
+                case 'hours':
+                    config.units = {};
+                    config.units.getStore = function () {
+                        return Ext.getStore('HoursUnits');
+                    };
+                    config.units.getValue = function () {
+                        return 'h';
+                    };
+                    unitName = Strings.sharedHourAbbreviation;
+                    break;
                 default:
                     break;
             }

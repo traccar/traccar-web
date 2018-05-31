@@ -90,7 +90,8 @@ Ext.define('Traccar.store.PositionAttributes', {
     }, {
         key: 'hours',
         name: Strings.positionHours,
-        valueType: 'string'
+        valueType: 'number',
+        dataType: 'hours'
     }, {
         key: 'steps',
         name: Strings.positionSteps,
