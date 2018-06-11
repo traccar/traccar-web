@@ -367,6 +367,7 @@ Ext.define('Traccar.view.ReportController', {
         Ext.Ajax.request({
             url: requestUrl,
             method: 'GET',
+            timeout: Traccar.Style.reportTimeout,
             params: requestParams,
             headers: {
                 Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
