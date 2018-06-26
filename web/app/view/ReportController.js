@@ -514,6 +514,20 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.sharedMaintenance,
         dataIndex: 'maintenanceId',
         renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId')
+    }, {
+        text: Strings.attributeSpeedLimit,
+        dataIndex: 'attributes',
+        renderer: function (value) {
+            var speed = value['speedLimit'];
+            return Traccar.AttributeFormatter.speedFormatter(speed);
+        }
+    }, {
+        text: Strings.positionSpeed,
+        dataIndex: 'attributes',
+        renderer: function (value) {
+            var speed = value['speed'];
+            return Traccar.AttributeFormatter.speedFormatter(speed);
+        }
     }],
 
     summaryColumns: [{
