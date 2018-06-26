@@ -359,6 +359,7 @@
     "notificationWeb": "Send via Web",
     "notificationMail": "Send via Mail",
     "notificationSms": "Send via SMS",
+    "notificationNotificators": "Way of Notification",
     "reportRoute": "Route",
     "reportEvents": "Events",
     "reportTrips": "Trips",

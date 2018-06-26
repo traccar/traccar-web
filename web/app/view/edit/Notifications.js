@@ -60,20 +60,25 @@ Ext.define('Traccar.view.edit.Notifications', {
             renderer: Traccar.AttributeFormatter.getFormatter('always'),
             filter: 'boolean'
         }, {
-            text: Strings.notificationWeb,
-            dataIndex: 'web',
-            renderer: Traccar.AttributeFormatter.getFormatter('web'),
-            filter: 'boolean'
-        }, {
-            text: Strings.notificationMail,
-            dataIndex: 'mail',
-            renderer: Traccar.AttributeFormatter.getFormatter('mail'),
-            filter: 'boolean'
-        }, {
-            text: Strings.notificationSms,
-            dataIndex: 'sms',
-            renderer: Traccar.AttributeFormatter.getFormatter('sms'),
-            filter: 'boolean'
+            text: Strings.notificationNotificators,
+            dataIndex: 'notificators',
+            flex: 2,
+            filter: {
+                type: 'arraylist',
+                idField: 'type',
+                labelField: 'name',
+                store: 'AllNotificators'
+            },
+            renderer: function (value) {
+                var result = '', i, notificators;
+                if (value) {
+                    notificators = value.split(/[ ,]+/).filter(Boolean);
+                    for (i = 0; i < notificators.length; i++) {
+                        result += Traccar.app.getNotificatorString(notificators[i]) + (i < notificators.length - 1 ? ', ' : '');
+                    }
+                }
+                return result;
+            }
         }, {
             text: Strings.sharedCalendar,
             dataIndex: 'calendarId',
