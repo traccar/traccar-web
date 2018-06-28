@@ -34,7 +34,7 @@ Ext.define('Traccar.view.ArrayListFilter', {
                         return true;
                     }
                 }
-            } else if (property.indexOf(',') !== -1) {
+            } else if (property.match(/[ ,]+/)) {
                 splits = property.split(/[ ,]+/).filter(Boolean);
                 for (i = 0; i < splits.length; i++) {
                     if (value.indexOf(splits[i]) !== -1) {

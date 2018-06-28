@@ -130,7 +130,7 @@ Ext.define('Traccar.Application', {
     },
 
     getNotificatorString: function (eventType) {
-        var key = 'notification' + eventType.charAt(0).toUpperCase() + eventType.slice(1);
+        var key = 'notificator' + eventType.charAt(0).toUpperCase() + eventType.slice(1);
         return Strings[key] || key;
     },
 
