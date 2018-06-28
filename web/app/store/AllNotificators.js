@@ -24,7 +24,7 @@ Ext.define('Traccar.store.AllNotificators', {
         type: 'rest',
         url: 'api/notifications/notificators',
         listeners: {
-            'exception': function (proxy, response) {
+            exception: function (proxy, response) {
                 Traccar.app.showError(response);
             }
         }
