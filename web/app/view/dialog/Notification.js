@@ -49,23 +49,14 @@ Ext.define('Traccar.view.dialog.Notification', {
                 name: 'always',
                 fieldLabel: Strings.notificationAlways
             }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'web',
-                fieldLabel: Strings.notificationWeb
-            }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'mail',
-                fieldLabel: Strings.notificationMail
-            }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'sms',
-                fieldLabel: Strings.notificationSms
+                fieldLabel: Strings.notificationNotificators,
+                xtype: 'tagfield',
+                name: 'notificators',
+                maxWidth: Traccar.Style.formFieldWidth,
+                store: 'AllNotificators',
+                valueField: 'type',
+                displayField: 'name',
+                queryMode: 'local'
             }]
         }, {
             xtype: 'fieldset',

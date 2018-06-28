@@ -73,7 +73,16 @@ Ext.define('Traccar.AttributeFormatter', {
     },
 
     deviceIdFormatter: function (value) {
-        return Ext.getStore('Devices').getById(value).get('name');
+        var device, store;
+        if (value !== 0) {
+            store = Ext.getStore('AllDevices');
+            if (store.getTotalCount() === 0) {
+                store = Ext.getStore('Devices');
+            }
+            device = store.getById(value);
+            return device ? device.get('name') : '';
+        }
+        return null;
     },
 
     groupIdFormatter: function (value) {
