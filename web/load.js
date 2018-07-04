@@ -177,8 +177,8 @@
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/proj4js/' + proj4jsVersion + '/proj4.js');
     }
 
-    window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter',
-        'motorcycle', 'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'truck', 'van'];
+    window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
+        'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van'];
 
     for (i = 0; i < window.Images.length; i++) {
         addSvgFile('images/' + window.Images[i] + '.svg', window.Images[i] + 'Svg');
