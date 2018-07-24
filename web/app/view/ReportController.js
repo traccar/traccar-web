@@ -175,7 +175,7 @@ Ext.define('Traccar.view.ReportController', {
                 store.showMarkers = this.showMarkers;
                 store.load({
                     scope: this,
-                    callback: function() {
+                    callback: function () {
                         this.reportProgress = false;
                         this.updateButtons();
                     },
@@ -383,8 +383,8 @@ Ext.define('Traccar.view.ReportController', {
             binary: true,
             scope: this,
             callback: function (options, success, response) {
+                var disposition, filename, type, blob, url, downloadUrl;
                 if (success) {
-                    var disposition, filename, type, blob, url, downloadUrl;
                     disposition = response.getResponseHeader('Content-Disposition');
                     filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
                     type = response.getResponseHeader('Content-Type');
