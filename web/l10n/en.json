@@ -389,6 +389,8 @@
     "reportEndTime": "End Time",
     "reportEndAddress": "End Address",
     "reportSpentFuel": "Spent Fuel",
+    "reportStartOdometer": "Odometer Start",
+    "reportEndOdometer": "Odometer End",
     "statisticsTitle": "Statistics",
     "statisticsCaptureTime": "Capture Time",
     "statisticsActiveUsers": "Active Users",
