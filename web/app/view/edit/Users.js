@@ -84,7 +84,7 @@ Ext.define('Traccar.view.edit.Users', {
             disabled: true,
             handler: 'onDriversClick',
             reference: 'userDriversButton',
-            glyph: 'xf2c2@FontAwesome',
+            glyph: 'xf084@FontAwesome',
             tooltip: Strings.sharedDrivers,
             tooltipType: 'title'
         }, {

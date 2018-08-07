@@ -162,8 +162,6 @@
 
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
 
-    addStyleFile('//use.fontawesome.com/releases/v' + fontAwesomeVersion + '/css/all.css');
-
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');

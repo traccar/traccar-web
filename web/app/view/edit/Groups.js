@@ -51,7 +51,7 @@ Ext.define('Traccar.view.edit.Groups', {
             disabled: true,
             handler: 'onDriversClick',
             reference: 'toolbarDriversButton',
-            glyph: 'xf2c2@FontAwesome',
+            glyph: 'xf084@FontAwesome',
             tooltip: Strings.sharedDrivers,
             tooltipType: 'title'
         }, {

@@ -33,7 +33,7 @@ Ext.define('Traccar.view.DeviceMenu', {
 
         items: [{
             text: Strings.sharedDrivers,
-            glyph: 'xf2c2@FontAwesome',
+            glyph: 'xf084@FontAwesome',
             handler: 'onDriversClick',
             reference: 'menuDriversButton'
         }, {
