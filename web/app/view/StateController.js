@@ -53,7 +53,7 @@ Ext.define('Traccar.view.StateController', {
 
     init: function () {
         var i, hideAttributesPreference, attributesList;
-        if (Traccar.app.getUser().get('administrator') ||
+        if (Traccar.app.getUser().get('admin') ||
                 !Traccar.app.getUser().get('deviceReadonly') && !Traccar.app.getPreference('readonly', false)) {
             this.lookupReference('computedAttributesButton').setDisabled(
                 Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));

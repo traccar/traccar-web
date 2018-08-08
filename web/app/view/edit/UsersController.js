@@ -42,7 +42,7 @@ Ext.define('Traccar.view.edit.UsersController', {
 
     init: function () {
         Ext.getStore('Users').load();
-        this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('administrator'));
+        this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('admin'));
         this.lookupReference('userDriversButton').setHidden(
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('userAttributesButton').setHidden(
@@ -66,7 +66,7 @@ Ext.define('Traccar.view.edit.UsersController', {
     onAddClick: function () {
         var user, dialog;
         user = Ext.create('Traccar.model.User');
-        if (Traccar.app.getUser().get('administrator')) {
+        if (Traccar.app.getUser().get('admin')) {
             user.set('deviceLimit', -1);
         }
         if (Traccar.app.getUser().get('expirationTime')) {
