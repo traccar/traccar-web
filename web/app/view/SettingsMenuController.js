@@ -30,7 +30,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.edit.Notifications',
         'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.Statistics',
-        'Traccar.view.dialog.DeviceDistance',
         'Traccar.view.edit.Calendars',
         'Traccar.view.edit.SavedCommands',
         'Traccar.view.edit.Maintenances',
