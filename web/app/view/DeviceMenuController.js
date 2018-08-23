@@ -27,6 +27,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
         'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.permissions.SavedCommands',
         'Traccar.view.permissions.Maintenances',
+        'Traccar.view.dialog.DeviceAccumulators',
         'Traccar.view.BaseWindow'
     ],
 
@@ -36,7 +37,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
         this.lookupReference('menuComputedAttributesButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('menuCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
-        this.lookupReference('menuDeviceDistanceButton').setHidden(
+        this.lookupReference('menuDeviceAccumulatorsButton').setHidden(
             !Traccar.app.getUser().get('administrator') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
         this.lookupReference('menuMaintenancesButton').setHidden(
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
@@ -120,12 +121,13 @@ Ext.define('Traccar.view.DeviceMenuController', {
         }).show();
     },
 
-    onDeviceDistanceClick: function () {
-        var position, dialog = Ext.create('Traccar.view.dialog.DeviceDistance');
+    onDeviceAccumulatorsClick: function () {
+        var position, dialog = Ext.create('Traccar.view.dialog.DeviceAccumulators');
         dialog.deviceId = this.getView().up('deviceMenu').device.getId();
         position = Ext.getStore('LatestPositions').findRecord('deviceId', dialog.deviceId, 0, false, false, true);
         if (position) {
             dialog.lookupReference('totalDistance').setValue(position.get('attributes').totalDistance);
+            dialog.lookupReference('hours').setValue(position.get('attributes').hours);
         }
         dialog.show();
     }

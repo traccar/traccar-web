@@ -16,21 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.DeviceDistance', {
+Ext.define('Traccar.view.dialog.DeviceAccumulators', {
     extend: 'Traccar.view.dialog.Base',
 
     requires: [
-        'Traccar.view.dialog.DeviceDistanceController'
+        'Traccar.view.dialog.DeviceAccumulatorsController'
     ],
 
-    controller: 'deviceDistance',
-    title: Strings.sharedDeviceDistance,
+    controller: 'deviceAccumulators',
+    title: Strings.sharedDeviceAccumulators,
 
     items: [{
         xtype: 'customNumberField',
         dataType: 'distance',
         reference: 'totalDistance',
         fieldLabel: Strings.deviceTotalDistance
+    }, {
+        xtype: 'customNumberField',
+        dataType: 'hours',
+        reference: 'hours',
+        fieldLabel: Strings.positionHours
     }],
 
     buttons: [{

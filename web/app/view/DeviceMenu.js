@@ -63,10 +63,10 @@ Ext.define('Traccar.view.DeviceMenu', {
             reference: 'menuMaintenancesButton'
         }, {
             hidden: true,
-            text: Strings.sharedDeviceDistance,
+            text: Strings.sharedDeviceAccumulators,
             glyph: 'xf0e4@FontAwesome',
-            handler: 'onDeviceDistanceClick',
-            reference: 'menuDeviceDistanceButton'
+            handler: 'onDeviceAccumulatorsClick',
+            reference: 'menuDeviceAccumulatorsButton'
         }]
     }
 });
