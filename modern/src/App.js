@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
-import ContainerDimensions from 'react-container-dimensions';
-import MainToobar from './MainToolbar';
-import MainMap from './MainMap';
+import React, { Component, Fragment } from 'react';
+import { Switch, Route } from 'react-router-dom'
+import CssBaseline from '@material-ui/core/CssBaseline';
+import MainPage from './MainPage';
+import LoginPage from './LoginPage';
 
 class App extends Component {
   render() {
     return (
-      <div style={{height: "100vh", display: "flex", flexDirection: "column"}}>
-        <div style={{flex: 0}}>
-          <MainToobar />
-        </div>
-        <div style={{flex: 1}}>
-          <ContainerDimensions>
-            <MainMap/>
-          </ContainerDimensions>
-        </div>
-      </div>
+      <Fragment>
+        <CssBaseline />
+        <Switch>
+          <Route exact path='/' component={MainPage} />
+          <Route exact path='/login' component={LoginPage} />
+        </Switch>
+      </Fragment>
     );
   }
 }
