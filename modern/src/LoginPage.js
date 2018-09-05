@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
@@ -24,10 +24,19 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    padding: `${theme.spacing.unit * 3}px`,
   },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
+  logo: {
+    margin: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit}px`
+  },
+  buttons: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  button: {
+    flex: '1 1 0',
+    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit}px 0`
   },
 });
 
@@ -35,22 +44,39 @@ class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      failed: false
+      filled: false,
+      loading: false,
+      failed: false,
+      email: "",
+      password: ""
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
-  handleSubmit() {
-    console.log();
+  handleChange(event) {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+  }
+
+  handleRegister() {
+    // TODO implement registration
+  }
+
+  handleLogin() {
+    const { email, password } = this.state;
     fetch("/api/session", {
       method: "POST",
-      body: new URLSearchParams(`email=admin&password=admin`)
+      body: new URLSearchParams(`email=${email}&password=${password}`)
     }).then(response => {
       if (response.ok) {
         this.props.history.push('/'); // TODO avoid calling sessions twice
       } else {
         this.setState({
-          failed: true
+          failed: true,
+          password: ""
         });
       }
     });
@@ -58,26 +84,57 @@ class LoginPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { failed } = this.state;
+    const { failed, email, password } = this.state;
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography variant="headline">Traccar</Typography>
-          {
-            failed &&
-            <Typography>Login failed</Typography>
-          }
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
+
+          <img className={classes.logo} src="/logo.svg" alt="Traccar" />
+
+          <FormControl margin="normal" required fullWidth error={failed}>
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <Input
+              id="email"
+              value={email}
+              autoComplete="email"
+              autoFocus
+              onChange={this.handleChange} />
+            { failed && <FormHelperText>Invalid username or password</FormHelperText> }
           </FormControl>
+
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              autoComplete="current-password"
+              onChange={this.handleChange} />
           </FormControl>
-          <Button type="submit" fullWidth variant="raised" color="primary" className={classes.submit} onClick={this.handleSubmit}>
-            Login
-          </Button>
+
+          <div className={classes.buttons}>
+
+            <Button
+              type="submit"
+              variant="raised"
+              disabled
+              className={classes.button}
+              onClick={this.handleRegister}>
+              Register
+            </Button>
+
+            <Button
+              type="submit"
+              variant="raised"
+              color="primary"
+              disabled={!email || !password}
+              className={classes.button}
+              onClick={this.handleLogin}>
+              Login
+            </Button>
+
+          </div>
+
         </Paper>
       </main>
     );
