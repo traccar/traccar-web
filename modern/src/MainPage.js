@@ -45,7 +45,7 @@ class MainPage extends Component {
     } else {
       return (
         <div className={classes.root}>
-          <MainToobar />
+          <MainToobar history={this.props.history} />
           <div className={classes.mapContainer}>
             <ContainerDimensions>
               <MainMap/>

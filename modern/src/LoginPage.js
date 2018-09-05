@@ -65,7 +65,8 @@ class LoginPage extends Component {
     // TODO implement registration
   }
 
-  handleLogin() {
+  handleLogin(event) {
+    event.preventDefault();
     const { email, password } = this.state;
     fetch("/api/session", {
       method: "POST",
@@ -91,49 +92,52 @@ class LoginPage extends Component {
 
           <img className={classes.logo} src="/logo.svg" alt="Traccar" />
 
-          <FormControl margin="normal" required fullWidth error={failed}>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input
-              id="email"
-              value={email}
-              autoComplete="email"
-              autoFocus
-              onChange={this.handleChange} />
-            { failed && <FormHelperText>Invalid username or password</FormHelperText> }
-          </FormControl>
+          <form onSubmit={this.handleLogin}>
 
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              autoComplete="current-password"
-              onChange={this.handleChange} />
-          </FormControl>
+            <FormControl margin="normal" required fullWidth error={failed}>
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <Input
+                id="email"
+                value={email}
+                autoComplete="email"
+                autoFocus
+                onChange={this.handleChange} />
+              { failed && <FormHelperText>Invalid username or password</FormHelperText> }
+            </FormControl>
 
-          <div className={classes.buttons}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                autoComplete="current-password"
+                onChange={this.handleChange} />
+            </FormControl>
 
-            <Button
-              type="submit"
-              variant="raised"
-              disabled
-              className={classes.button}
-              onClick={this.handleRegister}>
-              Register
-            </Button>
+            <div className={classes.buttons}>
 
-            <Button
-              type="submit"
-              variant="raised"
-              color="primary"
-              disabled={!email || !password}
-              className={classes.button}
-              onClick={this.handleLogin}>
-              Login
-            </Button>
+              <Button
+                type="button"
+                variant="raised"
+                disabled
+                className={classes.button}
+                onClick={this.handleRegister}>
+                Register
+              </Button>
 
-          </div>
+              <Button
+                type="submit"
+                variant="raised"
+                color="primary"
+                disabled={!email || !password}
+                className={classes.button}>
+                Login
+              </Button>
+
+            </div>
+
+          </form>
 
         </Paper>
       </main>

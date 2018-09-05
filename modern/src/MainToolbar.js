@@ -10,16 +10,23 @@ import MenuIcon from '@material-ui/icons/Menu';
 const styles = {
   flex: {
     flexGrow: 1
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
-  },
+  }
 };
 
 class MainToobar extends Component {
   constructor(props) {
     super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  handleLogout() {
+    fetch("/api/session", {
+      method: "DELETE"
+    }).then(response => {
+      if (response.ok) {
+        this.props.history.push('/login');
+      }
+    });
   }
 
   render() {
@@ -33,7 +40,7 @@ class MainToobar extends Component {
           <Typography variant="title" color="inherit" className={classes.flex}>
             Traccar
           </Typography>
-          <Button color="inherit">Logout</Button>
+          <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
     );
