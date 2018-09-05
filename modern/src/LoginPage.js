@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
-  layout: {
+  root: {
     width: 'auto',
     display: 'block', // Fix IE11 issue.
     marginLeft: theme.spacing.unit * 3,
@@ -86,7 +86,7 @@ class LoginPage extends Component {
     const { classes } = this.props;
     const { failed, email, password } = this.state;
     return (
-      <main className={classes.layout}>
+      <main className={classes.root}>
         <Paper className={classes.paper}>
 
           <img className={classes.logo} src="/logo.svg" alt="Traccar" />

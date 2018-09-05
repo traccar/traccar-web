@@ -2,6 +2,18 @@ import React, { Component } from 'react';
 import ContainerDimensions from 'react-container-dimensions';
 import MainToobar from './MainToolbar';
 import MainMap from './MainMap';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = theme => ({
+  root: {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column"
+  },
+  mapContainer: {
+    flexGrow: 1
+  }
+});
 
 class MainPage extends Component {
   constructor(props) {
@@ -24,6 +36,7 @@ class MainPage extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const { loading } = this.state;
     if (loading) {
       return (
@@ -31,11 +44,9 @@ class MainPage extends Component {
       );
     } else {
       return (
-        <div style={{height: "100vh", display: "flex", flexDirection: "column"}}>
-          <div style={{flex: 0}}>
-            <MainToobar />
-          </div>
-          <div style={{flex: 1}}>
+        <div className={classes.root}>
+          <MainToobar />
+          <div className={classes.mapContainer}>
             <ContainerDimensions>
               <MainMap/>
             </ContainerDimensions>
@@ -46,4 +57,4 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+export default withStyles(styles)(MainPage);
