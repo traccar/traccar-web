@@ -13,6 +13,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
+    overflow: "hidden",
     display: "flex",
     flexDirection: "row",
     [theme.breakpoints.down('xs')]: {
