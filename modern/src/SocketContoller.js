@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { updatePositions } from './actions';
+import { updateDevices, updatePositions } from './actions';
 
 const displayNotifications = events => {
   if ("Notification" in window) {
@@ -30,6 +30,9 @@ class SocketController extends Component {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
+      if (data.devices) {
+        this.props.dispatch(updateDevices(data.devices));
+      }
       if (data.positions) {
         this.props.dispatch(updatePositions(data.positions));
       }

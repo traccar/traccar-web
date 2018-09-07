@@ -6,8 +6,14 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case 'UPDATE_DEVICES':
+      return Object.assign({}, {
+        ...state,
+        devices: [...state.devices, ...action.devices]
+      });
     case 'UPDATE_POSITIONS':
       return Object.assign({}, {
+        ...state,
         positions: [...state.positions, ...action.positions]
       });
     default:

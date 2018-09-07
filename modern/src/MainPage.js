@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import withStyles from '@material-ui/core/styles/withStyles';
 import SocketController from './SocketContoller';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import DeviceList from './DeviceList';
 
 const styles = theme => ({
   root: {
@@ -73,6 +74,7 @@ class MainPage extends Component {
               anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"}
               variant="permanent"
               classes={{ paper: classes.drawerPaper }}>
+              <DeviceList />
             </Drawer>
             <div className={classes.mapContainer}>
               <ContainerDimensions>

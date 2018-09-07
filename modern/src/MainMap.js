@@ -16,7 +16,7 @@ class MainMap extends Component {
   render() {
     const position = [this.state.lat, this.state.lng]
 
-    const markers = this.props.positions.map((position) =>
+    const markers = this.props.positions.map(position =>
       <Marker key={position.id.toString()} position={{ lat: position.latitude, lng: position.longitude }}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
