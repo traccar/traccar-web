@@ -4,6 +4,8 @@ import MainToobar from './MainToolbar';
 import MainMap from './MainMap';
 import Drawer from '@material-ui/core/Drawer';
 import withStyles from '@material-ui/core/styles/withStyles';
+import SocketController from './SocketContoller';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
 const styles = theme => ({
   root: {
@@ -64,9 +66,11 @@ class MainPage extends Component {
     } else {
       return (
         <div className={classes.root}>
+          <SocketController />
           <MainToobar history={this.props.history} />
           <div className={classes.content}>
             <Drawer
+              anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"}
               variant="permanent"
               classes={{ paper: classes.drawerPaper }}>
             </Drawer>
@@ -82,4 +86,4 @@ class MainPage extends Component {
   }
 }
 
-export default withStyles(styles)(MainPage);
+export default withWidth()(withStyles(styles)(MainPage));
