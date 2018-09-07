@@ -16,9 +16,12 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-const styles = {
+const styles = theme => ({
   flex: {
     flexGrow: 1
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
   },
   list: {
     width: 250
@@ -27,7 +30,7 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   }
-};
+});
 
 class MainToobar extends Component {
   constructor(props) {
@@ -66,7 +69,7 @@ class MainToobar extends Component {
     const { classes } = this.props;
     return (
       <Fragment>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <IconButton
               className={classes.menuButton}
