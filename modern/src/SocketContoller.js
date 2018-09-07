@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import { updatePositions } from './actions';
 
 class SocketController extends Component {
   connectSocket() {
@@ -12,8 +14,7 @@ class SocketController extends Component {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.positions) {
-        // TODO update positions
-        console.log(data.positions);
+        this.props.dispatch(updatePositions(data.positions));
       }
     }
   }
@@ -27,4 +28,4 @@ class SocketController extends Component {
   }
 }
 
-export default SocketController;
+export default connect()(SocketController);
