@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ Ext.define('Traccar.view.DeviceMenu', {
 
         items: [{
             text: Strings.sharedDrivers,
-            glyph: 'xf2c2@FontAwesome',
+            glyph: 'xf084@FontAwesome',
             handler: 'onDriversClick',
             reference: 'menuDriversButton'
         }, {
@@ -57,11 +57,16 @@ Ext.define('Traccar.view.DeviceMenu', {
             handler: 'onCommandsClick',
             reference: 'menuCommandsButton'
         }, {
+            text: Strings.sharedMaintenances,
+            glyph: 'xf0ad@FontAwesome',
+            handler: 'onMaintenancesClick',
+            reference: 'menuMaintenancesButton'
+        }, {
             hidden: true,
-            text: Strings.sharedDeviceDistance,
+            text: Strings.sharedDeviceAccumulators,
             glyph: 'xf0e4@FontAwesome',
-            handler: 'onDeviceDistanceClick',
-            reference: 'menuDeviceDistanceButton'
+            handler: 'onDeviceAccumulatorsClick',
+            reference: 'menuDeviceAccumulatorsButton'
         }]
     }
 });

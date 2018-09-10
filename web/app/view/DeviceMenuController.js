@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ Ext.define('Traccar.view.DeviceMenuController', {
         'Traccar.view.permissions.Notifications',
         'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.permissions.SavedCommands',
+        'Traccar.view.permissions.Maintenances',
+        'Traccar.view.dialog.DeviceAccumulators',
         'Traccar.view.BaseWindow'
     ],
 
@@ -35,8 +37,10 @@ Ext.define('Traccar.view.DeviceMenuController', {
         this.lookupReference('menuComputedAttributesButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('menuCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
-        this.lookupReference('menuDeviceDistanceButton').setHidden(
-            !Traccar.app.getUser().get('admin') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
+        this.lookupReference('menuDeviceAccumulatorsButton').setHidden(
+            !Traccar.app.getUser().get('administrator') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
+        this.lookupReference('menuMaintenancesButton').setHidden(
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
     },
 
     onGeofencesClick: function () {
@@ -104,12 +108,26 @@ Ext.define('Traccar.view.DeviceMenuController', {
         }).show();
     },
 
-    onDeviceDistanceClick: function () {
-        var position, dialog = Ext.create('Traccar.view.dialog.DeviceDistance');
+    onMaintenancesClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedMaintenances,
+            items: {
+                xtype: 'linkMaintenancesView',
+                baseObjectName: 'deviceId',
+                linkObjectName: 'maintenanceId',
+                storeName: 'Maintenances',
+                baseObject: this.getView().up('deviceMenu').device.getId()
+            }
+        }).show();
+    },
+
+    onDeviceAccumulatorsClick: function () {
+        var position, dialog = Ext.create('Traccar.view.dialog.DeviceAccumulators');
         dialog.deviceId = this.getView().up('deviceMenu').device.getId();
         position = Ext.getStore('LatestPositions').findRecord('deviceId', dialog.deviceId, 0, false, false, true);
         if (position) {
             dialog.lookupReference('totalDistance').setValue(position.get('attributes').totalDistance);
+            dialog.lookupReference('hours').setValue(position.get('attributes').hours);
         }
         dialog.show();
     }

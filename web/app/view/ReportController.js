@@ -142,7 +142,7 @@ Ext.define('Traccar.view.ReportController', {
         reportType = this.lookupReference('reportTypeField').getValue();
         devices = this.deviceId && this.deviceId.length !== 0 || this.groupId && this.groupId.length !== 0;
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
-        disabled = !reportType || !devices || !time;
+        disabled = !reportType || !devices || !time || this.reportProgress;
         this.lookupReference('showButton').setDisabled(disabled);
         this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
     },
@@ -162,6 +162,9 @@ Ext.define('Traccar.view.ReportController', {
                 this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
                 this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
 
+            this.reportProgress = true;
+            this.updateButtons();
+
             if (button.reference === 'showButton') {
                 if (reportType === 'chart') {
                     store = this.getChart().getStore();
@@ -171,6 +174,11 @@ Ext.define('Traccar.view.ReportController', {
                 }
                 store.showMarkers = this.showMarkers;
                 store.load({
+                    scope: this,
+                    callback: function () {
+                        this.reportProgress = false;
+                        this.updateButtons();
+                    },
                     params: {
                         deviceId: this.deviceId,
                         groupId: this.groupId,
@@ -367,34 +375,40 @@ Ext.define('Traccar.view.ReportController', {
         Ext.Ajax.request({
             url: requestUrl,
             method: 'GET',
+            timeout: Traccar.Style.reportTimeout,
             params: requestParams,
             headers: {
                 Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             },
             binary: true,
-            success: function (response) {
+            scope: this,
+            callback: function (options, success, response) {
                 var disposition, filename, type, blob, url, downloadUrl;
-                disposition = response.getResponseHeader('Content-Disposition');
-                filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
-                type = response.getResponseHeader('Content-Type');
-                blob = new Blob([response.responseBytes], {type: type});
-                if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                    // IE workaround
-                    window.navigator.msSaveBlob(blob, filename);
-                } else {
-                    url = window.URL || window.webkitURL;
-                    downloadUrl = url.createObjectURL(blob);
-                    if (filename) {
-                        Ext.dom.Helper.append(Ext.getBody(), {
-                            tag: 'a',
-                            href: downloadUrl,
-                            download: filename
-                        }).click();
+                if (success) {
+                    disposition = response.getResponseHeader('Content-Disposition');
+                    filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
+                    type = response.getResponseHeader('Content-Type');
+                    blob = new Blob([response.responseBytes], {type: type});
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        url = window.URL || window.webkitURL;
+                        downloadUrl = url.createObjectURL(blob);
+                        if (filename) {
+                            Ext.dom.Helper.append(Ext.getBody(), {
+                                tag: 'a',
+                                href: downloadUrl,
+                                download: filename
+                            }).click();
+                        }
+                        setTimeout(function () {
+                            url.revokeObjectURL(downloadUrl);
+                        }, 100);
                     }
-                    setTimeout(function () {
-                        url.revokeObjectURL(downloadUrl);
-                    }, 100);
                 }
+                this.reportProgress = false;
+                this.updateButtons();
             }
         });
     },
@@ -510,6 +524,10 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
         renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
+    }, {
+        text: Strings.sharedMaintenance,
+        dataIndex: 'maintenanceId',
+        renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId')
     }],
 
     summaryColumns: [{

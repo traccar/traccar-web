@@ -1,6 +1,6 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2015 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ Ext.define('Traccar.view.edit.Users', {
             disabled: true,
             handler: 'onDriversClick',
             reference: 'userDriversButton',
-            glyph: 'xf2c2@FontAwesome',
+            glyph: 'xf084@FontAwesome',
             tooltip: Strings.sharedDrivers,
             tooltipType: 'title'
         }, {
@@ -94,6 +94,14 @@ Ext.define('Traccar.view.edit.Users', {
             reference: 'userCommandsButton',
             glyph: 'xf093@FontAwesome',
             tooltip: Strings.sharedSavedCommands,
+            tooltipType: 'title'
+        }, {
+            xtype: 'button',
+            disabled: true,
+            handler: 'onMaintenancesClick',
+            reference: 'userMaintenancesButton',
+            glyph: 'xf0ad@FontAwesome',
+            tooltip: Strings.sharedMaintenances,
             tooltipType: 'title'
         }]
     },
@@ -117,8 +125,8 @@ Ext.define('Traccar.view.edit.Users', {
             filter: 'string'
         }, {
             text: Strings.userAdmin,
-            dataIndex: 'admin',
-            renderer: Traccar.AttributeFormatter.getFormatter('admin'),
+            dataIndex: 'administrator',
+            renderer: Traccar.AttributeFormatter.getFormatter('administrator'),
             filter: 'boolean'
         }, {
             text: Strings.serverReadonly,

@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,5 +24,15 @@ Ext.define('Traccar.store.GeofenceAttributes', {
         key: 'color',
         name: Strings.attributeColor,
         valueType: 'color'
+    }, {
+        key: 'speedLimit',
+        name: Strings.attributeSpeedLimit,
+        valueType: 'number',
+        dataType: 'speed'
+    }, {
+        key: 'polylineDistance',
+        name: Strings.attributePolylineDistance,
+        valueType: 'number',
+        dataType: 'distance'
     }]
 });

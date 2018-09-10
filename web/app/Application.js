@@ -42,7 +42,8 @@ Ext.define('Traccar.Application', {
         'KnownAttribute',
         'Driver',
         'KnownCommand',
-        'KnownNotification'
+        'KnownNotification',
+        'Maintenance'
     ],
 
     stores: [
@@ -103,7 +104,12 @@ Ext.define('Traccar.Application', {
         'Commands',
         'AllCommands',
         'DeviceCommands',
-        'AllNotificationTypes'
+        'AllNotificationTypes',
+        'Maintenances',
+        'AllMaintenances',
+        'MaintenanceTypes',
+        'HoursUnits',
+        'AllNotificators'
     ],
 
     controllers: [
@@ -120,6 +126,11 @@ Ext.define('Traccar.Application', {
 
     getEventString: function (eventType) {
         var key = 'event' + eventType.charAt(0).toUpperCase() + eventType.slice(1);
+        return Strings[key] || key;
+    },
+
+    getNotificatorString: function (eventType) {
+        var key = 'notificator' + eventType.charAt(0).toUpperCase() + eventType.slice(1);
         return Strings[key] || key;
     },
 

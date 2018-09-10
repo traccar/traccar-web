@@ -130,10 +130,18 @@ Ext.define('Traccar.view.map.BaseMap', {
                     })
                 });
                 break;
-            default:
+            case 'osm':
                 layer = new ol.layer.Tile({
                     source: new ol.source.OSM({})
                 });
+                break;
+            default:
+                layer = new ol.layer.Tile({
+                    source: new ol.source.OSM({
+                        url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
+                    })
+                });
+                break;
         }
 
         lat = Traccar.app.getPreference('latitude', Traccar.Style.mapDefaultLat);

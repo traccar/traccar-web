@@ -31,6 +31,7 @@ Ext.define('Traccar.view.dialog.BaseEdit', {
         xtype: 'tbfill'
     }, {
         glyph: 'xf00c@FontAwesome',
+        reference: 'saveButton',
         tooltip: Strings.sharedSave,
         tooltipType: 'title',
         minWidth: 0,

@@ -28,15 +28,5 @@ Ext.define('Traccar.store.CommonDeviceAttributes', {
         key: 'report.ignoreOdometer',
         name: Strings.attributeReportIgnoreOdometer,
         valueType: 'boolean'
-    }, {
-        key: 'maintenance.start',
-        name: Strings.attributeMaintenanceStart,
-        valueType: 'number',
-        dataType: 'distance'
-    }, {
-        key: 'maintenance.interval',
-        name: Strings.attributeMaintenanceInterval,
-        valueType: 'number',
-        dataType: 'distance'
     }]
 });

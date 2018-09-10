@@ -31,6 +31,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         'Traccar.view.permissions.Drivers',
         'Traccar.view.permissions.SavedCommands',
         'Traccar.view.permissions.Notifications',
+        'Traccar.view.permissions.Maintenances',
         'Traccar.view.BaseWindow',
         'Traccar.model.User'
     ],
@@ -41,7 +42,7 @@ Ext.define('Traccar.view.edit.UsersController', {
 
     init: function () {
         Ext.getStore('Users').load();
-        this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('admin'));
+        this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('administrator'));
         this.lookupReference('userDriversButton').setHidden(
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
         this.lookupReference('userAttributesButton').setHidden(
@@ -49,6 +50,8 @@ Ext.define('Traccar.view.edit.UsersController', {
         this.lookupReference('userCalendarsButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
         this.lookupReference('userCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
+        this.lookupReference('userMaintenancesButton').setHidden(
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
     },
 
     onEditClick: function () {
@@ -63,7 +66,7 @@ Ext.define('Traccar.view.edit.UsersController', {
     onAddClick: function () {
         var user, dialog;
         user = Ext.create('Traccar.model.User');
-        if (Traccar.app.getUser().get('admin')) {
+        if (Traccar.app.getUser().get('administrator')) {
             user.set('deviceLimit', -1);
         }
         if (Traccar.app.getUser().get('expirationTime')) {
@@ -209,6 +212,21 @@ Ext.define('Traccar.view.edit.UsersController', {
         }).show();
     },
 
+    onMaintenancesClick: function () {
+        var user = this.getView().getSelectionModel().getSelection()[0];
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.sharedMaintenances,
+            items: {
+                xtype: 'linkMaintenancesView',
+                baseObjectName: 'userId',
+                linkObjectName: 'maintenanceId',
+                storeName: 'AllMaintenances',
+                linkStoreName: 'Maintenances',
+                baseObject: user.getId()
+            }
+        }).show();
+    },
+
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
         this.lookupReference('userDevicesButton').setDisabled(disabled);
@@ -219,6 +237,7 @@ Ext.define('Traccar.view.edit.UsersController', {
         this.lookupReference('userAttributesButton').setDisabled(disabled);
         this.lookupReference('userDriversButton').setDisabled(disabled);
         this.lookupReference('userCommandsButton').setDisabled(disabled);
+        this.lookupReference('userMaintenancesButton').setDisabled(disabled);
         this.lookupReference('userUsersButton').setDisabled(disabled || selected[0].get('userLimit') === 0);
         this.callParent(arguments);
     }

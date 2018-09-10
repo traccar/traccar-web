@@ -21,7 +21,7 @@ Ext.define('Traccar.view.dialog.DeviceController', {
     alias: 'controller.device',
 
     init: function () {
-        if (Traccar.app.getUser().get('admin')) {
+        if (Traccar.app.getUser().get('administrator')) {
             this.lookupReference('disabledField').setHidden(false);
         }
     }

@@ -20,6 +20,7 @@ Ext.define('Traccar.Style', {
 
     refreshPeriod: 60 * 1000,
     reconnectTimeout: 60 * 1000,
+    reportTimeout: 120 * 1000,
 
     normalPadding: 10,
 
@@ -42,8 +43,8 @@ Ext.define('Traccar.Style', {
 
     columnWidthNormal: 100,
 
-    mapDefaultLat: 1.283333,
-    mapDefaultLon: 103.833333,
+    mapDefaultLat: 48.8567,
+    mapDefaultLon: 2.3508,
     mapDefaultZoom: 4,
 
     mapRouteColor: [

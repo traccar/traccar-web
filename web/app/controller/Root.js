@@ -27,7 +27,9 @@ Ext.define('Traccar.controller.Root', {
     ],
 
     init: function () {
-        var i, data, attribute, chartTypesStore = Ext.getStore('ReportChartTypes');
+        var i, data, attribute, chartTypesStore, maintenanceTypesStore;
+        chartTypesStore = Ext.getStore('ReportChartTypes');
+        maintenanceTypesStore = Ext.getStore('MaintenanceTypes');
         Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
         data = Ext.getStore('PositionAttributes').getData().items;
         for (i = 0; i < data.length; i++) {
@@ -43,6 +45,7 @@ Ext.define('Traccar.controller.Root', {
                     key: 'attribute.' + attribute.get('key'),
                     name: attribute.get('name')
                 });
+                maintenanceTypesStore.add(attribute);
             }
         }
     },
@@ -110,6 +113,7 @@ Ext.define('Traccar.controller.Root', {
         Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();
         Ext.getStore('Calendars').load();
+        Ext.getStore('Maintenances').load();
         Ext.getStore('ComputedAttributes').load();
         Ext.getStore('AllCommandTypes').load();
         Ext.getStore('Commands').load();
@@ -125,6 +129,7 @@ Ext.define('Traccar.controller.Root', {
                 }
             }
         });
+        Ext.getStore('AllNotificators').load();
         Ext.getStore('Notifications').load();
 
         Ext.getStore('ServerAttributes').loadData(Ext.getStore('CommonDeviceAttributes').getData().items, true);
@@ -285,6 +290,8 @@ Ext.define('Traccar.controller.Root', {
                     this.beep();
                 }
                 Traccar.app.showToast(array[i].text, device.get('name'));
+            } else {
+                Traccar.app.showToast(array[i].text);
             }
         }
     },

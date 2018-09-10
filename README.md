@@ -1,5 +1,5 @@
 # [Traccar Web Interface](https://www.traccar.org)
-[![Build Status](https://travis-ci.org/tananaev/traccar-web.svg?branch=master)](https://travis-ci.org/tananaev/traccar-web)
+[![Build Status](https://travis-ci.org/traccar/traccar-web.svg?branch=master)](https://travis-ci.org/traccar/traccar-web)
 
 ## Overview
 

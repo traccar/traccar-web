@@ -23,6 +23,7 @@ Ext.define('Traccar.store.ReportStops', {
     proxy: {
         type: 'rest',
         url: 'api/reports/stops',
+        timeout: Traccar.Style.reportTimeout,
         headers: {
             'Accept': 'application/json'
         },
