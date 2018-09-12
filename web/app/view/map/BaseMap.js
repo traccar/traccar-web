@@ -30,7 +30,7 @@ Ext.define('Traccar.view.map.BaseMap', {
     },
 
     initMap: function () {
-        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer;
+        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, geocoder, popup;
 
         server = Traccar.app.getServer();
 
@@ -220,6 +220,34 @@ Ext.define('Traccar.view.map.BaseMap', {
                 this.fireEvent('deselectfeature');
             }
         }, this);
+        
+        // popup
+		popup = new ol.Overlay.Popup();
+		this.map.addOverlay(popup);
+
+		//Instantiate with some options and add the Control
+		geocoder = new Geocoder('nominatim', {
+			provider: 'osm',
+			lang: 'en',
+			placeholder: 'Search for ...',
+			limit: 5,
+			debug: false,
+			autoComplete: true,
+			keepOpen: true
+		});
+		this.map.addControl(geocoder);
+		
+		// prevent marker being added to map
+		geocoder.getLayer().setVisible(false);
+  
+		//Listen when an address is chosen
+		geocoder.on('addresschosen', function (evt) {
+			console.info(evt);
+			window.setTimeout(function () {
+				popup.show(evt.coordinate, evt.address.formatted);
+			}, 3000);
+		});
+    
     },
 
     listeners: {
