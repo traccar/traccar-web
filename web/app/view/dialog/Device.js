@@ -46,7 +46,7 @@ Ext.define('Traccar.view.dialog.Device', {
             xtype: 'fieldset',
             title: Strings.sharedExtra,
             collapsible: true,
-            collapsed: true,
+            collapsed: false,
             items: [{
                 xtype: 'clearableComboBox',
                 name: 'groupId',

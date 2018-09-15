@@ -33,7 +33,7 @@ Ext.define('Traccar.view.Events', {
 
     title: Strings.reportEvents,
 
-    sortableColumns: false,
+    sortableColumns: true,
 
     header: false,
 
@@ -63,6 +63,7 @@ Ext.define('Traccar.view.Events', {
             reference: 'scrollToLastButton'
         }, {
             id: 'soundButton',
+            pressed: true,
             glyph: 'xf0a2@FontAwesome',
             tooltip: Strings.sharedSound,
             stateId: 'sound-button'
@@ -112,6 +113,17 @@ Ext.define('Traccar.view.Events', {
             text: Strings.positionFixTime,
             dataIndex: 'serverTime',
             renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
+        }, {
+            text: Strings.positionSpeed,
+            dataIndex: 'attributes',
+            renderer: function (value) {
+                var speed = value['speed'];
+                return Traccar.AttributeFormatter.speedFormatter(speed);
+            }
+        }, {
+            text: Strings.sharedGeofence,
+            dataIndex: 'geofenceId',
+            renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
         }]
     }
 });

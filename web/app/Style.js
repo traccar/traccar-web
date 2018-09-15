@@ -19,32 +19,32 @@ Ext.define('Traccar.Style', {
     singleton: true,
 
     refreshPeriod: 60 * 1000,
-    reconnectTimeout: 60 * 1000,
-    reportTimeout: 120 * 1000,
+    reconnectTimeout: 60 * 10000,
+    reportTimeout: 1200 * 90000000,
 
     normalPadding: 10,
 
     windowWidth: 800,
     windowHeight: 600,
 
-    formFieldWidth: 275,
+    formFieldWidth: 345,
 
-    dateTimeFormat24: 'Y-m-d H:i:s',
-    dateTimeFormat12: 'Y-m-d g:i:s a',
+    dateTimeFormat24: 'd-m-Y H:i:s',
+    dateTimeFormat12: 'd-m-Y g:i:s a',
     timeFormat24: 'H:i',
     timeFormat12: 'g:i a',
-    dateFormat: 'Y-m-d',
+    dateFormat: 'd-m-Y',
     weekStartDay: 1,
 
-    deviceWidth: 400,
-    toastWidth: 300,
+    deviceWidth: 450,
+    toastWidth: 195,
 
-    reportHeight: 250,
+    reportHeight: 378,
 
     columnWidthNormal: 100,
 
-    mapDefaultLat: 48.8567,
-    mapDefaultLon: 2.3508,
+    mapDefaultLat: 3.56545,
+    mapDefaultLon: 14.948848,
     mapDefaultZoom: 4,
 
     mapRouteColor: [
@@ -55,22 +55,22 @@ Ext.define('Traccar.Style', {
         '#FF8A65',
         '#A1887F'
     ],
-    mapRouteWidth: 5,
+    mapRouteWidth: 4,
 
     mapTextColor: 'rgba(50, 50, 50, 1.0)',
     mapTextStrokeColor: 'rgba(255, 255, 255, 1.0)',
-    mapTextStrokeWidth: 2,
-    mapTextOffset: 2,
-    mapTextFont: 'bold 12px sans-serif',
+    mapTextStrokeWidth: 1,
+    mapTextOffset: 1,
+    mapTextFont: 'bold 10px sans-serif',
 
-    mapColorOnline: 'rgba(77, 250, 144, 1.0)',
-    mapColorUnknown: 'rgba(250, 190, 77, 1.0)',
-    mapColorOffline: 'rgba(255, 162, 173, 1.0)',
+    mapColorOnline:  'rgba(53, 255, 104, 1.0)',
+    mapColorUnknown: 'rgba(230, 0, 0, 1.0)',
+    mapColorOffline: 'rgba(255, 153, 57, 1.0)',
 
-    mapScaleNormal: 1,
-    mapScaleSelected: 1.5,
+    mapScaleNormal: 0.51,
+    mapScaleSelected: 0.75,
 
-    mapMaxZoom: 18,
+    mapMaxZoom: 20,
     mapDelay: 500,
 
     mapAccuracyColor: 'rgba(96, 96, 96, 1.0)',

@@ -1,0 +1,273 @@
+
+.front_link {
+    font-size: 16px;
+    color: #808080;
+}
+
+/* Spinner class style */
+
+#spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border-top: 6px solid #808080;
+    border-right: 6px solid transparent;
+    animation: spinner .6s linear infinite;
+}
+
+
+
+.toolbar-header-style {
+    background-color: #ffffff !important;
+}
+
+.x-panel-header-default {
+    font-size: 12px;
+    border: 1px solid #d0d0d0;
+}
+
+
+/*Windows header styling */
+
+.x-window-header-default {
+    font-size: 16px;
+    border-color: #808080;
+    background-color: #808080;
+}
+
+.x-window-header-default-top {
+    padding: 3px 8px 3px 8px;
+    border-width: 0px 1px 0px 1px;
+}
+
+.x-window-default {
+    border-width: 1px;
+}
+
+.x-window-header-default-top {
+    background-color: #808080;
+}
+
+
+.x-window-default {
+    border-color: #808080;
+}
+
+/* Windows styling end */
+
+/* Panel styling */
+
+.x-panel-header-default-vertical {
+    background-image: none;
+    background-color: #808080;
+}
+
+.x-panel-header-default {
+    background-image: none;
+    background-color: #808080;
+}
+
+
+
+
+
+@media screen and (min-width: 768px) {
+  .showthatmin {
+        display: none;
+}
+
+/* Login background image style */
+
+.x-body {
+    background-image: url("./images/shows.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: exclusion;
+    opacity: 1;
+    background-color: #fff;
+ }
+ 
+}
+
+@media screen and (max-width: 768px) {
+  .showthat {
+        display: none;
+}
+}
+
+/* Little iccons styling */
+
+.x-panel-header-default .x-tool-tool-el {
+    background-color: #808080;
+}
+
+/* Little iccons deeper background styling */
+
+.x-window-header-default .x-tool-img {
+    background-color: #808080;
+}
+
+
+
+/* All splitter background color */
+
+.x-splitter  {
+    background-color: #fff;
+}
+
+/* Front page and other Button styling */
+
+
+
+.x-btn-default-small {
+    
+    background-color: #808080;
+    border-color: #808080;
+}
+
+/* Button disabled color */
+
+.x-btn.x-btn-disabled.x-btn-default-small {
+    background-image: none;
+    background-color: #808080;
+}
+
+/* Horizontal panel heading padding */
+
+.x-panel-header-default-horizontal.x-header-noborder {
+    padding: 2px 16px 2px 16px;
+}
+
+/* Vertical panel heading padding */
+
+.x-panel-header-default-vertical {
+    padding: 15px 2px 15px 2px;
+}
+
+/* Main toolbar Stying */
+
+.x-toolbar-default {
+    padding: 1px 0 2px 8px;
+    border-style: solid;
+    border-color: #d0d0d0;
+    border-width: 0px;
+}
+
+
+/* Button img selected styling */
+.x-btn.x-btn-menu-active.x-btn-default-toolbar-small {
+    border-color: #fff;
+    background-image: none;
+    background-color: #fff;
+}
+
+/* Button img selected styling */
+
+.x-btn.x-btn-pressed.x-btn-default-toolbar-small {
+    border-color: #fff;
+    background-image: none;
+    background-color: #ddd;
+}
+
+/* Button hover styling */
+
+.x-btn-over.x-btn-default-small {
+    background-color: #7f7f7f;
+    border-color:  #7f7f7f;
+    background-image: none;
+}
+
+.x-btn-default-toolbar-small {
+    border-color: #fff;
+}
+
+/* Unselected toolbar button */
+
+.x-btn-default-toolbar-small {
+    padding: 5px 5px 5px 5px;
+    border-width: 0px;
+    border-style: solid;
+    background-color: #fff;
+}
+
+/* Disabled button style*/
+
+.x-btn.x-btn-disabled.x-btn-default-toolbar-small {
+    background-image: none;
+    background-color: #fff;
+}
+
+/* Divider icon background and fore color */
+.x-collapse-el {
+    color: #808080;
+    background-color: #e0e0e0;
+}
+
+/* Icon color stylig */
+
+.x-btn-icon-el-default-toolbar-small {
+    font-size: 16px;
+    height: 16px;
+    color: #808080;
+    line-height: 16px;
+}
+
+/* Split button icon styling */
+
+.x-btn-wrap-default-toolbar-small.x-btn-arrow-right:after {
+    color: #808080;
+}
+
+/* Table content cell padding */
+
+.x-grid-cell-inner {
+    position: relative;
+    text-overflow: ellipsis;
+    padding: 2px 10px 2px;
+    font-size: 11px;
+}
+
+/* Table header cell padding */
+
+.x-column-header-inner {
+    padding: 2px 10px 2px;
+}
+
+/* Panel header text color */
+.x-panel-header-title-default {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 200;
+    line-height: 20px;
+}
+
+/* Dropdown icon styling */
+
+.x-menu-item-icon-default {
+    font-size: 12px;
+    color: #808080;
+}
+
+a:-webkit-any-link {
+    color: #808080;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.x-grid-header-ct {
+    border: 0px solid #d0d0d0;
+}
+
+.x-column-header {
+    color: #808080;
+}
+
+
+

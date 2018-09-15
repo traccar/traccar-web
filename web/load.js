@@ -32,58 +32,7 @@
     window.Locale = locale;
 
     locale.languages = {
-        'ar': { name: 'العربية', code: 'en' },
-        'az': { name: 'Azərbaycanca', code: 'en' },
-        'bg': { name: 'Български', code: 'bg' },
-        'bn': { name: 'বাংলা', code: 'en' },
-        'cs': { name: 'Čeština', code: 'cs' },
-        'de': { name: 'Deutsch', code: 'de' },
-        'da': { name: 'Dansk', code: 'da' },
-        'el': { name: 'Ελληνικά', code: 'el' },
-        'en': { name: 'English', code: 'en' },
-        'es': { name: 'Español', code: 'es' },
-        'fa': { name: 'فارسی', code: 'fa' },
-        'fi': { name: 'Suomi', code: 'fi' },
-        'fr': { name: 'Français', code: 'fr' },
-        'he': { name: 'עברית', code: 'he' },
-        'hi': { name: 'हिन्दी', code: 'en' },
-        'hr': { name: 'Hrvatski', code: 'hr' },
-        'hu': { name: 'Magyar', code: 'hu' },
-        'id': { name: 'Bahasa Indonesia', code: 'id' },
-        'it': { name: 'Italiano', code: 'it' },
-        'ja': { name: '日本語', code: 'ja' },
-        'ka': { name: 'ქართული', code: 'en' },
-        'kk': { name: 'Қазақша', code: 'en' },
-        'ko': { name: '한국어', code: 'ko' },
-        'km': { name: 'ភាសាខ្មែរ', code: 'en' },
-        'lo': { name: 'ລາວ', code: 'en' },
-        'lt': { name: 'Lietuvių', code: 'lt' },
-        'lv': { name: 'Latviešu', code: 'lv' },
-        'ml': { name: 'മലയാളം', code: 'en' },
-        'ms': { name: 'بهاس ملايو', code: 'en' },
-        'nb': { name: 'Norsk bokmål', code: 'no_NB' },
-        'ne': { name: 'नेपाली', code: 'en' },
-        'nl': { name: 'Nederlands', code: 'nl' },
-        'nn': { name: 'Norsk nynorsk', code: 'no_NN' },
-        'pl': { name: 'Polski', code: 'pl' },
-        'pt': { name: 'Português', code: 'pt' },
-        'pt_BR': { name: 'Português (Brasil)', code: 'pt_BR' },
-        'ro': { name: 'Română', code: 'ro' },
-        'ru': { name: 'Русский', code: 'ru' },
-        'si': { name: 'සිංහල', code: 'en' },
-        'sk': { name: 'Slovenčina', code: 'sk' },
-        'sl': { name: 'Slovenščina', code: 'sl' },
-        'sq': { name: 'Shqipëria', code: 'en' },
-        'sr': { name: 'Srpski', code: 'sr' },
-        'sv': { name: 'Svenska', code: 'sv' },
-        'ta': { name: 'தமிழ்', code: 'en' },
-        'th': { name: 'ไทย', code: 'th' },
-        'tr': { name: 'Türkçe', code: 'tr' },
-        'uk': { name: 'Українська', code: 'ukr' },
-        'uz': { name: 'Oʻzbekcha', code: 'en' },
-        'vi': { name: 'Tiếng Việt', code: 'en' },
-        'zh': { name: '中文', code: 'zh_CN' },
-        'zh_TW': { name: '中文 (Taiwan)', code: 'zh_TW' }
+        'en': { name: 'English', code: 'en' }
     };
 
     languageDefault = 'en';
@@ -162,18 +111,15 @@
 
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
 
-    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
-    addStyleFile('//cdn.rawgit.com/jonataswalker/ol-geocoder/54b23aea/dist/ol-geocoder.min.css');
-    addStyleFile('//cdn.rawgit.com/walkermatt/ol-popup/494a42c0/src/ol-popup.css');
-    
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
+        addScriptFile('./address.ol.js');
     } else {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.js');
-        addScriptFile('//cdn.rawgit.com/walkermatt/ol-popup/494a42c0/dist/ol-popup.js');
-	    addScriptFile('//cdn.rawgit.com/jonataswalker/ol-geocoder/54b23aea/dist/ol-geocoder.js');
-
+        addScriptFile('./address.ol.js');
     }
+
+    
 
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/proj4js/' + proj4jsVersion + '/proj4-src.js');
