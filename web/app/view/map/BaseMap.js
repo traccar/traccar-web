@@ -158,7 +158,8 @@ Ext.define('Traccar.view.map.BaseMap', {
         this.map = new ol.Map({
             target: this.body.dom.id,
             layers: [layer],
-            view: this.mapView
+            view: this.mapView,
+            controls: null
         });
 
         poiLayer = Traccar.app.getPreference('poiLayer', null);
@@ -224,29 +225,28 @@ Ext.define('Traccar.view.map.BaseMap', {
         // popup
 		popup = new ol.Overlay.Popup();
 		this.map.addOverlay(popup);
-
 		//Instantiate with some options and add the Control
 		geocoder = new Geocoder('nominatim', {
 			provider: 'osm',
 			lang: 'en',
-			placeholder: 'Search for ...',
+			placeholder: 'Search Address ...',
 			limit: 5,
 			debug: false,
 			autoComplete: true,
 			keepOpen: true
 		});
 		this.map.addControl(geocoder);
-		
 		// prevent marker being added to map
 		geocoder.getLayer().setVisible(false);
-  
 		//Listen when an address is chosen
 		geocoder.on('addresschosen', function (evt) {
 			console.info(evt);
 			window.setTimeout(function () {
 				popup.show(evt.coordinate, evt.address.formatted);
 			}, 3000);
-		});
+        });
+        
+
     
     },
 
