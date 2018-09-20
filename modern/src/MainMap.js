@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import { connect } from 'react-redux'
+import DivIcon from './leaflet/DivIcon';
 
 const mapStateToProps = state => ({
   positions: state.positions
@@ -17,11 +18,12 @@ class MainMap extends Component {
     const position = [this.state.lat, this.state.lng]
 
     const markers = this.props.positions.map(position =>
-      <Marker key={position.id.toString()} position={{ lat: position.latitude, lng: position.longitude }}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      <DivIcon position={{ lat: position.latitude, lng: position.longitude }} className="" iconSize={[38, 95]}>
+        <svg className="user-location" viewBox="0 0 120 120" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
+          <text x="20" y="60" style={{fontSize: '48px'}}>TEST</text>
+        </svg>
+      </DivIcon>
     );
 
     return (
