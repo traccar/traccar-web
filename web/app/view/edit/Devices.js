@@ -112,7 +112,7 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceModel,
             dataIndex: 'model',
-            hidden: true
+            filter: 'string'
         }, {
             text: Strings.deviceContact,
             dataIndex: 'contact',
@@ -120,7 +120,6 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
-            hidden: true,
             filter: {
                 type: 'list',
                 labelField: 'name',
@@ -136,7 +135,6 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.sharedGeofences,
             dataIndex: 'geofenceIds',
-            hidden: true,
             filter: {
                 type: 'arraylist',
                 idField: 'id',
