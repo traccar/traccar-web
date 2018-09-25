@@ -109,6 +109,14 @@ Ext.define('Traccar.controller.Root', {
 
     loadApp: function () {
         var attribution, eventId;
+
+        if (window.webkit && window.webkit.messageHandlers.appInterface) {
+            window.webkit.messageHandlers.appInterface.postMessage('login');
+        }
+        if (window.appInterface) {
+            window.appInterface.postMessage('login');
+        }
+
         Ext.getStore('Groups').load();
         Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();

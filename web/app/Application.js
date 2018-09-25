@@ -148,6 +148,19 @@ Ext.define('Traccar.Application', {
         }
     },
 
+    updateNotificationToken: function (token) {
+        var attributes = Ext.clone(this.user.get('attributes'));
+        if (!attributes.notificationTokens || attributes.notificationTokens.indexOf(token) < 0) {
+            if (!attributes.notificationTokens) {
+                attributes.notificationTokens = token;
+            } else {
+                attributes.notificationTokens += ',' + token;
+            }
+            this.user.set('attributes', attributes);
+            this.user.save();
+        }
+    },
+
     setUser: function (data) {
         var reader = Ext.create('Ext.data.reader.Json', {
             model: 'Traccar.model.User'

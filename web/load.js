@@ -28,6 +28,10 @@
     debugMode = document.getElementById('loadScript').getAttribute('mode') === 'debug';
     touchMode = 'ontouchstart' in window || navigator.maxTouchPoints;
 
+    window.updateNotificationToken = function (token) {
+        Traccar.app.updateNotificationToken(token);
+    };
+
     locale = {};
     window.Locale = locale;
 

@@ -360,6 +360,7 @@
     "notificatorWeb": "Web",
     "notificatorMail": "Mail",
     "notificatorSms": "SMS",
+    "notificatorFirebase": "Mobile",
     "reportRoute": "Route",
     "reportEvents": "Events",
     "reportTrips": "Trips",
