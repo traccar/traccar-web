@@ -475,14 +475,7 @@ Ext.define('Traccar.view.ReportController', {
     },{
         text: Strings.positionAddress,
         dataIndex: 'address',
-        renderer: function (value, metaData, record) {
-            if (!value) {
-                return '<a href="#" onclick="Ext.fireEvent(\'routegeocode\', ' +
-                    record.getId() + ')" >' +
-                    Strings.sharedShowAddress + '</a>';
-            }
-            return Traccar.AttributeFormatter.getFormatter('address')(value);
-        }
+        renderer: null
     }, {
         text: Strings.positionSpeed,
         dataIndex: 'speed',
@@ -520,16 +513,15 @@ Ext.define('Traccar.view.ReportController', {
         renderer: function (value) {
             return Traccar.app.getEventString(value);
         }
-    }, {//Address column////////////////////////////////////////////////////////////////
+    }, {//Address column for envent report
         text: Strings.positionAddress,
-        dataIndex: 'positionId',
+        dataIndex: 'positionId',///////////////////////////////////////////
         renderer: function (value, metaData, record) {
             if (!value) {
+                //New address autoloader
                 return 'NO LOCATION';
             }
-            return '<a href="#" onclick="Ext.fireEvent(\'routegeocode\', ' +
-                record.getpositionId() + ')" >' +
-                    Strings.sharedShowAddress + '</a>';
+            return null;
         }
     }, {
         text: Strings.sharedGeofence,
@@ -540,17 +532,18 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'maintenanceId',
         renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId')
 		}, {
+            text: Strings.positionSpeed,
+            dataIndex: 'attributes',
+            renderer: function (value) {
+                var speed = value['speed'];
+                return Traccar.AttributeFormatter.speedFormatter(speed);
+            }
+        }, {
+        //Added speed limit on event
         text: Strings.attributeSpeedLimit,
         dataIndex: 'attributes',
         renderer: function (value) {
             var speed = value['speedLimit'];
-            return Traccar.AttributeFormatter.speedFormatter(speed);
-        }
-    }, {
-        text: Strings.positionSpeed,
-        dataIndex: 'attributes',
-        renderer: function (value) {
-            var speed = value['speed'];
             return Traccar.AttributeFormatter.speedFormatter(speed);
         }
     }],

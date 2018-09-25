@@ -1,7 +1,7 @@
 
 .front_link {
     font-size: 16px;
-    color: #808080;
+    color: #ffffff;
 }
 
 /* Spinner class style */
@@ -92,6 +92,7 @@
     background-blend-mode: exclusion;
     opacity: 1;
     background-color: #fff;
+    height: 100vh;
  }
  
 }
