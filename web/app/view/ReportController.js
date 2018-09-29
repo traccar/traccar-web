@@ -513,7 +513,7 @@ Ext.define('Traccar.view.ReportController', {
         renderer: function (value) {
             return Traccar.app.getEventString(value);
         }
-    }, {//Address column for envent report
+    }, {//Address column for event report
         text: Strings.positionAddress,
         dataIndex: 'positionId',///////////////////////////////////////////
         renderer: function (value, metaData, record) {
