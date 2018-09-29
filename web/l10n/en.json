@@ -371,7 +371,7 @@
     "reportEventTypes": "Event Types",
     "reportChartType": "Chart Type",
     "reportShowMarkers": "Show Points",
-    "reportExport": "Excel Export",
+    "reportExport": "Export to Excel",
     "reportEmail": "Email Report",
     "reportPeriod": "Period",
     "reportCustom": "Custom",
