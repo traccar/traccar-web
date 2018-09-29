@@ -145,6 +145,7 @@ Ext.define('Traccar.view.ReportController', {
         disabled = !reportType || !devices || !time || this.reportProgress;
         this.lookupReference('showButton').setDisabled(disabled);
         this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
+        this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
     },
 
     onReportClick: function (button) {
@@ -187,14 +188,15 @@ Ext.define('Traccar.view.ReportController', {
                         to: to.toISOString()
                     }
                 });
-            } else if (button.reference === 'exportButton') {
+            } else {
                 url = this.getGrid().getStore().getProxy().url;
-                this.downloadFile(url, {
+                this.excelReport(url, {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
                     type: this.eventType,
                     from: Ext.Date.format(from, 'c'),
-                    to: Ext.Date.format(to, 'c')
+                    to: Ext.Date.format(to, 'c'),
+                    mail: button.reference === 'emailButton'
                 });
             }
         }
@@ -371,7 +373,7 @@ Ext.define('Traccar.view.ReportController', {
         });
     },
 
-    downloadFile: function (requestUrl, requestParams) {
+    excelReport: function (requestUrl, requestParams) {
         Ext.Ajax.request({
             url: requestUrl,
             method: 'GET',
@@ -384,7 +386,7 @@ Ext.define('Traccar.view.ReportController', {
             scope: this,
             callback: function (options, success, response) {
                 var disposition, filename, type, blob, url, downloadUrl;
-                if (success) {
+                if (success && !requestParams.mail) {
                     disposition = response.getResponseHeader('Content-Disposition');
                     filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
                     type = response.getResponseHeader('Content-Type');
