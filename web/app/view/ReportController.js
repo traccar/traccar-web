@@ -470,14 +470,23 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'deviceId',
         renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
     }, {
-        text: Strings.positionValid,
-        dataIndex: 'valid',
-        renderer: Traccar.AttributeFormatter.getFormatter('valid')
-    }, {
         text: Strings.positionFixTime,
         dataIndex: 'fixTime',
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('fixTime')
+    },{
+        text: Strings.positionAddress,
+        dataIndex: 'address',
+        renderer:  function (value, metaData, record) {
+            if (!value) {
+                return Ext.fireEvent('routegeocode', record.getId());
+            }
+            return Traccar.AttributeFormatter.getFormatter('address')(value);
+}
+    }, {
+        text: Strings.positionSpeed,
+        dataIndex: 'speed',
+        renderer: Traccar.AttributeFormatter.getFormatter('speed')
     }, {
         text: Strings.positionLatitude,
         dataIndex: 'latitude',
@@ -491,36 +500,35 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'altitude',
         renderer: Traccar.AttributeFormatter.getFormatter('altitude')
     }, {
-        text: Strings.positionSpeed,
-        dataIndex: 'speed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed')
-    }, {
-        text: Strings.positionAddress,
-        dataIndex: 'address',
-        renderer: function (value, metaData, record) {
-            if (!value) {
-                return '<a href="#" onclick="Ext.fireEvent(\'routegeocode\', ' +
-                    record.getId() + ')" >' +
-                    Strings.sharedShowAddress + '</a>';
-            }
-            return Traccar.AttributeFormatter.getFormatter('address')(value);
-        }
+        text: Strings.positionValid,
+        dataIndex: 'valid',
+        renderer: Traccar.AttributeFormatter.getFormatter('valid')
     }],
 
     eventsColumns: [{
+        text: Strings.reportDeviceName,
+        dataIndex: 'deviceId',
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
+    }, {
         text: Strings.positionFixTime,
         dataIndex: 'serverTime',
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('serverTime')
     }, {
-        text: Strings.reportDeviceName,
-        dataIndex: 'deviceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
-    }, {
         text: Strings.sharedType,
         dataIndex: 'type',
         renderer: function (value) {
             return Traccar.app.getEventString(value);
+        }
+    }, {//Address column for event report
+        text: Strings.positionAddress,
+        dataIndex: 'positionId',///////////////////////////////////////////
+        renderer: function (value, metaData, record) {
+            if (!value) {
+                //New address autoloader
+                return 'NO LOCATION';
+            }
+            return null;
         }
     }, {
         text: Strings.sharedGeofence,
@@ -530,6 +538,21 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.sharedMaintenance,
         dataIndex: 'maintenanceId',
         renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId')
+		}, {
+            text: Strings.positionSpeed,
+            dataIndex: 'attributes',
+            renderer: function (value) {
+                var speed = value['speed'];
+                return Traccar.AttributeFormatter.speedFormatter(speed);
+            }
+        }, {
+        //Added speed limit on event
+        text: Strings.attributeSpeedLimit,
+        dataIndex: 'attributes',
+        renderer: function (value) {
+            var speed = value['speedLimit'];
+            return Traccar.AttributeFormatter.speedFormatter(speed);
+        }
     }],
 
     summaryColumns: [{

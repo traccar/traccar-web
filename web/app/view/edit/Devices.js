@@ -109,19 +109,22 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.sharedPhone,
             dataIndex: 'phone',
-            hidden: true
+            hidden: true,
+            filter: 'string'
         }, {
             text: Strings.deviceModel,
             dataIndex: 'model',
-            hidden: true
+            hidden: true,
+            filter: 'string'
         }, {
             text: Strings.deviceContact,
             dataIndex: 'contact',
-            hidden: true
+            hidden: true,
+            filter: 'string'
         }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
-            hidden: true,
+            hidden: false,
             filter: {
                 type: 'list',
                 labelField: 'name',
@@ -177,6 +180,7 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
+            xtype: 'datecolumn',
             renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
         }]
     }
