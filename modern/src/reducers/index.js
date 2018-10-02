@@ -9,12 +9,12 @@ function rootReducer(state = initialState, action) {
     case 'UPDATE_DEVICES':
       return Object.assign({}, {
         ...state,
-        devices: [...state.devices, ...action.devices]
+        devices: [...action.devices]
       });
     case 'UPDATE_POSITIONS':
       return Object.assign({}, {
         ...state,
-        positions: [...state.positions, ...action.positions]
+        positions: [...action.positions]
       });
     default:
       return state;

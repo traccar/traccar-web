@@ -18,10 +18,11 @@ class MainMap extends Component {
     const position = [this.state.lat, this.state.lng]
 
     const markers = this.props.positions.map(position =>
-      <DivIcon position={{ lat: position.latitude, lng: position.longitude }} className="" iconSize={[38, 95]}>
-        <svg className="user-location" viewBox="0 0 120 120" version="1.1"
-          xmlns="http://www.w3.org/2000/svg">
-          <text x="20" y="60" style={{fontSize: '48px'}}>TEST</text>
+      <DivIcon key={position.id.toString()} position={{ lat: position.latitude, lng: position.longitude }} className="" iconSize={[50, 50]}>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 50 50">
+          <circle cx="25" cy="25" r="20" stroke="#fff" stroke-width="2.5" fill="#008000" />
+          <path d="m25 5v5" stroke="#fff" stroke-width="2.5" />
+          <image x="13" y="13" fill="#fff" href="/category/car.svg" />
         </svg>
       </DivIcon>
     );
@@ -29,8 +30,8 @@ class MainMap extends Component {
     return (
       <Map style={{height: this.props.height, width: this.props.width}} center={position} zoom={this.state.zoom}>
         <TileLayer
-          attribution='&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png" />
+          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          url="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png" />
         {markers}
       </Map>
     )
