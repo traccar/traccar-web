@@ -477,7 +477,12 @@ Ext.define('Traccar.view.ReportController', {
     },{
         text: Strings.positionAddress,
         dataIndex: 'address',
-        renderer: null
+        renderer:  function (value, metaData, record) {
+            if (!value) {
+                return Ext.fireEvent('routegeocode', record.getId());
+            }
+            return Traccar.AttributeFormatter.getFormatter('address')(value);
+}
     }, {
         text: Strings.positionSpeed,
         dataIndex: 'speed',
