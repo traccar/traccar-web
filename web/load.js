@@ -116,13 +116,13 @@
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
 
     addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
-    addStyleFile('./address.ol.css');
+    addStyleFile('./assets/address.ol.css');
     if (debugMode) {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
-        addScriptFile('./address.ol.js');
+        addScriptFile('./assets/address.ol.js');
     } else {
         addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.js');
-        addScriptFile('./address.ol.js');
+        addScriptFile('./assets/address.ol.js');
     }
 
     

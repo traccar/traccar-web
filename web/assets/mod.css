@@ -86,7 +86,7 @@
 /* Login background image style */
 
 .x-body {
-    background-image: url("./images/shows.png");
+    background-image: url("../images/shows.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: exclusion;
