@@ -4,7 +4,7 @@ import MainToobar from './MainToolbar';
 import MainMap from './MainMap';
 import Drawer from '@material-ui/core/Drawer';
 import withStyles from '@material-ui/core/styles/withStyles';
-import SocketController from './SocketContoller';
+import SocketController from './SocketController';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import DeviceList from './DeviceList';
 

@@ -21,7 +21,7 @@ class MainMap extends Component {
       <DivIcon key={position.id.toString()} position={{ lat: position.latitude, lng: position.longitude }} className="" iconSize={[50, 50]}>
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 50 50">
           <circle cx="25" cy="25" r="20" stroke="#fff" stroke-width="2.5" fill="#008000" />
-          <path d="m25 5v5" stroke="#fff" stroke-width="2.5" />
+          <path d="m25 5v5" stroke="#fff" stroke-width="2.5" transform="rotate(45 25 25)" />
           <image x="13" y="13" fill="#fff" href="/category/car.svg" />
         </svg>
       </DivIcon>
