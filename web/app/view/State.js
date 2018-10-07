@@ -57,7 +57,9 @@ Ext.define('Traccar.view.State', {
         },
         items: [{
             text: Strings.stateName,
-            dataIndex: 'name'
+            dataIndex: 'name',
+            minWidth: Traccar.Style.columnWidthNormal,
+            maxWidth: Traccar.Style.columnWidthNormal
         }, {
             text: Strings.stateValue,
             dataIndex: 'value',
