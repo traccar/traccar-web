@@ -52,6 +52,7 @@ Ext.define('Traccar.view.State', {
     columns: {
         defaults: {
             minWidth: Traccar.Style.columnWidthNormal,
+            sortable: false,
             flex: 1
         },
         items: [{
