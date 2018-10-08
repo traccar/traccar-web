@@ -89,13 +89,22 @@ Ext.define('Traccar.view.edit.Devices', {
                 result += Ext.getStore('DeviceStatuses').getById(status).get('color');
             }
             return result;
-        }
+        },
+        listeners : {
+            refresh : function (dataview) {
+             Ext.each(dataview.panel.columns, function (column) {
+              if (column.autoSizeColumn === true)
+               column.autoSize();
+             })
+            }
+           }
     },
 
     columns: {
         defaults: {
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: 70,
+            autoSizeColumn : true
         },
         items: [{
             text: Strings.sharedName,
