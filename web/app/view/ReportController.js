@@ -473,10 +473,20 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.positionFixTime,
         dataIndex: 'fixTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('fixTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('fixTime'),
+        //flex: 1,
+        minWidth: 125,
+        maxWidth: 135,
+        resizable: true,
+        fixed: false //Will be resized
     },{
         text: Strings.positionAddress,
         dataIndex: 'address',
+        flex: 1,
+        minWidth: 250,
+        maxWidth: 300,
+        resizable: true,
+        fixed: false, //Will be resized
         renderer:  function (value, metaData, record) {
             if (!value) {
                 return Ext.fireEvent('routegeocode', record.getId());
@@ -513,13 +523,21 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.positionFixTime,
         dataIndex: 'serverTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('serverTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('serverTime'),
+        //flex: 1,
+        minWidth: 125,
+        maxWidth: 135,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.sharedType,
         dataIndex: 'type',
         renderer: function (value) {
             return Traccar.app.getEventString(value);
-        }
+        },
+        minWidth: 155,
+        maxWidth: 165,
+        resizable: true
     }, {//Address column for event report
         text: Strings.positionAddress,
         dataIndex: 'positionId',///////////////////////////////////////////
@@ -529,23 +547,34 @@ Ext.define('Traccar.view.ReportController', {
                 return 'NO LOCATION';
             }
             return null;
-        }
+        },
+        flex: 1,
+        minWidth: 250,
+        maxWidth: 300,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
+        renderer: Traccar.AttributeFormatter.getFormatter('geofenceId'),
+        minWidth: 135,
+        maxWidth: 145,
+        resizable: true
     }, {
         text: Strings.sharedMaintenance,
         dataIndex: 'maintenanceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId')
-		}, {
-            text: Strings.positionSpeed,
-            dataIndex: 'attributes',
-            renderer: function (value) {
-                var speed = value['speed'];
-                return Traccar.AttributeFormatter.speedFormatter(speed);
-            }
-        }, {
+        renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId'),
+        minWidth: 135,
+        maxWidth: 145,
+        resizable: true
+    }, {
+        text: Strings.positionSpeed,
+        dataIndex: 'attributes',
+        renderer: function (value) {
+            var speed = value['speed'];
+            return Traccar.AttributeFormatter.speedFormatter(speed);
+        }
+    }, {
         //Added speed limit on event
         text: Strings.attributeSpeedLimit,
         dataIndex: 'attributes',
@@ -558,7 +587,12 @@ Ext.define('Traccar.view.ReportController', {
     summaryColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
-        renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
+        renderer: Traccar.AttributeFormatter.getFormatter('deviceId'),
+        //flex: 1,
+        minWidth: 145,
+        maxWidth: 155,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
@@ -566,19 +600,39 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed')
+        renderer: Traccar.AttributeFormatter.getFormatter('speed'),
+        //flex: 1,
+        minWidth: 145,
+        maxWidth: 155,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportMaximumSpeed,
         dataIndex: 'maxSpeed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed')
+        renderer: Traccar.AttributeFormatter.getFormatter('speed'),
+        //flex: 1,
+        minWidth: 145,
+        maxWidth: 155,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportEngineHours,
         dataIndex: 'engineHours',
-        renderer: Traccar.AttributeFormatter.getFormatter('duration')
+        renderer: Traccar.AttributeFormatter.getFormatter('duration'),
+        //flex: 1,
+        minWidth: 145,
+        maxWidth: 155,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportSpentFuel,
         dataIndex: 'spentFuel',
-        renderer: Traccar.AttributeFormatter.getFormatter('spentFuel')
+        renderer: Traccar.AttributeFormatter.getFormatter('spentFuel'),
+        //flex: 1,
+        minWidth: 145,
+        maxWidth: 155,
+        resizable: true,
+        fixed: false //Will be resized
     }],
 
     tripsColumns: [{
@@ -589,20 +643,40 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.reportStartTime,
         dataIndex: 'startTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('startTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('startTime'),
+        //flex: 1,
+        minWidth: 125,
+        maxWidth: 135,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
-        renderer: Traccar.AttributeFormatter.getFormatter('address')
+        renderer: Traccar.AttributeFormatter.getFormatter('address'),
+        flex: 1,
+        minWidth: 220,
+        maxWidth: 300,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportEndTime,
         dataIndex: 'endTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('endTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('endTime'),
+        //flex: 1,
+        minWidth: 125,
+        maxWidth: 135,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
-        renderer: Traccar.AttributeFormatter.getFormatter('address')
+        renderer: Traccar.AttributeFormatter.getFormatter('address'),
+        flex: 1,
+        minWidth: 220,
+        maxWidth: 300,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
@@ -637,16 +711,31 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.reportStartTime,
         dataIndex: 'startTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('startTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('startTime'),
+        //flex: 1,
+        minWidth: 125,
+        maxWidth: 135,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',
-        renderer: Traccar.AttributeFormatter.getFormatter('address')
+        renderer: Traccar.AttributeFormatter.getFormatter('address'),
+        flex: 1,
+        minWidth: 220,
+        maxWidth: 300,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportEndTime,
         dataIndex: 'endTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('endTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('endTime'),
+        //flex: 1,
+        minWidth: 125,
+        maxWidth: 135,
+        resizable: true,
+        fixed: false //Will be resized
     }, {
         text: Strings.reportDuration,
         dataIndex: 'duration',

@@ -83,8 +83,11 @@ Ext.define('Traccar.view.Report', {
         },
         columns: {
             defaults: {
-                flex: 1,
-                minWidth: Traccar.Style.columnWidthNormal
+                flex: 0,
+                minWidth: 60,
+                sortable: true,
+                resizable: false,
+                fixed: true //Will not be resized
             },
             items: [
             ]
