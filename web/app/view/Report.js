@@ -87,7 +87,8 @@ Ext.define('Traccar.view.Report', {
                 minWidth: 60,
                 sortable: true,
                 resizable: false,
-                fixed: true //Will not be resized
+                fixed: true, //Will not be resized
+                autoSizeColumn : true
             },
             items: [
             ]

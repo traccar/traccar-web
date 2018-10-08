@@ -36,7 +36,7 @@ Ext.define('Traccar.Style', {
     dateFormat: 'd-m-Y',
     weekStartDay: 1,
 
-    deviceWidth: 450,
+    deviceWidth: 650,
     toastWidth: 195,
 
     reportHeight: 378,
@@ -55,7 +55,7 @@ Ext.define('Traccar.Style', {
         '#FF8A65',
         '#A1887F'
     ],
-    mapRouteWidth: 4,
+    mapRouteWidth: 3,
 
     mapTextColor: 'rgba(50, 50, 50, 1.0)',
     mapTextStrokeColor: 'rgba(255, 255, 255, 1.0)',

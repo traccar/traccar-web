@@ -29,6 +29,14 @@ Ext.define('Traccar.view.GridPanel', {
         enableTextSelection: true,
         getRowClass: function () {
             return this.enableTextSelection ? 'x-selectable' : '';
-        }
+        },
+        listeners : {
+            refresh : function (dataview) {
+             Ext.each(dataview.panel.columns, function (column) {
+              if (column.autoSizeColumn === true)
+               column.autoSize();
+             })
+            }
+           }
     }
 });
