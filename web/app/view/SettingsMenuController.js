@@ -37,11 +37,10 @@ Ext.define('Traccar.view.SettingsMenuController', {
     ],
 
     init: function () {
-        var admin, manager, readonly, deviceReadonly;
+        var admin, manager, readonly;
         admin = Traccar.app.getUser().get('administrator');
         manager = Traccar.app.getUser().get('userLimit') !== 0;
         readonly = Traccar.app.getPreference('readonly', false);
-        deviceReadonly = Traccar.app.getUser().get('deviceReadonly');
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
