@@ -45,6 +45,8 @@ Ext.define('Traccar.view.SettingsMenuController', {
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
+            this.lookupReference('settingsComputedAttributesButton').setHidden(
+                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         }
         if (admin || manager) {
             this.lookupReference('settingsUsersButton').setHidden(false);
@@ -61,10 +63,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
             this.lookupReference('settingsMaintenancesButton').setHidden(
                 Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
-        }
-        if (admin || !deviceReadonly && !readonly) {
-            this.lookupReference('settingsComputedAttributesButton').setHidden(
-                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         }
     },
 
