@@ -118,7 +118,11 @@ Ext.define('Traccar.view.Events', {
             dataIndex: 'attributes',
             renderer: function (value) {
                 var speed = value['speed'];
-                return Traccar.AttributeFormatter.speedFormatter(speed);
+                if (!(speed)){
+                    return "NOT GPS DATA";
+                } else {
+                    return Traccar.AttributeFormatter.speedFormatter(speed);
+                }  
             }
         }, {
             text: Strings.sharedGeofence,

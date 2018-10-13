@@ -544,9 +544,9 @@ Ext.define('Traccar.view.ReportController', {
         renderer: function (value, metaData, record) {
             if (!value) {
                 //New address autoloader
-                return 'NO LOCATION';
+                return 'NOT GPS DATA';
             }
-            return null;
+            return "IN VIEW";
         },
         flex: 1,
         minWidth: 250,

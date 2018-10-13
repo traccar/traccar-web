@@ -109,6 +109,8 @@ Ext.define('Traccar.view.edit.Devices', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
+            minWidth: 100,
+            maxWidth: 100,
             filter: 'string'
         }, {
             text: Strings.deviceIdentifier,
@@ -133,6 +135,8 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
+            minWidth: 100,
+            maxWidth: 100,
             hidden: false,
             filter: {
                 type: 'list',
