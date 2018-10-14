@@ -119,13 +119,17 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     getDeviceColor: function (device) {
-        switch (device.get('status')) {
-            case 'online':
-                return Traccar.Style.mapColorOnline;
-            case 'offline':
-                return Traccar.Style.mapColorOffline;
-            default:
-                return Traccar.Style.mapColorUnknown;
+        var status = device.get('status'), movement = device.get('movement');
+        if (status === 'unknown') {
+            return Traccar.Style.mapColorRed;
+        } else {
+            if (movement === 'moving') {
+                return Traccar.Style.mapColorGreen;
+            } else if (movement === 'idle') {
+                return Traccar.Style.mapColorYellow;
+            } else {
+                return Traccar.Style.mapColorOrange;
+            }
         }
     },
 

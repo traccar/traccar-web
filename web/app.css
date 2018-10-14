@@ -4,8 +4,18 @@
 .view-color-yellow {
     background-color: rgba(250, 190, 77, 0.3);
 }
+.view-color-orange {
+    background-color: rgba(255, 165, 0, 0.3);
+}
 .view-color-red {
     background-color: rgba(255, 84, 104, 0.3);
+}
+
+.view-color-green-text {
+    color: green;
+}
+.view-color-red-text {
+    color: red;
 }
 
 .view-item-disabled {
