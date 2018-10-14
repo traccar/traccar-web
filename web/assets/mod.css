@@ -270,5 +270,25 @@ a:-webkit-any-link {
     color: #808080;
 }
 
+/* Mobile screen state view height */
+
+@media screen and (max-width: 768px) {
+#stateView-1041 {
+    height: 100% !important;
+}
+
+#stateView-1010 {
+    height: 100% !important;
+}
+
+#tableview-1014 {
+    height: 100% !important;
+}
+
+#stateView-1010-body {
+    height: 100% !important;
+}
 
 
+
+}
