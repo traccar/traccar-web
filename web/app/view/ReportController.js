@@ -541,11 +541,11 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportStartOdometer,
         dataIndex: 'startOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance'),
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportEndOdometer,
         dataIndex: 'endOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance'),
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
@@ -576,7 +576,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportStartOdometer,
         dataIndex: 'startOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance'),
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
@@ -589,7 +589,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportEndOdometer,
         dataIndex: 'endOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance'),
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
@@ -632,7 +632,7 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.positionOdometer,
         dataIndex: 'startOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance'),
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',
