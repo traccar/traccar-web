@@ -211,7 +211,7 @@
     "positionVin": "VIN",
     "positionApproximate": "Approximate",
     "positionThrottle": "Throttle",
-    "positionMotion": "Status",
+    "positionMotion": "Moving",
     "positionArmed": "Armed",
     "positionAcceleration": "Acceleration",
     "positionDeviceTemp": "Device Temperature",

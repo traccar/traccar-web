@@ -201,9 +201,10 @@ Ext.define('Traccar.view.edit.Devices', {
                 return null;
             }
         }, {
-            text: Strings.positionMotion,
+            text: 'Status',
             dataIndex: 'movement',
-            hidden: false
+            hidden: false,
+            filter: 'string'
         }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
