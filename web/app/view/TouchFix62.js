@@ -15,18 +15,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * workaround for bug in ExtJs 6.2.0.
+/*
+ * Workaround for bug in ExtJs 6.2.0.
  * Resolved in current yet unreleased version
  */
 
 Ext.define('Traccar.view.TouchFix62', {
     override: 'Ext.dom.Element'
 },
-function(){
+function () {
     var additiveEvents = this.prototype.additiveEvents,
         eventMap = this.prototype.eventMap;
-    if(Ext.supports.TouchEvents && Ext.firefoxVersion >= 52 && Ext.os.is.Desktop){
+    if (Ext.supports.TouchEvents && Ext.firefoxVersion >= 52 && Ext.os.is.Desktop) {
         eventMap['touchstart'] = 'mousedown';
         eventMap['touchmove'] = 'mousemove';
         eventMap['touchend'] = 'mouseup';
@@ -40,10 +40,9 @@ function(){
         additiveEvents['touchmove'] = 'touchmove';
         additiveEvents['touchend'] = 'touchend';
         additiveEvents['touchcancel'] = 'touchcancel';
-
         additiveEvents['pointerdown'] = 'mousedown';
         additiveEvents['pointermove'] = 'mousemove';
         additiveEvents['pointerup'] = 'mouseup';
         additiveEvents['pointercancel'] = 'mouseup';
     }
-})
+});
