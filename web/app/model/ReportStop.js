@@ -34,6 +34,10 @@ Ext.define('Traccar.model.ReportStop', {
         type: 'date',
         dateFormat: 'c'
     }, {
+        name: 'startOdometer',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('distance')
+    }, {
         name: 'address',
         type: 'string'
     }, {
