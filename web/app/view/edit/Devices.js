@@ -81,12 +81,22 @@ Ext.define('Traccar.view.edit.Devices', {
     viewConfig: {
         enableTextSelection: true,
         getRowClass: function (record) {
-            var result = '', status = record.get('status');
+            var result = '', status = record.get('status');var result = '', status = record.get('status'), movement = record.get('movement');
             if (record.get('disabled')) {
                 result = 'view-item-disabled ';
             }
-            if (status) {
-                result += Ext.getStore('DeviceStatuses').getById(status).get('color');
+            if (status && movement) {
+                if (status === 'unknown') {
+                    result += 'view-color-red';
+                } else {
+                    if (movement === 'moving') {
+                        result += 'view-color-green';
+                    } else if (movement === 'idle') {
+                        result += 'view-color-yellow';
+                    } else {
+                        result += 'view-color-orange';
+                    }
+                }
             }
             return result;
         },
@@ -109,6 +119,8 @@ Ext.define('Traccar.view.edit.Devices', {
         items: [{
             text: Strings.sharedName,
             dataIndex: 'name',
+            minWidth: 100,
+            maxWidth: 100,
             filter: 'string'
         }, {
             text: Strings.deviceIdentifier,
@@ -133,6 +145,8 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
+            minWidth: 100,
+            maxWidth: 100,
             hidden: false,
             filter: {
                 type: 'list',
@@ -187,10 +201,25 @@ Ext.define('Traccar.view.edit.Devices', {
                 return null;
             }
         }, {
+            text: 'Status',
+            dataIndex: 'movement',
+            hidden: false,
+            filter: 'string'
+        }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
             xtype: 'datecolumn',
-            renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
+            renderer: function (value, metaData, record) {
+                                var status = record.get('status');
+                                if (status === 'online') {
+                                    metaData.tdCls = 'view-color-green-text';
+                                } else if (status === 'offline') {
+                                    metaData.tdCls = 'view-color-red-text';
+                                } else {
+                                    metaData.tdCls = '';
+                                }
+                                return Traccar.AttributeFormatter.getFormatter('lastUpdate')(value);
+                            }
         }]
     }
 });

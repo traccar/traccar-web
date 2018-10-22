@@ -49,6 +49,10 @@ Ext.define('Traccar.model.Device', {
         type: 'string',
         allowNull: true
     }, {
+        name: 'movement',
+        type: 'string',
+        allowNull: true
+    }, {
         name: 'lastUpdate',
         type: 'date',
         dateFormat: 'c'

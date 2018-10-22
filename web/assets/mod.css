@@ -94,6 +94,7 @@
     background-color: #fff;
     height: 100vh;
  }
+
  
 }
 
@@ -270,5 +271,37 @@ a:-webkit-any-link {
     color: #808080;
 }
 
+/* Mobile screen state view height */
 
+@media screen and (max-width: 768px) {
+#stateView-1041 {
+    height: 100% !important;
+}
+
+#stateView-1010 {
+    height: 100% !important;
+}
+
+#tableview-1014 {
+    height: 100% !important;
+}
+
+#stateView-1010-body {
+    height: 100% !important;
+    }
+}
+
+ /* Login reposition on desktop screens */
+ #login-1009 {
+    right: 10% !important;
+    left: auto !important;
+    top: 25% !important;
+    box-shadow: rgb(136, 136, 136) 0px 0px 6px !important;
+    z-index: 19000 !important;
+    
+
+}
+#ext-element-5 {
+    display: none;
+}
 

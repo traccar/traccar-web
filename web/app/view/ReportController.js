@@ -544,9 +544,9 @@ Ext.define('Traccar.view.ReportController', {
         renderer: function (value, metaData, record) {
             if (!value) {
                 //New address autoloader
-                return 'NO LOCATION';
+                return 'NOT GPS DATA';
             }
-            return null;
+            return "IN VIEW";
         },
         flex: 1,
         minWidth: 250,
@@ -596,6 +596,14 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
+        text: Strings.reportStartOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
+        text: Strings.reportEndOdometer,
+        dataIndex: 'endOdometer',
         renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportAverageSpeed,
@@ -650,6 +658,10 @@ Ext.define('Traccar.view.ReportController', {
         resizable: true,
         fixed: false //Will be resized
     }, {
+        text: Strings.reportStartOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
         renderer: Traccar.AttributeFormatter.getFormatter('address'),
@@ -668,6 +680,10 @@ Ext.define('Traccar.view.ReportController', {
         maxWidth: 135,
         resizable: true,
         fixed: false //Will be resized
+    }, {
+        text: Strings.reportEndOdometer,
+        dataIndex: 'endOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
@@ -717,6 +733,10 @@ Ext.define('Traccar.view.ReportController', {
         maxWidth: 135,
         resizable: true,
         fixed: false //Will be resized
+    }, {
+        text: Strings.positionOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',

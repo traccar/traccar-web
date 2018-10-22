@@ -24,8 +24,8 @@ Ext.define('Traccar.view.dialog.LoginController', {
     ],
 
     init: function () {
-        this.lookupReference('registerButton').setDisabled(
-            !Traccar.app.getServer().get('registration'));
+        /*this.lookupReference('registerButton').setDisabled(
+            !Traccar.app.getServer().get('registration'));*/
         this.lookupReference('languageField').setValue(Locale.language);
     },
 
@@ -109,9 +109,9 @@ Ext.define('Traccar.view.dialog.LoginController', {
     onLoginClick: function () {
         Ext.getElementById('submitButton').click();
         this.login();
-    },
+    }/*,
 
     onRegisterClick: function () {
         Ext.create('Traccar.view.dialog.Register').show();
-    }
+    }*/
 });
