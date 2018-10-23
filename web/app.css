@@ -1,23 +1,38 @@
 .view-color-green {
-    background-color: rgba(77, 250, 144, 0.3);
+    background-color: rgba(77, 250, 144, 0.5);
 }
 .view-color-yellow {
-    background-color: rgba(250, 190, 77, 0.3);
+    background-color: rgba(250, 190, 77, 0.4);
 }
 .view-color-orange {
-    background-color: rgba(255, 165, 0, 0.3);
+    background-color: rgba(255, 165, 0, 1);
 }
 .view-color-red {
-    background-color: rgba(255, 84, 104, 0.3);
+    background-color: rgba(255, 84, 104, 0.7);
 }
 
 .view-color-green-text {
-    color: green;
+    color: #fff;
+    background-color: rgb(2, 107, 2, 0.8);
 }
 .view-color-red-text {
-    color: red;
+    color: #fff;
+    background-color: rgb(255, 0, 0, 0.7);
 }
 
+.view-color-blue-text {
+    color: #fff;
+    background-color: rgb(58, 109, 177, 0.8);
+}
+
+.view-color-null-text {
+    color: #fff;
+    background-color: #7c7a7a;
+}
+
+.view-color-gen-text {
+    color: #fff;
+}
 .view-item-disabled {
     opacity: 0.5;
 }

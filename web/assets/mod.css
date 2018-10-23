@@ -1,7 +1,12 @@
 
 .front_link {
-    font-size: 16px;
-    color: #ffffff;
+    font-size: 18px !important;
+    color: #ffffff !important;
+    float: right;
+    position: relative !important;
+    text-decoration: none !important;
+    font-family: 'Open Sans', helvetica, sans-serif, 'Helvetica Neue', arial, verdana !important;
+    margin-bottom: 20px;
 }
 
 /* Spinner class style */
@@ -81,6 +86,20 @@
 @media screen and (min-width: 768px) {
   .showthatmin {
         display: none;
+}
+
+ /* Login reposition on desktop screens */
+ #login-1009 {
+    right: 3% !important;
+    left: auto !important;
+    top: 25% !important;
+    box-shadow: rgb(136, 136, 136) 0px 0px 6px !important;
+    z-index: 19000 !important;
+    
+
+}
+#ext-element-5 {
+    display: none;
 }
 
 /* Login background image style */
@@ -271,6 +290,17 @@ a:-webkit-any-link {
     color: #808080;
 }
 
+/* Play store image placement */
+
+.playre {
+    height: 61px;
+    width: 180px;
+    float: right;
+    position: relative;
+    margin-bottom:60px;
+    margin-right: 60px;
+    }
+
 /* Mobile screen state view height */
 
 @media screen and (max-width: 768px) {
@@ -289,19 +319,13 @@ a:-webkit-any-link {
 #stateView-1010-body {
     height: 100% !important;
     }
+
+    .playre {
+        display: none;
+    }
 }
 
- /* Login reposition on desktop screens */
- #login-1009 {
-    right: 10% !important;
-    left: auto !important;
-    top: 25% !important;
-    box-shadow: rgb(136, 136, 136) 0px 0px 6px !important;
-    z-index: 19000 !important;
-    
 
-}
-#ext-element-5 {
-    display: none;
-}
+
+
 
