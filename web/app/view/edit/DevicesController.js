@@ -118,6 +118,13 @@ Ext.define('Traccar.view.edit.DevicesController', {
         }
     },
 
+    onClick: function (el, record) {
+        if (record !== undefined) {
+            this.updateButtons([record]);
+            this.fireEvent('selectdevice', record, true);
+        }
+    },
+
     selectDevice: function (device) {
         this.getView().getSelectionModel().select([device], false, true);
         this.updateButtons(this.getView().getSelectionModel().getSelected().items);

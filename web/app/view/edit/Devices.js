@@ -75,7 +75,8 @@ Ext.define('Traccar.view.edit.Devices', {
     },
 
     listeners: {
-        selectionchange: 'onSelectionChange'
+        selectionchange: 'onSelectionChange',
+        rowclick: 'onClick'
     },
 
     viewConfig: {
