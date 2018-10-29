@@ -58,7 +58,7 @@ Ext.define('Traccar.view.MainMobile', {
         }, {
             region: 'south',
             xtype: 'devicesView',
-            title: Strings.deviceTitle,
+            title: "<span class='showthatmin'>Assets List</span>",
             flex: 1,
             collapsed: true,
             titleCollapse: true,

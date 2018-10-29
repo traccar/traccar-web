@@ -42,7 +42,7 @@ Ext.define('Traccar.view.edit.Devices', {
         },
         items: [{
             xtype: 'tbtext',
-            html: Strings.deviceTitle,
+            html: "<span><a href='./'><img src='./images/logo.png' class='showthat' vertical-align: middle;' alt='logo' height='27px' width='82px' /></a></span><span class='showthatmin'>Assets List</span>",
             baseCls: 'x-panel-header-title-default'
         }, {
             xtype: 'tbfill',
@@ -75,11 +75,13 @@ Ext.define('Traccar.view.edit.Devices', {
     },
 
     listeners: {
-        selectionchange: 'onSelectionChange'
+        rowclick: 'onSelectionChange',
+        itemkeyup: 'onSelectionChange'
     },
 
     viewConfig: {
         enableTextSelection: true,
+        preserveScrollOnRefresh: true,
         getRowClass: function (record) {
             var result = '', status = record.get('status');var result = '', status = record.get('status'), movement = record.get('movement');
             if (record.get('disabled')) {
@@ -89,7 +91,9 @@ Ext.define('Traccar.view.edit.Devices', {
                 if (status === 'unknown') {
                     result += 'view-color-red';
                 } else {
-                    if (movement === 'moving') {
+                    if (movement === 'moving' && status === 'unknown') {
+                        result += 'view-color-red';
+                    } else if (movement === 'moving') {
                         result += 'view-color-green';
                     } else if (movement === 'idle') {
                         result += 'view-color-yellow';
@@ -185,6 +189,8 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',
+            minWidth: 60,
+            maxWidth: 60,
             filter: {
                 type: 'list',
                 labelField: 'name',
@@ -202,24 +208,46 @@ Ext.define('Traccar.view.edit.Devices', {
             }
         }, {
             text: 'Status',
+            minWidth: 60,
+            maxWidth: 60,
             dataIndex: 'movement',
             hidden: false,
-            filter: 'string'
+            filter: 'list'
         }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
             xtype: 'datecolumn',
             renderer: function (value, metaData, record) {
                                 var status = record.get('status');
+                                var lastupdate = record.get('lastUpdate');
                                 if (status === 'online') {
                                     metaData.tdCls = 'view-color-green-text';
+                                } else if (status === 'offline' && lastupdate == null) {
+                                    metaData.tdCls = 'view-color-null-text';
                                 } else if (status === 'offline') {
+                                    metaData.tdCls = 'view-color-blue-text';
+                                } else if (status === 'unknown') {
                                     metaData.tdCls = 'view-color-red-text';
                                 } else {
-                                    metaData.tdCls = '';
+                                    metaData.tdCls = 'view-color-gen-text';
                                 }
                                 return Traccar.AttributeFormatter.getFormatter('lastUpdate')(value);
-                            }
+                            },
+            filter: 'date'
         }]
+    },
+    bbar: {items: [{
+        xtype: 'pagingtoolbar',
+        store: 'Devices',
+        pluginId: 'devicespage',
+        displayInfo: true,
+        displayMsg: '{0} to {1} of {2} &nbsp;Assets ',
+        emptyMsg: "No Asset to display&nbsp;"
+    }]},
+    includeHeaders: true,
+    forceFit: true,
+    selModel: {
+       selType: 'rowmodel',
+       mode: 'MULTI'
     }
 });

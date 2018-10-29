@@ -41,7 +41,8 @@ Ext.define('Traccar.view.map.BaseMap', {
             case 'custom':
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
-                        url: server.get('mapUrl'),
+                        url: new DOMParser()
+                            .parseFromString(server.get('mapUrl'), 'text/html').documentElement.textContent,
                         attributions: ''
                     })
                 });
