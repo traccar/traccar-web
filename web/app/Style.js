@@ -66,7 +66,7 @@ Ext.define('Traccar.Style', {
     mapColorGreen: 'rgba(77, 250, 144, 1.0)',
     mapColorYellow: 'rgba(250, 190, 77, 1.0)',
     mapColorOrange: 'rgba(255, 165, 0, 1.0)',
-    mapColorRed: 'rgba(255, 162, 173, 1.0)',
+    mapColorRed: 'rgba(255, 0, 0, 0.7)',
 
     mapScaleNormal: 0.49,
     mapScaleSelected: 0.73,
@@ -76,11 +76,11 @@ Ext.define('Traccar.Style', {
 
     mapAccuracyColor: 'rgba(96, 96, 96, 1.0)',
 
-    mapGeofenceTextColor: 'rgba(14, 88, 141, 1.0)',
-    mapGeofenceColor: 'rgba(21, 127, 204, 1.0)',
+    mapGeofenceTextColor: 'rgba(102, 104, 235, 1.0)',
+    mapGeofenceColor: 'rgba(102, 104, 235, 1.0)',
     mapGeofenceOverlayOpacity: 0.2,
-    mapGeofenceWidth: 5,
-    mapGeofenceRadius: 9,
+    mapGeofenceWidth: 2,
+    mapGeofenceRadius: 4,
 
     coordinatePrecision: 6,
     numberPrecision: 2,

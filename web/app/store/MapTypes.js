@@ -20,6 +20,12 @@ Ext.define('Traccar.store.MapTypes', {
     fields: ['key', 'name'],
 
     data: [{
+        key: 'googlemod',
+        name: Strings.googleMod
+    }, {
+        key: 'googlemodsat',
+        name: Strings.googleModSat
+    }, {
         key: 'carto',
         name: Strings.mapCarto
     }, {

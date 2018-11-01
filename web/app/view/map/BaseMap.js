@@ -47,6 +47,24 @@ Ext.define('Traccar.view.map.BaseMap', {
                     })
                 });
                 break;
+                case 'googlemod':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: new DOMParser()
+                            .parseFromString('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga&key=AIzaSyDN6IyCSlDhf4Ga5WEurMf1khgehJKYT5w', 'text/html').documentElement.textContent,
+                        attributions: ''
+                    })
+                });
+                break;
+                case 'googlemodsat':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: new DOMParser()
+                            .parseFromString('https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga&key=AIzaSyDN6IyCSlDhf4Ga5WEurMf1khgehJKYT5w', 'text/html').documentElement.textContent,
+                        attributions: ''
+                    })
+                });
+                break;
             case 'bingRoad':
                 layer = new ol.layer.Tile({
                     source: new ol.source.BingMaps({

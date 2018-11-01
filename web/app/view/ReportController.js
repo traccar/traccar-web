@@ -492,7 +492,7 @@ Ext.define('Traccar.view.ReportController', {
                 return Ext.fireEvent('routegeocode', record.getId());
             }
             return Traccar.AttributeFormatter.getFormatter('address')(value);
-}
+    }
     }, {
         text: Strings.positionSpeed,
         dataIndex: 'speed',
@@ -528,7 +528,7 @@ Ext.define('Traccar.view.ReportController', {
         minWidth: 125,
         maxWidth: 135,
         resizable: true,
-        fixed: false //Will be resized
+        fixed: false
     }, {
         text: Strings.sharedType,
         dataIndex: 'type',
@@ -537,10 +537,9 @@ Ext.define('Traccar.view.ReportController', {
         },
         minWidth: 155,
         maxWidth: 165,
-        resizable: true
-    }, {//Address column for event report
+        resizable: true }, {
         text: Strings.positionAddress,
-        dataIndex: 'positionId',///////////////////////////////////////////
+        dataIndex: 'positionId',
         renderer: function (value, metaData, record) {
             if (!value) {
                 //New address autoloader

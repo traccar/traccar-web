@@ -83,7 +83,9 @@ Ext.define('Traccar.view.edit.Devices', {
         enableTextSelection: true,
         preserveScrollOnRefresh: true,
         getRowClass: function (record) {
-            var result = '', status = record.get('status');var result = '', status = record.get('status'), movement = record.get('movement');
+            var result = '', status = record.get('status'), movement = record.get('movement');
+            var lastupdate = "" + record.get('lastUpdate');
+            var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
             if (record.get('disabled')) {
                 result = 'view-item-disabled ';
             }
@@ -92,6 +94,8 @@ Ext.define('Traccar.view.edit.Devices', {
                     result += 'view-color-red';
                 } else {
                     if (movement === 'moving' && status === 'unknown') {
+                        result += 'view-color-red';
+                    } else if (movement === 'moving' && defTime >= 5700) {
                         result += 'view-color-red';
                     } else if (movement === 'moving') {
                         result += 'view-color-green';
@@ -117,7 +121,7 @@ Ext.define('Traccar.view.edit.Devices', {
     columns: {
         defaults: {
             flex: 1,
-            minWidth: 70,
+            minWidth: 60,
             autoSizeColumn : true
         },
         items: [{
@@ -127,9 +131,47 @@ Ext.define('Traccar.view.edit.Devices', {
             maxWidth: 100,
             filter: 'string'
         }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            minWidth: 100,
+            maxWidth: 100,
+            hidden: true,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'Groups'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
+        }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
             hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.positionAddress,
+            dataIndex: 'address',
+            minWidth: 220,
+            maxWidth: 220,
+            renderer: function (value, metaData, record) {
+                if (!value) {
+                    if (Ext.fireEvent('routegeocode', record.getId()) === true){
+                        return "NO GPS DATA"
+                    } else {
+                        //geoCode function pending for devices panel
+                        return Ext.fireEvent('routegeocode', record.getId());
+                    }
+                    
+                }
+                return Traccar.AttributeFormatter.getFormatter('address')(value);
+        },
+            hidden: false,
+            filter: 'string'
+        }, {
+            text: Strings.positionSpeed,
+            dataIndex: 'speed',
+            renderer: Traccar.AttributeFormatter.getFormatter('speed'),
+            hidden: false,
+            minWidth: 70,
             filter: 'string'
         }, {
             text: Strings.sharedPhone,
@@ -146,18 +188,6 @@ Ext.define('Traccar.view.edit.Devices', {
             dataIndex: 'contact',
             hidden: true,
             filter: 'string'
-        }, {
-            text: Strings.groupDialog,
-            dataIndex: 'groupId',
-            minWidth: 100,
-            maxWidth: 100,
-            hidden: false,
-            filter: {
-                type: 'list',
-                labelField: 'name',
-                store: 'Groups'
-            },
-            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }, {
             text: Strings.sharedDisabled,
             dataIndex: 'disabled',
@@ -187,6 +217,13 @@ Ext.define('Traccar.view.edit.Devices', {
                 return result;
             }
         }, {
+            text: 'Status',
+            minWidth: 60,
+            maxWidth: 60,
+            dataIndex: 'movement',
+            hidden: false,
+            filter: 'list'
+        }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',
             minWidth: 60,
@@ -196,34 +233,46 @@ Ext.define('Traccar.view.edit.Devices', {
                 labelField: 'name',
                 store: 'DeviceStatuses'
             },
-            renderer: function (value) {
-                var status;
+            renderer: function (value, metaData, record) {
+                var statusy;
                 if (value) {
-                    status = Ext.getStore('DeviceStatuses').getById(value);
-                    if (status) {
-                        return status.get('name');
+                    var status = record.get('status');
+                    var lastupdate = "" + record.get('lastUpdate');
+                    var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+                    if (status === 'online') {
+                        metaData.tdCls = 'view-color-green-text';
+                    } else if (status === 'offline' && record.get('lastUpdate') == null) {
+                        metaData.tdCls = 'view-color-null-text';
+                    } else if (status === 'offline' && defTime >= 5700 ) {
+                        metaData.tdCls = 'view-color-red-text';
+                    } else if (status === 'offline') {
+                        metaData.tdCls = 'view-color-blue-text';
+                    } else if (status === 'unknown') {
+                        metaData.tdCls = 'view-color-red-text';
+                    } else {
+                        metaData.tdCls = 'view-color-gen-text';
+                    }
+                    statusy = Ext.getStore('DeviceStatuses').getById(value);
+                    if (statusy) {
+                        return statusy.get('name');
                     }
                 }
                 return null;
             }
-        }, {
-            text: 'Status',
-            minWidth: 60,
-            maxWidth: 60,
-            dataIndex: 'movement',
-            hidden: false,
-            filter: 'list'
         }, {
             text: Strings.deviceLastUpdate,
             dataIndex: 'lastUpdate',
             xtype: 'datecolumn',
             renderer: function (value, metaData, record) {
                                 var status = record.get('status');
-                                var lastupdate = record.get('lastUpdate');
+                                var lastupdate = "" + record.get('lastUpdate');
+                                var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
                                 if (status === 'online') {
                                     metaData.tdCls = 'view-color-green-text';
-                                } else if (status === 'offline' && lastupdate == null) {
+                                } else if (status === 'offline' && record.get('lastUpdate') == null) {
                                     metaData.tdCls = 'view-color-null-text';
+                                } else if (status === 'offline' && defTime >= 5700 ) {
+                                    metaData.tdCls = 'view-color-red-text';
                                 } else if (status === 'offline') {
                                     metaData.tdCls = 'view-color-blue-text';
                                 } else if (status === 'unknown') {
