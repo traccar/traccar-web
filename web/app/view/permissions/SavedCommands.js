@@ -40,7 +40,7 @@ Ext.define('Traccar.view.permissions.SavedCommands', {
             },
             renderer: Traccar.AttributeFormatter.getFormatter('commandType')
         }, {
-            text: Strings.notificationSms,
+            text: Strings.commandSendSms,
             dataIndex: 'textChannel',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,

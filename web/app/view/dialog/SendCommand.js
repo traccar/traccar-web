@@ -54,7 +54,7 @@ Ext.define('Traccar.view.dialog.SendCommand', {
                 reference: 'textChannelCheckBox',
                 inputValue: true,
                 uncheckedValue: false,
-                fieldLabel: Strings.notificationSms,
+                fieldLabel: Strings.commandSendSms,
                 listeners: {
                     change: 'onTextChannelChange'
                 }
