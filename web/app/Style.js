@@ -21,10 +21,12 @@ Ext.define('Traccar.Style', {
     refreshPeriod: 60 * 1000,
     reconnectTimeout: 60 * 1000,
     reportTimeout: 1200 * 90000000,
+    devicesTimeout: 5700,
+    googleApiKey: "AIzaSyDN6IyCSlDhf4Ga5WEurMf1khgehJKYT5w",
 
     normalPadding: 10,
 
-    windowWidth: 800,
+    windowWidth: 950,
     windowHeight: 600,
 
     formFieldWidth: 345,
@@ -37,6 +39,7 @@ Ext.define('Traccar.Style', {
     weekStartDay: 1,
 
     deviceWidth: 610,
+    eventWidth: 495,
     toastWidth: 195,
 
     reportHeight: 378,
@@ -48,14 +51,23 @@ Ext.define('Traccar.Style', {
     mapDefaultZoom: 4,
 
     mapRouteColor: [
+        '#c3fc32',
+        '#027c70',
+        '#096296',
+        '#273ead',
+        '#7737cc',
         '#F06292',
         '#BA68C8',
+        '#FF8A65',
+        '#fc642d',
+        '#fcb32d',
         '#4DD0E1',
         '#4DB6AC',
-        '#FF8A65',
-        '#A1887F'
+        '#bc2ac1',
+        '#a01c69',
+        '#e899a3'
     ],
-    mapRouteWidth: 3,
+    mapRouteWidth: 2,
 
     mapTextColor: 'rgba(50, 50, 50, 1.0)',
     mapTextStrokeColor: 'rgba(255, 255, 255, 1.0)',

@@ -95,7 +95,7 @@ Ext.define('Traccar.view.Main', {
         region: 'east',
         xtype: 'eventsView',
         reference: 'eventsView',
-        width: Traccar.Style.deviceWidth,
+        width: Traccar.Style.eventWidth,
         collapsed: true,
         titleCollapse: true,
         floatable: false

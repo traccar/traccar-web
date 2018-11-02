@@ -125,7 +125,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         if (status === 'unknown') {
             return Traccar.Style.mapColorRed;
         } else {
-            if (movement === 'moving' && defTime >= 5700) {
+            if (movement === 'moving' && defTime >= Traccar.Style.devicesTimeout) {
                 return Traccar.Style.mapColorRed;
             } else if (movement === 'moving') {
                 return Traccar.Style.mapColorGreen;

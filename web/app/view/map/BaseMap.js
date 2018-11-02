@@ -51,8 +51,8 @@ Ext.define('Traccar.view.map.BaseMap', {
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: new DOMParser()
-                            .parseFromString('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga&key=AIzaSyDN6IyCSlDhf4Ga5WEurMf1khgehJKYT5w', 'text/html').documentElement.textContent,
-                        attributions: ''
+                            .parseFromString('https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga&key=' + Traccar.Style.googleApiKey, 'text/html').documentElement.textContent,
+                        attributions: 'Map Data 2018 Google'
                     })
                 });
                 break;
@@ -60,8 +60,8 @@ Ext.define('Traccar.view.map.BaseMap', {
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: new DOMParser()
-                            .parseFromString('https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga&key=AIzaSyDN6IyCSlDhf4Ga5WEurMf1khgehJKYT5w', 'text/html').documentElement.textContent,
-                        attributions: ''
+                            .parseFromString('https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga&key=' + Traccar.Style.googleApiKey, 'text/html').documentElement.textContent,
+                        attributions: 'Map Data 2018 Google'
                     })
                 });
                 break;
