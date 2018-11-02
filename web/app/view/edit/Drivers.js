@@ -46,7 +46,7 @@ Ext.define('Traccar.view.edit.Drivers', {
             dataIndex: 'name',
             filter: 'string'
         }, {
-            text: Strings.sharedDescription,
+            text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
             filter: 'string'
         }]

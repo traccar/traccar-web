@@ -51,7 +51,7 @@ Ext.define('Traccar.view.dialog.User', {
             xtype: 'fieldset',
             title: Strings.sharedPreferences,
             collapsible: true,
-            collapsed: true,
+            collapsed: false,
             items: [{
                 xtype: 'textfield',
                 name: 'phone',

@@ -273,6 +273,15 @@ Ext.define('Traccar.controller.Root', {
             if (Ext.getStore('Events').findRecord('positionId', array[i].id, 0, false, false, true)) {
                 Ext.getStore('EventPositions').add(Ext.create('Traccar.model.Position', array[i]));
             }
+            device = Ext.getStore('Devices').getById(array[i].deviceId);
+            if (device) {
+                device.set({
+                    speed: Traccar.AttributeFormatter.getConverter('speed')(array[i].speed),
+                    address: array[i].address,
+                }, {
+                    dirty: false
+                });
+            }
         }
         if (first) {
             deviceId = Ext.Object.fromQueryString(window.location.search).deviceId;

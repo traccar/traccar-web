@@ -75,11 +75,13 @@ Ext.define('Traccar.view.map.Map', {
             reference: 'deviceFollowButton',
             glyph: 'xf05b@FontAwesome',
             tooltip: Strings.deviceFollow,
+            pressed: true,
             stateId: 'device-follow-button',
             toggleHandler: 'onFollowClick'
         }, {
             xtype: 'settingsMenu',
-            enableToggle: false
+            enableToggle: false,
+            text: Strings.settingsTitle
         }]
     },
 

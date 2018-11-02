@@ -29,6 +29,14 @@ Ext.define('Traccar.model.Device', {
         name: 'uniqueId',
         type: 'string'
     }, {
+        name: 'speed',
+        type: 'float',
+        persist: false
+    }, {
+        name: 'address',
+        type: 'string',
+        persist: false
+    }, {
         name: 'phone',
         type: 'string',
         allowNull: true
@@ -43,6 +51,7 @@ Ext.define('Traccar.model.Device', {
     }, {
         name: 'category',
         type: 'string',
+        defaultValue: 'arrow',
         allowNull: true
     }, {
         name: 'status',

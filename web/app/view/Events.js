@@ -99,15 +99,18 @@ Ext.define('Traccar.view.Events', {
     columns: {
         defaults: {
             flex: 1,
-            minWidth: Traccar.Style.columnWidthNormal
+            minWidth: 60,
+            autoSizeColumn : true
         },
         items: [{
-            text: Strings.sharedDevice,
+            text: Strings.sharedAsset,
             dataIndex: 'deviceId',
+            minWidth: 80,
             renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
         }, {
             flex: 2,
             text: Strings.positionEvent,
+            minWidth: 185,
             dataIndex: 'text'
         }, {
             text: Strings.positionFixTime,
@@ -119,14 +122,15 @@ Ext.define('Traccar.view.Events', {
             renderer: function (value) {
                 var speed = value['speed'];
                 if (!(speed)){
-                    return "NOT GPS DATA";
+                    return "No gps data";
                 } else {
-                    return Traccar.AttributeFormatter.speedFormatter(speed);
+                    return Traccar.AttributeFormatter.getFormatter('speed')(Traccar.AttributeFormatter.getConverter('speed')(value['speed']));
                 }  
             }
         }, {
             text: Strings.sharedGeofence,
             dataIndex: 'geofenceId',
+            minWidth: 110,
             renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
         }]
     }
