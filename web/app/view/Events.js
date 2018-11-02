@@ -122,7 +122,7 @@ Ext.define('Traccar.view.Events', {
             renderer: function (value) {
                 var speed = value['speed'];
                 if (!(speed)){
-                    return "NOT GPS DATA";
+                    return "No gps data";
                 } else {
                     return Traccar.AttributeFormatter.getFormatter('speed')(Traccar.AttributeFormatter.getConverter('speed')(value['speed']));
                 }  

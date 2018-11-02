@@ -538,21 +538,44 @@ Ext.define('Traccar.view.ReportController', {
         minWidth: 155,
         maxWidth: 165,
         resizable: true }, {
+            text: Strings.positionSpeed,
+            dataIndex: 'attributes',
+            renderer: function (value) {
+                var speed = value['speed'];
+                if (speed === null) {
+                    return 'No gps data';
+                } else {
+                    return Traccar.AttributeFormatter.speedFormatter(speed);
+                    }
+            }
+        }, {
+            text: Strings.attributeSpeedLimit,
+            dataIndex: 'attributes',
+            renderer: function (value) {
+                var speed = value['speedLimit'];
+                if (speed === null) {
+                    return 'No speed info';
+                } else {
+                return Traccar.AttributeFormatter.speedFormatter(speed);
+                }
+            }
+        },/* {
         text: Strings.positionAddress,
         dataIndex: 'positionId',
         renderer: function (value, metaData, record) {
-            if (!value) {
+            if (value) {
                 //New address autoloader
-                return 'NOT GPS DATA';
+                return 'No gps data';
+            } else {
+            return "In View";
             }
-            return "IN VIEW";
         },
         flex: 1,
         minWidth: 250,
         maxWidth: 300,
         resizable: true,
         fixed: false //Will be resized
-    }, {
+    }, */{
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
         renderer: Traccar.AttributeFormatter.getFormatter('geofenceId'),
@@ -566,21 +589,6 @@ Ext.define('Traccar.view.ReportController', {
         minWidth: 135,
         maxWidth: 145,
         resizable: true
-    }, {
-        text: Strings.positionSpeed,
-        dataIndex: 'attributes',
-        renderer: function (value) {
-            var speed = value['speed'];
-            return Traccar.AttributeFormatter.speedFormatter(speed);
-        }
-    }, {
-        //Added speed limit on event
-        text: Strings.attributeSpeedLimit,
-        dataIndex: 'attributes',
-        renderer: function (value) {
-            var speed = value['speedLimit'];
-            return Traccar.AttributeFormatter.speedFormatter(speed);
-        }
     }],
 
     summaryColumns: [{
@@ -663,7 +671,12 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
-        renderer: Traccar.AttributeFormatter.getFormatter('address'),
+        renderer: function (value, metaData, record) {
+            if (!value) {
+                return Ext.fireEvent('routegeocode', record.getId());
+            }
+            return Traccar.AttributeFormatter.getFormatter('address')(value);
+    },
         flex: 1,
         minWidth: 220,
         maxWidth: 300,
@@ -686,7 +699,12 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
-        renderer: Traccar.AttributeFormatter.getFormatter('address'),
+        renderer: function (value, metaData, record) {
+            if (!value) {
+                return Ext.fireEvent('routegeocode', record.getId());
+            }
+            return Traccar.AttributeFormatter.getFormatter('address')(value);
+    },
         flex: 1,
         minWidth: 220,
         maxWidth: 300,
@@ -739,7 +757,12 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',
-        renderer: Traccar.AttributeFormatter.getFormatter('address'),
+        renderer: function (value, metaData, record) {
+            if (!value) {
+                return Ext.fireEvent('routegeocode', record.getId());
+            }
+            return Traccar.AttributeFormatter.getFormatter('address')(value);
+    },
         flex: 1,
         minWidth: 220,
         maxWidth: 300,
