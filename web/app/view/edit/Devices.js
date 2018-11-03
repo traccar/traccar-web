@@ -84,6 +84,7 @@ Ext.define('Traccar.view.edit.Devices', {
         getRowClass: function (record) {
             var result = '', status = record.get('status'), movement = record.get('movement');
             var lastupdate = "" + record.get('lastUpdate');
+            var attributes = record.get('attributes');
             var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
             if (record.get('disabled')) {
                 result = 'view-item-disabled ';
@@ -98,6 +99,8 @@ Ext.define('Traccar.view.edit.Devices', {
                         result += 'view-color-red';
                     } else if (movement === 'moving') {
                         result += 'view-color-green';
+                    } else if ((attributes['motion'] === false && (movement === '' || movement === null)) || attributes['ignition'] === false && movement === 'idle') {
+                        result += 'view-color-orange';
                     } else if (movement === 'idle') {
                         result += 'view-color-yellow';
                     } else {
@@ -192,11 +195,11 @@ Ext.define('Traccar.view.edit.Devices', {
                 var status = record.get('status');
                 var lastupdate = "" + record.get('lastUpdate');
                 var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
-                if ((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) {
+                if (((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) || status === 'unknown') {
                     return 'Offline';
                 } else if (attributes['alarm']) {
                     return attributes['alarm'];
-                } else if (value === 'parked' || (value === 'idle' && attributes['ignition'] === false)) {
+                } else if (value === 'parked' || (value === 'idle' && attributes['ignition'] === false) || (attributes['motion'] === false && (value === '' || value === null))) {
                     return 'Parked';
                 } else if (value === 'moving') {
                     return 'Moving';

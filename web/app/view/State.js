@@ -71,7 +71,6 @@ Ext.define('Traccar.view.State', {
                 } else if (record.get('name') === Strings.positionAddress && !value) {
                     //New address autoloader
                     return '' + Ext.fireEvent('stategeocode') + '';
-
                 } else if (record.get('name') === Strings.positionImage || record.get('name') === Strings.positionAudio) {
                     position = this.getController().position;
                     if (position) {
