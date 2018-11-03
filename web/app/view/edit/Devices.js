@@ -128,19 +128,82 @@ Ext.define('Traccar.view.edit.Devices', {
             dataIndex: 'name',
             minWidth: 100,
             maxWidth: 100,
-            filter: 'string'
+            filter: 'string',
+            renderer: function (value, metaData, record) {
+                var status = record.get('status');
+                var lastupdate = "" + record.get('lastUpdate');
+                var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+                if (status === 'online') {
+                    metaData.tdCls = 'view-color-green-text';
+                } else if (status === 'offline' && record.get('lastUpdate') == null) {
+                    metaData.tdCls = 'view-color-null-text';
+                } else if (status === 'offline' && defTime >= Traccar.Style.devicesTimeout ) {
+                    metaData.tdCls = 'view-color-red-text';
+                } else if (status === 'offline') {
+                    metaData.tdCls = 'view-color-blue-text';
+                } else if (status === 'unknown') {
+                    metaData.tdCls = 'view-color-red-text';
+                } else {
+                    metaData.tdCls = 'view-color-gen-text';
+                }
+                return value;
+                
+            }
+        }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            minWidth: 85,
+            maxWidth: 85,
+            hidden: false,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'Groups'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
+        }, {
+            text: Strings.deviceLastTime,
+            dataIndex: 'lastUpdate',
+            xtype: 'datecolumn',
+            minWidth: 70,
+            maxWidth: 70,
+            renderer: function (value, metaData, record) {
+                                var status = record.get('status');
+                                var lastupdate = "" + record.get('lastUpdate');
+                                if (status === 'offline' && record.get('lastUpdate') == null) {
+                                    return 'No Info';
+                                } else {
+                                    return Traccar.AttributeFormatter.getFormatter('lastUpdate')(value);
+                                }
+                                
+                            },
+            filter: 'date'
         }, {
             text: 'Status',
             minWidth: 60,
             maxWidth: 60,
             dataIndex: 'movement',
             hidden: false,
-            filter: 'list',
-            renderer: function (value) {
-                if (value == null) {
-                    return 'Pending';
+            filter: {
+                type: 'list'
+            },
+            renderer: function (value, metaData, record) {
+                var attributes = record.get('attributes');
+                var status = record.get('status');
+                var lastupdate = "" + record.get('lastUpdate');
+                var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+                if ((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) {
+                    return 'Offline';
+                } else if (attributes['alarm']) {
+                    return attributes['alarm'];
+                } else if (value === 'parked' || (value === 'idle' && attributes['ignition'] === false)) {
+                    return 'Parked';
+                } else if (value === 'moving') {
+                    return 'Moving';
+                } else if (value === 'idle' || (attributes['ignition'] === true && (value !== 'moving' || value === 'parked'))) {
+                    return 'Idle';
                 } else {
-                    return value;
+                    return 'Pending';
                 }
                 
             }
@@ -149,6 +212,7 @@ Ext.define('Traccar.view.edit.Devices', {
             dataIndex: 'status',
             minWidth: 60,
             maxWidth: 60,
+            hidden: true,
             filter: {
                 type: 'list',
                 labelField: 'name',
@@ -160,7 +224,7 @@ Ext.define('Traccar.view.edit.Devices', {
                     var status = record.get('status');
                     var lastupdate = "" + record.get('lastUpdate');
                     var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
-                    if (status === 'online') {
+                    /*if (status === 'online') {
                         metaData.tdCls = 'view-color-green-text';
                     } else if (status === 'offline' && record.get('lastUpdate') == null) {
                         metaData.tdCls = 'view-color-null-text';
@@ -172,7 +236,7 @@ Ext.define('Traccar.view.edit.Devices', {
                         metaData.tdCls = 'view-color-red-text';
                     } else {
                         metaData.tdCls = 'view-color-gen-text';
-                    }
+                    }*/
                     statusy = Ext.getStore('DeviceStatuses').getById(value);
                     if (statusy) {
                         if ((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) {
@@ -187,58 +251,59 @@ Ext.define('Traccar.view.edit.Devices', {
                 return null;
             }
         }, {
-            text: Strings.deviceLastTime,
-            dataIndex: 'lastUpdate',
-            xtype: 'datecolumn',
-            renderer: function (value, metaData, record) {
-                                var status = record.get('status');
-                                var lastupdate = "" + record.get('lastUpdate');
-                                var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
-                                if (status === 'online') {
-                                    metaData.tdCls = 'view-color-green-text';
-                                } else if (status === 'offline' && record.get('lastUpdate') == null) {
-                                    metaData.tdCls = 'view-color-null-text';
-                                } else if (status === 'offline' && defTime >= Traccar.Style.devicesTimeout ) {
-                                    metaData.tdCls = 'view-color-red-text';
-                                } else if (status === 'offline') {
-                                    metaData.tdCls = 'view-color-blue-text';
-                                } else if (status === 'unknown') {
-                                    metaData.tdCls = 'view-color-red-text';
-                                } else {
-                                    metaData.tdCls = 'view-color-gen-text';
-                                }
-                                if (status === 'offline' && record.get('lastUpdate') == null) {
-                                    return 'No Info';
-                                } else {
-                                    return Traccar.AttributeFormatter.getFormatter('lastUpdate')(value);
-                                }
-                                
-                            },
-            filter: 'date'
-        }, {
             text: Strings.positionSpeed,
             dataIndex: 'speed',
-            convert: Traccar.AttributeFormatter.getConverter('speed'),
             renderer: function (value) {
                 if (value == null){
                     return null;
                 } else {
-                    lesSpeed = Traccar.AttributeFormatter.getFormatter('speed')(value / ((Traccar.AttributeFormatter.getConverter('speed')(value))/value));
-                    if (lesSpeed == 'NaN km/h'){
-                        return 'No Gps'
+                    lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                    if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                        return Traccar.AttributeFormatter.getFormatter('speed')(0);
                     } else {
-                        return lesSpeed;
+                        return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
                     }
                 }
             },
             hidden: false,
             minWidth: 70,
+            maxWidth: 70,
             filter: 'string'
+        }, {
+            text: Strings.positionIgnition,
+            dataIndex: 'attributes',
+            renderer: function (value, metaData, record) {
+                if (value['ignition'] === true) {
+                    metaData.tdCls = 'ign-color-green-text';
+                    return 'On';
+                } else {
+                    metaData.tdCls = 'ign-color-red-text';
+                    return 'Off';
+                }
+            },
+            hidden: false,
+            minWidth: 50,
+            maxWidth: 50,
+            filter: 'boolean'
+        }, {
+            text: Strings.deviceModel,
+            dataIndex: 'protocol',
+            renderer: function (value) {
+                valy = value + "";
+                if (value === null) {
+                    return 'No data';
+                } else {
+                    return valy.replace(/\b\w/g, l => l.toUpperCase());
+                }
+            },
+            hidden: true,
+            minWidth: 70,
+            maxWidth: 70,
+            filter: 'list'
         }, {
             text: Strings.positionAddress,
             dataIndex: 'address',
-            minWidth: 220,
-            maxWidth: 220,
+            minWidth: 200,
             renderer: function (value, metaData, record) {
                 if (!value) {
                     if (Ext.fireEvent('routegeocode', record.getId()) === true){
@@ -247,24 +312,11 @@ Ext.define('Traccar.view.edit.Devices', {
                         //geoCode function pending for devices panel
                         return Ext.fireEvent('routegeocode', record.getId());
                     }
-                    
                 }
                 return Traccar.AttributeFormatter.getFormatter('address')(value);
         },
             hidden: false,
             filter: 'string'
-        }, {
-            text: Strings.groupDialog,
-            dataIndex: 'groupId',
-            minWidth: 100,
-            maxWidth: 100,
-            hidden: true,
-            filter: {
-                type: 'list',
-                labelField: 'name',
-                store: 'Groups'
-            },
-            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
         }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
@@ -320,7 +372,8 @@ Ext.define('Traccar.view.edit.Devices', {
         store: 'Devices',
         pluginId: 'devicespage',
         displayInfo: true,
-        displayMsg: '{0} to {1} of {2} &nbsp;Assets ',
+        //displayMsg: '{0} to {1} of {2} &nbsp;Assets ',
+        displayMsg: 'Total of {2} &nbsp;Assets ',
         emptyMsg: "No Asset to display&nbsp;"
     }]},
     includeHeaders: true,

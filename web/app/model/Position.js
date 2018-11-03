@@ -58,8 +58,8 @@ Ext.define('Traccar.model.Position', {
         type: 'float'
     }, {
         name: 'speed',
-        type: 'float',
-        convert: Traccar.AttributeFormatter.getConverter('speed')
+        type: 'float'/*,
+        convert: Traccar.AttributeFormatter.getConverter('speed')*/
     }, {
         name: 'course',
         type: 'float'

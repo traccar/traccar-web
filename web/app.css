@@ -11,6 +11,15 @@
     background-color: rgba(255, 84, 104, 0.7);
 }
 
+.ign-color-green-text {
+    color: rgb(2, 107, 2, 0.8);
+    font-weight: 400;
+}
+.ign-color-red-text {
+    color: rgb(255, 0, 0, 0.7);
+    font-weight: 400;
+}
+
 .view-color-green-text {
     color: #fff;
     background-color: rgb(2, 107, 2, 0.8);

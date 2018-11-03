@@ -496,7 +496,18 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.positionSpeed,
         dataIndex: 'speed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed')
+        renderer: function (value) {
+            if (value == null){
+                return null;
+            } else {
+                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
+                } else {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                }
+            }
+        }
     }, {
         text: Strings.positionLatitude,
         dataIndex: 'latitude',
@@ -541,23 +552,25 @@ Ext.define('Traccar.view.ReportController', {
             text: Strings.positionSpeed,
             dataIndex: 'attributes',
             renderer: function (value) {
-                var speed = value['speed'];
-                if (speed === null) {
-                    return 'No gps data';
+                var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
+                var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return 'Not gps';
                 } else {
-                    return Traccar.AttributeFormatter.speedFormatter(speed);
+                    return lesSpeed;
                     }
             }
         }, {
             text: Strings.attributeSpeedLimit,
             dataIndex: 'attributes',
             renderer: function (value) {
-                var speed = value['speedLimit'];
-                if (speed === null) {
-                    return 'No speed info';
+                var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
+                var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return 'Not gps';
                 } else {
-                return Traccar.AttributeFormatter.speedFormatter(speed);
-                }
+                    return lesSpeed;
+                    }
             }
         },/* {
         text: Strings.positionAddress,
@@ -615,7 +628,18 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed'),
+        renderer: function (value) {
+            if (value == null){
+                return null;
+            } else {
+                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
+                } else {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                }
+            }
+        },
         //flex: 1,
         minWidth: 145,
         maxWidth: 155,
@@ -624,7 +648,18 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportMaximumSpeed,
         dataIndex: 'maxSpeed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed'),
+        renderer: function (value) {
+            if (value == null){
+                return null;
+            } else {
+                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
+                } else {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                }
+            }
+        },
         //flex: 1,
         minWidth: 145,
         maxWidth: 155,
@@ -717,11 +752,33 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed')
+        renderer: function (value) {
+            if (value == null){
+                return null;
+            } else {
+                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
+                } else {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                }
+            }
+        }
     }, {
         text: Strings.reportMaximumSpeed,
         dataIndex: 'maxSpeed',
-        renderer: Traccar.AttributeFormatter.getFormatter('speed')
+        renderer: function (value) {
+            if (value == null){
+                return null;
+            } else {
+                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
+                } else {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                }
+            }
+        }
     }, {
         text: Strings.reportDuration,
         dataIndex: 'duration',

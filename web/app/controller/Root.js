@@ -276,8 +276,10 @@ Ext.define('Traccar.controller.Root', {
             device = Ext.getStore('Devices').getById(array[i].deviceId);
             if (device) {
                 device.set({
-                    speed: Traccar.AttributeFormatter.getConverter('speed')(array[i].speed),
+                    speed: array[i].speed,
                     address: array[i].address,
+                    attributes: array[i].attributes,
+                    protocol: array[i].protocol,
                 }, {
                     dirty: false
                 });

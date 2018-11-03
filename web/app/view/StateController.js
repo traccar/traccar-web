@@ -80,7 +80,7 @@ Ext.define('Traccar.view.StateController', {
     keys: (function () {
         var i, list, result;
         result = {};
-        list = ['fixTime', 'address', 'speed', 'latitude', 'longitude', 'accuracy', 'altitude', 'course', 'protocol', 'valid'];
+        list = ['fixTime', /*'address', 'speed', */ 'course', 'latitude', 'longitude', 'protocol', 'accuracy', 'altitude', 'valid'];
         for (i = 0; i < list.length; i++) {
             result[list[i]] = {
                 priority: i,
