@@ -95,7 +95,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 } else {
                     if (movement === 'moving' && status === 'unknown') {
                         result += 'view-color-red';
-                    } else if (movement === 'moving' && defTime >= 5700) {
+                    } else if ((movement === 'moving' && defTime >= 5700) || defTime >= 5700) {
                         result += 'view-color-red';
                     } else if (movement === 'moving') {
                         result += 'view-color-green';
