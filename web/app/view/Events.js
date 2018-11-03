@@ -120,12 +120,13 @@ Ext.define('Traccar.view.Events', {
             text: Strings.positionSpeed,
             dataIndex: 'attributes',
             renderer: function (value) {
-                var speed = value['speed'];
-                if (!(speed)){
-                    return "No gps data";
+                var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
+                var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return 'Not gps';
                 } else {
-                    return Traccar.AttributeFormatter.getFormatter('speed')(Traccar.AttributeFormatter.getConverter('speed')(value['speed']));
-                }  
+                    return lesSpeed;
+                    }
             }
         }, {
             text: Strings.sharedGeofence,
