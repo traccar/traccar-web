@@ -67,7 +67,7 @@ Ext.define('Traccar.view.edit.Notifications', {
                 if (alarms) {
                     alarms = alarms.split(',');
                     for (i = 0; i < alarms.length; i++) {
-                        var key = 'alarm' + alarms[i].charAt(0).toUpperCase() + alarms[i].slice(1);
+                        key = 'alarm' + alarms[i].charAt(0).toUpperCase() + alarms[i].slice(1);
                         if (result) {
                             result += ', ';
                         }

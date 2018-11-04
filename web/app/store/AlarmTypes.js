@@ -19,8 +19,8 @@ Ext.define('Traccar.store.AlarmTypes', {
     extend: 'Ext.data.Store',
     fields: ['key', 'name'],
 
-    data: function () {
-        var items = [];
+    data: (function () {
+        var key, items = [];
         for (key in Strings) {
             if (Strings.hasOwnProperty(key) && key.lastIndexOf('alarm', 0) === 0) {
                 items.push({
@@ -30,5 +30,5 @@ Ext.define('Traccar.store.AlarmTypes', {
             }
         }
         return items;
-    }()
+    })()
 });
