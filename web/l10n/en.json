@@ -77,6 +77,7 @@
     "sharedMaintenance": "Maintenance",
     "sharedMaintenances": "Maintenances",
     "sharedDeviceAccumulators": "Accumulators",
+    "sharedAlarms": "Alarms",
     "attributeSpeedLimit": "Speed Limit",
     "attributePolylineDistance": "Polyline Distance",
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",

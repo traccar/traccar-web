@@ -52,6 +52,7 @@ Ext.define('Traccar.Application', {
         'Devices',
         'AllGroups',
         'AllDevices',
+        'AlarmTypes',
         'Positions',
         'LatestPositions',
         'EventPositions',
