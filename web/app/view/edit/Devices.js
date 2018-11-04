@@ -100,6 +100,8 @@ Ext.define('Traccar.view.edit.Devices', {
                         result += 'view-color-red';
                     } else if (((movement === '' || movement === null) && (lastupdate !== null || lastupdate !== ''))) {
                         result += 'view-color-orange';
+                    } else if (movement === 'parked') {
+                        result += 'view-color-orange';
                     } else if (movement === 'moving') {
                         result += 'view-color-green';
                     } else if (movement === 'idle') {
@@ -137,6 +139,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 var status = record.get('status');
                 var lastupdate = "" + record.get('lastUpdate');
                 var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+                var attribut = record.get('attributz');
                 if (status === 'online') {
                     metaData.tdCls = 'view-color-green-text';
                 } else if (status === 'offline' && record.get('lastUpdate') == null) {
@@ -193,8 +196,6 @@ Ext.define('Traccar.view.edit.Devices', {
             },
             renderer: function (value, metaData, record) {
                 var attribut = record.get('attributz');
-                //console.log(attribut);
-
                 var status = record.get('status');
                 var lastupdate = "" + record.get('lastUpdate');
                 var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
@@ -202,7 +203,7 @@ Ext.define('Traccar.view.edit.Devices', {
                     return 'Offline';
                 }/* else if ((typeof attribut['alarm'] !== 'undefined') && attribut['alarm']) {
                     return attribut['alarm'];
-                }*/ else if (value === 'parked' || ((value === '' || value === null) && lastupdate !== '')/* || (value === 'idle' && ((typeof attribut['ignition'] !== 'undefined') && attribut['ignition'] === false)) || (((typeof attribut['motion'] !== 'undefined') && attribut['motion'] === false) && (value === '' || value === null))*/) {
+                }*/ else if (value === 'parked' || ((value === '' || value === null) && lastupdate !== null)/* || (value === 'idle' && ((typeof attribut['ignition'] !== 'undefined') && attribut['ignition'] === false)) || (((typeof attribut['motion'] !== 'undefined') && attribut['motion'] === false) && (value === '' || value === null))*/) {
                     return 'Parked';
                 } else if (value === 'moving') {
                     return 'Moving';
