@@ -84,8 +84,9 @@ Ext.define('Traccar.view.edit.Devices', {
         getRowClass: function (record) {
             var result = '', status = record.get('status'), movement = record.get('movement');
             var lastupdate = "" + record.get('lastUpdate');
-            var attributes = record.get('attributes');
             var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+            var attribut = record.get('attributz');
+            //console.log(attribut);
             if (record.get('disabled')) {
                 result = 'view-item-disabled ';
             }
@@ -93,14 +94,14 @@ Ext.define('Traccar.view.edit.Devices', {
                 if (status === 'unknown') {
                     result += 'view-color-red';
                 } else {
-                    if (movement === 'moving' && status === 'unknown') {
+                    if ((defTime >= Traccar.Style.devicesTimeout) || ((movement === '' && status === '') && defTime >= Traccar.Style.devicesTimeout) || (movement === 'moving' && status === 'unknown')) {
                         result += 'view-color-red';
-                    } else if ((movement === 'moving' && defTime >= 5700) || defTime >= 5700) {
+                    } else if ((movement === 'moving' && defTime >= Traccar.Style.devicesTimeout) || defTime >= Traccar.Style.devicesTimeout) {
                         result += 'view-color-red';
+                    } else if (((movement === '' || movement === null) && (lastupdate !== null || lastupdate !== ''))) {
+                        result += 'view-color-orange';
                     } else if (movement === 'moving') {
                         result += 'view-color-green';
-                    } else if ((attributes['motion'] === false && (movement === '' || movement === null)) || attributes['ignition'] === false && movement === 'idle') {
-                        result += 'view-color-orange';
                     } else if (movement === 'idle') {
                         result += 'view-color-yellow';
                     } else {
@@ -191,19 +192,21 @@ Ext.define('Traccar.view.edit.Devices', {
                 type: 'list'
             },
             renderer: function (value, metaData, record) {
-                var attributes = record.get('attributes');
+                var attribut = record.get('attributz');
+                //console.log(attribut);
+
                 var status = record.get('status');
                 var lastupdate = "" + record.get('lastUpdate');
                 var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
                 if (((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) || status === 'unknown') {
                     return 'Offline';
-                } else if (attributes['alarm']) {
-                    return attributes['alarm'];
-                } else if (value === 'parked' || (value === 'idle' && attributes['ignition'] === false) || (attributes['motion'] === false && (value === '' || value === null))) {
+                }/* else if ((typeof attribut['alarm'] !== 'undefined') && attribut['alarm']) {
+                    return attribut['alarm'];
+                }*/ else if (value === 'parked' || ((value === '' || value === null) && lastupdate !== '')/* || (value === 'idle' && ((typeof attribut['ignition'] !== 'undefined') && attribut['ignition'] === false)) || (((typeof attribut['motion'] !== 'undefined') && attribut['motion'] === false) && (value === '' || value === null))*/) {
                     return 'Parked';
                 } else if (value === 'moving') {
                     return 'Moving';
-                } else if (value === 'idle' || (attributes['ignition'] === true && (value !== 'moving' || value === 'parked'))) {
+                } else if (value === 'idle'/* || (((typeof attribut['ignition'] !== 'undefined') && attribut['ignition'] === true) && (value !== 'moving' || value === 'parked'))*/) {
                     return 'Idle';
                 } else {
                     return 'Pending';
@@ -274,9 +277,12 @@ Ext.define('Traccar.view.edit.Devices', {
             filter: 'string'
         }, {
             text: Strings.positionIgnition,
-            dataIndex: 'attributes',
+            dataIndex: 'attributz',
             renderer: function (value, metaData, record) {
-                if (value['ignition'] === true) {
+                //var attrib = record.get('attributz');
+                //console.log(value)
+                var mover = record.get('movement');
+                if (mover === 'moving') {
                     metaData.tdCls = 'ign-color-green-text';
                     return 'On';
                 } else {

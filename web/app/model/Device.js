@@ -37,6 +37,12 @@ Ext.define('Traccar.model.Device', {
         type: 'string',
         persist: false
     }, {
+        name: 'protocol',
+        type: 'string',
+        persist: false
+    }, {
+        name: 'attributz'
+    }, {
         name: 'phone',
         type: 'string',
         allowNull: true

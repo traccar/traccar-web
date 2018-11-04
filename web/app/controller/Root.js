@@ -278,7 +278,7 @@ Ext.define('Traccar.controller.Root', {
                 device.set({
                     speed: array[i].speed,
                     address: array[i].address,
-                    attributes: array[i].attributes,
+                    attributz: array[i].attributes,
                     protocol: array[i].protocol,
                 }, {
                     dirty: false
