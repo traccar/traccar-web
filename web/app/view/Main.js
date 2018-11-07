@@ -80,17 +80,18 @@ Ext.define('Traccar.view.Main', {
                     collapsible: false
                 },
             {
-                region: 'west',
+              //All new notificaton windows
+              region: 'west',
                 xtype: 'eventsView',
                 reference: 'eventsView',
                 width: Traccar.Style.eventWidth,
                 collapsed: true,
+                collapsible: true,
                 header: false,
                 titleCollapse: true,
-                floatable: false,
-                constrain: false,
-                collapsible: true,
-                split: true
+                title: false,
+                split: true,
+                tools: [{ type: 'search' }]
             }]
             
         },

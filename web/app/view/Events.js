@@ -108,14 +108,27 @@ Ext.define('Traccar.view.Events', {
             minWidth: 80,
             renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
         }, {
-            flex: 2,
-            text: Strings.positionEvent,
-            minWidth: 185,
-            dataIndex: 'text'
-        }, {
             text: Strings.positionFixTime,
             dataIndex: 'serverTime',
             renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
+        }, {
+            flex: 2,
+            text: Strings.positionEvent,
+            minWidth: 185,
+            dataIndex: 'text',
+            renderer: function (value, record) {
+                //spd = record.get('attributes');
+                //console.log(spd);
+                return value;
+                //var speed = Traccar.AttributeFormatter.getConverter('speed')(record.get('attributes')['speed']);
+                /*var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return value;
+                } else {
+                    record.get('lastUpdate');
+                    return '(' + lesSpeed + ') - ' + value;
+                    }*/
+            }
         }, {
             text: Strings.positionSpeed,
             dataIndex: 'attributes',
@@ -125,6 +138,7 @@ Ext.define('Traccar.view.Events', {
                 if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return 'Not gps';
                 } else {
+                    record.get('lastUpdate');
                     return lesSpeed;
                     }
             }

@@ -203,7 +203,7 @@ Ext.define('Traccar.view.edit.Devices', {
                     return 'Offline';
                 }/* else if ((typeof attribut['alarm'] !== 'undefined') && attribut['alarm']) {
                     return attribut['alarm'];
-                }*/ else if (value === 'parked' || ((value === '' || value === null) && lastupdate !== null)/* || (value === 'idle' && ((typeof attribut['ignition'] !== 'undefined') && attribut['ignition'] === false)) || (((typeof attribut['motion'] !== 'undefined') && attribut['motion'] === false) && (value === '' || value === null))*/) {
+                }*/ else if (value === 'parked' || ((value === '' || value === null) && (lastupdate !== null || lastupdate !== ''))/* || (value === 'idle' && ((typeof attribut['ignition'] !== 'undefined') && attribut['ignition'] === false)) || (((typeof attribut['motion'] !== 'undefined') && attribut['motion'] === false) && (value === '' || value === null))*/) {
                     return 'Parked';
                 } else if (value === 'moving') {
                     return 'Moving';
