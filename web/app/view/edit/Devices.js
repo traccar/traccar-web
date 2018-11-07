@@ -172,15 +172,30 @@ Ext.define('Traccar.view.edit.Devices', {
             text: Strings.deviceLastTime,
             dataIndex: 'lastUpdate',
             xtype: 'datecolumn',
-            minWidth: 70,
-            maxWidth: 70,
+            minWidth: 100,
+            maxWidth: 100,
             renderer: function (value, metaData, record) {
                                 var status = record.get('status');
-                                var lastupdate = "" + record.get('lastUpdate');
-                                if (status === 'offline' && record.get('lastUpdate') == null) {
+                                var lastupdate = "" + value;
+                                var defTime = (new Date(lastupdate));
+                                function formatDate(date) {
+                                var year = date.getFullYear().toString().substr(-2),
+                                month = date.getMonth() + 1, // months are zero indexed
+                                day = date.getDate()  < 10 ? "0" + date.getDate() : date.getDate(),
+                                hour = date.getHours(),
+                                minute = date.getMinutes(),
+                                second = date.getSeconds(),
+                                hourFormatted = hour  < 10 ? "0" + hour : hour,// hour returned in 24 hour format
+                                minuteFormatted = minute < 10 ? "0" + minute : minute,
+                                morning = hour < 12 ? "am" : "pm";
+                                return day + "-" + month + "-" + year + " " + hourFormatted + ":" +
+                                minuteFormatted;// + morning;
+                                }
+                                var returneder = formatDate(defTime);
+                                if (status === 'offline' && value == null) {
                                     return 'No Info';
                                 } else {
-                                    return Traccar.AttributeFormatter.getFormatter('lastUpdate')(value);
+                                    return returneder;
                                 }
                                 
                             },
