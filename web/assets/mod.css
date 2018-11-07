@@ -163,13 +163,19 @@
 /* Horizontal panel heading padding */
 
 .x-panel-header-default-horizontal.x-header-noborder {
-    padding: 2px 16px 2px 16px;
+    padding: 0px 16px 0px 16px;
+}
+
+/* Vertical panel heading padding */
+
+.x-panel-header-default-vertical.x-header-noborder {
+    padding: 16px 0px 16px 0px;
 }
 
 /* Vertical panel heading padding */
 
 .x-panel-header-default-vertical {
-    padding: 15px 2px 15px 2px;
+    padding: 15px 0px 15px 0px;
 }
 
 /* Main toolbar Stying */

@@ -67,12 +67,31 @@ Ext.define('Traccar.view.Main', {
         xtype: 'panel',
         floatable: false,
         constrain: false,
-
         items: [{
-        region: 'center',
-        xtype: 'mapView',
-        collapsible: false,
-        constrain: true
+            region: 'center',
+            layout: 'border',
+            xtype: 'panel',
+            floatable: false,
+            constrain: false,
+            items: [{
+                    region: 'center',
+                    xtype: 'mapView',
+                    constrain: false,
+                    collapsible: false
+                },
+            {
+                region: 'west',
+                xtype: 'eventsView',
+                reference: 'eventsView',
+                width: Traccar.Style.eventWidth,
+                collapsed: true,
+                header: false,
+                titleCollapse: true,
+                floatable: false,
+                constrain: false,
+                collapsible: true,
+                split: true
+            }]
             
         },
 
@@ -83,21 +102,14 @@ Ext.define('Traccar.view.Main', {
         height: Traccar.Style.reportHeight,
         collapsed: true,
         titleCollapse: true,
+        header: false,
         floatable: false,
         collapsible: true,
         split: true,
         flex: 1,
+        tools: [
+        ],
     }]
 
-    },
-    
-        {
-        region: 'east',
-        xtype: 'eventsView',
-        reference: 'eventsView',
-        width: Traccar.Style.eventWidth,
-        collapsed: true,
-        titleCollapse: true,
-        floatable: false
     }]
 });

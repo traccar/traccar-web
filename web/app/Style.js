@@ -29,7 +29,7 @@ Ext.define('Traccar.Style', {
     windowWidth: 950,
     windowHeight: 600,
 
-    formFieldWidth: 445,
+    formFieldWidth: 395,
 
     dateTimeFormat24: 'd-m-Y H:i:s',
     dateTimeFormat12: 'd-m-Y g:i:s a',
@@ -39,7 +39,7 @@ Ext.define('Traccar.Style', {
     weekStartDay: 1,
 
     deviceWidth: 655,
-    eventWidth: 495,
+    eventWidth: 395,
     toastWidth: 195,
 
     reportHeight: 378,
