@@ -276,6 +276,15 @@ Ext.define('Traccar.view.edit.Devices', {
             text: Strings.positionSpeed,
             dataIndex: 'speed',
             renderer: function (value) {
+                spdft = Traccar.AttributeFormatter.getFormatter('speed')(0)
+                spdval = '';
+                if (spdft === '0.0 km/h') {
+                    spdval = ' kph';
+                } else if (spdft === '0.0 kn') {
+                    spdval = ' kn';
+                } else {
+                    spdval = ' mph';
+                }
                 if (value == null){
                     return null;
                 } else {
@@ -283,7 +292,7 @@ Ext.define('Traccar.view.edit.Devices', {
                     if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                         return Traccar.AttributeFormatter.getFormatter('speed')(0);
                     } else {
-                        return lesSpeed + ' kph';
+                        return lesSpeed + spdval;
                     }
                 }
             },
