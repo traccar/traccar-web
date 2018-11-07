@@ -132,8 +132,8 @@ Ext.define('Traccar.view.edit.Devices', {
         items: [{
             text: Strings.sharedAssetName,
             dataIndex: 'name',
-            minWidth: 100,
-            maxWidth: 100,
+            minWidth: 90,
+            maxWidth: 90,
             filter: 'string',
             renderer: function (value, metaData, record) {
                 var status = record.get('status');
@@ -283,13 +283,13 @@ Ext.define('Traccar.view.edit.Devices', {
                     if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                         return Traccar.AttributeFormatter.getFormatter('speed')(0);
                     } else {
-                        return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                        return lesSpeed + ' kph';
                     }
                 }
             },
             hidden: false,
-            minWidth: 70,
-            maxWidth: 70,
+            minWidth: 60,
+            maxWidth: 60,
             filter: 'string'
         }, {
             text: Strings.positionIgnition,
