@@ -89,7 +89,7 @@ Ext.define('Traccar.view.Main', {
                 collapsible: true,
                 header: false,
                 titleCollapse: true,
-                title: false,
+                title: 'Activities (live)',
                 split: true,
                 tools: [{ type: 'search' }]
             }]
