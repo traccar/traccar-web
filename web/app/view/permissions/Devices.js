@@ -31,6 +31,17 @@ Ext.define('Traccar.view.permissions.Devices', {
             minWidth: Traccar.Style.columnWidthNormal,
             filter: 'string'
         }, {
+            text: Strings.groupDialog,
+            dataIndex: 'groupId',
+            flex: 1,
+            hidden: false,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'Groups'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('groupId')
+        }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
             flex: 1,

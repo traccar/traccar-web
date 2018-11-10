@@ -22,6 +22,7 @@ Ext.define('Traccar.view.edit.Drivers', {
 
     requires: [
         'Traccar.view.edit.DriversController',
+        'Traccar.AttributeFormatter',
         'Traccar.view.edit.Toolbar'
     ],
 
@@ -46,19 +47,19 @@ Ext.define('Traccar.view.edit.Drivers', {
             dataIndex: 'name',
             filter: 'string'
         }, {
-            text: Strings.deviceIdentifier,
+            text: Strings.sharedDriverId,
             dataIndex: 'uniqueId',
             filter: 'string'
         }, {
-            text: 'Phone',
+            text: Strings.sharedDriverPhone,
             dataIndex: 'driverPhone',
             filter: 'string'
         }, {
-            text: 'Email',
+            text: Strings.sharedDriverEmail,
             dataIndex: 'driverEmail',
             filter: 'string'
         }, {
-            text: 'Date Employed',
+            text: Strings.sharedDriverDate,
             dataIndex: 'employment',
             xtype: 'datecolumn',
             hidden: false,
@@ -89,7 +90,7 @@ Ext.define('Traccar.view.edit.Drivers', {
             },
             filter: 'date'
         }, {
-            text: 'Employed',
+            text: Strings.sharedDriverEmployed,
             dataIndex: 'disabled',
             renderer: Traccar.AttributeFormatter.getFormatter('disabled'),
             hidden: false,

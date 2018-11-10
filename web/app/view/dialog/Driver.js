@@ -34,22 +34,22 @@ Ext.define('Traccar.view.dialog.Driver', {
             }, {
                 xtype: 'textfield',
                 name: 'uniqueId',
-                fieldLabel: Strings.deviceIdentifier,
+                fieldLabel: Strings.sharedDriverId,
                 allowBlank: false
             }, {
                 xtype: 'textfield',
                 name: 'driverEmail',
-                fieldLabel: 'Email',
+                fieldLabel: Strings.sharedDriverEmail,
                 allowBlank: false
             }, {
                 xtype: 'textfield',
                 name: 'driverPhone',
-                fieldLabel: 'Phone',
+                fieldLabel: Strings.sharedDriverPhone,
                 allowBlank: false
             }, {
                 xtype: 'datefield',
                 name: 'employment',
-                fieldLabel: 'Employed Date',
+                fieldLabel: Strings.sharedDriverDate,
                 disabled: false,
                 reference: 'employmentField',
                 startDay: Traccar.Style.weekStartDay,
@@ -59,7 +59,7 @@ Ext.define('Traccar.view.dialog.Driver', {
                 inputValue: true,
                 uncheckedValue: false,
                 name: 'disabled',
-                fieldLabel: 'Employed',
+                fieldLabel: Strings.sharedDriverEmployed,
                 hidden: false,
                 reference: 'disabledField'
             }]
