@@ -84,10 +84,12 @@ Ext.define('Traccar.view.edit.Devices', {
         getRowClass: function (record) {
             var result = '', status = record.get('status'), movement = record.get('movement');
             var lastupdate = "" + record.get('lastUpdate');
+            var expirationTime = "" + record.get('expiration');
             var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+            var expTime = (Number(new Date(expirationTime)))/1000;
+            var expCurTime = (Number(new Date()))/1000;
             var attribut = record.get('attributz');
-            //console.log(attribut);
-            if (record.get('disabled')) {
+            if (record.get('disabled') || (expCurTime >= expTime)) {
                 result = 'view-item-disabled ';
             }
             if (status && movement) {
@@ -119,6 +121,11 @@ Ext.define('Traccar.view.edit.Devices', {
               if (column.autoSizeColumn === true)
                column.autoSize();
              })
+            },
+            itemdblclick: function(dv, record, item, index, e) {
+                posId = record.get('id');
+                //console.log('working' + posId);
+                Strings.setDeviceQuick = posId;
             }
            }
     },
@@ -133,7 +140,7 @@ Ext.define('Traccar.view.edit.Devices', {
             text: Strings.sharedAssetName,
             dataIndex: 'name',
             minWidth: 90,
-            maxWidth: 90,
+            maxWidth: 120,
             filter: 'string',
             renderer: function (value, metaData, record) {
                 var status = record.get('status');
@@ -377,6 +384,37 @@ Ext.define('Traccar.view.edit.Devices', {
             renderer: Traccar.AttributeFormatter.getFormatter('disabled'),
             hidden: true,
             filter: 'boolean'
+        }, {
+            text: Strings.userExpirationTime,
+            dataIndex: 'expiration',
+            xtype: 'datecolumn',
+            hidden: true,
+            minWidth: 100,
+            maxWidth: 100,
+            renderer: function (value, metaData, record) {
+                var lastupdate = "" + value;
+                var defTime = (new Date(lastupdate));
+                function formatDate(date) {
+                var year = date.getFullYear().toString().substr(-2),
+                month = date.getMonth() + 1, // months are zero indexed
+                day = date.getDate()  < 10 ? "0" + date.getDate() : date.getDate(),
+                hour = date.getHours(),
+                minute = date.getMinutes(),
+                second = date.getSeconds(),
+                hourFormatted = hour  < 10 ? "0" + hour : hour,// hour returned in 24 hour format
+                minuteFormatted = minute < 10 ? "0" + minute : minute,
+                morning = hour < 12 ? "am" : "pm";
+                return day + "-" + month + "-" + year + " " + hourFormatted + ":" +
+                minuteFormatted;// + morning;
+                }
+                var returneder = formatDate(defTime);
+                if (value == null) {
+                    return 'Unlimited';
+                } else {
+                    return returneder;
+                }
+            },
+            filter: 'date'
         }, {
             text: Strings.sharedGeofences,
             dataIndex: 'geofenceIds',
