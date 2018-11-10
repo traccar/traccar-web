@@ -18,6 +18,13 @@
 Ext.define('Traccar.store.AllGeofences', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.Geofence',
+    sorters: [{
+        property: 'name',
+        direction: 'ASC'
+    }],
+    sortRoot: 'name',
+    sortOnLoad: true,
+    remoteSort: false,
 
     proxy: {
         type: 'rest',

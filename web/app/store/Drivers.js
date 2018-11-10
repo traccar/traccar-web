@@ -19,6 +19,13 @@
 Ext.define('Traccar.store.Drivers', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.Driver',
+    sorters: [{
+        property: 'name',
+        direction: 'ASC'
+    }],
+    sortRoot: 'name',
+    sortOnLoad: true,
+    remoteSort: false,
 
     proxy: {
         type: 'rest',

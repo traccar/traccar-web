@@ -19,6 +19,13 @@
 Ext.define('Traccar.store.Calendars', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.Calendar',
+    sorters: [{
+        property: 'name',
+        direction: 'ASC'
+    }],
+    sortRoot: 'name',
+    sortOnLoad: true,
+    remoteSort: false,
 
     proxy: {
         type: 'rest',
