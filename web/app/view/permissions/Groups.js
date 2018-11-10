@@ -31,11 +31,11 @@ Ext.define('Traccar.view.permissions.Groups', {
             minWidth: Traccar.Style.columnWidthNormal,
             filter: 'string'
         }, {
-            text: Strings.groupDialog,
+            text: Strings.groupParent,
             dataIndex: 'groupId',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
-            hidden: true,
+            hidden: false,
             filter: {
                 type: 'list',
                 labelField: 'name',

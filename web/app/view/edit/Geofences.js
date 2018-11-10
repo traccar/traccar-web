@@ -44,20 +44,20 @@ Ext.define('Traccar.view.edit.Geofences', {
             text: Strings.sharedName,
             dataIndex: 'name',
             filter: 'string'
-        }, {
-            text: Strings.sharedDescription,
-            dataIndex: 'description',
-            filter: 'string'
-        }, {
+        },{
             text: Strings.sharedCalendar,
             dataIndex: 'calendarId',
-            hidden: true,
+            hidden: false,
             filter: {
                 type: 'list',
                 labelField: 'name',
                 store: 'AllCalendars'
             },
             renderer: Traccar.AttributeFormatter.getFormatter('calendarId')
+        }, {
+            text: Strings.sharedDescription,
+            dataIndex: 'description',
+            filter: 'string'
         }]
     }
 });

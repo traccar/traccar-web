@@ -66,7 +66,7 @@ Ext.define('Traccar.view.permissions.Notifications', {
             dataIndex: 'calendarId',
             flex: 1,
             minWidth: Traccar.Style.columnWidthNormal,
-            hidden: true,
+            hidden: false,
             filter: {
                 type: 'list',
                 labelField: 'name',

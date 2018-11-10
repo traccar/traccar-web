@@ -70,6 +70,11 @@ Ext.define('Traccar.model.Device', {
         type: 'string',
         allowNull: true
     }, {
+        name: 'expiration',
+        type: 'date',
+        dateFormat: 'c',
+        allowNull: true
+    }, {
         name: 'lastUpdate',
         type: 'date',
         dateFormat: 'c'

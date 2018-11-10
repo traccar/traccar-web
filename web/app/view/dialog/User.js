@@ -25,7 +25,9 @@ Ext.define('Traccar.view.dialog.User', {
 
     controller: 'user',
     title: Strings.settingsUser,
-
+    defaults: {
+        minWidth: 450
+    },
     items: {
         xtype: 'form',
         items: [{
@@ -118,6 +120,7 @@ Ext.define('Traccar.view.dialog.User', {
                 name: 'administrator',
                 fieldLabel: Strings.userAdmin,
                 disabled: true,
+                hidden: true,
                 reference: 'adminField'
             }, {
                 xtype: 'checkboxfield',

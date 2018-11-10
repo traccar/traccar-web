@@ -126,19 +126,20 @@ Ext.define('Traccar.view.edit.Users', {
         }, {
             text: Strings.userAdmin,
             dataIndex: 'administrator',
+            hidden: true,
             renderer: Traccar.AttributeFormatter.getFormatter('administrator'),
             filter: 'boolean'
         }, {
             text: Strings.serverReadonly,
             dataIndex: 'readonly',
-            hidden: true,
+            hidden: false,
             renderer: Traccar.AttributeFormatter.getFormatter('readonly'),
             filter: 'boolean'
         }, {
             text: Strings.userDeviceReadonly,
             dataIndex: 'deviceReadonly',
             renderer: Traccar.AttributeFormatter.getFormatter('deviceReadonly'),
-            hidden: true,
+            hidden: false,
             filter: 'boolean'
         }, {
             text: Strings.sharedDisabled,
@@ -148,7 +149,7 @@ Ext.define('Traccar.view.edit.Users', {
         }, {
             text: Strings.userExpirationTime,
             dataIndex: 'expirationTime',
-            hidden: true,
+            hidden: false,
             renderer: Traccar.AttributeFormatter.getFormatter('expirationTime'),
             filter: 'date'
         }]

@@ -95,9 +95,9 @@ Ext.define('Traccar.view.edit.Groups', {
             dataIndex: 'name',
             filter: 'string'
         }, {
-            text: Strings.groupDialog,
+            text: Strings.groupParent,
             dataIndex: 'groupId',
-            hidden: true,
+            hidden: false,
             filter: {
                 type: 'list',
                 labelField: 'name',

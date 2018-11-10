@@ -101,11 +101,11 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
             reference: 'fromDateField',
             startDay: Traccar.Style.weekStartDay,
             format: Traccar.Style.dateFormat,
-            value: new Date(new Date().getTime() - 30 * 60 * 1000)
+            value: new Date(new Date().getTime() - 1080 * 60 * 1000)
         }, {
             xtype: 'customTimeField',
             reference: 'fromTimeField',
-            value: new Date(new Date().getTime() - 30 * 60 * 1000)
+            value: new Date(new Date().getTime() - 1080 * 60 * 1000)
         }]
     }, {
         xtype: 'fieldcontainer',

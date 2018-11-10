@@ -28,6 +28,9 @@ Ext.define('Traccar.view.dialog.Device', {
 
     items: {
         xtype: 'form',
+        defaults: {
+            minWidth: 450
+        },
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedRequired,
@@ -92,6 +95,14 @@ Ext.define('Traccar.view.dialog.Device', {
                 fieldLabel: Strings.sharedDisabled,
                 hidden: true,
                 reference: 'disabledField'
+            }, {
+                xtype: 'datefield',
+                name: 'expiration',
+                fieldLabel: Strings.userExpirationTime,
+                disabled: true,
+                reference: 'expirationField',
+                startDay: Traccar.Style.weekStartDay,
+                format: Traccar.Style.dateFormat
             }]
         }]
     }

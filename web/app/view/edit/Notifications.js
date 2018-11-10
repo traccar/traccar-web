@@ -77,6 +77,16 @@ Ext.define('Traccar.view.edit.Notifications', {
                 return result;
             }
         }, {
+            text: Strings.sharedCalendar,
+            dataIndex: 'calendarId',
+            hidden: false,
+            filter: {
+                type: 'list',
+                labelField: 'name',
+                store: 'AllCalendars'
+            },
+            renderer: Traccar.AttributeFormatter.getFormatter('calendarId')
+        }, {
             text: Strings.notificationNotificators,
             dataIndex: 'notificators',
             flex: 2,
@@ -96,16 +106,6 @@ Ext.define('Traccar.view.edit.Notifications', {
                 }
                 return result;
             }
-        }, {
-            text: Strings.sharedCalendar,
-            dataIndex: 'calendarId',
-            hidden: true,
-            filter: {
-                type: 'list',
-                labelField: 'name',
-                store: 'AllCalendars'
-            },
-            renderer: Traccar.AttributeFormatter.getFormatter('calendarId')
         }]
     }
 });

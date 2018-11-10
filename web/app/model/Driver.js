@@ -30,6 +30,20 @@ Ext.define('Traccar.model.Driver', {
         name: 'uniqueId',
         type: 'string'
     }, {
+        name: 'employment',
+        type: 'date',
+        dateFormat: 'c',
+        allowNull: true
+    }, {
+        name: 'driverPhone',
+        type: 'string'
+    }, {
+        name: 'driverEmail',
+        type: 'string'
+    }, {
+        name: 'disabled',
+        type: 'boolean'
+    }, {
         name: 'attributes'
     }]
 });

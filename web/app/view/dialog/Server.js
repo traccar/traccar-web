@@ -96,6 +96,7 @@ Ext.define('Traccar.view.dialog.Server', {
                 xtype: 'checkboxfield',
                 inputValue: true,
                 uncheckedValue: false,
+                hidden: true,
                 name: 'registration',
                 fieldLabel: Strings.serverRegistration
             }, {

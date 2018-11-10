@@ -36,6 +36,32 @@ Ext.define('Traccar.view.dialog.Driver', {
                 name: 'uniqueId',
                 fieldLabel: Strings.deviceIdentifier,
                 allowBlank: false
+            }, {
+                xtype: 'textfield',
+                name: 'driverEmail',
+                fieldLabel: 'Email',
+                allowBlank: false
+            }, {
+                xtype: 'textfield',
+                name: 'driverPhone',
+                fieldLabel: 'Phone',
+                allowBlank: false
+            }, {
+                xtype: 'datefield',
+                name: 'employment',
+                fieldLabel: 'Employed Date',
+                disabled: false,
+                reference: 'employmentField',
+                startDay: Traccar.Style.weekStartDay,
+                format: Traccar.Style.dateFormat
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'disabled',
+                fieldLabel: 'Employed',
+                hidden: false,
+                reference: 'disabledField'
             }]
         }]
     }

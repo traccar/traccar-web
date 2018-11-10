@@ -114,7 +114,7 @@ Ext.define('Traccar.view.Events', {
         }, {
             flex: 2,
             text: Strings.positionEvent,
-            minWidth: 185,
+            minWidth: 120,
             dataIndex: 'text',
             renderer: function (value, record) {
                 //spd = record.get('attributes');
@@ -132,6 +132,7 @@ Ext.define('Traccar.view.Events', {
         }, {
             text: Strings.positionSpeed,
             dataIndex: 'attributes',
+            minWidth: 60,
             renderer: function (value) {
                 var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
                 var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
