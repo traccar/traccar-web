@@ -27,6 +27,7 @@ Ext.define('Traccar.view.dialog.Login', {
 
     header: false,
     closable: false,
+    minWidth: 380,
 
     items: {
         xtype: 'form',
@@ -43,16 +44,48 @@ Ext.define('Traccar.view.dialog.Login', {
             xtype: 'image',
             src: './images/logo.png',
             alt: Strings.loginLogo,
-            width: 110,
-            height: 35,
+            width: 130,
+            height: 45,
             style: {
                 display: 'block',
                 margin: '10px auto 25px'
             }
         }, {
+            xtype: 'textfield',
+            name: 'email',
+            reference: 'userField',
+            emptyText: Strings.userEmail,
+            /*fieldLabel: Strings.userEmail,*/
+            allowBlank: false,
+            enableKeyEvents: true,
+            minWidth: 360,
+            listeners: {
+                specialKey: 'onSpecialKey',
+                afterrender: 'onAfterRender'
+            },
+            inputAttrTpl: ['autocomplete="on" autocapitalize="none"']
+        },{
+            height:10
+       }, {
+            xtype: 'textfield',
+            name: 'password',
+            reference: 'passwordField',
+            emptyText: Strings.userPassword,
+            /*fieldLabel: Strings.userPassword,*/
+            inputType: 'password',
+            allowBlank: false,
+            enableKeyEvents: true,
+            minWidth: 360,
+            listeners: {
+                specialKey: 'onSpecialKey'
+            },
+            inputAttrTpl: ['autocomplete="on"']
+        },{
+            height:10
+       }, {
             xtype: 'combobox',
             name: 'language',
-            fieldLabel: Strings.loginLanguage,
+            /*fieldLabel: Strings.loginLanguage,*/
             store: 'Languages',
             displayField: 'name',
             valueField: 'code',
@@ -63,35 +96,15 @@ Ext.define('Traccar.view.dialog.Login', {
             },
             reference: 'languageField'
         }, {
-            xtype: 'textfield',
-            name: 'email',
-            reference: 'userField',
-            fieldLabel: Strings.userEmail,
-            allowBlank: false,
-            enableKeyEvents: true,
-            listeners: {
-                specialKey: 'onSpecialKey',
-                afterrender: 'onAfterRender'
-            },
-            inputAttrTpl: ['autocomplete="on" autocapitalize="none"']
-        }, {
-            xtype: 'textfield',
-            name: 'password',
-            reference: 'passwordField',
-            fieldLabel: Strings.userPassword,
-            inputType: 'password',
-            allowBlank: false,
-            enableKeyEvents: true,
-            listeners: {
-                specialKey: 'onSpecialKey'
-            },
-            inputAttrTpl: ['autocomplete="on"']
-        }, {
             xtype: 'checkboxfield',
             inputValue: true,
             uncheckedValue: false,
             reference: 'rememberField',
-            fieldLabel: Strings.userRemember
+            labelAlign: 'left',
+            hideLabel: true,
+            checked: true,
+            fieldLabel: Strings.userRemember,
+            boxLabel: Strings.userRemember,
         }, {
             xtype: 'component',
             html: '<iframe id="submitTarget" name="submitTarget" style="display:none"></iframe>'
