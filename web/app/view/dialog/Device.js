@@ -34,6 +34,9 @@ Ext.define('Traccar.view.dialog.Device', {
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedRequired,
+            defaults: {
+                minWidth: 440
+            },
             items: [{
                 xtype: 'textfield',
                 name: 'name',
@@ -44,13 +47,7 @@ Ext.define('Traccar.view.dialog.Device', {
                 name: 'uniqueId',
                 fieldLabel: Strings.deviceIdentifier,
                 allowBlank: false
-            }]
-        }, {
-            xtype: 'fieldset',
-            title: Strings.sharedExtra,
-            collapsible: true,
-            collapsed: false,
-            items: [{
+            },{
                 xtype: 'clearableComboBox',
                 name: 'groupId',
                 fieldLabel: Strings.groupDialog,
@@ -62,7 +59,16 @@ Ext.define('Traccar.view.dialog.Device', {
                 xtype: 'textfield',
                 name: 'phone',
                 fieldLabel: Strings.sharedPhone
-            }, {
+            }]
+        }, {
+            xtype: 'fieldset',
+            title: Strings.sharedExtra,
+            collapsible: true,
+            collapsed: false,
+            defaults: {
+                minWidth: 300
+            },
+            items: [{
                 xtype: 'textfield',
                 name: 'model',
                 fieldLabel: Strings.deviceModel

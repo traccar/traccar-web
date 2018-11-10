@@ -31,6 +31,9 @@ Ext.define('Traccar.view.dialog.Server', {
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedPreferences,
+            defaults: {
+                minWidth: 300
+            },
             items: [{
                 xtype: 'clearableComboBox',
                 name: 'map',
@@ -92,6 +95,9 @@ Ext.define('Traccar.view.dialog.Server', {
             title: Strings.sharedPermissions,
             collapsible: true,
             collapsed: true,
+            defaults: {
+                minWidth: 300
+            },
             items: [{
                 xtype: 'checkboxfield',
                 inputValue: true,

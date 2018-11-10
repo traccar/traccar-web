@@ -40,7 +40,7 @@ Ext.define('Traccar.view.dialog.Geofence', {
             xtype: 'fieldset',
             title: Strings.sharedExtra,
             collapsible: true,
-            collapsed: true,
+            collapsed: false,
             items: [{
                 xtype: 'textfield',
                 name: 'description',

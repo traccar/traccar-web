@@ -33,6 +33,9 @@ Ext.define('Traccar.view.dialog.User', {
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedRequired,
+            defaults: {
+                minWidth: 440
+            },
             items: [{
                 xtype: 'textfield',
                 name: 'name',
@@ -54,6 +57,9 @@ Ext.define('Traccar.view.dialog.User', {
             title: Strings.sharedPreferences,
             collapsible: true,
             collapsed: false,
+            defaults: {
+                minWidth: 300
+            },
             items: [{
                 xtype: 'textfield',
                 name: 'phone',
@@ -105,6 +111,9 @@ Ext.define('Traccar.view.dialog.User', {
             title: Strings.sharedPermissions,
             collapsible: true,
             collapsed: true,
+            defaults: {
+                minWidth: 300
+            },
             items: [{
                 xtype: 'checkboxfield',
                 inputValue: true,
