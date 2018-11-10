@@ -106,12 +106,16 @@ Ext.define('Traccar.view.ReportController', {
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');
         dialog.lookupReference('chartTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'chart');
         dialog.callingPanel = this;
-        dialog.lookupReference('deviceField').setValue(this.deviceId);
+        if (this.deviceId !== undefined) {
+            dialog.lookupReference('deviceField').setValue(this.deviceId);
+        } else {
+            dialog.lookupReference('deviceField').setValue([Strings.setDeviceQuick]);
+        }
         dialog.lookupReference('groupField').setValue(this.groupId);
         if (this.eventType !== undefined) {
             dialog.lookupReference('eventTypeField').setValue(this.eventType);
         } else {
-            dialog.lookupReference('eventTypeField').setValue([Traccar.store.ReportEventTypes.allEvents]);
+            dialog.lookupReference('eventTypeField').setValue([/*Traccar.store.ReportEventTypes.allEvents*/'deviceMoving', 'deviceStopped', 'deviceOverspeed', 'ignitionOn', 'ignitionOff', 'deviceUnknown', 'geofenceEnter', 'geofenceExit','deviceUnknown', 'maintenance', 'driverChanged', 'alarm']);
         }
         if (this.chartType !== undefined) {
             dialog.lookupReference('chartTypeField').setValue(this.chartType);
@@ -143,9 +147,15 @@ Ext.define('Traccar.view.ReportController', {
         devices = this.deviceId && this.deviceId.length !== 0 || this.groupId && this.groupId.length !== 0;
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time || this.reportProgress;
-        this.lookupReference('showButton').setDisabled(disabled);
-        this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
-        this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
+        if (Strings.setDeviceQuick) {
+            this.lookupReference('showButton').setDisabled(false);
+            this.lookupReference('exportButton').setDisabled(reportType === 'chart' || false);
+        } else {
+            this.lookupReference('showButton').setDisabled(disabled);
+            this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
+            this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
+        }
+        
     },
 
     onReportClick: function (button) {
@@ -162,7 +172,6 @@ Ext.define('Traccar.view.ReportController', {
             to = new Date(
                 this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
                 this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
-
             this.reportProgress = true;
             this.updateButtons();
 
@@ -700,10 +709,6 @@ Ext.define('Traccar.view.ReportController', {
         resizable: true,
         fixed: false //Will be resized
     }, {
-        text: Strings.reportStartOdometer,
-        dataIndex: 'startOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance')
-    }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
         renderer: function (value, metaData, record) {
@@ -728,10 +733,6 @@ Ext.define('Traccar.view.ReportController', {
         resizable: true,
         fixed: false //Will be resized
     }, {
-        text: Strings.reportEndOdometer,
-        dataIndex: 'endOdometer',
-        renderer: Traccar.AttributeFormatter.getFormatter('distance')
-    }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
         renderer: function (value, metaData, record) {
@@ -750,20 +751,9 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'distance',
         renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
-        text: Strings.reportAverageSpeed,
-        dataIndex: 'averageSpeed',
-        renderer: function (value) {
-            if (value == null){
-                return null;
-            } else {
-                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
-                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
-                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
-                } else {
-                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
-                }
-            }
-        }
+        text: Strings.reportDuration,
+        dataIndex: 'duration',
+        renderer: Traccar.AttributeFormatter.getFormatter('duration')
     }, {
         text: Strings.reportMaximumSpeed,
         dataIndex: 'maxSpeed',
@@ -780,9 +770,28 @@ Ext.define('Traccar.view.ReportController', {
             }
         }
     }, {
-        text: Strings.reportDuration,
-        dataIndex: 'duration',
-        renderer: Traccar.AttributeFormatter.getFormatter('duration')
+        text: Strings.reportAverageSpeed,
+        dataIndex: 'averageSpeed',
+        renderer: function (value) {
+            if (value == null){
+                return null;
+            } else {
+                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(0);
+                } else {
+                    return Traccar.AttributeFormatter.getFormatter('speed')(lesSpeed);
+                }
+            }
+        }
+    }, {
+        text: Strings.reportStartOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
+        text: Strings.reportEndOdometer,
+        dataIndex: 'endOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportSpentFuel,
         dataIndex: 'spentFuel',
