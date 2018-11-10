@@ -84,8 +84,8 @@ Ext.define('Traccar.view.edit.Devices', {
         getRowClass: function (record) {
             var result = '', status = record.get('status'), movement = record.get('movement');
             var lastupdate = "" + record.get('lastUpdate');
-            var expirationTime = "" + record.get('expiration');
             var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
+            var expirationTime = "" + record.get('expiration');
             var expTime = (Number(new Date(expirationTime)))/1000;
             var expCurTime = (Number(new Date()))/1000;
             var attribut = record.get('attributz');
@@ -220,8 +220,13 @@ Ext.define('Traccar.view.edit.Devices', {
                 var attribut = record.get('attributz');
                 var status = record.get('status');
                 var lastupdate = "" + record.get('lastUpdate');
+                var expirationTime = "" + record.get('expiration');
+                var expTime = (Number(new Date(expirationTime)))/1000;
+                var expCurTime = (Number(new Date()))/1000;//(expCurTime >= expTime)
                 var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
-                if (((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) || status === 'unknown') {
+                if (expCurTime >= expTime) {
+                    return 'Expired';
+                } else if (((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) || status === 'unknown') {
                     return 'Offline';
                 }/* else if ((typeof attribut['alarm'] !== 'undefined') && attribut['alarm']) {
                     return attribut['alarm'];
