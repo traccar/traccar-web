@@ -126,7 +126,7 @@ Ext.define('Traccar.view.Events', {
             renderer: function (value) {
                 var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
                 var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
-                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return 'Not gps';
                 } else {
                     record.get('lastUpdate');

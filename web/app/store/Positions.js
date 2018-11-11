@@ -22,6 +22,7 @@ Ext.define('Traccar.store.Positions', {
     proxy: {
         type: 'rest',
         url: 'api/positions',
+        noCache: true,
         headers: {
             'Accept': 'application/json'
         }

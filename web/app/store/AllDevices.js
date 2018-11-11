@@ -29,6 +29,7 @@ Ext.define('Traccar.store.AllDevices', {
     proxy: {
         type: 'rest',
         url: 'api/devices',
+        noCache: true,
         extraParams: {
             all: true
         }

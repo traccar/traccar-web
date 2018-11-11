@@ -64,6 +64,43 @@ Ext.define('Traccar.model.Position', {
         name: 'course',
         type: 'float'
     }, {
+        name: 'alrm',
+        convert: function (v, rec) {
+            var alrm;
+            if ((typeof  (rec.get('attributes')['alarm']) !== 'undefined')) {
+                alrm = rec.get('attributes')['alarm'];
+                return alrm;
+            } else {
+                return "nil";
+            }
+        }
+    }, {
+        name: 'ign',
+        convert: function (v, rec) {
+            var ign;
+            if ((typeof  (rec.get('attributes')['ignition']) !== 'undefined')) {
+                ign = rec.get('attributes')['ignition'];
+                if (ign) {
+                    return ign;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+    }, {
+        name: 'mov',
+        convert: function (v, rec) {
+            var mov;
+            if ((typeof  (rec.get('attributes')['motion']) !== 'motion')) {
+                mov = rec.get('attributes')['motion'];
+                return mov;
+            } else {
+                return false;
+            }
+        }
+    }, {
         name: 'address',
         type: 'string'
     }, {
