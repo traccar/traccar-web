@@ -70,7 +70,8 @@ Ext.define('Traccar.view.map.Map', {
             reference: 'showLiveRoutes',
             glyph: 'xf1b0@FontAwesome',
             stateId: 'show-live-routes-button',
-            tooltip: Strings.mapLiveRoutes
+            tooltip: Strings.mapLiveRoutes,
+            pressed: true
         }, {
             reference: 'deviceFollowButton',
             glyph: 'xf05b@FontAwesome',

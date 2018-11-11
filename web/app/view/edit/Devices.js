@@ -229,6 +229,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 var motion = record.get('motion');
                 var ignition = record.get('ignition');
                 var alarm = record.get('alarm');
+                var spd = record.get('speed');
                 if (expCurTime >= expTime) {
                     return 'Expired';
                 } else if (((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) || status === 'unknown') {
@@ -239,7 +240,7 @@ Ext.define('Traccar.view.edit.Devices', {
                     return 'Parked';
                 } else if (value === 'parked') {
                     return 'Parked';
-                } else if (value === 'moving' || (motion == true && (value === '' || value === null) && (lastupdate !== null || lastupdate !== ''))) {
+                } else if (value === 'moving' || (spd >= 0.8) || (motion == true && (value === '' || value === null) && (lastupdate !== null || lastupdate !== ''))) {
                     return 'Moving';
                 } else if (value === 'idle' || (((typeof ignition !== 'undefined') && ignition == true) && (value !== 'moving' || value === 'parked'))) {
                     return 'Idle';
@@ -311,7 +312,8 @@ Ext.define('Traccar.view.edit.Devices', {
             dataIndex: 'ignition',
             renderer: function (value, metaData, record) {
                 var mover = record.get('motion');
-                if (mover == true || value == true) {
+                var spd = record.get('speed');
+                if (mover == true || (spd >= 0.8) || value == true) {
                     metaData.tdCls = 'ign-color-green-text';
                     return 'On';
                 } else {
