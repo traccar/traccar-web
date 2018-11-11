@@ -29,8 +29,18 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         var eventType, callingPanel;
         callingPanel = this.getView().callingPanel;
 
+        var devf = this.lookupReference('deviceField').getValue();
+        var grpf = this.lookupReference('groupField').getValue();
+
+        if (devf !== undefined && grpf !== undefined) {
         callingPanel.deviceId = this.lookupReference('deviceField').getValue();
         callingPanel.groupId = this.lookupReference('groupField').getValue();
+        } else {
+            callingPanel.deviceId = this.lookupReference('deviceField').getValue([Strings.setDeviceQuick]);
+        }
+
+        
+
         eventType = this.lookupReference('eventTypeField').getValue();
         if (eventType.indexOf(Traccar.store.ReportEventTypes.allEvents) > -1) {
             eventType = [Traccar.store.ReportEventTypes.allEvents];

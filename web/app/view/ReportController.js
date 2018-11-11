@@ -150,6 +150,7 @@ Ext.define('Traccar.view.ReportController', {
         if (Strings.setDeviceQuick) {
             this.lookupReference('showButton').setDisabled(false);
             this.lookupReference('exportButton').setDisabled(reportType === 'chart' || false);
+            this.lookupReference('emailButton').setDisabled(reportType === 'chart' || false);
         } else {
             this.lookupReference('showButton').setDisabled(disabled);
             this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
