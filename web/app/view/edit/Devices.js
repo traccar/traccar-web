@@ -99,7 +99,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 if (status === 'unknown') {
                     result += 'view-color-red';
                 } else {
-                    if ((defTime >= Traccar.Style.devicesTimeout) || ((movement === '' && status === '') && defTime >= Traccar.Style.devicesTimeout) || (movement === 'moving' && status === 'unknown')) {
+                    if (defTime >= Traccar.Style.devicesTimeout || ((movement === '' && status === '') && defTime >= Traccar.Style.devicesTimeout) || (movement === 'moving' && (status === 'unknown' || status === 'offline'))) {
                         result += 'view-color-red';
                     } else if ((movement === 'moving' && defTime >= Traccar.Style.devicesTimeout) || defTime >= Traccar.Style.devicesTimeout) {
                         result += 'view-color-red';
@@ -326,7 +326,7 @@ Ext.define('Traccar.view.edit.Devices', {
             maxWidth: 50,
             filter: 'boolean'
         }, {
-            text: Strings.deviceModel,
+            text: Strings.deviceModelMain,
             dataIndex: 'protocol',
             renderer: function (value) {
                 valy = value + "";
