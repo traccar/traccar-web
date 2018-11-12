@@ -22,7 +22,7 @@ Ext.define('Traccar.store.AllMaintenances', {
 
     proxy: {
         type: 'rest',
-        url: 'api/maintenances',
+        url: 'api/maintenance',
         extraParams: {
             all: true
         }

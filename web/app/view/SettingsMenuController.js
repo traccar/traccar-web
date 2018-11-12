@@ -61,7 +61,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
                 Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
             this.lookupReference('settingsCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
             this.lookupReference('settingsMaintenancesButton').setHidden(
-                Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
+                Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
         }
     },
 
@@ -163,7 +163,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
 
     onMaintenancesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedMaintenances,
+            title: Strings.sharedMaintenance,
             items: {
                 xtype: 'maintenancesView'
             }

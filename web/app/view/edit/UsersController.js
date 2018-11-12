@@ -51,7 +51,7 @@ Ext.define('Traccar.view.edit.UsersController', {
             Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
         this.lookupReference('userCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
         this.lookupReference('userMaintenancesButton').setHidden(
-            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
     },
 
     onEditClick: function () {
@@ -215,7 +215,7 @@ Ext.define('Traccar.view.edit.UsersController', {
     onMaintenancesClick: function () {
         var user = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedMaintenances,
+            title: Strings.sharedMaintenance,
             items: {
                 xtype: 'linkMaintenancesView',
                 baseObjectName: 'userId',

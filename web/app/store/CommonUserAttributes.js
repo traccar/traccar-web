@@ -63,8 +63,8 @@ Ext.define('Traccar.store.CommonUserAttributes', {
         name: Strings.attributeUiDisableCalendars,
         valueType: 'boolean'
     }, {
-        key: 'ui.disableMaintenances',
-        name: Strings.attributeUiDisableMaintenances,
+        key: 'ui.disableMaintenance',
+        name: Strings.attributeUiDisableMaintenance,
         valueType: 'boolean'
     }, {
         key: 'ui.hidePositionAttributes',
