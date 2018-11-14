@@ -114,7 +114,7 @@ Ext.define('Traccar.view.Events', {
         }, {
             flex: 2,
             text: Strings.positionEvent,
-            minWidth: 100,
+            minWidth: 150,
             dataIndex: 'text',
             renderer: function (value, record) {
                 return value;
