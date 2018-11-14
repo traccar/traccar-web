@@ -27,7 +27,7 @@ Ext.define('Traccar.view.dialog.Login', {
 
     header: false,
     closable: false,
-    minWidth: 380,
+    minWidth: 320,
 
     items: {
         xtype: 'form',
@@ -44,8 +44,8 @@ Ext.define('Traccar.view.dialog.Login', {
             xtype: 'image',
             src: './images/logo.png',
             alt: Strings.loginLogo,
-            width: 130,
-            height: 45,
+            width: 120,
+            height: 41,
             style: {
                 display: 'block',
                 margin: '10px auto 25px'
@@ -58,14 +58,14 @@ Ext.define('Traccar.view.dialog.Login', {
             /*fieldLabel: Strings.userEmail,*/
             allowBlank: false,
             enableKeyEvents: true,
-            minWidth: 360,
+            minWidth: 320,
             listeners: {
                 specialKey: 'onSpecialKey',
                 afterrender: 'onAfterRender'
             },
             inputAttrTpl: ['autocomplete="on" autocapitalize="none"']
         },{
-            height:10
+            height:1
        }, {
             xtype: 'textfield',
             name: 'password',
@@ -75,13 +75,13 @@ Ext.define('Traccar.view.dialog.Login', {
             inputType: 'password',
             allowBlank: false,
             enableKeyEvents: true,
-            minWidth: 360,
+            minWidth: 320,
             listeners: {
                 specialKey: 'onSpecialKey'
             },
             inputAttrTpl: ['autocomplete="on"']
         },{
-            height:10
+            height:1
        }, {
             xtype: 'combobox',
             name: 'language',

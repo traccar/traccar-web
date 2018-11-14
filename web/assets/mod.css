@@ -299,11 +299,11 @@ a:-webkit-any-link {
 /* Play store image placement */
 
 .playre {
-    height: 61px;
-    width: 180px;
+    height: 41px;
+    width: 140px;
     float: right;
     position: relative;
-    margin-bottom:60px;
+    margin-bottom:40px;
     margin-right: 60px;
     }
 

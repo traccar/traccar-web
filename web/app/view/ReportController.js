@@ -504,6 +504,16 @@ Ext.define('Traccar.view.ReportController', {
             return Traccar.AttributeFormatter.getFormatter('address')(value);
     }
     }, {
+        text: Strings.positionIgnition,
+        dataIndex: 'attributes',
+        renderer: function (value, metaData, record) {
+            if (value && value['ignition'] !== undefined) {
+                return Traccar.AttributeFormatter.getFormatter('ignition')(value['ignition']);
+            } else {
+                return 'Nil';
+            }
+        }
+    }, {
         text: Strings.positionSpeed,
         dataIndex: 'speed',
         renderer: function (value) {
@@ -518,6 +528,10 @@ Ext.define('Traccar.view.ReportController', {
                 }
             }
         }
+    }, {
+        text: Strings.positionCourse,
+        dataIndex: 'course',
+        renderer: Traccar.AttributeFormatter.getFormatter('course')
     }, {
         text: Strings.positionLatitude,
         dataIndex: 'latitude',
@@ -556,33 +570,60 @@ Ext.define('Traccar.view.ReportController', {
         renderer: function (value) {
             return Traccar.app.getEventString(value);
         },
-        minWidth: 155,
-        maxWidth: 165,
-        resizable: true }, {
-            text: Strings.positionSpeed,
+        minWidth: 115,
+        maxWidth: 145,
+        resizable: true
+    }, {
+        text: Strings.positionAddress,
+        dataIndex: 'attributes',
+        minWidth: 205,
+        maxWidth: 255,
+        renderer: function (value, metaData, record) {
+            if (value && value['address'] !== undefined) {
+                return Traccar.AttributeFormatter.getFormatter('address')(value['address']);
+            } else {
+                return '-';
+            }
+        }
+    }, {
+        text: Strings.positionSpeed,
+        dataIndex: 'attributes',
+        minWidth: 65,
+        maxWidth: 65,
+        renderer: function (value) {
+            var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
+            var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
+            if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+                return '0 kph';
+            } else {
+                return lesSpeed;
+                }
+        }
+    }, {
+            text: Strings.positionIgnition,
             dataIndex: 'attributes',
-            renderer: function (value) {
-                var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
-                var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
-                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
-                    return 'Not gps';
+            minWidth: 65,
+            maxWidth: 65,
+            renderer: function (value, metaData, record) {
+                if (value && value['ignition'] !== undefined) {
+                    return Traccar.AttributeFormatter.getFormatter('ignition')(value['ignition']);
                 } else {
-                    return lesSpeed;
-                    }
+                    return '-';
+                }
             }
         }, {
-            text: Strings.attributeSpeedLimit,
+            text: Strings.positionCourse,
             dataIndex: 'attributes',
-            renderer: function (value) {
-                var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
-                var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
-                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
-                    return 'Not gps';
+            minWidth: 65,
+            maxWidth: 65,
+            renderer: function (value, metaData, record) {
+                if (value && value['course'] !== undefined) {
+                    return Traccar.AttributeFormatter.getFormatter('course')(value['course']);
                 } else {
-                    return lesSpeed;
-                    }
+                    return '-';
+                }
             }
-        },{
+        }, {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
         renderer: Traccar.AttributeFormatter.getFormatter('geofenceId'),

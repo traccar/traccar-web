@@ -122,10 +122,11 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         var status = device.get('status'), movement = device.get('movement');
         var lastupdate = device.get('lastUpdate');
         var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
-        if (status === 'unknown') {
+        var diff = defTime >= Traccar.Style.devicesTimeout
+        if (status === 'unknown' || diff) {
             return Traccar.Style.mapColorRed;
         } else {
-            if (movement === 'moving' && defTime >= Traccar.Style.devicesTimeout) {
+            if (movement === 'moving' && diff) {
                 return Traccar.Style.mapColorRed;
             } else if (movement === 'moving') {
                 return Traccar.Style.mapColorGreen;

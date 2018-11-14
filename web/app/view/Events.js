@@ -129,9 +129,20 @@ Ext.define('Traccar.view.Events', {
                 if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return 'Not gps';
                 } else {
-                    record.get('lastUpdate');
                     return lesSpeed;
                     }
+            }
+        }, {
+            text: Strings.positionAddress,
+            dataIndex: 'attributes',
+            minWidth: 135,
+            maxWidth: 255,
+            renderer: function (value, metaData, record) {
+                if (value && value['address'] !== undefined) {
+                    return Traccar.AttributeFormatter.getFormatter('address')(value['address']);
+                } else {
+                    return 'Not gps';
+                }
             }
         }, {
             text: Strings.sharedGeofence,

@@ -33,10 +33,6 @@ Ext.define('Traccar.model.Device', {
         type: 'float',
         persist: false
     }, {
-        name: 'attributz',
-        persist: false,
-        allowNull: true
-    }, {
         name: 'address',
         type: 'string',
         persist: false
@@ -50,9 +46,10 @@ Ext.define('Traccar.model.Device', {
         allowNull: true,
         type: 'boolean'
     }, {
-        name: 'alarm',
+        name: 'alarms',
         persist: false,
-        allowNull: true
+        allowNull: true,
+        type: 'string'
     }, {
         name: 'motion',
         persist: false,
