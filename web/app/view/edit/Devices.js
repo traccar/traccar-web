@@ -83,7 +83,7 @@ Ext.define('Traccar.view.edit.Devices', {
         disableCaching: true,
         preserveScrollOnRefresh: true,
         getRowClass: function (record) {
-            var result = '', status = record.get('status'), movement = record.get('movement');
+            var result = '', status = record.get('status'), movement = record.get('movement'), speed = record.get('speed');
             var lastupdate = "" + record.get('lastUpdate');
             var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
             var expirationTime = "" + record.get('expiration');
@@ -107,13 +107,15 @@ Ext.define('Traccar.view.edit.Devices', {
                         result += 'view-color-red';
                     } else if ((movement === 'moving' && defTime >= Traccar.Style.devicesTimeout) || defTime >= Traccar.Style.devicesTimeout) {
                         result += 'view-color-red';
-                    } else if (((typeof ignition !== undefined) && ignition === true) && motion === false && (movement === 'moving' || movement === 'parked') && (motion === false || motion === null)) {
+                    } else if (((typeof ignition !== undefined) && ignition === true) && (movement === 'moving' || movement === 'parked') && ((typeof motion !== undefined) && motion === false)) {
                         result += 'view-color-yellow';
-                    } else if (((movement === '' || movement === null || movement === undefined) && motion === false && (lastupdate !== null || lastupdate !== ''))) {
+                    } else if (((movement === '' || movement === null || movement === undefined) && ((typeof motion !== undefined) && motion === false) && (lastupdate !== null || lastupdate !== ''))) {
                         result += 'view-color-orange';
                     } else if (movement === 'parked') {
                         result += 'view-color-orange';
                     } else if ((movement === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) || (((typeof motion !== undefined) && motion === false && motion !== null) && (movement === '' || movement === null))) {
+                        result += 'view-color-orange';
+                    } else if (((typeof ignition !== undefined) && ignition === false && ignition !== null) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 8)) {
                         result += 'view-color-orange';
                     } else if (movement === 'moving') {
                         result += 'view-color-green';
@@ -244,18 +246,20 @@ Ext.define('Traccar.view.edit.Devices', {
                 var motion = record.get('motion');
                 var ignition = record.get('ignition');
                 var alarm = record.get('alarms');
-                var spd = record.get('speed');
+                var speed = record.get('speed');
                 if (expCurTime >= expTime) {
                     return 'Expired';
                 } else if (((status === 'offline' || status === 'unknown') && defTime >= Traccar.Style.devicesTimeout) || status === 'unknown') {
                     return 'Offline';
                 } else if ((typeof alarm !== undefined) && alarm && alarm !== 'nil') {
                     return alarm;
-                } else if (((typeof ignition !== undefined) && ignition === true) && motion === false && (value !== 'moving' || value !== 'parked') && (motion === false || motion === null)) {
+                } else if (((typeof ignition !== undefined) && ignition === true) && ((typeof motion !== undefined) && motion === false) && (value !== 'moving' || value !== 'parked')) {
                     return 'Idle';
                 } else if (value === 'parked') {
                     return 'Parked';
                 } else if (value === 'parked' || (value === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) || (((typeof motion !== undefined) && motion === false && motion !== null) && (value === '' || value === null))) {
+                    return 'Parked';
+                } else if (value === 'parked' || (value === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 8)) {
                     return 'Parked';
                 } else if (value === 'moving') {
                     return 'Moving';
