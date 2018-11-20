@@ -111,14 +111,16 @@ Ext.define('Traccar.view.edit.Devices', {
                         result += 'view-color-orange';
                     } else if (((typeof ignition !== undefined) && ignition === false && ignition !== null) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 7)) {
                         result += 'view-color-orange';
-                    } else if (movement === 'moving' && speed > 3) {
+                    } else if (movement === 'moving' && speed > 2) {
                         result += 'view-color-green';
-                    } else if ((motion === true && speed > 3) && (motion === true && (movement === '' || movement === null || movement === undefined)) && (lastupdate !== null || lastupdate !== '')) {
+                    } else if ((motion === true && speed > 2) && (motion === true && (movement === '' || movement === null || movement === undefined)) && (lastupdate !== null || lastupdate !== '')) {
                         result += 'view-color-green';
                     } else if (movement === 'idle') {
                         result += 'view-color-yellow';
+                    } else if ((movement === '' || movement === null) && (lastupdate === null || lastupdate === '')) {
+                        result += 'view-color-red';
                     } else {
-                        result += 'view-color-orange';
+                        result += 'view-color-yellow';
                     }
                 }
             }
@@ -255,11 +257,13 @@ Ext.define('Traccar.view.edit.Devices', {
                     return 'Parked';
                 } else if ((value === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 7)) {
                     return 'Parked';
-                } else if (value === 'moving' && speed > 3) {
+                } else if (value === 'moving' && speed > 2) {
                     return 'Moving';
-                } else if ((value === 'moving' && speed > 3)  || (motion === true && (value === '' || value === null || value === undefined) && (lastupdate !== null || lastupdate !== ''))) {
+                } else if ((value === 'moving' && speed > 2)  || (motion === true && (value === '' || value === null || value === undefined) && (lastupdate !== null || lastupdate !== ''))) {
                     return 'Moving';
                 } else if (value === 'idle') {
+                    return 'Idle';
+                } else if (speed >= 0.1 && value !== null) {
                     return 'Idle';
                 } else {
                     return 'Pending';
