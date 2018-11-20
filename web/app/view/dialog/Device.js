@@ -29,13 +29,13 @@ Ext.define('Traccar.view.dialog.Device', {
     items: {
         xtype: 'form',
         defaults: {
-            minWidth: 450
+            minWidth: 330
         },
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             defaults: {
-                minWidth: 440
+                minWidth: 320
             },
             items: [{
                 xtype: 'textfield',

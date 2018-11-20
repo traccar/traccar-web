@@ -30,7 +30,8 @@ Ext.define('Traccar.Style', {
     windowWidth: 950,
     windowHeight: 600,
 
-    formFieldWidth: 395,
+    formFieldWidth: 295,
+    formFieldMaxWidth: 395,
 
     dateTimeFormat24: 'd-m-Y H:i:s',
     dateTimeFormat12: 'd-m-Y g:i:s a',

@@ -123,7 +123,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         var lastupdate = device.get('lastUpdate');
         var defTime = (Number(new Date()) - (Number(new Date(lastupdate))))/1000;
         var diff = defTime >= Traccar.Style.devicesTimeout
-        if (status === 'unknown' || diff) {
+        if (status === 'nulled' || diff) {
             return Traccar.Style.mapColorRed;
         } else {
             if (movement === 'moving' && diff) {
@@ -134,7 +134,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 return Traccar.Style.mapColorYellow;
             } else {
                 return Traccar.Style.mapColorOrange;
-            }
+            }            
         }
     },
 
