@@ -252,6 +252,8 @@
     "stateValue": "Value",
     "commandTitle": "Command",
     "commandSend": "Send",
+    "rideStopped": "Ride was sucessfully stopped.",
+    "rideNotStopped": "User did not have a ride or something went wrong.",
     "commandSent": "Command has been sent",
     "commandQueued": "Command has been queued",
     "commandUnit": "Unit",

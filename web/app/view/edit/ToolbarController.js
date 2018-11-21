@@ -19,6 +19,35 @@ Ext.define('Traccar.view.edit.ToolbarController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.toolbarController',
 
+    onEndRideClick: function () {
+        var objectInstance = this.getView().getSelectionModel().getSelection()[0];
+        Ext.Msg.show({
+            title: 'End the ride of the device: ' + objectInstance.data.name + " ?",
+            message: Strings.sharedEndRide,
+            buttons: Ext.Msg.YESNO,
+            buttonText: {
+                yes: 'Yes',
+                no: Strings.sharedCancel
+            },
+            fn: function (btn) {
+                if (btn === 'yes') {
+                    Ext.Ajax.request({
+                        scope: this,
+                        method: 'POST',
+                        url: 'api/devices/' + objectInstance.id + '/end',
+                        callback: function (options, success, response) {
+                            if (success) {
+                                Traccar.app.showToast(response.status === 200 ? Strings.rideStopped : Strings.rideNotStopped);
+                            } else {
+                                Traccar.app.showError(Strings.rideNotStopped);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    },
+
     onAddClick: function () {
         var dialog, objectInstance = Ext.create(this.objectModel);
         objectInstance.store = this.getView().getStore();
@@ -64,6 +93,7 @@ Ext.define('Traccar.view.edit.ToolbarController', {
 
     onSelectionChange: function (selection, selected) {
         var disabled = selected.length === 0;
+        this.lookupReference('toolbarEndRideButton').setDisabled(disabled);
         this.lookupReference('toolbarEditButton').setDisabled(disabled);
         this.lookupReference('toolbarRemoveButton').setDisabled(disabled);
     }
