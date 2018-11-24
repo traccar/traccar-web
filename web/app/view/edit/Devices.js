@@ -41,7 +41,7 @@ Ext.define('Traccar.view.edit.Devices', {
         },
         items: [{
             xtype: 'tbtext',
-            html: "<span><a href='./'><img src='./images/logo.png' class='showthat' vertical-align: middle;' alt='logo' height='27px' width='82px' /></a></span><span class='showthatmin'>Assets List</span>",
+            html: "<span><a href='./'><img src='./logo/back.png' class='showthat' vertical-align: middle;' alt='logo' height='27px' width='82px' /></a></span><span class='showthatmin'>Assets List</span>",
             baseCls: 'x-panel-header-title-default'
         }, {
             xtype: 'tbfill',
