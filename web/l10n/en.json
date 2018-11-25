@@ -266,6 +266,7 @@
     "commandAlarmDisarm": "Disarm Alarm",
     "commandSetTimezone": "Set Timezone",
     "commandRequestPhoto": "Request Photo",
+    "commandPowerOff": "Power Off Device",
     "commandRebootDevice": "Reboot Device",
     "commandSendSms": "Send SMS",
     "commandSendUssd": "Send USSD",
