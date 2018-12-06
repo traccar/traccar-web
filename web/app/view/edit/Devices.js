@@ -48,6 +48,11 @@ Ext.define('Traccar.view.edit.Devices', {
             xtype: 'tbfill',
             disabled: false
         }, {
+            handler: 'onEndRideClick',
+            reference: 'toolbarEndRideButton',
+            glyph: 'xf023@FontAwesome',
+            tooltip: Strings.sharedEndRide
+        }, {
             handler: 'onAddClick',
             reference: 'toolbarAddButton',
             glyph: 'xf067@FontAwesome',

@@ -23,6 +23,13 @@ Ext.define('Traccar.view.edit.Toolbar', {
         this.callParent(arguments);
         this.add(0, [{
             xtype: 'button',
+            handler: 'onEndRideClick',
+            reference: 'toolbarEndRideButton',
+            glyph: 'xf023@FontAwesome',
+            tooltip: Strings.sharedEndRide,
+            tooltipType: 'title'
+        }, {
+            xtype: 'button',
             handler: 'onAddClick',
             reference: 'toolbarAddButton',
             glyph: 'xf067@FontAwesome',
