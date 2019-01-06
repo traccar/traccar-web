@@ -77,7 +77,7 @@ Ext.define('Traccar.view.Statistics', {
             text: Strings.statisticsMessagesStored,
             dataIndex: 'messagesStored'
         }, {
-            text: Strings.notificatorSms,
+            text: Strings.notificatorMail,
             dataIndex: 'mailSent'
         }, {
             text: Strings.notificatorSms,

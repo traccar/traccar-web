@@ -40,7 +40,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
         this.lookupReference('menuDeviceAccumulatorsButton').setHidden(
             !Traccar.app.getUser().get('administrator') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
         this.lookupReference('menuMaintenancesButton').setHidden(
-            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
     },
 
     onGeofencesClick: function () {
@@ -110,7 +110,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
 
     onMaintenancesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedMaintenances,
+            title: Strings.sharedMaintenance,
             items: {
                 xtype: 'linkMaintenancesView',
                 baseObjectName: 'deviceId',
