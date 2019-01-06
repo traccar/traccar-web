@@ -76,7 +76,7 @@ Ext.define('Traccar.view.edit.Groups', {
             handler: 'onMaintenancesClick',
             reference: 'toolbarMaintenancesButton',
             glyph: 'xf0ad@FontAwesome',
-            tooltip: Strings.sharedMaintenances,
+            tooltip: Strings.sharedMaintenance,
             tooltipType: 'title'
         }]
     },
