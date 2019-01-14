@@ -56,6 +56,13 @@ Ext.define('Traccar.store.KnownCommands', {
             valueType: 'string'
         }]
     }, {
+        type: 'message',
+        parameters: [{
+            key: 'message',
+            name: Strings.commandMessage,
+            valueType: 'string'
+        }]
+    }, {
         type: 'sendUssd',
         parameters: [{
             key: 'phone',
