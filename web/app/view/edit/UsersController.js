@@ -41,7 +41,44 @@ Ext.define('Traccar.view.edit.UsersController', {
     removeTitle: Strings.settingsUser,
 
     init: function () {
-        Ext.getStore('Users').load();
+        var store = Ext.getStore('Users');
+        store.load();
+        var userEmailColumn = this.lookupReference('userEmailColumn');
+        var filter = userEmailColumn.filter;
+        filter.setActive = function (active) {
+            var me = this,
+                menuItem = me.owner.activeFilterMenuItem,
+                filterCollection;
+
+            if (me.active !== active) {
+                me.active = active;
+                filterCollection = me.getGridStore().getFilters();
+
+                filterCollection.beginUpdate();
+                if (active) {
+                    me.activate();
+                } else {
+                    store.load();
+                    me.deactivate();
+                }
+                filterCollection.endUpdate();
+
+                if (menuItem && menuItem.activeFilter === me) {
+                    menuItem.setChecked(active);
+                }
+                me.setColumnActive(active);
+                me.grid.fireEventArgs(active ? 'filteractivate' : 'filterdeactivate', [me, me.column]);
+            }
+
+        };
+        filter.onValueChange = function (value, e) {
+            if (!value.lastValue) {
+                store.load();
+            } else {
+                store.load({url: 'api/users/filter?phrase=' + encodeURIComponent(value.lastValue)});
+            }
+            this.setValue(value.value);
+        };
         this.lookupReference('userUsersButton').setHidden(!Traccar.app.getUser().get('admin'));
         this.lookupReference('userDriversButton').setHidden(
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
