@@ -109,7 +109,10 @@ Ext.define('Traccar.view.edit.Devices', {
         }, {
             text: Strings.deviceIdentifier,
             dataIndex: 'uniqueId',
-            filter: 'string'
+            reference: 'deviceUniqueIdColumn',
+            filter: {
+                type: 'string'
+            }
         }, {
             text: Strings.sharedPhone,
             dataIndex: 'phone',

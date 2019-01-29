@@ -75,7 +75,7 @@ Ext.define('Traccar.view.edit.UsersController', {
             if (!value.lastValue) {
                 store.load();
             } else {
-                store.load({url: 'api/users/filter?phrase=' + encodeURIComponent(value.lastValue)});
+                store.load({url: 'api/users/filter?email=' + encodeURIComponent(value.lastValue)});
             }
             this.setValue(value.value);
         };

@@ -61,6 +61,62 @@ Ext.define('Traccar.view.edit.DevicesController', {
         var self = this, readonly, deviceReadonly;
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('admin');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('admin');
+        var filter = this.lookupReference('deviceUniqueIdColumn');
+        filter.filter.setValue = function(value) {
+            var me = this;
+
+            if (me.inputItem) {
+                me.inputItem.setValue(value);
+            }
+
+            me.filter.setValue(value.replace(':all','').replace(':user',''));
+
+            if (value && me.active) {
+                me.value = value;
+                me.updateStoreFilter();
+            } else {
+                me.setActive(!!value);
+            }
+        }
+        filter.validateRecord = function(record) {
+            var checked = this.getValue().replace(':all','').replace(':user',''),
+                value = record.get(this.dataIndex);
+            return (value.contains(checked));
+        };
+        filter.setActive = function (active) {
+            var me = this,
+                menuItem = me.owner.activeFilterMenuItem,
+                filterCollection;
+
+            if (me.active !== active) {
+                me.active = active;
+                filterCollection = me.getGridStore().getFilters();
+
+                filterCollection.beginUpdate();
+                if (active) {
+                    me.activate();
+                } else {
+                    store.load();
+                    me.deactivate();
+                }
+                filterCollection.endUpdate();
+
+                if (menuItem && menuItem.activeFilter === me) {
+                    menuItem.setChecked(active);
+                }
+                me.setColumnActive(active);
+                me.grid.fireEventArgs(active ? 'filteractivate' : 'filterdeactivate', [me, me.column]);
+            }
+
+        };
+        filter.filter.onValueChange = function (value, e) {
+            if(!value.value) {
+                Ext.getStore('Devices').load();
+            } else {
+                Ext.getStore('Devices').load({url: 'api/devices/filter?identifier=' + encodeURIComponent(value.value)});
+            }
+            this.setValue(value.value)
+        };
         this.lookupReference('toolbarAddButton').setDisabled(readonly || deviceReadonly);
         this.lookupReference('toolbarDeviceMenu').setHidden(readonly || deviceReadonly);
 
