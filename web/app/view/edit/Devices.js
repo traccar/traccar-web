@@ -90,8 +90,11 @@ Ext.define('Traccar.view.edit.Devices', {
             var expTime = (Number(new Date(expirationTime)))/1000;
             var expCurTime = (Number(new Date()))/1000;
             var motion = record.get('motion');
-            var ignition = record.get('ignition');
-            
+            if (typeof record.get('ignition') !== undefined) {
+                var ignition = record.get('ignition');
+            } else {
+                var ignition = false;
+            }
             if (record.get('disabled') || (expCurTime >= expTime)) {
                 result = 'view-item-disabled ';
             }
@@ -101,7 +104,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 } else {
                     if (defTime >= Traccar.Style.devicesTimeout || (((movement === '' || movement === undefined) && status === '') && defTime >= Traccar.Style.devicesTimeout) || (movement === 'moving' && defTime >= Traccar.Style.devicesTimeout)) {
                         result += 'view-color-red';
-                    } else if (((typeof ignition !== undefined) && ignition === true) && (movement === 'moving' || movement === 'parked' || movment === 'idle') && ((typeof motion !== undefined) && motion === false)) {
+                    } else if (((typeof ignition !== undefined) && ignition === true) && (movement === 'moving' || movement === 'parked' || movement === 'idle') && ((typeof motion !== undefined) && motion === false)) {
                         result += 'view-color-yellow';
                     } else if (movement === 'parked') {
                         result += 'view-color-orange';
@@ -330,10 +333,15 @@ Ext.define('Traccar.view.edit.Devices', {
             filter: 'string'
         }, {
             text: Strings.positionIgnition,
-            dataIndex: 'ignition',
+            dataIndex: 'status',
             renderer: function (value, metaData, record) {
                 var spd = record.get('speed');
-                if (value === true || (spd >= 14.2)) {
+                if (typeof record.get('ignition') !== undefined) {
+                    var ignition = record.get('ignition');
+                } else {
+                    var ignition = false;
+                }
+                if (ignition === true || (spd >= 14.2)) {
                     metaData.tdCls = 'ign-color-green-text';
                     return 'On';
                 } else {
