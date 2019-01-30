@@ -667,7 +667,7 @@ Ext.define('Traccar.view.ReportController', {
             if (value == null){
                 return null;
             } else {
-                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                lesSpeed = Math.round(value);
                 if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return Traccar.AttributeFormatter.getFormatter('speed')(0);
                 } else {
@@ -687,7 +687,7 @@ Ext.define('Traccar.view.ReportController', {
             if (value == null){
                 return null;
             } else {
-                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                lesSpeed = Math.round(value);
                 if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return Traccar.AttributeFormatter.getFormatter('speed')(0);
                 } else {
@@ -787,7 +787,7 @@ Ext.define('Traccar.view.ReportController', {
             if (value == null){
                 return null;
             } else {
-                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                lesSpeed = Math.round(value);
                 if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return Traccar.AttributeFormatter.getFormatter('speed')(0);
                 } else {
@@ -802,7 +802,7 @@ Ext.define('Traccar.view.ReportController', {
             if (value == null){
                 return null;
             } else {
-                lesSpeed = Math.round(Traccar.AttributeFormatter.getConverter('speed')(value));
+                lesSpeed = Math.round(value);
                 if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
                     return Traccar.AttributeFormatter.getFormatter('speed')(0);
                 } else {
