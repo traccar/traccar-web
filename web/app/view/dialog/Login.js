@@ -104,7 +104,7 @@ Ext.define('Traccar.view.dialog.Login', {
             hideLabel: true,
             checked: true,
             fieldLabel: Strings.userRemember,
-            boxLabel: Strings.userRemember,
+            boxLabel: Strings.userRemember
         }, {
             xtype: 'component',
             html: '<iframe id="submitTarget" name="submitTarget" style="display:none"></iframe>'

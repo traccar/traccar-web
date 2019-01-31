@@ -109,8 +109,6 @@ Ext.define('Traccar.view.Main', {
         split: true,
         flex: 1,
         tools: [
-        ],
-    }]
-
+        ]}]
     }]
 });
