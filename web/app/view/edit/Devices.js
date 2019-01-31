@@ -110,9 +110,11 @@ Ext.define('Traccar.view.edit.Devices', {
                         result += 'view-color-orange';
                     } else if (((movement === '' || movement === null || movement === undefined) && ((typeof motion !== undefined) && motion === false) && (lastupdate !== null || lastupdate !== ''))) {
                         result += 'view-color-orange';
-                    } else if ((movement === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) || (((typeof motion !== undefined) && motion === false && motion !== null) && (movement === '' || movement === null))) {
+                    } else if (((movement === 'idle' || movement === '') && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) || (((typeof motion !== undefined) && motion === false && motion !== null) && (movement === '' || movement === null))) {
                         result += 'view-color-orange';
-                    } else if (((typeof ignition !== undefined) && ignition === false && ignition !== null) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 7)) {
+                    } else if (movement === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 7)) {
+                        result += 'view-color-orange';
+                    } else if (movement === 'moving' && ((typeof ignition !== undefined) && ignition === false && ignition !== null) && (((typeof motion !== undefined) && (motion === true || motion === false) && motion !== null) && speed <= 3)) {
                         result += 'view-color-orange';
                     } else if (movement === 'moving' && speed > 2) {
                         result += 'view-color-green';
@@ -154,7 +156,7 @@ Ext.define('Traccar.view.edit.Devices', {
             text: Strings.sharedAssetName,
             dataIndex: 'name',
             minWidth: 90,
-            maxWidth: 105,
+            maxWidth: 185,
             filter: 'string',
             renderer: function (value, metaData, record) {
                 var status = record.get('status');
@@ -180,8 +182,8 @@ Ext.define('Traccar.view.edit.Devices', {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
             minWidth: 85,
-            maxWidth: 85,
-            hidden: true,
+            maxWidth: 185,
+            hidden: false,
             filter: {
                 type: 'list',
                 labelField: 'name',
@@ -260,6 +262,8 @@ Ext.define('Traccar.view.edit.Devices', {
                     return 'Parked';
                 } else if ((value === 'idle' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) && (((typeof motion !== undefined) && motion === true && motion !== null) && speed <= 7)) {
                     return 'Parked';
+                } else if ((value === 'moving' && ((typeof ignition !== undefined) && ignition === false && ignition !== null)) && (((typeof motion !== undefined) && (motion === true || motion === false) && motion !== null) && speed <= 3)) {
+                    return 'Parked';
                 } else if (value === 'moving' && speed > 2) {
                     return 'Moving';
                 } else if ((value === 'moving' && speed > 2)  || (motion === true && (value === '' || value === null || value === undefined) && (lastupdate !== null || lastupdate !== ''))) {
@@ -268,8 +272,10 @@ Ext.define('Traccar.view.edit.Devices', {
                     return 'Idle';
                 } else if (speed >= 0.1 && value !== null) {
                     return 'Idle';
-                } else {
+                } else if (value === "" || value === null) {
                     return 'Pending';
+                } else {
+                    return 'Idle';
                 }
                 
             }
@@ -361,7 +367,7 @@ Ext.define('Traccar.view.edit.Devices', {
                 if (value === null) {
                     return 'No data';
                 } else {
-                    return valy.replace(/\b\w/g, l => l.toUpperCase());
+                    return valy;//.replace(/\b\w/g, l => l.toUpperCase());
                 }
             },
             hidden: true,
@@ -471,7 +477,6 @@ Ext.define('Traccar.view.edit.Devices', {
         store: 'Devices',
         pluginId: 'devicespage',
         displayInfo: true,
-        //displayMsg: '{0} to {1} of {2} &nbsp;Assets ',
         displayMsg: 'Total of {2} &nbsp;Assets ',
         emptyMsg: "No Asset to display&nbsp;"
     }]},
