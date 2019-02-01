@@ -41,7 +41,10 @@ Ext.define('Traccar.view.dialog.Notification', {
                 displayField: 'name',
                 valueField: 'type',
                 editable: false,
-                allowBlank: false
+                allowBlank: false,
+                listeners: {
+                    change: 'onTypeChange'
+                }
             }, {
                 xtype: 'checkboxfield',
                 inputValue: true,
@@ -49,23 +52,28 @@ Ext.define('Traccar.view.dialog.Notification', {
                 name: 'always',
                 fieldLabel: Strings.notificationAlways
             }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'web',
-                fieldLabel: Strings.notificationWeb
+                xtype: 'tagfield',
+                reference: 'alarmsField',
+                fieldLabel: Strings.sharedAlarms,
+                maxWidth: Traccar.Style.formFieldWidth,
+                store: 'AlarmTypes',
+                valueField: 'key',
+                displayField: 'name',
+                queryMode: 'local',
+                hidden: true,
+                listeners: {
+                    beforerender: 'onAlarmsLoad',
+                    change: 'onAlarmsChange'
+                }
             }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'mail',
-                fieldLabel: Strings.notificationMail
-            }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'sms',
-                fieldLabel: Strings.notificationSms
+                xtype: 'tagfield',
+                fieldLabel: Strings.notificationNotificators,
+                name: 'notificators',
+                maxWidth: Traccar.Style.formFieldWidth,
+                store: 'AllNotificators',
+                valueField: 'type',
+                displayField: 'name',
+                queryMode: 'local'
             }]
         }, {
             xtype: 'fieldset',

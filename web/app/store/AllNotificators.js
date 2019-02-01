@@ -1,6 +1,6 @@
 /*
- * Copyright 2017 - 2018 Anton Tananaev (anton@traccar.org)
- * Copyright 2017 - 2018 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.AllNotificationTypes', {
+Ext.define('Traccar.store.AllNotificators', {
     extend: 'Ext.data.Store',
-    model: 'Traccar.model.KnownNotification',
+    model: 'Traccar.model.KnownNotificator',
 
     proxy: {
         type: 'rest',
-        url: 'api/notifications/types',
+        url: 'api/notifications/notificators',
         listeners: {
             exception: function (proxy, response) {
                 Traccar.app.showError(response);

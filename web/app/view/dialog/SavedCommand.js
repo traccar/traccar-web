@@ -42,7 +42,7 @@ Ext.define('Traccar.view.dialog.SavedCommand', {
                 name: 'textChannel',
                 inputValue: true,
                 uncheckedValue: false,
-                fieldLabel: Strings.notificationSms
+                fieldLabel: Strings.commandSendSms
             }, {
                 xtype: 'combobox',
                 name: 'type',

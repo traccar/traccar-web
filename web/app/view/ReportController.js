@@ -142,9 +142,10 @@ Ext.define('Traccar.view.ReportController', {
         reportType = this.lookupReference('reportTypeField').getValue();
         devices = this.deviceId && this.deviceId.length !== 0 || this.groupId && this.groupId.length !== 0;
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
-        disabled = !reportType || !devices || !time;
+        disabled = !reportType || !devices || !time || this.reportProgress;
         this.lookupReference('showButton').setDisabled(disabled);
         this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
+        this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
     },
 
     onReportClick: function (button) {
@@ -162,6 +163,9 @@ Ext.define('Traccar.view.ReportController', {
                 this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
                 this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
 
+            this.reportProgress = true;
+            this.updateButtons();
+
             if (button.reference === 'showButton') {
                 if (reportType === 'chart') {
                     store = this.getChart().getStore();
@@ -171,6 +175,11 @@ Ext.define('Traccar.view.ReportController', {
                 }
                 store.showMarkers = this.showMarkers;
                 store.load({
+                    scope: this,
+                    callback: function () {
+                        this.reportProgress = false;
+                        this.updateButtons();
+                    },
                     params: {
                         deviceId: this.deviceId,
                         groupId: this.groupId,
@@ -179,14 +188,15 @@ Ext.define('Traccar.view.ReportController', {
                         to: to.toISOString()
                     }
                 });
-            } else if (button.reference === 'exportButton') {
+            } else {
                 url = this.getGrid().getStore().getProxy().url;
-                this.downloadFile(url, {
+                this.excelReport(url, {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
                     type: this.eventType,
                     from: Ext.Date.format(from, 'c'),
-                    to: Ext.Date.format(to, 'c')
+                    to: Ext.Date.format(to, 'c'),
+                    mail: button.reference === 'emailButton'
                 });
             }
         }
@@ -363,7 +373,7 @@ Ext.define('Traccar.view.ReportController', {
         });
     },
 
-    downloadFile: function (requestUrl, requestParams) {
+    excelReport: function (requestUrl, requestParams) {
         Ext.Ajax.request({
             url: requestUrl,
             method: 'GET',
@@ -373,29 +383,34 @@ Ext.define('Traccar.view.ReportController', {
                 Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             },
             binary: true,
-            success: function (response) {
+            scope: this,
+            callback: function (options, success, response) {
                 var disposition, filename, type, blob, url, downloadUrl;
-                disposition = response.getResponseHeader('Content-Disposition');
-                filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
-                type = response.getResponseHeader('Content-Type');
-                blob = new Blob([response.responseBytes], {type: type});
-                if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                    // IE workaround
-                    window.navigator.msSaveBlob(blob, filename);
-                } else {
-                    url = window.URL || window.webkitURL;
-                    downloadUrl = url.createObjectURL(blob);
-                    if (filename) {
-                        Ext.dom.Helper.append(Ext.getBody(), {
-                            tag: 'a',
-                            href: downloadUrl,
-                            download: filename
-                        }).click();
+                if (success && !requestParams.mail) {
+                    disposition = response.getResponseHeader('Content-Disposition');
+                    filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
+                    type = response.getResponseHeader('Content-Type');
+                    blob = new Blob([response.responseBytes], {type: type});
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        url = window.URL || window.webkitURL;
+                        downloadUrl = url.createObjectURL(blob);
+                        if (filename) {
+                            Ext.dom.Helper.append(Ext.getBody(), {
+                                tag: 'a',
+                                href: downloadUrl,
+                                download: filename
+                            }).click();
+                        }
+                        setTimeout(function () {
+                            url.revokeObjectURL(downloadUrl);
+                        }, 100);
                     }
-                    setTimeout(function () {
-                        url.revokeObjectURL(downloadUrl);
-                    }, 100);
                 }
+                this.reportProgress = false;
+                this.updateButtons();
             }
         });
     },
@@ -526,6 +541,14 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'distance',
         renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
+        text: Strings.reportStartOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
+        text: Strings.reportEndOdometer,
+        dataIndex: 'endOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
         text: Strings.reportAverageSpeed,
         dataIndex: 'averageSpeed',
         renderer: Traccar.AttributeFormatter.getFormatter('speed')
@@ -553,6 +576,10 @@ Ext.define('Traccar.view.ReportController', {
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('startTime')
     }, {
+        text: Strings.reportStartOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
+    }, {
         text: Strings.reportStartAddress,
         dataIndex: 'startAddress',
         renderer: Traccar.AttributeFormatter.getFormatter('address')
@@ -561,6 +588,10 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'endTime',
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('endTime')
+    }, {
+        text: Strings.reportEndOdometer,
+        dataIndex: 'endOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.reportEndAddress,
         dataIndex: 'endAddress',
@@ -600,6 +631,10 @@ Ext.define('Traccar.view.ReportController', {
         dataIndex: 'startTime',
         xtype: 'datecolumn',
         renderer: Traccar.AttributeFormatter.getFormatter('startTime')
+    }, {
+        text: Strings.positionOdometer,
+        dataIndex: 'startOdometer',
+        renderer: Traccar.AttributeFormatter.getFormatter('distance')
     }, {
         text: Strings.positionAddress,
         dataIndex: 'address',

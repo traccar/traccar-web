@@ -1,6 +1,6 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
- * Copyright 2016 - 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2016 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2018 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.view.dialog.DeviceDistanceController', {
+Ext.define('Traccar.view.dialog.DeviceAccumulatorsController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.deviceDistance',
+    alias: 'controller.deviceAccumulators',
 
     onSetClick: function () {
-        var data = {
-            deviceId: this.getView().deviceId,
-            totalDistance: this.lookupReference('totalDistance').getValue()
+        var totalDistance, hours, data = {
+            deviceId: this.getView().deviceId
         };
+        totalDistance = this.lookupReference('totalDistance');
+        if (!isNaN(totalDistance.getRawValue())) {
+            data.totalDistance = totalDistance.getValue();
+        }
+        hours = this.lookupReference('hours');
+        if (!isNaN(hours.getRawValue())) {
+            data.hours = hours.getValue();
+        }
         Ext.Ajax.request({
             scope: this,
             method: 'PUT',
-            url: 'api/devices/' + data.deviceId + '/distance',
+            url: 'api/devices/' + data.deviceId + '/accumulators',
             jsonData: Ext.util.JSON.encode(data),
             callback: function (options, success, response) {
                 if (!success) {

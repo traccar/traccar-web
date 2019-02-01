@@ -45,7 +45,7 @@ Ext.define('Traccar.view.SettingsMenu', {
         }, {
             hidden: true,
             text: Strings.sharedDrivers,
-            glyph: 'xf2c2@FontAwesome',
+            glyph: 'xf084@FontAwesome',
             handler: 'onDriversClick',
             reference: 'settingsDriversButton'
         }, {
@@ -98,7 +98,7 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsCommandsButton'
         }, {
             hidden: true,
-            text: Strings.sharedMaintenances,
+            text: Strings.sharedMaintenance,
             glyph: 'xf0ad@FontAwesome',
             handler: 'onMaintenancesClick',
             reference: 'settingsMaintenancesButton'

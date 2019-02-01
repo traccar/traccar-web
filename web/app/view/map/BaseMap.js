@@ -41,7 +41,7 @@ Ext.define('Traccar.view.map.BaseMap', {
             case 'custom':
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
-                        url: server.get('mapUrl'),
+                        url: Ext.String.htmlDecode(server.get('mapUrl')),
                         attributions: ''
                     })
                 });
@@ -96,7 +96,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                             if (y < 0) {
                                 y = 'M' + -y;
                             }
-                            return 'http://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
+                            return 'https://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
                                 .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
                         },
                         tileGrid: new ol.tilegrid.TileGrid({
@@ -108,7 +108,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                                 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
                             ]
                         }),
-                        attributions: '&copy; <a href="http://map.baidu.com/">Baidu</a>'
+                        attributions: '&copy; <a href="https://map.baidu.com/">Baidu</a>'
                     })
                 });
                 break;

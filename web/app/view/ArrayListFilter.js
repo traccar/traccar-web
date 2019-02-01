@@ -25,12 +25,19 @@ Ext.define('Traccar.view.ArrayListFilter', {
     constructor: function (config) {
         this.callParent([config]);
         this.filter.setFilterFn(function (item) {
-            var i, property, value;
+            var i, property, value, splits;
             property = item.get(this.getProperty());
             value = this.getValue();
             if (Ext.isArray(property)) {
                 for (i = 0; i < property.length; i++) {
                     if (value.indexOf(property[i]) !== -1) {
+                        return true;
+                    }
+                }
+            } else if (property.match(/[ ,]+/)) {
+                splits = property.split(/[ ,]+/).filter(Boolean);
+                for (i = 0; i < splits.length; i++) {
+                    if (value.indexOf(splits[i]) !== -1) {
                         return true;
                     }
                 }

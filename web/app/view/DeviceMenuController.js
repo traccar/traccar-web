@@ -27,6 +27,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
         'Traccar.view.edit.ComputedAttributes',
         'Traccar.view.permissions.SavedCommands',
         'Traccar.view.permissions.Maintenances',
+        'Traccar.view.dialog.DeviceAccumulators',
         'Traccar.view.BaseWindow'
     ],
 
@@ -39,7 +40,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
         this.lookupReference('menuDeviceDistanceButton').setHidden(
             !Traccar.app.getUser().get('admin') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
         this.lookupReference('menuMaintenancesButton').setHidden(
-            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
     },
 
     onGeofencesClick: function () {
@@ -109,7 +110,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
 
     onMaintenancesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedMaintenances,
+            title: Strings.sharedMaintenance,
             items: {
                 xtype: 'linkMaintenancesView',
                 baseObjectName: 'deviceId',
@@ -120,12 +121,13 @@ Ext.define('Traccar.view.DeviceMenuController', {
         }).show();
     },
 
-    onDeviceDistanceClick: function () {
-        var position, dialog = Ext.create('Traccar.view.dialog.DeviceDistance');
+    onDeviceAccumulatorsClick: function () {
+        var position, dialog = Ext.create('Traccar.view.dialog.DeviceAccumulators');
         dialog.deviceId = this.getView().up('deviceMenu').device.getId();
         position = Ext.getStore('LatestPositions').findRecord('deviceId', dialog.deviceId, 0, false, false, true);
         if (position) {
             dialog.lookupReference('totalDistance').setValue(position.get('attributes').totalDistance);
+            dialog.lookupReference('hours').setValue(position.get('attributes').hours);
         }
         dialog.show();
     }

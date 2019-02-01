@@ -63,6 +63,11 @@ Ext.define('Traccar.view.Report', {
             disabled: true,
             handler: 'onReportClick'
         }, {
+            text: Strings.reportEmail,
+            reference: 'emailButton',
+            disabled: true,
+            handler: 'onReportClick'
+        }, {
             text: Strings.reportClear,
             handler: 'onClearClick'
         }]

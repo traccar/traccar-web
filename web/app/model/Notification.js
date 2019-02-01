@@ -31,14 +31,8 @@ Ext.define('Traccar.model.Notification', {
     }, {
         name: 'attributes'
     }, {
-        name: 'web',
-        type: 'bool'
-    }, {
-        name: 'mail',
-        type: 'bool'
-    }, {
-        name: 'sms',
-        type: 'bool'
+        name: 'notificators',
+        type: 'string'
     }, {
         name: 'calendarId',
         type: 'int'

@@ -28,6 +28,12 @@ Ext.define('Traccar.view.dialog.Server', {
 
     items: {
         xtype: 'form',
+        listeners: {
+            afterrender: function (view) {
+                var field = view.up('panel').lookupReference('mapUrlField');
+                field.setValue(Ext.String.htmlDecode(field.getValue()));
+            }
+        },
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedPreferences,
@@ -44,6 +50,7 @@ Ext.define('Traccar.view.dialog.Server', {
                 fieldLabel: Strings.mapBingKey
             }, {
                 xtype: 'textfield',
+                reference: 'mapUrlField',
                 name: 'mapUrl',
                 fieldLabel: Strings.mapCustom
             }, {

@@ -109,6 +109,14 @@ Ext.define('Traccar.controller.Root', {
 
     loadApp: function () {
         var attribution, eventId;
+
+        if (window.webkit && window.webkit.messageHandlers.appInterface) {
+            window.webkit.messageHandlers.appInterface.postMessage('login');
+        }
+        if (window.appInterface) {
+            window.appInterface.postMessage('login');
+        }
+
         Ext.getStore('Groups').load();
         Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();
@@ -129,6 +137,7 @@ Ext.define('Traccar.controller.Root', {
                 }
             }
         });
+        Ext.getStore('AllNotificators').load();
         Ext.getStore('Notifications').load();
 
         Ext.getStore('ServerAttributes').loadData(Ext.getStore('CommonDeviceAttributes').getData().items, true);
@@ -289,6 +298,8 @@ Ext.define('Traccar.controller.Root', {
                     this.beep();
                 }
                 Traccar.app.showToast(array[i].text, device.get('name'));
+            } else {
+                Traccar.app.showToast(array[i].text);
             }
         }
     },

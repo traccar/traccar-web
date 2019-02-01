@@ -77,10 +77,10 @@ Ext.define('Traccar.view.Statistics', {
             text: Strings.statisticsMessagesStored,
             dataIndex: 'messagesStored'
         }, {
-            text: Strings.notificationMail,
+            text: Strings.notificatorMail,
             dataIndex: 'mailSent'
         }, {
-            text: Strings.notificationSms,
+            text: Strings.notificatorSms,
             dataIndex: 'smsSent'
         }, {
             text: Strings.statisticsGeocoder,
