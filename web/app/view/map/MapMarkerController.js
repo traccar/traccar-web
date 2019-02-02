@@ -217,7 +217,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             projection = mapView.getProjection();
             center = ol.proj.fromLonLat([position.get('longitude'), position.get('latitude')]);
             pointResolution = ol.proj.getPointResolution(projection, mapView.getResolution(), center);
-            radius = position.get('accuracy') / ol.proj.METERS_PER_UNIT.m * mapView.getResolution() / pointResolution;
+            radius = position.get('accuracy') / ol.proj.Units.METERS_PER_UNIT.m * mapView.getResolution() / pointResolution;
 
             if (feature) {
                 feature.getGeometry().setCenter(center);

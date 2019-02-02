@@ -232,7 +232,12 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
     }
 }, function () {
+    var projection;
     proj4.defs('BD-MC', '+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
     proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
-    ol.proj.get('EPSG:3395').setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
+    ol.proj.proj4.register(proj4);
+    projection = ol.proj.get('EPSG:3395');
+    if (projection) {
+        projection.setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
+    }
 });
