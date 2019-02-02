@@ -45,7 +45,7 @@ Ext.define('Traccar.GeofenceConverter', {
                     resolutionAtEquator = mapView.getResolution();
                     pointResolution = ol.proj.getPointResolution(projection, resolutionAtEquator, center);
                     resolutionFactor = resolutionAtEquator / pointResolution;
-                    radius = Number(coordinates[2]) / ol.proj.METERS_PER_UNIT.m * resolutionFactor;
+                    radius = Number(coordinates[2]) / ol.proj.Units.METERS_PER_UNIT.m * resolutionFactor;
                     geometry = new ol.geom.Circle(center, radius);
                 }
             }
@@ -74,9 +74,8 @@ Ext.define('Traccar.GeofenceConverter', {
             radius = geometry.getRadius();
             edgeCoordinate = [center[0] + radius, center[1]];
             center = ol.proj.transform(center, projection, 'EPSG:4326');
-            earthSphere = new ol.Sphere(6378137);
-            groundRadius = earthSphere.haversineDistance(center,
-                ol.proj.transform(edgeCoordinate, projection, 'EPSG:4326'));
+            groundRadius = ol.sphere.getDistance(
+                center, ol.proj.transform(edgeCoordinate, projection, 'EPSG:4326'), 6378137)
             result = 'CIRCLE (';
             result += center[1] + ' ' + center[0] + ', ';
             result += groundRadius.toFixed(1) + ')';

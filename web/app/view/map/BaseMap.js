@@ -30,7 +30,7 @@ Ext.define('Traccar.view.map.BaseMap', {
     },
 
     initMap: function () {
-        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer;
+        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
 
         server = Traccar.app.getServer();
 
@@ -207,19 +207,19 @@ Ext.define('Traccar.view.map.BaseMap', {
         });
 
         this.map.on('click', function (e) {
-            var i, features = this.map.getFeaturesAtPixel(e.pixel, {
+            var i, features = self.map.getFeaturesAtPixel(e.pixel, {
                 layerFilter: function (layer) {
                     return !layer.get('name');
                 }
             });
             if (features) {
                 for (i = 0; i < features.length; i++) {
-                    this.fireEvent('selectfeature', features[i]);
+                    self.fireEvent('selectfeature', features[i]);
                 }
             } else {
-                this.fireEvent('deselectfeature');
+                self.fireEvent('deselectfeature');
             }
-        }, this);
+        });
     },
 
     listeners: {
