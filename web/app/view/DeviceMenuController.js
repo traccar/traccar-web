@@ -37,7 +37,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
         this.lookupReference('menuComputedAttributesButton').setHidden(
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('menuCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
-        this.lookupReference('menuDeviceDistanceButton').setHidden(
+        this.lookupReference('menuDeviceAccumulatorsButton').setHidden(
             !Traccar.app.getUser().get('admin') && Traccar.app.getUser().get('userLimit') === 0 || Traccar.app.getVehicleFeaturesDisabled());
         this.lookupReference('menuMaintenancesButton').setHidden(
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
