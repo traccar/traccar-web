@@ -501,7 +501,6 @@ Ext.define('Traccar.view.map.MapMarkerController', {
 
     selectEvent: function (position) {
         var marker;
-        this.fireEvent('deselectfeature');
         if (position) {
             marker = this.addReportMarker(position);
             marker.set('event', true);
