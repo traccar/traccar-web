@@ -25,7 +25,7 @@ Ext.define('Traccar.view.EventsController', {
             controller: {
                 '*': {
                     selectdevice: 'deselectEvent',
-                    selectreport: 'deselectEvent',
+                    selectreport: 'deselectEvent'
                 },
                 'map': {
                     deselectfeature: 'deselectFeature'
