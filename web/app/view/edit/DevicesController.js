@@ -35,7 +35,8 @@ Ext.define('Traccar.view.edit.DevicesController', {
         listen: {
             controller: {
                 '*': {
-                    selectreport: 'selectReport'
+                    selectreport: 'deselectDevice',
+                    selectevent: 'deselectDevice'
                 },
                 'root': {
                     selectdevice: 'selectDevice'
@@ -122,8 +123,8 @@ Ext.define('Traccar.view.edit.DevicesController', {
         this.getView().getView().focusRow(device);
     },
 
-    selectReport: function (position) {
-        if (position !== undefined) {
+    deselectDevice: function (object) {
+        if (object !== undefined) {
             this.deselectFeature();
         }
     },

@@ -32,8 +32,8 @@ Ext.define('Traccar.view.StateController', {
             controller: {
                 '*': {
                     selectdevice: 'selectDevice',
-                    selectreport: 'selectReport',
-                    selectevent: 'selectEvent',
+                    selectreport: 'selectPosition',
+                    selectevent: 'selectPosition',
                     deselectfeature: 'deselectFeature'
                 }
             },
@@ -168,15 +168,7 @@ Ext.define('Traccar.view.StateController', {
         }
     },
 
-    selectReport: function (position) {
-        if (position instanceof Traccar.model.Position) {
-            this.deviceId = null;
-            this.position = position;
-            this.updatePosition();
-        }
-    },
-
-    selectEvent: function (position) {
+    selectPosition: function (position) {
         if (position instanceof Traccar.model.Position) {
             this.deviceId = null;
             this.position = position;
