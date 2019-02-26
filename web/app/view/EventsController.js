@@ -85,7 +85,7 @@ Ext.define('Traccar.view.EventsController', {
 
 
     deselectEvent: function (object) {
-        if (object !== undefined) {
+        if (object) {
             this.deselectFeature();
         }
     },

@@ -247,7 +247,7 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     deselectReport: function (object) {
-        if (object !== undefined) {
+        if (object) {
             this.deselectFeature();
         }
     },
