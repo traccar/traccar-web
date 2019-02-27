@@ -110,10 +110,10 @@ Ext.define('Traccar.view.edit.DevicesController', {
         this.lookupReference('deviceCommandButton').setDisabled(empty || readonly);
     },
 
-    onSelectionChange: function (el, record) {
-        if (record && record.length) {
-            this.updateButtons(record);
-            this.fireEvent('selectdevice', record[0], true);
+    onSelectionChange: function (el, records) {
+        if (records && records.length) {
+            this.updateButtons(records);
+            this.fireEvent('selectdevice', records[0], true);
         }
     },
 
