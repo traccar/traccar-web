@@ -111,9 +111,9 @@ Ext.define('Traccar.view.edit.DevicesController', {
     },
 
     onSelectionChange: function (el, record) {
-        if (record) {
-            this.updateButtons([record]);
-            this.fireEvent('selectdevice', record, true);
+        if (record && record.length) {
+            this.updateButtons(record);
+            this.fireEvent('selectdevice', record[0], true);
         }
     },
 
