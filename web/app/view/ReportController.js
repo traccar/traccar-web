@@ -32,12 +32,13 @@ Ext.define('Traccar.view.ReportController', {
         listen: {
             controller: {
                 '*': {
-                    selectdevice: 'selectDevice',
-                    showsingleevent: 'showSingleEvent',
-                    deselectfeature: 'deselectFeature'
+                    selectdevice: 'deselectReport',
+                    selectevent: 'deselectReport',
+                    showsingleevent: 'showSingleEvent'
                 },
                 'map': {
-                    selectreport: 'selectReport'
+                    selectreport: 'selectReport',
+                    deselectfeature: 'deselectFeature'
                 }
             },
             global: {
@@ -231,12 +232,6 @@ Ext.define('Traccar.view.ReportController', {
         }
     },
 
-    selectDevice: function (device) {
-        if (device) {
-            this.getGrid().getSelectionModel().deselectAll();
-        }
-    },
-
     selectReport: function (object) {
         var positionRelated, reportType = this.lookupReference('reportTypeField').getValue();
         if (object instanceof Traccar.model.Position) {
@@ -248,6 +243,12 @@ Ext.define('Traccar.view.ReportController', {
                 this.getGrid().getSelectionModel().select([positionRelated], false, true);
                 this.getGrid().getView().focusRow(positionRelated);
             }
+        }
+    },
+
+    deselectReport: function (object) {
+        if (object) {
+            this.deselectFeature();
         }
     },
 
