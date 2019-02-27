@@ -111,7 +111,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
     },
 
     onSelectionChange: function (el, record) {
-        if (record !== undefined) {
+        if (record) {
             this.updateButtons([record]);
             this.fireEvent('selectdevice', record, true);
         }
@@ -124,7 +124,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
     },
 
     deselectDevice: function (object) {
-        if (object !== undefined) {
+        if (object) {
             this.deselectFeature();
         }
     },
