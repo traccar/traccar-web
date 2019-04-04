@@ -87,6 +87,12 @@ Ext.define('Traccar.model.User', {
         name: 'token',
         type: 'string'
     }, {
+        name: 'useTotp',
+        type: 'boolean'
+    }, {
+        name: 'totpKey',
+        type: 'string'
+    }, {
         name: 'attributes'
     }],
 
