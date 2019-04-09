@@ -54,6 +54,11 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                     add: 'updateLatest',
                     update: 'updateLatest'
                 },
+                '#ReportDispute': {
+                    add: 'addReportMarkers',
+                    load: 'loadReport',
+                    clear: 'clearReport'
+                },
                 '#ReportRoute': {
                     add: 'addReportMarkers',
                     load: 'loadReport',
@@ -308,6 +313,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         }
     },
 
+    //TODO dmitry this function loads report
     loadReport: function (store, data) {
         var i, position, point, routeSource;
         if (data) {

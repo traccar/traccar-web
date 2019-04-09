@@ -366,6 +366,7 @@
     "notificatorFirebase": "Mobile",
     "reportRoute": "Route",
     "reportEvents": "Events",
+    "reportDisputes": "Disputes",
     "reportTrips": "Trips",
     "reportStops": "Stops",
     "reportSummary": "Summary",

@@ -31,6 +31,7 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
 
         callingPanel.deviceId = this.lookupReference('deviceField').getValue();
         callingPanel.groupId = this.lookupReference('groupField').getValue();
+        callingPanel.emailId = this.lookupReference('emailField').getValue();
         eventType = this.lookupReference('eventTypeField').getValue();
         if (eventType.indexOf(Traccar.store.ReportEventTypes.allEvents) > -1) {
             eventType = [Traccar.store.ReportEventTypes.allEvents];
