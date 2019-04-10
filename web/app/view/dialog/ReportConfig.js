@@ -44,7 +44,7 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         store: 'Users',
         valueField: 'id',
         displayField: 'email',
-        queryMode: 'rest'
+        queryMode: 'local'
     }, {
         fieldLabel: Strings.reportGroup,
         xtype: 'tagfield',

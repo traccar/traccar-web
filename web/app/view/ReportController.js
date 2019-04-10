@@ -105,11 +105,12 @@ Ext.define('Traccar.view.ReportController', {
         var dialog = Ext.create('Traccar.view.dialog.ReportConfig');
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');
         dialog.lookupReference('chartTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'chart');
-        dialog.lookupReference('emailField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'disputes');
+        var emailField = dialog.lookupReference('emailField');
+        emailField.setHidden(this.lookupReference('reportTypeField').getValue() !== 'disputes');
         dialog.callingPanel = this;
         dialog.lookupReference('deviceField').setValue(this.deviceId);
         dialog.lookupReference('groupField').setValue(this.groupId);
-        dialog.lookupReference('emailField').setValue(this.emailId);
+        dialog.lookupReference('emailField').setValue(this.userId);
         if (this.eventType !== undefined) {
             dialog.lookupReference('eventTypeField').setValue(this.eventType);
         } else {
@@ -184,7 +185,7 @@ Ext.define('Traccar.view.ReportController', {
                     },
                     params: {
                         deviceId: this.deviceId,
-                        userIds: this.emailId,
+                        userId: this.userId,
                         groupId: this.groupId,
                         type: this.eventType,
                         from: from.toISOString(),
