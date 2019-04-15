@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { updateDevices } from './actions';
+import { updateDevices } from '../../actions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -41,7 +41,7 @@ class DeviceList extends Component {
           </ListItemSecondaryAction>
         </ListItem>
         <li>
-          <Divider inset />
+          <Divider variant="inset"/>
         </li>
       </Fragment>
     );

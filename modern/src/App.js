@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MainPage from './MainPage';
-import LoginPage from './LoginPage';
+import MainPage from './containers/MainPage/index';
+import LoginPage from './containers/LoginPage/index';
 
 class App extends Component {
   render() {

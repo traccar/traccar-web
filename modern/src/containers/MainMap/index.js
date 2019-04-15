@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import { connect } from 'react-redux'
-import DivIcon from './leaflet/DivIcon';
+import DivIcon from '../../components/leaflet/DivIcon';
 
 const mapStateToProps = state => ({
   positions: state.positions
