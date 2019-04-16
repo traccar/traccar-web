@@ -118,11 +118,11 @@ Ext.define('Traccar.controller.Root', {
         }
 
         Ext.getStore('Groups').load();
-        Ext.getStore('Drivers').load();
+//        Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();
-        Ext.getStore('Calendars').load();
-        Ext.getStore('Maintenances').load();
-        Ext.getStore('ComputedAttributes').load();
+//        Ext.getStore('Calendars').load();
+//        Ext.getStore('Maintenances').load();
+//        Ext.getStore('ComputedAttributes').load();
         Ext.getStore('AllCommandTypes').load();
         Ext.getStore('Commands').load();
         Ext.getStore('AllNotificationTypes').load({
