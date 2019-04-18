@@ -112,6 +112,7 @@
     "errorSocket": "Web socket connection error",
     "errorZero": "Can't be zero",
     "userEmail": "Email",
+    "userPurchase": "Purchase",
     "userPassword": "Password",
     "userAdmin": "Admin",
     "userRemember": "Remember",

@@ -111,6 +111,7 @@ Ext.define('Traccar.view.ReportController', {
         dialog.lookupReference('deviceField').setValue(this.deviceId);
         dialog.lookupReference('groupField').setValue(this.groupId);
         dialog.lookupReference('emailField').setValue(this.userId);
+        dialog.lookupReference('purchaseField').setValue(this.purchaseId);
         if (this.eventType !== undefined) {
             dialog.lookupReference('eventTypeField').setValue(this.eventType);
         } else {
@@ -186,6 +187,7 @@ Ext.define('Traccar.view.ReportController', {
                     params: {
                         deviceId: this.deviceId,
                         userId: this.userId,
+                        purchaseId: this.purchaseId,
                         groupId: this.groupId,
                         type: this.eventType,
                         from: from.toISOString(),

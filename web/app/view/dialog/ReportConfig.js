@@ -36,7 +36,7 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         valueField: 'id',
         displayField: 'name',
         queryMode: 'local'
-    },{
+    }, {
         fieldLabel: Strings.userEmail,
         xtype: 'tagfield',
         reference: 'emailField',
@@ -44,6 +44,18 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         store: 'Users',
         valueField: 'id',
         displayField: 'email',
+        queryMode: 'local',
+        listeners: {
+            change: 'onUserEmailChange'
+        }
+    }, {
+        fieldLabel: Strings.userPurchase,
+        xtype: 'tagfield',
+        reference: 'purchaseField',
+        maxWidth: Traccar.Style.formFieldWidth,
+        store: 'Purchases',
+        valueField: 'id',
+        displayField: 'id',
         queryMode: 'local'
     }, {
         fieldLabel: Strings.reportGroup,
