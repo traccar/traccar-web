@@ -18,7 +18,7 @@ Ext.define('Traccar.view.UnescapedTextField', {
     extend: 'Ext.form.field.Text',
     xtype: 'unescapedTextField',
 
-    initComponent: function() {
+    initComponent: function () {
         this.callParent();
         this.on('change', this.onValueChange);
     },
