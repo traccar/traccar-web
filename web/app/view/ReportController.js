@@ -105,7 +105,7 @@ Ext.define('Traccar.view.ReportController', {
         var dialog = Ext.create('Traccar.view.dialog.ReportConfig');
         var emailField = dialog.lookupReference('emailField');
         var purchaseField = dialog.lookupReference('purchaseField');
-        var generalFields = [ 'deviceField', 'groupField', 'eventTypeField', 'chartTypeField', 'showMarkersField', 'periodField','fromContainer', 'toContainer'];
+        var generalFields = [ 'deviceField', 'groupField', 'eventTypeField', 'chartTypeField', 'periodField'];
 
         if(this.lookupReference('reportTypeField').getValue() === 'disputes') {
             generalFields.forEach(function (value) {
