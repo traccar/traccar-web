@@ -55,7 +55,7 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         maxWidth: Traccar.Style.formFieldWidth,
         store: 'Purchases',
         valueField: 'id',
-        displayField: 'id',
+        displayField: 'start_time',
         queryMode: 'local'
     }, {
         fieldLabel: Strings.reportGroup,
