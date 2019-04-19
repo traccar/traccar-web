@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.Device', {
 
     requires: [
         'Traccar.view.ClearableComboBox',
-        'Traccar.view.dialog.DeviceController'
+        'Traccar.view.dialog.DeviceController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'device',
@@ -32,12 +33,12 @@ Ext.define('Traccar.view.dialog.Device', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'uniqueId',
                 fieldLabel: Strings.deviceIdentifier,
                 allowBlank: false
@@ -56,15 +57,15 @@ Ext.define('Traccar.view.dialog.Device', {
                 displayField: 'name',
                 valueField: 'id'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'phone',
                 fieldLabel: Strings.sharedPhone
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'model',
                 fieldLabel: Strings.deviceModel
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'contact',
                 fieldLabel: Strings.deviceContact
             }, {

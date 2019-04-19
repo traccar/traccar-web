@@ -19,7 +19,8 @@ Ext.define('Traccar.view.dialog.Group', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.ClearableComboBox'
+        'Traccar.view.ClearableComboBox',
+        'Traccar.view.UnescapedTextField'
     ],
 
     title: Strings.groupDialog,
@@ -30,7 +31,7 @@ Ext.define('Traccar.view.dialog.Group', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false

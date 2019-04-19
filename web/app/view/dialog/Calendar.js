@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.Calendar', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.dialog.CalendarController'
+        'Traccar.view.dialog.CalendarController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'calendar',
@@ -32,7 +33,7 @@ Ext.define('Traccar.view.dialog.Calendar', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false
