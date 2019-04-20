@@ -15,30 +15,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.ReportTypes', {
-    extend: 'Ext.data.Store',
-    fields: ['key', 'name'],
+Ext.define('Traccar.model.Purchase', {
+    extend: 'Ext.data.Model',
+    identifier: 'negative',
 
-    data: [{
-        key: 'route',
-        name: Strings.reportRoute
+    fields: [{
+        name: 'id',
+        type: 'int'
     }, {
-        key: 'events',
-        name: Strings.reportEvents
-    },{
-        key: 'disputes',
-        name: Strings.reportDisputes
+        name: 'user_id',
+        type: 'int'
     }, {
-        key: 'trips',
-        name: Strings.reportTrips
+        name: 'bike_id',
+        type: 'int'
     }, {
-        key: 'stops',
-        name: Strings.reportStops
+        name: 'start_time',
+        type: 'date'
     }, {
-        key: 'summary',
-        name: Strings.reportSummary
+        name: 'end_time',
+        type: 'date'
     }, {
-        key: 'chart',
-        name: Strings.reportChart
+        name: 'attributes'
     }]
 });

@@ -15,30 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.ReportTypes', {
+Ext.define('Traccar.store.ReportDispute', {
     extend: 'Ext.data.Store',
-    fields: ['key', 'name'],
+    model: 'Traccar.model.Position',
 
-    data: [{
-        key: 'route',
-        name: Strings.reportRoute
-    }, {
-        key: 'events',
-        name: Strings.reportEvents
-    },{
-        key: 'disputes',
-        name: Strings.reportDisputes
-    }, {
-        key: 'trips',
-        name: Strings.reportTrips
-    }, {
-        key: 'stops',
-        name: Strings.reportStops
-    }, {
-        key: 'summary',
-        name: Strings.reportSummary
-    }, {
-        key: 'chart',
-        name: Strings.reportChart
-    }]
+    proxy: {
+        type: 'rest',
+        url: 'api/reports/dispute',
+        timeout: Traccar.Style.reportTimeout,
+        headers: {
+            'Accept': 'application/json'
+        },
+        listeners: {
+            exception: function (proxy, exception) {
+                Traccar.app.showError(exception);
+            }
+        }
+    }
 });

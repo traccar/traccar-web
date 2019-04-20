@@ -22,7 +22,8 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
 
     requires: [
         'Traccar.store.ReportEventTypes',
-        'Traccar.store.AllNotifications'
+        'Traccar.store.AllNotifications',
+        'Traccar.store.Purchases'
     ],
 
     onSaveClick: function (button) {
@@ -32,6 +33,7 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         callingPanel.deviceId = this.lookupReference('deviceField').getValue();
         callingPanel.groupId = this.lookupReference('groupField').getValue();
         callingPanel.userId = this.lookupReference('emailField').getValue();
+        callingPanel.purchaseId = this.lookupReference('purchaseField').getValue();
         eventType = this.lookupReference('eventTypeField').getValue();
         if (eventType.indexOf(Traccar.store.ReportEventTypes.allEvents) > -1) {
             eventType = [Traccar.store.ReportEventTypes.allEvents];
@@ -49,7 +51,14 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         callingPanel.updateButtons();
         button.up('window').close();
     },
-
+    onUserEmailChange: function (combobox, newValue) {
+        var store = Ext.getStore('Purchases');
+        store.load({
+            params: {
+                userId: newValue
+            }
+        });
+    },
     onPeriodChange: function (combobox, newValue) {
         var day, first, from, to, custom = newValue === 'custom';
         this.lookupReference('fromContainer').setHidden(!custom);
