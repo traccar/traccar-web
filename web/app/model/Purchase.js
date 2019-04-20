@@ -23,16 +23,16 @@ Ext.define('Traccar.model.Purchase', {
         name: 'id',
         type: 'int'
     }, {
-        name: 'user_id',
+        name: 'userId',
         type: 'int'
     }, {
-        name: 'bike_id',
+        name: 'bikeId',
         type: 'int'
     }, {
-        name: 'start_time',
+        name: 'startTime',
         type: 'date'
     }, {
-        name: 'end_time',
+        name: 'endTime',
         type: 'date'
     }, {
         name: 'attributes'
