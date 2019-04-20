@@ -36,15 +36,6 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         valueField: 'id',
         displayField: 'name',
         queryMode: 'local'
-    },{
-        fieldLabel: Strings.userEmail,
-        xtype: 'tagfield',
-        reference: 'emailField',
-        maxWidth: Traccar.Style.formFieldWidth,
-        store: 'Users',
-        valueField: 'id',
-        displayField: 'email',
-        queryMode: 'local'
     }, {
         fieldLabel: Strings.userEmail,
         xtype: 'tagfield',
