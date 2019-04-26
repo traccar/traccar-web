@@ -130,7 +130,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     updateDevice: function (store, data) {
-        var i, device, deviceId, marker, style;
+        var i, device, deviceId, deviceName, marker, style;
 
         if (!Ext.isArray(data)) {
             data = [data];
@@ -148,8 +148,9 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                     this.updateDeviceMarker(style, this.getDeviceColor(device), device.get('category'));
                     marker.changed();
                 }
-                if (style.getText().getText() !== device.get('name')) {
-                    style.getText().setText(device.get('name'));
+                deviceName = Ext.String.htmlDecode(device.get('name'));
+                if (style.getText().getText() !== deviceName) {
+                    style.getText().setText(deviceName);
                     marker.changed();
                 }
             }
@@ -260,7 +261,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             style = this.getLatestMarker(this.getDeviceColor(device),
                 position.get('course'),
                 device.get('category'));
-            style.getText().setText(device.get('name'));
+            style.getText().setText(Ext.String.htmlDecode(device.get('name')));
             marker.setStyle(style);
             marker.setId(device.get('id'));
             this.latestMarkers[deviceId] = marker;
