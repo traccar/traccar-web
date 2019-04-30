@@ -424,6 +424,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Truck",
     "categoryVan": "Van",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }
