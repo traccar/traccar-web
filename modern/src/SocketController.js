@@ -1,7 +1,11 @@
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { updateDevices, updatePositions } from './actions';
+import { Component } from "react";
+import { connect } from "react-redux";
+import { updateDevices, updatePositions } from "./actions";
 
+/**
+ * Display browser notifications for events from server
+ * @type: Function
+ */
 const displayNotifications = events => {
   if ("Notification" in window) {
     if (Notification.permission === "granted") {
@@ -19,16 +23,22 @@ const displayNotifications = events => {
   }
 };
 
+/**
+ * Empty component that listens for updates on the API socket
+ * @type: React Component
+ */
 class SocketController extends Component {
   connectSocket() {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const socket = new WebSocket(protocol + '//' + window.location.host + '/api/socket');
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const socket = new WebSocket(
+      protocol + "//" + window.location.host + "/api/socket"
+    );
 
     socket.onclose = () => {
       setTimeout(() => this.connectSocket(), 60 * 1000);
     };
 
-    socket.onmessage = (event) => {
+    socket.onmessage = event => {
       const data = JSON.parse(event.data);
       if (data.devices) {
         this.props.dispatch(updateDevices(data.devices));
@@ -39,7 +49,7 @@ class SocketController extends Component {
       if (data.events) {
         displayNotifications(data.events);
       }
-    }
+    };
   }
 
   componentDidMount() {
