@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
+    "http-proxy-middleware": "^0.19.1",
     "leaflet": "^1.5.1",
     "react": "^16.8.6",
     "react-container-dimensions": "^1.4.1",
@@ -21,7 +22,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8082",
   "browserslist": {
     "production": [
       ">0.2%",
