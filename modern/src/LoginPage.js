@@ -13,6 +13,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import green from "@material-ui/core/colors/green";
 
 import { useAuth } from "./context/auth";
+import UserRegistrationDialog from "./UserRegistrationDialog";
 
 /**
  * Component MUI styles
@@ -63,6 +64,7 @@ function LoginPage({ classes }) {
   let [failed, setFailed] = useState(false);
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  let [registering, setRegistering] = useState(false);
   let [formMessage, setFormMessage] = useState("");
 
   let { login } = useAuth();
@@ -116,6 +118,7 @@ function LoginPage({ classes }) {
               type="button"
               variant="contained"
               className={classes.button}
+              onClick={() => setRegistering(true)}
             >
               Register
             </Button>
@@ -132,6 +135,14 @@ function LoginPage({ classes }) {
           </div>
         </form>
       </Paper>
+      <UserRegistrationDialog
+        open={registering}
+        onCancel={() => setRegistering(false)}
+        onSave={() => {
+          setRegistering(false);
+          setFormMessage("User created! Login with email and password.");
+        }}
+      />
     </main>
   );
 }
