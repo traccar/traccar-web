@@ -1,20 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux';
-import { createStore } from 'redux'
-import rootReducer from './reducers';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+
+import registerServiceWorker from "./registerServiceWorker";
+
+import rootReducer from "./reducers";
+import App from "./App";
+import { AuthProvider, UserProvider } from "./context/auth";
 
 const store = createStore(rootReducer);
 
-ReactDOM.render((
+ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
-), document.getElementById('root'));
+    <AuthProvider>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </AuthProvider>
+  </Provider>,
+  document.getElementById("root")
+);
 
 registerServiceWorker();
