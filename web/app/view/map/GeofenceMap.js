@@ -29,14 +29,11 @@ Ext.define('Traccar.view.map.GeofenceMap', {
 
     tbar: {
         items: [{
-            xtype: 'combobox',
-            store: 'GeofenceTypes',
-            valueField: 'key',
-            displayField: 'name',
-            editable: false,
-            listeners: {
-                select: 'onTypeSelect'
-            }
+            glyph: 'xf067@FontAwesome',
+            tooltip: Strings.sharedAdd,
+            tooltipType: 'title',
+            minWidth: 0,
+            handler: 'onTypeSelect'
         }, {
             xtype: 'tbfill'
         }, {

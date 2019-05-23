@@ -49,7 +49,7 @@ Ext.define('Traccar.view.map.GeofenceMapController', {
 
     onTypeSelect: function (combo) {
         this.getView().removeInteraction();
-        this.getView().addInteraction(combo.getValue());
+        this.getView().addInteraction('Polygon');
     },
 
     setMapState: function (lat, lon, zoom) {
