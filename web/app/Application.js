@@ -44,7 +44,8 @@ Ext.define('Traccar.Application', {
         'Driver',
         'KnownCommand',
         'KnownNotification',
-        'Maintenance'
+        'Maintenance',
+        'Location'
     ],
 
     stores: [
@@ -113,7 +114,8 @@ Ext.define('Traccar.Application', {
         'AllMaintenances',
         'MaintenanceTypes',
         'HoursUnits',
-        'AllNotificators'
+        'AllNotificators',
+        'LocationSearches'
     ],
 
     controllers: [
@@ -143,6 +145,11 @@ Ext.define('Traccar.Application', {
         if (rootPanel) {
             rootPanel.setActiveItem(show ? 1 : 0);
         }
+    },
+
+    searchAddress: function () {
+        console.log("lol")
+
     },
 
     showEvents: function (show) {

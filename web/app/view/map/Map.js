@@ -45,6 +45,15 @@ Ext.define('Traccar.view.map.Map', {
         }, {
             xtype: 'tbfill'
         }, {
+            xtype: 'combobox',
+            reference: 'mapSearch',
+            store: 'LocationSearches',
+            queryMode: 'local',
+            displayField: 'display_name',
+            listeners: {
+                change: 'searchAddress'
+            }
+        }, {
             handler: 'showReports',
             reference: 'showReportsButton',
             glyph: 'xf0f6@FontAwesome',

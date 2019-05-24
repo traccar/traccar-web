@@ -20,7 +20,8 @@ Ext.define('Traccar.view.map.MapController', {
     alias: 'controller.map',
 
     requires: [
-        'Traccar.GeofenceConverter'
+        'Traccar.GeofenceConverter',
+        'Traccar.model.Location'
     ],
 
     config: {
@@ -48,6 +49,28 @@ Ext.define('Traccar.view.map.MapController', {
             Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableReport'));
         this.lookupReference('showEventsButton').setVisible(
             Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableEvents'));
+        Ext.Ajax.request({
+            url: 'https://nominatim.openstreetmap.org/search/paris',
+            method: 'GET',
+            timeout: 60000,
+            params:
+                {
+                    format: 'json'
+                },
+            headers:
+                {
+                    'Content-Type': 'application/json'
+                },
+            success: function (response) {
+                var json = JSON.parse(response.responseText);
+                Ext.getStore("LocationSearches").loadData(json, false);
+                console.log(json);
+            },
+            failure: function (response) {
+                Ext.Msg.alert('Status', 'Request Failed.');
+
+            }
+        })
     },
 
     showReports: function () {
@@ -56,6 +79,36 @@ Ext.define('Traccar.view.map.MapController', {
 
     showEvents: function () {
         Traccar.app.showEvents(true);
+    },
+
+    searchAddress: function (value) {
+        rootView = this.getView()
+        Ext.Ajax.request({
+            url: 'https://nominatim.openstreetmap.org/search/'+value.value,
+            method: 'GET',
+            timeout: 60000,
+            params:
+                {
+                    format: 'json'
+                },
+            headers:
+                {
+                    'Content-Type': 'application/json'
+                },
+            success: function (response) {
+                var json = JSON.parse(response.responseText);
+                Ext.getStore("LocationSearches").loadData(json, false);
+                console.log(json)
+                rootView.getMapView().setCenter(ol.proj.fromLonLat([
+                    Number(json[0].lon),
+                    Number(json[0].lat)
+                ]));
+            },
+            failure: function (response) {
+                Ext.Msg.alert('Status', 'Request Failed.');
+
+            }
+        })
     },
 
     onFollowClick: function (button, pressed) {
