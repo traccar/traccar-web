@@ -189,23 +189,19 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     animateMarker: function (marker, geometry, course, duration) {
-        var timeout = 20;
-        var start = marker.getGeometry().getCoordinates();
-        var end = geometry.getCoordinates();
-        var line = new ol.geom.LineString([start, end]);
-        var updatePos = function(line, pos, marker) {
-            var coord = line.getCoordinateAt(pos / (duration / timeout));
-            marker.setGeometry(new ol.geom.Point(coord));
-            if (pos < duration/timeout)
-                setTimeout(updatePos, timeout, line, pos+1, marker);
-            else {
-                var style=marker.getStyle();
-                if (style.getImage().angle !== course) {
+        var timeout = 20, start = marker.getGeometry().getCoordinates(),
+            end = geometry.getCoordinates(), line = new ol.geom.LineString([start, end]),
+            updatePos = function (line, pos, marker) {
+                var coord = line.getCoordinateAt(pos / (duration / timeout)),
+                    style = marker.getStyle();
+                marker.setGeometry(new ol.geom.Point(coord));
+                if (pos < duration / timeout) {
+                    setTimeout(updatePos, timeout, line, pos + 1, marker);
+                } else if (style.getImage().angle !== course) {
                     style.setImage(Traccar.DeviceImages.getImageIcon(
                         style.getImage().fill, style.getImage().zoom, course, style.getImage().category));
                 }
-            }
-        };
+            };
         updatePos(line, 1, marker);
     },
 
@@ -270,9 +266,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         deviceId = position.get('deviceId');
         if (deviceId in this.latestMarkers) {
             marker = this.latestMarkers[deviceId];
-
-
-            this.animateMarker(marker, geometry, position.get('course'),2000);
+            this.animateMarker(marker, geometry, position.get('course'), 2000);
         } else {
             marker = new ol.Feature(geometry);
             marker.set('record', device);
