@@ -48,7 +48,7 @@ Ext.define('Traccar.store.MapTypes', {
         name: Strings.mapWikimedia
     }, {
         key: 'customXyzFormat',
-	 name: Strings.mapCustomXyzFormat
+        name: Strings.mapCustomXyzFormat
     }, {
         key: 'customArcgisRest',
         name: Strings.mapCustomArcgisRest
