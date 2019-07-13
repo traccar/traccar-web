@@ -38,11 +38,18 @@ Ext.define('Traccar.view.map.BaseMap', {
         bingKey = server.get('bingKey');
 
         switch (type) {
-            case 'custom':
+            case 'customXyzFormat':
                 layer = new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: Ext.String.htmlDecode(server.get('mapUrl')),
                         attributions: ''
+                    })
+                });
+                break;
+            case 'customArcgisRest':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.TileArcGISRest({
+                        url: Ext.String.htmlDecode(server.get('mapUrl'))
                     })
                 });
                 break;
