@@ -232,6 +232,8 @@
     "mapTitle": "Map",
     "mapLayer": "Map Layer",
     "mapCustom": "Custom Map",
+    "mapCustomXyzFormat": "Custom (XYZ)",
+    "mapCustomArcgisRest": "Custom (ArcGIS REST)",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
