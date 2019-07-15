@@ -188,21 +188,33 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         }
     },
 
-    animateMarker: function (marker, geometry, course, duration) {
-        var timeout = 20, start = marker.getGeometry().getCoordinates(),
+    animateMarker: function (marker, geometry, course) {
+        var start = marker.getGeometry().getCoordinates(),
             end = geometry.getCoordinates(), line = new ol.geom.LineString([start, end]),
-            updatePos = function (line, pos, marker) {
-                var coord = line.getCoordinateAt(pos / (duration / timeout)),
-                    style = marker.getStyle();
-                marker.setGeometry(new ol.geom.Point(coord));
+            duration = Traccar.Style.mapAnimateMarkerDuration,
+            timeout = Traccar.Style.mapAnimateMarkerTimoeout,
+
+            updatePos = function (pos, m) {
+                var coord = m.get('line').getCoordinateAt(pos / (duration / timeout)),
+                    style = m.getStyle();
+                m.setGeometry(new ol.geom.Point(coord));
                 if (pos < duration / timeout) {
-                    setTimeout(updatePos, timeout, line, pos + 1, marker);
-                } else if (style.getImage().angle !== course) {
-                    style.setImage(Traccar.DeviceImages.getImageIcon(
-                        style.getImage().fill, style.getImage().zoom, course, style.getImage().category));
+                    setTimeout(updatePos,timeout,pos + 1, m);
+                } else {
+                    if (style.getImage().angle !== m.get('nextCourse')) {
+                        style.setImage(Traccar.DeviceImages.getImageIcon(
+                            style.getImage().fill, style.getImage().zoom, m.get('nextCourse'), style.getImage().category));
+                    }
+                    m.set('isAnimating', false);
                 }
             };
-        updatePos(line, 1, marker);
+
+        marker.set('line', line);
+        marker.set('nextCourse', course);
+        if (!marker.get('isAnimating')) {
+            marker.set('isAnimating', true);
+            updatePos(1, marker);
+        }
     },
 
     updateLatest: function (store, data) {
