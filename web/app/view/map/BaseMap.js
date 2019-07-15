@@ -46,6 +46,13 @@ Ext.define('Traccar.view.map.BaseMap', {
                     })
                 });
                 break;
+            case 'customArcgis':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.TileArcGISRest({
+                        url: Ext.String.htmlDecode(server.get('mapUrl'))
+                    })
+                });
+                break;
             case 'bingRoad':
                 layer = new ol.layer.Tile({
                     source: new ol.source.BingMaps({
