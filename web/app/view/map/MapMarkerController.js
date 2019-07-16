@@ -189,13 +189,14 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     animateMarker: function (marker, geometry, course) {
-        var start, end, duration, timeout, line, updatePosition;
+        var start, end, duration, timeout, line, updatePosition, self;
 
         start = marker.getGeometry().getCoordinates();
         end = geometry.getCoordinates();
         line = new ol.geom.LineString([start, end]);
         duration = Traccar.Style.mapAnimateMarkerDuration;
         timeout = Traccar.Style.mapAnimateMarkerTimeout;
+        self = this;
 
         updatePosition = function (position, marker) {
             var coordinate, style;
@@ -206,7 +207,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 setTimeout(updatePosition, timeout, position + 1, marker);
             } else {
                 if (style.getImage().angle !== marker.get('nextCourse'))
-                    this.rotateMarker(style, marker.get('nextCourse'));
+                    self.rotateMarker(style, marker.get('nextCourse'));
                 marker.set('animating', false);
             }
         };
