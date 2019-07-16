@@ -192,7 +192,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         var start = marker.getGeometry().getCoordinates(),
             end = geometry.getCoordinates(), line = new ol.geom.LineString([start, end]),
             duration = Traccar.Style.mapAnimateMarkerDuration,
-            timeout = Traccar.Style.mapAnimateMarkerTimoeout,
+            timeout = Traccar.Style.mapAnimateMarkerTimeout,
 
             updatePos = function (pos, m) {
                 var coord = m.get('line').getCoordinateAt(pos / (duration / timeout)),
@@ -278,7 +278,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         deviceId = position.get('deviceId');
         if (deviceId in this.latestMarkers) {
             marker = this.latestMarkers[deviceId];
-            this.animateMarker(marker, geometry, position.get('course'), 2000);
+            this.animateMarker(marker, geometry, position.get('course'));
         } else {
             marker = new ol.Feature(geometry);
             marker.set('record', device);
