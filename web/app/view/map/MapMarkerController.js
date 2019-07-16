@@ -189,7 +189,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     animateMarker: function (marker, geometry, course) {
-        var start, end, duration, timeout, line, updatePos;
+        var start, end, duration, timeout, line, updatePosition;
 
         start = marker.getGeometry().getCoordinates();
         end = geometry.getCoordinates();
