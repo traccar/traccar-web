@@ -203,7 +203,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             style = marker.getStyle();
             marker.setGeometry(new ol.geom.Point(coord));
             if (position < duration / timeout) {
-                setTimeout(updatePos, timeout, position + 1, marker);
+                setTimeout(updatePosition, timeout, position + 1, marker);
             } else {
                 if (style.getImage().angle !== marker.get('nextCourse')) {
                     style.setImage(Traccar.DeviceImages.getImageIcon(
