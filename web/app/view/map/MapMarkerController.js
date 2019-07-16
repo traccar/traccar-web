@@ -199,7 +199,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                     style = m.getStyle();
                 m.setGeometry(new ol.geom.Point(coord));
                 if (pos < duration / timeout) {
-                    setTimeout(updatePos,timeout,pos + 1, m);
+                    setTimeout(updatePos, timeout, pos + 1, m);
                 } else {
                     if (style.getImage().angle !== m.get('nextCourse')) {
                         style.setImage(Traccar.DeviceImages.getImageIcon(

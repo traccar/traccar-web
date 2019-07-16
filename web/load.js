@@ -174,7 +174,7 @@
         addScriptFile('https://cdn.jsdelivr.net/npm/proj4@' + proj4jsVersion + '/dist/proj4.js');
     }
 
-    window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
+    window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'car2', 'crane', 'helicopter', 'motorcycle',
         'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter'];
 
     for (i = 0; i < window.Images.length; i++) {
