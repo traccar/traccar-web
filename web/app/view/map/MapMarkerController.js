@@ -197,27 +197,27 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         duration = Traccar.Style.mapAnimateMarkerDuration;
         timeout = Traccar.Style.mapAnimateMarkerTimeout;
 
-        updatePos = function (pos, m) {
+        updatePosition = function (position, marker) {
             var coord, style;
-            coord = m.get('line').getCoordinateAt(pos / (duration / timeout));
-            style = m.getStyle();
-            m.setGeometry(new ol.geom.Point(coord));
-            if (pos < duration / timeout) {
-                setTimeout(updatePos, timeout, pos + 1, m);
+            coord = marker.get('line').getCoordinateAt(position / (duration / timeout));
+            style = marker.getStyle();
+            marker.setGeometry(new ol.geom.Point(coord));
+            if (position < duration / timeout) {
+                setTimeout(updatePos, timeout, position + 1, marker);
             } else {
-                if (style.getImage().angle !== m.get('nextCourse')) {
+                if (style.getImage().angle !== marker.get('nextCourse')) {
                     style.setImage(Traccar.DeviceImages.getImageIcon(
-                        style.getImage().fill, style.getImage().zoom, m.get('nextCourse'), style.getImage().category));
+                        style.getImage().fill, style.getImage().zoom, marker.get('nextCourse'), style.getImage().category));
                 }
-                m.set('isAnimating', false);
+                marker.set('animating', false);
             }
         };
 
         marker.set('line', line);
         marker.set('nextCourse', course);
-        if (!marker.get('isAnimating')) {
-            marker.set('isAnimating', true);
-            updatePos(1, marker);
+        if (!marker.get('animating')) {
+            marker.set('animating', true);
+            updatePosition(1, marker);
         }
     },
 
