@@ -308,7 +308,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             lastLiveCoordinates = liveCoordinates[liveCoordinates.length - 1];
             newCoordinates = ol.proj.fromLonLat([position.get('longitude'), position.get('latitude')]);
             if (lastLiveCoordinates[0] === newCoordinates[0] &&
-                lastLiveCoordinates[1] === newCoordinates[1]) {
+                    lastLiveCoordinates[1] === newCoordinates[1]) {
                 return;
             }
             if (liveCoordinates.length >= this.liveRouteLength) {
@@ -407,7 +407,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         }
 
         if (this.selectedMarker && !this.selectedMarker.get('event') &&
-            this.selectedMarker.get('record') instanceof Traccar.model.Position) {
+                this.selectedMarker.get('record') instanceof Traccar.model.Position) {
             this.selectedMarker = null;
         }
     },
@@ -484,7 +484,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             if (this.selectedMarker.get('event')) {
                 this.getView().getMarkersSource().removeFeature(this.selectedMarker);
             } else if (!Ext.getStore('ReportRoute').showMarkers &&
-                this.selectedMarker.get('record') instanceof Traccar.model.Position) {
+                    this.selectedMarker.get('record') instanceof Traccar.model.Position) {
                 this.getView().getMarkersSource().removeFeature(this.selectedMarker);
                 delete this.reportMarkers[this.selectedMarker.get('record').get('id')];
             } else {
