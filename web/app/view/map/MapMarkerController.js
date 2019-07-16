@@ -198,10 +198,10 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         timeout = Traccar.Style.mapAnimateMarkerTimeout;
 
         updatePosition = function (position, marker) {
-            var coord, style;
-            coord = marker.get('line').getCoordinateAt(position / (duration / timeout));
+            var coordinate, style;
+            coordinate = marker.get('line').getCoordinateAt(position / (duration / timeout));
             style = marker.getStyle();
-            marker.setGeometry(new ol.geom.Point(coord));
+            marker.setGeometry(new ol.geom.Point(coordinate));
             if (position < duration / timeout) {
                 setTimeout(updatePosition, timeout, position + 1, marker);
             } else {
