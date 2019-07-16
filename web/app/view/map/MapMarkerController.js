@@ -144,7 +144,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 marker = this.latestMarkers[deviceId];
                 style = marker.getStyle();
                 if (style.getImage().fill !== this.getDeviceColor(device) ||
-                    style.getImage().category !== device.get('category')) {
+                        style.getImage().category !== device.get('category')) {
                     this.updateDeviceMarker(style, this.getDeviceColor(device), device.get('category'));
                     marker.changed();
                 }
