@@ -205,10 +205,8 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             if (position < duration / timeout) {
                 setTimeout(updatePosition, timeout, position + 1, marker);
             } else {
-                if (style.getImage().angle !== marker.get('nextCourse')) {
-                    style.setImage(Traccar.DeviceImages.getImageIcon(
-                        style.getImage().fill, style.getImage().zoom, marker.get('nextCourse'), style.getImage().category));
-                }
+                if (style.getImage().angle !== marker.get('nextCourse'))
+                    this.rotateMarker(style, marker.get('nextCourse'));
                 marker.set('animating', false);
             }
         };
