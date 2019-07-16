@@ -189,25 +189,29 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     animateMarker: function (marker, geometry, course) {
-        var start = marker.getGeometry().getCoordinates(),
-            end = geometry.getCoordinates(), line = new ol.geom.LineString([start, end]),
-            duration = Traccar.Style.mapAnimateMarkerDuration,
-            timeout = Traccar.Style.mapAnimateMarkerTimeout,
+        var start, end, duration, timeout, line;
 
-            updatePos = function (pos, m) {
-                var coord = m.get('line').getCoordinateAt(pos / (duration / timeout)),
-                    style = m.getStyle();
-                m.setGeometry(new ol.geom.Point(coord));
-                if (pos < duration / timeout) {
-                    setTimeout(updatePos, timeout, pos + 1, m);
-                } else {
-                    if (style.getImage().angle !== m.get('nextCourse')) {
-                        style.setImage(Traccar.DeviceImages.getImageIcon(
-                            style.getImage().fill, style.getImage().zoom, m.get('nextCourse'), style.getImage().category));
-                    }
-                    m.set('isAnimating', false);
+        start = marker.getGeometry().getCoordinates();
+        end = geometry.getCoordinates();
+        line = new ol.geom.LineString([start, end]);
+        duration = Traccar.Style.mapAnimateMarkerDuration;
+        timeout = Traccar.Style.mapAnimateMarkerTimeout;
+
+        updatePos = function (pos, m) {
+            var coord, style;
+            coord = m.get('line').getCoordinateAt(pos / (duration / timeout));
+            style = m.getStyle();
+            m.setGeometry(new ol.geom.Point(coord));
+            if (pos < duration / timeout) {
+                setTimeout(updatePos, timeout, pos + 1, m);
+            } else {
+                if (style.getImage().angle !== m.get('nextCourse')) {
+                    style.setImage(Traccar.DeviceImages.getImageIcon(
+                        style.getImage().fill, style.getImage().zoom, m.get('nextCourse'), style.getImage().category));
                 }
-            };
+                m.set('isAnimating', false);
+            }
+        };
 
         marker.set('line', line);
         marker.set('nextCourse', course);
