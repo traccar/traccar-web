@@ -233,6 +233,7 @@
     "mapLayer": "Map Layer",
     "mapCustom": "Custom (XYZ)",
     "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
