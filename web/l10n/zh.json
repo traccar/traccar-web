@@ -231,7 +231,9 @@
     "serverForceSettings": "强制设置",
     "mapTitle": "地图",
     "mapLayer": "地图图层",
-    "mapCustom": "自定义地图",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "OpenStreetMap 地图",
     "mapBingKey": "必应重点地图",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "无轨电车",
     "categoryTruck": "卡车",
     "categoryVan": "厢式货车",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "开始",
     "maintenancePeriod": "时期"
 }

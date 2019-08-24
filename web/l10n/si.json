@@ -231,7 +231,9 @@
     "serverForceSettings": "බලය සැකසීම්",
     "mapTitle": "සිතියම",
     "mapLayer": "සිතියම් ස්තරය",
-    "mapCustom": "අභිරුචි සිතියම",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "විවෘත වීදියේ සිතියම",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "ට්‍රක් රථය",
     "categoryVan": "වැන් රථය ",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "ආරම්භය",
     "maintenancePeriod": "කාලය"
 }

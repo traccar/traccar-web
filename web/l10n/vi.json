@@ -231,7 +231,9 @@
     "serverForceSettings": "Buộc thiết lập",
     "mapTitle": "Bản đồ",
     "mapLayer": "Lớp bản đồ",
-    "mapCustom": "Bản đồ tùy chỉnh",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Xe tải",
     "categoryVan": "Xe thùng",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

@@ -231,7 +231,9 @@
     "serverForceSettings": "Tving innstillinger",
     "mapTitle": "Kart",
     "mapLayer": "Kartlag",
-    "mapCustom": "Egendefinert kart",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto basiskart",
     "mapOsm": "Open Street-kart",
     "mapBingKey": "Bing Maps-nøkkel",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Strømbuss",
     "categoryTruck": "Lastebil",
     "categoryVan": "Varebil",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Periode"
 }

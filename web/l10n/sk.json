@@ -231,7 +231,9 @@
     "serverForceSettings": "Nastavenie sily",
     "mapTitle": "Mapa",
     "mapLayer": "Mapové vrstvy",
-    "mapCustom": "Vlastná mapa",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Klúč Bing Maps",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Nákladné auto",
     "categoryVan": "Dodávka",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

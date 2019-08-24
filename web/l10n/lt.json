@@ -231,7 +231,9 @@
     "serverForceSettings": "Priverstiniai nustatymai",
     "mapTitle": "Žemėlapis",
     "mapLayer": "Žemėlapio sluoksnis",
-    "mapCustom": "Pasirinktinis Žemėlapis",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto žemėlapiai",
     "mapOsm": "Open Street žemėlapis",
     "mapBingKey": "Bing Maps raktas",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Vilkikas",
     "categoryVan": "Autobusiuskas",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Pradėti",
     "maintenancePeriod": "Periodas"
 }

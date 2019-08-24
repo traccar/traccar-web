@@ -231,7 +231,9 @@
     "serverForceSettings": "강제설정",
     "mapTitle": "지도",
     "mapLayer": "지도 계층",
-    "mapCustom": "고객지도",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "카토 지도",
     "mapOsm": "열린거리지도",
     "mapBingKey": "빙 지도키",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "트럭",
     "categoryVan": "Van",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

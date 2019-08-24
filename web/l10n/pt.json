@@ -231,7 +231,9 @@
     "serverForceSettings": "Forçar Configurações",
     "mapTitle": "Mapa",
     "mapLayer": "Mapa",
-    "mapCustom": "Mapa Personalizado",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Mapa Carto",
     "mapOsm": "Mapa Open Street",
     "mapBingKey": "Mapa Bing Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Ônibus Elétrico",
     "categoryTruck": "Camião",
     "categoryVan": "Caravana",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Começar",
     "maintenancePeriod": "Período"
 }

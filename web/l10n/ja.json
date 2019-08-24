@@ -231,7 +231,9 @@
     "serverForceSettings": "強制的に設定",
     "mapTitle": "地図",
     "mapLayer": "使用する地図",
-    "mapCustom": "カスタム地図",
+    "mapCustom": "カスタム (XYZ)",
+    "mapCustomArcgis": "カスタム (ArcGIS)",
+    "mapCustomLabel": "カスタム地図",
     "mapCarto": "Cartoベースマップ",
     "mapOsm": "Open Streetマップ",
     "mapBingKey": "Bingマップキー",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "トロリーバス",
     "categoryTruck": "トラック",
     "categoryVan": "バン",
+    "categoryScooter": "スクーター",
     "maintenanceStart": "メンテナンス開始",
     "maintenancePeriod": "メンテナンス終了"
 }

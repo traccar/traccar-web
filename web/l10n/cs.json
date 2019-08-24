@@ -231,7 +231,9 @@
     "serverForceSettings": "Vynutit nastavení",
     "mapTitle": "Mapa",
     "mapLayer": "Vrstva mapy",
-    "mapCustom": "Vlastní mapa",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Základní mapy nákladu",
     "mapOsm": "Open Street mapa",
     "mapBingKey": "Bing Maps klíč",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolejbus",
     "categoryTruck": "Nákladní auto",
     "categoryVan": "Dodávka",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Perioda"
 }

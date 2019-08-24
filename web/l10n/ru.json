@@ -231,7 +231,9 @@
     "serverForceSettings": "Форсировать настройки",
     "mapTitle": "Карта",
     "mapLayer": "Слой карты",
-    "mapCustom": "Пользовательская карта",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Ключ Bing Maps",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Троллейбус",
     "categoryTruck": "Грузовой автомобиль",
     "categoryVan": "Фургон",
+    "categoryScooter": "Скутер",
     "maintenanceStart": "Начало",
     "maintenancePeriod": "Период"
 }

@@ -231,7 +231,9 @@
     "serverForceSettings": "Tənzimləmələri sürətləndirmək",
     "mapTitle": "Xəritə",
     "mapLayer": "Xəritə qatı",
-    "mapCustom": "İstifadəçi xəritəsi",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Yük maşını",
     "categoryVan": "Furqon",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Başlamaq",
     "maintenancePeriod": "Dövr"
 }
