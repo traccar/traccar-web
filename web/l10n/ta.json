@@ -231,7 +231,9 @@
     "serverForceSettings": "சக்தி அமைப்புகள்",
     "mapTitle": "வரைபடம்",
     "mapLayer": "வரைபடம் அடுக்கு",
-    "mapCustom": "விருப்ப வரைபடம்",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "கார்ட்டோ வரைபடங்கள்",
     "mapOsm": "திறமூல தெரு வரைபடம்",
     "mapBingKey": "பிங் வரைபட கீ",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "தள்ளுவண்டி",
     "categoryTruck": "கண ரக வாகனம்",
     "categoryVan": "வேன் வாகனம் ",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "துவக்கு ",
     "maintenancePeriod": "காலம்"
 }

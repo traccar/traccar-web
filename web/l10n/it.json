@@ -231,7 +231,9 @@
     "serverForceSettings": "Forza le impostazioni",
     "mapTitle": "Mappa",
     "mapLayer": "Livelli Mappa",
-    "mapCustom": "Mappa Personalizzata",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Mappe base di Carto",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Chiave Mappa",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Filobus",
     "categoryTruck": "Camion",
     "categoryVan": "Furgone",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Inizio",
     "maintenancePeriod": "Periodo"
 }

@@ -231,7 +231,9 @@
     "serverForceSettings": "強制覆寫設定",
     "mapTitle": "地圖",
     "mapLayer": "地圖圖層",
-    "mapCustom": "自訂地圖",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "CARTO 地圖",
     "mapOsm": "OpenStreetMap",
     "mapBingKey": "Bing 地圖金鑰",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "貨車",
     "categoryVan": "箱型車",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

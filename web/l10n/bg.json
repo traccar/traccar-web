@@ -231,7 +231,9 @@
     "serverForceSettings": "Наложи настройките",
     "mapTitle": "Карта",
     "mapLayer": "Карта",
-    "mapCustom": "Потребителска карта",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Ключ за Bing Maps",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Тролейбус",
     "categoryTruck": "Камион",
     "categoryVan": "Ван",
+    "categoryScooter": "Скутер",
     "maintenanceStart": "Старт",
     "maintenancePeriod": "Период"
 }

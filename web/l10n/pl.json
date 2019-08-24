@@ -231,7 +231,9 @@
     "serverForceSettings": "Wymuś ustawienia",
     "mapTitle": "Mapa",
     "mapLayer": "Rodzaj mapy",
-    "mapCustom": "Własna mapa",
+    "mapCustom": "Własny (XYZ)",
+    "mapCustomArcgis": "Własny (ArcGIS)",
+    "mapCustomLabel": "Własna mapa",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolejbus",
     "categoryTruck": "Ciężarówka",
     "categoryVan": "Van",
+    "categoryScooter": "Skuter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Okres"
 }

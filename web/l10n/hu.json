@@ -231,7 +231,9 @@
     "serverForceSettings": "Erő beállítások",
     "mapTitle": "Térkép",
     "mapLayer": "Térkép réteg",
-    "mapCustom": "Egyéni térkép",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps kulcs",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Kamion",
     "categoryVan": "Teherkocsi",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

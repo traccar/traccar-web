@@ -231,7 +231,9 @@
     "serverForceSettings": "बल सेटिंग्स",
     "mapTitle": "मानचित्र",
     "mapLayer": "मानचित्र की परत",
-    "mapCustom": "विशिष्ट रूप से निर्मित मानचित्र",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "ओपन स्ट्रीट मानचित्र",
     "mapBingKey": "बिंग मैप्स की कुंजी",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "ट्रक",
     "categoryVan": "वैन",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "प्रारंभ",
     "maintenancePeriod": "अवधि"
 }

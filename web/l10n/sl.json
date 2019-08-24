@@ -231,7 +231,9 @@
     "serverForceSettings": "Vsili nastavitve",
     "mapTitle": "Karta",
     "mapLayer": "Zemljevidi",
-    "mapCustom": "Poljubna karta",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Karta",
     "mapBingKey": "Bing Mapk Ključ",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolejbus",
     "categoryTruck": "Tovornjak",
     "categoryVan": "Kombi",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Obdobje"
 }

@@ -231,7 +231,9 @@
     "serverForceSettings": "Pāriestatīt Iestatījumus",
     "mapTitle": "Karte",
     "mapLayer": "Kartes slānis",
-    "mapCustom": "Pielāgota karte",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Kartes",
     "mapBingKey": "Bing Karšu Atslēga",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolejbuss",
     "categoryTruck": "Smagā mašīna",
     "categoryVan": "Busiņš",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Sākt",
     "maintenancePeriod": "Periods"
 }

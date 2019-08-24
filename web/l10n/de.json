@@ -231,7 +231,9 @@
     "serverForceSettings": "Einstellungen erzwingen",
     "mapTitle": "Karte",
     "mapLayer": "Karten Layer",
-    "mapCustom": "Benutzerspezifische Karte",
+    "mapCustom": "Benutzerdefiniert (XYZ)",
+    "mapCustomArcgis": "Benutzerdefiniert (ArcGIS)",
+    "mapCustomLabel": "Benutzerdefinierte Karte",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Oberleitungsbus",
     "categoryTruck": "LKW",
     "categoryVan": "Van",
+    "categoryScooter": "Roller",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Periode"
 }

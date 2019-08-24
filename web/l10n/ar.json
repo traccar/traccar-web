@@ -231,7 +231,9 @@
     "serverForceSettings": "إجبار الإعدادات",
     "mapTitle": "خريطة",
     "mapLayer": "طبقة الخريطة",
-    "mapCustom": "خريطة مخصصة",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "خرائط Carto Base",
     "mapOsm": "خرائط اوبن ستريت",
     "mapBingKey": "مفتاح خرائط Bing",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "شاحنة",
     "categoryVan": "نقل",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "بداية",
     "maintenancePeriod": "فترة"
 }

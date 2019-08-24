@@ -231,7 +231,9 @@
     "serverForceSettings": "Instellingen forceren",
     "mapTitle": "Kaart",
     "mapLayer": "Kaart laag",
-    "mapCustom": "Aangepaste kaart",
+    "mapCustom": "Aangepast (XYZ)",
+    "mapCustomArcgis": "Aangepast (ArcGIS)",
+    "mapCustomLabel": "Aangepaste map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "OpenStreetMap",
     "mapBingKey": "Bing Maps sleutel",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Vrachtwagen",
     "categoryVan": "Busje",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Periode"
 }

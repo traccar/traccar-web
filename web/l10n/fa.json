@@ -231,7 +231,9 @@
     "serverForceSettings": "تنظیمات اجباری",
     "mapTitle": "نقشه",
     "mapLayer": "لایه های نقشه",
-    "mapCustom": "نقشه سفارشی",
+    "mapCustom": "سفارشی (XYZ)",
+    "mapCustomArcgis": "سفارشی (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "نقشه کارتو",
     "mapOsm": "نقشه باز خیابان",
     "mapBingKey": "کلید نقشه Bing",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "تریلر",
     "categoryTruck": "تریلی",
     "categoryVan": "ون",
+    "categoryScooter": "اسکوتر",
     "maintenanceStart": "شروع",
     "maintenancePeriod": "بازه"
 }

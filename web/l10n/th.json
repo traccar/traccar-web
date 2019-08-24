@@ -231,7 +231,9 @@
     "serverForceSettings": "บังคับ การตั้งค่า",
     "mapTitle": "แผนที่",
     "mapLayer": "ชั้นแผนที่",
-    "mapCustom": "แผนที่ที่กำหนดเอง",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps สำคัญ",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "รถยก",
     "categoryTruck": "รถบรรทุก",
     "categoryVan": "รถตู้",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "เริ่มต้น",
     "maintenancePeriod": "ระยะเวลา"
 }
