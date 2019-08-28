@@ -44,7 +44,7 @@ Ext.define('Traccar.view.dialog.UserController', {
 
         if (Traccar.app.getServer().get('totpEnabled')) {
             this.lookupReference('totpKeyField').setHidden(
-                !this.lookupReference('useTotpField').getValue());    
+                !this.lookupReference('useTotpField').getValue());
         }
     },
 
