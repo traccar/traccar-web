@@ -231,7 +231,9 @@
     "serverForceSettings": "כפה הגדרות",
     "mapTitle": "מפה",
     "mapLayer": "שכבת מפה",
-    "mapCustom": "מפה בהתאמה",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps\n",
     "mapOsm": "מפות OSM -הכי שוות ",
     "mapBingKey": "מפתח מפות בינג",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "אוטובוס",
     "categoryTruck": "משאית",
     "categoryVan": "מסחרית",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "התחל",
     "maintenancePeriod": "פרק זמן "
 }

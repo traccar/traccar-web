@@ -231,7 +231,9 @@
     "serverForceSettings": "Баптауды жылдамдату",
     "mapTitle": "Карта",
     "mapLayer": "Карта қабаты",
-    "mapCustom": "Қолданушы Картасы",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps кілті",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Жүк автомобилі",
     "categoryVan": "Van",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

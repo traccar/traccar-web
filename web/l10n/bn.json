@@ -231,7 +231,9 @@
     "serverForceSettings": "ফোর্স সেটিংস",
     "mapTitle": "মানচিত্র",
     "mapLayer": "মানচিত্র স্তর",
-    "mapCustom": "কাস্টম মানচিত্র",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "ট্রাক",
     "categoryVan": "ভ্যান",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

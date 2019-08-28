@@ -231,7 +231,9 @@
     "serverForceSettings": "Semua Pengaturan Paksa",
     "mapTitle": "Peta",
     "mapLayer": "Layer Peta",
-    "mapCustom": "Peta Buatan",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Peta Carto",
     "mapOsm": "Peta Open Street",
     "mapBingKey": "Key Peta Bing",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Truk",
     "categoryVan": "Van",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

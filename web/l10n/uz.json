@@ -231,7 +231,9 @@
     "serverForceSettings": "Созламаларни кучайтириш",
     "mapTitle": "Харита",
     "mapLayer": "Харита қавати",
-    "mapCustom": "Фойдаланувчи харитаси",
+    "mapCustom": "Custom (XYZ)",
+    "mapCustomArcgis": "Custom (ArcGIS)",
+    "mapCustomLabel": "Custom map",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Ma",
     "mapBingKey": "Bing Maps калити",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolleybus",
     "categoryTruck": "Юк автомобили",
     "categoryVan": "Van",
+    "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
     "maintenancePeriod": "Period"
 }

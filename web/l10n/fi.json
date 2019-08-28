@@ -231,7 +231,9 @@
     "serverForceSettings": "Pakota asetukset",
     "mapTitle": "Kartta",
     "mapLayer": "Karttataso",
-    "mapCustom": "Oma kartta",
+    "mapCustom": "Oma kartta (XYZ)",
+    "mapCustomArcgis": "Oma kartta (ArcGIS)",
+    "mapCustomLabel": "Oma kartta",
     "mapCarto": "Carto-pohjakartat",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps -avain",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Johdinauto",
     "categoryTruck": "Kuorma-auto",
     "categoryVan": "Pakettiauto",
+    "categoryScooter": "Potkulauta",
     "maintenanceStart": "Alku",
     "maintenancePeriod": "Huoltoväli"
 }

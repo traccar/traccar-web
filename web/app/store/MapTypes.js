@@ -49,5 +49,8 @@ Ext.define('Traccar.store.MapTypes', {
     }, {
         key: 'custom',
         name: Strings.mapCustom
+    }, {
+        key: 'customArcgis',
+        name: Strings.mapCustomArcgis
     }]
 });

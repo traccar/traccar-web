@@ -19,6 +19,10 @@
 Ext.define('Traccar.view.dialog.Driver', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
+    requires: [
+        'Traccar.view.UnescapedTextField'
+    ],
+
     title: Strings.sharedDriver,
 
     items: {
@@ -27,12 +31,12 @@ Ext.define('Traccar.view.dialog.Driver', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'uniqueId',
                 fieldLabel: Strings.deviceIdentifier,
                 allowBlank: false

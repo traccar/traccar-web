@@ -231,7 +231,9 @@
     "serverForceSettings": "Obavezna podešavanja",
     "mapTitle": "Mapa",
     "mapLayer": "Vrsta Mape",
-    "mapCustom": "Prilagođena mapa",
+    "mapCustom": "Prilagođeno (XYZ)",
+    "mapCustomArcgis": "Prilagođeno (ArcGIS)",
+    "mapCustomLabel": "Prilagođena mapa",
     "mapCarto": "Carto Basemaps",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -424,6 +426,7 @@
     "categoryTrolleybus": "Trolejbus",
     "categoryTruck": "Kamion",
     "categoryVan": "Kombi",
+    "categoryScooter": "Skuter",
     "maintenanceStart": "Početak",
     "maintenancePeriod": "Period"
 }
