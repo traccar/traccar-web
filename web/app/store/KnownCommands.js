@@ -39,7 +39,7 @@ Ext.define('Traccar.store.KnownCommands', {
     }, {
         type: 'setTimezone',
         parameters: [{
-            key: 'timezoneName',
+            key: 'timezone',
             name: Strings.commandTimezone,
             valueType: 'string',
             dataType: 'timezone'
