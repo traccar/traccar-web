@@ -148,30 +148,30 @@
     }
 
     extjsVersion = '6.2.0';
-    olVersion = '6.1.1';
+    olVersion = '6.2.1';
     proj4jsVersion = '2.6.0';
 
     if (debugMode) {
-        addScriptFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
-        addScriptFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/charts-debug.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/ext-all-debug.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/charts-debug.js');
     } else {
-        addScriptFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all.js');
-        addScriptFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/charts.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/ext-all.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/charts.js');
     }
-    addScriptFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
+    addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
 
-    addStyleFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-triton/resources/theme-triton-all.css');
-    addScriptFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-triton/theme-triton.js');
+    addStyleFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/theme-triton/resources/theme-triton-all.css');
+    addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/theme-triton/theme-triton.js');
 
-    addStyleFile('https://cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
+    addStyleFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
 
-    addStyleFile('https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v' + olVersion + '/css/ol.css');
-    addScriptFile('https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v' + olVersion + '/build/ol.js');
+    addStyleFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.css');
+    addScriptFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.js');
 
     if (debugMode) {
-        addScriptFile('https://cdn.jsdelivr.net/npm/proj4@' + proj4jsVersion + '/dist/proj4-src.js');
+        addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4-src.js');
     } else {
-        addScriptFile('https://cdn.jsdelivr.net/npm/proj4@' + proj4jsVersion + '/dist/proj4.js');
+        addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4.js');
     }
 
     window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
