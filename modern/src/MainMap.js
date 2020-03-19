@@ -1,6 +1,8 @@
 import 'ol/ol.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Map, View } from 'ol';
+import { fromLonLat } from 'ol/proj';
 import olms from 'ol-mapbox-style';
 
 const mapStateToProps = state => ({
@@ -9,7 +11,15 @@ const mapStateToProps = state => ({
 
 class MainMap extends Component {
   componentDidMount() {
-    olms(this.el, 'https://cdn.traccar.com/map/basic.json');
+    this.map = new Map({
+      target: this.el,
+      view: new View({
+        constrainResolution: true,
+        center: fromLonLat([14.5, 46.05]),
+        zoom: 3
+      })
+    });
+    olms(this.map, 'https://cdn.traccar.com/map/basic.json');
   }
 
   render() {
