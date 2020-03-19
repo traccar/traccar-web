@@ -77,7 +77,7 @@ class MainToobar extends Component {
               onClick={this.openDrawer}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               Traccar
             </Typography>
             <Button color="inherit" onClick={this.handleLogout}>Logout</Button>

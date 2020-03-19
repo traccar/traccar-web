@@ -11,23 +11,23 @@ const styles = theme => ({
   root: {
     width: 'auto',
     display: 'block', // Fix IE11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto',
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 3}px`,
+    padding: `${theme.spacing(3)}px`,
   },
   logo: {
-    margin: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit}px`
+    margin: `${theme.spacing(2)}px 0 ${theme.spacing(1)}px`
   },
   buttons: {
     width: '100%',
@@ -36,7 +36,7 @@ const styles = theme => ({
   },
   button: {
     flex: '1 1 0',
-    margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit}px 0`
+    margin: `${theme.spacing(3)}px ${theme.spacing(1)}px 0`
   },
 });
 
@@ -119,7 +119,7 @@ class LoginPage extends Component {
 
               <Button
                 type="button"
-                variant="raised"
+                variant="contained"
                 disabled
                 className={classes.button}
                 onClick={this.handleRegister}>
@@ -128,7 +128,7 @@ class LoginPage extends Component {
 
               <Button
                 type="submit"
-                variant="raised"
+                variant="contained"
                 color="primary"
                 disabled={!email || !password}
                 className={classes.button}>
