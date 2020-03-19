@@ -1,6 +1,6 @@
 This is a new version of the Traccar web app. It is still in a very early stage of development.
 
-It uses [React](https://reactjs.org/), [Material UI](https://material-ui.com/) and [React-Leaflet](https://react-leaflet.js.org/), which is a wrapper around [Leaflet](https://leafletjs.com/). Feedback and contributions are welcome.
+It uses [React](https://reactjs.org/), [Material UI](https://material-ui.com/) and [OpenLayers](https://openlayers.org/). Feedback and contributions are welcome.
 
 To run the project in development mode:
 
