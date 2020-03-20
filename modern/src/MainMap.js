@@ -21,7 +21,7 @@ class MainMap extends Component {
         zoom: 9
       })
     });
-    if (location.hostname === 'localhost') {
+    if (window.location.hostname === 'localhost') {
       olms(this.map, 'https://cdn.traccar.com/map/basic.json');
     } else {
       this.map.addLayer(
