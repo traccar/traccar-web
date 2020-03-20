@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Map, View } from 'ol';
 import { fromLonLat } from 'ol/proj';
 import olms from 'ol-mapbox-style';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
 
 const mapStateToProps = state => ({
   positions: state.positions
@@ -15,11 +17,19 @@ class MainMap extends Component {
       target: this.el,
       view: new View({
         constrainResolution: true,
-        center: fromLonLat([14.5, 46.05]),
-        zoom: 3
+        center: fromLonLat([25.65, 60.98]),
+        zoom: 9
       })
     });
-    olms(this.map, 'https://cdn.traccar.com/map/basic.json');
+    if (location.hostname === 'localhost') {
+      olms(this.map, 'https://cdn.traccar.com/map/basic.json');
+    } else {
+      this.map.addLayer(
+        new TileLayer({
+          source: new OSM()
+        })
+      );
+    }
   }
 
   render() {

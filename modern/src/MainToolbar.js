@@ -97,7 +97,7 @@ class MainToobar extends Component {
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" />
               </ListItem>
-              <ListItem button>
+              <ListItem button disabled>
                 <ListItemIcon>
                   <BarChartIcon />
                 </ListItemIcon>
@@ -106,7 +106,7 @@ class MainToobar extends Component {
             </List>
             <Divider />
             <List>
-              <ListItem button>
+              <ListItem button disabled>
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
