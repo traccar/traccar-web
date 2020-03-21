@@ -10,6 +10,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Divider from '@material-ui/core/Divider';
 
 const mapStateToProps = state => ({
   devices: state.devices
@@ -27,7 +28,7 @@ class DeviceList extends Component {
   }
 
   render() {
-    const devices = this.props.devices.map(device =>
+    const devices = this.props.devices.map((device, index, list) =>
       <Fragment key={device.id.toString()}>
         <ListItem button>
           <ListItemAvatar>
@@ -42,6 +43,7 @@ class DeviceList extends Component {
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
+        {index < list.length - 1 ? <Divider /> : null}
       </Fragment>
     );
 
