@@ -3,18 +3,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 
+const mapFeatureProperties = (state, position) => {
+  return {
+    name: state.devices.get(position.deviceId).name
+  }
+}
+
 const mapStateToProps = state => ({
   data: {
     type: 'FeatureCollection',
-    features: state.positions.map(position => ({
+    features: Array.from(state.positions.values()).map(position => ({
       type: 'Feature',
       geometry: {
         type: 'Point',
         coordinates: [position.longitude, position.latitude]
       },
-      properties: {
-        ...position
-      }
+      properties: mapFeatureProperties(state, position)
     }))
   }
 });
@@ -40,7 +44,6 @@ class MainMap extends Component {
       canvas.style.width = `${image.width}px`;
       canvas.style.height = `${image.height}px`;
       const context = canvas.getContext('2d');
-      context.imageSmoothingEnabled = false;
       context.drawImage(image, 0, 0, canvas.width, canvas.height);
       this.map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
         pixelRatio: window.devicePixelRatio
@@ -53,6 +56,7 @@ class MainMap extends Component {
     this.map = map;
 
     this.loadImage('background', 'images/background.svg');
+    this.loadImage('icon-marker', 'images/icon/marker.svg');
 
     map.addSource('positions', {
       'type': 'geojson',
@@ -65,14 +69,28 @@ class MainMap extends Component {
       'source': 'positions',
       'layout': {
         'icon-image': 'background',
-        'text-field': 'Test Device Name',
+        'icon-allow-overlap': true,
+        'text-field': '{name}',
+        'text-allow-overlap': true,
+        'text-anchor': 'bottom',
+        'text-offset': [0, -2],
         'text-font': ['Roboto Regular'],
-        'text-size': 11
+        'text-size': 12
       },
       'paint':{
         'text-halo-color': 'white',
         'text-halo-width': 1
      }
+    });
+
+    map.addLayer({
+      'id': 'device-icon',
+      'type': 'symbol',
+      'source': 'positions',
+      'layout': {
+        'icon-image': 'icon-marker',
+        'icon-allow-overlap': true
+      }
     });
   }
 

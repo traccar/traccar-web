@@ -43,7 +43,14 @@ class SocketController extends Component {
   }
 
   componentDidMount() {
-    this.connectSocket();
+    fetch('/api/devices').then(response => {
+      if (response.ok) {
+        response.json().then(devices => {
+          this.props.dispatch(updateDevices(devices));
+        });
+      }
+      this.connectSocket();
+    });
   }
 
   render() {

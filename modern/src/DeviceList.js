@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { updateDevices } from './actions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -13,20 +12,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
 
 const mapStateToProps = state => ({
-  devices: state.devices
+  devices: Array.from(state.devices.values())
 });
 
 class DeviceList extends Component {
-  componentDidMount() {
-    fetch('/api/devices').then(response => {
-      if (response.ok) {
-        response.json().then(devices => {
-          this.props.dispatch(updateDevices(devices));
-        });
-      }
-    });
-  }
-
   render() {
     const devices = this.props.devices.map((device, index, list) =>
       <Fragment key={device.id.toString()}>
