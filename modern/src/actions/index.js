@@ -12,3 +12,8 @@ export const updateEvents = events => ({
   type: 'UPDATE_EVENTS',
   events
 })
+
+export const selectDevice = device => ({
+  type: 'SELECT_DEVICE',
+  device
+})

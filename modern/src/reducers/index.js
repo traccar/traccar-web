@@ -22,6 +22,11 @@ function rootReducer(state = initialState, action) {
         ...state,
         positions: updateMap(state.positions, action.positions, 'deviceId')
       });
+    case 'SELECT_DEVICE':
+      return Object.assign({}, {
+        ...state,
+        selectedDevice: action.device.id
+      });
     default:
       return state;
   }

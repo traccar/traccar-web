@@ -3,6 +3,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 
+const calculateMapCenter = (state) => {
+  if (state.selectedDevice) {
+    const position = state.positions.get(state.selectedDevice);
+    if (position) {
+      return [position.longitude, position.latitude];
+    }
+  }
+  return null;
+}
+
 const mapFeatureProperties = (state, position) => {
   return {
     name: state.devices.get(position.deviceId).name
@@ -10,6 +20,7 @@ const mapFeatureProperties = (state, position) => {
 }
 
 const mapStateToProps = state => ({
+  mapCenter: calculateMapCenter(state),
   data: {
     type: 'FeatureCollection',
     features: Array.from(state.positions.values()).map(position => ({
@@ -135,8 +146,15 @@ class MainMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.map && prevProps.data !== this.props.data) {
-      this.map.getSource('positions').setData(this.props.data);
+    if (this.map) {
+      if (prevProps.mapCenter !== this.props.mapCenter) {
+        this.map.easeTo({
+          center: this.props.mapCenter
+        });
+      }
+      if (prevProps.data.features !== this.props.data.features) {
+        this.map.getSource('positions').setData(this.props.data);
+      }
     }
   }
 

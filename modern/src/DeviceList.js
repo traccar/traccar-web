@@ -10,16 +10,21 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
+import { selectDevice } from './actions';
 
 const mapStateToProps = state => ({
   devices: Array.from(state.devices.values())
 });
 
 class DeviceList extends Component {
+  handleClick(device) {
+    this.props.dispatch(selectDevice(device));
+  }
+
   render() {
     const devices = this.props.devices.map((device, index, list) =>
       <Fragment key={device.id.toString()}>
-        <ListItem button>
+        <ListItem button onClick={(e) => this.handleClick(device)}>
           <ListItemAvatar>
             <Avatar>
               <LocationOnIcon />
