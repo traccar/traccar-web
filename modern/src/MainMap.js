@@ -36,34 +36,43 @@ class MainMap extends Component {
   }
 
   loadImage(key, url) {
-    const image = new Image();
-    image.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width * window.devicePixelRatio;
-      canvas.height = image.height * window.devicePixelRatio;
-      canvas.style.width = `${image.width}px`;
-      canvas.style.height = `${image.height}px`;
-      const context = canvas.getContext('2d');
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      this.map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
-        pixelRatio: window.devicePixelRatio
-      });
-    }
-    image.src = url;
+    return new Promise(resolutionFunc => {
+      const image = new Image();
+      image.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.width * window.devicePixelRatio;
+        canvas.height = image.height * window.devicePixelRatio;
+        canvas.style.width = `${image.width}px`;
+        canvas.style.height = `${image.height}px`;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        this.map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
+          pixelRatio: window.devicePixelRatio
+        });
+        resolutionFunc()
+      }
+      image.src = url;
+    });
   }
 
   mapDidLoad(map) {
     this.map = map;
 
-    this.loadImage('background', 'images/background.svg');
-    this.loadImage('icon-marker', 'images/icon/marker.svg');
+    Promise.all([
+      this.loadImage('background', 'images/background.svg'),
+      this.loadImage('icon-marker', 'images/icon/marker.svg')
+    ]).then(() => {
+      this.imagesDidLoad();
+    });
+  }
 
-    map.addSource('positions', {
+  imagesDidLoad() {
+    this.map.addSource('positions', {
       'type': 'geojson',
       'data': this.props.data
     });
 
-    map.addLayer({
+    this.map.addLayer({
       'id': 'device-background',
       'type': 'symbol',
       'source': 'positions',
@@ -83,7 +92,7 @@ class MainMap extends Component {
      }
     });
 
-    map.addLayer({
+    this.map.addLayer({
       'id': 'device-icon',
       'type': 'symbol',
       'source': 'positions',
@@ -93,9 +102,9 @@ class MainMap extends Component {
       }
     });
 
-    map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(new mapboxgl.NavigationControl());
 
-    map.fitBounds(this.calculateBounds(), {
+    this.map.fitBounds(this.calculateBounds(), {
       padding: 100,
       maxZoom: 9
     });
