@@ -1,6 +1,5 @@
 /*
- * Copyright 2018 Anton Tananaev (anton@traccar.org)
- * Copyright 2018 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2019 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+Ext.define('Traccar.view.UnescapedTextAreaField', {
+    extend: 'Ext.form.field.TextArea',
+    xtype: 'unescapedTextAreaField',
 
-Ext.define('Traccar.store.AllMaintenances', {
-    extend: 'Ext.data.Store',
-    model: 'Traccar.model.Maintenance',
+    initComponent: function () {
+        this.callParent();
+        this.on('change', this.onValueChange);
+    },
 
-    proxy: {
-        type: 'rest',
-        url: 'api/maintenance',
-        extraParams: {
-            all: true
-        }
+    onValueChange: function (field, newValue) {
+        field.setValue(Ext.String.htmlDecode(newValue));
     }
 });

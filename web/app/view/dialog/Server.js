@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.Server', {
 
     requires: [
         'Traccar.view.ClearableComboBox',
-        'Traccar.view.dialog.MapPickerController'
+        'Traccar.view.dialog.MapPickerController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'mapPicker',
@@ -39,13 +40,14 @@ Ext.define('Traccar.view.dialog.Server', {
                 displayField: 'name',
                 valueField: 'key'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'bingKey',
                 fieldLabel: Strings.mapBingKey
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
+                reference: 'mapUrlField',
                 name: 'mapUrl',
-                fieldLabel: Strings.mapCustom
+                fieldLabel: Strings.mapCustomLabel
             }, {
                 xtype: 'numberfield',
                 reference: 'latitude',
@@ -83,7 +85,7 @@ Ext.define('Traccar.view.dialog.Server', {
                 displayField: 'name',
                 valueField: 'key'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'poiLayer',
                 fieldLabel: Strings.mapPoiLayer
             }]

@@ -83,7 +83,8 @@ Ext.define('Traccar.view.map.MapController', {
                 var feature = new ol.Feature(
                     Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), geofence.get('area')));
                 feature.setStyle(this.getAreaStyle(
-                    geofence.get('name'), geofence.get('attributes') ? geofence.get('attributes').color : null));
+                    Ext.String.htmlDecode(geofence.get('name')),
+                    geofence.get('attributes') ? geofence.get('attributes').color : null));
                 this.getView().getGeofencesSource().addFeature(feature);
                 return true;
             }, this);

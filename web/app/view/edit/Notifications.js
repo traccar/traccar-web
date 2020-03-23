@@ -60,6 +60,23 @@ Ext.define('Traccar.view.edit.Notifications', {
             renderer: Traccar.AttributeFormatter.getFormatter('always'),
             filter: 'boolean'
         }, {
+            text: Strings.sharedAlarms,
+            dataIndex: 'attributes',
+            renderer: function (value) {
+                var i, key, result = '', alarms = value && value['alarms'];
+                if (alarms) {
+                    alarms = alarms.split(',');
+                    for (i = 0; i < alarms.length; i++) {
+                        key = 'alarm' + alarms[i].charAt(0).toUpperCase() + alarms[i].slice(1);
+                        if (result) {
+                            result += ', ';
+                        }
+                        result += Strings[key] || key;
+                    }
+                }
+                return result;
+            }
+        }, {
             text: Strings.notificationNotificators,
             dataIndex: 'notificators',
             flex: 2,

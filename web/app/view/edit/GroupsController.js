@@ -41,7 +41,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('toolbarCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
         this.lookupReference('toolbarMaintenancesButton').setHidden(
-            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
+            Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
     },
 
     onGeofencesClick: function () {
@@ -117,7 +117,7 @@ Ext.define('Traccar.view.edit.GroupsController', {
     onMaintenancesClick: function () {
         var group = this.getView().getSelectionModel().getSelection()[0];
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedMaintenances,
+            title: Strings.sharedMaintenance,
             items: {
                 xtype: 'linkMaintenancesView',
                 baseObjectName: 'groupId',

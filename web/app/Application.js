@@ -21,7 +21,8 @@ Ext.define('Traccar.Application', {
 
     requires: [
         'Traccar.Style',
-        'Traccar.AttributeFormatter'
+        'Traccar.AttributeFormatter',
+        'Traccar.view.TouchFix62'
     ],
 
     models: [
@@ -51,6 +52,7 @@ Ext.define('Traccar.Application', {
         'Devices',
         'AllGroups',
         'AllDevices',
+        'AlarmTypes',
         'Positions',
         'LatestPositions',
         'EventPositions',
@@ -145,6 +147,19 @@ Ext.define('Traccar.Application', {
         var rootPanel = Ext.getCmp('rootPanel');
         if (rootPanel) {
             rootPanel.setActiveItem(show ? 2 : 0);
+        }
+    },
+
+    updateNotificationToken: function (token) {
+        var attributes = Ext.clone(this.user.get('attributes'));
+        if (!attributes.notificationTokens || attributes.notificationTokens.indexOf(token) < 0) {
+            if (!attributes.notificationTokens) {
+                attributes.notificationTokens = token;
+            } else {
+                attributes.notificationTokens += ',' + token;
+            }
+            this.user.set('attributes', attributes);
+            this.user.save();
         }
     },
 

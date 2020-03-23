@@ -37,14 +37,15 @@ Ext.define('Traccar.view.SettingsMenuController', {
     ],
 
     init: function () {
-        var admin, manager, readonly, deviceReadonly;
+        var admin, manager, readonly;
         admin = Traccar.app.getUser().get('administrator');
         manager = Traccar.app.getUser().get('userLimit') !== 0;
         readonly = Traccar.app.getPreference('readonly', false);
-        deviceReadonly = Traccar.app.getUser().get('deviceReadonly');
         if (admin) {
             this.lookupReference('settingsServerButton').setHidden(false);
             this.lookupReference('settingsStatisticsButton').setHidden(false);
+            this.lookupReference('settingsComputedAttributesButton').setHidden(
+                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         }
         if (admin || manager) {
             this.lookupReference('settingsUsersButton').setHidden(false);
@@ -60,11 +61,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
                 Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableDrivers'));
             this.lookupReference('settingsCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
             this.lookupReference('settingsMaintenancesButton').setHidden(
-                Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenances'));
-        }
-        if (admin || !deviceReadonly && !readonly) {
-            this.lookupReference('settingsComputedAttributesButton').setHidden(
-                Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
+                Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
         }
     },
 
@@ -166,7 +163,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
 
     onMaintenancesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
-            title: Strings.sharedMaintenances,
+            title: Strings.sharedMaintenance,
             items: {
                 xtype: 'maintenancesView'
             }

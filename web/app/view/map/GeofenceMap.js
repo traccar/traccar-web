@@ -105,13 +105,14 @@ Ext.define('Traccar.view.map.GeofenceMap', {
     },
 
     addInteraction: function (type) {
+        var self = this;
         this.draw = new ol.interaction.Draw({
             features: this.features,
             type: type
         });
         this.draw.on('drawstart', function () {
-            this.features.clear();
-        }, this);
+            self.features.clear();
+        });
         this.map.addInteraction(this.draw);
     },
 

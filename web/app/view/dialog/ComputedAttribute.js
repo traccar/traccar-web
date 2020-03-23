@@ -20,7 +20,9 @@ Ext.define('Traccar.view.dialog.ComputedAttribute', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.dialog.ComputedAttributeController'
+        'Traccar.view.dialog.ComputedAttributeController',
+        'Traccar.view.UnescapedTextField',
+        'Traccar.view.UnescapedTextAreaField'
     ],
 
     controller: 'computedAttribute',
@@ -29,7 +31,7 @@ Ext.define('Traccar.view.dialog.ComputedAttribute', {
     items: {
         xtype: 'form',
         items: [{
-            xtype: 'textfield',
+            xtype: 'unescapedTextField',
             name: 'description',
             fieldLabel: Strings.sharedDescription
         }, {
@@ -43,7 +45,8 @@ Ext.define('Traccar.view.dialog.ComputedAttribute', {
                 change: 'onAttributeChange'
             }
         }, {
-            xtype: 'textareafield',
+            xtype: 'unescapedTextAreaField',
+            reference: 'expressionField',
             name: 'expression',
             fieldLabel: Strings.sharedExpression,
             allowBlank: false

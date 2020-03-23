@@ -19,7 +19,8 @@ Ext.define('Traccar.view.dialog.SavedCommand', {
     extend: 'Traccar.view.dialog.BaseEdit',
 
     requires: [
-        'Traccar.view.dialog.SavedCommandController'
+        'Traccar.view.dialog.SavedCommandController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'savedCommand',
@@ -34,7 +35,7 @@ Ext.define('Traccar.view.dialog.SavedCommand', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'description',
                 fieldLabel: Strings.sharedDescription
             }, {
@@ -42,7 +43,7 @@ Ext.define('Traccar.view.dialog.SavedCommand', {
                 name: 'textChannel',
                 inputValue: true,
                 uncheckedValue: false,
-                fieldLabel: Strings.notificationSms
+                fieldLabel: Strings.commandSendSms
             }, {
                 xtype: 'combobox',
                 name: 'type',

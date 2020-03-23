@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.Geofence', {
 
     requires: [
         'Traccar.view.ClearableComboBox',
-        'Traccar.view.dialog.GeofenceController'
+        'Traccar.view.dialog.GeofenceController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'geofence',
@@ -32,7 +33,7 @@ Ext.define('Traccar.view.dialog.Geofence', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName
             }]
@@ -42,7 +43,7 @@ Ext.define('Traccar.view.dialog.Geofence', {
             collapsible: true,
             collapsed: true,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'description',
                 fieldLabel: Strings.sharedDescription
             }, {

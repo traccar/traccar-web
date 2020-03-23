@@ -21,7 +21,8 @@ Ext.define('Traccar.view.dialog.Attribute', {
     requires: [
         'Traccar.view.dialog.AttributeController',
         'Traccar.view.ColorPicker',
-        'Traccar.view.CustomNumberField'
+        'Traccar.view.CustomNumberField',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'attribute',
@@ -33,7 +34,7 @@ Ext.define('Traccar.view.dialog.Attribute', {
             validitychange: 'onValidityChange'
         },
         items: [{
-            xtype: 'textfield',
+            xtype: 'unescapedTextField',
             reference: 'nameTextField',
             name: 'name',
             allowBlank: false,

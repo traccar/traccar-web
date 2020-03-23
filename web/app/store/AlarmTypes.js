@@ -15,16 +15,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-Ext.define('Traccar.store.AllMaintenances', {
+Ext.define('Traccar.store.AlarmTypes', {
     extend: 'Ext.data.Store',
-    model: 'Traccar.model.Maintenance',
+    fields: ['key', 'name'],
 
-    proxy: {
-        type: 'rest',
-        url: 'api/maintenance',
-        extraParams: {
-            all: true
+    data: (function () {
+        var key, items = [];
+        for (key in Strings) {
+            if (Strings.hasOwnProperty(key) && key.lastIndexOf('alarm', 0) === 0) {
+                items.push({
+                    key: key.charAt(5).toLowerCase() + key.slice(6),
+                    name: Strings[key]
+                });
+            }
         }
-    }
+        return items;
+    })()
 });

@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.User', {
 
     requires: [
         'Traccar.view.ClearableComboBox',
-        'Traccar.view.dialog.UserController'
+        'Traccar.view.dialog.UserController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'user',
@@ -32,11 +33,11 @@ Ext.define('Traccar.view.dialog.User', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'email',
                 fieldLabel: Strings.userEmail,
                 allowBlank: false
@@ -53,7 +54,7 @@ Ext.define('Traccar.view.dialog.User', {
             collapsible: true,
             collapsed: true,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'phone',
                 fieldLabel: Strings.sharedPhone
             }, {
@@ -94,7 +95,7 @@ Ext.define('Traccar.view.dialog.User', {
                 displayField: 'name',
                 valueField: 'key'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'poiLayer',
                 fieldLabel: Strings.mapPoiLayer
             }]
@@ -164,7 +165,7 @@ Ext.define('Traccar.view.dialog.User', {
                 disabled: true,
                 reference: 'userLimitField'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'token',
                 reference: 'tokenField',
                 fieldLabel: Strings.userToken,
