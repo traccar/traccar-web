@@ -1,4 +1,4 @@
-import 'mapbox-gl/src/css/mapbox-gl.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
@@ -28,8 +28,8 @@ class MainMap extends Component {
     const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'https://cdn.traccar.com/map/basic.json',
-      center: [25.65, 60.98],
-      zoom: 0
+      center: [0, 0],
+      zoom: 1
     });
 
     map.on('load', () => this.mapDidLoad(map));
@@ -92,6 +92,37 @@ class MainMap extends Component {
         'icon-allow-overlap': true
       }
     });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    map.fitBounds(this.calculateBounds(), {
+      padding: 100,
+      maxZoom: 9
+    });
+  }
+
+  calculateBounds() {
+    if (this.props.data.features) {
+      const first = this.props.data.features[0].geometry.coordinates;
+      const bounds = [[...first], [...first]];
+      for (let feature of this.props.data.features) {
+        const longitude = feature.geometry.coordinates[0]
+        const latitude = feature.geometry.coordinates[1]
+        if (longitude < bounds[0][0]) {
+          bounds[0][0] = longitude;
+        } else if (longitude > bounds[1][0]) {
+          bounds[1][0] = longitude;
+        }
+        if (latitude < bounds[0][1]) {
+          bounds[0][1] = latitude;
+        } else if (latitude > bounds[1][1]) {
+          bounds[1][1] = latitude;
+        }
+      }
+      return bounds;
+    } else {
+      return [[0, 0], [0, 0]];
+    }
   }
 
   componentDidUpdate(prevProps) {
