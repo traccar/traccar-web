@@ -1,5 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { rootReducer } from './modules';
+import { devicesReducer as devices } from './devices';
+import { positionsReducer as positions } from './positions';
 
-export default configureStore({ reducer: rootReducer });
+const reducer = combineReducers({
+  devices,
+  positions,
+});
+
+export { devicesActions } from './devices';
+export { positionsActions } from './positions';
+
+export default configureStore({ reducer });
