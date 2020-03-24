@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 
 const calculateMapCenter = (state) => {
-  if (state.selectedDevice) {
-    const position = state.positions.get(state.selectedDevice);
+  if (state.devices.selectedId) {
+    const position = state.positions.items[state.devices.selectedId] || null;
     if (position) {
       return [position.longitude, position.latitude];
     }
@@ -14,8 +14,9 @@ const calculateMapCenter = (state) => {
 }
 
 const mapFeatureProperties = (state, position) => {
+  const device = state.devices.items[position.deviceId] || null;
   return {
-    name: state.devices.get(position.deviceId).name
+    name: device ? device.name : ''
   }
 }
 
@@ -23,7 +24,7 @@ const mapStateToProps = state => ({
   mapCenter: calculateMapCenter(state),
   data: {
     type: 'FeatureCollection',
-    features: Array.from(state.positions.values()).map(position => ({
+    features: Object.values(state.positions.items).map(position => ({
       type: 'Feature',
       geometry: {
         type: 'Point',

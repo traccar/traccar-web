@@ -10,15 +10,15 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
-import { selectDevice } from './actions';
+import { devicesActions } from 'store/modules';
 
 const mapStateToProps = state => ({
-  devices: Array.from(state.devices.values())
+  devices: Object.values(state.devices.items)
 });
 
 class DeviceList extends Component {
   handleClick(device) {
-    this.props.dispatch(selectDevice(device));
+    this.props.dispatch(devicesActions.select(device));
   }
 
   render() {
