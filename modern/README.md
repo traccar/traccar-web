@@ -5,6 +5,12 @@ It uses [React](https://reactjs.org/), [Material UI](https://material-ui.com/) a
 To run the project in development mode:
 
 - Make sure you have Traccar backend running.
+- empty out /web
+- git init
+- git config core.sparseCheckout true
+- git remote add -f origin https://github.com/traccar/traccar-web
+- git pull origin master
+- cd modern
 - Install dependencies using `npm install` command
 - Run development server using `npm start` command
 
