@@ -10,8 +10,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
-
-import { devicesActions } from 'src/store';
+import { devicesActions } from './store';
 
 const mapStateToProps = state => ({
   devices: Object.values(state.devices.items)

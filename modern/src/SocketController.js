@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { positionsActions, devicesActions } from 'src/store';
+import { positionsActions, devicesActions } from './store';
 
 const displayNotifications = events => {
   if ("Notification" in window) {
