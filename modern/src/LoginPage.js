@@ -1,3 +1,4 @@
+import t from './common/localization'
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -95,7 +96,7 @@ class LoginPage extends Component {
           <form onSubmit={this.handleLogin}>
 
             <FormControl margin="normal" required fullWidth error={failed}>
-              <InputLabel htmlFor="email">Email</InputLabel>
+              <InputLabel htmlFor="email">{t('userEmail')}</InputLabel>
               <Input
                 id="email"
                 value={email}
@@ -106,7 +107,7 @@ class LoginPage extends Component {
             </FormControl>
 
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
+              <InputLabel htmlFor="password">{t('userPassword')}</InputLabel>
               <Input
                 id="password"
                 type="password"
@@ -123,7 +124,7 @@ class LoginPage extends Component {
                 disabled
                 className={classes.button}
                 onClick={this.handleRegister}>
-                Register
+                {t('loginRegister')}
               </Button>
 
               <Button
@@ -132,7 +133,7 @@ class LoginPage extends Component {
                 color="primary"
                 disabled={!email || !password}
                 className={classes.button}>
-                Login
+                {t('loginLogin')}
               </Button>
 
             </div>

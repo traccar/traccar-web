@@ -1,3 +1,4 @@
+import t from './common/localization'
 import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -80,7 +81,7 @@ class MainToobar extends Component {
             <Typography variant="h6" color="inherit" className={classes.flex}>
               Traccar
             </Typography>
-            <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
+            <Button color="inherit" onClick={this.handleLogout}>{t('loginLogout')}</Button>
           </Toolbar>
         </AppBar>
         <Drawer open={this.state.drawer} onClose={this.closeDrawer}>
@@ -95,13 +96,13 @@ class MainToobar extends Component {
                 <ListItemIcon>
                   <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText primary="Dashboard" />
+                <ListItemText primary={t('mapTitle')} />
               </ListItem>
               <ListItem button disabled>
                 <ListItemIcon>
                   <BarChartIcon />
                 </ListItemIcon>
-                <ListItemText primary="Reports" />
+                <ListItemText primary={t('reportTitle')} />
               </ListItem>
             </List>
             <Divider />
@@ -110,7 +111,7 @@ class MainToobar extends Component {
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Settings" />
+                <ListItemText primary={t('settingsTitle')} />
               </ListItem>
             </List>
           </div>
