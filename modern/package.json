@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",
+    "@reduxjs/toolkit": "^1.2.5",
     "mapbox-gl": "^1.8.1",
     "ol": "^6.2.1",
     "ol-mapbox-style": "^6.0.1",

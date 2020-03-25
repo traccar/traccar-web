@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateDevices, updatePositions } from './actions';
+import { positionsActions, devicesActions } from './store';
 
 const displayNotifications = events => {
   if ("Notification" in window) {
@@ -31,10 +31,10 @@ class SocketController extends Component {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.devices) {
-        this.props.dispatch(updateDevices(data.devices));
+        this.props.dispatch(devicesActions.update(data.devices));
       }
       if (data.positions) {
-        this.props.dispatch(updatePositions(data.positions));
+        this.props.dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
         displayNotifications(data.events);
@@ -46,7 +46,7 @@ class SocketController extends Component {
     fetch('/api/devices').then(response => {
       if (response.ok) {
         response.json().then(devices => {
-          this.props.dispatch(updateDevices(devices));
+          this.props.dispatch(devicesActions.update(devices));
         });
       }
       this.connectSocket();
