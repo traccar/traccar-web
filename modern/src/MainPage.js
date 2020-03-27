@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import ContainerDimensions from 'react-container-dimensions';
 import MainToobar from './MainToolbar';
 import MainMap from './MainMap';
 import Drawer from '@material-ui/core/Drawer';
-import withStyles from '@material-ui/core/styles/withStyles';
 import SocketController from './SocketController';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import DeviceList from './DeviceList';
+import { makeStyles } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: "100vh",
     display: "flex",
@@ -35,57 +35,43 @@ const styles = theme => ({
   mapContainer: {
     flexGrow: 1
   }
-});
+}));
 
-class MainPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true
-    };
-  }
+const MainPage = () => {
+  const [loading, setLoading] = useState(true);
+  const classes = useStyles();
+  const history = useHistory();
 
-  componentDidMount() {
+  useEffect(() => {
     fetch('/api/session').then(response => {
       if (response.ok) {
-        this.setState({
-          loading: false
-        });
+        setLoading(false);
       } else {
-        this.props.history.push('/login');
+        history.push('/login');
       }
     });
-  }
+  }, [history]);
 
-  render() {
-    const { classes } = this.props;
-    const { loading } = this.state;
-    if (loading) {
-      return (
-        <div>Loading...</div>
-      );
-    } else {
-      return (
-        <div className={classes.root}>
-          <SocketController />
-          <MainToobar history={this.props.history} />
-          <div className={classes.content}>
-            <Drawer
-              anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"}
-              variant="permanent"
-              classes={{ paper: classes.drawerPaper }}>
-              <DeviceList />
-            </Drawer>
-            <div className={classes.mapContainer}>
-              <ContainerDimensions>
-                <MainMap/>
-              </ContainerDimensions>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
+  return (loading ? (<div>Loading...</div>) : (<div className={classes.root}>
+    <SocketController />
+    <MainToobar history={history} />
+    <div className={classes.content}>
+      { /* <Drawer
+        anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"} NOTE: What's this do?
+        variant="permanent"
+      classes={{ paper: classes.drawerPaper }}> */}
+      <Drawer
+        variant="permanent"
+        classes={{ paper: classes.drawerPaper }}>
+        <DeviceList />
+      </Drawer>
+      <div className={classes.mapContainer}>
+        <ContainerDimensions>
+          <MainMap />
+        </ContainerDimensions>
+      </div>
+    </div>
+  </div>));
 }
 
-export default withWidth()(withStyles(styles)(MainPage));
+export default MainPage;

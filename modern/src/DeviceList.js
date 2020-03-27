@@ -1,30 +1,26 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
+import ListItemText from '@material-ui/core/ListItemText';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Divider from '@material-ui/core/Divider';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { devicesActions } from './store';
 
-const mapStateToProps = state => ({
-  devices: Object.values(state.devices.items)
-});
+const DeviceList = () => {
+  const devices = useSelector(state => Object.values(state.devices.items));
+  const dispatch = useDispatch();
 
-class DeviceList extends Component {
-  handleClick(device) {
-    this.props.dispatch(devicesActions.select(device));
-  }
-
-  render() {
-    const devices = this.props.devices.map((device, index, list) =>
-      <Fragment key={device.id.toString()}>
-        <ListItem button onClick={(e) => this.handleClick(device)}>
+  return (<List>
+    {devices.map((device, index, list) => (
+      <Fragment key={device.id}>
+        <ListItem button key={device.id} onClick={() => dispatch(devicesActions.select(device))}>
           <ListItemAvatar>
             <Avatar>
               <LocationOnIcon />
@@ -39,14 +35,10 @@ class DeviceList extends Component {
         </ListItem>
         {index < list.length - 1 ? <Divider /> : null}
       </Fragment>
-    );
-
-    return (
-      <List>
-        {devices}
-      </List>
-    );
-  }
+    ))
+    }
+  </List>);
 }
 
-export default connect(mapStateToProps)(DeviceList);
+export default DeviceList;
+
