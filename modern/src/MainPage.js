@@ -53,26 +53,28 @@ const MainPage = () => {
     });
   }, [history]);
 
-  return (loading ? (<div>Loading...</div>) : (<div className={classes.root}>
-    <SocketController />
-    <MainToobar />
-    <div className={classes.content}>
-      { /* <Drawer
-        anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"} NOTE: What's this do?
-        variant="permanent"
-      classes={{ paper: classes.drawerPaper }}> */}
-      <Drawer
-        variant="permanent"
-        classes={{ paper: classes.drawerPaper }}>
-        <DeviceList />
-      </Drawer>
-      <div className={classes.mapContainer}>
-        <ContainerDimensions>
-          <MainMap />
-        </ContainerDimensions>
+  return loading ? (<div>Loading...</div>) : (
+    <div className={classes.root}>
+      <SocketController />
+      <MainToobar />
+      <div className={classes.content}>
+        {/* <Drawer
+          anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"} NOTE: What's this do?
+          variant="permanent"
+        classes={{ paper: classes.drawerPaper }}> */}
+        <Drawer
+          variant="permanent"
+          classes={{ paper: classes.drawerPaper }}>
+          <DeviceList />
+        </Drawer>
+        <div className={classes.mapContainer}>
+          <ContainerDimensions>
+            <MainMap />
+          </ContainerDimensions>
+        </div>
       </div>
     </div>
-  </div>));
+  );
 }
 
 export default MainPage;
