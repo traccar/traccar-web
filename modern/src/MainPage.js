@@ -74,7 +74,7 @@ class MainPage extends Component {
               anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"}
               variant="permanent"
               classes={{ paper: classes.drawerPaper }}>
-              <DeviceList />
+              <DeviceList history={this.props.history} />
             </Drawer>
             <div className={classes.mapContainer}>
               <ContainerDimensions>

@@ -1,3 +1,4 @@
+import t from './common/localization'
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
@@ -10,6 +11,9 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import RemoveDialog from './RemoveDialog'
 import { devicesActions } from './store';
 
 const mapStateToProps = state => ({
@@ -17,14 +21,40 @@ const mapStateToProps = state => ({
 });
 
 class DeviceList extends Component {
-  handleClick(device) {
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuAnchorEl: null,
+      removeDialogOpen: false
+    };
+  }
+
+  handleItemClick(device) {
     this.props.dispatch(devicesActions.select(device));
+  }
+
+  handleMenuClick(event) {
+    this.setState({ menuAnchorEl: event.currentTarget });
+  }
+
+  handleMenuClose() {
+    this.setState({ menuAnchorEl: null });
+  }
+
+  handleMenuEdit() {
+    this.props.history.push('/device');
+    this.handleMenuClose();
+  }
+
+  handleMenuRemove() {
+    this.setState({ removeDialogOpen: true });
+    this.handleMenuClose();
   }
 
   render() {
     const devices = this.props.devices.map((device, index, list) =>
       <Fragment key={device.id.toString()}>
-        <ListItem button onClick={(e) => this.handleClick(device)}>
+        <ListItem button onClick={() => this.handleItemClick(device)}>
           <ListItemAvatar>
             <Avatar>
               <LocationOnIcon />
@@ -32,7 +62,7 @@ class DeviceList extends Component {
           </ListItemAvatar>
           <ListItemText primary={device.name} secondary={device.uniqueId} />
           <ListItemSecondaryAction>
-            <IconButton>
+            <IconButton onClick={(event) => this.handleMenuClick(event)}>
               <MoreVertIcon />
             </IconButton>
           </ListItemSecondaryAction>
@@ -42,9 +72,23 @@ class DeviceList extends Component {
     );
 
     return (
-      <List>
-        {devices}
-      </List>
+      <Fragment>
+        <List>
+          {devices}
+        </List>
+        <Menu
+          id="device-menu"
+          anchorEl={this.state.menuAnchorEl}
+          keepMounted
+          open={Boolean(this.state.menuAnchorEl)}
+          onClose={() => this.handleMenuClose()}>
+          <MenuItem onClick={() => this.handleMenuEdit()}>{t('sharedEdit')}</MenuItem>
+          <MenuItem onClick={() => this.handleMenuRemove()}>{t('sharedRemove')}</MenuItem>
+        </Menu>
+        <RemoveDialog
+          open={this.state.removeDialogOpen}
+          onClose={() => { this.setState({ removeDialogOpen: false }) }} />
+      </Fragment>
     );
   }
 }

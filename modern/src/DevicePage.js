@@ -5,7 +5,7 @@ import withWidth from '@material-ui/core/withWidth';
 
 const styles = theme => ({});
 
-class RouteReportPage extends Component {
+class DevicePage extends Component {
   render() {
     return (
       <div>
@@ -15,4 +15,4 @@ class RouteReportPage extends Component {
   }
 }
 
-export default withWidth()(withStyles(styles)(RouteReportPage));
+export default withWidth()(withStyles(styles)(DevicePage));
