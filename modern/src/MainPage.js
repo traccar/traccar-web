@@ -55,7 +55,7 @@ const MainPage = () => {
 
   return (loading ? (<div>Loading...</div>) : (<div className={classes.root}>
     <SocketController />
-    <MainToobar history={history} />
+    <MainToobar />
     <div className={classes.content}>
       { /* <Drawer
         anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"} NOTE: What's this do?
