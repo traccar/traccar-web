@@ -8,6 +8,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 
+import t from './common/localization';
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: 'auto',
@@ -81,7 +83,7 @@ const LoginPage = () => {
         <img className={classes.logo} src="/logo.svg" alt="Traccar" />
         <form onSubmit={handleLogin}>
           <FormControl margin="normal" required fullWidth error={failed}>
-            <InputLabel htmlFor="email">Email</InputLabel>
+            <InputLabel htmlFor="email">{t('userEmail')}</InputLabel>
             <Input
               id="email"
               name="email"
@@ -93,7 +95,7 @@ const LoginPage = () => {
           </FormControl>
 
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
+            <InputLabel htmlFor="password">{t('userPassword')}</InputLabel>
             <Input
               id="password"
               name="password"
@@ -110,8 +112,8 @@ const LoginPage = () => {
               disabled
               className={classes.button}
               onClick={handleRegister}>
-              Register
-              </Button>
+              {t('loginRegister')}
+            </Button>
 
             <Button
               type="submit"
@@ -119,8 +121,8 @@ const LoginPage = () => {
               color="primary"
               disabled={!email || !password}
               className={classes.button}>
-              Login
-              </Button>
+              {t('loginLogin')}
+            </Button>
 
           </div>
         </form>

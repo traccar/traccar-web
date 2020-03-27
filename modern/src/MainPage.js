@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import ContainerDimensions from 'react-container-dimensions';
-import MainToobar from './MainToolbar';
-import MainMap from './MainMap';
-import Drawer from '@material-ui/core/Drawer';
-import SocketController from './SocketController';
-import DeviceList from './DeviceList';
-import { makeStyles } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
+import ContainerDimensions from 'react-container-dimensions';
+
+import MainMap from './MainMap';
+import SocketController from './SocketController';
+import MainToobar from './MainToolbar';
+import DeviceList from './DeviceList';
 
 const useStyles = makeStyles(theme => ({
   root: {

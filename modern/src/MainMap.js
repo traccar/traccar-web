@@ -116,14 +116,17 @@ class MainMap extends Component {
 
     this.map.addControl(new mapboxgl.NavigationControl());
 
-    this.map.fitBounds(this.calculateBounds(), {
-      padding: 100,
-      maxZoom: 9
-    });
+    const bounds = this.calculateBounds();
+    if (bounds) {
+      this.map.fitBounds(bounds, {
+        padding: 100,
+        maxZoom: 9
+      });
+    }
   }
 
   calculateBounds() {
-    if (this.props.data.features) {
+    if (this.props.data.features && this.props.data.features.length) {
       const first = this.props.data.features[0].geometry.coordinates;
       const bounds = [[...first], [...first]];
       for (let feature of this.props.data.features) {
@@ -142,7 +145,7 @@ class MainMap extends Component {
       }
       return bounds;
     } else {
-      return [[0, 0], [0, 0]];
+      return null;
     }
   }
 
