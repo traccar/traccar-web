@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 
-import MainMap from './MainMap';
-import SocketController from './SocketController';
-import MainToobar from './MainToolbar';
 import DeviceList from './DeviceList';
+import MainMap from './MainMap';
+import MainToobar from './MainToolbar';
+import SocketController from './SocketController';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MainPage = () => {
+const MainPage = ({ width }) => {
   const [loading, setLoading] = useState(true);
   const classes = useStyles();
   const history = useHistory();
@@ -58,11 +59,8 @@ const MainPage = () => {
       <SocketController />
       <MainToobar />
       <div className={classes.content}>
-        {/* <Drawer
-          anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"} NOTE: What's this do?
-          variant="permanent"
-        classes={{ paper: classes.drawerPaper }}> */}
         <Drawer
+          anchor={isWidthUp('sm', width) ? "left" : "bottom"}
           variant="permanent"
           classes={{ paper: classes.drawerPaper }}>
           <DeviceList />
@@ -77,4 +75,4 @@ const MainPage = () => {
   );
 }
 
-export default MainPage;
+export default withWidth()(MainPage);
