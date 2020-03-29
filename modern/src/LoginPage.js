@@ -1,14 +1,16 @@
-import t from './common/localization'
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Paper from '@material-ui/core/Paper';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core';
 
-const styles = theme => ({
+import t from './common/localization';
+
+const useStyles = makeStyles(theme => ({
   root: {
     width: 'auto',
     display: 'block', // Fix IE11 issue.
@@ -39,111 +41,94 @@ const styles = theme => ({
     flex: '1 1 0',
     margin: `${theme.spacing(3)}px ${theme.spacing(1)}px 0`
   },
-});
+}));
 
-class LoginPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filled: false,
-      loading: false,
-      failed: false,
-      email: "",
-      password: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleRegister = this.handleRegister.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+const LoginPage = () => {
+  const [filled, setFilled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const classes = useStyles();
+  const history = useHistory();
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.id]: event.target.value
-    });
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   }
 
-  handleRegister() {
-    // TODO implement registration
+  const handleRegister = () => {
+    // TODO: Implement registration
   }
 
-  handleLogin(event) {
+  const handleLogin = (event) => {
     event.preventDefault();
-    const { email, password } = this.state;
-    fetch("/api/session", {
-      method: "POST",
-      body: new URLSearchParams(`email=${email}&password=${password}`)
-    }).then(response => {
+    fetch('/api/session', { method: 'POST', body: new URLSearchParams(`email=${email}&password=${password}`) }).then(response => {
       if (response.ok) {
-        this.props.history.push('/'); // TODO avoid calling sessions twice
+        history.push('/'); // TODO: Avoid calling sessions twice
       } else {
-        this.setState({
-          failed: true,
-          password: ""
-        });
+        setFailed(true);
+        setPassword('');
       }
     });
   }
 
-  render() {
-    const { classes } = this.props;
-    const { failed, email, password } = this.state;
-    return (
-      <main className={classes.root}>
-        <Paper className={classes.paper}>
+  return (
+    <main className={classes.root}>
+      <Paper className={classes.paper}>
+        <img className={classes.logo} src="/logo.svg" alt="Traccar" />
+        <form onSubmit={handleLogin}>
+          <FormControl margin="normal" required fullWidth error={failed}>
+            <InputLabel htmlFor="email">{t('userEmail')}</InputLabel>
+            <Input
+              id="email"
+              name="email"
+              value={email}
+              autoComplete="email"
+              autoFocus
+              onChange={handleEmailChange} />
+            {failed && <FormHelperText>Invalid username or password</FormHelperText>}
+          </FormControl>
 
-          <img className={classes.logo} src="/logo.svg" alt="Traccar" />
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="password">{t('userPassword')}</InputLabel>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              autoComplete="current-password"
+              onChange={handlePasswordChange} />
+          </FormControl>
 
-          <form onSubmit={this.handleLogin}>
+          <div className={classes.buttons}>
+            <Button
+              type="button"
+              variant="contained"
+              disabled
+              className={classes.button}
+              onClick={handleRegister}>
+              {t('loginRegister')}
+            </Button>
 
-            <FormControl margin="normal" required fullWidth error={failed}>
-              <InputLabel htmlFor="email">{t('userEmail')}</InputLabel>
-              <Input
-                id="email"
-                value={email}
-                autoComplete="email"
-                autoFocus
-                onChange={this.handleChange} />
-              { failed && <FormHelperText>Invalid username or password</FormHelperText> }
-            </FormControl>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={!email || !password}
+              className={classes.button}>
+              {t('loginLogin')}
+            </Button>
 
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">{t('userPassword')}</InputLabel>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                autoComplete="current-password"
-                onChange={this.handleChange} />
-            </FormControl>
-
-            <div className={classes.buttons}>
-
-              <Button
-                type="button"
-                variant="contained"
-                disabled
-                className={classes.button}
-                onClick={this.handleRegister}>
-                {t('loginRegister')}
-              </Button>
-
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={!email || !password}
-                className={classes.button}>
-                {t('loginLogin')}
-              </Button>
-
-            </div>
-
-          </form>
-
-        </Paper>
-      </main>
-    );
-  }
+          </div>
+        </form>
+      </Paper>
+    </main>
+  );
 }
 
-export default withStyles(styles)(LoginPage);
+export default LoginPage;

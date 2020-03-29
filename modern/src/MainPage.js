@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
-import ContainerDimensions from 'react-container-dimensions';
-import MainToobar from './MainToolbar';
-import MainMap from './MainMap';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
-import withStyles from '@material-ui/core/styles/withStyles';
-import SocketController from './SocketController';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import DeviceList from './DeviceList';
+import ContainerDimensions from 'react-container-dimensions';
 
-const styles = theme => ({
+import DeviceList from './DeviceList';
+import MainMap from './MainMap';
+import MainToobar from './MainToolbar';
+import SocketController from './SocketController';
+
+
+const useStyles = makeStyles(theme => ({
   root: {
     height: "100vh",
     display: "flex",
@@ -35,57 +37,42 @@ const styles = theme => ({
   mapContainer: {
     flexGrow: 1
   }
-});
+}));
 
-class MainPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true
-    };
-  }
+const MainPage = ({ width }) => {
+  const [loading, setLoading] = useState(true);
+  const classes = useStyles();
+  const history = useHistory();
 
-  componentDidMount() {
+  useEffect(() => {
     fetch('/api/session').then(response => {
       if (response.ok) {
-        this.setState({
-          loading: false
-        });
+        setLoading(false);
       } else {
-        this.props.history.push('/login');
+        history.push('/login');
       }
     });
-  }
+  }, [history]);
 
-  render() {
-    const { classes } = this.props;
-    const { loading } = this.state;
-    if (loading) {
-      return (
-        <div>Loading...</div>
-      );
-    } else {
-      return (
-        <div className={classes.root}>
-          <SocketController />
-          <MainToobar history={this.props.history} />
-          <div className={classes.content}>
-            <Drawer
-              anchor={isWidthUp('sm', this.props.width) ? "left" : "bottom"}
-              variant="permanent"
-              classes={{ paper: classes.drawerPaper }}>
-              <DeviceList history={this.props.history} />
-            </Drawer>
-            <div className={classes.mapContainer}>
-              <ContainerDimensions>
-                <MainMap/>
-              </ContainerDimensions>
-            </div>
-          </div>
+  return loading ? (<div>Loading...</div>) : (
+    <div className={classes.root}>
+      <SocketController />
+      <MainToobar />
+      <div className={classes.content}>
+        <Drawer
+          anchor={isWidthUp('sm', width) ? "left" : "bottom"}
+          variant="permanent"
+          classes={{ paper: classes.drawerPaper }}>
+          <DeviceList />
+        </Drawer>
+        <div className={classes.mapContainer}>
+          <ContainerDimensions>
+            <MainMap />
+          </ContainerDimensions>
         </div>
-      );
-    }
-  }
+      </div>
+    </div>
+  );
 }
 
-export default withWidth()(withStyles(styles)(MainPage));
+export default withWidth()(MainPage);
