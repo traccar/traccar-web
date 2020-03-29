@@ -28,7 +28,7 @@ const SocketController = (props) => {
     const socket = new WebSocket(protocol + '//' + window.location.host + '/api/socket');
 
     socket.onclose = () => {
-      setTimeout(() => this.connectSocket(), 60 * 1000);
+      setTimeout(() => connectSocket(), 60 * 1000);
     };
 
     socket.onmessage = (event) => {
