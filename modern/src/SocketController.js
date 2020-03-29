@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { connect } from 'react-redux';
 import { positionsActions, devicesActions } from './store';
 
@@ -19,8 +20,10 @@ const displayNotifications = events => {
   }
 };
 
-class SocketController extends Component {
-  connectSocket() {
+const SocketController = (props) => {
+  const dispatch = useDispatch();
+
+  const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const socket = new WebSocket(protocol + '//' + window.location.host + '/api/socket');
 
@@ -31,31 +34,29 @@ class SocketController extends Component {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.devices) {
-        this.props.dispatch(devicesActions.update(data.devices));
+        props.dispatch(devicesActions.update(data.devices));
       }
       if (data.positions) {
-        this.props.dispatch(positionsActions.update(data.positions));
+        props.dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
         displayNotifications(data.events);
       }
-    }
+    };
   }
 
-  componentDidMount() {
+  useEffect(() => {
     fetch('/api/devices').then(response => {
       if (response.ok) {
         response.json().then(devices => {
-          this.props.dispatch(devicesActions.update(devices));
+          dispatch(devicesActions.update(devices));
         });
       }
-      this.connectSocket();
+      connectSocket();
     });
-  }
+  }, []);
 
-  render() {
-    return null;
-  }
+  return null;
 }
 
 export default connect()(SocketController);
