@@ -37,9 +37,41 @@ const mapStateToProps = state => ({
 
 class MainMap extends Component {
   componentDidMount() {
-    const map = new mapboxgl.Map({
+    /*const map = new mapboxgl.Map({
       container: this.mapContainer,
       style: 'https://cdn.traccar.com/map/basic.json',
+      center: [0, 0],
+      zoom: 1
+    });*/
+
+    const map = new mapboxgl.Map({
+      container: this.mapContainer,
+      style: {
+        'version': 8,
+        'sources': {
+          'raster-tiles': {
+            'type': 'raster',
+            'tiles': [
+              'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+              'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+              'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+              'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png'
+            ],
+            'tileSize': 256,
+            'attribution': '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>'
+          }
+        },
+        'glyphs': 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
+        'layers': [
+          {
+            'id': 'simple-tiles',
+            'type': 'raster',
+            'source': 'raster-tiles',
+            'minzoom': 0,
+            'maxzoom': 22
+          }
+        ]
+      },
       center: [0, 0],
       zoom: 1
     });
