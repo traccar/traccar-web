@@ -11,14 +11,14 @@ const calculateMapCenter = (state) => {
     }
   }
   return null;
-}
+};
 
 const mapFeatureProperties = (state, position) => {
   const device = state.devices.items[position.deviceId] || null;
   return {
     name: device ? device.name : ''
   }
-}
+};
 
 const mapStateToProps = state => ({
   mapCenter: calculateMapCenter(state),

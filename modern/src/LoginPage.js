@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { sessionActions } from './store';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -44,6 +46,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -67,7 +71,8 @@ const LoginPage = () => {
     event.preventDefault();
     fetch('/api/session', { method: 'POST', body: new URLSearchParams(`email=${email}&password=${password}`) }).then(response => {
       if (response.ok) {
-        history.push('/'); // TODO: Avoid calling sessions twice
+        dispatch(sessionActions.authenticated(true));
+        history.push('/');
       } else {
         setFailed(true);
         setPassword('');
