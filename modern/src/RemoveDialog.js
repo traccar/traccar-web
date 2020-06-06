@@ -6,11 +6,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
-const RemoveDialog = () => {
+const RemoveDialog = (props) => {
   return (
     <Dialog
-      open={this.props.open}
-      onClose={() => { this.props.onClose() }}>
+      open={props.open}
+      onClose={() => { props.onClose() }}>
       <DialogContent>
         <DialogContentText>{t('sharedRemoveConfirm')}</DialogContentText>
       </DialogContent>
