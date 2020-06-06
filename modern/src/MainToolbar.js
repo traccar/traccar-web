@@ -46,6 +46,7 @@ const MainToolbar = () => {
   const handleLogout = () => {
     fetch('/api/session', { method: 'DELETE' }).then(response => {
       if (response.ok) {
+        document.authenticated = false;
         history.push('/login');
       }
     })

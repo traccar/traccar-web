@@ -40,13 +40,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MainPage = ({ width }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!document.authenticated);
   const classes = useStyles();
   const history = useHistory();
 
   useEffect(() => {
     fetch('/api/session').then(response => {
       if (response.ok) {
+        document.authenticated = true;
         setLoading(false);
       } else {
         history.push('/login');

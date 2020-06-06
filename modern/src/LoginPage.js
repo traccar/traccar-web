@@ -44,8 +44,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginPage = () => {
-  const [filled, setFilled] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
