@@ -54,7 +54,7 @@ const SocketController = (props) => {
       }
       connectSocket();
     });
-  }, [dispatch, connectSocket]);
+  }, []);
 
   return null;
 }

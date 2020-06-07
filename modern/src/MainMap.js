@@ -1,28 +1,31 @@
-import 'mapbox-gl/dist/mapbox-gl.css';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import mapboxgl from 'mapbox-gl';
+import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const calculateMapCenter = (state) => {
-  if (state.devices.selectedId) {
-    const position = state.positions.items[state.devices.selectedId] || null;
-    if (position) {
-      return [position.longitude, position.latitude];
+import mapManager from './mapManager';
+
+const MainMap = () => {
+  const containerEl = useRef(null);
+
+  const [mapReady, setMapReady] = useState(false);
+
+  const mapCenter = useSelector(state => {
+    if (state.devices.selectedId) {
+      const position = state.positions.items[state.devices.selectedId] || null;
+      if (position) {
+        return [position.longitude, position.latitude];
+      }
     }
-  }
-  return null;
-};
-
-const mapFeatureProperties = (state, position) => {
-  const device = state.devices.items[position.deviceId] || null;
-  return {
-    name: device ? device.name : ''
-  }
-};
-
-const mapStateToProps = state => ({
-  mapCenter: calculateMapCenter(state),
-  data: {
+    return null;
+  });
+  
+  const createFeature = (state, position) => {
+    const device = state.devices.items[position.deviceId] || null;
+    return {
+      name: device ? device.name : '',
+    }
+  };
+  
+  const positions = useSelector(state => ({
     type: 'FeatureCollection',
     features: Object.values(state.positions.items).map(position => ({
       type: 'Feature',
@@ -30,179 +33,69 @@ const mapStateToProps = state => ({
         type: 'Point',
         coordinates: [position.longitude, position.latitude]
       },
-      properties: mapFeatureProperties(state, position)
-    }))
-  }
-});
-
-class MainMap extends Component {
-  componentDidMount() {
-    /*const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: 'https://cdn.traccar.com/map/basic.json',
-      center: [0, 0],
-      zoom: 1
-    });*/
-
-    const map = new mapboxgl.Map({
-      container: this.mapContainer,
-      style: {
-        'version': 8,
-        'sources': {
-          'raster-tiles': {
-            'type': 'raster',
-            'tiles': [
-              'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-              'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-              'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-              'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png'
-            ],
-            'tileSize': 256,
-            'attribution': '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>'
-          }
-        },
-        'glyphs': 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
-        'layers': [
-          {
-            'id': 'simple-tiles',
-            'type': 'raster',
-            'source': 'raster-tiles',
-            'minzoom': 0,
-            'maxzoom': 22
-          }
-        ]
-      },
-      center: [0, 0],
-      zoom: 1
-    });
-
-    map.on('load', () => this.mapDidLoad(map));
-  }
-
-  loadImage(key, url) {
-    return new Promise(resolutionFunc => {
-      const image = new Image();
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = image.width * window.devicePixelRatio;
-        canvas.height = image.height * window.devicePixelRatio;
-        canvas.style.width = `${image.width}px`;
-        canvas.style.height = `${image.height}px`;
-        const context = canvas.getContext('2d');
-        context.drawImage(image, 0, 0, canvas.width, canvas.height);
-        this.map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
-          pixelRatio: window.devicePixelRatio
-        });
-        resolutionFunc()
-      }
-      image.src = url;
-    });
-  }
-
-  mapDidLoad(map) {
-    this.map = map;
-
-    Promise.all([
-      this.loadImage('background', 'images/background.svg'),
-      this.loadImage('icon-marker', 'images/icon/marker.svg')
-    ]).then(() => {
-      this.imagesDidLoad();
-    });
-  }
-
-  imagesDidLoad() {
-    this.map.addSource('positions', {
-      'type': 'geojson',
-      'data': this.props.data
-    });
-
-    this.map.addLayer({
-      'id': 'device-background',
-      'type': 'symbol',
-      'source': 'positions',
-      'layout': {
-        'icon-image': 'background',
-        'icon-allow-overlap': true,
-        'text-field': '{name}',
-        'text-allow-overlap': true,
-        'text-anchor': 'bottom',
-        'text-offset': [0, -2],
-        'text-font': ['Roboto Regular'],
-        'text-size': 12
-      },
-      'paint':{
-        'text-halo-color': 'white',
-        'text-halo-width': 1
-     }
-    });
-
-    this.map.addLayer({
-      'id': 'device-icon',
-      'type': 'symbol',
-      'source': 'positions',
-      'layout': {
-        'icon-image': 'icon-marker',
-        'icon-allow-overlap': true
-      }
-    });
-
-    this.map.addControl(new mapboxgl.NavigationControl());
-
-    const bounds = this.calculateBounds();
-    if (bounds) {
-      this.map.fitBounds(bounds, {
-        padding: 100,
-        maxZoom: 9
-      });
+      properties: createFeature(state, position),
+    })),
+  }));
+  
+  useLayoutEffect(() => {
+    const currentEl = containerEl.current;
+    currentEl.appendChild(mapManager.element);
+    if (mapManager.map) {
+      mapManager.map.resize();
     }
-  }
-
-  calculateBounds() {
-    if (this.props.data.features && this.props.data.features.length) {
-      const first = this.props.data.features[0].geometry.coordinates;
-      const bounds = [[...first], [...first]];
-      for (let feature of this.props.data.features) {
-        const longitude = feature.geometry.coordinates[0]
-        const latitude = feature.geometry.coordinates[1]
-        if (longitude < bounds[0][0]) {
-          bounds[0][0] = longitude;
-        } else if (longitude > bounds[1][0]) {
-          bounds[1][0] = longitude;
-        }
-        if (latitude < bounds[0][1]) {
-          bounds[0][1] = latitude;
-        } else if (latitude > bounds[1][1]) {
-          bounds[1][1] = latitude;
-        }
-      }
-      return bounds;
-    } else {
-      return null;
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.map) {
-      if (prevProps.mapCenter !== this.props.mapCenter) {
-        this.map.easeTo({
-          center: this.props.mapCenter
-        });
-      }
-      if (prevProps.data.features !== this.props.data.features) {
-        this.map.getSource('positions').setData(this.props.data);
-      }
-    }
-  }
-
-  render() {
-    const style = {
-      position: 'relative',
-      overflow: 'hidden',
-      width: '100%',
-      height: '100%'
+    return () => {
+      currentEl.removeChild(mapManager.element);
     };
-    return <div style={style} ref={el => this.mapContainer = el} />;
-  }
+  }, [containerEl]);
+
+  useEffect(() => {
+    mapManager.registerListener(() => setMapReady(true));
+  }, []);
+
+  useEffect(() => {
+    if (mapReady) {
+      mapManager.map.addSource('positions', {
+        'type': 'geojson',
+        'data': positions,
+      });
+      mapManager.addLayer('device-background', 'positions', 'background', '{name}');
+      mapManager.addLayer('device-icon', 'positions', 'icon-marker');
+
+      const bounds = mapManager.calculateBounds(positions.features);
+      if (bounds) {
+        mapManager.map.fitBounds(bounds, {
+          padding: 100,
+          maxZoom: 9
+        });
+      }
+
+      return () => {
+        mapManager.map.removeLayer('device-background');
+        mapManager.map.removeLayer('device-icon');
+        mapManager.map.removeSource('positions');
+      };
+    }
+  }, [mapReady]);
+
+  useEffect(() => {
+    mapManager.map.easeTo({
+      center: mapCenter
+    });
+  }, [mapCenter]);
+
+  useEffect(() => {
+    const source = mapManager.map.getSource('positions');
+    if (source) {
+      source.setData(positions);
+    }
+  }, [positions]);
+
+  const style = {
+    width: '100%',
+    height: '100%',
+  };
+
+  return <div style={style} ref={containerEl} />;
 }
 
-export default connect(mapStateToProps)(MainMap);
+export default MainMap;

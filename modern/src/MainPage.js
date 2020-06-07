@@ -57,7 +57,7 @@ const MainPage = ({ width }) => {
         }
       });
     }
-  }, [authenticated, history]);
+  }, [authenticated]);
 
   return !authenticated ? (<LinearProgress />) : (
     <div className={classes.root}>
