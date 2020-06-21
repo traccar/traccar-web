@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
-  }
+  },
 }));
 
 const MainToolbar = () => {
@@ -90,7 +90,7 @@ const MainToolbar = () => {
           <List subheader={<ListSubheader>
             {t('reportTitle')}
           </ListSubheader>}>
-            <ListItem button onClick={() => { history.push('/reports/route') }}>
+            <ListItem button disabled onClick={() => { history.push('/reports/route') }}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>
