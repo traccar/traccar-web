@@ -20,7 +20,7 @@ const displayNotifications = events => {
   }
 };
 
-const SocketController = (props) => {
+const SocketController = () => {
   const dispatch = useDispatch();
 
   const connectSocket = () => {
@@ -34,10 +34,10 @@ const SocketController = (props) => {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.devices) {
-        props.dispatch(devicesActions.update(data.devices));
+        dispatch(devicesActions.update(data.devices));
       }
       if (data.positions) {
-        props.dispatch(positionsActions.update(data.positions));
+        dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
         displayNotifications(data.events);

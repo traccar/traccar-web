@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DeviceList = () => {
+  const [menuDeviceId, setMenuDeviceId] = useState(null);
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const devices = useSelector(state => Object.values(state.devices.items));
@@ -41,7 +42,8 @@ const DeviceList = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const handleMenuClick = (event) => {
+  const handleMenuClick = (event, deviceId) => {
+    setMenuDeviceId(deviceId);
     setMenuAnchorEl(event.currentTarget);
   }
 
@@ -50,13 +52,25 @@ const DeviceList = () => {
   }
 
   const handleMenuEdit = () => {
-    history.push('/device');
+    history.push(`/device/${menuDeviceId}`);
     handleMenuClose();
   }
 
   const handleMenuRemove = () => {
     setRemoveDialogOpen(true);
     handleMenuClose();
+  }
+
+  const handleAdd = () => {
+    history.push('/device');
+    handleMenuClose();
+  }
+
+  const handleRemoveResult = (removed) => {
+    setRemoveDialogOpen(false);
+    if (removed) {
+      dispatch(devicesActions.remove(menuDeviceId));
+    }
   }
 
   return (
@@ -72,27 +86,25 @@ const DeviceList = () => {
               </ListItemAvatar>
               <ListItemText primary={device.name} secondary={device.uniqueId} />
               <ListItemSecondaryAction>
-                <IconButton onClick={handleMenuClick}>
+                <IconButton onClick={(event) => handleMenuClick(event, device.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </ListItemSecondaryAction>
             </ListItem>
             {index < list.length - 1 ? <Divider /> : null}
           </Fragment>
-        ))
-        }
+        ))}
       </List>
-      <Fab size="medium" color="primary" className={classes.fab}>
+      <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
         <AddIcon />
       </Fab>
       <Menu id="device-menu" anchorEl={menuAnchorEl} keepMounted open={Boolean(menuAnchorEl)} onClose={handleMenuClose}>
         <MenuItem onClick={handleMenuEdit}>{t('sharedEdit')}</MenuItem>
         <MenuItem onClick={handleMenuRemove}>{t('sharedRemove')}</MenuItem>
       </Menu>
-      <RemoveDialog open={removeDialogOpen} onClose={() => { setRemoveDialogOpen(false) }} />
+      <RemoveDialog deviceId={menuDeviceId} open={removeDialogOpen} onResult={handleRemoveResult} />
     </>
   );
 }
 
 export default DeviceList;
-

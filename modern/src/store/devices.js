@@ -12,7 +12,10 @@ const { reducer, actions } = createSlice({
     },
     select(state, action) {
       state.selectedId = action.payload.id;
-    }
+    },
+    remove(state, action) {
+      delete state.items[action.payload];
+    },
   }
 });
 
