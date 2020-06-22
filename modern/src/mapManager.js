@@ -12,23 +12,31 @@ const registerListener = listener => {
   }
 };
 
-const loadImage = (key, url) => {
+const loadImage = (url) => {
   return new Promise(imageLoaded => {
     const image = new Image();
-    image.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = image.width * window.devicePixelRatio;
-      canvas.height = image.height * window.devicePixelRatio;
-      canvas.style.width = `${image.width}px`;
-      canvas.style.height = `${image.height}px`;
-      const context = canvas.getContext('2d');
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
-        pixelRatio: window.devicePixelRatio
-      });
-      imageLoaded()
-    }
+    image.onload = () => imageLoaded(image);
     image.src = url;
+  });
+};
+
+const loadIcon = (key, background, url) => {
+  return loadImage(url).then((image) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = background.width * window.devicePixelRatio;
+    canvas.height = background.height * window.devicePixelRatio;
+    canvas.style.width = `${background.width}px`;
+    canvas.style.height = `${background.height}px`;
+    const context = canvas.getContext('2d');
+    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+    const imageWidth = image.width * window.devicePixelRatio;
+    const imageHeight = image.height * window.devicePixelRatio;
+    context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+
+    map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
+      pixelRatio: window.devicePixelRatio
+    });
   });
 };
 
@@ -46,6 +54,7 @@ const addLayer = (id, source, icon, text) => {
     layer.layout = {
       ...layer.layout,
       'text-field': text,
+      'text-allow-overlap': true,
       'text-anchor': 'bottom',
       'text-offset': [0, -2],
       'text-font': ['Roboto Regular'],
@@ -97,30 +106,30 @@ element.style.height = '100%';
 const map = new mapboxgl.Map({
   container: element,
   style: {
-  'version': 8,
-  'sources': {
+    'version': 8,
+    'sources': {
       'raster-tiles': {
-      'type': 'raster',
-      'tiles': [
-          'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-          'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-          'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-          'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png'
-      ],
-      'tileSize': 256,
-      'attribution': '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>'
+        'type': 'raster',
+        'tiles': [
+            'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+            'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+            'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+            'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png'
+        ],
+        'tileSize': 256,
+        'attribution': '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>'
       }
-  },
-  'glyphs': 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
-  'layers': [
+    },
+    'glyphs': 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
+    'layers': [
       {
-      'id': 'simple-tiles',
-      'type': 'raster',
-      'source': 'raster-tiles',
-      'minzoom': 0,
-      'maxzoom': 22
+        'id': 'simple-tiles',
+        'type': 'raster',
+        'source': 'raster-tiles',
+        'minzoom': 0,
+        'maxzoom': 22
       }
-  ]
+    ]
   },
   center: [0, 0],
   zoom: 1
@@ -129,15 +138,17 @@ const map = new mapboxgl.Map({
 map.addControl(new mapboxgl.NavigationControl());
 
 map.on('load', () => {
-  Promise.all([
-    loadImage('background', 'images/background.svg'),
-    loadImage('icon-marker', 'images/icon/marker.svg')
-  ]).then(() => {
-    ready = true;
-    if (registeredListener) {
-      registeredListener();
-      registeredListener = null;
-    }
+
+  loadImage('images/background.svg').then((background) => {
+    Promise.all([
+      loadIcon('icon-marker', background, 'images/icon/marker.svg')
+    ]).then(() => {
+      ready = true;
+      if (registeredListener) {
+        registeredListener();
+        registeredListener = null;
+      }
+    });
   });
 });
 

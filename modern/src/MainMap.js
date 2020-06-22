@@ -58,8 +58,7 @@ const MainMap = () => {
         'type': 'geojson',
         'data': positions,
       });
-      mapManager.addLayer('device-background', 'positions', 'background', '{name}');
-      mapManager.addLayer('device-icon', 'positions', 'icon-marker');
+      mapManager.addLayer('device-icon', 'positions', 'icon-marker', '{name}');
 
       const bounds = mapManager.calculateBounds(positions.features);
       if (bounds) {
@@ -70,7 +69,6 @@ const MainMap = () => {
       }
 
       return () => {
-        mapManager.map.removeLayer('device-background');
         mapManager.map.removeLayer('device-icon');
         mapManager.map.removeSource('positions');
       };
