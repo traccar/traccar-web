@@ -103,6 +103,7 @@ const LoginPage = () => {
             label={t('userPassword')}
             name="password"
             value={password}
+            type="password"
             autoComplete="current-password"
             onChange={handlePasswordChange} />
 
