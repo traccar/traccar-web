@@ -29,8 +29,12 @@ if (!Array.prototype.find) {
   });
 }
 
+var getQueryParameter = function(name) {
+	return (window.location.search.match('[?&]' + name + '=([^&]*)') || [])[1];
+};
+
 var url = window.location.protocol + '//' + window.location.host;
-var token = (window.location.search.match(/token=([^&#]+)/) || [])[1];
+var token = getQueryParameter('token');
 
 var style = function (label) {
     return new ol.style.Style({
@@ -98,10 +102,10 @@ ajax('GET', url + '/api/server', function(server) {
     ajax('GET', url + '/api/session?token=' + token, function(user) {
 
         map.getView().setCenter(ol.proj.fromLonLat([
-            user.longitude || server.longitude || 0.0,
-            user.latitude || server.latitude || 0.0
+            parseFloat(getQueryParameter('longitude')) || user.longitude || server.longitude || 0.0,
+            parseFloat(getQueryParameter('latitude')) || user.latitude || server.latitude || 0.0
         ]));
-        map.getView().setZoom(user.zoom || server.zoom || 2);
+        map.getView().setZoom(parseFloat(getQueryParameter('zoom')) || user.zoom || server.zoom || 2);
 
         ajax('GET', url + '/api/devices', function(devices) {
 

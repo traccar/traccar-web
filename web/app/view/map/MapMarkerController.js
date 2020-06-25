@@ -243,15 +243,13 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     updateAccuracy: function (position, device) {
-        var center, radius, feature, mapView, projection, pointResolution;
-        mapView = this.getView().getMapView();
+        var center, radius, feature;
         feature = this.accuracyCircles[position.get('deviceId')];
 
         if (position.get('accuracy')) {
-            projection = mapView.getProjection();
             center = ol.proj.fromLonLat([position.get('longitude'), position.get('latitude')]);
-            pointResolution = ol.proj.getPointResolution(projection, mapView.getResolution(), center);
-            radius = position.get('accuracy') / ol.proj.Units.METERS_PER_UNIT.m * mapView.getResolution() / pointResolution;
+            radius = Ext.getStore('DistanceUnits').convertValue(
+                position.get('accuracy'), Traccar.app.getAttributePreference('distanceUnit'), true);
 
             if (feature) {
                 feature.getGeometry().setCenter(center);

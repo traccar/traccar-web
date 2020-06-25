@@ -232,8 +232,8 @@
     "mapTitle": "Mapa",
     "mapLayer": "Capa de Mapa",
     "mapCustom": "Custom (XYZ)",
-    "mapCustomArcgis": "Custom (ArcGIS)",
-    "mapCustomLabel": "Custom map",
+    "mapCustomArcgis": "ArcGIS Personalizado",
+    "mapCustomLabel": "Mapa Personalizado",
     "mapCarto": "Mapas base Carto",
     "mapOsm": "Open Street Map",
     "mapBingKey": "Bing Maps Key",
@@ -426,7 +426,7 @@
     "categoryTrolleybus": "Trolebús",
     "categoryTruck": "Camión",
     "categoryVan": "Van",
-    "categoryScooter": "Scooter",
+    "categoryScooter": "Moto",
     "maintenanceStart": "Iniciar",
     "maintenancePeriod": "Período"
 }
