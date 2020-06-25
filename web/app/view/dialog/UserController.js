@@ -33,9 +33,6 @@ Ext.define('Traccar.view.dialog.UserController', {
             this.lookupReference('limitCommandsField').setDisabled(false);
         }
 
-        this.lookupReference('totpKeyField').setHidden(
-            !this.lookupReference('useTotpField').getValue());
-
         this.lookupReference('useTotpField').setHidden(
             !Traccar.app.getServer().get('totpEnabled') || Traccar.app.getServer().get('totpEnforce'));
 
@@ -44,6 +41,11 @@ Ext.define('Traccar.view.dialog.UserController', {
 
         this.lookupReference('useTotpField').setHidden(
             !Traccar.app.getServer().get('totpEnabled'));
+
+        if (Traccar.app.getServer().get('totpEnabled')) {
+            this.lookupReference('totpKeyField').setHidden(
+                !this.lookupReference('useTotpField').getValue());
+        }
     },
 
     symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
