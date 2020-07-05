@@ -28,6 +28,11 @@ Ext.define('Traccar.view.dialog.Login', {
     header: false,
     closable: false,
 
+    listeners: {
+        afterrender: 'handleAdded',
+        beforedestroy: 'handleRemoved'
+    },
+
     items: {
         xtype: 'form',
         reference: 'form',
