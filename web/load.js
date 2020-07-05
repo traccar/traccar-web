@@ -36,6 +36,7 @@
     window.Locale = locale;
 
     locale.languages = {
+        'af': { name: 'Afrikaans', code: 'af' },
         'ar': { name: 'العربية', code: 'en' },
         'az': { name: 'Azərbaycanca', code: 'en' },
         'bg': { name: 'Български', code: 'bg' },

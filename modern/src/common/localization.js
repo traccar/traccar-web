@@ -1,3 +1,4 @@
+import af from '../../../web/l10n/af.json';
 import ar from '../../../web/l10n/ar.json';
 import az from '../../../web/l10n/az.json';
 import bg from '../../../web/l10n/bg.json';
@@ -52,6 +53,7 @@ import zh from '../../../web/l10n/zh.json';
 import zh_TW from '../../../web/l10n/zh_TW.json';
 
 const supportedLanguages = {
+    'af': { data: af, name: 'Afrikaans' },
     'ar': { data: ar, name: 'العربية' },
     'az': { data: az, name: 'Azərbaycanca' },
     'bg': { data: bg, name: 'Български' },
