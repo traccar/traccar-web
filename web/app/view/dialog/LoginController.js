@@ -33,12 +33,12 @@ Ext.define('Traccar.view.dialog.LoginController', {
         var element = document.createElement('div');
         element.id = 'update';
         element.innerHTML = 'Switch to <a href="/modern/">modern interface</a>';
-        document.getElementsByTagName("body")[0].appendChild(element);
+        document.getElementsByTagName('body')[0].appendChild(element);
     },
 
     handleRemoved: function () {
         var element = document.getElementById('update');
-        document.getElementsByTagName("body")[0].removeChild(element);
+        document.getElementsByTagName('body')[0].removeChild(element);
     },
 
     login: function () {
