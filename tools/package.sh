@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 ./minify.sh
 
-cd $(dirname $0)/../modern
+cd ../modern
 
 npm run build_release
 mv build ../web/modern
