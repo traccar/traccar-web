@@ -6,5 +6,6 @@ cd $(dirname $0)
 
 cd ../modern
 
+npm install
 npm run build_release
 mv build ../web/modern
