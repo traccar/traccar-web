@@ -108,7 +108,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     loadApp: function () {
-        var attribution, eventId;
+        var updateView, attributionView, eventId;
 
         if (window.webkit && window.webkit.messageHandlers.appInterface) {
             window.webkit.messageHandlers.appInterface.postMessage('login');
@@ -152,9 +152,13 @@ Ext.define('Traccar.controller.Root', {
                 this.asyncUpdate(true);
             }
         });
-        attribution = Ext.get('attribution');
-        if (attribution) {
-            attribution.remove();
+        updateView = Ext.get('update');
+        if (updateView) {
+            updateView.remove();
+        }
+        attributionView = Ext.get('attribution');
+        if (attributionView) {
+            attributionView.remove();
         }
         if (Traccar.app.isMobile()) {
             Ext.create('widget.mainMobile');

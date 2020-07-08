@@ -29,18 +29,6 @@ Ext.define('Traccar.view.dialog.LoginController', {
         this.lookupReference('languageField').setValue(Locale.language);
     },
 
-    handleAdded: function () {
-        var element = document.createElement('div');
-        element.id = 'update';
-        element.innerHTML = 'Switch to <a href="/modern/">modern interface</a>';
-        document.getElementsByTagName('body')[0].appendChild(element);
-    },
-
-    handleRemoved: function () {
-        var element = document.getElementById('update');
-        document.getElementsByTagName('body')[0].removeChild(element);
-    },
-
     login: function () {
         var form = this.lookupReference('form');
         if (form.isValid()) {

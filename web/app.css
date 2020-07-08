@@ -25,7 +25,9 @@ body.x-border-layout-ct, div.x-border-layout-ct {
 }
 
 #update {
-    margin: 20px;
+    position: absolute;
+    width: 100%;
+    top: 20px;
     font-weight: bold;
     text-align: center;
 }
