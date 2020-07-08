@@ -149,7 +149,7 @@
     }
 
     extjsVersion = '6.2.0';
-    olVersion = '6.2.1';
+    olVersion = '6.1.1';
     proj4jsVersion = '2.6.0';
 
     if (debugMode) {
