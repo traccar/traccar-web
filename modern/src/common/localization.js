@@ -111,12 +111,18 @@ const supportedLanguages = {
 const languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
 let language = window.navigator.userLanguage || window.navigator.language;
 languages.push(language);
-languages.push(language.substr(0, 2));
+languages.push(language.substring(0, 2));
 languages.push('en');
 for (let i = 0; i < languages.length; i++) {
     language = languages[i].replace('-', '_');
     if (language in supportedLanguages) {
         break;
+    }
+    if (language.length > 2) {
+        language = languages[i].substring(0, 2);
+        if (language in locale.languages) {
+            break;
+        }
     }
 }
 
