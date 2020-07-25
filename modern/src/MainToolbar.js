@@ -87,10 +87,13 @@ const MainToolbar = () => {
             </ListItem>
           </List>
           <Divider />
-          <List subheader={<ListSubheader>
-            {t('reportTitle')}
-          </ListSubheader>}>
-            <ListItem button disabled onClick={() => { history.push('/reports/route') }}>
+          <List
+            subheader={
+              <ListSubheader>
+                {t('reportTitle')}
+              </ListSubheader>
+            }>
+            <ListItem button onClick={() => { history.push('/reports/route') }}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>

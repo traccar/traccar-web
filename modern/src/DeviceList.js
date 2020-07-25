@@ -23,8 +23,8 @@ import RemoveDialog from './RemoveDialog';
 
 const useStyles = makeStyles(theme => ({
   list: {
-      maxHeight: '100%',
-      overflow: 'auto',
+    maxHeight: '100%',
+    overflow: 'auto',
   },
   fab: {
     position: 'absolute',
