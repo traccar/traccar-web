@@ -120,7 +120,7 @@ for (let i = 0; i < languages.length; i++) {
     }
     if (language.length > 2) {
         language = languages[i].substring(0, 2);
-        if (language in locale.languages) {
+        if (language in supportedLanguages) {
             break;
         }
     }
