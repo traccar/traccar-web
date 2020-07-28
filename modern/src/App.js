@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MainPage from './MainPage';
 import LoginPage from './LoginPage';
 import RouteReportPage from './reports/RouteReportPage';
+import TripsReportPage from './reports/TripsReportPage';
 import DevicePage from './DevicePage';
 import SocketController from './SocketController';
 
@@ -17,6 +18,7 @@ const App = () => {
         <Route exact path='/login' component={LoginPage} />
         <Route exact path='/device/:id?' component={DevicePage} />
         <Route exact path='/reports/route' component={RouteReportPage} />
+        <Route exact path='/reports/trips' component={TripsReportPage} />
       </Switch>
     </>
   );

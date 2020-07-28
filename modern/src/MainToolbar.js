@@ -105,7 +105,7 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportEvents')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button button onClick={() => { history.push('/reports/trips') }}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>
