@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import MainToobar from './MainToolbar';
 import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -76,7 +76,7 @@ const DevicePage = () => {
       <Container maxWidth='xs' className={classes.container}>
         <form>
           {(!id || device) &&
-            <React.Fragment>
+            <Fragment>
               <TextField
                 margin='normal'
                 fullWidth
@@ -116,7 +116,7 @@ const DevicePage = () => {
                 onChange={(event) => setContact(event.target.value)}
                 label={t('deviceContact')}
                 variant='filled' />
-            </React.Fragment>
+            </Fragment>
           }
           <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
