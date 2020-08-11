@@ -76,7 +76,7 @@ const DevicePage = () => {
       <Container maxWidth='xs' className={classes.container}>
         <form>
           {(!id || device) &&
-            <div>
+            <React.Fragment>
               <TextField
                 margin='normal'
                 fullWidth
@@ -116,7 +116,7 @@ const DevicePage = () => {
                 onChange={(event) => setContact(event.target.value)}
                 label={t('deviceContact')}
                 variant='filled' />
-            </div>
+            </React.Fragment>
           }
           <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
