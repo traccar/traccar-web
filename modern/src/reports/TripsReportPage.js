@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MainToobar from '../MainToolbar';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Grid, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@material-ui/core';
 import t from '../common/localization';
 import { useSelector } from 'react-redux';
@@ -23,20 +23,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportPage = () => {
-  const { reportType } = useParams();
-
-
+const TripsReportPage = () => {
   const history = useHistory();
   const classes = useStyles();
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
-  const [type, setType] = useState(reportType);
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
   const [data, setData] = useState([]);
-  const [loaded, setLoaded] = useState(false);
 
   const handleShow = () => {
     let selectedFrom;
@@ -76,12 +71,10 @@ const ReportPage = () => {
       from: selectedFrom.toISOString(),
       to: selectedTo.toISOString(),
     });
-
-
-    fetch(`/api/reports/${type}?${query.toString()}`, { headers: { 'Accept': 'application/json' } })
+    fetch(`/api/reports/trips?${query.toString()}`, { headers: { 'Accept': 'application/json' } })
       .then(response => {
         if (response.ok) {
-          response.json().then(setData); setLoaded(true);
+          response.json().then(setData);
         }
       });
   }
@@ -93,14 +86,6 @@ const ReportPage = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>
             <Paper className={classes.form}>
-              <FormControl variant='filled' margin='normal' fullWidth>
-                <InputLabel>{t('sharedType')}</InputLabel>
-                <Select value={type} onChange={(e) => { setType(e.target.value); setData([]); }}>
-                  <MenuItem value='route'>{t('reportRoute')}</MenuItem>
-                  <MenuItem value='trips'>{t('reportTrips')}</MenuItem>
-
-                </Select>
-              </FormControl>
               <FormControl variant='filled' margin='normal' fullWidth>
                 <InputLabel>{t('reportDevice')}</InputLabel>
                 <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
@@ -149,82 +134,53 @@ const ReportPage = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
-
             <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>{t('reportDeviceName')}</TableCell>
+                    <TableCell>{t('reportStartTime')}</TableCell>
+                    <TableCell>{t('reportStartOdometer')}</TableCell>
+                    <TableCell>{t('reportStartAddress')}</TableCell>
+                    <TableCell>{t('reportEndTime')}</TableCell>
+                    <TableCell>{t('reportEndOdometer')}</TableCell>
 
-              {type === 'route' &&
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t('positionFixTime')}</TableCell>
-                      <TableCell>{t('positionLatitude')}</TableCell>
-                      <TableCell>{t('positionLongitude')}</TableCell>
-                      <TableCell>{t('positionSpeed')}</TableCell>
-                      <TableCell>{t('positionAddress')}</TableCell>
+                    <TableCell>{t('reportEndAddress')}</TableCell>
+                    <TableCell>{t('positionDistance')}</TableCell>
+                    <TableCell>{t('reportAverageSpeed')}</TableCell>
+                    <TableCell>{t('reportMaximumSpeed')}</TableCell>
+                    <TableCell>{t('reportDuration')}</TableCell>
+                    <TableCell>{t('reportSpentFuel')}</TableCell>
+                    <TableCell>{t('sharedDriver')}</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{formatter(item, 'deviceName')}</TableCell>
+                      <TableCell>{formatter(item, 'startTime')}</TableCell>
+                      <TableCell>{formatter(item, 'startOdometer')}</TableCell>
+                      <TableCell>{formatter(item, 'startAddress')}</TableCell>
+                      <TableCell>{formatter(item, 'endTime')}</TableCell>
+                      <TableCell>{formatter(item, 'endOdometer')}</TableCell>
+
+                      <TableCell>{formatter(item, 'endAddress')}</TableCell>
+                      <TableCell>{formatter(item, 'distance')}</TableCell>
+                      <TableCell>{formatter(item, 'averageSpeed')}</TableCell>
+                      <TableCell>{formatter(item, 'maxSpeed')}</TableCell>
+                      <TableCell>{formatter(item, 'duration')}</TableCell>
+                      <TableCell>{formatter(item, 'spentFuel')}</TableCell>
+                      <TableCell>{formatter(item, 'driverName')}</TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell>{formatter(item, 'fixTime')}</TableCell>
-                        <TableCell>{formatter(item, 'latitude')}</TableCell>
-                        <TableCell>{formatter(item, 'longitude')}</TableCell>
-                        <TableCell>{formatter(item, 'speed')}</TableCell>
-                        <TableCell>{formatter(item, 'address')}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>}
-
-              {type === 'trips' &&
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t('reportDeviceName')}</TableCell>
-                      <TableCell>{t('reportStartTime')}</TableCell>
-                      <TableCell>{t('reportStartOdometer')}</TableCell>
-                      <TableCell>{t('reportStartAddress')}</TableCell>
-                      <TableCell>{t('reportEndTime')}</TableCell>
-                      <TableCell>{t('reportEndOdometer')}</TableCell>
-
-                      <TableCell>{t('reportEndAddress')}</TableCell>
-                      <TableCell>{t('positionDistance')}</TableCell>
-                      <TableCell>{t('reportAverageSpeed')}</TableCell>
-                      <TableCell>{t('reportMaximumSpeed')}</TableCell>
-                      <TableCell>{t('reportDuration')}</TableCell>
-                      <TableCell>{t('reportSpentFuel')}</TableCell>
-                      <TableCell>{t('sharedDriver')}</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {data.map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell>{formatter(item, 'deviceName')}</TableCell>
-                        <TableCell>{formatter(item, 'startTime')}</TableCell>
-                        <TableCell>{formatter(item, 'startOdometer')}</TableCell>
-                        <TableCell>{formatter(item, 'startAddress')}</TableCell>
-                        <TableCell>{formatter(item, 'endTime')}</TableCell>
-                        <TableCell>{formatter(item, 'endOdometer')}</TableCell>
-
-                        <TableCell>{formatter(item, 'endAddress')}</TableCell>
-                        <TableCell>{formatter(item, 'distance')}</TableCell>
-                        <TableCell>{formatter(item, 'averageSpeed')}</TableCell>
-                        <TableCell>{formatter(item, 'maxSpeed')}</TableCell>
-                        <TableCell>{formatter(item, 'duration')}</TableCell>
-                        <TableCell>{formatter(item, 'spentFuel')}</TableCell>
-                        <TableCell>{formatter(item, 'driverName')}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              }
+                  ))}
+                </TableBody>
+              </Table>
             </TableContainer>
-
           </Grid>
         </Grid>
       </div>
-    </div >
+    </div>
   );
 }
 
-export default ReportPage;
+export default TripsReportPage;
