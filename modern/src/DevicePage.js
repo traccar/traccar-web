@@ -40,9 +40,6 @@ const DevicePage = () => {
     });
   }, [id]);
 
-
-
-
   const handleSave = () => {
     const updatedDevice = id ? device : {};
     updatedDevice.name = name || updatedDevice.name;
@@ -79,49 +76,47 @@ const DevicePage = () => {
       <Container maxWidth='xs' className={classes.container}>
         <form>
           {(!id || device) &&
-            <TextField
-              margin='normal'
-              fullWidth
-              defaultValue={device && device.name}
-              onChange={(event) => setName(event.target.value)}
-              label={t('sharedName')}
-              variant='filled' />
-          }
-          {(!id || device) &&
-            <TextField
-              margin='normal'
-              fullWidth
-              defaultValue={device && device.uniqueId}
-              onChange={(event) => setUniqueId(event.target.value)}
-              label={t('deviceIdentifier')}
-              variant='filled' />
-          }
-          {(!id || device) &&
-            <TextField
-              margin='normal'
-              fullWidth
-              defaultValue={device && device.phone}
-              onChange={(event) => setPhone(event.target.value)}
-              label={t('sharedPhone')}
-              variant='filled' />
-          }
-          {(!id || device) &&
-            <TextField
-              margin='normal'
-              fullWidth
-              defaultValue={device && device.model}
-              onChange={(event) => setModel(event.target.value)}
-              label={t('deviceModel')}
-              variant='filled' />
-          }
-          {(!id || device) &&
-            <TextField
-              margin='normal'
-              fullWidth
-              defaultValue={device && device.contact}
-              onChange={(event) => setContact(event.target.value)}
-              label={t('deviceContact')}
-              variant='filled' />
+            <div>
+              <TextField
+                margin='normal'
+                fullWidth
+                defaultValue={device && device.name}
+                onChange={(event) => setName(event.target.value)}
+                label={t('sharedName')}
+                variant='filled' />
+
+              <TextField
+                margin='normal'
+                fullWidth
+                defaultValue={device && device.uniqueId}
+                onChange={(event) => setUniqueId(event.target.value)}
+                label={t('deviceIdentifier')}
+                variant='filled' />
+
+              <TextField
+                margin='normal'
+                fullWidth
+                defaultValue={device && device.phone}
+                onChange={(event) => setPhone(event.target.value)}
+                label={t('sharedPhone')}
+                variant='filled' />
+
+              <TextField
+                margin='normal'
+                fullWidth
+                defaultValue={device && device.model}
+                onChange={(event) => setModel(event.target.value)}
+                label={t('deviceModel')}
+                variant='filled' />
+
+              <TextField
+                margin='normal'
+                fullWidth
+                defaultValue={device && device.contact}
+                onChange={(event) => setContact(event.target.value)}
+                label={t('deviceContact')}
+                variant='filled' />
+            </div>
           }
           <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
