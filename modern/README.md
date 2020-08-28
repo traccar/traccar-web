@@ -1,6 +1,6 @@
 This is a new version of the Traccar web app. It is still in a very early stage of development.
 
-It uses [React](https://reactjs.org/), [Material UI](https://material-ui.com/) and [OpenLayers](https://openlayers.org/). Feedback and contributions are welcome.
+It uses [React](https://reactjs.org/), [Material UI](https://material-ui.com/) and [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/api/). Feedback and contributions are welcome.
 
 To run the project in development mode:
 

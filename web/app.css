@@ -24,6 +24,14 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     overflow: visible !important; /* workaround for Safari issue */
 }
 
+#update {
+    position: absolute;
+    width: 100%;
+    top: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
 #attribution {
     position: absolute;
     bottom: 10px;

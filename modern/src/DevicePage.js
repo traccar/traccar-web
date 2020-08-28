@@ -72,28 +72,28 @@ const DevicePage = () => {
         <form>
           {(!id || device) &&
             <TextField
-              margin="normal"
+              margin='normal'
               fullWidth
               defaultValue={device && device.name}
               onChange={(event) => setName(event.target.value)}
               label={t('sharedName')}
-              variant="filled" />
+              variant='filled' />
           }
           {(!id || device) &&
             <TextField
-              margin="normal"
+              margin='normal'
               fullWidth
               defaultValue={device && device.uniqueId}
               onChange={(event) => setUniqueId(event.target.value)}
               label={t('deviceIdentifier')}
-              variant="filled" />
+              variant='filled' />
           }
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
-              <Button type="button" color="primary" variant="outlined" onClick={() => history.goBack()}>
+              <Button type='button' color='primary' variant='outlined' onClick={() => history.goBack()}>
                 {t('sharedCancel')}
               </Button>
-              <Button type="button" color="primary" variant="contained" onClick={handleSave}>
+              <Button type='button' color='primary' variant='contained' onClick={handleSave}>
                 {t('sharedSave')}
               </Button>
             </div>

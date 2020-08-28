@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
-import { positionsActions, devicesActions } from './store';
+import { positionsActions, devicesActions, sessionActions } from './store';
+import { useHistory } from 'react-router-dom';
 
 const displayNotifications = events => {
   if ("Notification" in window) {
@@ -22,6 +23,8 @@ const displayNotifications = events => {
 
 const SocketController = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const authenticated = useSelector(state => state.session.authenticated);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -46,15 +49,25 @@ const SocketController = () => {
   }
 
   useEffect(() => {
-    fetch('/api/devices').then(response => {
-      if (response.ok) {
-        response.json().then(devices => {
-          dispatch(devicesActions.update(devices));
-        });
-      }
-      connectSocket();
-    });
-  }, []);
+    if (authenticated) {
+      fetch('/api/devices').then(response => {
+        if (response.ok) {
+          response.json().then(devices => {
+            dispatch(devicesActions.update(devices));
+          });
+        }
+        connectSocket();
+      });
+    } else {
+      fetch('/api/session').then(response => {
+        if (response.ok) {
+          dispatch(sessionActions.authenticated(true));
+        } else {
+          history.push('/login');
+        }
+      });
+    }
+  }, [authenticated]);
 
   return null;
 }

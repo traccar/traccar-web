@@ -79,40 +79,40 @@ const LoginPage = () => {
   return (
     <main className={classes.root}>
       <Paper className={classes.paper}>
-        <img className={classes.logo} src="/logo.svg" alt="Traccar" />
+        <img className={classes.logo} src='/logo.svg' alt='Traccar' />
         <form onSubmit={handleLogin}>
 
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
             error={failed}
             label={t('userEmail')}
-            name="email"
+            name='email'
             value={email}
-            autoComplete="email"
+            autoComplete='email'
             autoFocus
             onChange={handleEmailChange}
             helperText={failed && 'Invalid username or password'} />
 
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
             error={failed}
             label={t('userPassword')}
-            name="password"
+            name='password'
             value={password}
-            type="password"
-            autoComplete="current-password"
+            type='password'
+            autoComplete='current-password'
             onChange={handlePasswordChange} />
 
-          <FormControl fullWidth margin="normal">
+          <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
-              <Button type="button" variant="contained" disabled onClick={handleRegister}>
+              <Button type='button' variant='contained' disabled onClick={handleRegister}>
                 {t('loginRegister')}
               </Button>
-              <Button type="submit" variant="contained" color="primary" disabled={!email || !password}>
+              <Button type='submit' variant='contained' color='primary' disabled={!email || !password}>
                 {t('loginLogin')}
               </Button>
             </div>

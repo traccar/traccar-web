@@ -1,3 +1,4 @@
+import af from '../../../web/l10n/af.json';
 import ar from '../../../web/l10n/ar.json';
 import az from '../../../web/l10n/az.json';
 import bg from '../../../web/l10n/bg.json';
@@ -52,6 +53,7 @@ import zh from '../../../web/l10n/zh.json';
 import zh_TW from '../../../web/l10n/zh_TW.json';
 
 const supportedLanguages = {
+    'af': { data: af, name: 'Afrikaans' },
     'ar': { data: ar, name: 'العربية' },
     'az': { data: az, name: 'Azərbaycanca' },
     'bg': { data: bg, name: 'Български' },
@@ -109,12 +111,18 @@ const supportedLanguages = {
 const languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
 let language = window.navigator.userLanguage || window.navigator.language;
 languages.push(language);
-languages.push(language.substr(0, 2));
+languages.push(language.substring(0, 2));
 languages.push('en');
 for (let i = 0; i < languages.length; i++) {
     language = languages[i].replace('-', '_');
     if (language in supportedLanguages) {
         break;
+    }
+    if (language.length > 2) {
+        language = languages[i].substring(0, 2);
+        if (language in supportedLanguages) {
+            break;
+        }
     }
 }
 
