@@ -65,6 +65,9 @@ Ext.define('Traccar.model.Server', {
         name: 'poiLayer',
         type: 'string'
     }, {
+        name: 'announcement',
+        type: 'string'
+    }, {
         name: 'attributes'
     }],
 
