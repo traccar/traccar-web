@@ -77,7 +77,7 @@ Ext.define('Traccar.controller.Root', {
             closable: false,
             modal: false,
             maxWidth: maxWidth
-        }).alignTo(Ext.getBody(), "t-t", [0, Traccar.Style.normalPadding]);
+        }).alignTo(Ext.getBody(), 't-t', [0, Traccar.Style.normalPadding]);
     },
 
     onServerReturn: function (options, success, response) {
