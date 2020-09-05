@@ -88,6 +88,10 @@ Ext.define('Traccar.view.dialog.Server', {
                 xtype: 'unescapedTextField',
                 name: 'poiLayer',
                 fieldLabel: Strings.mapPoiLayer
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'announcement',
+                fieldLabel: Strings.serverAnnouncement
             }]
         }, {
             xtype: 'fieldset',

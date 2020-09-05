@@ -231,6 +231,7 @@
     "serverRegistration": "Registration",
     "serverReadonly": "Readonly",
     "serverForceSettings": "Force Settings",
+    "serverAnnouncement": "Announcement",
     "mapTitle": "Map",
     "mapLayer": "Map Layer",
     "mapCustom": "Custom (XYZ)",
