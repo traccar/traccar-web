@@ -40,7 +40,11 @@ const loadIcon = (key, background, url) => {
   });
 };
 
-const addLayer = (id, source, icon, text) => {
+const layerClickCallbacks = {};
+const layerMouseEnterCallbacks = {};
+const layerMauseLeaveCallbacks = {};
+
+const addLayer = (id, source, icon, text, onClick) => {
   const layer = {
     'id': id,
     'type': 'symbol',
@@ -66,6 +70,33 @@ const addLayer = (id, source, icon, text) => {
     }
   }
   map.addLayer(layer);
+
+  layerClickCallbacks[id] = onClick;
+  map.on('click', id, onClick);
+
+  layerMouseEnterCallbacks[id] = () => {
+    map.getCanvas().style.cursor = 'pointer';
+  };
+  map.on('mouseenter', id, layerMouseEnterCallbacks[id]);
+
+  layerMauseLeaveCallbacks[id] = () => {
+    map.getCanvas().style.cursor = '';
+  };
+  map.on('mouseleave', id, layerMauseLeaveCallbacks[id]);
+}
+
+const removeLayer = (id, source) => {
+  map.off('click', id, layerClickCallbacks[id]);
+  delete layerClickCallbacks[id];
+
+  map.off('mouseenter', id, layerMouseEnterCallbacks[id]);
+  delete layerMouseEnterCallbacks[id];
+
+  map.off('mouseleave', id, layerMauseLeaveCallbacks[id]);
+  delete layerMauseLeaveCallbacks[id];
+
+  map.removeLayer(id);
+  map.removeSource(source);
 }
 
 const calculateBounds = features => {
@@ -138,8 +169,7 @@ const map = new mapboxgl.Map({
 map.addControl(new mapboxgl.NavigationControl());
 
 map.on('load', () => {
-
-  loadImage('images/background.svg').then((background) => {
+  loadImage('images/background.svg').then(background => {
     Promise.all([
       loadIcon('icon-marker', background, 'images/icon/marker.svg')
     ]).then(() => {
@@ -157,5 +187,6 @@ export default {
   map,
   registerListener,
   addLayer,
+  removeLayer,
   calculateBounds,
 };

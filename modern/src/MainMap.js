@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import mapboxgl from 'mapbox-gl';
 
 import mapManager from './mapManager';
 
@@ -52,13 +53,17 @@ const MainMap = () => {
     mapManager.registerListener(() => setMapReady(true));
   }, []);
 
+  const markerClickHandler = (event) => {
+    // TODO
+  };
+
   useEffect(() => {
     if (mapReady) {
       mapManager.map.addSource('positions', {
         'type': 'geojson',
         'data': positions,
       });
-      mapManager.addLayer('device-icon', 'positions', 'icon-marker', '{name}');
+      mapManager.addLayer('device-icon', 'positions', 'icon-marker', '{name}', markerClickHandler);
 
       const bounds = mapManager.calculateBounds(positions.features);
       if (bounds) {
@@ -69,8 +74,7 @@ const MainMap = () => {
       }
 
       return () => {
-        mapManager.map.removeLayer('device-icon');
-        mapManager.map.removeSource('positions');
+        mapManager.removeLayer('device-icon', 'positions');
       };
     }
   }, [mapReady]);
