@@ -86,6 +86,11 @@ const addLayer = (id, source, icon, text, onClick) => {
 }
 
 const removeLayer = (id, source) => {
+  const popups = element.getElementsByClassName('mapboxgl-popup');
+  if (popups.length) {
+      popups[0].remove();
+  }
+
   map.off('click', id, layerClickCallbacks[id]);
   delete layerClickCallbacks[id];
 
