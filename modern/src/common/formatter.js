@@ -10,6 +10,8 @@ const formatValue = (key, value) => {
     case 'speed':
     case 'course':
       return value.toFixed(1);
+    case 'batteryLevel':
+      return value + '%';
     default:
       return value;
   }
