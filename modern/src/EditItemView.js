@@ -57,7 +57,7 @@ const EditItemView = ({ children, endpoint, setItem, getItem }) => {
 
   return (
     <>
-      <MainToobar history={history} />
+      <MainToobar />
       <Container maxWidth='xs' className={classes.container}>
         <form>
           {children}

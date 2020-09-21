@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MainToobar from '../MainToolbar';
-import { useHistory } from 'react-router-dom';
 import { Grid, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@material-ui/core';
 import t from '../common/localization';
 import { useSelector } from 'react-redux';
@@ -24,7 +23,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RouteReportPage = () => {
-  const history = useHistory();
   const classes = useStyles();
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
@@ -81,7 +79,7 @@ const RouteReportPage = () => {
 
   return (
     <div className={classes.root}>
-      <MainToobar history={history} />
+      <MainToobar />
       <div className={classes.content}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>

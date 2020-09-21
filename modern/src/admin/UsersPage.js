@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import MainToobar from '../MainToolbar';
-import { useHistory } from 'react-router-dom';
 import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import t from '../common/localization';
@@ -63,12 +62,11 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
 }
 
 const UsersPage = () => {
-  const history = useHistory();
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <MainToobar history={history} />
+      <MainToobar />
       <EditCollectionView content={UsersView} editPath="/user" endpoint="users" />
     </div>
   );
