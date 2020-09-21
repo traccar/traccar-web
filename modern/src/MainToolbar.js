@@ -44,6 +44,7 @@ const MainToolbar = () => {
   const classes = useStyles();
   const history = useHistory();
   const adminEnabled = useSelector(state => state.session.user && state.session.user.administrator);
+  const userId = useSelector(state => state.session.user && state.session.user.id);
 
   const openDrawer = () => { setDrawer(true) }
   const closeDrawer = () => { setDrawer(false) }
@@ -94,7 +95,7 @@ const MainToolbar = () => {
                 {t('reportTitle')}
               </ListSubheader>
             }>
-            <ListItem button onClick={() => { history.push('/reports/route') }}>
+            <ListItem button onClick={() => history.push('/reports/route')}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>
@@ -138,7 +139,7 @@ const MainToolbar = () => {
                 {t('settingsTitle')}
               </ListSubheader>
             }>
-            <ListItem button disabled>
+            <ListItem button disabled={!userId} onClick={() => history.push(`/user/${userId}`)}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
@@ -166,7 +167,7 @@ const MainToolbar = () => {
                     {t('userAdmin')}
                   </ListSubheader>
                 }>
-                <ListItem button onClick={() => { history.push('/admin/users') }}>
+                <ListItem button onClick={() => history.push('/admin/users')}>
                   <ListItemIcon>
                     <PeopleIcon />
                   </ListItemIcon>
