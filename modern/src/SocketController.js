@@ -60,15 +60,13 @@ const SocketController = () => {
     if (authenticated) {
       const response = await fetch('/api/devices');
       if (response.ok) {
-        const devices = await response.json();
-        dispatch(devicesActions.update(devices));
+        dispatch(devicesActions.refresh(await response.json()));
       }
       connectSocket();
     } else {
       const response = await fetch('/api/session');
       if (response.ok) {
-        const user = await response.json();
-        dispatch(sessionActions.updateUser(user));
+        dispatch(sessionActions.updateUser(await response.json()));
       } else {
         history.push('/login');
       }

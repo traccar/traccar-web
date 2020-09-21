@@ -24,6 +24,7 @@ const EditCollectionView = ({ content, editPath, endpoint }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [selectedAnchorEl, setSelectedAnchorEl] = useState(null);
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
+  const [updateTimestamp, setUpdateTimestamp] = useState(Date.now());
 
   const menuShow = (anchorId, itemId) => {
     setSelectedAnchorEl(anchorId);
@@ -51,13 +52,14 @@ const EditCollectionView = ({ content, editPath, endpoint }) => {
 
   const handleRemoveResult = () => {
     setRemoveDialogShown(false);
+    setUpdateTimestamp(Date.now());
   }
 
   const Content = content;
 
   return (
     <>
-      <Content onMenuClick={menuShow} />
+      <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} />
       <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
         <AddIcon />
       </Fab>

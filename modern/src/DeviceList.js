@@ -14,6 +14,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
+import { useEffectAsync } from './reactHelper';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -22,11 +23,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const DeviceView = ({ onMenuClick }) => {
+const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const items = useSelector(state => Object.values(state.devices.items));
+
+  useEffectAsync(async () => {
+    const response = await fetch('/api/devices');
+    if (response.ok) {
+      dispatch(devicesActions.refresh(await response.json()));
+    }
+  }, [updateTimestamp]);
 
   return (
     <List className={classes.list}>
