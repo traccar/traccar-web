@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   columnAction: {
-    width: theme.spacing(8),
+    width: theme.spacing(1),
+    padding: theme.spacing(0, 1),
   },
   fab: {
     position: 'absolute',
@@ -68,25 +69,25 @@ const UsersPage = () => {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell className={classes.columnAction} />
               <TableCell>{t('sharedName')}</TableCell>
               <TableCell>{t('userEmail')}</TableCell>
               <TableCell>{t('userAdmin')}</TableCell>
               <TableCell>{t('sharedDisabled')}</TableCell>
-              <TableCell className={classes.columnAction}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{formatter(item, 'name')}</TableCell>
-                <TableCell>{formatter(item, 'email')}</TableCell>
-                <TableCell>{formatter(item, 'administrator')}</TableCell>
-                <TableCell>{formatter(item, 'disabled')}</TableCell>
                 <TableCell className={classes.columnAction} padding="none">
                   <IconButton onClick={(event) => handleMenuOpen(event, item.id)}>
                     <MoreVertIcon />
                   </IconButton>
                 </TableCell>
+                <TableCell>{formatter(item, 'name')}</TableCell>
+                <TableCell>{formatter(item, 'email')}</TableCell>
+                <TableCell>{formatter(item, 'administrator')}</TableCell>
+                <TableCell>{formatter(item, 'disabled')}</TableCell>
               </TableRow>
             ))}
           </TableBody>
