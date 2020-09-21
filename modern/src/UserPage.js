@@ -4,21 +4,23 @@ import TextField from '@material-ui/core/TextField';
 import t from './common/localization';
 import EditPage from './EditPage';
 
-const DevicePage = () => {
+const UserPage = () => {
   const [item, setItem] = useState();
 
   const [name, setName] = useState('');
-  const [uniqueId, setUniqueId] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const getItem = () => {
     const updatedItem = item;
     updatedItem.name = name;
-    updatedItem.uniqueId = uniqueId;
+    updatedItem.email = email;
+    updatedItem.password = password;
     return updatedItem;
   };
 
   return (
-    <EditPage endpoint="devices" setItem={setItem} getItem={getItem}>
+    <EditPage endpoint="users" setItem={setItem} getItem={getItem}>
       {item &&
         <>
           <TextField
@@ -31,9 +33,16 @@ const DevicePage = () => {
           <TextField
             margin="normal"
             fullWidth
-            defaultValue={item.uniqueId}
-            onChange={(event) => setUniqueId(event.target.value)}
-            label={t('deviceIdentifier')}
+            defaultValue={item.email}
+            onChange={(event) => setEmail(event.target.value)}
+            label={t('userEmail')}
+            variant="filled" />
+          <TextField
+            margin="normal"
+            fullWidth
+            type="password"
+            onChange={(event) => setPassword(event.target.value)}
+            label={t('userPassword')}
             variant="filled" />
         </>
       }
@@ -41,4 +50,4 @@ const DevicePage = () => {
   );
 }
 
-export default DevicePage;
+export default UserPage;
