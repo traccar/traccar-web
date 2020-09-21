@@ -63,17 +63,17 @@ const LoginPage = () => {
     // TODO: Implement registration
   }
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    fetch('/api/session', { method: 'POST', body: new URLSearchParams(`email=${email}&password=${password}`) }).then(response => {
-      if (response.ok) {
-        dispatch(sessionActions.authenticated(true));
-        history.push('/');
-      } else {
-        setFailed(true);
-        setPassword('');
-      }
-    });
+    const response = await fetch('/api/session', { method: 'POST', body: new URLSearchParams(`email=${email}&password=${password}`) });
+    if (response.ok) {
+      const user = await response.json();
+      dispatch(sessionActions.updateUser(user));
+      history.push('/');
+    } else {
+      setFailed(true);
+      setPassword('');
+    }
   }
 
   return (

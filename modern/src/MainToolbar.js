@@ -46,13 +46,12 @@ const MainToolbar = () => {
   const openDrawer = () => { setDrawer(true) }
   const closeDrawer = () => { setDrawer(false) }
 
-  const handleLogout = () => {
-    fetch('/api/session', { method: 'DELETE' }).then(response => {
-      if (response.ok) {
-        dispatch(sessionActions.authenticated(false));
-        history.push('/login');
-      }
-    })
+  const handleLogout = async () => {
+    const response = await fetch('/api/session', { method: 'DELETE' });
+    if (response.ok) {
+      dispatch(sessionActions.updateUser(null));
+      history.push('/login');
+    }
   }
 
   return (

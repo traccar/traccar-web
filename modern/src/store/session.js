@@ -3,13 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 const { reducer, actions } = createSlice({
   name: 'session',
   initialState: {
-    authenticated: false,
+    server: null,
+    user: null,
   },
   reducers: {
-    authenticated(state, action) {
-      state.authenticated = action.payload;
+    updateServer(state, action) {
+      state.server = action.payload;
     },
-  }
+    updateUser(state, action) {
+      state.user = action.payload;
+    },
+  },
 });
 
 export { actions as sessionActions };

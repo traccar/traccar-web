@@ -38,10 +38,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MainPage = ({ width }) => {
-  const authenticated = useSelector(state => state.session.authenticated);
+  const initialized = useSelector(state => !!state.session.server && !!state.session.user);
   const classes = useStyles();
 
-  return !authenticated ? (<LinearProgress />) : (
+  return !initialized ? (<LinearProgress />) : (
     <div className={classes.root}>
       <MainToobar />
       <div className={classes.content}>
