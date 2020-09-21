@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from './store';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,6 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PeopleIcon from '@material-ui/icons/People';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -42,6 +43,7 @@ const MainToolbar = () => {
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
   const history = useHistory();
+  const adminEnabled = useSelector(state => state.session.user && state.session.user.administrator);
 
   const openDrawer = () => { setDrawer(true) }
   const closeDrawer = () => { setDrawer(false) }
@@ -155,6 +157,30 @@ const MainToolbar = () => {
               <ListItemText primary={t('sharedNotifications')} />
             </ListItem>
           </List>
+          {adminEnabled && (
+            <>
+              <Divider />
+              <List
+                subheader={
+                  <ListSubheader>
+                    {t('userAdmin')}
+                  </ListSubheader>
+                }>
+                <ListItem button onClick={() => { history.push('/admin/users') }}>
+                  <ListItemIcon>
+                    <PeopleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('settingsUsers')} />
+                </ListItem>
+                <ListItem button disabled>
+                  <ListItemIcon>
+                    <BarChartIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('statisticsTitle')} />
+                </ListItem>
+              </List>
+            </>
+          )}
         </div>
       </Drawer>
     </>

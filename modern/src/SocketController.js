@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
 import { positionsActions, devicesActions, sessionActions } from './store';

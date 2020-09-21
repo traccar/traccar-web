@@ -1,4 +1,5 @@
 import moment from 'moment';
+import t from '../common/localization';
 
 const formatValue = (key, value) => {
   switch (key) {
@@ -13,7 +14,13 @@ const formatValue = (key, value) => {
     case 'batteryLevel':
       return value + '%';
     default:
-      return value;
+      if (typeof value === 'number') {
+        return Number(value.toFixed(1));
+      } else if (typeof value === 'boolean') {
+        return value ? t('sharedYes') : t('sharedNo');
+      } else {
+        return value;
+      }
   }
 }
 
