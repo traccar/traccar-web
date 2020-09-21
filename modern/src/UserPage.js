@@ -13,9 +13,9 @@ const UserPage = () => {
 
   const getItem = () => {
     const updatedItem = item;
-    updatedItem.name = name;
-    updatedItem.email = email;
-    updatedItem.password = password;
+    updatedItem.name = name || item.name;
+    updatedItem.email = email || item.email;
+    updatedItem.password = password || item.password;
     return updatedItem;
   };
 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import MainToobar from '../MainToolbar';
 import { useHistory } from 'react-router-dom';
-import { Fab, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton, Menu, MenuItem } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import t from '../common/localization';
 import formatter from '../common/formatter';
 import { useEffectAsync } from '../reactHelper';
+import EditCollectionView from '../EditCollectionView';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,90 +16,60 @@ const useStyles = makeStyles(theme => ({
     width: theme.spacing(1),
     padding: theme.spacing(0, 1),
   },
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
 }));
 
-const UsersPage = () => {
-  const history = useHistory();
+const UsersView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
-  const [data, setData] = useState([]);
-  const [menuItemId, setMenuItemId] = useState(null);
-  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+
+  const [items, setItems] = useState([]);
 
   useEffectAsync(async () => {
     const response = await fetch('/api/users');
     if (response.ok) {
-      setData(await response.json());
+      setItems(await response.json());
     }
-  }, []);
+  }, [updateTimestamp]);
 
-  const handleMenuOpen = (event, itemId) => {
-    setMenuItemId(itemId);
-    setMenuAnchorEl(event.currentTarget);
-  }
+  return (
+    <TableContainer>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell className={classes.columnAction} />
+          <TableCell>{t('sharedName')}</TableCell>
+          <TableCell>{t('userEmail')}</TableCell>
+          <TableCell>{t('userAdmin')}</TableCell>
+          <TableCell>{t('sharedDisabled')}</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {items.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell className={classes.columnAction} padding="none">
+              <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
+                <MoreVertIcon />
+              </IconButton>
+            </TableCell>
+            <TableCell>{formatter(item, 'name')}</TableCell>
+            <TableCell>{formatter(item, 'email')}</TableCell>
+            <TableCell>{formatter(item, 'administrator')}</TableCell>
+            <TableCell>{formatter(item, 'disabled')}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+    </TableContainer>
+  );
+}
 
-  const handleMenuClose = () => {
-    setMenuItemId(null);
-    setMenuAnchorEl(null);
-  }
-
-  const handleMenuEdit = () => {
-    history.push(`/user/${menuItemId}`);
-    handleMenuClose();
-  }
-
-  const handleMenuRemove = () => {
-    //setRemoveDialogOpen(true);
-    handleMenuClose();
-  }
-
-  const handleAdd = () => {
-    history.push('/user');
-    //handleMenuClose();
-  }
+const UsersPage = () => {
+  const history = useHistory();
+  const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <MainToobar history={history} />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.columnAction} />
-              <TableCell>{t('sharedName')}</TableCell>
-              <TableCell>{t('userEmail')}</TableCell>
-              <TableCell>{t('userAdmin')}</TableCell>
-              <TableCell>{t('sharedDisabled')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className={classes.columnAction} padding="none">
-                  <IconButton onClick={(event) => handleMenuOpen(event, item.id)}>
-                    <MoreVertIcon />
-                  </IconButton>
-                </TableCell>
-                <TableCell>{formatter(item, 'name')}</TableCell>
-                <TableCell>{formatter(item, 'email')}</TableCell>
-                <TableCell>{formatter(item, 'administrator')}</TableCell>
-                <TableCell>{formatter(item, 'disabled')}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
-        <AddIcon />
-      </Fab>
-      <Menu id="context-menu" anchorEl={menuAnchorEl} keepMounted open={Boolean(menuAnchorEl)} onClose={handleMenuClose}>
-        <MenuItem onClick={handleMenuEdit}>{t('sharedEdit')}</MenuItem>
-        <MenuItem onClick={handleMenuRemove}>{t('sharedRemove')}</MenuItem>
-      </Menu>
+      <EditCollectionView content={UsersView} editPath="/user" endpoint="users" />
     </div>
   );
 }

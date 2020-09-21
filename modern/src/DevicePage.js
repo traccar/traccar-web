@@ -12,8 +12,8 @@ const DevicePage = () => {
 
   const getItem = () => {
     const updatedItem = item;
-    updatedItem.name = name;
-    updatedItem.uniqueId = uniqueId;
+    updatedItem.name = name || item.name;
+    updatedItem.uniqueId = uniqueId || item.uniqueId;
     return updatedItem;
   };
 

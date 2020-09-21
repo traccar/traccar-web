@@ -60,10 +60,10 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   );
 }
 
-const DeviceList = () => {
+const DevicesList = () => {
   return (
     <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
   );
 }
 
-export default DeviceList;
+export default DevicesList;
