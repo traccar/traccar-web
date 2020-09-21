@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import t from './common/localization';
-import EditPage from './EditPage';
+import EditItemView from './EditItemView';
 
 const DevicePage = () => {
   const [item, setItem] = useState();
@@ -18,7 +18,7 @@ const DevicePage = () => {
   };
 
   return (
-    <EditPage endpoint="devices" setItem={setItem} getItem={getItem}>
+    <EditItemView endpoint="devices" setItem={setItem} getItem={getItem}>
       {item &&
         <>
           <TextField
@@ -37,7 +37,7 @@ const DevicePage = () => {
             variant="filled" />
         </>
       }
-    </EditPage>
+    </EditItemView>
   );
 }
 

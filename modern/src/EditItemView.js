@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EditPage = ({ children, endpoint, setItem, getItem }) => {
+const EditItemView = ({ children, endpoint, setItem, getItem }) => {
   const history = useHistory();
   const classes = useStyles();
   const { id } = useParams();
@@ -77,4 +77,4 @@ const EditPage = ({ children, endpoint, setItem, getItem }) => {
   );
 }
 
-export default EditPage;
+export default EditItemView;
