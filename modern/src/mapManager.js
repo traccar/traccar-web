@@ -132,14 +132,14 @@ const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
 
-/*map = new mapboxgl.Map({
+/*const map = new mapboxgl.Map({
   container: this.mapContainer,
   style: 'https://cdn.traccar.com/map/basic.json',
   center: [0, 0],
   zoom: 1
 });*/
 
-const map = new mapboxgl.Map({
+/*const map = new mapboxgl.Map({
   container: element,
   style: {
     'version': 8,
@@ -169,6 +169,27 @@ const map = new mapboxgl.Map({
   },
   center: [0, 0],
   zoom: 1
+});*/
+
+const map = new mapboxgl.Map({
+  container: element,
+  style: {
+    version: 8,
+    sources: {
+      osm: {
+        type: 'raster',
+        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+    },
+    glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
+    layers: [{
+      id: 'osm',
+      type: 'raster',
+      source: 'osm',
+    }],
+  },
 });
 
 map.addControl(new mapboxgl.NavigationControl());
