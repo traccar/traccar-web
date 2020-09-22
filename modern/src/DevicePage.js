@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 
 import t from './common/localization';
 import EditItemView from './EditItemView';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(() => ({
@@ -11,6 +11,30 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
   },
 }));
+
+const deviceCategories = [
+  'default',
+  'animal',
+  'bicycle',
+  'boat',
+  'bus',
+  'car',
+  'crane',
+  'helicopter',
+  'motorcycle',
+  'offroad',
+  'person',
+  'pickup',
+  'plane',
+  'ship',
+  'tractor',
+  'train',
+  'tram',
+  'trolleybus',
+  'truck',
+  'van',
+  'scooter',
+];
 
 const DevicePage = () => {
   const classes = useStyles();
@@ -67,6 +91,17 @@ const DevicePage = () => {
                 onChange={(event) => setItem({...item, contact: event.target.value})}
                 label={t('deviceContact')}
                 variant="filled" />
+              <FormControl margin="normal" variant="filled">
+                <InputLabel>{t('deviceCategory')}</InputLabel>
+                <Select
+                  native
+                  defaultValue={item.category}
+                  onChange={(event) => setItem({...item, category: event.target.value})}>
+                  {deviceCategories.map((category) => (
+                    <option value={category}>{t(`category${category.replace(/^\w/, c => c.toUpperCase())}`)}</option>
+                  ))}
+                </Select>
+              </FormControl>
             </AccordionDetails>
           </Accordion>
         </>
