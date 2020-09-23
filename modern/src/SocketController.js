@@ -51,8 +51,7 @@ const SocketController = () => {
   useEffectAsync(async () => {
     const response = await fetch('/api/server');
     if (response.ok) {
-      const server = await response.json();
-      dispatch(sessionActions.updateServer(server));
+      dispatch(sessionActions.updateServer(await response.json()));
     }
   }, []);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import MainToobar from './MainToolbar';
+import MainToolbar from './MainToolbar';
 import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -57,7 +57,7 @@ const EditItemView = ({ children, endpoint, setItem, getItem }) => {
 
   return (
     <>
-      <MainToobar />
+      <MainToolbar />
       <Container maxWidth='xs' className={classes.container}>
         <form>
           {children}

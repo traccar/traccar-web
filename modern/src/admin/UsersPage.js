@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MainToobar from '../MainToolbar';
+import MainToolbar from '../MainToolbar';
 import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import t from '../common/localization';
@@ -66,7 +66,7 @@ const UsersPage = () => {
 
   return (
     <div className={classes.root}>
-      <MainToobar />
+      <MainToolbar />
       <EditCollectionView content={UsersView} editPath="/user" endpoint="users" />
     </div>
   );

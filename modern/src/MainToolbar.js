@@ -20,6 +20,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PeopleIcon from '@material-ui/icons/People';
+import StorageIcon from '@material-ui/icons/Storage';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -167,6 +168,12 @@ const MainToolbar = () => {
                     {t('userAdmin')}
                   </ListSubheader>
                 }>
+                <ListItem button onClick={() => history.push('/admin/server')}>
+                  <ListItemIcon>
+                    <StorageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('settingsServer')} />
+                </ListItem>
                 <ListItem button onClick={() => history.push('/admin/users')}>
                   <ListItemIcon>
                     <PeopleIcon />
