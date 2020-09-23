@@ -3,47 +3,51 @@ import TextField from '@material-ui/core/TextField';
 
 import t from './common/localization';
 import EditItemView from './EditItemView';
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+const useStyles = makeStyles(() => ({
+  details: {
+    flexDirection: 'column',
+  },
+}));
 
 const UserPage = () => {
+  const classes = useStyles();
+
   const [item, setItem] = useState();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const getItem = () => {
-    const updatedItem = item;
-    updatedItem.name = name || item.name;
-    updatedItem.email = email || item.email;
-    updatedItem.password = password || item.password;
-    return updatedItem;
-  };
-
   return (
-    <EditItemView endpoint="users" setItem={setItem} getItem={getItem}>
+    <EditItemView endpoint="users" setItem={setItem} getItem={() => item}>
       {item &&
         <>
-          <TextField
-            margin="normal"
-            fullWidth
-            defaultValue={item.name}
-            onChange={(event) => setName(event.target.value)}
-            label={t('sharedName')}
-            variant="filled" />
-          <TextField
-            margin="normal"
-            fullWidth
-            defaultValue={item.email}
-            onChange={(event) => setEmail(event.target.value)}
-            label={t('userEmail')}
-            variant="filled" />
-          <TextField
-            margin="normal"
-            fullWidth
-            type="password"
-            onChange={(event) => setPassword(event.target.value)}
-            label={t('userPassword')}
-            variant="filled" />
+          <Accordion defaultExpanded>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
+                {t('sharedRequired')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <TextField
+                margin="normal"
+                defaultValue={item.name}
+                onChange={event => setItem({...item, name: event.target.value})}
+                label={t('sharedName')}
+                variant="filled" />
+              <TextField
+                margin="normal"
+                defaultValue={item.email}
+                onChange={event => setItem({...item, email: event.target.value})}
+                label={t('userEmail')}
+                variant="filled" />
+              <TextField
+                margin="normal"
+                type="password"
+                onChange={event => setItem({...item, password: event.target.value})}
+                label={t('userPassword')}
+                variant="filled" />
+            </AccordionDetails>
+          </Accordion>
         </>
       }
     </EditItemView>
