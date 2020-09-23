@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 
 import t from './common/localization';
 import EditItemView from './EditItemView';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select, FormControlLabel, Checkbox } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useEffectAsync } from './reactHelper';
 
@@ -125,6 +125,9 @@ const DevicePage = () => {
                   ))}
                 </Select>
               </FormControl>
+              <FormControlLabel
+                control={<Checkbox checked={item.disabled} onChange={event => setItem({...item, disabled: event.target.checked})} />}
+                label={t('sharedDisabled')} />
             </AccordionDetails>
           </Accordion>
         </>
