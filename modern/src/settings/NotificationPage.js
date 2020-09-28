@@ -82,7 +82,7 @@ const NotificationPage = () => {
                   <InputLabel>{t('sharedAlarms')}</InputLabel>
                   <Select
                     multiple
-                    defaultValue={item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
+                    defaultValue={item.attributes && item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
                     onChange={e => setItem({...item, attributes: {...item.attributes, alarms: e.target.value.join()}})}>
                     {alarms.map(it => (
                       <MenuItem key={it.key} value={it.key}>{it.name}</MenuItem>
