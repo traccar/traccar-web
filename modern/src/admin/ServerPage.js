@@ -8,6 +8,9 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MainToolbar from '../MainToolbar';
 import { sessionActions } from '../store';
+import EditAttributesView from '../attributes/EditAttributesView';
+import deviceAttributes from '../attributes/deviceAttributes';
+import userAttributes from '../attributes/userAttributes';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -49,58 +52,70 @@ const ServerPage = () => {
     <>
       <MainToolbar />
       <Container maxWidth='xs' className={classes.container}>
-        <form>
-          {item &&
-            <>
-              <Accordion defaultExpanded>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1">
-                    {t('sharedPreferences')}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails className={classes.details}>
-                  <TextField
-                    margin="normal"
-                    defaultValue={item.announcement}
-                    onChange={event => setItem({...item, announcement: event.target.value})}
-                    label={t('serverAnnouncement')}
-                    variant="filled" />
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1">
-                    {t('sharedPermissions')}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails className={classes.details}>
-                  <FormControlLabel
-                    control={<Checkbox checked={item.registration} onChange={event => setItem({...item, registration: event.target.checked})} />}
-                    label={t('serverRegistration')} />
-                  <FormControlLabel
-                    control={<Checkbox checked={item.readonly} onChange={event => setItem({...item, readonly: event.target.checked})} />}
-                    label={t('serverReadonly')} />
-                  <FormControlLabel
-                    control={<Checkbox checked={item.deviceReadonly} onChange={event => setItem({...item, deviceReadonly: event.target.checked})} />}
-                    label={t('userDeviceReadonly')} />
-                  <FormControlLabel
-                    control={<Checkbox checked={item.limitCommands} onChange={event => setItem({...item, limitCommands: event.target.checked})} />}
-                    label={t('userLimitCommands')} />
-                </AccordionDetails>
-              </Accordion>
-            </>
-          }
-          <FormControl fullWidth margin='normal'>
-            <div className={classes.buttons}>
-              <Button type='button' color='primary' variant='outlined' onClick={() => history.goBack()}>
-                {t('sharedCancel')}
-              </Button>
-              <Button type='button' color='primary' variant='contained' onClick={handleSave}>
-                {t('sharedSave')}
-              </Button>
-            </div>
-          </FormControl>
-        </form>
+        {item &&
+          <>
+            <Accordion defaultExpanded>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedPreferences')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <TextField
+                  margin="normal"
+                  defaultValue={item.announcement}
+                  onChange={event => setItem({...item, announcement: event.target.value})}
+                  label={t('serverAnnouncement')}
+                  variant="filled" />
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedPermissions')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <FormControlLabel
+                  control={<Checkbox checked={item.registration} onChange={event => setItem({...item, registration: event.target.checked})} />}
+                  label={t('serverRegistration')} />
+                <FormControlLabel
+                  control={<Checkbox checked={item.readonly} onChange={event => setItem({...item, readonly: event.target.checked})} />}
+                  label={t('serverReadonly')} />
+                <FormControlLabel
+                  control={<Checkbox checked={item.deviceReadonly} onChange={event => setItem({...item, deviceReadonly: event.target.checked})} />}
+                  label={t('userDeviceReadonly')} />
+                <FormControlLabel
+                  control={<Checkbox checked={item.limitCommands} onChange={event => setItem({...item, limitCommands: event.target.checked})} />}
+                  label={t('userLimitCommands')} />
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedAttributes')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <EditAttributesView
+                  attributes={item.attributes}
+                  setAttributes={attributes => setItem({...item, attributes})}
+                  definitions={{...userAttributes, ...deviceAttributes}}
+                  />
+              </AccordionDetails>
+            </Accordion>
+          </>
+        }
+        <FormControl fullWidth margin='normal'>
+          <div className={classes.buttons}>
+            <Button type='button' color='primary' variant='outlined' onClick={() => history.goBack()}>
+              {t('sharedCancel')}
+            </Button>
+            <Button type='button' color='primary' variant='contained' onClick={handleSave}>
+              {t('sharedSave')}
+            </Button>
+          </div>
+        </FormControl>
       </Container>
     </>
   );
