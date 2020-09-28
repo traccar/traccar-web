@@ -6,6 +6,8 @@ import EditItemView from './EditItemView';
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select, FormControlLabel, Checkbox } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useEffectAsync } from './reactHelper';
+import EditAttributesView from './attributes/EditAttributesView';
+import deviceAttributes from './attributes/deviceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -128,6 +130,20 @@ const DevicePage = () => {
               <FormControlLabel
                 control={<Checkbox checked={item.disabled} onChange={event => setItem({...item, disabled: event.target.checked})} />}
                 label={t('sharedDisabled')} />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
+                {t('sharedAttributes')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <EditAttributesView
+                attributes={item.attributes}
+                setAttributes={attributes => setItem({...item, attributes})}
+                definitions={deviceAttributes}
+                />
             </AccordionDetails>
           </Accordion>
         </>
