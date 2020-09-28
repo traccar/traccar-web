@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EditItemView = ({ children, endpoint, setItem, getItem }) => {
+const EditItemView = ({ children, endpoint, item, setItem }) => {
   const history = useHistory();
   const classes = useStyles();
   const { id } = useParams();
@@ -47,7 +47,7 @@ const EditItemView = ({ children, endpoint, setItem, getItem }) => {
     const response = await fetch(url, {
       method: !id ? 'POST' : 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(getItem()),
+      body: JSON.stringify(item),
     });
 
     if (response.ok) {

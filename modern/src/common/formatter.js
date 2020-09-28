@@ -1,7 +1,10 @@
 import moment from 'moment';
 import t from '../common/localization';
 
-const formatValue = (key, value) => {
+export const formatPosition = (key, value) => {
+  if (value != null && typeof value == 'object') {
+    value = value[key];
+  }
   switch (key) {
     case 'fixTime':
       return moment(value).format('LLL');
@@ -15,19 +18,19 @@ const formatValue = (key, value) => {
       return value + '%';
     default:
       if (typeof value === 'number') {
-        return Number(value.toFixed(1));
+        return formatNumber(value);
       } else if (typeof value === 'boolean') {
-        return value ? t('sharedYes') : t('sharedNo');
+        return formatBoolean(value);
       } else {
         return value;
       }
   }
 }
 
-export default (object, key) => {
-  if (object != null && typeof object == 'object') {
-    return formatValue(key, object[key]);
-  } else {
-    return formatValue(key, object);
-  }
-};
+export const formatBoolean = (value) => {
+  return value ? t('sharedYes') : t('sharedNo');
+}
+
+export const formatNumber = (value, precision = 1) => {
+  return Number(value.toFixed(precision));
+}

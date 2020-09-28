@@ -53,7 +53,7 @@ const DevicePage = () => {
   }, []);
 
   return (
-    <EditItemView endpoint="devices" setItem={setItem} getItem={() => item}>
+    <EditItemView endpoint="devices" item={item} setItem={setItem}>
       {item &&
         <>
           <Accordion defaultExpanded>

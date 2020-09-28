@@ -9,6 +9,8 @@ import UsersPage from './admin/UsersPage';
 import DevicePage from './DevicePage';
 import UserPage from './UserPage';
 import SocketController from './SocketController';
+import NotificationsPage from './settings/NotificationsPage';
+import NotificationPage from './settings/NotificationPage';
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
         <Route exact path='/user/:id?' component={UserPage} />
         <Route exact path='/device/:id?' component={DevicePage} />
         <Route exact path='/reports/route' component={RouteReportPage} />
+        <Route exact path='/settings/notifications' component={NotificationsPage} />
+        <Route exact path='/settings/notification/:id?' component={NotificationPage} />
         <Route exact path='/admin/server' component={ServerPage} />
         <Route exact path='/admin/users' component={UsersPage} />
       </Switch>

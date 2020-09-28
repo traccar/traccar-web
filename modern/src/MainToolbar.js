@@ -146,7 +146,7 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('settingsUser')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/settings/notifications')}>
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>

@@ -20,7 +20,7 @@ const UserPage = () => {
   const [item, setItem] = useState();
 
   return (
-    <EditItemView endpoint="users" setItem={setItem} getItem={() => item}>
+    <EditItemView endpoint="users" item={item} setItem={setItem}>
       {item &&
         <>
           <Accordion defaultExpanded>
