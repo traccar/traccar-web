@@ -16,11 +16,18 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import MapIcon from '@material-ui/icons/Map';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import SettingsIcon from '@material-ui/icons/Settings';
 import PeopleIcon from '@material-ui/icons/People';
 import StorageIcon from '@material-ui/icons/Storage';
+import PersonIcon from '@material-ui/icons/Person';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -84,7 +91,7 @@ const MainToolbar = () => {
           <List>
             <ListItem button onClick={() => history.push('/')}>
               <ListItemIcon>
-                <DashboardIcon />
+                <MapIcon />
               </ListItemIcon>
               <ListItemText primary={t('mapTitle')} />
             </ListItem>
@@ -98,37 +105,37 @@ const MainToolbar = () => {
             }>
             <ListItem button onClick={() => history.push('/reports/route')}>
               <ListItemIcon>
-                <BarChartIcon />
+                <TimelineIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportRoute')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <NotificationsActiveIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportEvents')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <PlayCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportTrips')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <PauseCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportStops')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <FormatListBulletedIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportSummary')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <TrendingUpIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportChart')} />
             </ListItem>
@@ -142,13 +149,13 @@ const MainToolbar = () => {
             }>
             <ListItem button disabled={!userId} onClick={() => history.push(`/user/${userId}`)}>
               <ListItemIcon>
-                <SettingsIcon />
+                <PersonIcon />
               </ListItemIcon>
               <ListItemText primary={t('settingsUser')} />
             </ListItem>
             <ListItem button onClick={() => history.push('/settings/notifications')}>
               <ListItemIcon>
-                <SettingsIcon />
+                <NotificationsIcon />
               </ListItemIcon>
               <ListItemText primary={t('sharedNotifications')} />
             </ListItem>
