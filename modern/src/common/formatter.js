@@ -1,7 +1,7 @@
 import moment from 'moment';
 import t from '../common/localization';
 
-export const formatPosition = (key, value) => {
+export const formatPosition = (value, key) => {
   if (value != null && typeof value == 'object') {
     value = value[key];
   }
