@@ -59,19 +59,17 @@ const EditItemView = ({ children, endpoint, setItem, getItem }) => {
     <>
       <MainToolbar />
       <Container maxWidth='xs' className={classes.container}>
-        <form>
-          {children}
-          <FormControl fullWidth margin='normal'>
-            <div className={classes.buttons}>
-              <Button type='button' color='primary' variant='outlined' onClick={() => history.goBack()}>
-                {t('sharedCancel')}
-              </Button>
-              <Button type='button' color='primary' variant='contained' onClick={handleSave}>
-                {t('sharedSave')}
-              </Button>
-            </div>
-          </FormControl>
-        </form>
+        {children}
+        <FormControl fullWidth margin='normal'>
+          <div className={classes.buttons}>
+            <Button type='button' color='primary' variant='outlined' onClick={() => history.goBack()}>
+              {t('sharedCancel')}
+            </Button>
+            <Button type='button' color='primary' variant='contained' onClick={handleSave}>
+              {t('sharedSave')}
+            </Button>
+          </div>
+        </FormControl>
       </Container>
     </>
   );

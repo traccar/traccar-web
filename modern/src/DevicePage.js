@@ -91,7 +91,7 @@ const DevicePage = () => {
                     onChange={event => setItem({...item, groupId: Number(event.target.value)})}>
                     <option value={0}></option>
                     {groups.map(group => (
-                      <option value={group.id}>{group.name}</option>
+                      <option key={group.id} value={group.id}>{group.name}</option>
                     ))}
                   </Select>
                 </FormControl>
@@ -121,7 +121,7 @@ const DevicePage = () => {
                   defaultValue={item.category}
                   onChange={event => setItem({...item, category: event.target.value})}>
                   {deviceCategories.map(category => (
-                    <option value={category}>{t(`category${category.replace(/^\w/, c => c.toUpperCase())}`)}</option>
+                    <option key={category} value={category}>{t(`category${category.replace(/^\w/, c => c.toUpperCase())}`)}</option>
                   ))}
                 </Select>
               </FormControl>

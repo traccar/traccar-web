@@ -15,19 +15,17 @@ const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
   };
 
   return (
-    <>
-      <Dialog
-        open={open}
-        onClose={() => { onResult(false) }}>
-        <DialogContent>
-          <DialogContentText>{t('sharedRemoveConfirm')}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button color="primary" onClick={handleRemove}>{t('sharedRemove')}</Button>
-          <Button autoFocus onClick={() => onResult(false)}>{t('sharedCancel')}</Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    <Dialog
+      open={open}
+      onClose={() => { onResult(false) }}>
+      <DialogContent>
+        <DialogContentText>{t('sharedRemoveConfirm')}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button color="primary" onClick={handleRemove}>{t('sharedRemove')}</Button>
+        <Button autoFocus onClick={() => onResult(false)}>{t('sharedCancel')}</Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

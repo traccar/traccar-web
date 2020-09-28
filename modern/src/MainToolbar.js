@@ -150,12 +150,6 @@ const MainToolbar = () => {
               <ListItemIcon>
                 <SettingsIcon />
               </ListItemIcon>
-              <ListItemText primary={t('settingsServer')} />
-            </ListItem>
-            <ListItem button disabled>
-              <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
               <ListItemText primary={t('sharedNotifications')} />
             </ListItem>
           </List>

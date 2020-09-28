@@ -86,7 +86,7 @@ const RouteReportPage = () => {
             <Paper className={classes.form}>
               <FormControl variant='filled' margin='normal' fullWidth>
                 <InputLabel>{t('reportDevice')}</InputLabel>
-                <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+                <Select value={deviceId} onChange={e => setDeviceId(e.target.value)}>
                   {devices.map((device) => (
                     <MenuItem value={device.id}>{device.name}</MenuItem>
                   ))}
@@ -94,7 +94,7 @@ const RouteReportPage = () => {
               </FormControl>
               <FormControl variant='filled' margin='normal' fullWidth>
                 <InputLabel>{t('reportPeriod')}</InputLabel>
-                <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+                <Select value={period} onChange={e => setPeriod(e.target.value)}>
                   <MenuItem value='today'>{t('reportToday')}</MenuItem>
                   <MenuItem value='yesterday'>{t('reportYesterday')}</MenuItem>
                   <MenuItem value='thisWeek'>{t('reportThisWeek')}</MenuItem>
@@ -111,7 +111,7 @@ const RouteReportPage = () => {
                   label={t('reportFrom')}
                   type='datetime-local'
                   value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-                  onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+                  onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
                   fullWidth />
               }
               {period === 'custom' &&

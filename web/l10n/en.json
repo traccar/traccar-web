@@ -111,6 +111,7 @@
     "attributeUiDisableCalendars": "UI: Disable Calendars",
     "attributeUiDisableMaintenance": "UI: Disable Maintenance",
     "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
+    "attributeNotificationTokens": "Notification Tokens",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",
