@@ -11,6 +11,7 @@ import UserPage from './UserPage';
 import SocketController from './SocketController';
 import NotificationsPage from './settings/NotificationsPage';
 import NotificationPage from './settings/NotificationPage';
+import PositionPage from './PositionPage';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Switch>
         <Route exact path='/' component={MainPage} />
         <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/position/:id?' component={PositionPage} />
         <Route exact path='/user/:id?' component={UserPage} />
         <Route exact path='/device/:id?' component={DevicePage} />
         <Route exact path='/reports/route' component={RouteReportPage} />

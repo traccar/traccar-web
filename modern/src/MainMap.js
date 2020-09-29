@@ -6,8 +6,11 @@ import mapboxgl from 'mapbox-gl';
 import mapManager from './mapManager';
 import store from './store';
 import StatusView from './StatusView';
+import { useHistory } from 'react-router-dom';
 
 const MainMap = () => {
+  const history = useHistory();
+
   const containerEl = useRef(null);
 
   const [mapReady, setMapReady] = useState(false);
@@ -67,7 +70,7 @@ const MainMap = () => {
     const placeholder = document.createElement('div');
     ReactDOM.render(
       <Provider store={store}>
-        <StatusView deviceId={feature.properties.deviceId} />
+        <StatusView deviceId={feature.properties.deviceId} onShowDetails={positionId => history.push(`/position/${positionId}`)} />
       </Provider>,
       placeholder);
 

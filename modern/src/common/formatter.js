@@ -2,11 +2,13 @@ import moment from 'moment';
 import t from '../common/localization';
 
 export const formatPosition = (value, key) => {
-  if (value != null && typeof value == 'object') {
+  if (value != null && typeof value === 'object') {
     value = value[key];
   }
   switch (key) {
     case 'fixTime':
+    case 'deviceTime':
+    case 'serverTime':
       return moment(value).format('LLL');
     case 'latitude':
     case 'longitude':
