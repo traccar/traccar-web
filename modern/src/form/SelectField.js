@@ -1,14 +1,27 @@
-import { FormControl, InputLabel, Select } from '@material-ui/core';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../reactHelper';
 
-const SelectField = ({ margin, variant, label, defaultValue, onChange, endpoint }) => {
-  const [items, setItems] = useState();
+const SelectField = ({
+  margin,
+  variant,
+  label,
+  multiple,
+  defaultValue,
+  onChange,
+  endpoint,
+  data,
+  keyGetter = item => item.id,
+  titleGetter = item => item.name,
+}) => {
+  const [items, setItems] = useState(data);
 
   useEffectAsync(async () => {
-    const response = await fetch(endpoint);
-    if (response.ok) {
-      setItems(await response.json());
+    if (endpoint) {
+      const response = await fetch(endpoint);
+      if (response.ok) {
+        setItems(await response.json());
+      }
     }
   }, []);
 
@@ -17,12 +30,14 @@ const SelectField = ({ margin, variant, label, defaultValue, onChange, endpoint 
       <FormControl margin={margin} variant={variant}>
         <InputLabel>{label}</InputLabel>
         <Select
-          native
+          multiple={multiple}
           defaultValue={defaultValue}
           onChange={onChange}>
-          <option value={0}></option>
+          {!multiple &&
+            <MenuItem value={0}>&nbsp;</MenuItem>
+          }
           {items.map(item => (
-            <option key={item.id} value={item.id}>{item.name}</option>
+            <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
           ))}
         </Select>
       </FormControl>
