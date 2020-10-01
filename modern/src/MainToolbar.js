@@ -28,6 +28,7 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import FolderIcon from '@material-ui/icons/Folder';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -158,6 +159,12 @@ const MainToolbar = () => {
                 <NotificationsIcon />
               </ListItemIcon>
               <ListItemText primary={t('sharedNotifications')} />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/settings/groups')}>
+              <ListItemIcon>
+                <FolderIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('settingsGroups')} />
             </ListItem>
           </List>
           {adminEnabled && (
