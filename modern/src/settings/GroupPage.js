@@ -3,11 +3,11 @@ import TextField from '@material-ui/core/TextField';
 
 import t from '../common/localization';
 import EditItemView from '../EditItemView';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select } from '@material-ui/core';
+import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from '../attributes/EditAttributesView';
-import { useEffectAsync } from '../reactHelper';
 import deviceAttributes from '../attributes/deviceAttributes';
+import SelectField from '../form/SelectField';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -19,14 +19,6 @@ const GroupPage = () => {
   const classes = useStyles();
 
   const [item, setItem] = useState();
-  const [groups, setGroups] = useState();
-
-  useEffectAsync(async () => {
-    const response = await fetch('/api/groups');
-    if (response.ok) {
-      setGroups(await response.json());
-    }
-  }, []);
 
   return (
     <EditItemView endpoint="groups" item={item} setItem={setItem}>
@@ -54,20 +46,13 @@ const GroupPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
-              {groups &&
-                <FormControl margin="normal" variant="filled">
-                  <InputLabel>{t('groupParent')}</InputLabel>
-                  <Select
-                    native
-                    defaultValue={item.groupId}
-                    onChange={event => setItem({...item, groupId: Number(event.target.value)})}>
-                    <option value={0}></option>
-                    {groups.map(group => (
-                      <option key={group.id} value={group.id}>{group.name}</option>
-                    ))}
-                  </Select>
-                </FormControl>
-              }
+              <SelectField
+                margin="normal"
+                defaultValue={item.groupId}
+                onChange={event => setItem({...item, groupId: Number(event.target.value)})}
+                endpoint="/api/groups"
+                label={t('groupParent')}
+                variant="filled" />
             </AccordionDetails>
           </Accordion>
           <Accordion>
