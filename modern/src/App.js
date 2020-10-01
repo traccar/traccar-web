@@ -11,6 +11,8 @@ import UserPage from './UserPage';
 import SocketController from './SocketController';
 import NotificationsPage from './settings/NotificationsPage';
 import NotificationPage from './settings/NotificationPage';
+import GroupsPage from './settings/GroupsPage';
+import GroupPage from './settings/GroupPage';
 import PositionPage from './PositionPage';
 
 const App = () => {
@@ -27,6 +29,8 @@ const App = () => {
         <Route exact path='/reports/route' component={RouteReportPage} />
         <Route exact path='/settings/notifications' component={NotificationsPage} />
         <Route exact path='/settings/notification/:id?' component={NotificationPage} />
+        <Route exact path='/settings/groups' component={GroupsPage} />
+        <Route exact path='/settings/group/:id?' component={GroupPage} />
         <Route exact path='/admin/server' component={ServerPage} />
         <Route exact path='/admin/users' component={UsersPage} />
       </Switch>
