@@ -190,6 +190,10 @@ Ext.define('Traccar.AttributeFormatter', {
         return value;
     },
 
+    dateFormatter: function (value) {
+        return Ext.Date.format(value, Traccar.Style.dateFormat);
+    },
+
     getFormatter: function (key) {
         var self = this;
 

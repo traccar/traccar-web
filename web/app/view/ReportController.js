@@ -150,7 +150,7 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     onReportClick: function (button) {
-        var reportType, from, to, store, url;
+        var reportType, from, to, store, url, daily;
 
         this.getGrid().getSelectionModel().deselectAll();
 
@@ -163,6 +163,8 @@ Ext.define('Traccar.view.ReportController', {
             to = new Date(
                 this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
                 this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
+
+            daily = reportType === 'daily';
 
             this.reportProgress = true;
             this.updateButtons();
@@ -186,7 +188,8 @@ Ext.define('Traccar.view.ReportController', {
                         groupId: this.groupId,
                         type: this.eventType,
                         from: from.toISOString(),
-                        to: to.toISOString()
+                        to: to.toISOString(),
+                        daily: daily
                     }
                 });
             } else {
@@ -197,6 +200,7 @@ Ext.define('Traccar.view.ReportController', {
                     type: this.eventType,
                     from: Ext.Date.format(from, 'c'),
                     to: Ext.Date.format(to, 'c'),
+                    daily: daily,
                     mail: button.reference === 'emailButton'
                 });
             }
@@ -427,7 +431,7 @@ Ext.define('Traccar.view.ReportController', {
         } else if (newValue === 'events') {
             this.getGrid().reconfigure('ReportEvents', this.eventsColumns);
             this.getView().getLayout().setActiveItem('grid');
-        } else if (newValue === 'summary') {
+        } else if (newValue === 'summary' || newValue === 'daily') {
             this.getGrid().reconfigure('ReportSummary', this.summaryColumns);
             this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'trips') {
@@ -537,6 +541,11 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
         renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
+    }, {
+        text: Strings.reportStartDate,
+        dataIndex: 'startTime',
+        xtype: 'datecolumn',
+        renderer: Traccar.AttributeFormatter.dateFormatter
     }, {
         text: Strings.sharedDistance,
         dataIndex: 'distance',
