@@ -9,6 +9,7 @@ import UsersPage from './admin/UsersPage';
 import DevicePage from './DevicePage';
 import UserPage from './UserPage';
 import SocketController from './SocketController';
+import DriverPage from './drivers/DriverPage'
 import NotificationsPage from './settings/NotificationsPage';
 import NotificationPage from './settings/NotificationPage';
 import GroupsPage from './settings/GroupsPage';
@@ -26,6 +27,7 @@ const App = () => {
         <Route exact path='/position/:id?' component={PositionPage} />
         <Route exact path='/user/:id?' component={UserPage} />
         <Route exact path='/device/:id?' component={DevicePage} />
+        <Route exact path='/drivers' component={DriverPage}/>
         <Route exact path='/reports/route' component={RouteReportPage} />
         <Route exact path='/settings/notifications' component={NotificationsPage} />
         <Route exact path='/settings/notification/:id?' component={NotificationPage} />
