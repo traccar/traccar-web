@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import MainToobar from '../MainToolbar';
-import { useHistory } from 'react-router-dom';
+import MainToolbar from '../MainToolbar';
 import { Grid, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@material-ui/core';
 import t from '../common/localization';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import formatter from '../common/formatter';
+import { formatPosition } from '../common/formatter';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,7 +23,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RouteReportPage = () => {
-  const history = useHistory();
   const classes = useStyles();
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
@@ -81,14 +79,14 @@ const RouteReportPage = () => {
 
   return (
     <div className={classes.root}>
-      <MainToobar history={history} />
+      <MainToolbar />
       <div className={classes.content}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>
             <Paper className={classes.form}>
               <FormControl variant='filled' margin='normal' fullWidth>
                 <InputLabel>{t('reportDevice')}</InputLabel>
-                <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+                <Select value={deviceId} onChange={e => setDeviceId(e.target.value)}>
                   {devices.map((device) => (
                     <MenuItem value={device.id}>{device.name}</MenuItem>
                   ))}
@@ -96,7 +94,7 @@ const RouteReportPage = () => {
               </FormControl>
               <FormControl variant='filled' margin='normal' fullWidth>
                 <InputLabel>{t('reportPeriod')}</InputLabel>
-                <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+                <Select value={period} onChange={e => setPeriod(e.target.value)}>
                   <MenuItem value='today'>{t('reportToday')}</MenuItem>
                   <MenuItem value='yesterday'>{t('reportYesterday')}</MenuItem>
                   <MenuItem value='thisWeek'>{t('reportThisWeek')}</MenuItem>
@@ -113,7 +111,7 @@ const RouteReportPage = () => {
                   label={t('reportFrom')}
                   type='datetime-local'
                   value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-                  onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+                  onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
                   fullWidth />
               }
               {period === 'custom' &&
@@ -148,11 +146,11 @@ const RouteReportPage = () => {
                 <TableBody>
                   {data.map((item) => (
                     <TableRow key={item.id}>
-                      <TableCell>{formatter(item, 'fixTime')}</TableCell>
-                      <TableCell>{formatter(item, 'latitude')}</TableCell>
-                      <TableCell>{formatter(item, 'longitude')}</TableCell>
-                      <TableCell>{formatter(item, 'speed')}</TableCell>
-                      <TableCell>{formatter(item, 'address')}</TableCell>
+                      <TableCell>{formatPosition(item, 'fixTime')}</TableCell>
+                      <TableCell>{formatPosition(item, 'latitude')}</TableCell>
+                      <TableCell>{formatPosition(item, 'longitude')}</TableCell>
+                      <TableCell>{formatPosition(item, 'speed')}</TableCell>
+                      <TableCell>{formatPosition(item, 'address')}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

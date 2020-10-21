@@ -53,59 +53,59 @@ import zh from '../../../web/l10n/zh.json';
 import zh_TW from '../../../web/l10n/zh_TW.json';
 
 const supportedLanguages = {
-    'af': { data: af, name: 'Afrikaans' },
-    'ar': { data: ar, name: 'العربية' },
-    'az': { data: az, name: 'Azərbaycanca' },
-    'bg': { data: bg, name: 'Български' },
-    'bn': { data: bn, name: 'বাংলা' },
-    'cs': { data: cs, name: 'Čeština' },
-    'de': { data: de, name: 'Deutsch' },
-    'da': { data: da, name: 'Dansk' },
-    'el': { data: el, name: 'Ελληνικά' },
-    'en': { data: en, name: 'English' },
-    'es': { data: es, name: 'Español' },
-    'fa': { data: fa, name: 'فارسی' },
-    'fi': { data: fi, name: 'Suomi' },
-    'fr': { data: fr, name: 'Français' },
-    'he': { data: he, name: 'עברית' },
-    'hi': { data: hi, name: 'हिन्दी' },
-    'hr': { data: hr, name: 'Hrvatski' },
-    'hu': { data: hu, name: 'Magyar' },
-    'id': { data: id, name: 'Bahasa Indonesia' },
-    'it': { data: it, name: 'Italiano' },
-    'ja': { data: ja, name: '日本語' },
-    'ka': { data: ka, name: 'ქართული' },
-    'kk': { data: kk, name: 'Қазақша' },
-    'ko': { data: ko, name: '한국어' },
-    'km': { data: km, name: 'ភាសាខ្មែរ' },
-    'lo': { data: lo, name: 'ລາວ' },
-    'lt': { data: lt, name: 'Lietuvių' },
-    'lv': { data: lv, name: 'Latviešu' },
-    'ml': { data: ml, name: 'മലയാളം' },
-    'ms': { data: ms, name: 'بهاس ملايو' },
-    'nb': { data: nb, name: 'Norsk bokmål' },
-    'ne': { data: ne, name: 'नेपाली' },
-    'nl': { data: nl, name: 'Nederlands' },
-    'nn': { data: nn, name: 'Norsk nynorsk' },
-    'pl': { data: pl, name: 'Polski' },
-    'pt': { data: pt, name: 'Português' },
-    'pt_BR': { data: pt_BR, name: 'Português (Brasil)' },
-    'ro': { data: ro, name: 'Română' },
-    'ru': { data: ru, name: 'Русский' },
-    'si': { data: si, name: 'සිංහල' },
-    'sk': { data: sk, name: 'Slovenčina' },
-    'sl': { data: sl, name: 'Slovenščina' },
-    'sq': { data: sq, name: 'Shqipëria' },
-    'sr': { data: sr, name: 'Srpski' },
-    'sv': { data: sv, name: 'Svenska' },
-    'ta': { data: ta, name: 'தமிழ்' },
-    'th': { data: th, name: 'ไทย' },
-    'tr': { data: tr, name: 'Türkçe' },
-    'uk': { data: uk, name: 'Українська' },
-    'uz': { data: uz, name: 'Oʻzbekcha' },
-    'vi': { data: vi, name: 'Tiếng Việt' },
-    'zh': { data: zh, name: '中文' },
-    'zh_TW': { data: zh_TW, name: '中文 (Taiwan)' }
+  'af': { data: af, name: 'Afrikaans' },
+  'ar': { data: ar, name: 'العربية' },
+  'az': { data: az, name: 'Azərbaycanca' },
+  'bg': { data: bg, name: 'Български' },
+  'bn': { data: bn, name: 'বাংলা' },
+  'cs': { data: cs, name: 'Čeština' },
+  'de': { data: de, name: 'Deutsch' },
+  'da': { data: da, name: 'Dansk' },
+  'el': { data: el, name: 'Ελληνικά' },
+  'en': { data: en, name: 'English' },
+  'es': { data: es, name: 'Español' },
+  'fa': { data: fa, name: 'فارسی' },
+  'fi': { data: fi, name: 'Suomi' },
+  'fr': { data: fr, name: 'Français' },
+  'he': { data: he, name: 'עברית' },
+  'hi': { data: hi, name: 'हिन्दी' },
+  'hr': { data: hr, name: 'Hrvatski' },
+  'hu': { data: hu, name: 'Magyar' },
+  'id': { data: id, name: 'Bahasa Indonesia' },
+  'it': { data: it, name: 'Italiano' },
+  'ja': { data: ja, name: '日本語' },
+  'ka': { data: ka, name: 'ქართული' },
+  'kk': { data: kk, name: 'Қазақша' },
+  'ko': { data: ko, name: '한국어' },
+  'km': { data: km, name: 'ភាសាខ្មែរ' },
+  'lo': { data: lo, name: 'ລາວ' },
+  'lt': { data: lt, name: 'Lietuvių' },
+  'lv': { data: lv, name: 'Latviešu' },
+  'ml': { data: ml, name: 'മലയാളം' },
+  'ms': { data: ms, name: 'بهاس ملايو' },
+  'nb': { data: nb, name: 'Norsk bokmål' },
+  'ne': { data: ne, name: 'नेपाली' },
+  'nl': { data: nl, name: 'Nederlands' },
+  'nn': { data: nn, name: 'Norsk nynorsk' },
+  'pl': { data: pl, name: 'Polski' },
+  'pt': { data: pt, name: 'Português' },
+  'pt_BR': { data: pt_BR, name: 'Português (Brasil)' },
+  'ro': { data: ro, name: 'Română' },
+  'ru': { data: ru, name: 'Русский' },
+  'si': { data: si, name: 'සිංහල' },
+  'sk': { data: sk, name: 'Slovenčina' },
+  'sl': { data: sl, name: 'Slovenščina' },
+  'sq': { data: sq, name: 'Shqipëria' },
+  'sr': { data: sr, name: 'Srpski' },
+  'sv': { data: sv, name: 'Svenska' },
+  'ta': { data: ta, name: 'தமிழ்' },
+  'th': { data: th, name: 'ไทย' },
+  'tr': { data: tr, name: 'Türkçe' },
+  'uk': { data: uk, name: 'Українська' },
+  'uz': { data: uz, name: 'Oʻzbekcha' },
+  'vi': { data: vi, name: 'Tiếng Việt' },
+  'zh': { data: zh, name: '中文' },
+  'zh_TW': { data: zh_TW, name: '中文 (Taiwan)' }
 };
 
 const languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
@@ -114,20 +114,24 @@ languages.push(language);
 languages.push(language.substring(0, 2));
 languages.push('en');
 for (let i = 0; i < languages.length; i++) {
-    language = languages[i].replace('-', '_');
+  language = languages[i].replace('-', '_');
+  if (language in supportedLanguages) {
+    break;
+  }
+  if (language.length > 2) {
+    language = languages[i].substring(0, 2);
     if (language in supportedLanguages) {
-        break;
+      break;
     }
-    if (language.length > 2) {
-        language = languages[i].substring(0, 2);
-        if (language in supportedLanguages) {
-            break;
-        }
-    }
+  }
 }
 
 const selectedLanguage = supportedLanguages[language];
 
+export const findStringKeys = (predicate) => {
+  return Object.keys(selectedLanguage.data).filter(predicate);
+}
+
 export default key => {
-    return selectedLanguage.data[key]
+  return selectedLanguage.data[key];
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from './store';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,9 +16,19 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DashboardIcon from '@material-ui/icons/Dashboard';
+import MapIcon from '@material-ui/icons/Map';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import SettingsIcon from '@material-ui/icons/Settings';
+import PeopleIcon from '@material-ui/icons/People';
+import StorageIcon from '@material-ui/icons/Storage';
+import PersonIcon from '@material-ui/icons/Person';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import FolderIcon from '@material-ui/icons/Folder';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -42,17 +52,18 @@ const MainToolbar = () => {
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
   const history = useHistory();
+  const adminEnabled = useSelector(state => state.session.user && state.session.user.administrator);
+  const userId = useSelector(state => state.session.user && state.session.user.id);
 
   const openDrawer = () => { setDrawer(true) }
   const closeDrawer = () => { setDrawer(false) }
 
-  const handleLogout = () => {
-    fetch('/api/session', { method: 'DELETE' }).then(response => {
-      if (response.ok) {
-        dispatch(sessionActions.authenticated(false));
-        history.push('/login');
-      }
-    })
+  const handleLogout = async () => {
+    const response = await fetch('/api/session', { method: 'DELETE' });
+    if (response.ok) {
+      dispatch(sessionActions.updateUser(null));
+      history.push('/login');
+    }
   }
 
   return (
@@ -81,7 +92,7 @@ const MainToolbar = () => {
           <List>
             <ListItem button onClick={() => history.push('/')}>
               <ListItemIcon>
-                <DashboardIcon />
+                <MapIcon />
               </ListItemIcon>
               <ListItemText primary={t('mapTitle')} />
             </ListItem>
@@ -93,39 +104,39 @@ const MainToolbar = () => {
                 {t('reportTitle')}
               </ListSubheader>
             }>
-            <ListItem button onClick={() => { history.push('/reports/route') }}>
+            <ListItem button onClick={() => history.push('/reports/route')}>
               <ListItemIcon>
-                <BarChartIcon />
+                <TimelineIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportRoute')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <NotificationsActiveIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportEvents')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <PlayCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportTrips')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <PauseCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportStops')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <FormatListBulletedIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportSummary')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
-                <BarChartIcon />
+                <TrendingUpIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportChart')} />
             </ListItem>
@@ -137,25 +148,55 @@ const MainToolbar = () => {
                 {t('settingsTitle')}
               </ListSubheader>
             }>
-            <ListItem button disabled>
+            <ListItem button disabled={!userId} onClick={() => history.push(`/user/${userId}`)}>
               <ListItemIcon>
-                <SettingsIcon />
+                <PersonIcon />
               </ListItemIcon>
               <ListItemText primary={t('settingsUser')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/settings/notifications')}>
               <ListItemIcon>
-                <SettingsIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('settingsServer')} />
-            </ListItem>
-            <ListItem button disabled>
-              <ListItemIcon>
-                <SettingsIcon />
+                <NotificationsIcon />
               </ListItemIcon>
               <ListItemText primary={t('sharedNotifications')} />
             </ListItem>
+            <ListItem button onClick={() => history.push('/settings/groups')}>
+              <ListItemIcon>
+                <FolderIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('settingsGroups')} />
+            </ListItem>
           </List>
+          {adminEnabled && (
+            <>
+              <Divider />
+              <List
+                subheader={
+                  <ListSubheader>
+                    {t('userAdmin')}
+                  </ListSubheader>
+                }>
+                <ListItem button onClick={() => history.push('/admin/server')}>
+                  <ListItemIcon>
+                    <StorageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('settingsServer')} />
+                </ListItem>
+                <ListItem button onClick={() => history.push('/admin/users')}>
+                  <ListItemIcon>
+                    <PeopleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('settingsUsers')} />
+                </ListItem>
+                <ListItem button disabled>
+                  <ListItemIcon>
+                    <BarChartIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={t('statisticsTitle')} />
+                </ListItem>
+              </List>
+            </>
+          )}
         </div>
       </Drawer>
     </>

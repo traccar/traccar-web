@@ -40,7 +40,11 @@ const loadIcon = (key, background, url) => {
   });
 };
 
-const addLayer = (id, source, icon, text) => {
+const layerClickCallbacks = {};
+const layerMouseEnterCallbacks = {};
+const layerMauseLeaveCallbacks = {};
+
+const addLayer = (id, source, icon, text, onClick) => {
   const layer = {
     'id': id,
     'type': 'symbol',
@@ -66,6 +70,38 @@ const addLayer = (id, source, icon, text) => {
     }
   }
   map.addLayer(layer);
+
+  layerClickCallbacks[id] = onClick;
+  map.on('click', id, onClick);
+
+  layerMouseEnterCallbacks[id] = () => {
+    map.getCanvas().style.cursor = 'pointer';
+  };
+  map.on('mouseenter', id, layerMouseEnterCallbacks[id]);
+
+  layerMauseLeaveCallbacks[id] = () => {
+    map.getCanvas().style.cursor = '';
+  };
+  map.on('mouseleave', id, layerMauseLeaveCallbacks[id]);
+}
+
+const removeLayer = (id, source) => {
+  const popups = element.getElementsByClassName('mapboxgl-popup');
+  if (popups.length) {
+      popups[0].remove();
+  }
+
+  map.off('click', id, layerClickCallbacks[id]);
+  delete layerClickCallbacks[id];
+
+  map.off('mouseenter', id, layerMouseEnterCallbacks[id]);
+  delete layerMouseEnterCallbacks[id];
+
+  map.off('mouseleave', id, layerMauseLeaveCallbacks[id]);
+  delete layerMauseLeaveCallbacks[id];
+
+  map.removeLayer(id);
+  map.removeSource(source);
 }
 
 const calculateBounds = features => {
@@ -96,14 +132,14 @@ const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
 
-/*map = new mapboxgl.Map({
+/*const map = new mapboxgl.Map({
   container: this.mapContainer,
   style: 'https://cdn.traccar.com/map/basic.json',
   center: [0, 0],
   zoom: 1
 });*/
 
-const map = new mapboxgl.Map({
+/*const map = new mapboxgl.Map({
   container: element,
   style: {
     'version': 8,
@@ -133,13 +169,33 @@ const map = new mapboxgl.Map({
   },
   center: [0, 0],
   zoom: 1
+});*/
+
+const map = new mapboxgl.Map({
+  container: element,
+  style: {
+    version: 8,
+    sources: {
+      osm: {
+        type: 'raster',
+        tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
+        tileSize: 256,
+        attribution: '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      },
+    },
+    glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
+    layers: [{
+      id: 'osm',
+      type: 'raster',
+      source: 'osm',
+    }],
+  },
 });
 
 map.addControl(new mapboxgl.NavigationControl());
 
 map.on('load', () => {
-
-  loadImage('images/background.svg').then((background) => {
+  loadImage('images/background.svg').then(background => {
     Promise.all([
       loadIcon('icon-marker', background, 'images/icon/marker.svg')
     ]).then(() => {
@@ -157,5 +213,6 @@ export default {
   map,
   registerListener,
   addLayer,
+  removeLayer,
   calculateBounds,
 };

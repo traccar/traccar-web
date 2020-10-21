@@ -27,6 +27,10 @@ Ext.define('Traccar.model.ReportSummary', {
         name: 'deviceName',
         type: 'string'
     }, {
+        name: 'startTime',
+        type: 'date',
+        dateFormat: 'c'
+    }, {
         name: 'maxSpeed',
         type: 'float',
         convert: Traccar.AttributeFormatter.getConverter('speed')

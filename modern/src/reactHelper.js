@@ -8,3 +8,9 @@ export const usePrevious = value => {
   });
   return ref.current;
 }
+
+export const useEffectAsync = (effect, deps) => {
+  useEffect(() => {
+    effect();
+  }, deps);
+}

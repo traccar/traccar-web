@@ -66,10 +66,28 @@ Ext.define('Traccar.controller.Root', {
         });
     },
 
+    showAnnouncement: function (announcement) {
+        var maxWidth = Ext.getBody().getViewSize().width - 2 * Traccar.Style.normalPadding;
+        if (maxWidth > Traccar.Style.windowWidth) {
+            maxWidth = Traccar.Style.windowWidth;
+        }
+        Ext.Msg.show({
+            msg: announcement,
+            buttons: Ext.Msg.OK,
+            closable: false,
+            modal: false,
+            maxWidth: maxWidth
+        }).alignTo(Ext.getBody(), 't-t', [0, Traccar.Style.normalPadding]);
+    },
+
     onServerReturn: function (options, success, response) {
-        var token, parameters = {};
+        var announcement, token, parameters = {};
         if (success) {
             Traccar.app.setServer(Ext.decode(response.responseText));
+            announcement = Traccar.app.getServer().get('announcement');
+            if (announcement) {
+                this.showAnnouncement(announcement);
+            }
             token = Ext.Object.fromQueryString(window.location.search).token;
             if (token) {
                 parameters.token = token;
