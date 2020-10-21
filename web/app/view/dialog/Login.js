@@ -87,6 +87,15 @@ Ext.define('Traccar.view.dialog.Login', {
             },
             inputAttrTpl: ['autocomplete="on"']
         }, {
+            xtype: 'textfield',
+            name: 'code',
+            reference: 'totpCodeField',
+            fieldLabel: Strings.loginTotpCode,
+            allowBlank: true,
+            listeners: {
+                specialKey: 'onSpecialKey'
+            }
+        }, {
             xtype: 'checkboxfield',
             inputValue: true,
             uncheckedValue: false,
