@@ -32,6 +32,20 @@ Ext.define('Traccar.view.dialog.UserController', {
             this.lookupReference('deviceReadonlyField').setDisabled(false);
             this.lookupReference('limitCommandsField').setDisabled(false);
         }
+
+        this.lookupReference('useTotpField').setHidden(
+            !Traccar.app.getServer().get('totpEnabled') || Traccar.app.getServer().get('totpEnforce'));
+
+        this.lookupReference('totpKeyField').setHidden(
+            !Traccar.app.getServer().get('totpEnabled'));
+
+        this.lookupReference('useTotpField').setHidden(
+            !Traccar.app.getServer().get('totpEnabled'));
+
+        if (Traccar.app.getServer().get('totpEnabled')) {
+            this.lookupReference('totpKeyField').setHidden(
+                !this.lookupReference('useTotpField').getValue());
+        }
     },
 
     symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
@@ -44,6 +58,24 @@ Ext.define('Traccar.view.dialog.UserController', {
         }
 
         this.lookupReference('tokenField').setValue(newToken);
+    },
+
+    clearTotpKey: function () {
+        this.lookupReference('totpKeyField').setValue('');
+    },
+
+    setClearTotpKeyTriggerHandler: function () {
+        var me = this;
+        this.lookupReference('totpKeyField').getTrigger('clearTotpKeyTrigger').getEl().on({
+            click: function () {
+                me.clearTotpKey();
+            }
+        });
+    },
+
+    useTotp: function () {
+        this.lookupReference('totpKeyField').setHidden(
+            !this.lookupReference('useTotpField').getValue());
     },
 
     testNotification: function () {

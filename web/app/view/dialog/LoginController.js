@@ -27,6 +27,8 @@ Ext.define('Traccar.view.dialog.LoginController', {
         this.lookupReference('registerButton').setDisabled(
             !Traccar.app.getServer().get('registration'));
         this.lookupReference('languageField').setValue(Locale.language);
+        this.lookupReference('totpCodeField').setHidden(
+            !Traccar.app.getServer().get('totpEnabled'));
     },
 
     login: function () {
@@ -54,7 +56,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
                     } else {
                         this.getView().setVisible(true);
                         if (response.status === 401) {
-                            Traccar.app.showError(Strings.loginFailed);
+                            if (Traccar.app.getServer().get('totpEnabled')) {
+                                Traccar.app.showError(Strings.loginFailedTotp);
+                            } else {
+                                Traccar.app.showError(Strings.loginFailed);
+                            }
                         } else {
                             Traccar.app.showError(response.responseText);
                         }

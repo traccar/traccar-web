@@ -175,6 +175,30 @@ Ext.define('Traccar.view.dialog.User', {
                         handler: 'generateToken'
                     }
                 }
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'useTotp',
+                fieldLabel: Strings.userUseTotp,
+                reference: 'useTotpField',
+                handler: 'useTotp'
+            }, {
+                xtype: 'textfield',
+                name: 'totpKey',
+                reference: 'totpKeyField',
+                readOnly: true,
+                fieldLabel: Strings.userTotpKey,
+                triggers: {
+                    clearTotpKeyTrigger: {
+                        cls: 'iconCls: x-fa fa-refresh',
+                        hideOnReadOnly: false,
+                        tooltip: Strings.userClearTotpKey
+                    }
+                },
+                listeners: {
+                    afterrender: 'setClearTotpKeyTriggerHandler'
+                }
             }]
         }]
     },
