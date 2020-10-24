@@ -6,6 +6,7 @@ import mapboxgl from 'mapbox-gl';
 import mapManager from './mapManager';
 import store from '../store';
 import StatusView from '../StatusView';
+import { calculateBounds } from './mapUtil';
 import { useHistory } from 'react-router-dom';
 
 const MainMap = () => {
@@ -92,7 +93,7 @@ const MainMap = () => {
       });
       mapManager.addLayer('device-icon', 'positions', '{category}', '{name}', markerClickHandler);
 
-      const bounds = mapManager.calculateBounds(positions.features);
+      const bounds = calculateBounds(positions.features);
       if (bounds) {
         mapManager.map.fitBounds(bounds, {
           padding: 100,
