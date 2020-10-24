@@ -5,8 +5,9 @@ import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import DevicesList from './DevicesList';
-import MainMap from './map/MainMap';
 import MainToolbar from './MainToolbar';
+import Map from './map/Map';
+import PositionsMap from './map/PositionsMap';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,7 +54,9 @@ const MainPage = ({ width }) => {
         </Drawer>
         <div className={classes.mapContainer}>
           <ContainerDimensions>
-            <MainMap />
+            <Map>
+              <PositionsMap />
+            </Map>
           </ContainerDimensions>
         </div>
       </div>

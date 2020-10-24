@@ -1,7 +1,7 @@
-import t from './common/localization'
+import t from '../common/localization'
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { formatPosition } from './common/formatter';
+import { formatPosition } from '../common/formatter';
 
 const StatusView = ({ deviceId, onShowDetails }) => {
   const device = useSelector(state => state.devices.items[deviceId]);
