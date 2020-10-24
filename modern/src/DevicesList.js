@@ -9,7 +9,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { devicesActions } from './store';
