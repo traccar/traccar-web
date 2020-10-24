@@ -4,8 +4,8 @@ import { Provider, useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 
 import mapManager from './mapManager';
-import store from './store';
-import StatusView from './StatusView';
+import store from '../store';
+import StatusView from '../StatusView';
 import { useHistory } from 'react-router-dom';
 
 const MainMap = () => {

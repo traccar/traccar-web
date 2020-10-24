@@ -5,7 +5,7 @@ import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import DevicesList from './DevicesList';
-import MainMap from './MainMap';
+import MainMap from './map/MainMap';
 import MainToolbar from './MainToolbar';
 
 const useStyles = makeStyles(theme => ({
