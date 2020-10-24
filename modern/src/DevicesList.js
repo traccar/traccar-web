@@ -21,6 +21,11 @@ const useStyles = makeStyles(() => ({
     maxHeight: '100%',
     overflow: 'auto',
   },
+  icon: {
+    width: '25px',
+    height: '25px',
+    filter: 'brightness(0) invert(1)',
+  },
 }));
 
 const DeviceView = ({ updateTimestamp, onMenuClick }) => {
@@ -43,7 +48,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
           <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item))}>
             <ListItemAvatar>
               <Avatar>
-                <LocationOnIcon />
+                <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} />
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={item.name} secondary={item.uniqueId} />

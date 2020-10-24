@@ -1,5 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
+import { deviceCategories } from '../common/deviceCategories';
 
 let readyListeners = [];
 
@@ -32,8 +33,9 @@ const loadIcon = async (key, background, url) => {
   const context = canvas.getContext('2d');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  const imageWidth = image.width * pixelRatio;
-  const imageHeight = image.height * pixelRatio;
+  const iconRatio = 0.5;
+  const imageWidth = canvas.width * iconRatio;
+  const imageHeight = canvas.height * iconRatio;
   context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
 
   map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), { pixelRatio });
@@ -156,9 +158,7 @@ map.addControl(new mapboxgl.NavigationControl());
 
 map.on('load', async () => {
   const background = await loadImage('images/background.svg');
-  await Promise.all([
-    loadIcon('icon-marker', background, 'images/icon/marker.svg'),
-  ]);
+  await Promise.all(deviceCategories.map(async category => loadIcon(category, background, `images/icon/${category}.svg`)));
   if (readyListeners) {
     readyListeners.forEach(listener => listener());
     readyListeners = null;

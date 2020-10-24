@@ -30,6 +30,7 @@ const MainMap = () => {
     return {
       deviceId: position.deviceId,
       name: device ? device.name : '',
+      category: device && device.category || 'default',
     }
   };
 
@@ -89,7 +90,7 @@ const MainMap = () => {
         'type': 'geojson',
         'data': positions,
       });
-      mapManager.addLayer('device-icon', 'positions', 'icon-marker', '{name}', markerClickHandler);
+      mapManager.addLayer('device-icon', 'positions', '{category}', '{name}', markerClickHandler);
 
       const bounds = mapManager.calculateBounds(positions.features);
       if (bounds) {
@@ -118,12 +119,7 @@ const MainMap = () => {
     }
   }, [positions]);
 
-  const style = {
-    width: '100%',
-    height: '100%',
-  };
-
-  return <div style={style} ref={containerEl} />;
+  return <div style={{ width: '100%', height: '100%' }} ref={containerEl} />;
 }
 
 export default MainMap;

@@ -8,36 +8,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from './attributes/EditAttributesView';
 import deviceAttributes from './attributes/deviceAttributes';
 import SelectField from './form/SelectField';
+import { deviceCategories } from './common/deviceCategories';
 
 const useStyles = makeStyles(() => ({
   details: {
     flexDirection: 'column',
   },
 }));
-
-const deviceCategories = [
-  'default',
-  'animal',
-  'bicycle',
-  'boat',
-  'bus',
-  'car',
-  'crane',
-  'helicopter',
-  'motorcycle',
-  'offroad',
-  'person',
-  'pickup',
-  'plane',
-  'ship',
-  'tractor',
-  'train',
-  'tram',
-  'trolleybus',
-  'truck',
-  'van',
-  'scooter',
-];
 
 const DevicePage = () => {
   const classes = useStyles();
