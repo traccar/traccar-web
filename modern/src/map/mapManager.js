@@ -1,14 +1,13 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 
-let ready = false;
-let registeredListener = null;
+let readyListeners = [];
 
-const registerListener = listener => {
-  if (ready) {
+const onMapReady = listener => {
+  if (!readyListeners) {
     listener();
   } else {
-    registeredListener = listener;
+    readyListeners.push(listener);
   }
 };
 
@@ -20,24 +19,24 @@ const loadImage = (url) => {
   });
 };
 
-const loadIcon = (key, background, url) => {
-  return loadImage(url).then((image) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = background.width * window.devicePixelRatio;
-    canvas.height = background.height * window.devicePixelRatio;
-    canvas.style.width = `${background.width}px`;
-    canvas.style.height = `${background.height}px`;
-    const context = canvas.getContext('2d');
-    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+const loadIcon = async (key, background, url) => {
+  const image = await loadImage(url);
+  const pixelRatio = window.devicePixelRatio;
 
-    const imageWidth = image.width * window.devicePixelRatio;
-    const imageHeight = image.height * window.devicePixelRatio;
-    context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+  const canvas = document.createElement('canvas');
+  canvas.width = background.width * pixelRatio;
+  canvas.height = background.height * pixelRatio;
+  canvas.style.width = `${background.width}px`;
+  canvas.style.height = `${background.height}px`;
 
-    map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), {
-      pixelRatio: window.devicePixelRatio
-    });
-  });
+  const context = canvas.getContext('2d');
+  context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+  const imageWidth = image.width * pixelRatio;
+  const imageHeight = image.height * pixelRatio;
+  context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+
+  map.addImage(key, context.getImageData(0, 0, canvas.width, canvas.height), { pixelRatio });
 };
 
 const layerClickCallbacks = {};
@@ -155,24 +154,21 @@ const map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.NavigationControl());
 
-map.on('load', () => {
-  loadImage('images/background.svg').then(background => {
-    Promise.all([
-      loadIcon('icon-marker', background, 'images/icon/marker.svg')
-    ]).then(() => {
-      ready = true;
-      if (registeredListener) {
-        registeredListener();
-        registeredListener = null;
-      }
-    });
-  });
+map.on('load', async () => {
+  const background = await loadImage('images/background.svg');
+  await Promise.all([
+    loadIcon('icon-marker', background, 'images/icon/marker.svg'),
+  ]);
+  if (readyListeners) {
+    readyListeners.forEach(listener => listener());
+    readyListeners = null;
+  }
 });
 
 export default {
   element,
   map,
-  registerListener,
+  onMapReady,
   addLayer,
   removeLayer,
   calculateBounds,

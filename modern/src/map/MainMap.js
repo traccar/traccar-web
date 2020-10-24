@@ -57,7 +57,7 @@ const MainMap = () => {
   }, [containerEl]);
 
   useEffect(() => {
-    mapManager.registerListener(() => setMapReady(true));
+    mapManager.onMapReady(() => setMapReady(true));
   }, []);
 
   const markerClickHandler = (event) => {
