@@ -9,6 +9,7 @@ import MainToolbar from './MainToolbar';
 import Map from './map/Map';
 import PositionsMap from './map/PositionsMap';
 import SelectedDeviceMap from './map/SelectedDeviceMap';
+import GeofenceMap from './map/GeofenceMap';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,6 +57,7 @@ const MainPage = ({ width }) => {
         <div className={classes.mapContainer}>
           <ContainerDimensions>
             <Map>
+              <GeofenceMap />
               <PositionsMap />
               <SelectedDeviceMap />
             </Map>
