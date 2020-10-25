@@ -56,8 +56,8 @@ const MainPage = ({ width }) => {
         <div className={classes.mapContainer}>
           <ContainerDimensions>
             <Map>
-              <SelectedDeviceMap />
               <PositionsMap />
+              <SelectedDeviceMap />
             </Map>
           </ContainerDimensions>
         </div>
