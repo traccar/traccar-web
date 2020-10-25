@@ -50,3 +50,20 @@ export const calculateBounds = features => {
     return null;
   }
 }
+
+export const reverseCoordinates = it => {
+  if (!it) {
+    return it;
+  } else if (Array.isArray(it)) {
+    if (it.length === 2 && !Number.isNaN(it[0]) && !Number.isNaN(it[1])) {
+      return [it[1], it[0]];
+    } else {
+      return it.map(it => reverseCoordinates(it));
+    }
+  } else {
+    return {
+      ...it,
+      coordinates: reverseCoordinates(it.coordinates),
+    }
+  }
+}
