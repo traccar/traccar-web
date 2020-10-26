@@ -9,6 +9,8 @@ import EditAttributesView from './attributes/EditAttributesView';
 import deviceAttributes from './attributes/deviceAttributes';
 import SelectField from './form/SelectField';
 import { deviceCategories } from './common/deviceCategories';
+import LinkField from './form/LinkField';
+import { prefixString } from './common/stringUtils';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -107,6 +109,36 @@ const DevicePage = () => {
                 />
             </AccordionDetails>
           </Accordion>
+          {item.id &&
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedConnections')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/geofences"
+                  endpointLinked={"/api/geofences?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="geofenceId"
+                  label={t('sharedGeofences')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/notifications"
+                  endpointLinked={"/api/notifications?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="notificationId"
+                  titleGetter={it => t(prefixString('event', it.type))}
+                  label={t('sharedNotifications')}
+                  variant="filled" />
+              </AccordionDetails>
+            </Accordion>
+          }
         </>
       }
     </EditItemView>

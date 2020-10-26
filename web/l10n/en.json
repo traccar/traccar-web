@@ -65,6 +65,7 @@
     "sharedRequired": "Required",
     "sharedPreferences": "Preferences",
     "sharedPermissions": "Permissions",
+    "sharedConnections": "Connections",
     "sharedExtra": "Extra",
     "sharedTypeString": "String",
     "sharedTypeNumber": "Number",

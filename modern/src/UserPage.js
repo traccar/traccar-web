@@ -7,6 +7,7 @@ import EditItemView from './EditItemView';
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from './attributes/EditAttributesView';
+import LinkField from './form/LinkField';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -64,6 +65,35 @@ const UserPage = () => {
                 />
             </AccordionDetails>
           </Accordion>
+          {item.id &&
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedConnections')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/devices?all=true"
+                  endpointLinked={"/api/devices?userId=" + item.id}
+                  baseId={item.id}
+                  keyBase="userId"
+                  keyLink="deviceId"
+                  label={t('deviceTitle')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/groups?all=true"
+                  endpointLinked={"/api/groups?userId=" + item.id}
+                  baseId={item.id}
+                  keyBase="userId"
+                  keyLink="groupId"
+                  label={t('settingsGroups')}
+                  variant="filled" />
+              </AccordionDetails>
+            </Accordion>
+          }
         </>
       }
     </EditItemView>
