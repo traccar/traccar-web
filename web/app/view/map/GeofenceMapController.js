@@ -34,10 +34,11 @@ Ext.define('Traccar.view.map.GeofenceMapController', {
     },
 
     onFileChange: function (fileField) {
-        var reader, parser, xml, segment, projection, points = [], view = this.getView();
+        var reader, view = this.getView();
         if (fileField.fileInputEl.dom.files.length > 0) {
             reader = new FileReader();
             reader.onload = function () {
+                var parser, xml, segment, projection, points = [];
                 parser = new DOMParser();
                 xml = parser.parseFromString(reader.result, 'text/xml');
                 segment = xml.getElementsByTagName('trkseg')[0];
