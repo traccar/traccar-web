@@ -34,15 +34,16 @@ Ext.define('Traccar.view.map.GeofenceMapController', {
     },
 
     onFileChange: function (fileField) {
-        var reader, parser, xml, segment, point, projection, points = [], view = this.getView();
+        var reader, parser, xml, segment, projection, points = [], view = this.getView();
         if (fileField.fileInputEl.dom.files.length > 0) {
             reader = new FileReader();
-            reader.onload = function (event) {
+            reader.onload = function () {
                 parser = new DOMParser();
                 xml = parser.parseFromString(reader.result, 'text/xml');
                 segment = xml.getElementsByTagName('trkseg')[0];
                 projection = view.mapView.getProjection();
                 Array.from(segment.getElementsByTagName('trkpt')).forEach(function (point) {
+                    var lat, lon;
                     lat = Number(point.getAttribute('lat'));
                     lon = Number(point.getAttribute('lon'));
                     points.push(ol.proj.transform([lon, lat], 'EPSG:4326', projection));
