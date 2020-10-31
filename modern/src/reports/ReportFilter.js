@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   FormControl,
   InputLabel,
@@ -6,44 +6,44 @@ import {
   MenuItem,
   Button,
   TextField,
-} from "@material-ui/core";
-import t from "../common/localization";
-import { useSelector } from "react-redux";
-import moment from "moment";
+} from '@material-ui/core';
+import t from '../common/localization';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const ReportFilter = (props) => {
   const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
-  const [period, setPeriod] = useState("today");
-  const [from, setFrom] = useState(moment().subtract(1, "hour"));
+  const [period, setPeriod] = useState('today');
+  const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
   const handleShow = () => {
     let selectedFrom;
     let selectedTo;
     switch (period) {
-      case "today":
-        selectedFrom = moment().startOf("day");
-        selectedTo = moment().endOf("day");
+      case 'today':
+        selectedFrom = moment().startOf('day');
+        selectedTo = moment().endOf('day');
         break;
-      case "yesterday":
-        selectedFrom = moment().subtract(1, "day").startOf("day");
-        selectedTo = moment().subtract(1, "day").endOf("day");
+      case 'yesterday':
+        selectedFrom = moment().subtract(1, 'day').startOf('day');
+        selectedTo = moment().subtract(1, 'day').endOf('day');
         break;
-      case "thisWeek":
-        selectedFrom = moment().startOf("week");
-        selectedTo = moment().endOf("week");
+      case 'thisWeek':
+        selectedFrom = moment().startOf('week');
+        selectedTo = moment().endOf('week');
         break;
-      case "previousWeek":
-        selectedFrom = moment().subtract(1, "week").startOf("week");
-        selectedTo = moment().subtract(1, "week").endOf("week");
+      case 'previousWeek':
+        selectedFrom = moment().subtract(1, 'week').startOf('week');
+        selectedTo = moment().subtract(1, 'week').endOf('week');
         break;
-      case "thisMonth":
-        selectedFrom = moment().startOf("month");
-        selectedTo = moment().endOf("month");
+      case 'thisMonth':
+        selectedFrom = moment().startOf('month');
+        selectedTo = moment().endOf('month');
         break;
-      case "previousMonth":
-        selectedFrom = moment().subtract(1, "month").startOf("month");
-        selectedTo = moment().subtract(1, "month").endOf("month");
+      case 'previousMonth':
+        selectedFrom = moment().subtract(1, 'month').startOf('month');
+        selectedTo = moment().subtract(1, 'month').endOf('month');
         break;
       default:
         selectedFrom = from;
@@ -56,7 +56,7 @@ const ReportFilter = (props) => {
   return (
     <>
       <FormControl variant="filled" margin="normal" fullWidth>
-        <InputLabel>{t("reportDevice")}</InputLabel>
+        <InputLabel>{t('reportDevice')}</InputLabel>
         <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
           {devices.map((device) => (
             <MenuItem value={device.id}>{device.name}</MenuItem>
@@ -64,22 +64,22 @@ const ReportFilter = (props) => {
         </Select>
       </FormControl>
       <FormControl variant="filled" margin="normal" fullWidth>
-        <InputLabel>{t("reportPeriod")}</InputLabel>
+        <InputLabel>{t('reportPeriod')}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
-          <MenuItem value="today">{t("reportToday")}</MenuItem>
-          <MenuItem value="yesterday">{t("reportYesterday")}</MenuItem>
-          <MenuItem value="thisWeek">{t("reportThisWeek")}</MenuItem>
-          <MenuItem value="previousWeek">{t("reportPreviousWeek")}</MenuItem>
-          <MenuItem value="thisMonth">{t("reportThisMonth")}</MenuItem>
-          <MenuItem value="previousMonth">{t("reportPreviousMonth")}</MenuItem>
-          <MenuItem value="custom">{t("reportCustom")}</MenuItem>
+          <MenuItem value="today">{t('reportToday')}</MenuItem>
+          <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
+          <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
+          <MenuItem value="previousWeek">{t('reportPreviousWeek')}</MenuItem>
+          <MenuItem value="thisMonth">{t('reportThisMonth')}</MenuItem>
+          <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
+          <MenuItem value="custom">{t('reportCustom')}</MenuItem>
         </Select>
       </FormControl>
-      {period === "custom" && (
+      {period === 'custom' && (
         <TextField
           margin="normal"
           variant="filled"
-          label={t("reportFrom")}
+          label={t('reportFrom')}
           type="datetime-local"
           value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
           onChange={(e) =>
@@ -88,11 +88,11 @@ const ReportFilter = (props) => {
           fullWidth
         />
       )}
-      {period === "custom" && (
+      {period === 'custom' && (
         <TextField
           margin="normal"
           variant="filled"
-          label={t("reportTo")}
+          label={t('reportTo')}
           type="datetime-local"
           value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
           onChange={(e) =>
@@ -109,7 +109,7 @@ const ReportFilter = (props) => {
           disabled={!deviceId}
           onClick={handleShow}
         >
-          {t("reportShow")}
+          {t('reportShow')}
         </Button>
       </FormControl>
     </>

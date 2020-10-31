@@ -1,20 +1,20 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import MainPage from "./MainPage";
-import LoginPage from "./LoginPage";
-import RouteReportPage from "./reports/RouteReportPage";
-import EventReportPage from "./reports/EventReportPage";
-import ServerPage from "./admin/ServerPage";
-import UsersPage from "./admin/UsersPage";
-import DevicePage from "./DevicePage";
-import UserPage from "./UserPage";
-import SocketController from "./SocketController";
-import NotificationsPage from "./settings/NotificationsPage";
-import NotificationPage from "./settings/NotificationPage";
-import GroupsPage from "./settings/GroupsPage";
-import GroupPage from "./settings/GroupPage";
-import PositionPage from "./PositionPage";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import MainPage from './MainPage';
+import LoginPage from './LoginPage';
+import RouteReportPage from './reports/RouteReportPage';
+import ServerPage from './admin/ServerPage';
+import UsersPage from './admin/UsersPage';
+import DevicePage from './DevicePage';
+import UserPage from './UserPage';
+import SocketController from './SocketController';
+import NotificationsPage from './settings/NotificationsPage';
+import NotificationPage from './settings/NotificationPage';
+import GroupsPage from './settings/GroupsPage';
+import GroupPage from './settings/GroupPage';
+import PositionPage from './PositionPage';
+import EventReportPage from './reports/EventReportPage';
 
 const App = () => {
   return (

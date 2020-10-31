@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import MainToolbar from "../MainToolbar";
+import React, { useState } from 'react';
+import MainToolbar from '../MainToolbar';
 import {
   Grid,
   TableContainer,
@@ -10,20 +10,20 @@ import {
   TableBody,
   Paper,
   makeStyles,
-} from "@material-ui/core";
-import t from "../common/localization";
-import { formatPosition } from "../common/formatter";
-import ReportFilter from "./ReportFilter";
+} from '@material-ui/core';
+import t from '../common/localization';
+import { formatPosition } from '../common/formatter';
+import ReportFilter from './ReportFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   content: {
     flex: 1,
-    overflow: "auto",
+    overflow: 'auto',
     padding: theme.spacing(2),
   },
   form: {
@@ -42,7 +42,7 @@ const EventReportPage = () => {
       to: to.toISOString(),
     });
     fetch(`/api/reports/events?${query.toString()}`, {
-      headers: { Accept: "application/json" },
+      headers: { Accept: 'application/json' },
     }).then((response) => {
       if (response.ok) {
         response.json().then(setData);
@@ -65,17 +65,17 @@ const EventReportPage = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>{t("positionFixTime")}</TableCell>
-                    <TableCell>{t("sharedType")}</TableCell>
-                    <TableCell>{t("sharedGeofence")}</TableCell>
-                    <TableCell>{t("sharedMaintenance")}</TableCell>
+                    <TableCell>{t('positionFixTime')}</TableCell>
+                    <TableCell>{t('sharedType')}</TableCell>
+                    <TableCell>{t('sharedGeofence')}</TableCell>
+                    <TableCell>{t('sharedMaintenance')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {data.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell>
-                        {formatPosition(item, "serverTime")}
+                        {formatPosition(item, 'serverTime')}
                       </TableCell>
                       <TableCell>{item.type}</TableCell>
                       <TableCell>{}</TableCell>

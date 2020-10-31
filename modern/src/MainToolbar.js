@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
-import { sessionActions } from "./store";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import MapIcon from "@material-ui/icons/Map";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import PeopleIcon from "@material-ui/icons/People";
-import StorageIcon from "@material-ui/icons/Storage";
-import PersonIcon from "@material-ui/icons/Person";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import TimelineIcon from "@material-ui/icons/Timeline";
-import PauseCircleFilledIcon from "@material-ui/icons/PauseCircleFilled";
-import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
-import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import FolderIcon from "@material-ui/icons/Folder";
-import t from "./common/localization";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { sessionActions } from './store';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MapIcon from '@material-ui/icons/Map';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import PeopleIcon from '@material-ui/icons/People';
+import StorageIcon from '@material-ui/icons/Storage';
+import PersonIcon from '@material-ui/icons/Person';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import FolderIcon from '@material-ui/icons/Folder';
+import t from './common/localization';
 
 const useStyles = makeStyles((theme) => ({
   flex: {
@@ -67,10 +67,10 @@ const MainToolbar = () => {
   };
 
   const handleLogout = async () => {
-    const response = await fetch("/api/session", { method: "DELETE" });
+    const response = await fetch('/api/session', { method: 'DELETE' });
     if (response.ok) {
       dispatch(sessionActions.updateUser(null));
-      history.push("/login");
+      history.push('/login');
     }
   };
 
@@ -89,7 +89,7 @@ const MainToolbar = () => {
             Traccar
           </Typography>
           <Button color="inherit" onClick={handleLogout}>
-            {t("loginLogout")}
+            {t('loginLogout')}
           </Button>
         </Toolbar>
       </AppBar>
@@ -102,54 +102,54 @@ const MainToolbar = () => {
           onKeyDown={closeDrawer}
         >
           <List>
-            <ListItem button onClick={() => history.push("/")}>
+            <ListItem button onClick={() => history.push('/')}>
               <ListItemIcon>
                 <MapIcon />
               </ListItemIcon>
-              <ListItemText primary={t("mapTitle")} />
+              <ListItemText primary={t('mapTitle')} />
             </ListItem>
           </List>
           <Divider />
-          <List subheader={<ListSubheader>{t("reportTitle")}</ListSubheader>}>
-            <ListItem button onClick={() => history.push("/reports/route")}>
+          <List subheader={<ListSubheader>{t('reportTitle')}</ListSubheader>}>
+            <ListItem button onClick={() => history.push('/reports/route')}>
               <ListItemIcon>
                 <TimelineIcon />
               </ListItemIcon>
-              <ListItemText primary={t("reportRoute")} />
+              <ListItemText primary={t('reportRoute')} />
             </ListItem>
-            <ListItem button onClick={() => history.push("/reports/event")}>
+            <ListItem button onClick={() => history.push('/reports/event')}>
               <ListItemIcon>
                 <NotificationsActiveIcon />
               </ListItemIcon>
-              <ListItemText primary={t("reportEvents")} />
+              <ListItemText primary={t('reportEvents')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
                 <PlayCircleFilledIcon />
               </ListItemIcon>
-              <ListItemText primary={t("reportTrips")} />
+              <ListItemText primary={t('reportTrips')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
                 <PauseCircleFilledIcon />
               </ListItemIcon>
-              <ListItemText primary={t("reportStops")} />
+              <ListItemText primary={t('reportStops')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
                 <FormatListBulletedIcon />
               </ListItemIcon>
-              <ListItemText primary={t("reportSummary")} />
+              <ListItemText primary={t('reportSummary')} />
             </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
                 <TrendingUpIcon />
               </ListItemIcon>
-              <ListItemText primary={t("reportChart")} />
+              <ListItemText primary={t('reportChart')} />
             </ListItem>
           </List>
           <Divider />
-          <List subheader={<ListSubheader>{t("settingsTitle")}</ListSubheader>}>
+          <List subheader={<ListSubheader>{t('settingsTitle')}</ListSubheader>}>
             <ListItem
               button
               disabled={!userId}
@@ -158,45 +158,45 @@ const MainToolbar = () => {
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary={t("settingsUser")} />
+              <ListItemText primary={t('settingsUser')} />
             </ListItem>
             <ListItem
               button
-              onClick={() => history.push("/settings/notifications")}
+              onClick={() => history.push('/settings/notifications')}
             >
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
-              <ListItemText primary={t("sharedNotifications")} />
+              <ListItemText primary={t('sharedNotifications')} />
             </ListItem>
-            <ListItem button onClick={() => history.push("/settings/groups")}>
+            <ListItem button onClick={() => history.push('/settings/groups')}>
               <ListItemIcon>
                 <FolderIcon />
               </ListItemIcon>
-              <ListItemText primary={t("settingsGroups")} />
+              <ListItemText primary={t('settingsGroups')} />
             </ListItem>
           </List>
           {adminEnabled && (
             <>
               <Divider />
-              <List subheader={<ListSubheader>{t("userAdmin")}</ListSubheader>}>
-                <ListItem button onClick={() => history.push("/admin/server")}>
+              <List subheader={<ListSubheader>{t('userAdmin')}</ListSubheader>}>
+                <ListItem button onClick={() => history.push('/admin/server')}>
                   <ListItemIcon>
                     <StorageIcon />
                   </ListItemIcon>
-                  <ListItemText primary={t("settingsServer")} />
+                  <ListItemText primary={t('settingsServer')} />
                 </ListItem>
-                <ListItem button onClick={() => history.push("/admin/users")}>
+                <ListItem button onClick={() => history.push('/admin/users')}>
                   <ListItemIcon>
                     <PeopleIcon />
                   </ListItemIcon>
-                  <ListItemText primary={t("settingsUsers")} />
+                  <ListItemText primary={t('settingsUsers')} />
                 </ListItem>
                 <ListItem button disabled>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary={t("statisticsTitle")} />
+                  <ListItemText primary={t('statisticsTitle')} />
                 </ListItem>
               </List>
             </>
