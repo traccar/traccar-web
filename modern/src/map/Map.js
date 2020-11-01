@@ -1,9 +1,11 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
+import './switcher/switcher.css';
 import mapboxgl from 'mapbox-gl';
+import { SwitcherControl } from './switcher/switcher';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { deviceCategories } from '../common/deviceCategories';
 import { loadIcon, loadImage } from './mapUtil';
-import { styleOsm } from './mapStyles';
+import { styleCarto, styleOsm } from './mapStyles';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -14,17 +16,17 @@ export const map = new mapboxgl.Map({
   style: styleOsm(),
 });
 
-map.addControl(new mapboxgl.NavigationControl());
+let ready = false;
+const readyListeners = new Set();
 
-let readyListeners = [];
+const addReadyListener = listener => readyListeners.add(listener);
 
-const onMapReady = listener => {
-  if (!readyListeners) {
-    listener();
-  } else {
-    readyListeners.push(listener);
-  }
-};
+const removeReadyListener = listener => readyListeners.delete(listener);
+
+const updateReadyValue = value => {
+  ready = value;
+  readyListeners.forEach(listener => listener(value));
+}
 
 map.on('load', async () => {
   const background = await loadImage('images/background.svg');
@@ -32,18 +34,38 @@ map.on('load', async () => {
     const imageData = await loadIcon(category, background, `images/icon/${category}.svg`);
     map.addImage(category, imageData, { pixelRatio: window.devicePixelRatio });
   }));
-  if (readyListeners) {
-    readyListeners.forEach(listener => listener());
-    readyListeners = null;
-  }
+  updateReadyValue(true);
 });
+
+map.addControl(new mapboxgl.NavigationControl({
+  showCompass: false,
+}));
+
+map.addControl(new SwitcherControl(
+  [{
+    title: "styleOsm",
+    uri: styleOsm(),
+  }, {
+    title: "styleCarto",
+    uri: styleCarto(),
+  }],
+  'styleOsm',
+  () => updateReadyValue(false),
+  () => updateReadyValue(true),
+));
 
 const Map = ({ children }) => {
   const containerEl = useRef(null);
 
   const [mapReady, setMapReady] = useState(false);
   
-  useEffect(() => onMapReady(() => setMapReady(true)), []);
+  useEffect(() => {
+    const listener = ready => setMapReady(ready);
+    addReadyListener(listener);
+    return () => {
+      removeReadyListener(listener);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     const currentEl = containerEl.current;
