@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
 import MainToolbar from '../MainToolbar';
-import {
-  Grid,
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
-  TableHead,
-  TableBody,
-  Paper,
-  makeStyles,
-} from '@material-ui/core';
+import { Grid, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, makeStyles } from '@material-ui/core';
 import t from '../common/localization';
 import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -41,14 +31,14 @@ const EventReportPage = () => {
       from: from.toISOString(),
       to: to.toISOString(),
     });
-    fetch(`/api/reports/events?${query.toString()}`, {
-      headers: { Accept: 'application/json' },
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then(setData);
+
+    fetch(`/api/reports/events?${query.toString()}`, { headers: { Accept: 'application/json' } })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then(setData);
       }
     });
-  };
+  }
 
   return (
     <div className={classes.root}>
@@ -90,6 +80,6 @@ const EventReportPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default EventReportPage;

@@ -31,15 +31,15 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import FolderIcon from '@material-ui/icons/Folder';
 import t from './common/localization';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   flex: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   list: {
-    width: 250,
+    width: 250
   },
   menuButton: {
     marginLeft: -12,
@@ -52,19 +52,11 @@ const MainToolbar = () => {
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
   const history = useHistory();
-  const adminEnabled = useSelector(
-    (state) => state.session.user && state.session.user.administrator
-  );
-  const userId = useSelector(
-    (state) => state.session.user && state.session.user.id
-  );
+  const adminEnabled = useSelector(state => state.session.user && state.session.user.administrator);
+  const userId = useSelector(state => state.session.user && state.session.user.id);
 
-  const openDrawer = () => {
-    setDrawer(true);
-  };
-  const closeDrawer = () => {
-    setDrawer(false);
-  };
+  const openDrawer = () => { setDrawer(true) }
+  const closeDrawer = () => { setDrawer(false) }
 
   const handleLogout = async () => {
     const response = await fetch('/api/session', { method: 'DELETE' });
@@ -72,7 +64,7 @@ const MainToolbar = () => {
       dispatch(sessionActions.updateUser(null));
       history.push('/login');
     }
-  };
+  }
 
   return (
     <>
@@ -81,16 +73,13 @@ const MainToolbar = () => {
           <IconButton
             className={classes.menuButton}
             color="inherit"
-            onClick={openDrawer}
-          >
+            onClick={openDrawer}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.flex}>
             Traccar
-          </Typography>
-          <Button color="inherit" onClick={handleLogout}>
-            {t('loginLogout')}
-          </Button>
+        </Typography>
+          <Button color="inherit" onClick={handleLogout}>{t('loginLogout')}</Button>
         </Toolbar>
       </AppBar>
       <Drawer open={drawer} onClose={closeDrawer}>
@@ -99,8 +88,7 @@ const MainToolbar = () => {
           className={classes.list}
           role="button"
           onClick={closeDrawer}
-          onKeyDown={closeDrawer}
-        >
+          onKeyDown={closeDrawer}>
           <List>
             <ListItem button onClick={() => history.push('/')}>
               <ListItemIcon>
@@ -110,7 +98,12 @@ const MainToolbar = () => {
             </ListItem>
           </List>
           <Divider />
-          <List subheader={<ListSubheader>{t('reportTitle')}</ListSubheader>}>
+          <List
+            subheader={
+              <ListSubheader>
+                {t('reportTitle')}
+              </ListSubheader>
+            }>
             <ListItem button onClick={() => history.push('/reports/route')}>
               <ListItemIcon>
                 <TimelineIcon />
@@ -149,21 +142,19 @@ const MainToolbar = () => {
             </ListItem>
           </List>
           <Divider />
-          <List subheader={<ListSubheader>{t('settingsTitle')}</ListSubheader>}>
-            <ListItem
-              button
-              disabled={!userId}
-              onClick={() => history.push(`/user/${userId}`)}
-            >
+          <List
+            subheader={
+              <ListSubheader>
+                {t('settingsTitle')}
+              </ListSubheader>
+            }>
+            <ListItem button disabled={!userId} onClick={() => history.push(`/user/${userId}`)}>
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary={t('settingsUser')} />
             </ListItem>
-            <ListItem
-              button
-              onClick={() => history.push('/settings/notifications')}
-            >
+            <ListItem button onClick={() => history.push('/settings/notifications')}>
               <ListItemIcon>
                 <NotificationsIcon />
               </ListItemIcon>
@@ -179,7 +170,12 @@ const MainToolbar = () => {
           {adminEnabled && (
             <>
               <Divider />
-              <List subheader={<ListSubheader>{t('userAdmin')}</ListSubheader>}>
+              <List
+                subheader={
+                  <ListSubheader>
+                    {t('userAdmin')}
+                  </ListSubheader>
+                }>
                 <ListItem button onClick={() => history.push('/admin/server')}>
                   <ListItemIcon>
                     <StorageIcon />
@@ -205,6 +201,6 @@ const MainToolbar = () => {
       </Drawer>
     </>
   );
-};
+}
 
 export default MainToolbar;

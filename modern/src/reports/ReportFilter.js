@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  TextField,
-} from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@material-ui/core';
 import t from '../common/localization';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -17,6 +10,7 @@ const ReportFilter = (props) => {
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
+
   const handleShow = () => {
     let selectedFrom;
     let selectedTo;
@@ -52,7 +46,9 @@ const ReportFilter = (props) => {
     }
 
     props.handleSubmit(deviceId, selectedFrom, selectedTo);
-  };
+
+  }
+
   return (
     <>
       <FormControl variant="filled" margin="normal" fullWidth>
@@ -114,6 +110,7 @@ const ReportFilter = (props) => {
       </FormControl>
     </>
   );
-};
+  
+}
 
 export default ReportFilter;
