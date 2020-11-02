@@ -14,6 +14,7 @@ import NotificationPage from './settings/NotificationPage';
 import GroupsPage from './settings/GroupsPage';
 import GroupPage from './settings/GroupPage';
 import PositionPage from './PositionPage';
+import ReplayPage from './reports/ReplayPage';
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
       <Switch>
         <Route exact path='/' component={MainPage} />
         <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/replay' component={ReplayPage} />
         <Route exact path='/position/:id?' component={PositionPage} />
         <Route exact path='/user/:id?' component={UserPage} />
         <Route exact path='/device/:id?' component={DevicePage} />

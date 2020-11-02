@@ -380,6 +380,7 @@
     "notificatorSms": "SMS",
     "notificatorFirebase": "Firebase",
     "notificatorTraccar": "Traccar",
+    "reportReplay": "Replay",
     "reportRoute": "Route",
     "reportEvents": "Events",
     "reportTrips": "Trips",
