@@ -32,13 +32,9 @@ export class SwitcherControl {
         if (srcElement.classList.contains('active')) {
           return;
         }
-        console.log('beforeSwitch start');
         this.beforeSwitch();
-        console.log('beforeSwitch end');
         this.map.setStyle(JSON.parse(srcElement.dataset.uri));
-        console.log('afterSwitch start');
         this.afterSwitch();
-        console.log('afterSwitch end');
         this.mapStyleContainer.style.display = 'none';
         this.styleButton.style.display = 'block';
         const elms = this.mapStyleContainer.getElementsByClassName('active');

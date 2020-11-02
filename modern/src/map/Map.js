@@ -20,14 +20,19 @@ export const map = new mapboxgl.Map({
 let ready = false;
 const readyListeners = new Set();
 
-const addReadyListener = listener => readyListeners.add(listener);
+const addReadyListener = listener => {
+  readyListeners.add(listener);
+  listener(ready);
+};
 
-const removeReadyListener = listener => readyListeners.delete(listener);
+const removeReadyListener = listener => {
+  readyListeners.delete(listener);
+};
 
 const updateReadyValue = value => {
   ready = value;
   readyListeners.forEach(listener => listener(value));
-}
+};
 
 const initMap = async () => {
   const background = await loadImage('images/background.svg');
