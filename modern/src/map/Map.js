@@ -56,7 +56,9 @@ map.addControl(new SwitcherControl(
   [
     { title: t('mapOsm'), uri: styleOsm() },
     { title: t('mapCarto'), uri: styleCarto() },
-    { title: 'Mapbox Streets', uri: styleMapbox('streets-v11') },
+    { title: t('mapMapboxStreets'), uri: styleMapbox('streets-v11') },
+    { title: t('mapMapboxOutdoors'), uri: styleMapbox('outdoors-v11') },
+    { title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
   ],
   t('mapOsm'),
   () => updateReadyValue(false),
