@@ -81,8 +81,7 @@ const ReportFilter = (props) => {
           onChange={(e) =>
             setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))
           }
-          fullWidth
-        />
+          fullWidth />
       )}
       {period === 'custom' && (
         <TextField
@@ -94,23 +93,15 @@ const ReportFilter = (props) => {
           onChange={(e) =>
             setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))
           }
-          fullWidth
-        />
+          fullWidth />
       )}
       <FormControl margin="normal" fullWidth>
-        <Button
-          type="button"
-          color="primary"
-          variant="contained"
-          disabled={!deviceId}
-          onClick={handleShow}
-        >
+        <Button type="button" color="primary" variant="contained" disabled={!deviceId} onClick={handleShow}>
           {t('reportShow')}
         </Button>
       </FormControl>
     </>
   );
-  
 }
 
 export default ReportFilter;

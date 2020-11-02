@@ -25,19 +25,19 @@ const EventReportPage = () => {
   const classes = useStyles();
   const [data, setData] = useState([]);
 
-  const handleSubmit = (deviceId, from, to) => {
+  const handleSubmit = async (deviceId, from, to) => {
     const query = new URLSearchParams({
       deviceId,
       from: from.toISOString(),
       to: to.toISOString(),
     });
 
-    fetch(`/api/reports/events?${query.toString()}`, { headers: { Accept: 'application/json' } })
-      .then((response) => {
-        if (response.ok) {
-          response.json().then(setData);
-      }
-    });
+    const response = await fetch(`/api/reports/events?${query.toString()}`, { headers: { Accept: 'application/json' } })
+    
+    if(response.ok) {
+      const data = await response.json();
+      setData(data);
+    }
   }
 
   return (
