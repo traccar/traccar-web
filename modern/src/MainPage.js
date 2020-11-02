@@ -1,9 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import DevicesList from './DevicesList';
 import MainToolbar from './MainToolbar';
 import Map from './map/Map';
@@ -42,10 +40,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const MainPage = ({ width }) => {
-  const initialized = useSelector(state => !!state.session.server && !!state.session.user);
   const classes = useStyles();
 
-  return !initialized ? (<LinearProgress />) : (
+  return (
     <div className={classes.root}>
       <MainToolbar />
       <div className={classes.content}>
