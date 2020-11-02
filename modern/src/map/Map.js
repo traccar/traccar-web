@@ -5,7 +5,7 @@ import { SwitcherControl } from './switcher/switcher';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { deviceCategories } from '../common/deviceCategories';
 import { loadIcon, loadImage } from './mapUtil';
-import { styleCarto, styleOsm } from './mapStyles';
+import { styleCarto, styleMapbox, styleOsm } from './mapStyles';
 import t from '../common/localization';
 
 const element = document.createElement('div');
@@ -29,30 +29,39 @@ const updateReadyValue = value => {
   readyListeners.forEach(listener => listener(value));
 }
 
-map.on('load', async () => {
+const initMap = async () => {
   const background = await loadImage('images/background.svg');
   await Promise.all(deviceCategories.map(async category => {
     const imageData = await loadIcon(category, background, `images/icon/${category}.svg`);
-    map.addImage(category, imageData, { pixelRatio: window.devicePixelRatio });
+    if (!map.hasImage(category)) map.addImage(category, imageData, { pixelRatio: window.devicePixelRatio });
   }));
   updateReadyValue(true);
-});
+};
+
+map.on('load', initMap);
 
 map.addControl(new mapboxgl.NavigationControl({
   showCompass: false,
 }));
 
 map.addControl(new SwitcherControl(
-  [{
-    title: t('mapOsm'),
-    uri: styleOsm(),
-  }, {
-    title: t('mapCarto'),
-    uri: styleCarto(),
-  }],
+  [
+    { title: t('mapOsm'), uri: styleOsm() },
+    { title: t('mapCarto'), uri: styleCarto() },
+    { title: 'Mapbox Streets', uri: styleMapbox('streets-v11') },
+  ],
   t('mapOsm'),
   () => updateReadyValue(false),
-  () => updateReadyValue(true),
+  () => {
+    const waiting = () => {
+      if (!map.loaded()) {
+        setTimeout(waiting, 100);
+      } else {
+        initMap();
+      }
+    };
+    waiting();
+  },
 ));
 
 const Map = ({ children }) => {
