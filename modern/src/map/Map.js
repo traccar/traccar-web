@@ -7,6 +7,7 @@ import { deviceCategories } from '../common/deviceCategories';
 import { loadIcon, loadImage } from './mapUtil';
 import { styleCarto, styleMapbox, styleOsm } from './mapStyles';
 import t from '../common/localization';
+import { useAttributePreference } from '../common/preferences';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -75,7 +76,13 @@ const Map = ({ children }) => {
   const containerEl = useRef(null);
 
   const [mapReady, setMapReady] = useState(false);
-  
+
+  const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
+
+  useEffect(() => {
+    mapboxgl.accessToken = mapboxAccessToken;
+  }, [mapboxAccessToken]);
+
   useEffect(() => {
     const listener = ready => setMapReady(ready);
     addReadyListener(listener);
