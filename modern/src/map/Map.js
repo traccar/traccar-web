@@ -6,6 +6,7 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { deviceCategories } from '../common/deviceCategories';
 import { loadIcon, loadImage } from './mapUtil';
 import { styleCarto, styleOsm } from './mapStyles';
+import t from '../common/localization';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -43,13 +44,13 @@ map.addControl(new mapboxgl.NavigationControl({
 
 map.addControl(new SwitcherControl(
   [{
-    title: "styleOsm",
+    title: t('mapOsm'),
     uri: styleOsm(),
   }, {
-    title: "styleCarto",
+    title: t('mapCarto'),
     uri: styleCarto(),
   }],
-  'styleOsm',
+  t('mapOsm'),
   () => updateReadyValue(false),
   () => updateReadyValue(true),
 ));
