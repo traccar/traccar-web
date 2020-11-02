@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
 import { Provider, useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ const PositionsMap = () => {
     return {
       deviceId: position.deviceId,
       name: device ? device.name : '',
-      category: device && device.category || 'default',
+      category: device && (device.category || 'default'),
     }
   };
 
@@ -37,7 +37,7 @@ const PositionsMap = () => {
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
 
-  const onClick = event => {
+  const onClickCallback = useCallback(event => {
     const feature = event.features[0];
     let coordinates = feature.geometry.coordinates.slice();
     while (Math.abs(event.lngLat.lng - coordinates[0]) > 180) {
@@ -59,12 +59,15 @@ const PositionsMap = () => {
       .setDOMContent(placeholder)
       .setLngLat(coordinates)
       .addTo(map);
-  };
+  }, [history]);
 
   useEffect(() => {
     map.addSource(id, {
       'type': 'geojson',
-      'data': positions,
+      'data': {
+        type: 'FeatureCollection',
+        features: [],
+      }
     });
     map.addLayer({
       'id': id,
@@ -88,19 +91,19 @@ const PositionsMap = () => {
 
     map.on('mouseenter', id, onMouseEnter);
     map.on('mouseleave', id, onMouseLeave);
-    map.on('click', id, onClick);
+    map.on('click', id, onClickCallback);
 
     return () => {
       Array.from(map.getContainer().getElementsByClassName('mapboxgl-popup')).forEach(el => el.remove());
 
       map.off('mouseenter', id, onMouseEnter);
       map.off('mouseleave', id, onMouseLeave);
-      map.off('click', id, onClick);
+      map.off('click', id, onClickCallback);
 
       map.removeLayer(id);
       map.removeSource(id);
     };
-  }, []);
+  }, [onClickCallback]);
 
   useEffect(() => {
     map.getSource(id).setData(positions);

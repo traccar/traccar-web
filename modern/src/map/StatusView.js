@@ -22,7 +22,7 @@ const StatusView = ({ deviceId, onShowDetails }) => {
       {position.attributes.batteryLevel &&
         <><b>{t('positionBattery')}:</b> {formatPosition(position.attributes.batteryLevel, 'batteryLevel')}<br /></>
       }
-      <a href="#" onClick={handleClick}>{t('sharedShowDetails')}</a>
+      <a href="/" onClick={handleClick}>{t('sharedShowDetails')}</a>
     </>
   );
 };
