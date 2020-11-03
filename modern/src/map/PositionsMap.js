@@ -8,31 +8,20 @@ import store from '../store';
 import { useHistory } from 'react-router-dom';
 import StatusView from './StatusView';
 
-const PositionsMap = () => {
+const PositionsMap = ({ positions }) => {
   const id = 'positions';
 
   const history = useHistory();
+  const devices = useSelector(state => state.devices.items);
 
-  const createFeature = (state, position) => {
-    const device = state.devices.items[position.deviceId] || null;
+  const createFeature = (devices, position) => {
+    const device = devices[position.deviceId] || null;
     return {
       deviceId: position.deviceId,
       name: device ? device.name : '',
       category: device && (device.category || 'default'),
     }
   };
-
-  const positions = useSelector(state => ({
-    type: 'FeatureCollection',
-    features: Object.values(state.positions.items).map(position => ({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [position.longitude, position.latitude]
-      },
-      properties: createFeature(state, position),
-    })),
-  }));
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
@@ -106,8 +95,18 @@ const PositionsMap = () => {
   }, [onClickCallback]);
 
   useEffect(() => {
-    map.getSource(id).setData(positions);
-  }, [positions]);
+    map.getSource(id).setData({
+      type: 'FeatureCollection',
+      features: positions.map(position => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [position.longitude, position.latitude],
+        },
+        properties: createFeature(devices, position),
+      }))
+    });
+  }, [devices, positions]);
 
   return null;
 }

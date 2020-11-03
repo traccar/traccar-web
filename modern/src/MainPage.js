@@ -5,10 +5,10 @@ import ContainerDimensions from 'react-container-dimensions';
 import DevicesList from './DevicesList';
 import MainToolbar from './MainToolbar';
 import Map from './map/Map';
-import PositionsMap from './map/PositionsMap';
 import SelectedDeviceMap from './map/SelectedDeviceMap';
 import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
+import CurrentPositionsMap from './map/CurrentPositionsMap';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,7 +57,7 @@ const MainPage = ({ width }) => {
             <Map>
               <GeofenceMap />
               <AccuracyMap />
-              <PositionsMap />
+              <CurrentPositionsMap />
               <SelectedDeviceMap />
             </Map>
           </ContainerDimensions>

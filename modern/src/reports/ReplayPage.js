@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Container, FormControl, makeStyles, Paper, Slider, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Container, FormControl, makeStyles, Paper, Slider, Tooltip, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MainToolbar from '../MainToolbar';
 import Map from '../map/Map';
 import t from '../common/localization';
 import FilterForm from './FilterForm';
 import ReplayPathMap from '../map/ReplayPathMap';
+import PositionsMap from '../map/PositionsMap';
+import { formatPosition } from '../common/formatter';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +31,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const TimeLabel = ({ children, open, value }) => {
+  return (
+    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
+      {children}
+    </Tooltip>
+  );
+};
+
 const ReplayPage = () => {
   const classes = useStyles();
 
@@ -40,6 +50,8 @@ const ReplayPage = () => {
 
   const [positions, setPositions] = useState([]);
 
+  const [index, setIndex] = useState(0);
+
   const handleShow = async () => {
     const query = new URLSearchParams({
       deviceId,
@@ -48,6 +60,7 @@ const ReplayPage = () => {
     });
     const response = await fetch(`/api/positions?${query.toString()}`, { headers: { 'Accept': 'application/json' } });
     if (response.ok) {
+      setIndex(0);
       setPositions(await response.json());
       setExpanded(false);
     }
@@ -58,10 +71,23 @@ const ReplayPage = () => {
       <MainToolbar />
       <Map>
         <ReplayPathMap positions={positions} />
+        {index < positions.length &&
+          <PositionsMap positions={[positions[index]]} />
+        }
       </Map>
       <Container maxWidth="sm" className={classes.controlPanel}>
         <Paper className={classes.controlContent}>
-          <Slider defaultValue={30} />
+          <Slider
+            disabled={!positions.length}
+            max={positions.length - 1}
+            step={null}
+            marks={positions.map((_, index) => ({ value: index }))}
+            value={index}
+            onChange={(_, index) => setIndex(index)}
+            valueLabelDisplay="auto"
+            valueLabelFormat={i => i < positions.length ? formatPosition(positions[i], 'fixTime') : ''}
+            ValueLabelComponent={TimeLabel}
+            />
         </Paper>
         <div>
           <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
