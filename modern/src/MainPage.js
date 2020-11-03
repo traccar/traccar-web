@@ -9,6 +9,7 @@ import SelectedDeviceMap from './map/SelectedDeviceMap';
 import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
+import CurrentLocationMap from './map/CurrentLocationMap';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,6 +56,7 @@ const MainPage = ({ width }) => {
         <div className={classes.mapContainer}>
           <ContainerDimensions>
             <Map>
+              <CurrentLocationMap />
               <GeofenceMap />
               <AccuracyMap />
               <CurrentPositionsMap />

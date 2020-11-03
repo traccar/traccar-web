@@ -76,19 +76,20 @@ const ReplayPage = () => {
         }
       </Map>
       <Container maxWidth="sm" className={classes.controlPanel}>
-        <Paper className={classes.controlContent}>
-          <Slider
-            disabled={!positions.length}
-            max={positions.length - 1}
-            step={null}
-            marks={positions.map((_, index) => ({ value: index }))}
-            value={index}
-            onChange={(_, index) => setIndex(index)}
-            valueLabelDisplay="auto"
-            valueLabelFormat={i => i < positions.length ? formatPosition(positions[i], 'fixTime') : ''}
-            ValueLabelComponent={TimeLabel}
-            />
-        </Paper>
+        {!!positions.length &&
+          <Paper className={classes.controlContent}>
+            <Slider
+              max={positions.length - 1}
+              step={null}
+              marks={positions.map((_, index) => ({ value: index }))}
+              value={index}
+              onChange={(_, index) => setIndex(index)}
+              valueLabelDisplay="auto"
+              valueLabelFormat={i => i < positions.length ? formatPosition(positions[i], 'fixTime') : ''}
+              ValueLabelComponent={TimeLabel}
+              />
+          </Paper>
+        }
         <div>
           <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
