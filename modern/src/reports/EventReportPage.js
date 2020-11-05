@@ -25,13 +25,13 @@ const EventReportPage = () => {
   const classes = useStyles();
   const [data, setData] = useState([]);
 
-  const handleSubmit = async (deviceId, from, to) => {
+  const handleSubmit = async (deviceId, from, to, type) => {
     const query = new URLSearchParams({
       deviceId,
       from: from.toISOString(),
       to: to.toISOString(),
     });
-
+    type.map(t=>query.append('type',t));
     const response = await fetch(`/api/reports/events?${query.toString()}`, { headers: { Accept: 'application/json' } })
     
     if(response.ok) {
@@ -47,7 +47,7 @@ const EventReportPage = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>
             <Paper className={classes.form}>
-              <ReportFilter handleSubmit={handleSubmit} />
+              <ReportFilter reportType='event' handleSubmit={handleSubmit} />
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
