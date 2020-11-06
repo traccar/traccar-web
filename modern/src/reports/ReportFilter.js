@@ -11,7 +11,6 @@ const ReportFilter = (props) => {
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
-  const [eventType, setEventType] = useState(['allEvents']);
 
   const handleShow = () => {
     let selectedFrom;
@@ -47,10 +46,7 @@ const ReportFilter = (props) => {
         break;
     }
 
-    if(reportType && reportType === 'event')
-      props.handleSubmit(deviceId, selectedFrom, selectedTo, eventType);
-    else
-      props.handleSubmit(deviceId, selectedFrom, selectedTo);
+    props.handleSubmit(deviceId, selectedFrom, selectedTo);
   }
 
   return (
@@ -63,31 +59,9 @@ const ReportFilter = (props) => {
           ))}
         </Select>
       </FormControl>
-      {reportType && reportType === 'event' && (
-        <FormControl variant="filled" margin="normal" fullWidth>
-          <InputLabel>{t('reportEventTypes')}</InputLabel>
-          <Select value={eventType} onChange={(e) => setEventType(e.target.value)} multiple>
-            <MenuItem value="allEvents">{t('eventAll')}</MenuItem>
-            <MenuItem value="deviceOnline">{t('eventDeviceOnline')}</MenuItem>
-            <MenuItem value="deviceUnknown">{t('eventDeviceUnknown')}</MenuItem>
-            <MenuItem value="deviceOffline">{t('eventDeviceOffline')}</MenuItem>
-            <MenuItem value="deviceInactive">{t('eventDeviceInactive')}</MenuItem>
-            <MenuItem value="deviceMoving">{t('eventDeviceMoving')}</MenuItem>
-            <MenuItem value="deviceStopped">{t('eventDeviceStopped')}</MenuItem>
-            <MenuItem value="deviceOverspeed">{t('eventDeviceOverspeed')}</MenuItem>
-            <MenuItem value="deviceFuelDrop">{t('eventDeviceFuelDrop')}</MenuItem>
-            <MenuItem value="commandResult">{t('eventCommandResult')}</MenuItem>
-            <MenuItem value="geofenceEnter">{t('eventGeofenceEnter')}</MenuItem>
-            <MenuItem value="geofenceExit">{t('eventGeofenceExit')}</MenuItem>
-            <MenuItem value="alarm">{t('eventAlarm')}</MenuItem>
-            <MenuItem value="ignitionOn">{t('eventIgnitionOn')}</MenuItem>
-            <MenuItem value="ignitionOff">{t('eventIgnitionOff')}</MenuItem>
-            <MenuItem value="maintenance">{t('eventMaintenance')}</MenuItem>
-            <MenuItem value="textMessage">{t('eventTextMessage')}</MenuItem>
-            <MenuItem value="driverChanged">{t('eventDriverChanged')}</MenuItem>
-          </Select>
-        </FormControl>
-      )}
+
+      {props.children}
+      
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportPeriod')}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
