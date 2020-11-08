@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 const ReportFilter = (props) => {
-  const { reportType } = props;
   const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
@@ -61,7 +60,7 @@ const ReportFilter = (props) => {
       </FormControl>
 
       {props.children}
-      
+
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportPeriod')}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>

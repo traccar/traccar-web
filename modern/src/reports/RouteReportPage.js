@@ -1,85 +1,59 @@
 import React, { useState } from 'react';
-import MainToolbar from '../MainToolbar';
-import { Grid, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@material-ui/core';
+import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
 import t from '../common/localization';
 import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    flex: 1,
-    overflow: 'auto',
-    padding: theme.spacing(2),
-  },
-  form: {
-    padding: theme.spacing(1, 2, 2),
-  },
-}));
+import ReportView from './ReportView';
 
 const RouteReportPage = () => {
-  const classes = useStyles();
-  const [data, setData] = useState([]);
 
-  const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({
-      deviceId,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    });
+  const ReportFilterForm = ({ onResult }) => {
 
-    const response = await fetch(`/api/reports/route?${query.toString()}`, { headers: { Accept: 'application/json' } })
-    
-    if(response.ok) {
-      const data = await response.json();
-      setData(data);
+    const handleSubmit = async (deviceId, from, to) => {
+      const query = new URLSearchParams({
+        deviceId,
+        from: from.toISOString(),
+        to: to.toISOString(),
+      });
+      const response = await fetch(`/api/reports/route?${query.toString()}`, { headers: { Accept: 'application/json' } });
+      if(response.ok) {
+        onResult(await response.json());
+      }
     }
+    return <ReportFilter handleSubmit={handleSubmit} />;
   }
 
-  return (
-    <div className={classes.root}>
-      <MainToolbar />
-      <div className={classes.content}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={3} lg={2}>
-            <Paper className={classes.form}>
-              <ReportFilter handleSubmit={handleSubmit} />
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={9} lg={10}>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>{t('positionFixTime')}</TableCell>
-                    <TableCell>{t('positionLatitude')}</TableCell>
-                    <TableCell>{t('positionLongitude')}</TableCell>
-                    <TableCell>{t('positionSpeed')}</TableCell>
-                    <TableCell>{t('positionAddress')}</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {data.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>{formatPosition(item, 'fixTime')}</TableCell>
-                      <TableCell>{formatPosition(item, 'latitude')}</TableCell>
-                      <TableCell>{formatPosition(item, 'longitude')}</TableCell>
-                      <TableCell>{formatPosition(item, 'speed')}</TableCell>
-                      <TableCell>{formatPosition(item, 'address')}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Grid>
-      </div>
-    </div>
-  );
+  const ReportListView = ({items}) => {
+    
+    return (
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>{t('positionFixTime')}</TableCell>
+              <TableCell>{t('positionLatitude')}</TableCell>
+              <TableCell>{t('positionLongitude')}</TableCell>
+              <TableCell>{t('positionSpeed')}</TableCell>
+              <TableCell>{t('positionAddress')}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{formatPosition(item, 'fixTime')}</TableCell>
+                <TableCell>{formatPosition(item, 'latitude')}</TableCell>
+                <TableCell>{formatPosition(item, 'longitude')}</TableCell>
+                <TableCell>{formatPosition(item, 'speed')}</TableCell>
+                <TableCell>{formatPosition(item, 'address')}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+
+  return <ReportView reportFilterForm={ReportFilterForm} reportListView={ReportListView} />;
 }
 
 export default RouteReportPage;
