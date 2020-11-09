@@ -18,12 +18,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportView= ({ reportFilterForm:ReportFilterForm, reportListView:ReportListView }) => {
+const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, ...rest }) => {
   const classes = useStyles();
-  const [data, setData] = useState([]);
-  
+
   const onResult = (data) => {
-    setData(data);
+    setItems(data);
   }
   return (
     <div className={classes.root}>
@@ -36,7 +35,7 @@ const ReportView= ({ reportFilterForm:ReportFilterForm, reportListView:ReportLis
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
-            <ReportListView items={ data } />
+            {rest.children}
           </Grid>
         </Grid>
       </div>
@@ -44,4 +43,4 @@ const ReportView= ({ reportFilterForm:ReportFilterForm, reportListView:ReportLis
   );
 }
 
-export default ReportView;
+export default ReportLayoutPage;

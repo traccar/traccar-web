@@ -3,29 +3,28 @@ import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper
 import t from '../common/localization';
 import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
-import ReportView from './ReportView';
+import ReportLayoutPage from './ReportLayoutPage';
+
+const ReportFilterForm = ({ onResult }) => {
+
+  const handleSubmit = async (deviceId, from, to) => {
+    const query = new URLSearchParams({
+      deviceId,
+      from: from.toISOString(),
+      to: to.toISOString(),
+    });
+    const response = await fetch(`/api/reports/route?${query.toString()}`, { headers: { Accept: 'application/json' } });
+    if(response.ok) {
+      onResult(await response.json());
+    }
+  }
+  return <ReportFilter handleSubmit={handleSubmit} />;
+}
 
 const RouteReportPage = () => {
-
-  const ReportFilterForm = ({ onResult }) => {
-
-    const handleSubmit = async (deviceId, from, to) => {
-      const query = new URLSearchParams({
-        deviceId,
-        from: from.toISOString(),
-        to: to.toISOString(),
-      });
-      const response = await fetch(`/api/reports/route?${query.toString()}`, { headers: { Accept: 'application/json' } });
-      if(response.ok) {
-        onResult(await response.json());
-      }
-    }
-    return <ReportFilter handleSubmit={handleSubmit} />;
-  }
-
-  const ReportListView = ({items}) => {
-    
-    return (
+  const [items, setItems] = useState([]);
+  return (
+    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -50,10 +49,8 @@ const RouteReportPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    );
-  }
-
-  return <ReportView reportFilterForm={ReportFilterForm} reportListView={ReportListView} />;
+    </ReportLayoutPage>
+  );
 }
 
 export default RouteReportPage;
