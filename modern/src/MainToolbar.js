@@ -117,7 +117,7 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportRoute')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/reports/event')}>
               <ListItemIcon>
                 <NotificationsActiveIcon />
               </ListItemIcon>

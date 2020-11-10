@@ -14,6 +14,7 @@ import NotificationPage from './settings/NotificationPage';
 import GroupsPage from './settings/GroupsPage';
 import GroupPage from './settings/GroupPage';
 import PositionPage from './PositionPage';
+import EventReportPage from './reports/EventReportPage';
 import ReplayPage from './reports/ReplayPage';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
@@ -42,6 +43,7 @@ const App = () => {
               <Route exact path='/settings/group/:id?' component={GroupPage} />
               <Route exact path='/admin/server' component={ServerPage} />
               <Route exact path='/admin/users' component={UsersPage} />
+              <Route exact path='/reports/event' component={EventReportPage} />
             </Switch>
           )}
         </Route>
