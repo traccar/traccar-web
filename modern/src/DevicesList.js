@@ -47,7 +47,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
           <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item))}>
             <ListItemAvatar>
               <Avatar>
-                <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} />
+                <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={item.name} secondary={item.uniqueId} />

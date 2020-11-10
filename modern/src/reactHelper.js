@@ -7,10 +7,10 @@ export const usePrevious = value => {
     ref.current = value;
   });
   return ref.current;
-}
+};
 
 export const useEffectAsync = (effect, deps) => {
   useEffect(() => {
     effect();
-  }, deps);
-}
+  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+};

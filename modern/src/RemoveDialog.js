@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 
 const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
   const handleRemove = async () => {
-    const response = await fetch(`/api/${endpoint}/${itemId}`, { method: 'DELETE' })
+    const response = await fetch(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
     if (response.ok) {
       onResult(true);
     }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import mapboxgl from 'mapbox-gl';
 import { Provider, useSelector } from 'react-redux';
@@ -8,36 +8,25 @@ import store from '../store';
 import { useHistory } from 'react-router-dom';
 import StatusView from './StatusView';
 
-const PositionsMap = () => {
+const PositionsMap = ({ positions }) => {
   const id = 'positions';
 
   const history = useHistory();
+  const devices = useSelector(state => state.devices.items);
 
-  const createFeature = (state, position) => {
-    const device = state.devices.items[position.deviceId] || null;
+  const createFeature = (devices, position) => {
+    const device = devices[position.deviceId] || null;
     return {
       deviceId: position.deviceId,
       name: device ? device.name : '',
-      category: device && device.category || 'default',
+      category: device && (device.category || 'default'),
     }
   };
-
-  const positions = useSelector(state => ({
-    type: 'FeatureCollection',
-    features: Object.values(state.positions.items).map(position => ({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [position.longitude, position.latitude]
-      },
-      properties: createFeature(state, position),
-    })),
-  }));
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
 
-  const onClick = event => {
+  const onClickCallback = useCallback(event => {
     const feature = event.features[0];
     let coordinates = feature.geometry.coordinates.slice();
     while (Math.abs(event.lngLat.lng - coordinates[0]) > 180) {
@@ -59,12 +48,15 @@ const PositionsMap = () => {
       .setDOMContent(placeholder)
       .setLngLat(coordinates)
       .addTo(map);
-  };
+  }, [history]);
 
   useEffect(() => {
     map.addSource(id, {
       'type': 'geojson',
-      'data': positions,
+      'data': {
+        type: 'FeatureCollection',
+        features: [],
+      }
     });
     map.addLayer({
       'id': id,
@@ -88,23 +80,33 @@ const PositionsMap = () => {
 
     map.on('mouseenter', id, onMouseEnter);
     map.on('mouseleave', id, onMouseLeave);
-    map.on('click', id, onClick);
+    map.on('click', id, onClickCallback);
 
     return () => {
       Array.from(map.getContainer().getElementsByClassName('mapboxgl-popup')).forEach(el => el.remove());
 
       map.off('mouseenter', id, onMouseEnter);
       map.off('mouseleave', id, onMouseLeave);
-      map.off('click', id, onClick);
+      map.off('click', id, onClickCallback);
 
       map.removeLayer(id);
       map.removeSource(id);
     };
-  }, []);
+  }, [onClickCallback]);
 
   useEffect(() => {
-    map.getSource(id).setData(positions);
-  }, [positions]);
+    map.getSource(id).setData({
+      type: 'FeatureCollection',
+      features: positions.map(position => ({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [position.longitude, position.latitude],
+        },
+        properties: createFeature(devices, position),
+      }))
+    });
+  }, [devices, positions]);
 
   return null;
 }

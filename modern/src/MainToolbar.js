@@ -29,6 +29,7 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import FolderIcon from '@material-ui/icons/Folder';
+import ReplayIcon from '@material-ui/icons/Replay';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -78,7 +79,7 @@ const MainToolbar = () => {
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.flex}>
             Traccar
-        </Typography>
+          </Typography>
           <Button color="inherit" onClick={handleLogout}>{t('loginLogout')}</Button>
         </Toolbar>
       </AppBar>
@@ -95,6 +96,12 @@ const MainToolbar = () => {
                 <MapIcon />
               </ListItemIcon>
               <ListItemText primary={t('mapTitle')} />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/replay')}>
+              <ListItemIcon>
+                <ReplayIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('reportReplay')} />
             </ListItem>
           </List>
           <Divider />

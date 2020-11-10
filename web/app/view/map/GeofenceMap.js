@@ -37,6 +37,26 @@ Ext.define('Traccar.view.map.GeofenceMap', {
             listeners: {
                 select: 'onTypeSelect'
             }
+        }, '-', {
+            xtype: 'tbtext',
+            html: Strings.sharedImport
+        }, {
+            xtype: 'filefield',
+            name: 'file',
+            buttonConfig: {
+                glyph: 'xf093@FontAwesome',
+                text: '',
+                tooltip: Strings.sharedSelectFile,
+                tooltipType: 'title'
+            },
+            listeners: {
+                change: 'onFileChange',
+                afterrender: function (fileField) {
+                    fileField.fileInputEl.set({
+                        accept: '.gpx'
+                    });
+                }
+            }
         }, {
             xtype: 'tbfill'
         }, {

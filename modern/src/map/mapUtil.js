@@ -27,30 +27,6 @@ export const loadIcon = async (key, background, url) => {
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
-export const calculateBounds = features => {
-  if (features && features.length) {
-    const first = features[0].geometry.coordinates;
-    const bounds = [[...first], [...first]];
-    for (let feature of features) {
-      const longitude = feature.geometry.coordinates[0]
-      const latitude = feature.geometry.coordinates[1]
-      if (longitude < bounds[0][0]) {
-        bounds[0][0] = longitude;
-      } else if (longitude > bounds[1][0]) {
-        bounds[1][0] = longitude;
-      }
-      if (latitude < bounds[0][1]) {
-        bounds[0][1] = latitude;
-      } else if (latitude > bounds[1][1]) {
-        bounds[1][1] = latitude;
-      }
-    }
-    return bounds;
-  } else {
-    return null;
-  }
-}
-
 export const reverseCoordinates = it => {
   if (!it) {
     return it;
