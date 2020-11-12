@@ -9,6 +9,8 @@ export const formatPosition = (value, key) => {
     case 'fixTime':
     case 'deviceTime':
     case 'serverTime':
+    case 'startTime':
+    case 'endTime':
       return moment(value).format('LLL');
     case 'latitude':
     case 'longitude':
@@ -27,12 +29,44 @@ export const formatPosition = (value, key) => {
         return value;
       }
   }
-}
+};
 
 export const formatBoolean = (value) => {
   return value ? t('sharedYes') : t('sharedNo');
-}
+};
 
 export const formatNumber = (value, precision = 1) => {
   return Number(value.toFixed(precision));
-}
+};
+
+export const formatDistance = (value, unit) => {
+  switch (unit) {
+    case 'mi':
+      return `${(value * 0.000621371).toFixed(2)} ${t('sharedMi')}`;
+    case 'nmi':
+      return `${(value * 0.000539957).toFixed(2)} ${t('sharedNmi')}`;
+    case 'km':
+    default:
+        return `${(value * 0.001).toFixed(2)} ${t('sharedKm')}`;
+  }
+};
+
+export const formatSpeed = (value, unit) => {
+  switch (unit) {
+    case 'kmh':
+      return `${(value * 1.852).toFixed(2)} ${t('sharedKmh')}`;
+    case 'mph':
+      return `${(value * 1.15078).toFixed(2)} ${t('sharedMph')}`;
+    case 'kn':
+    default:
+        return `${(value * 1).toFixed(2)} ${t('sharedKn')}`;
+  }  
+};
+
+export const formatHours = (value) => {
+  let hours, minutes;
+  hours = Math.floor(value / 3600000);
+  minutes = Math.floor(value % 3600000 / 60000);
+
+  return `${hours} ${t('sharedHourAbbreviation')} ${minutes} ${t('sharedMinuteAbbreviation')}`;
+};
