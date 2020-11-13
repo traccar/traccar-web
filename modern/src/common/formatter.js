@@ -39,6 +39,10 @@ export const formatNumber = (value, precision = 1) => {
   return Number(value.toFixed(precision));
 };
 
+export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => {
+  return moment(value).format(format);
+};
+
 export const formatDistance = (value, unit) => {
   switch (unit) {
     case 'mi':
@@ -64,9 +68,5 @@ export const formatSpeed = (value, unit) => {
 };
 
 export const formatHours = (value) => {
-  let hours, minutes;
-  hours = Math.floor(value / 3600000);
-  minutes = Math.floor(value % 3600000 / 60000);
-
-  return `${hours} ${t('sharedHourAbbreviation')} ${minutes} ${t('sharedMinuteAbbreviation')}`;
+  return moment.duration(value).humanize();
 };
