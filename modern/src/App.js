@@ -21,6 +21,7 @@ import { LinearProgress } from '@material-ui/core';
 import TripReportPage from './reports/TripReportPage';
 import StopReportPage from './reports/StopReportPage';
 import SummaryReportPage from './reports/SummaryReportPage';
+import DailySummaryReportPage from './reports/DailySummaryReportPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -50,6 +51,7 @@ const App = () => {
               <Route exact path='/reports/trip' component={TripReportPage} />
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
+              <Route exact path='/reports/daily-summary' component={DailySummaryReportPage} />
             </Switch>
           )}
         </Route>

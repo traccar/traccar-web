@@ -141,6 +141,12 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportSummary')} />
             </ListItem>
+            <ListItem button onClick={() => history.push('/reports/daily-summary')}>
+              <ListItemIcon>
+                <FormatListBulletedIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('reportDaily')} />
+            </ListItem>            
             <ListItem button disabled>
               <ListItemIcon>
                 <TrendingUpIcon />
