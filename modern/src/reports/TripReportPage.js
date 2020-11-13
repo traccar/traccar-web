@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
 import t from '../common/localization';
-import { formatPosition, formatDistance, formatSpeed, formatHours, formatDate } from '../common/formatter';
+import { formatDistance, formatSpeed, formatHours, formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
@@ -23,10 +23,11 @@ const ReportFilterForm = ({ onResult }) => {
 }
 
 const TripReportPage = () => {
+  
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const [items, setItems] = useState([]);
-  
+
   return (
     <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
       <TableContainer component={Paper}>

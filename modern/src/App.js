@@ -19,6 +19,7 @@ import ReplayPage from './reports/ReplayPage';
 import { useSelector } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
 import TripReportPage from './reports/TripReportPage';
+import StopReportPage from './reports/StopReportPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -46,6 +47,7 @@ const App = () => {
               <Route exact path='/admin/users' component={UsersPage} />
               <Route exact path='/reports/event' component={EventReportPage} />
               <Route exact path='/reports/trip' component={TripReportPage} />
+              <Route exact path='/reports/stop' component={StopReportPage} />
             </Switch>
           )}
         </Route>

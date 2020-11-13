@@ -67,6 +67,18 @@ export const formatSpeed = (value, unit) => {
   }  
 };
 
+export const formatVolume = (value, unit) => {
+  switch (unit) {
+    case 'impGal':
+      return `${(value / 4.546).toFixed(2)} ${t('sharedGallonAbbreviation')}`;
+    case 'usGal':
+      return `${(value / 3.785).toFixed(2)} ${t('sharedGallonAbbreviation')}`;
+    case 'ltr':
+    default:
+        return `${(value / 1).toFixed(2)} ${t('sharedLiterAbbreviation')}`;
+  }  
+}
+
 export const formatHours = (value) => {
   return moment.duration(value).humanize();
 };
