@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Paper, makeStyles } from '@material-ui/core';
 import MainToolbar from '../MainToolbar';
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, ...rest }) => {
+const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, children }) => {
   const classes = useStyles();
 
   const onResult = (data) => {
@@ -35,7 +35,7 @@ const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, ...rest
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
-            {rest.children}
+            {children}
           </Grid>
         </Grid>
       </div>

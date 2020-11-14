@@ -21,11 +21,12 @@ const ReportFilterForm = ({ onResult }) => {
       onResult(await response.json());
     }
   }    
+
   return (
     <ReportFilter handleSubmit={handleSubmit}>
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportEventTypes')}</InputLabel>
-        <Select value={eventType} onChange={(e) => setEventType(e.target.value)} multiple>
+        <Select value={eventType} onChange={e => setEventType(e.target.value)} multiple>
           <MenuItem value="allEvents">{t('eventAll')}</MenuItem>
           <MenuItem value="deviceOnline">{t('eventDeviceOnline')}</MenuItem>
           <MenuItem value="deviceUnknown">{t('eventDeviceUnknown')}</MenuItem>
@@ -66,11 +67,9 @@ const EventReportPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item) => (
+            {items.map(item => (
               <TableRow key={item.id}>
-                <TableCell>
-                  {formatPosition(item, 'serverTime')}
-                </TableCell>
+                <TableCell>{formatPosition(item, 'serverTime')}</TableCell>
                 <TableCell>{item.type}</TableCell>
                 <TableCell>{}</TableCell>
                 <TableCell>{}</TableCell>

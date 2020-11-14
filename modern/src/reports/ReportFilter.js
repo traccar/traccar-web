@@ -4,7 +4,7 @@ import t from '../common/localization';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-const ReportFilter = (props) => {
+const ReportFilter = ({ children, handleSubmit }) => {
   const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
@@ -45,7 +45,7 @@ const ReportFilter = (props) => {
         break;
     }
 
-    props.handleSubmit(deviceId, selectedFrom, selectedTo);
+    handleSubmit(deviceId, selectedFrom, selectedTo);
   }
 
   return (
@@ -58,9 +58,6 @@ const ReportFilter = (props) => {
           ))}
         </Select>
       </FormControl>
-
-      {props.children}
-
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportPeriod')}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -80,9 +77,7 @@ const ReportFilter = (props) => {
           label={t('reportFrom')}
           type="datetime-local"
           value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={(e) =>
-            setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))
-          }
+          onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
           fullWidth />
       )}
       {period === 'custom' && (
@@ -92,11 +87,10 @@ const ReportFilter = (props) => {
           label={t('reportTo')}
           type="datetime-local"
           value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={(e) =>
-            setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))
-          }
+          onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
           fullWidth />
       )}
+      {children}
       <FormControl margin="normal" fullWidth>
         <Button type="button" color="primary" variant="contained" disabled={!deviceId} onClick={handleShow}>
           {t('reportShow')}
