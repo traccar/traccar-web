@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
+import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, FormControlLabel, Checkbox } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDistance, formatHours, formatDate, formatSpeed, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -8,18 +8,27 @@ import { useAttributePreference } from '../common/preferences';
 
 const ReportFilterForm = ({ onResult }) => {
 
+  const [daily, setDaily] = useState(false);
+
   const handleSubmit = async (deviceId, from, to) => {
     const query = new URLSearchParams({
       deviceId,
       from: from.toISOString(),
       to: to.toISOString(),
+      daily
     });
     const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers: { Accept: 'application/json' } });
     if (response.ok) {
       onResult(await response.json());
     }
   }
-  return <ReportFilter handleSubmit={handleSubmit} />;
+  return (
+    <ReportFilter handleSubmit={handleSubmit}>
+      <FormControlLabel
+        control={<Checkbox checked={daily} onChange={event => setDaily(event.target.checked)} />}
+        label={t('reportDaily')} />
+    </ReportFilter>
+  );
 }
 
 const SummaryReportPage = () => {
