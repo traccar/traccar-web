@@ -123,24 +123,24 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportEvents')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/reports/trip')}>
               <ListItemIcon>
                 <PlayCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportTrips')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/reports/stop')}>
               <ListItemIcon>
                 <PauseCircleFilledIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportStops')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/reports/summary')}>
               <ListItemIcon>
                 <FormatListBulletedIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportSummary')} />
-            </ListItem>
+            </ListItem>            
             <ListItem button disabled>
               <ListItemIcon>
                 <TrendingUpIcon />
