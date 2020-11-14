@@ -140,7 +140,7 @@ const MainToolbar = () => {
                 <FormatListBulletedIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportSummary')} />
-            </ListItem>            
+            </ListItem>
             <ListItem button disabled>
               <ListItemIcon>
                 <TrendingUpIcon />
