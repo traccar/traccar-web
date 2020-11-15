@@ -7,6 +7,7 @@ import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 
 const ReportFilterForm = ({ onResult }) => {
+
   const [eventType, setEventType] = useState(['allEvents']);
 
   const handleSubmit = async (deviceId, from, to) => {
@@ -48,6 +49,7 @@ const ReportFilterForm = ({ onResult }) => {
 }
 
 const EventReportPage = () => {
+
   const [items, setItems] = useState([]);
 
   return (

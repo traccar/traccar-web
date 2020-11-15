@@ -19,6 +19,7 @@ const ReportFilterForm = ({ onResult }) => {
 };
 
 const StopReportPage = () => {
+
   const distanceUnit = useAttributePreference('distanceUnit');
   const [items, setItems] = useState([]);
   

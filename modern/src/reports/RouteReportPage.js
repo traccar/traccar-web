@@ -10,7 +10,7 @@ const ReportFilterForm = ({ onResult }) => {
   const handleSubmit = async (deviceId, from, to) => {
     const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers: { Accept: 'application/json' } });
-    if(response.ok) {
+    if (response.ok) {
       onResult(await response.json());
     }
   }
@@ -18,6 +18,7 @@ const ReportFilterForm = ({ onResult }) => {
 };
 
 const RouteReportPage = () => {
+
   const [items, setItems] = useState([]);
 
   return (
