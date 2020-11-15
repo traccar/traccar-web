@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 const ReportFilter = ({ children, handleSubmit }) => {
-  const devices = useSelector((state) => Object.values(state.devices.items));
+  const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
@@ -45,7 +45,7 @@ const ReportFilter = ({ children, handleSubmit }) => {
         break;
     }
 
-    handleSubmit(deviceId, selectedFrom, selectedTo);
+    handleSubmit(deviceId, selectedFrom.toISOString(), selectedTo.toISOString());
   }
 
   return (

@@ -8,21 +8,18 @@ import ReportLayoutPage from './ReportLayoutPage';
 const ReportFilterForm = ({ onResult }) => {
 
   const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({
-      deviceId,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    });
+    const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers: { Accept: 'application/json' } });
     if(response.ok) {
       onResult(await response.json());
     }
   }
   return <ReportFilter handleSubmit={handleSubmit} />;
-}
+};
 
 const RouteReportPage = () => {
   const [items, setItems] = useState([]);
+
   return (
     <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
       <TableContainer component={Paper}>
@@ -51,6 +48,6 @@ const RouteReportPage = () => {
       </TableContainer>
     </ReportLayoutPage>
   );
-}
+};
 
 export default RouteReportPage;

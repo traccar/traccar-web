@@ -10,17 +10,13 @@ const ReportFilterForm = ({ onResult }) => {
   const [eventType, setEventType] = useState(['allEvents']);
 
   const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({
-      deviceId,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    });
-    eventType.map(t=>query.append('type',t));
+    const query = new URLSearchParams({ deviceId, from, to });
+    eventType.map(it => query.append('type', it));
     const response = await fetch(`/api/reports/events?${query.toString()}`, { headers: { Accept: 'application/json' } });
-    if(response.ok) {
+    if (response.ok) {
       onResult(await response.json());
     }
-  }    
+  };
 
   return (
     <ReportFilter handleSubmit={handleSubmit}>

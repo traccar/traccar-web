@@ -9,11 +9,7 @@ import { useAttributePreference } from '../common/preferences';
 const ReportFilterForm = ({ onResult }) => {
 
   const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({
-      deviceId,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    });
+    const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/reports/trips?${query.toString()}`, { headers: { Accept: 'application/json' } });
     if (response.ok) {
       onResult(await response.json());

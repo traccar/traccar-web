@@ -9,21 +9,16 @@ import { useAttributePreference } from '../common/preferences';
 const ReportFilterForm = ({ onResult }) => {
 
   const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({
-      deviceId,
-      from: from.toISOString(),
-      to: to.toISOString(),
-    });
+    const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/reports/stops?${query.toString()}`, { headers: { Accept: 'application/json' } });
     if (response.ok) {
       onResult(await response.json());
     }
   }
   return <ReportFilter handleSubmit={handleSubmit} />;
-}
+};
 
 const StopReportPage = () => {
-
   const distanceUnit = useAttributePreference('distanceUnit');
   const [items, setItems] = useState([]);
   
@@ -57,6 +52,6 @@ const StopReportPage = () => {
       </TableContainer>
     </ReportLayoutPage>
   );
-}
+};
 
 export default StopReportPage;

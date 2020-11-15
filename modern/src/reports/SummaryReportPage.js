@@ -11,12 +11,7 @@ const ReportFilterForm = ({ onResult }) => {
   const [daily, setDaily] = useState(false);
 
   const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({
-      deviceId,
-      from: from.toISOString(),
-      to: to.toISOString(),
-      daily
-    });
+    const query = new URLSearchParams({ deviceId, from, to, daily });
     const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers: { Accept: 'application/json' } });
     if (response.ok) {
       onResult(await response.json());
@@ -25,7 +20,7 @@ const ReportFilterForm = ({ onResult }) => {
   return (
     <ReportFilter handleSubmit={handleSubmit}>
       <FormControlLabel
-        control={<Checkbox checked={daily} onChange={event => setDaily(event.target.checked)} />}
+        control={<Checkbox checked={daily} onChange={e => setDaily(e.target.checked)} />}
         label={t('reportDaily')} />
     </ReportFilter>
   );
