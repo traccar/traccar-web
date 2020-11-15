@@ -6,17 +6,25 @@ import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
 
-const ReportFilterForm = ({ onResult }) => {
+const ReportFilterForm = ({ setItems }) => {
 
   const [daily, setDaily] = useState(false);
 
-  const handleSubmit = async (deviceId, from, to) => {
-    const query = new URLSearchParams({ deviceId, from, to, daily });
-    const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers: { Accept: 'application/json' } });
+  const handleSubmit = async (deviceId, from, to, mail, headers) => {
+    const query = new URLSearchParams({ deviceId, from, to, daily, mail });
+    const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers });
     if (response.ok) {
-      onResult(await response.json());
+      const contentType = response.headers.get('content-type');
+      if (contentType) {
+        if (contentType === 'application/json') {
+          setItems(await response.json());
+        } else {
+          window.location.assign(window.URL.createObjectURL(await response.blob()));
+        }
+      }
     }
   }
+
   return (
     <ReportFilter handleSubmit={handleSubmit}>
       <FormControlLabel

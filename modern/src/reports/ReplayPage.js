@@ -46,9 +46,9 @@ const ReplayPage = () => {
   const [positions, setPositions] = useState([]);
   const [index, setIndex] = useState(0);
 
-  const handleSubmit = async (deviceId, from, to) => {
+  const handleSubmit = async (deviceId, from, to, _, headers) => {
     const query = new URLSearchParams({ deviceId, from, to });
-    const response = await fetch(`/api/positions?${query.toString()}`, { headers: { 'Accept': 'application/json' } });
+    const response = await fetch(`/api/positions?${query.toString()}`, { headers });
     if (response.ok) {
       setIndex(0);
       setPositions(await response.json());
@@ -88,7 +88,7 @@ const ReplayPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.configForm}>
-              <ReportFilter handleSubmit={handleSubmit} />;
+              <ReportFilter handleSubmit={handleSubmit} showOnly />
             </AccordionDetails>
           </Accordion>
         </div>

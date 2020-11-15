@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, TextField } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, Button, TextField, ButtonGroup } from '@material-ui/core';
 import t from '../common/localization';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-const ReportFilter = ({ children, handleSubmit }) => {
+const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
 
-  const handleShow = () => {
+  const handleClick = (mail, json) => {
     let selectedFrom;
     let selectedTo;
     switch (period) {
@@ -45,7 +45,14 @@ const ReportFilter = ({ children, handleSubmit }) => {
         break;
     }
 
-    handleSubmit(deviceId, selectedFrom.toISOString(), selectedTo.toISOString());
+    const accept = json ? 'application/json' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    handleSubmit(
+      deviceId,
+      selectedFrom.toISOString(),
+      selectedTo.toISOString(),
+      mail,
+      { Accept: accept }
+    );
   }
 
   return (
@@ -92,9 +99,11 @@ const ReportFilter = ({ children, handleSubmit }) => {
       )}
       {children}
       <FormControl margin="normal" fullWidth>
-        <Button type="button" color="primary" variant="contained" disabled={!deviceId} onClick={handleShow}>
-          {t('reportShow')}
-        </Button>
+        <ButtonGroup color="primary" orientation="vertical" disabled={!deviceId}>
+          <Button onClick={() => handleClick(false, true)}>{t('reportShow')}</Button>
+          {!showOnly && <Button onClick={() => handleClick(false, false)}>{t('reportExport')}</Button>}
+          {!showOnly && <Button onClick={() => handleClick(true, false)}>{t('reportEmail')}</Button>}
+        </ButtonGroup>
       </FormControl>
     </>
   );
