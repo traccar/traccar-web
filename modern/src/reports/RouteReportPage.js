@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
+import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, Box, Button } from '@material-ui/core';
 import t from '../common/localization';
 import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -25,6 +25,11 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   return (
     <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
+      <>
+      <Box display="flex" justifyContent="flex-end" mb={1}>
+        <Button color="primary" variant="outlined">Email Report</Button>
+        <Button color="primary" variant="contained">Export</Button>
+      </Box>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -49,6 +54,7 @@ const RouteReportPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </>
     </ReportLayoutPage>
   );
 }
