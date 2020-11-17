@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Table, TableRow, TableCell, TableHead, TableBody, Paper, FormControlLabel, Checkbox } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDistance, formatHours, formatDate, formatSpeed, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
+import ReportCard from './ReportCard';
 
 const ReportFilterForm = ({ setItems }) => {
 
@@ -42,7 +43,7 @@ const SummaryReportPage = () => {
   
   return (
     <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
-      <TableContainer component={Paper}>
+      <ReportCard title="Summary Report">
         <Table>
           <TableHead>
             <TableRow>
@@ -71,7 +72,7 @@ const SummaryReportPage = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </ReportCard>
     </ReportLayoutPage>
   );
 }

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
+import { Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDistance, formatSpeed, formatHours, formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
+import ReportCard from './ReportCard';
 
 const ReportFilterForm = ({ setItems }) => {
 
@@ -34,7 +35,7 @@ const TripReportPage = () => {
 
   return (
     <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
-      <TableContainer component={Paper}>
+      <ReportCard title="Trip Report">
         <Table>
           <TableHead>
             <TableRow>
@@ -63,7 +64,7 @@ const TripReportPage = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </ReportCard>
     </ReportLayoutPage>
   );
 }
