@@ -141,7 +141,7 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportSummary')} />
             </ListItem>
-            <ListItem button disabled>
+            <ListItem button onClick={() => history.push('/reports/chart')}>
               <ListItemIcon>
                 <TrendingUpIcon />
               </ListItemIcon>

@@ -9,7 +9,7 @@ export const formatPosition = (value, key) => {
     case 'fixTime':
     case 'deviceTime':
     case 'serverTime':
-      return moment(value).format('LLL');
+      return moment(value).format('YYYY-MM-DD HH:mm');
     case 'latitude':
     case 'longitude':
       return value.toFixed(5);
