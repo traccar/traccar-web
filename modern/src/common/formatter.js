@@ -9,7 +9,7 @@ export const formatPosition = (value, key) => {
     case 'fixTime':
     case 'deviceTime':
     case 'serverTime':
-      return moment(value).format('YYYY-MM-DD HH:mm');
+      return moment(value).format('LLL');
     case 'latitude':
     case 'longitude':
       return value.toFixed(5);
@@ -79,4 +79,27 @@ export const formatVolume = (value, unit) => {
 
 export const formatHours = (value) => {
   return moment.duration(value).humanize();
+};
+
+const speedConverter = (value, unit) => {
+  switch (unit) {
+    case 'kmh':
+      return (value * 1.852).toFixed(2);
+    case 'mph':
+      return (value * 1.15078).toFixed(2);
+    case 'kn':
+    default:
+        return (value * 1).toFixed(2);
+  }
+};
+
+export const getConverter = (key) => {
+  switch (key) {
+    case 'speed':
+      return speedConverter;
+    default:
+      return function (value) {
+        return value;
+      }
+  }
 };

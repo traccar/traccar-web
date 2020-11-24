@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, children }) => {
+const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, setType, children }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -27,7 +27,7 @@ const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, childre
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>
             <Paper className={classes.form}>
-              <ReportFilterForm setItems={ setItems } />
+              <ReportFilterForm setItems={ setItems } setType={ setType }/>
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
