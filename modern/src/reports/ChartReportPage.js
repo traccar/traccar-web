@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Paper, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Box, Paper } from '@material-ui/core';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
-import t from '../common/localization';
-import { chartTypes } from '../common/chartTypes';
 import { useAttributePreference } from '../common/preferences';
 import { getConverter, formatDate } from '../common/formatter';
-
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const ReportFilterForm = ({ setItems, setType }) => {
+const ReportFilterForm = ({ setItems }) => {
 
   const speedUnit = useAttributePreference('speedUnit');
 
@@ -20,7 +17,7 @@ const ReportFilterForm = ({ setItems, setType }) => {
       const data = await response.json();
       let formattedData = data.map((obj)=>{
         return Object.assign(obj, 
-                              {speed: getConverter('speed')(obj.speed, speedUnit)},
+                              {speed: Number(getConverter('speed')(obj.speed, speedUnit))},
                               {fixTime: formatDate(obj.fixTime)}
                             );
       })
@@ -29,16 +26,7 @@ const ReportFilterForm = ({ setItems, setType }) => {
   }
 
   return (
-    <ReportFilter handleSubmit={handleSubmit} showOnly >
-      <FormControl variant="filled" margin="normal" fullWidth>
-      <InputLabel>{t('reportChartType')}</InputLabel>
-      <Select defaultValue="speed" onChange={e => setType(e.target.value)}>
-      {chartTypes.map(item => (
-            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-          ))}
-      </Select>
-      </FormControl>
-    </ReportFilter>
+    <ReportFilter handleSubmit={handleSubmit} showOnly />
   )
 };
 
@@ -58,7 +46,7 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
 
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} setType={setType}>
+    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} setType={setType} showChartType>
       <Paper>
         <Box height={400}>
           <ResponsiveContainer>

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Grid, Paper, makeStyles } from '@material-ui/core';
+import { Grid, Paper, makeStyles, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import MainToolbar from '../MainToolbar';
+import { chartTypes } from '../common/chartTypes';
+import t from '../common/localization';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,9 +18,13 @@ const useStyles = makeStyles(theme => ({
   form: {
     padding: theme.spacing(1, 2, 2),
   },
+  chart: {
+    padding: theme.spacing(1, 2, 2),
+    marginTop: theme.spacing(1),
+  },
 }));
 
-const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, setType, children }) => {
+const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, setType, showChartType, children }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -27,8 +33,20 @@ const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, setType
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>
             <Paper className={classes.form}>
-              <ReportFilterForm setItems={ setItems } setType={ setType }/>
+              <ReportFilterForm setItems={ setItems } />
             </Paper>
+            {showChartType && (
+              <Paper className={classes.chart}>
+                <FormControl variant="filled" margin="normal" fullWidth>
+                <InputLabel>{t('reportChartType')}</InputLabel>
+                <Select defaultValue="speed" onChange={e => setType(e.target.value)}>
+                {chartTypes.map(item => (
+                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                ))}
+                </Select>
+                </FormControl>
+              </Paper>
+            )}
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
             {children}
