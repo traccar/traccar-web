@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Paper, makeStyles, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import MainToolbar from '../MainToolbar';
-import { chartTypes } from '../common/chartTypes';
 import t from '../common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, setType, showChartType, children }) => {
+const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, type, setType, showChartType, children }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -39,10 +38,10 @@ const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, setType
               <Paper className={classes.chart}>
                 <FormControl variant="filled" margin="normal" fullWidth>
                 <InputLabel>{t('reportChartType')}</InputLabel>
-                <Select defaultValue="speed" onChange={e => setType(e.target.value)}>
-                {chartTypes.map(item => (
-                  <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                ))}
+                <Select value={type} onChange={e => setType(e.target.value)}>
+                  <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
+                  <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
+                  <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
                 </Select>
                 </FormControl>
               </Paper>

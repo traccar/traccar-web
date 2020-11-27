@@ -3,7 +3,8 @@ import { Box, Paper } from '@material-ui/core';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
-import { getConverter, formatDate } from '../common/formatter';
+import { formatDate } from '../common/formatter';
+import { getConverter } from '../common/converter';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const ReportFilterForm = ({ setItems }) => {
@@ -14,13 +15,17 @@ const ReportFilterForm = ({ setItems }) => {
     const query = new URLSearchParams({ deviceId, from, to, mail });
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
     if (response.ok) {
+
       const data = await response.json();
-      let formattedData = data.map((obj)=>{
-        return Object.assign(obj, 
-                              {speed: Number(getConverter('speed')(obj.speed, speedUnit))},
-                              {fixTime: formatDate(obj.fixTime)}
-                            );
-      })
+
+      let formattedData = data.map(obj => {
+        return Object.assign(
+          obj, 
+          {speed: Number(getConverter('speed')(obj.speed, speedUnit))},
+          {fixTime: formatDate(obj.fixTime)}
+        );
+      });
+      
       setItems(formattedData);
     }
   }
@@ -46,7 +51,7 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
 
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} setType={setType} showChartType>
+    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} type={type} setType={setType} showChartType>
       <Paper>
         <Box height={400}>
           <ResponsiveContainer>
