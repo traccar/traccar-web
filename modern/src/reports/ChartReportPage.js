@@ -4,7 +4,7 @@ import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
 import { formatDate } from '../common/formatter';
-import { getConverter } from '../common/converter';
+import { speedConverter } from '../common/converter';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const ReportFilterForm = ({ setItems }) => {
@@ -16,17 +16,18 @@ const ReportFilterForm = ({ setItems }) => {
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
     if (response.ok) {
 
-      const data = await response.json();
+      const positions = await response.json();
 
-      let formattedData = data.map(obj => {
-        return Object.assign(
-          obj, 
-          {speed: Number(getConverter('speed')(obj.speed, speedUnit))},
-          {fixTime: formatDate(obj.fixTime)}
-        );
+      let formattedPositions = positions.map(position => {
+        return {
+          speed:Number(speedConverter(position.speed, speedUnit)),
+          altitude:position.altitude,
+          accuracy:position.accuracy,
+          fixTime:formatDate(position.fixTime)
+        }
       });
       
-      setItems(formattedData);
+      setItems(formattedPositions);
     }
   }
 

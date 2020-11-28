@@ -1,4 +1,4 @@
-const speedConverter = (value, unit) => {
+export const speedConverter = (value, unit) => {
   let factor;
   switch (unit) {
     case 'kmh':
@@ -10,15 +10,4 @@ const speedConverter = (value, unit) => {
       factor = 1;
   }
   return (value * factor).toFixed(2);
-};
-
-export const getConverter = (key) => {
-  switch (key) {
-    case 'speed':
-      return speedConverter;
-    default:
-      return function (value) {
-        return value;
-      }
-  }
 };
