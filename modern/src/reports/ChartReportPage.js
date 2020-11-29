@@ -20,10 +20,10 @@ const ReportFilterForm = ({ setItems }) => {
 
       let formattedPositions = positions.map(position => {
         return {
-          speed:Number(speedConverter(position.speed, speedUnit)),
-          altitude:position.altitude,
-          accuracy:position.accuracy,
-          fixTime:formatDate(position.fixTime)
+          speed: Number(speedConverter(position.speed, speedUnit)),
+          altitude: position.altitude,
+          accuracy: position.accuracy,
+          fixTime: formatDate(position.fixTime)
         }
       });
       
