@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Paper } from '@material-ui/core';
+import { Box, Paper, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
 import { formatDate } from '../common/formatter';
 import { speedConverter } from '../common/converter';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import t from '../common/localization';
 
-const ReportFilterForm = ({ setItems }) => {
+const ReportFilterForm = ({ setItems, type, setType }) => {
 
   const speedUnit = useAttributePreference('speedUnit');
 
@@ -32,7 +33,17 @@ const ReportFilterForm = ({ setItems }) => {
   }
 
   return (
-    <ReportFilter handleSubmit={handleSubmit} showOnly />
+    <React.Fragment>
+      <ReportFilter handleSubmit={handleSubmit} showOnly />
+      <FormControl variant="filled" margin="normal" fullWidth>
+      <InputLabel>{t('reportChartType')}</InputLabel>
+      <Select value={type} onChange={e => setType(e.target.value)}>
+        <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
+        <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
+        <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
+      </Select>
+      </FormControl>
+    </React.Fragment>
   )
 };
 
@@ -52,7 +63,7 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
 
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} type={type} setType={setType} showChartType>
+    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} type={type} setType={setType}>
       <Paper>
         <Box height={400}>
           <ResponsiveContainer>
