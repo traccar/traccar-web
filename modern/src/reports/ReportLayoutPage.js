@@ -27,7 +27,7 @@ const ReportLayoutPage = ({ reportFilterForm:ReportFilterForm, setItems, type, s
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} lg={2}>
             <Paper className={classes.form}>
-              <ReportFilterForm setItems={ setItems } type={ type } setType={ setType }/>
+              <ReportFilterForm setItems={ setItems } type={ type } setType={ setType } />
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>

@@ -33,17 +33,17 @@ const ReportFilterForm = ({ setItems, type, setType }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <ReportFilter handleSubmit={handleSubmit} showOnly />
       <FormControl variant="filled" margin="normal" fullWidth>
-      <InputLabel>{t('reportChartType')}</InputLabel>
-      <Select value={type} onChange={e => setType(e.target.value)}>
-        <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
-        <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
-        <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
-      </Select>
+        <InputLabel>{t('reportChartType')}</InputLabel>
+        <Select value={type} onChange={e => setType(e.target.value)}>
+          <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
+          <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
+          <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
+        </Select>
       </FormControl>
-    </React.Fragment>
+    </>
   )
 };
 
