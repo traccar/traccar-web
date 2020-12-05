@@ -91,7 +91,7 @@
         'zh_TW': { name: '中文 (Taiwan)', code: 'zh_TW' }
     };
 
-    languageDefault = 'en';
+    languageDefault = 'es';
     localeParameter = window.location.search.match(/locale=([^&#]+)/);
     locale.language = localeParameter && localeParameter[1];
     if (!(locale.language in locale.languages)) {
