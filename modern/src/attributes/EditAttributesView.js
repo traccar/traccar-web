@@ -106,7 +106,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
               <InputLabel>{getAttributeName(key)}</InputLabel>
               <FilledInput
                 type={type === 'number' ? 'number' : 'text'}
-                defaultValue={value}
+                value={value || ''}
                 onChange={e => updateAttribute(key, e.target.value)}
                 endAdornment={
                   <InputAdornment position="end">

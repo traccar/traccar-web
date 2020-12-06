@@ -63,7 +63,7 @@ const ServerPage = () => {
               <AccordionDetails className={classes.details}>
                 <TextField
                   margin="normal"
-                  defaultValue={item.announcement}
+                  value={item.announcement || ''}
                   onChange={event => setItem({...item, announcement: event.target.value})}
                   label={t('serverAnnouncement')}
                   variant="filled" />

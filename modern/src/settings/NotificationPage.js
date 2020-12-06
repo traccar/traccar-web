@@ -36,7 +36,8 @@ const NotificationPage = () => {
             <AccordionDetails className={classes.details}>
               <SelectField
                 margin="normal"
-                defaultValue={item.type}
+                value={item.type || 'alarm'}
+                emptyValue={null}
                 onChange={e => setItem({...item, type: e.target.value})}
                 endpoint="/api/notifications/types"
                 keyGetter={it => it.type}
@@ -46,18 +47,18 @@ const NotificationPage = () => {
               <SelectField
                 multiple
                 margin="normal"
-                defaultValue={item.notificators ? item.notificators.split(/[, ]+/) : []}
+                value={item.notificators ? item.notificators.split(/[, ]+/) : []}
                 onChange={e => setItem({...item, notificators: e.target.value.join()})}
                 endpoint="/api/notifications/notificators"
                 keyGetter={it => it.type}
                 titleGetter={it => t(prefixString('notificator', it.type))}
                 label={t('notificationNotificators')}
                 variant="filled" />
-              {item.type === 'alarm' &&
+              {(!item.type || item.type === 'alarm') &&
                 <SelectField
                   multiple
                   margin="normal"
-                  defaultValue={item.attributes && item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
+                  value={item.attributes && item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
                   onChange={e => setItem({...item, attributes: {...item.attributes, alarms: e.target.value.join()}})}
                   data={alarms}
                   keyGetter={it => it.key}

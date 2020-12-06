@@ -7,7 +7,8 @@ const SelectField = ({
   variant,
   label,
   multiple,
-  defaultValue,
+  value,
+  emptyValue = 0,
   onChange,
   endpoint,
   data,
@@ -31,10 +32,10 @@ const SelectField = ({
         <InputLabel>{label}</InputLabel>
         <Select
           multiple={multiple}
-          defaultValue={defaultValue}
+          value={value}
           onChange={onChange}>
-          {!multiple &&
-            <MenuItem value={0}>&nbsp;</MenuItem>
+          {!multiple && emptyValue !== null &&
+            <MenuItem value={emptyValue}>&nbsp;</MenuItem>
           }
           {items.map(item => (
             <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>

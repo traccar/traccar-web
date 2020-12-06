@@ -36,13 +36,13 @@ const DevicePage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 margin="normal"
-                defaultValue={item.name}
+                value={item.name || ''}
                 onChange={event => setItem({...item, name: event.target.value})}
                 label={t('sharedName')}
                 variant="filled" />
               <TextField
                 margin="normal"
-                defaultValue={item.uniqueId}
+                value={item.uniqueId || ''}
                 onChange={event => setItem({...item, uniqueId: event.target.value})}
                 label={t('deviceIdentifier')}
                 variant="filled" />
@@ -57,32 +57,33 @@ const DevicePage = () => {
             <AccordionDetails className={classes.details}>
               <SelectField
                 margin="normal"
-                defaultValue={item.groupId}
+                value={item.groupId || 0}
                 onChange={event => setItem({...item, groupId: Number(event.target.value)})}
                 endpoint="/api/groups"
                 label={t('groupParent')}
                 variant="filled" />
               <TextField
                 margin="normal"
-                defaultValue={item.phone}
+                value={item.phone || ''}
                 onChange={event => setItem({...item, phone: event.target.value})}
                 label={t('sharedPhone')}
                 variant="filled" />
               <TextField
                 margin="normal"
-                defaultValue={item.model}
+                value={item.model || ''}
                 onChange={event => setItem({...item, model: event.target.value})}
                 label={t('deviceModel')}
                 variant="filled" />
               <TextField
                 margin="normal"
-                defaultValue={item.contact}
+                value={item.contact || ''}
                 onChange={event => setItem({...item, contact: event.target.value})}
                 label={t('deviceContact')}
                 variant="filled" />
               <SelectField
                 margin="normal"
-                defaultValue={item.category}
+                value={item.category || 'default'}
+                emptyValue={null}
                 onChange={event => setItem({...item, category: event.target.value})}
                 data={deviceCategories.map(category => ({
                   id: category,

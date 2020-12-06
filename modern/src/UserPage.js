@@ -33,13 +33,13 @@ const UserPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 margin="normal"
-                defaultValue={item.name}
+                value={item.name || ''}
                 onChange={event => setItem({...item, name: event.target.value})}
                 label={t('sharedName')}
                 variant="filled" />
               <TextField
                 margin="normal"
-                defaultValue={item.email}
+                value={item.email || ''}
                 onChange={event => setItem({...item, email: event.target.value})}
                 label={t('userEmail')}
                 variant="filled" />

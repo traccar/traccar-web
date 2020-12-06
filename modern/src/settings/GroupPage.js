@@ -33,7 +33,7 @@ const GroupPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 margin="normal"
-                defaultValue={item.name}
+                value={item.name || ''}
                 onChange={event => setItem({...item, name: event.target.value})}
                 label={t('sharedName')}
                 variant="filled" />
@@ -48,7 +48,7 @@ const GroupPage = () => {
             <AccordionDetails className={classes.details}>
               <SelectField
                 margin="normal"
-                defaultValue={item.groupId}
+                value={item.groupId || 0}
                 onChange={event => setItem({...item, groupId: Number(event.target.value)})}
                 endpoint="/api/groups"
                 label={t('groupParent')}
