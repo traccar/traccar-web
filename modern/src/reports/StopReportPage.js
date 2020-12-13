@@ -6,7 +6,7 @@ import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
 
-const ReportFilterForm = ({ setItems }) => {
+const Filter = ({ setItems }) => {
 
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({ deviceId, from, to, mail });
@@ -32,7 +32,7 @@ const StopReportPage = () => {
   const [items, setItems] = useState([]);
   
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
+    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>

@@ -6,7 +6,7 @@ import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
 
-const ReportFilterForm = ({ setItems }) => {
+const Filter = ({ setItems }) => {
 
   const [daily, setDaily] = useState(false);
 
@@ -41,7 +41,7 @@ const SummaryReportPage = () => {
   const [items, setItems] = useState([]);
   
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
+    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
