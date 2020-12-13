@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Paper, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import ReportFilter from './ReportFilter';
+import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import ReportLayoutPage from './ReportLayoutPage';
+import ReportFilter from './ReportFilter';
+import Graph from './Graph';
 import { useAttributePreference } from '../common/preferences';
 import { formatDate } from '../common/formatter';
 import { speedConverter } from '../common/converter';
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import t from '../common/localization';
 
-const ReportFilterForm = ({ setItems, type, setType }) => {
+const Filter = ({ children, setItems }) => {
 
   const speedUnit = useAttributePreference('speedUnit');
 
@@ -16,9 +16,7 @@ const ReportFilterForm = ({ setItems, type, setType }) => {
     const query = new URLSearchParams({ deviceId, from, to, mail });
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
     if (response.ok) {
-
       const positions = await response.json();
-
       let formattedPositions = positions.map(position => {
         return {
           speed: Number(speedConverter(position.speed, speedUnit)),
@@ -27,59 +25,48 @@ const ReportFilterForm = ({ setItems, type, setType }) => {
           fixTime: formatDate(position.fixTime)
         }
       });
-      
       setItems(formattedPositions);
     }
   }
-
   return (
     <>
       <ReportFilter handleSubmit={handleSubmit} showOnly />
-      <FormControl variant="filled" margin="normal" fullWidth>
-        <InputLabel>{t('reportChartType')}</InputLabel>
-        <Select value={type} onChange={e => setType(e.target.value)}>
-          <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
-          <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
-          <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
-        </Select>
-      </FormControl>
+      {children}
     </>
   )
-};
-
-const CustomizedAxisTick = ({ x, y, payload }) =>{
-  const parts = payload.value.split(' ');
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{parts[0]}</text>
-      <text x={0} y={16} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">{parts[1]}</text>
-    </g>
-  );
 }
 
-const ChartReportPage = () => {
+const ChartType = ({ type, setType }) => {
 
+  return (
+    <FormControl variant="filled" margin="normal" fullWidth>
+      <InputLabel>{t('reportChartType')}</InputLabel>
+      <Select value={type} onChange={e => setType(e.target.value)}>
+        <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
+        <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
+        <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
+      </Select>
+    </FormControl>
+  )
+}
+
+
+const ChartReportPage = () => {
+  
   const [items, setItems] = useState([]);
   const [type, setType] = useState('speed');
 
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems} type={type} setType={setType}>
-      <Paper>
-        <Box height={400}>
-          <ResponsiveContainer>
-            <LineChart data={items}>
-              <XAxis dataKey="fixTime" tick={<CustomizedAxisTick/>} height={60} />
-              <YAxis />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip />
-              <Legend />
-              <Line type="natural" dataKey={type} />
-            </LineChart>
-          </ResponsiveContainer>
-        </Box>
-      </Paper>
-    </ReportLayoutPage>
-  );
-};
+    <>
+      <ReportLayoutPage filter={ 
+        <Filter setItems={setItems}>
+          <ChartType type={type} setType={setType} />
+        </Filter>
+      }>
+        <Graph items={items} type={type} />
+      </ReportLayoutPage>
+    </>
+  )
+}
 
 export default ChartReportPage;

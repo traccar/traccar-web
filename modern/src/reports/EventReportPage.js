@@ -6,7 +6,7 @@ import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 
-const ReportFilterForm = ({ setItems }) => {
+const Filter = ({ setItems }) => {
 
   const [eventTypes, setEventTypes] = useState(['allEvents']);
 
@@ -60,7 +60,7 @@ const EventReportPage = () => {
   const [items, setItems] = useState([]);
 
   return (
-    <ReportLayoutPage reportFilterForm={ReportFilterForm} setItems={setItems}>
+    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
