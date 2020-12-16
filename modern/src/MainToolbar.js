@@ -173,6 +173,12 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('settingsGroups')} />
             </ListItem>
+            <ListItem button onClick={() => history.push('/settings/drivers')}>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('sharedDrivers')} />
+            </ListItem>            
           </List>
           {adminEnabled && (
             <>

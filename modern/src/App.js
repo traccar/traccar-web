@@ -22,6 +22,8 @@ import TripReportPage from './reports/TripReportPage';
 import StopReportPage from './reports/StopReportPage';
 import SummaryReportPage from './reports/SummaryReportPage';
 import ChartReportPage from './reports/ChartReportPage';
+import DriversPage from './settings/DriversPage';
+import DriverPage from './settings/DriverPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -52,6 +54,8 @@ const App = () => {
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
               <Route exact path='/reports/chart' component={ChartReportPage} />
+              <Route exact path='/settings/drivers' component={DriversPage} />
+              <Route exact path='/settings/driver/:id?' component={DriverPage} />
             </Switch>
           )}
         </Route>
