@@ -42,20 +42,20 @@ const App = () => {
               <Route exact path='/position/:id?' component={PositionPage} />
               <Route exact path='/user/:id?' component={UserPage} />
               <Route exact path='/device/:id?' component={DevicePage} />
-              <Route exact path='/reports/route' component={RouteReportPage} />
               <Route exact path='/settings/notifications' component={NotificationsPage} />
               <Route exact path='/settings/notification/:id?' component={NotificationPage} />
               <Route exact path='/settings/groups' component={GroupsPage} />
               <Route exact path='/settings/group/:id?' component={GroupPage} />
+              <Route exact path='/settings/drivers' component={DriversPage} />
+              <Route exact path='/settings/driver/:id?' component={DriverPage} />              
               <Route exact path='/admin/server' component={ServerPage} />
               <Route exact path='/admin/users' component={UsersPage} />
+              <Route exact path='/reports/route' component={RouteReportPage} />              
               <Route exact path='/reports/event' component={EventReportPage} />
               <Route exact path='/reports/trip' component={TripReportPage} />
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
               <Route exact path='/reports/chart' component={ChartReportPage} />
-              <Route exact path='/settings/drivers' component={DriversPage} />
-              <Route exact path='/settings/driver/:id?' component={DriverPage} />
             </Switch>
           )}
         </Route>
