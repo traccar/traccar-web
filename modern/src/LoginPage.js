@@ -112,7 +112,7 @@ const LoginPage = () => {
               <Button type='button' variant='contained' disabled onClick={handleRegister}>
                 {t('loginRegister')}
               </Button>
-              <Button type='submit' variant='contained' color='primary' disabled={!email || !password}>
+              <Button type='submit' variant='contained' color='secondary.main' disabled={!email || !password}>
                 {t('loginLogin')}
               </Button>
             </div>

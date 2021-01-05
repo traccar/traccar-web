@@ -15,7 +15,12 @@
 .toolbar-header-style {
     background-color: #d42626 !important;
 }
-
+.x-panel-header-default {
+    background-color: #d42626 !important;
+}
+.x-btn-default-small {
+    background-color: #d42626 !important;
+}
 body.x-border-layout-ct, div.x-border-layout-ct {
     background-color: #bbbbbb !important;
 }
