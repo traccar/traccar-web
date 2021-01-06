@@ -25,6 +25,17 @@ const ComputedAttributePage =() => {
     type: value.type,
   }));
 
+  const handleChange = event => {
+    const newValue = event.target.value;
+    setKey(newValue);
+    const positionAttribute = positionAttributes[newValue];
+    if(positionAttribute && positionAttribute.type) {
+      setItem({...item, attribute: newValue, type: positionAttribute.type});
+    } else {
+      setItem({...item, attribute: newValue});
+    }
+  }
+
   return (
     <EditItemView endpoint="/attributes/computed" item={item} setItem={setItem}>
       {item &&
@@ -45,16 +56,7 @@ const ComputedAttributePage =() => {
               <InputLabel>{t('sharedAttribute')}</InputLabel>
               <Select 
                 value={item.attribute || ''} 
-                onChange={(e) => {
-                  const newValue = e.target.value;
-                  const positionAttribute = positionAttributes[newValue];
-                  setKey(newValue);
-                  if(positionAttribute && positionAttribute.type) {
-                    setItem({...item, attribute: newValue, type: positionAttribute.type});
-                  }else {
-                    setItem({...item, attribute: newValue});
-                  }
-                }}>
+                onChange={handleChange}>
                 {options.map((option) => (
                   <MenuItem key={option.key} value={option.key}>{option.name}</MenuItem>
                 ))}

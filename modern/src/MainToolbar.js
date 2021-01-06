@@ -179,7 +179,7 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('sharedDrivers')} />
             </ListItem>
-            <ListItem button onClick={() => history.push('/settings/attributes/computed')}>
+            <ListItem button onClick={() => history.push('/settings/attributes')}>
               <ListItemIcon>
                 <StorageIcon />
               </ListItemIcon>

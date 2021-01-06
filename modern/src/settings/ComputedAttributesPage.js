@@ -61,7 +61,7 @@ const ComputedAttributesPage = () => {
   return (
     <>
       <MainToolbar />
-      <EditCollectionView content={ComputedAttributeView} editPath="/settings/attribute/computed" endpoint="attributes/computed" />
+      <EditCollectionView content={ComputedAttributeView} editPath="/settings/attribute" endpoint="attributes/computed" />
     </>
   );
 }
