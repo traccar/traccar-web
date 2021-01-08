@@ -32,7 +32,7 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
     <Table>
       <TableHead>
         <TableRow>
-          {adminEnabled && (<TableCell className={classes.columnAction} />)}
+          {adminEnabled && <TableCell className={classes.columnAction} />}
           <TableCell>{t('sharedDescription')}</TableCell>
           <TableCell>{t('sharedAttribute')}</TableCell>
           <TableCell>{t('sharedExpression')}</TableCell>
@@ -43,13 +43,11 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
         {items.map((item) => (
           <TableRow key={item.id}>
             {adminEnabled &&
-              (
-                <TableCell className={classes.columnAction} padding="none">
-                  <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
-                    <MoreVertIcon />
-                  </IconButton>
-                </TableCell>
-              )
+              <TableCell className={classes.columnAction} padding="none">
+                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
+                  <MoreVertIcon />
+                </IconButton>
+              </TableCell>
             }
             <TableCell>{item.description}</TableCell>
             <TableCell>{item.attribute}</TableCell>

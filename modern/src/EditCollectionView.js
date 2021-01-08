@@ -63,11 +63,9 @@ const EditCollectionView = ({ content, editPath, endpoint }) => {
     <>
       <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} />
       {adminEnabled && 
-        (
-          <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
-            <AddIcon />
-          </Fab>          
-        )
+        <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
+          <AddIcon />
+        </Fab>
       }
       <Menu open={!!selectedAnchorEl} anchorEl={selectedAnchorEl} onClose={menuHide}>
         <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
