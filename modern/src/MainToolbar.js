@@ -178,7 +178,13 @@ const MainToolbar = () => {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary={t('sharedDrivers')} />
-            </ListItem>            
+            </ListItem>
+            <ListItem button onClick={() => history.push('/settings/attributes')}>
+              <ListItemIcon>
+                <StorageIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('sharedComputedAttributes')} />
+            </ListItem>
           </List>
           {adminEnabled && (
             <>

@@ -24,6 +24,8 @@ import SummaryReportPage from './reports/SummaryReportPage';
 import ChartReportPage from './reports/ChartReportPage';
 import DriversPage from './settings/DriversPage';
 import DriverPage from './settings/DriverPage';
+import ComputedAttributesPage from './settings/ComputedAttributesPage';
+import ComputedAttributePage from './settings/ComputedAttributePage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -47,7 +49,9 @@ const App = () => {
               <Route exact path='/settings/groups' component={GroupsPage} />
               <Route exact path='/settings/group/:id?' component={GroupPage} />
               <Route exact path='/settings/drivers' component={DriversPage} />
-              <Route exact path='/settings/driver/:id?' component={DriverPage} />              
+              <Route exact path='/settings/driver/:id?' component={DriverPage} />
+              <Route exact path='/settings/attributes' component={ComputedAttributesPage} />
+              <Route exact path='/settings/attribute/:id?' component={ComputedAttributePage} />                            
               <Route exact path='/admin/server' component={ServerPage} />
               <Route exact path='/admin/users' component={UsersPage} />
               <Route exact path='/reports/route' component={RouteReportPage} />              
