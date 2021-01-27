@@ -6,12 +6,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
-import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
-const RegisterDialog = ({ open, onResult }) => {
+const RegisterDialog = ({ showDialog, onResult }) => {
   const [formFields, setFormFields] = useState({});
   const [validationErrors, setValidationErrors] = useState({});
-  const [errorResponse, setErrorResponse] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleChange = (event) => {
     setFormFields({ ...formFields, [event.target.name]: event.target.value });
@@ -19,14 +19,11 @@ const RegisterDialog = ({ open, onResult }) => {
   }
 
   const handleRegister = async (event) => {
-    event.preventDefault();
-    setErrorResponse(null);
     let objErrors = {};
     if (formFields.name.trim() === '') {
       objErrors.name = true;
     }
-    if (!
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(formFields.email)) {
+    if (!/(.+)@(.+)\.(.{2,})/.test(formFields.email)) {
       objErrors.email = true;
     }
     if (formFields.password.trim() === '') {
@@ -44,21 +41,23 @@ const RegisterDialog = ({ open, onResult }) => {
     });
 
     if (response.ok) {
-      onResult(true)
-    } else {
-      setErrorResponse(t('errorGeneral'));
+      showDialog = false;
+      setSnackbarOpen(true);
     }
   }
 
-  return (
-    <Dialog
-      open={open}
+  if (snackbarOpen) {
+    return <Snackbar
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
+      open={snackbarOpen} autoHideDuration={6000}
+      onClose={() => { onResult(true) }} message={t('loginCreated')}
+    />
+  } else if (showDialog) {
+    return <Dialog
+      open={true}
       onClose={() => { onResult(false) }}>
       <DialogContent>
         <DialogContentText>{t('loginRegister')}</DialogContentText>
-
-        {errorResponse && <Alert severity="error">{errorResponse}</Alert>}
-
         <TextField
           margin='normal'
           required
@@ -70,8 +69,7 @@ const RegisterDialog = ({ open, onResult }) => {
           autoComplete='name'
           autoFocus
           onChange={handleChange}
-          helperText={validationErrors.name && 'Name is required'} />
-
+          helperText={validationErrors.name && t('sharedRequired')} />
         <TextField
           margin='normal'
           required
@@ -82,8 +80,7 @@ const RegisterDialog = ({ open, onResult }) => {
           value={formFields.email || ''}
           autoComplete='email'
           onChange={handleChange}
-          helperText={validationErrors.email && 'Invalid e-mail'} />
-
+          helperText={validationErrors.email && t('sharedRequired')} />
         <TextField
           margin='normal'
           required
@@ -95,15 +92,15 @@ const RegisterDialog = ({ open, onResult }) => {
           type='password'
           autoComplete='current-password'
           onChange={handleChange}
-          helperText={validationErrors.password && 'Password is required'} />
-
+          helperText={validationErrors.password && t('sharedRequired')} />
       </DialogContent>
       <DialogActions>
         <Button color="primary" onClick={handleRegister} disabled={!formFields.name || !formFields.email || !formFields.password}>{t('loginRegister')}</Button>
         <Button autoFocus onClick={() => onResult(false)}>{t('sharedCancel')}</Button>
       </DialogActions>
-    </Dialog>
-  );
+    </Dialog>;
+  } else return null;
+
 };
 
 export default RegisterDialog;

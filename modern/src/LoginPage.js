@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import RegisterDialog from './RegisterDialog';
-import Snackbar from '@material-ui/core/Snackbar';
 import { useSelector } from 'react-redux';
 
 import t from './common/localization';
@@ -51,18 +50,12 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [registerDialogShown, setRegisterDialogShown] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const classes = useStyles();
   const history = useHistory();
 
-  const server = useSelector(state => state.session.server);
-
-  let registrationPref = false;
-  if (server) {
-    registrationPref = server['registration']
-  }
-
+  const registrationPref =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
+ 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   }
@@ -75,11 +68,8 @@ const LoginPage = () => {
     setRegisterDialogShown(true);
   }
 
-  const handleRegisterResult = (resultOk) => {
+  const handleRegisterResult = () => {
     setRegisterDialogShown(false);
-    if (resultOk) {
-      setSnackbarOpen(true);
-    }
   }
 
   const handleLogin = async (event) => {
@@ -137,12 +127,11 @@ const LoginPage = () => {
             </div>
           </FormControl>
         </form>
-        {registerDialogShown && <RegisterDialog open={registerDialogShown} onResult={handleRegisterResult} />}
-        <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
-          open={snackbarOpen} autoHideDuration={6000}
-          onClose={()=>{setSnackbarOpen(false);}} message={t('loginCreated')}
-        />
+
+        {registerDialogShown && 
+          <RegisterDialog showDialog={true} onResult={handleRegisterResult} />
+        }
+      
       </Paper>
     </main>
   );
