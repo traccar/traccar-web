@@ -47,11 +47,14 @@ const RegisterDialog = ({ showDialog, onResult }) => {
   }
 
   if (snackbarOpen) {
-    return <Snackbar
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center', }}
-      open={snackbarOpen} autoHideDuration={6000}
-      onClose={() => { onResult(true) }} message={t('loginCreated')}
-    />
+    return (
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => { onResult(true) }}
+        message={t('loginCreated')} />
+    );
   } else if (showDialog) {
     return <Dialog
       open={true}
