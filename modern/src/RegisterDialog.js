@@ -20,14 +20,8 @@ const RegisterDialog = ({ showDialog, onResult }) => {
 
   const handleRegister = async (event) => {
     let objErrors = {};
-    if (formFields.name.trim() === '') {
-      objErrors.name = true;
-    }
     if (!/(.+)@(.+)\.(.{2,})/.test(formFields.email)) {
       objErrors.email = true;
-    }
-    if (formFields.password.trim() === '') {
-      objErrors.password = true;
     }
     if (Object.keys(objErrors).length !== 0) {
       setValidationErrors(objErrors);
@@ -56,52 +50,54 @@ const RegisterDialog = ({ showDialog, onResult }) => {
         message={t('loginCreated')} />
     );
   } else if (showDialog) {
-    return <Dialog
-      open={true}
-      onClose={() => { onResult(false) }}>
-      <DialogContent>
-        <DialogContentText>{t('loginRegister')}</DialogContentText>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          error={validationErrors.name}
-          label={t('sharedName')}
-          name='name'
-          value={formFields.name || ''}
-          autoComplete='name'
-          autoFocus
-          onChange={handleChange}
-          helperText={validationErrors.name && t('sharedRequired')} />
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          error={validationErrors.email}
-          label={t('userEmail')}
-          name='email'
-          value={formFields.email || ''}
-          autoComplete='email'
-          onChange={handleChange}
-          helperText={validationErrors.email && t('sharedRequired')} />
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          error={validationErrors.password}
-          label={t('userPassword')}
-          name='password'
-          value={formFields.password || ''}
-          type='password'
-          autoComplete='current-password'
-          onChange={handleChange}
-          helperText={validationErrors.password && t('sharedRequired')} />
-      </DialogContent>
-      <DialogActions>
-        <Button color="primary" onClick={handleRegister} disabled={!formFields.name || !formFields.email || !formFields.password}>{t('loginRegister')}</Button>
-        <Button autoFocus onClick={() => onResult(false)}>{t('sharedCancel')}</Button>
-      </DialogActions>
-    </Dialog>;
+    return (
+      <Dialog
+        open={true}
+        onClose={() => { onResult(false) }}>
+        <DialogContent>
+          <DialogContentText>{t('loginRegister')}</DialogContentText>
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            error={validationErrors.name}
+            label={t('sharedName')}
+            name='name'
+            value={formFields.name || ''}
+            autoComplete='name'
+            autoFocus
+            onChange={handleChange}
+            helperText={validationErrors.name && t('sharedRequired')} />
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            error={validationErrors.email}
+            label={t('userEmail')}
+            name='email'
+            value={formFields.email || ''}
+            autoComplete='email'
+            onChange={handleChange}
+            helperText={validationErrors.email && t('sharedRequired')} />
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            error={validationErrors.password}
+            label={t('userPassword')}
+            name='password'
+            value={formFields.password || ''}
+            type='password'
+            autoComplete='current-password'
+            onChange={handleChange}
+            helperText={validationErrors.password && t('sharedRequired')} />
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handleRegister} disabled={!formFields.name || !formFields.email || !formFields.password}>{t('loginRegister')}</Button>
+          <Button autoFocus onClick={() => onResult(false)}>{t('sharedCancel')}</Button>
+        </DialogActions>
+      </Dialog>
+    )
   } else return null;
 
 };
