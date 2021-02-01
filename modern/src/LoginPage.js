@@ -7,6 +7,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import RegisterDialog from './RegisterDialog';
+import { useSelector } from 'react-redux';
 
 import t from './common/localization';
 
@@ -47,10 +49,13 @@ const LoginPage = () => {
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [registerDialogShown, setRegisterDialogShown] = useState(false);
 
   const classes = useStyles();
   const history = useHistory();
 
+  const registrationPref =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
+ 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   }
@@ -60,7 +65,11 @@ const LoginPage = () => {
   }
 
   const handleRegister = () => {
-    // TODO: Implement registration
+    setRegisterDialogShown(true);
+  }
+
+  const handleRegisterResult = () => {
+    setRegisterDialogShown(false);
   }
 
   const handleLogin = async (event) => {
@@ -109,7 +118,7 @@ const LoginPage = () => {
 
           <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
-              <Button type='button' variant='contained' disabled onClick={handleRegister}>
+              <Button type='button' variant='contained' onClick={handleRegister} disabled={!registrationPref}>
                 {t('loginRegister')}
               </Button>
               <Button type='submit' variant='contained' color='primary' disabled={!email || !password}>
@@ -118,6 +127,11 @@ const LoginPage = () => {
             </div>
           </FormControl>
         </form>
+
+        {registerDialogShown && 
+          <RegisterDialog showDialog={true} onResult={handleRegisterResult} />
+        }
+      
       </Paper>
     </main>
   );
