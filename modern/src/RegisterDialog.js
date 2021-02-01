@@ -9,35 +9,39 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 
 const RegisterDialog = ({ showDialog, onResult }) => {
-  const [formFields, setFormFields] = useState({});
-  const [validationErrors, setValidationErrors] = useState({});
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleChange = (event) => {
-    setFormFields({ ...formFields, [event.target.name]: event.target.value });
-    setValidationErrors({ ...validationErrors, [event.target.name]: false });
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  }
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
+
+  const submitDisabled = () => {
+    return (!name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password);
   }
 
   const handleRegister = async (event) => {
-    let objErrors = {};
-    if (!/(.+)@(.+)\.(.{2,})/.test(formFields.email)) {
-      objErrors.email = true;
-    }
-    if (Object.keys(objErrors).length !== 0) {
-      setValidationErrors(objErrors);
-      return;
-    }
 
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formFields)
+      body: JSON.stringify({name, email, password})
     });
 
     if (response.ok) {
       showDialog = false;
       setSnackbarOpen(true);
-    }
+    } 
   }
 
   if (snackbarOpen) {
@@ -60,40 +64,35 @@ const RegisterDialog = ({ showDialog, onResult }) => {
             margin='normal'
             required
             fullWidth
-            error={validationErrors.name}
             label={t('sharedName')}
             name='name'
-            value={formFields.name || ''}
+            value={name || ''}
             autoComplete='name'
             autoFocus
-            onChange={handleChange}
-            helperText={validationErrors.name && t('sharedRequired')} />
+            onChange={handleNameChange} />
           <TextField
             margin='normal'
             required
             fullWidth
-            error={validationErrors.email}
+            type='email' 
             label={t('userEmail')}
             name='email'
-            value={formFields.email || ''}
+            value={email || ''}
             autoComplete='email'
-            onChange={handleChange}
-            helperText={validationErrors.email && t('sharedRequired')} />
+            onChange={handleEmailChange} />
           <TextField
             margin='normal'
             required
             fullWidth
-            error={validationErrors.password}
             label={t('userPassword')}
             name='password'
-            value={formFields.password || ''}
+            value={password || ''}
             type='password'
             autoComplete='current-password'
-            onChange={handleChange}
-            helperText={validationErrors.password && t('sharedRequired')} />
+            onChange={handlePasswordChange} />
         </DialogContent>
         <DialogActions>
-          <Button color="primary" onClick={handleRegister} disabled={!formFields.name || !formFields.email || !formFields.password}>{t('loginRegister')}</Button>
+          <Button color="primary" onClick={handleRegister} disabled={submitDisabled()}>{t('loginRegister')}</Button>
           <Button autoFocus onClick={() => onResult(false)}>{t('sharedCancel')}</Button>
         </DialogActions>
       </Dialog>
