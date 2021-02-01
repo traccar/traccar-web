@@ -14,24 +14,11 @@ const RegisterDialog = ({ showDialog, onResult }) => {
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  }
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  }
-
   const submitDisabled = () => {
-    return (!name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password);
+    return !name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password;
   }
 
-  const handleRegister = async (event) => {
-
+  const handleRegister = async () => {
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,6 +32,7 @@ const RegisterDialog = ({ showDialog, onResult }) => {
   }
 
   if (snackbarOpen) {
+
     return (
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -53,7 +41,9 @@ const RegisterDialog = ({ showDialog, onResult }) => {
         onClose={() => { onResult(true) }}
         message={t('loginCreated')} />
     );
+
   } else if (showDialog) {
+
     return (
       <Dialog
         open={true}
@@ -69,7 +59,7 @@ const RegisterDialog = ({ showDialog, onResult }) => {
             value={name || ''}
             autoComplete='name'
             autoFocus
-            onChange={handleNameChange} />
+            onChange={event => setName(event.target.value)} />
           <TextField
             margin='normal'
             required
@@ -79,7 +69,7 @@ const RegisterDialog = ({ showDialog, onResult }) => {
             name='email'
             value={email || ''}
             autoComplete='email'
-            onChange={handleEmailChange} />
+            onChange={event => setEmail(event.target.value)} />
           <TextField
             margin='normal'
             required
@@ -89,7 +79,7 @@ const RegisterDialog = ({ showDialog, onResult }) => {
             value={password || ''}
             type='password'
             autoComplete='current-password'
-            onChange={handlePasswordChange} />
+            onChange={event => setPassword(event.target.value)} />
         </DialogContent>
         <DialogActions>
           <Button color="primary" onClick={handleRegister} disabled={submitDisabled()}>{t('loginRegister')}</Button>
@@ -97,8 +87,8 @@ const RegisterDialog = ({ showDialog, onResult }) => {
         </DialogActions>
       </Dialog>
     )
-  } else return null;
 
+  }
 };
 
 export default RegisterDialog;

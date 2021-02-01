@@ -54,7 +54,7 @@ const LoginPage = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const registrationPref =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
+  const registrationEnabled =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
  
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -118,7 +118,7 @@ const LoginPage = () => {
 
           <FormControl fullWidth margin='normal'>
             <div className={classes.buttons}>
-              <Button type='button' variant='contained' onClick={handleRegister} disabled={!registrationPref}>
+              <Button type='button' variant='contained' onClick={handleRegister} disabled={!registrationEnabled}>
                 {t('loginRegister')}
               </Button>
               <Button type='submit' variant='contained' color='primary' disabled={!email || !password}>
