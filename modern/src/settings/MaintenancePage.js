@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-
 import t from '../common/localization';
 import EditItemView from '../EditItemView';
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, TextField, FormControl, InputLabel, MenuItem, Select, } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from '../attributes/EditAttributesView';
 import positionAttributes from '../attributes/positionAttributes';
+import { useAttributePreference } from '../common/preferences';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -14,22 +15,40 @@ const useStyles = makeStyles(() => ({
 }));
 
 const MaintenancePage = () => {
+  
   const classes = useStyles();
-
   const [item, setItem] = useState();
+  const [labels, setLabels] = useState({start: '', period: ''});
+
+  const speedUnit = useAttributePreference('speedUnit');
+  const distanceUnit = useAttributePreference('distanceUnit');
 
   const options = [];
 
   Object.entries(positionAttributes).map(([key, value]) => {
     if (value.type === 'number') {
-      options.push({ key, name: value.name, type: value.type })
+      options.push({key, name: value.name, type: value.type})
     }
   });
 
   const handleChange = event => {
     const newValue = event.target.value;
     setItem({...item, type: newValue});
-  }  
+
+    const attribute = positionAttributes[newValue];
+    if (attribute && attribute.dataType) {
+      switch (attribute.dataType) {
+        case 'distance':
+          setLabels({ ...labels, start: distanceUnit, period: distanceUnit});
+          break;
+        case 'speed':
+          setLabels({ ...labels, start: speedUnit, period: speedUnit});
+          break;
+        default:
+          break;
+      }
+    }
+  }
 
   return (
     <EditItemView endpoint="maintenance" item={item} setItem={setItem}>
@@ -64,14 +83,20 @@ const MaintenancePage = () => {
                 value={item.start || ''}
                 onChange={event => setItem({...item, start: event.target.value})}
                 label={t('maintenanceStart')}
-                variant="filled" />
+                variant="filled"
+                InputProps={{
+                endAdornment: <InputAdornment position="start">{labels.start}</InputAdornment>,
+                }} />
               <TextField
                 margin="normal"
                 type="number"
                 value={item.period || ''}
                 onChange={event => setItem({...item, period: event.target.value})}
                 label={t('maintenancePeriod')}
-                variant="filled" />                
+                variant="filled"
+                InputProps={{
+                endAdornment: <InputAdornment position="start">{labels.period}</InputAdornment>,
+                }} />                              
             </AccordionDetails>
           </Accordion>
           <Accordion>

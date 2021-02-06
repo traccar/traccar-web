@@ -6,6 +6,10 @@ import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 
+import positionAttributes from '../attributes/positionAttributes';
+import { formatDistance, formatSpeed } from '../common/formatter';
+import { useAttributePreference } from '../common/preferences';
+
 const useStyles = makeStyles(theme => ({
   columnAction: {
     width: theme.spacing(1),
@@ -17,6 +21,8 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
 
   const [items, setItems] = useState([]);
+  const speedUnit = useAttributePreference('speedUnit');
+  const distanceUnit = useAttributePreference('distanceUnit');
 
   useEffectAsync(async () => {
     const response = await fetch('/api/maintenance');
@@ -24,6 +30,22 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
       setItems(await response.json());
     }
   }, [updateTimestamp]);
+
+  const convertAttribute = (key, value) => {
+    const attribute = positionAttributes[key];
+    if (attribute && attribute.dataType) {
+      switch (attribute.dataType) {
+        case 'speed':
+          return formatSpeed(value, speedUnit);
+        case 'distance':        
+          return formatDistance(value, distanceUnit);
+        default:
+          return value;
+      }
+    }
+
+    return value;
+  }
 
   return (
     <TableContainer>
@@ -47,8 +69,8 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
             </TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.type}</TableCell>
-            <TableCell>{item.start}</TableCell>
-            <TableCell>{item.period}</TableCell>
+            <TableCell>{convertAttribute(item.type, item.start)}</TableCell>
+            <TableCell>{convertAttribute(item.type, item.period)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
