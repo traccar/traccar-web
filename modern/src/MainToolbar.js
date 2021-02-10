@@ -30,7 +30,6 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import FolderIcon from '@material-ui/icons/Folder';
 import ReplayIcon from '@material-ui/icons/Replay';
-import PublishIcon from '@material-ui/icons/Publish';
 import BuildIcon from '@material-ui/icons/Build';
 import t from './common/localization';
 

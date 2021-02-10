@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from '../attributes/EditAttributesView';
 import positionAttributes from '../attributes/positionAttributes';
 import { useAttributePreference } from '../common/preferences';
+import { distanceConverter, speedConverter } from '../common/converter';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -33,7 +34,7 @@ const MaintenancePage = () => {
 
   const handleChange = event => {
     const newValue = event.target.value;
-    setItem({...item, type: newValue});
+    setItem({...item, type: newValue, start: 0, period: 0});
 
     const attribute = positionAttributes[newValue];
     if (attribute && attribute.dataType) {
@@ -48,6 +49,41 @@ const MaintenancePage = () => {
           break;
       }
     }
+  }
+
+  const rawToValue = (rawValue) => {
+
+    const attribute = positionAttributes[item.type];
+    if (attribute && attribute.dataType) {
+      switch (attribute.dataType) {
+        case 'speed':
+          return speedConverter(rawValue, speedUnit, false);
+        case 'distance':
+          return distanceConverter(rawValue, distanceUnit, false);
+        default:
+          return rawValue;
+      }
+    }
+
+    return rawValue;
+
+  }
+
+  const valueToRaw = (value) => {
+
+    const attribute = positionAttributes[item.type];
+    if (attribute && attribute.dataType) {
+      switch (attribute.dataType) {
+        case 'speed':
+          return speedConverter(value, speedUnit, true);
+        case 'distance':
+          return distanceConverter(value, distanceUnit, true);
+        default:
+          return value;
+      }
+    }
+
+    return value;
   }
 
   return (
@@ -80,8 +116,8 @@ const MaintenancePage = () => {
               <TextField
                 margin="normal"
                 type="number"
-                value={item.start || ''}
-                onChange={event => setItem({...item, start: event.target.value})}
+                value={rawToValue(item.start) || ''}
+                onChange={event => setItem({...item, start: valueToRaw(event.target.value)})}
                 label={t('maintenanceStart')}
                 variant="filled"
                 InputProps={{
@@ -90,8 +126,8 @@ const MaintenancePage = () => {
               <TextField
                 margin="normal"
                 type="number"
-                value={item.period || ''}
-                onChange={event => setItem({...item, period: event.target.value})}
+                value={rawToValue(item.period) || ''}
+                onChange={event => setItem({...item, period: valueToRaw(event.target.value)})}
                 label={t('maintenancePeriod')}
                 variant="filled"
                 InputProps={{
