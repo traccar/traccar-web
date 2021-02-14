@@ -5,7 +5,7 @@ import ReportFilter from './ReportFilter';
 import Graph from './Graph';
 import { useAttributePreference } from '../common/preferences';
 import { formatDate } from '../common/formatter';
-import { speedConverter } from '../common/converter';
+import { speedFromKnots } from '../common/converter';
 import t from '../common/localization';
 
 const Filter = ({ children, setItems }) => {
@@ -19,7 +19,7 @@ const Filter = ({ children, setItems }) => {
       const positions = await response.json();
       let formattedPositions = positions.map(position => {
         return {
-          speed: Number(speedConverter(position.speed, speedUnit)),
+          speed: Number(speedFromKnots(position.speed, speedUnit)),
           altitude: position.altitude,
           accuracy: position.accuracy,
           fixTime: formatDate(position.fixTime)

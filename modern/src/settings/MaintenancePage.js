@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import t from '../common/localization';
+import { prefixString } from '../common/stringUtils';
 import EditItemView from '../EditItemView';
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, TextField, FormControl, InputLabel, MenuItem, Select, } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -7,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from '../attributes/EditAttributesView';
 import positionAttributes from '../attributes/positionAttributes';
 import { useAttributePreference } from '../common/preferences';
-import { distanceConverter, speedConverter } from '../common/converter';
+import { speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters } from '../common/converter';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -24,15 +25,18 @@ const MaintenancePage = () => {
   const speedUnit = useAttributePreference('speedUnit');
   const distanceUnit = useAttributePreference('distanceUnit');
 
-  const options = [];
-
-  Object.entries(positionAttributes).map(([key, value]) => {
-    if (value.type === 'number') {
-      options.push({key, name: value.name, type: value.type})
+  const convertToList = (attributes) => {
+    let otherList = [];
+    for (const key in attributes) {
+      const value = attributes[key];
+      if (value.type === 'number') {
+        otherList.push({key, name: value.name, type: value.type});
+      }
     }
-  });
+    return otherList;
+  }
 
-  const handleChange = event => {
+  const onMaintenanceTypeChange = event => {
     const newValue = event.target.value;
     setItem({...item, type: newValue, start: 0, period: 0});
 
@@ -40,10 +44,10 @@ const MaintenancePage = () => {
     if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'distance':
-          setLabels({ ...labels, start: distanceUnit, period: distanceUnit});
+          setLabels({ ...labels, start: t(prefixString('shared', distanceUnit)), period: t(prefixString('shared', distanceUnit))});
           break;
         case 'speed':
-          setLabels({ ...labels, start: speedUnit, period: speedUnit});
+          setLabels({ ...labels, start: t(prefixString('shared', speedUnit)), period: t(prefixString('shared', speedUnit))});
           break;
         default:
           break;
@@ -51,22 +55,21 @@ const MaintenancePage = () => {
     }
   }
 
-  const rawToValue = (rawValue) => {
+  const rawToValue = (value) => {
 
     const attribute = positionAttributes[item.type];
     if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
-          return speedConverter(rawValue, speedUnit, false);
+          return speedFromKnots(value, speedUnit);
         case 'distance':
-          return distanceConverter(rawValue, distanceUnit, false);
+          return distanceFromMeters(value, distanceUnit);
         default:
-          return rawValue;
+          return value;
       }
     }
 
-    return rawValue;
-
+    return value;
   }
 
   const valueToRaw = (value) => {
@@ -75,9 +78,9 @@ const MaintenancePage = () => {
     if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
-          return speedConverter(value, speedUnit, true);
+          return speedToKnots(value, speedUnit);
         case 'distance':
-          return distanceConverter(value, distanceUnit, true);
+          return distanceToMeters(value, distanceUnit);
         default:
           return value;
       }
@@ -107,10 +110,10 @@ const MaintenancePage = () => {
                 <InputLabel>{t('sharedType')}</InputLabel>
                 <Select 
                   value={item.type || ''} 
-                  onChange={handleChange}>
-                  {options.map((option) => (
-                    <MenuItem key={option.key} value={option.key}>{option.name}</MenuItem>
-                  ))}
+                  onChange={onMaintenanceTypeChange}>
+                    {convertToList(positionAttributes).map(({ key, name })=>(
+                      <MenuItem key={key} value={key}>{name}</MenuItem>
+                    ))}
                 </Select>
               </FormControl>            
               <TextField

@@ -13,8 +13,8 @@ export default {
     name: t('positionIgnition'),
     type: 'boolean',
   },
-  'serviceOdometer': {
-    name: t('positionServiceOdometer'),
+  'odometer': {
+    name: t('positionOdometer'),
     type: 'number',
     dataType: 'distance',
   },
