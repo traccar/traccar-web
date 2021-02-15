@@ -38,7 +38,7 @@ const MaintenancePage = () => {
 
   const onMaintenanceTypeChange = event => {
     const newValue = event.target.value;
-    setItem({...item, type: newValue, start: 0, period: 0});
+    setItem({ ...item, type: newValue, start: 0, period: 0 });
 
     const attribute = positionAttributes[newValue];
     if (attribute && attribute.dataType) {
@@ -55,7 +55,7 @@ const MaintenancePage = () => {
     }
   }
 
-  const rawToValue = (value) => {
+  const rawToValue = value => {
 
     const attribute = positionAttributes[item.type];
     if (attribute && attribute.dataType) {
@@ -64,15 +64,12 @@ const MaintenancePage = () => {
           return speedFromKnots(value, speedUnit);
         case 'distance':
           return distanceFromMeters(value, distanceUnit);
-        default:
-          return value;
       }
     }
-
     return value;
   }
 
-  const valueToRaw = (value) => {
+  const valueToRaw = value => {
 
     const attribute = positionAttributes[item.type];
     if (attribute && attribute.dataType) {
@@ -81,11 +78,8 @@ const MaintenancePage = () => {
           return speedToKnots(value, speedUnit);
         case 'distance':
           return distanceToMeters(value, distanceUnit);
-        default:
-          return value;
       }
     }
-
     return value;
   }
 
