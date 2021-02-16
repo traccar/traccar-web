@@ -1,13 +1,39 @@
-export const speedConverter = (value, unit) => {
-  let factor;
+const speedConverter = unit => {
   switch (unit) {
     case 'kmh':
-      factor = 1.852;
+      return 1.852;
     case 'mph':
-      factor = 1.15078;
+      return 1.15078;
     case 'kn':
     default:
-      factor = 1;
+      return 1;
   }
-  return (value * factor).toFixed(2);
 };
+
+const distanceConverter = unit => {
+  switch (unit) {
+    case 'mi':
+      return 0.000621371;
+    case 'nmi':
+      return 0.000539957;
+    case 'km':
+    default:
+      return 0.001;
+  } 
+}
+
+export const speedFromKnots = (value, unit) => {
+  return value * speedConverter(unit);
+}
+
+export const speedToKnots = (value, unit) => {
+  return value / speedConverter(unit);
+}
+
+export const distanceFromMeters = (value, unit) => {
+  return value * distanceConverter(unit);
+}
+
+export const distanceToMeters = (value, unit) => {
+  return value / distanceConverter(unit);
+}

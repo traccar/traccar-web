@@ -12,5 +12,10 @@ export default {
   'ignition': {
     name: t('positionIgnition'),
     type: 'boolean',
-  },  
+  },
+  'odometer': {
+    name: t('positionOdometer'),
+    type: 'number',
+    dataType: 'distance',
+  },
 };
