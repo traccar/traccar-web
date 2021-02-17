@@ -214,7 +214,7 @@ const MainToolbar = () => {
                   </ListItemIcon>
                   <ListItemText primary={t('settingsUsers')} />
                 </ListItem>
-                <ListItem button disabled>
+                <ListItem button onClick={() => history.push('/admin/statistics')}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>

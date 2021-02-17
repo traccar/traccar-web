@@ -4,7 +4,7 @@ import t from '../common/localization';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-const ReportFilter = ({ children, handleSubmit, showOnly }) => {
+const ReportFilter = ({ children, handleSubmit, showOnly, showDevices }) => {
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
@@ -57,14 +57,16 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
 
   return (
     <>
-      <FormControl variant="filled" margin="normal" fullWidth>
-        <InputLabel>{t('reportDevice')}</InputLabel>
-        <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
-          {devices.map((device) => (
-            <MenuItem value={device.id}>{device.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      {!showDevices && (
+        <FormControl variant="filled" margin="normal" fullWidth>
+          <InputLabel>{t('reportDevice')}</InputLabel>
+          <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+            {devices.map((device) => (
+              <MenuItem value={device.id}>{device.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportPeriod')}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -99,7 +101,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
       )}
       {children}
       <FormControl margin="normal" fullWidth>
-        <ButtonGroup color="primary" orientation="vertical" disabled={!deviceId}>
+        <ButtonGroup color="primary" orientation="vertical" disabled={ showDevices ? !showDevices : !deviceId }>
           <Button onClick={() => handleClick(false, true)}>{t('reportShow')}</Button>
           {!showOnly && <Button onClick={() => handleClick(false, false)}>{t('reportExport')}</Button>}
           {!showOnly && <Button onClick={() => handleClick(true, false)}>{t('reportEmail')}</Button>}
