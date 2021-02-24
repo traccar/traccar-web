@@ -99,7 +99,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
       )}
       {children}
       <FormControl margin="normal" fullWidth>
-        <ButtonGroup color="primary" orientation="vertical" disabled={ !deviceId }>
+        <ButtonGroup color="primary" orientation="vertical" disabled={!deviceId}>
           <Button onClick={() => handleClick(false, true)}>{t('reportShow')}</Button>
           {!showOnly && <Button onClick={() => handleClick(false, false)}>{t('reportExport')}</Button>}
           {!showOnly && <Button onClick={() => handleClick(true, false)}>{t('reportEmail')}</Button>}
