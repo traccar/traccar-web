@@ -28,6 +28,7 @@ import ComputedAttributesPage from './settings/ComputedAttributesPage';
 import ComputedAttributePage from './settings/ComputedAttributePage';
 import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
+import StatisticsPage from './admin/StatisticsPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -58,6 +59,7 @@ const App = () => {
               <Route exact path='/settings/maintenance/:id?' component={MaintenancePage} />                                          
               <Route exact path='/admin/server' component={ServerPage} />
               <Route exact path='/admin/users' component={UsersPage} />
+              <Route exact path='/admin/statistics' component={StatisticsPage} />
               <Route exact path='/reports/route' component={RouteReportPage} />              
               <Route exact path='/reports/event' component={EventReportPage} />
               <Route exact path='/reports/trip' component={TripReportPage} />
