@@ -65,29 +65,29 @@ const Filter = ({ setItems }) => {
           <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
           <MenuItem value="custom">{t('reportCustom')}</MenuItem>
         </Select>
-    </FormControl>
-    {period === 'custom' && (
-      <TextField
-        margin="normal"
-        variant="filled"
-        label={t('reportFrom')}
-        type="datetime-local"
-        value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-        onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-        fullWidth />
-    )}
-    {period === 'custom' && (
-      <TextField
-        margin="normal"
-        variant="filled"
-        label={t('reportTo')}
-        type="datetime-local"
-        value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-        onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-        fullWidth />
-    )}
-    <Button variant="contained" color="primary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
-  </>   
+      </FormControl>
+      {period === 'custom' && (
+        <TextField
+          margin="normal"
+          variant="filled"
+          label={t('reportFrom')}
+          type="datetime-local"
+          value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+          onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth />
+      )}
+      {period === 'custom' && (
+        <TextField
+          margin="normal"
+          variant="filled"
+          label={t('reportTo')}
+          type="datetime-local"
+          value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+          onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth />
+      )}
+      <Button variant="contained" color="primary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
+    </>   
   )
 }
 
