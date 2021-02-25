@@ -35,8 +35,8 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'bingHybrid',
         name: Strings.mapBingHybrid
     }, {
-        key: 'baidu',
-        name: Strings.mapBaidu
+        key: 'autoNavi',
+        name: Strings.mapAutoNavi
     }, {
         key: 'yandexMap',
         name: Strings.mapYandexMap

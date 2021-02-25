@@ -95,37 +95,11 @@ Ext.define('Traccar.view.map.BaseMap', {
                     })
                 }),
                 new ol.layer.Tile({
-                    title: Strings.mapBaidu,
+                    title: Strings.mapAutoNavi,
                     type: 'base',
-                    visible: type === 'baidu',
-                    source: new ol.source.XYZ({
-                        projection: 'BD-MC',
-                        tileUrlFunction: function (tileCoord) {
-                            var urlsLength = 5, z = tileCoord[0], x = tileCoord[1], y = tileCoord[2], hash, index;
-
-                            hash = (x << z) + y;
-                            index = hash % urlsLength;
-                            index = index < 0 ? index + urlsLength : index;
-
-                            if (x < 0) {
-                                x = 'M' + -x;
-                            }
-                            if (y < 0) {
-                                y = 'M' + -y;
-                            }
-                            return 'https://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=sl&v=020'
-                                .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
-                        },
-                        tileGrid: new ol.tilegrid.TileGrid({
-                            extent: ol.proj.transformExtent([-180, -74, 180, 74], 'EPSG:4326', 'BD-MC'),
-                            origin: [0, 0],
-                            minZoom: 3,
-                            resolutions: [
-                                262144, 131072, 65536, 32768, 16384, 8192, 4096, 2048,
-                                1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5
-                            ]
-                        }),
-                        attributions: '&copy; <a href="https://map.baidu.com/">Baidu</a>'
+                    visible: type === 'autoNavi' || type === 'baidu',
+                    source: new ol.source.OSM({
+                        url: 'https://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}'
                     })
                 }),
                 new ol.layer.Tile({
@@ -256,7 +230,6 @@ Ext.define('Traccar.view.map.BaseMap', {
     }
 }, function () {
     var projection;
-    proj4.defs('BD-MC', '+proj=merc +lon_0=0 +units=m +ellps=clrk66 +no_defs');
     proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
     ol.proj.proj4.register(proj4);
     projection = ol.proj.get('EPSG:3395');
