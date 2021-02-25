@@ -157,6 +157,7 @@
 
     extjsVersion = '6.2.0';
     olVersion = '6.1.1';
+    olLayerSwitcherVersion = '3.8.3';
     proj4jsVersion = '2.6.0';
 
     if (debugMode) {
@@ -175,6 +176,9 @@
 
     addStyleFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.css');
     addScriptFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.js');
+
+    addStyleFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.css');
+    addScriptFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.js');
 
     if (debugMode) {
         addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4-src.js');

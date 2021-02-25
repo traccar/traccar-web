@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2018 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2021 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,57 +37,67 @@ Ext.define('Traccar.view.map.BaseMap', {
         type = Traccar.app.getPreference('map', null);
         bingKey = server.get('bingKey');
 
-        switch (type) {
-            case 'custom':
-                layer = new ol.layer.Tile({
+        layer = new ol.layer.Group({
+            title: Strings.mapLayer,
+            layers: [
+                new ol.layer.Tile({
+                    title: Strings.mapCustom,
+                    type: 'base',
+                    visible: type === 'custom',
                     source: new ol.source.XYZ({
                         url: Ext.String.htmlDecode(server.get('mapUrl')),
                         attributions: ''
                     })
-                });
-                break;
-            case 'customArcgis':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapCustomArcgis,
+                    type: 'base',
+                    visible: type === 'customArcgis',
                     source: new ol.source.TileArcGISRest({
                         url: Ext.String.htmlDecode(server.get('mapUrl'))
                     })
-                });
-                break;
-            case 'bingRoad':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapBingRoad,
+                    type: 'base',
+                    visible: type === 'bingRoad',
                     source: new ol.source.BingMaps({
                         key: bingKey,
                         imagerySet: 'Road'
                     })
-                });
-                break;
-            case 'bingAerial':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapBingAerial,
+                    type: 'base',
+                    visible: type === 'bingAerial',
                     source: new ol.source.BingMaps({
                         key: bingKey,
                         imagerySet: 'Aerial'
                     })
-                });
-                break;
-            case 'bingHybrid':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapBingHybrid,
+                    type: 'base',
+                    visible: type === 'bingHybrid',
                     source: new ol.source.BingMaps({
                         key: bingKey,
                         imagerySet: 'AerialWithLabels'
                     })
-                });
-                break;
-            case 'carto':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapCarto,
+                    type: 'base',
+                    visible: type === 'carto',
                     source: new ol.source.XYZ({
                         url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
                         attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
                             'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
                     })
-                });
-                break;
-            case 'baidu':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapBaidu,
+                    type: 'base',
+                    visible: type === 'baidu',
                     source: new ol.source.XYZ({
                         projection: 'BD-MC',
                         tileUrlFunction: function (tileCoord) {
@@ -103,7 +113,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                             if (y < 0) {
                                 y = 'M' + -y;
                             }
-                            return 'https://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=pl'
+                            return 'https://online{}.map.bdimg.com/onlinelabel/?qt=tile&x={x}&y={y}&z={z}&styles=sl&v=020'
                                 .replace('{}', index).replace('{x}', x).replace('{y}', y).replace('{z}', z);
                         },
                         tileGrid: new ol.tilegrid.TileGrid({
@@ -117,39 +127,43 @@ Ext.define('Traccar.view.map.BaseMap', {
                         }),
                         attributions: '&copy; <a href="https://map.baidu.com/">Baidu</a>'
                     })
-                });
-                break;
-            case 'yandexMap':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapYandexMap,
+                    type: 'base',
+                    visible: type === 'yandexMap',
                     source: new ol.source.XYZ({
                         url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
                         projection: 'EPSG:3395',
                         attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
                     })
-                });
-                break;
-            case 'yandexSat':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapYandexSat,
+                    type: 'base',
+                    visible: type === 'yandexSat',
                     source: new ol.source.XYZ({
                         url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
                         projection: 'EPSG:3395',
                         attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
                     })
-                });
-                break;
-            case 'wikimedia':
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapWikimedia,
+                    type: 'base',
+                    visible: type === 'wikimedia',
                     source: new ol.source.OSM({
                         url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
                     })
-                });
-                break;
-            default:
-                layer = new ol.layer.Tile({
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapOsm,
+                    type: 'base',
+                    visible: type === 'osm' || !type,
                     source: new ol.source.OSM({})
-                });
-                break;
-        }
+                })
+            ]
+        });
 
         lat = Traccar.app.getPreference('latitude', Traccar.Style.mapDefaultLat);
         lon = Traccar.app.getPreference('longitude', Traccar.Style.mapDefaultLon);
@@ -196,6 +210,8 @@ Ext.define('Traccar.view.map.BaseMap', {
                 this.map.addControl(new ol.control.ScaleLine());
                 break;
         }
+
+        this.map.addControl(new ol.control.LayerSwitcher());
 
         target = this.map.getTarget();
         if (typeof target === 'string') {
