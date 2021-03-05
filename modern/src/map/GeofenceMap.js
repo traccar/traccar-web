@@ -4,6 +4,15 @@ import { useEffect, useState } from 'react';
 import { map } from './Map';
 import { useEffectAsync } from '../reactHelper';
 import { reverseCoordinates } from './mapUtil';
+import circle from '@turf/circle';
+
+
+const circleToPolygon = (item) => {
+  let coord = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
+  var options = {steps: 64, units: 'meters'};
+  let c = circle([Number(coord[1]), Number(coord[0])], Number(coord[2]), options);
+  return [item.name, c.geometry];
+}
 
 const GeofenceMap = () => {
   const id = 'geofences';
@@ -72,9 +81,10 @@ const GeofenceMap = () => {
   }, []);
 
   useEffect(() => {
+    let circleFence = geofences.filter((item => item.area.indexOf('CIRCLE') > -1)).map(circleToPolygon);
     map.getSource(id).setData({
       type: 'FeatureCollection',
-      features: geofences.map(item => [item.name, reverseCoordinates(wellknown(item.area))]).filter(([, geometry]) => !!geometry).map(([name, geometry]) => ({
+      features: geofences.map(item => [item.name, reverseCoordinates(wellknown(item.area))]).filter(([, geometry]) => !!geometry).concat(circleFence).map(([name, geometry]) => ({
         type: 'Feature',
         geometry: geometry,
         properties: { name },
