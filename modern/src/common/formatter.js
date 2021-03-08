@@ -9,6 +9,7 @@ export const formatPosition = (value, key) => {
     case 'fixTime':
     case 'deviceTime':
     case 'serverTime':
+    case 'eventTime':
       return moment(value).format('LLL');
     case 'latitude':
     case 'longitude':

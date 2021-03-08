@@ -74,7 +74,7 @@ const EventReportPage = () => {
           <TableBody>
             {items.map(item => (
               <TableRow key={item.id}>
-                <TableCell>{formatPosition(item, 'serverTime')}</TableCell>
+                <TableCell>{formatPosition(item, 'eventTime')}</TableCell>
                 <TableCell>{item.type}</TableCell>
                 <TableCell>{}</TableCell>
                 <TableCell>{}</TableCell>

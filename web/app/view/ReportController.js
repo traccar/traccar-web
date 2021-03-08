@@ -514,9 +514,9 @@ Ext.define('Traccar.view.ReportController', {
 
     eventsColumns: [{
         text: Strings.positionFixTime,
-        dataIndex: 'serverTime',
+        dataIndex: 'eventTime',
         xtype: 'datecolumn',
-        renderer: Traccar.AttributeFormatter.getFormatter('serverTime')
+        renderer: Traccar.AttributeFormatter.getFormatter('eventTime')
     }, {
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
