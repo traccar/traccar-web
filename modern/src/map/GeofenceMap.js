@@ -8,10 +8,10 @@ import circle from '@turf/circle';
 
 
 const circleToPolygon = (item) => {
-  let coord = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
-  var options = {steps: 64, units: 'meters'};
-  let c = circle([Number(coord[1]), Number(coord[0])], Number(coord[2]), options);
-  return [item.name, c.geometry];
+  let coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
+  var options = { steps: 32, units: 'meters' };
+  let polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
+  return [item.name, polygon.geometry];
 }
 
 const GeofenceMap = () => {
