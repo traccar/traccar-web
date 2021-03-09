@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EditCollectionView = ({ content, editPath, endpoint }) => {
+const EditCollectionView = ({ content, editPath, endpoint, menuItems }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -57,12 +57,17 @@ const EditCollectionView = ({ content, editPath, endpoint }) => {
     setUpdateTimestamp(Date.now());
   }
 
+  const handleClick = path => {
+    history.push(`${path}/${selectedId}`);
+    menuHide();
+  }
+
   const Content = content;
 
   return (
     <>
       <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} />
-      {adminEnabled && 
+      {adminEnabled && editPath &&
         <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
           <AddIcon />
         </Fab>
@@ -70,6 +75,9 @@ const EditCollectionView = ({ content, editPath, endpoint }) => {
       <Menu open={!!selectedAnchorEl} anchorEl={selectedAnchorEl} onClose={menuHide}>
         <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
         <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
+        {menuItems && menuItems.map(item => (
+          <MenuItem key={item.name} onClick={() => handleClick(item.path)}>{item.name}</MenuItem>
+        ))}
       </Menu>
       <RemoveDialog open={removeDialogShown} endpoint={endpoint} itemId={selectedId} onResult={handleRemoveResult} />
     </>

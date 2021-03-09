@@ -29,6 +29,7 @@ import ComputedAttributePage from './settings/ComputedAttributePage';
 import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
 import StatisticsPage from './admin/StatisticsPage';
+import DeviceDriverPage from './DeviceDriverPage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -66,6 +67,7 @@ const App = () => {
               <Route exact path='/reports/stop' component={StopReportPage} />
               <Route exact path='/reports/summary' component={SummaryReportPage} />
               <Route exact path='/reports/chart' component={ChartReportPage} />
+              <Route exact path='/permissions/driver/:deviceId?' component={DeviceDriverPage} />
             </Switch>
           )}
         </Route>

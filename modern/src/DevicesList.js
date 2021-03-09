@@ -15,6 +15,8 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 
+import t from './common/localization';
+
 const useStyles = makeStyles(() => ({
   list: {
     maxHeight: '100%',
@@ -64,9 +66,13 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   );
 }
 
+const menuItems = [
+  { name: t('sharedDriver'), path: '/permissions/driver' }
+]
+
 const DevicesList = () => {
   return (
-    <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
+    <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" menuItems={menuItems} />
   );
 }
 
