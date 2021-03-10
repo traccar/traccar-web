@@ -1,3 +1,6 @@
+import wellknown from 'wellknown';
+import circle from '@turf/circle';
+
 export const loadImage = (url) => {
   return new Promise(imageLoaded => {
     const image = new Image();
@@ -43,3 +46,24 @@ export const reverseCoordinates = it => {
     }
   }
 }
+
+export const geofenceToFeature = (item) => {
+  if (item.area.indexOf('CIRCLE') > -1) {
+    let coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
+    var options = { steps: 32, units: 'meters' };
+    let polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
+    return { 
+      type: 'Feature',
+      geometry: polygon.geometry,
+      properties: { name: item.name }
+    };
+  } else {
+    return { 
+      type: 'Feature',
+      geometry: reverseCoordinates(wellknown(item.area)),
+      properties: { name: item.name }
+    };
+  }
+}
+
+  
