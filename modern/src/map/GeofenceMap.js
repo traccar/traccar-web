@@ -1,9 +1,8 @@
-import wellknown from 'wellknown';
 import { useEffect, useState } from 'react';
 
 import { map } from './Map';
 import { useEffectAsync } from '../reactHelper';
-import { reverseCoordinates } from './mapUtil';
+import { geofenceToFeature } from './mapUtil';
 
 const GeofenceMap = () => {
   const id = 'geofences';
@@ -74,11 +73,7 @@ const GeofenceMap = () => {
   useEffect(() => {
     map.getSource(id).setData({
       type: 'FeatureCollection',
-      features: geofences.map(item => [item.name, reverseCoordinates(wellknown(item.area))]).filter(([, geometry]) => !!geometry).map(([name, geometry]) => ({
-        type: 'Feature',
-        geometry: geometry,
-        properties: { name },
-      })),
+      features: geofences.map(geofenceToFeature)
     });
   }, [geofences]);
 
