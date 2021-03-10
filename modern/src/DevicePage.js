@@ -137,6 +137,34 @@ const DevicePage = () => {
                   titleGetter={it => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
                   variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/drivers"
+                  endpointLinked={"/api/drivers?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="driverId"
+                  label={t('sharedDrivers')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/attributes/computed"
+                  endpointLinked={"/api/attributes/computed?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="attributeId"
+                  titleGetter={it => it.description}
+                  label={t('sharedComputedAttributes')}
+                  variant="filled" />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/maintenance"
+                  endpointLinked={"/api/maintenance?deviceId=" + item.id}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="maintenanceId"
+                  label={t('sharedMaintenance')}
+                  variant="filled" />                                                       
               </AccordionDetails>
             </Accordion>
           }
