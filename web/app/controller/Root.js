@@ -219,8 +219,6 @@ Ext.define('Traccar.controller.Root', {
         socket = new WebSocket(protocol + '//' + window.location.host + pathname + 'api/socket');
 
         socket.onclose = function () {
-            Traccar.app.showToast(Strings.errorSocket, Strings.errorTitle);
-
             Ext.Ajax.request({
                 url: 'api/devices',
                 success: function (response) {
