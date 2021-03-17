@@ -5,7 +5,6 @@ import { formatPosition, formatDistance } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
-import { columnWidthNormal } from '../common/style';
 
 const Filter = ({ setItems }) => {
 
@@ -34,44 +33,44 @@ const RouteReportPage = () => {
     {
       headerName: t('positionFixTime'),
       field: 'fixTime',
-      width: columnWidthNormal * 2,
+      flex: 1,
       valueFormatter: params => formatPosition(params.value, 'fixTime'),
     },
     {
       headerName: t('positionLatitude'),
       field: 'latitude',
-      width: columnWidthNormal,
+      flex: 1,
       valueFormatter: params => formatPosition(params.value, 'latitude'),
     },
     {
       headerName: t('positionLongitude'),
       field: 'longitude',
-      width: columnWidthNormal,
+      flex: 1,
       valueFormatter: params => formatPosition(params.value, 'longitude'),
     },
     {
       headerName: t('positionSpeed'),
       field: 'speed',
-      width: columnWidthNormal,
+      flex: 1,
       valueFormatter: params => formatPosition(params.value, 'speed'),
     },
     {
       headerName: t('positionAddress'),
       field: 'address',
-      width: columnWidthNormal,
+      flex: 1,
       valueFormatter: params => formatPosition(params.value, 'address'),
     },
     {
       headerName: t('positionIgnition'),
       field: 'ignition',
-      width: columnWidthNormal,
+      flex: 1,
       valueFormatter: params => params.getValue('attributes').ignition ? 'Yes' : 'No',
     },
     {
       headerName: t('deviceTotalDistance'),
       hide: true,
       field: 'totalDistance',
-      width: columnWidthNormal,
+      flex: 1,
       valueFormatter: params => formatDistance(params.getValue('attributes').totalDistance, distanceUnit),
     },    
   ]
@@ -80,7 +79,11 @@ const RouteReportPage = () => {
 
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <DataGrid rows={items} columns={columns} hideFooter/>
+        <DataGrid
+          rows={items} 
+          columns={columns} 
+          hideFooter 
+          autoHeight/>
     </ReportLayoutPage>
   );
 };

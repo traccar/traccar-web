@@ -1,1 +1,0 @@
-export const columnWidthNormal = 100;
