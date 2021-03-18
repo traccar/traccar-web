@@ -29,49 +29,49 @@ const Filter = ({ setItems }) => {
 const RouteReportPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
 
-  const columns = [
-    {
+  const columns = [{
       headerName: t('positionFixTime'),
       field: 'fixTime',
+      type: 'dateTime',
       flex: 1,
-      valueFormatter: params => formatPosition(params.value, 'fixTime'),
-    },
-    {
+      valueFormatter: ({ value }) => formatPosition(value, 'fixTime'),
+    }, {
       headerName: t('positionLatitude'),
       field: 'latitude',
+      type: 'number',
       flex: 1,
-      valueFormatter: params => formatPosition(params.value, 'latitude'),
-    },
-    {
+      valueFormatter: ({ value }) => formatPosition(value, 'latitude'),
+    }, {
       headerName: t('positionLongitude'),
       field: 'longitude',
+      type: 'number',
       flex: 1,
-      valueFormatter: params => formatPosition(params.value, 'longitude'),
-    },
-    {
+      valueFormatter: ({ value }) => formatPosition(value, 'longitude'),
+    }, {
       headerName: t('positionSpeed'),
       field: 'speed',
+      type: 'number',
       flex: 1,
-      valueFormatter: params => formatPosition(params.value, 'speed'),
-    },
-    {
+      valueFormatter: ({ value }) => formatPosition(value, 'speed'),
+    }, {
       headerName: t('positionAddress'),
       field: 'address',
+      type: 'string',
       flex: 1,
-      valueFormatter: params => formatPosition(params.value, 'address'),
-    },
-    {
+      valueFormatter: ({ value }) => formatPosition(value, 'address'),
+    }, {
       headerName: t('positionIgnition'),
       field: 'ignition',
+      type: 'boolean',
       flex: 1,
-      valueFormatter: params => params.getValue('attributes').ignition ? 'Yes' : 'No',
-    },
-    {
+      valueFormatter: ({ getValue }) => getValue('attributes').ignition ? 'Yes' : 'No',
+    }, {
       headerName: t('deviceTotalDistance'),
-      hide: true,
       field: 'totalDistance',
+      type: 'number',
+      hide: true,
       flex: 1,
-      valueFormatter: params => formatDistance(params.getValue('attributes').totalDistance, distanceUnit),
+      valueFormatter: ({ getValue }) => formatDistance(getValue('attributes').totalDistance, distanceUnit),
     },    
   ]
 
@@ -79,11 +79,11 @@ const RouteReportPage = () => {
 
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-        <DataGrid
-          rows={items} 
-          columns={columns} 
-          hideFooter 
-          autoHeight/>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight />
     </ReportLayoutPage>
   );
 };
