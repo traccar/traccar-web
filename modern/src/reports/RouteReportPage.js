@@ -30,50 +30,49 @@ const RouteReportPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
 
   const columns = [{
-      headerName: t('positionFixTime'),
-      field: 'fixTime',
-      type: 'dateTime',
-      flex: 1,
-      valueFormatter: ({ value }) => formatPosition(value, 'fixTime'),
-    }, {
-      headerName: t('positionLatitude'),
-      field: 'latitude',
-      type: 'number',
-      flex: 1,
-      valueFormatter: ({ value }) => formatPosition(value, 'latitude'),
-    }, {
-      headerName: t('positionLongitude'),
-      field: 'longitude',
-      type: 'number',
-      flex: 1,
-      valueFormatter: ({ value }) => formatPosition(value, 'longitude'),
-    }, {
-      headerName: t('positionSpeed'),
-      field: 'speed',
-      type: 'number',
-      flex: 1,
-      valueFormatter: ({ value }) => formatPosition(value, 'speed'),
-    }, {
-      headerName: t('positionAddress'),
-      field: 'address',
-      type: 'string',
-      flex: 1,
-      valueFormatter: ({ value }) => formatPosition(value, 'address'),
-    }, {
-      headerName: t('positionIgnition'),
-      field: 'ignition',
-      type: 'boolean',
-      flex: 1,
-      valueFormatter: ({ getValue }) => getValue('attributes').ignition ? 'Yes' : 'No',
-    }, {
-      headerName: t('deviceTotalDistance'),
-      field: 'totalDistance',
-      type: 'number',
-      hide: true,
-      flex: 1,
-      valueFormatter: ({ getValue }) => formatDistance(getValue('attributes').totalDistance, distanceUnit),
-    },    
-  ]
+    headerName: t('positionFixTime'),
+    field: 'fixTime',
+    type: 'dateTime',
+    flex: 1,
+    valueFormatter: ({ value }) => formatPosition(value, 'fixTime'),
+  }, {
+    headerName: t('positionLatitude'),
+    field: 'latitude',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatPosition(value, 'latitude'),
+  }, {
+    headerName: t('positionLongitude'),
+    field: 'longitude',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatPosition(value, 'longitude'),
+  }, {
+    headerName: t('positionSpeed'),
+    field: 'speed',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatPosition(value, 'speed'),
+  }, {
+    headerName: t('positionAddress'),
+    field: 'address',
+    type: 'string',
+    flex: 1,
+    valueFormatter: ({ value }) => formatPosition(value, 'address'),
+  }, {
+    headerName: t('positionIgnition'),
+    field: 'ignition',
+    type: 'boolean',
+    flex: 1,
+    valueFormatter: ({ getValue }) => getValue('attributes').ignition ? 'Yes' : 'No',
+  }, {
+    headerName: t('deviceTotalDistance'),
+    field: 'totalDistance',
+    type: 'number',
+    hide: true,
+    flex: 1,
+    valueFormatter: ({ getValue }) => formatDistance(getValue('attributes').totalDistance, distanceUnit),
+  }]
 
   const [items, setItems] = useState([]);
 
