@@ -64,14 +64,16 @@ const RouteReportPage = () => {
     field: 'ignition',
     type: 'boolean',
     flex: 1,
-    valueGetter: ({ getValue }) => getValue('attributes').ignition ? 'Yes' : 'No',
+    valueGetter: ({ row }) => row.attributes.ignition,
+    valueFormatter: ({ value }) => value ? 'Yes' : 'No',
   }, {
     headerName: t('deviceTotalDistance'),
     field: 'totalDistance',
     type: 'number',
     hide: true,
     flex: 1,
-    valueGetter: ({ getValue }) => formatDistance(getValue('attributes').totalDistance, distanceUnit),
+    valueGetter: ({ row }) => row.attributes.totalDistance,
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
   }]
 
   const [items, setItems] = useState([]);
