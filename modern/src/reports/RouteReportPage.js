@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import t from '../common/localization';
-import { formatPosition, formatDistance } from '../common/formatter';
+import { formatPosition, formatDistance, formatSpeed, formatBoolean, formatDate, formatNumber } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
@@ -28,31 +28,32 @@ const Filter = ({ setItems }) => {
 
 const RouteReportPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
+  const speedUnit = useAttributePreference('speedUnit');
 
   const columns = [{
     headerName: t('positionFixTime'),
     field: 'fixTime',
     type: 'dateTime',
     flex: 1,
-    valueFormatter: ({ value }) => formatPosition(value, 'fixTime'),
+    valueFormatter: ({ value }) => formatDate(value),
   }, {
     headerName: t('positionLatitude'),
     field: 'latitude',
     type: 'number',
     flex: 1,
-    valueFormatter: ({ value }) => formatPosition(value, 'latitude'),
+    valueFormatter: ({ value }) => formatNumber(value, 5),
   }, {
     headerName: t('positionLongitude'),
     field: 'longitude',
     type: 'number',
     flex: 1,
-    valueFormatter: ({ value }) => formatPosition(value, 'longitude'),
+    valueFormatter: ({ value }) => formatNumber(value, 5),
   }, {
     headerName: t('positionSpeed'),
     field: 'speed',
     type: 'number',
     flex: 1,
-    valueFormatter: ({ value }) => formatPosition(value, 'speed'),
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
   }, {
     headerName: t('positionAddress'),
     field: 'address',
@@ -65,7 +66,7 @@ const RouteReportPage = () => {
     type: 'boolean',
     flex: 1,
     valueGetter: ({ row }) => row.attributes.ignition,
-    valueFormatter: ({ value }) => value ? 'Yes' : 'No',
+    valueFormatter: ({ value }) => formatBoolean(value),
   }, {
     headerName: t('deviceTotalDistance'),
     field: 'totalDistance',
