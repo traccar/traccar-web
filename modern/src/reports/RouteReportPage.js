@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import t from '../common/localization';
-import { formatPosition, formatDistance, formatSpeed, formatBoolean, formatDate, formatNumber } from '../common/formatter';
+import { formatDistance, formatSpeed, formatBoolean, formatDate, formatNumber, coordinateFormatter } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
-import { useAttributePreference } from '../common/preferences';
+import { useAttributePreference, usePreference } from '../common/preferences';
 
 const Filter = ({ setItems }) => {
 
@@ -29,6 +29,7 @@ const Filter = ({ setItems }) => {
 const RouteReportPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
+  const coordinateFormat = usePreference('coordinateFormat');
 
   const columns = [{
     headerName: t('positionFixTime'),
@@ -41,13 +42,13 @@ const RouteReportPage = () => {
     field: 'latitude',
     type: 'number',
     flex: 1,
-    valueFormatter: ({ value }) => formatNumber(value, 5),
+    valueFormatter: ({ value }) => coordinateFormatter('latitude', value, coordinateFormat),
   }, {
     headerName: t('positionLongitude'),
     field: 'longitude',
     type: 'number',
     flex: 1,
-    valueFormatter: ({ value }) => formatNumber(value, 5),
+    valueFormatter: ({ value }) => coordinateFormatter('longitude', value, coordinateFormat),
   }, {
     headerName: t('positionSpeed'),
     field: 'speed',
