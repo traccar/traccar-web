@@ -59,7 +59,6 @@ const RouteReportPage = () => {
     field: 'address',
     type: 'string',
     flex: 1,
-    valueFormatter: ({ value }) => formatPosition(value, 'address'),
   }, {
     headerName: t('positionIgnition'),
     field: 'ignition',
