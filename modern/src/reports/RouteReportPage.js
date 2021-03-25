@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
 import t from '../common/localization';
-import { formatPosition } from '../common/formatter';
+import { formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
+import { useAttributePreference, usePreference } from '../common/preferences';
 
 const Filter = ({ setItems }) => {
 
@@ -26,35 +27,65 @@ const Filter = ({ setItems }) => {
 };
 
 const RouteReportPage = () => {
+  const distanceUnit = useAttributePreference('distanceUnit');
+  const speedUnit = useAttributePreference('speedUnit');
+  const coordinateFormat = usePreference('coordinateFormat');
+
+  const columns = [{
+    headerName: t('positionFixTime'),
+    field: 'fixTime',
+    type: 'dateTime',
+    flex: 1,
+    valueFormatter: ({ value }) => formatDate(value),
+  }, {
+    headerName: t('positionLatitude'),
+    field: 'latitude',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatCoordinate('latitude', value, coordinateFormat),
+  }, {
+    headerName: t('positionLongitude'),
+    field: 'longitude',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatCoordinate('longitude', value, coordinateFormat),
+  }, {
+    headerName: t('positionSpeed'),
+    field: 'speed',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+  }, {
+    headerName: t('positionAddress'),
+    field: 'address',
+    type: 'string',
+    flex: 1,
+  }, {
+    headerName: t('positionIgnition'),
+    field: 'ignition',
+    type: 'boolean',
+    flex: 1,
+    valueGetter: ({ row }) => row.attributes.ignition,
+    valueFormatter: ({ value }) => formatBoolean(value),
+  }, {
+    headerName: t('deviceTotalDistance'),
+    field: 'totalDistance',
+    type: 'number',
+    hide: true,
+    flex: 1,
+    valueGetter: ({ row }) => row.attributes.totalDistance,
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+  }]
 
   const [items, setItems] = useState([]);
 
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('positionFixTime')}</TableCell>
-              <TableCell>{t('positionLatitude')}</TableCell>
-              <TableCell>{t('positionLongitude')}</TableCell>
-              <TableCell>{t('positionSpeed')}</TableCell>
-              <TableCell>{t('positionAddress')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{formatPosition(item, 'fixTime')}</TableCell>
-                <TableCell>{formatPosition(item, 'latitude')}</TableCell>
-                <TableCell>{formatPosition(item, 'longitude')}</TableCell>
-                <TableCell>{formatPosition(item, 'speed')}</TableCell>
-                <TableCell>{formatPosition(item, 'address')}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight />
     </ReportLayoutPage>
   );
 };
