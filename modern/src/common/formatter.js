@@ -82,7 +82,7 @@ export const formatHours = (value) => {
   return moment.duration(value).humanize();
 };
 
-export const coordinateFormatter = (key, value, unit) => {
+export const formatCoordinate = (key, value, unit) => {
   var hemisphere, degrees, minutes, seconds;
   if (key === 'latitude') {
     hemisphere = value >= 0 ? 'N' : 'S';
