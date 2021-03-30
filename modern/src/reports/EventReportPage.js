@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import t from '../common/localization';
-import { formatPosition } from '../common/formatter';
+import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 
@@ -59,30 +59,36 @@ const EventReportPage = () => {
 
   const [items, setItems] = useState([]);
 
+  const columns = [{
+    headerName: t('positionFixTime'),
+    field: 'serverTime',
+    type: 'dateTime',
+    flex: 1,
+    valueFormatter: ({ value }) => formatDate(value),
+  }, {
+    headerName: t('sharedType'),
+    field: 'type',
+    type: 'string',
+    flex:1,
+  }, {
+    headerName: t('sharedGeofence'),
+    field: 'geofenceId',
+    type: 'number',
+    flex: 1,
+  }, {
+    headerName: t('sharedMaintenance'),
+    field: 'maintenanceId',
+    type: 'number',
+    flex: 1
+  }];
+
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('positionFixTime')}</TableCell>
-              <TableCell>{t('sharedType')}</TableCell>
-              <TableCell>{t('sharedGeofence')}</TableCell>
-              <TableCell>{t('sharedMaintenance')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map(item => (
-              <TableRow key={item.id}>
-                <TableCell>{formatPosition(item, 'eventTime')}</TableCell>
-                <TableCell>{item.type}</TableCell>
-                <TableCell>{}</TableCell>
-                <TableCell>{}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight />
     </ReportLayoutPage>
   );
 }
