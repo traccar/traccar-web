@@ -42,10 +42,8 @@ const onIdle = function () {
   }
 };
 
-const isRasterMap = map => Object.values(map.getStyle().sources).some(e => e.type === 'raster');
-
 const setAllowedZoomLevels = map => {
-  if(isRasterMap(map)) {
+  if (Object.values(map.getStyle().sources).some(e => e.type === 'raster')) {
     map.scrollZoom.setWheelZoomRate(1);
     map.on('idle', onIdle);
   } else {
