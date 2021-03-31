@@ -1,11 +1,11 @@
-export const styleCustom = (url, attribution, tileSize) => ({
+export const styleCustom = (url, attribution) => ({
   version: 8,
   sources: {
     osm: {
       type: 'raster',
       tiles: [url],
       attribution: attribution,
-      tileSize: tileSize,
+      tileSize: 256,
     },
   },
   glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
@@ -19,7 +19,6 @@ export const styleCustom = (url, attribution, tileSize) => ({
 export const styleOsm = () => styleCustom(
   'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
   '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  256,
 );
 
 export const styleCarto = () => ({
