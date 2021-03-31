@@ -35,7 +35,27 @@ const updateReadyValue = value => {
   readyListeners.forEach(listener => listener(value));
 };
 
+const onIdle = function () {
+  const zoom = Math.round(map.getZoom())
+  if (zoom !== map.getZoom()) {
+    map.zoomTo(zoom)
+  }
+};
+
+const isRasterMap = map => Object.values(map.getStyle().sources).some(e => e.type === 'raster');
+
+const setAllowedZoomLevels = map => {
+  if(isRasterMap(map)) {
+    map.scrollZoom.setWheelZoomRate(1);
+    map.on('idle', onIdle);
+  } else {
+    map.scrollZoom.setWheelZoomRate(1/450);
+    map.off('idle', onIdle);
+  }
+};
+
 const initMap = async () => {
+  setAllowedZoomLevels(map);
   const background = await loadImage('images/background.svg');
   await Promise.all(deviceCategories.map(async category => {
     if (!map.hasImage(category)) {
