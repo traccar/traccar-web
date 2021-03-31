@@ -5,6 +5,7 @@ export const styleCustom = (url, attribution) => ({
       type: 'raster',
       tiles: [url],
       attribution: attribution,
+      tileSize: 256,
     },
   },
   glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
