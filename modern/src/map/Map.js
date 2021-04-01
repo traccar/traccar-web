@@ -42,18 +42,7 @@ const onIdle = function () {
   }
 };
 
-const setAllowedZoomLevels = map => {
-  if (Object.values(map.getStyle().sources).some(e => e.type === 'raster')) {
-    map.scrollZoom.setWheelZoomRate(1);
-    map.on('idle', onIdle);
-  } else {
-    map.scrollZoom.setWheelZoomRate(1/450);
-    map.off('idle', onIdle);
-  }
-};
-
 const initMap = async () => {
-  setAllowedZoomLevels(map);
   const background = await loadImage('images/background.svg');
   await Promise.all(deviceCategories.map(async category => {
     if (!map.hasImage(category)) {
@@ -110,6 +99,17 @@ const Map = ({ children }) => {
       removeReadyListener(listener);
     };
   }, []);
+
+  useEffect(() => {
+    if (mapReady && Object.values(map.getStyle().sources).some(e => e.type === 'raster')) {
+        map.scrollZoom.setWheelZoomRate(1);
+        map.on('idle', onIdle);
+      }
+    return () => {
+      map.scrollZoom.setWheelZoomRate(1/450);
+      map.off('idle', onIdle);
+    }
+  }, [mapReady]);
 
   useLayoutEffect(() => {
     const currentEl = containerEl.current;
