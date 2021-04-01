@@ -35,13 +35,6 @@ const updateReadyValue = value => {
   readyListeners.forEach(listener => listener(value));
 };
 
-const onIdle = function () {
-  const zoom = Math.round(map.getZoom())
-  if (zoom !== map.getZoom()) {
-    map.zoomTo(zoom)
-  }
-};
-
 const initMap = async () => {
   const background = await loadImage('images/background.svg');
   await Promise.all(deviceCategories.map(async category => {
@@ -102,12 +95,18 @@ const Map = ({ children }) => {
 
   useEffect(() => {
     if (mapReady && Object.values(map.getStyle().sources).some(e => e.type === 'raster')) {
-        map.scrollZoom.setWheelZoomRate(1);
-        map.on('idle', onIdle);
+      const onIdle = function () {
+        const zoom = Math.round(map.getZoom());
+        if (zoom !== map.getZoom()) {
+          map.zoomTo(zoom);
+        }
+      };
+      map.scrollZoom.setWheelZoomRate(1);
+      map.on('idle', onIdle);
+      return () => {
+        map.scrollZoom.setWheelZoomRate(1/450);
+        map.off('idle', onIdle);
       }
-    return () => {
-      map.scrollZoom.setWheelZoomRate(1/450);
-      map.off('idle', onIdle);
     }
   }, [mapReady]);
 
