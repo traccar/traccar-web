@@ -93,23 +93,6 @@ const Map = ({ children }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (mapReady && Object.values(map.getStyle().sources).some(e => e.type === 'raster')) {
-      const onIdle = function () {
-        const zoom = Math.round(map.getZoom());
-        if (zoom !== map.getZoom()) {
-          map.zoomTo(zoom);
-        }
-      };
-      map.scrollZoom.setWheelZoomRate(1);
-      map.on('idle', onIdle);
-      return () => {
-        map.scrollZoom.setWheelZoomRate(1/450);
-        map.off('idle', onIdle);
-      }
-    }
-  }, [mapReady]);
-
   useLayoutEffect(() => {
     const currentEl = containerEl.current;
     currentEl.appendChild(element);
