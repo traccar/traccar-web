@@ -59,7 +59,7 @@ const TripReportPage = () => {
     flex: 1,
     valueFormatter: ({ value }) => formatDate(value),
   }, {
-    headerName: t('reportStartOdometer'),
+    headerName: t('reportEndOdometer'),
     field: 'endOdometer',
     type: 'number',
     flex: 1,
