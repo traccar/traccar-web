@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, Paper } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -84,11 +84,13 @@ const EventReportPage = () => {
 
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <DataGrid
-        rows={items} 
-        columns={columns} 
-        hideFooter 
-        autoHeight />
+      <Paper>
+        <DataGrid
+          rows={items} 
+          columns={columns} 
+          hideFooter 
+          autoHeight />
+      </Paper>
     </ReportLayoutPage>
   );
 }
