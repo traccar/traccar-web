@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { FormControlLabel, Checkbox, Paper } from '@material-ui/core';
+import { FormControlLabel, Checkbox } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDistance, formatHours, formatDate, formatSpeed, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -96,14 +96,12 @@ const SummaryReportPage = () => {
   
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <Paper>
-        <DataGrid
-          rows={items} 
-          columns={columns} 
-          hideFooter 
-          autoHeight
-          getRowId={() => Math.random()} />
-      </Paper>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight
+        getRowId={() => Math.random()} />
     </ReportLayoutPage>
   );
 }

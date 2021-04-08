@@ -5,7 +5,6 @@ import { formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinat
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference, usePreference } from '../common/preferences';
-import { Paper } from '@material-ui/core';
 
 const Filter = ({ setItems }) => {
 
@@ -82,13 +81,11 @@ const RouteReportPage = () => {
 
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <Paper>
-        <DataGrid
-          rows={items} 
-          columns={columns} 
-          hideFooter 
-          autoHeight />
-      </Paper>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight />
     </ReportLayoutPage>
   );
 };

@@ -5,7 +5,6 @@ import { formatDistance, formatHours, formatDate, formatVolume } from '../common
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
-import { Paper } from '@material-ui/core';
 
 const Filter = ({ setItems }) => {
 
@@ -81,14 +80,12 @@ const StopReportPage = () => {
   
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <Paper>
-        <DataGrid
-          rows={items} 
-          columns={columns} 
-          hideFooter 
-          autoHeight
-          getRowId={() => Math.random()} />
-      </Paper>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight
+        getRowId={() => Math.random()} />
     </ReportLayoutPage>
   );
 };
