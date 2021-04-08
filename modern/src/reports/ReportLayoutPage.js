@@ -31,7 +31,9 @@ const ReportLayoutPage = ({ children, filter }) => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={9} lg={10}>
-            {children}
+            <Paper>
+              {children}
+            </Paper>
           </Grid>
         </Grid>
       </div>

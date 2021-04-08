@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper, FormControlLabel, Checkbox } from '@material-ui/core';
+import { DataGrid } from '@material-ui/data-grid';
+import { FormControlLabel, Checkbox } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDistance, formatHours, formatDate, formatSpeed, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -38,40 +39,69 @@ const SummaryReportPage = () => {
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
+  const volumeUnit = useAttributePreference('volumeUnit');
+
   const [items, setItems] = useState([]);
+
+  const columns = [{
+    headerName: t('reportStartDate'),
+    field: 'startTime',
+    type: 'dateTime',
+    flex: 1,
+    valueFormatter: ({ value }) => formatDate(value, 'YYYY-MM-DD'),
+  }, {
+    headerName: t('sharedDistance'),
+    field: 'distance',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+  }, {
+    headerName: t('reportStartOdometer'),
+    field: 'startOdometer',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+  }, {
+    headerName: t('reportEndOdometer'),
+    field: 'endOdometer',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+  }, {
+    headerName: t('reportAverageSpeed'),
+    field: 'averageSpeed',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+  }, {
+    headerName: t('reportMaximumSpeed'),
+    field: 'maxSpeed',
+    type: 'number',
+    flex: 1,
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+  }, {
+    headerName: t('reportEngineHours'),
+    field: 'engineHours',
+    type: 'string',
+    flex: 1,
+    valueFormatter: ({ value }) => formatHours(value),
+  }, {
+    headerName: t('reportSpentFuel'),
+    field: 'spentFuel',
+    type: 'number',
+    flex: 1,
+    hide: true,
+    valueFormatter: ({ value }) => formatVolume(value, volumeUnit),                
+  }]
   
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('reportStartDate')}</TableCell>
-              <TableCell>{t('sharedDistance')}</TableCell>
-              <TableCell>{t('reportStartOdometer')}</TableCell>
-              <TableCell>{t('reportEndOdometer')}</TableCell>
-              <TableCell>{t('reportAverageSpeed')}</TableCell>
-              <TableCell>{t('reportMaximumSpeed')}</TableCell>
-              <TableCell>{t('reportEngineHours')}</TableCell>              
-              <TableCell>{t('reportSpentFuel')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{formatDate(item.startTime, 'YYYY-MM-DD')}</TableCell>
-                <TableCell>{formatDistance(item.distance, distanceUnit)}</TableCell>
-                <TableCell>{formatDistance(item.startOdometer, distanceUnit)}</TableCell>
-                <TableCell>{formatDistance(item.endOdometer, distanceUnit)}</TableCell>
-                <TableCell>{formatSpeed(item.averageSpeed, speedUnit)}</TableCell>
-                <TableCell>{formatSpeed(item.maxSpeed, speedUnit)}</TableCell>
-                <TableCell>{formatHours(item.engineHours)}</TableCell>
-                <TableCell>{formatVolume(item.spentFuel)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid
+        rows={items} 
+        columns={columns} 
+        hideFooter 
+        autoHeight
+        getRowId={() => Math.random()} />
     </ReportLayoutPage>
   );
 }
