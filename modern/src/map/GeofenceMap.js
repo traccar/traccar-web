@@ -14,7 +14,7 @@ const GeofenceMap = () => {
     if (response.ok) {
       setGeofences(await response.json());
     }
-  }, []);
+  }, [geofences]); //this will render created or updated geofences when making api calls 
 
   useEffect(() => {
     map.addSource(id, {
