@@ -105,6 +105,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     onSessionReturn: function (options, success, response) {
+        var passwordReset, dialog;
         Ext.get('spinner').setVisible(false);
         if (success) {
             Traccar.app.setUser(Ext.decode(response.responseText));
@@ -117,6 +118,33 @@ Ext.define('Traccar.controller.Root', {
                 }
             });
             this.login.show();
+
+            passwordReset = Ext.Object.fromQueryString(window.location.search).passwordReset;
+            if (passwordReset) {
+                dialog = Ext.Msg.prompt(Strings.loginReset, Strings.userPassword, function (btn, text) {
+                    dialog.textField.inputEl.dom.type = 'text';
+                    if (btn == 'ok') {
+                        Ext.Ajax.request({
+                            scope: this,
+                            method: 'POST',
+                            url: 'api/password/update',
+                            params: {
+                                token: passwordReset,
+                                password: text
+                            },
+                            callback: function (options, success, response) {
+                                if (success) {
+                                    Traccar.app.showToast(Strings.loginUpdateSuccess);
+                                    this.removeUrlParameter('passwordReset');
+                                } else {
+                                    Traccar.app.showError(response.responseText);
+                                }
+                            }
+                        });
+                    }
+                }, this);
+                dialog.textField.inputEl.dom.type = 'password';
+            }
         }
     },
 
