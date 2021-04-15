@@ -117,7 +117,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     onResetClick: function () {
         Ext.Msg.prompt(Strings.loginReset, Strings.userEmail, function (btn, text) {
-            if (btn == 'ok') {
+            if (btn === 'ok') {
                 Ext.Ajax.request({
                     scope: this,
                     method: 'POST',

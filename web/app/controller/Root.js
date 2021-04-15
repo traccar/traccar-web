@@ -123,7 +123,7 @@ Ext.define('Traccar.controller.Root', {
             if (passwordReset) {
                 dialog = Ext.Msg.prompt(Strings.loginReset, Strings.userPassword, function (btn, text) {
                     dialog.textField.inputEl.dom.type = 'text';
-                    if (btn == 'ok') {
+                    if (btn === 'ok') {
                         Ext.Ajax.request({
                             scope: this,
                             method: 'POST',
