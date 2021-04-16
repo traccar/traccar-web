@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
 
 const UserPage = () => {
   const classes = useStyles();
-
   const [item, setItem] = useState();
   const [checked, setChecked] = useState(false);
 
@@ -31,7 +30,6 @@ const UserPage = () => {
                 {t('sharedRequired')}
               </Typography>
             </AccordionSummary>
-            {console.log(item)}
             <AccordionDetails className={classes.details}>
               <TextField
                 margin="normal"
