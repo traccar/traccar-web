@@ -30,7 +30,7 @@ import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
 import StatisticsPage from './admin/StatisticsPage';
 
-import MainController from './MainController';
+import CachingController from './CachingController';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -39,7 +39,7 @@ const App = () => {
     <>
       <CssBaseline />
       <SocketController />
-      <MainController />
+      <CachingController />
       <Switch>
         <Route exact path='/login' component={LoginPage} />
         <Route>

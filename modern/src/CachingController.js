@@ -4,7 +4,7 @@ import { geofencesActions } from './store';
 import { useEffectAsync } from './reactHelper';
 
 
-const MainController = () => {
+const CachingController = () => {
   const authenticated = useSelector(state => !!state.session.user);
   const dispatch = useDispatch();
 
@@ -19,4 +19,4 @@ const MainController = () => {
   return null;
 }
 
-export default connect()(MainController);
+export default connect()(CachingController);
