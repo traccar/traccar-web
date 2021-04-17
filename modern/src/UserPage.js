@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-
+import Checkbox from '@material-ui/core/Checkbox';
 import t from './common/localization';
 import userAttributes from './attributes/userAttributes';
 import EditItemView from './EditItemView';
@@ -17,8 +17,8 @@ const useStyles = makeStyles(() => ({
 
 const UserPage = () => {
   const classes = useStyles();
-
   const [item, setItem] = useState();
+  const [checked, setChecked] = useState(false);
 
   return (
     <EditItemView endpoint="users" item={item} setItem={setItem}>
@@ -49,9 +49,49 @@ const UserPage = () => {
                 onChange={event => setItem({...item, password: event.target.value})}
                 label={t('userPassword')}
                 variant="filled" />
+                <TextField
+                margin="normal"
+                value={item.phone || ''}
+                onChange={event => setItem({...item, phone: event.target.value})}
+                label="Phone Number"
+                variant="filled" />
+                 
             </AccordionDetails>
+            
+            <Typography style={{display:"flex", marginLeft:25,marginBottom:-35}} variant="button"  >ADMIN </Typography>
+            <Checkbox style={{marginLeft:300}}
+                checked={item.administrator || false}
+                onChange={e=>setItem({...item,administrator: (e.target.checked)})}
+                color="primary"
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                />
+                
           </Accordion>
+          <Accordion disabled={!item.administrator}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="subtitle1">
+                Advanced Permissions
+              </Typography>
+                 </AccordionSummary>
+                 <AccordionDetails className={classes.details}>
+                 <TextField
+                margin="normal"
+                value={item.userLimit || 0}
+                onChange={event => setItem({...item, userLimit: parseInt(event.target.value)})}
+                label="Enter Max number of users"
+                variant="filled" />
+                
+                 <TextField
+                margin="normal"
+                value={item.deviceLimit || -1}
+                onChange={event => setItem({...item, deviceLimit: parseInt(event.target.value)})}
+                label="Enter Max number of devices "
+                variant="filled" />
+                
+                 </AccordionDetails>
+                </Accordion>
           <Accordion>
+          
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">
                 {t('sharedAttributes')}
