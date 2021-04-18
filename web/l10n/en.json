@@ -137,7 +137,7 @@
     "loginLogin": "Login",
     "loginFailed": "Incorrect email address or password",
     "loginCreated": "New user has been registered",
-    "loginResetSuccess": "Check your email",
+    "loginResetSuccess": "Check your email address",
     "loginUpdateSuccess": "New password is set",
     "loginLogout": "Logout",
     "loginLogo": "Logo",
