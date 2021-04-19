@@ -5,6 +5,8 @@ import t from '../common/localization';
 import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
+import { prefixString } from '../common/stringUtils';
+import { useSelector } from 'react-redux';
 
 const Filter = ({ setItems }) => {
 
@@ -57,7 +59,16 @@ const Filter = ({ setItems }) => {
 
 const EventReportPage = () => {
 
+  const geofences = useSelector(state => state.geofences.items);
   const [items, setItems] = useState([]);
+
+  const formatGeofence = value => {
+    if (value > 0) {
+        const geofence = geofences[value];
+        return geofence ? geofence.name : '';
+    }
+    return null;
+  }
 
   const columns = [{
     headerName: t('positionFixTime'),
@@ -70,11 +81,12 @@ const EventReportPage = () => {
     field: 'type',
     type: 'string',
     flex:1,
+    valueFormatter: ({ value }) => t(prefixString('event', value)),
   }, {
     headerName: t('sharedGeofence'),
     field: 'geofenceId',
-    type: 'number',
     flex: 1,
+    valueFormatter: ({ value }) => formatGeofence(value),
   }, {
     headerName: t('sharedMaintenance'),
     field: 'maintenanceId',
