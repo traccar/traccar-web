@@ -63,7 +63,7 @@ const EventReportPage = () => {
   const [items, setItems] = useState([]);
 
   const formatGeofence = value => {
-    if (value !== 0) {
+    if (value > 0) {
         const geofence = geofences[value];
         return geofence ? geofence.name : '';
     }

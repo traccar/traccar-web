@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { geofencesActions } from './store';
 import { useEffectAsync } from './reactHelper';
 
-
 const CachingController = () => {
   const authenticated = useSelector(state => !!state.session.user);
   const dispatch = useDispatch();
@@ -16,6 +15,7 @@ const CachingController = () => {
       }
     }
   }, [authenticated]);
+  
   return null;
 }
 
