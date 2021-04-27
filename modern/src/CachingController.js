@@ -1,6 +1,6 @@
 import {  useDispatch, useSelector } from 'react-redux';
 import { connect } from 'react-redux';
-import { geofencesActions, groupsActions, driversActions, calendarsActions, commandsActions, computedAttributesActions, maintenancesActions, notificationsActions } from './store';
+import { geofencesActions, groupsActions, driversActions, maintenancesActions } from './store';
 import { useEffectAsync } from './reactHelper';
 
 const CachingController = () => {
@@ -36,45 +36,9 @@ const CachingController = () => {
   
   useEffectAsync(async () => {
     if (authenticated) {
-      const response = await fetch('/api/calendars');
-      if (response.ok) {
-        dispatch(calendarsActions.update(await response.json()));
-      }
-    }
-  }, [authenticated]);
-  
-  useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/api/commands');
-      if (response.ok) {
-        dispatch(commandsActions.update(await response.json()));
-      }
-    }
-  }, [authenticated]);
-  
-  useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/api/attributes/computed');
-      if (response.ok) {
-        dispatch(computedAttributesActions.update(await response.json()));
-      }
-    }
-  }, [authenticated]);
-  
-  useEffectAsync(async () => {
-    if (authenticated) {
       const response = await fetch('/api/maintenance');
       if (response.ok) {
         dispatch(maintenancesActions.update(await response.json()));
-      }
-    }
-  }, [authenticated]); 
-  
-  useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/api/notifications');
-      if (response.ok) {
-        dispatch(notificationsActions.update(await response.json()));
       }
     }
   }, [authenticated]);   
