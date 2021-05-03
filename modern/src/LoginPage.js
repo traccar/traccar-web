@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from './store';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
+import { Grid, 
+         useMediaQuery, 
+         makeStyles, 
+         InputLabel, 
+         Select, 
+         MenuItem, 
+         FormControl, 
+         Button, 
+         TextField, 
+         Paper } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import RegisterDialog from './RegisterDialog';
 import { useSelector } from 'react-redux';
 
@@ -14,48 +20,53 @@ import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: 'auto',
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+    display: 'flex',
+    height: '100vh',
+  },
+  sidebar: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: theme.palette.common.purple,
+    width: '28%',
+    [theme.breakpoints.down('xs')]: {
+      width: '0px',
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
+    display:'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing(3),
+    width: '100%',
+    padding: theme.spacing(8, 4),
+    boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)'
   },
-  logo: {
-    marginTop: theme.spacing(2)
-  },
-  buttons: {
+  form: {
     marginTop: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    '& > *': {
-      flexBasis: '40%',
-    },
   },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  register: {
+    marginTop: theme.spacing(2),
+  }
 }));
 
 const LoginPage = () => {
+  const classes = useStyles();
+  const theme = useTheme();
+
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [registerDialogShown, setRegisterDialogShown] = useState(false);
-
-  const classes = useStyles();
-  const history = useHistory();
-
   const registrationEnabled =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
- 
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   }
@@ -87,10 +98,12 @@ const LoginPage = () => {
 
   return (
     <main className={classes.root}>
+      <div className={classes.sidebar}>
+        {!matches && <img src='/logo.svg' alt='Traccar' />}
+      </div>
       <Paper className={classes.paper}>
-        <img className={classes.logo} src='/logo.svg' alt='Traccar' />
-        <form onSubmit={handleLogin}>
-
+        {matches && <img src='/logo_main.svg' alt='Traccar' />}
+        <form className={classes.form} onSubmit={handleLogin}>
           <TextField
             margin='normal'
             required
@@ -102,8 +115,8 @@ const LoginPage = () => {
             autoComplete='email'
             autoFocus
             onChange={handleEmailChange}
-            helperText={failed && 'Invalid username or password'} />
-
+            helperText={failed && 'Invalid username or password'}
+            variant='filled' />
           <TextField
             margin='normal'
             required
@@ -114,27 +127,42 @@ const LoginPage = () => {
             value={password}
             type='password'
             autoComplete='current-password'
-            onChange={handlePasswordChange} />
-
-          <FormControl fullWidth margin='normal'>
-            <div className={classes.buttons}>
-              <Button type='button' variant='contained' onClick={handleRegister} disabled={!registrationEnabled}>
+            onChange={handlePasswordChange}
+            variant='filled' />
+          <Button 
+            type='submit'
+            variant='contained' 
+            color='secondary'
+            className={classes.submit}
+            disabled={!email || !password}
+            fullWidth>
+            {t('loginLogin')}
+          </Button>
+          <Grid container>
+            <Grid item xs={3}>
+              <Button className={classes.register} onClick={handleRegister} disabled={!registrationEnabled} color="secondary">
                 {t('loginRegister')}
               </Button>
-              <Button type='submit' variant='contained' color='primary' disabled={!email || !password}>
-                {t('loginLogin')}
-              </Button>
-            </div>
-          </FormControl>
+            </Grid>
+            <Grid item xs={9}>
+              <FormControl variant="filled" margin="normal" fullWidth>
+                <InputLabel>{t('loginLanguage')}</InputLabel>
+                <Select>
+                  <MenuItem value="en">English</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Button color="primary">
+                {t('loginReset')}
+              </Button>              
+            </Grid>
+          </Grid>
         </form>
-
-        {registerDialogShown && 
-          <RegisterDialog showDialog={true} onResult={handleRegisterResult} />
-        }
-      
       </Paper>
     </main>
-  );
+  )
 }
-
 export default LoginPage;
