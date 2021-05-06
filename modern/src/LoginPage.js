@@ -2,21 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from './store';
-import { Grid, 
-         useMediaQuery, 
-         makeStyles, 
-         InputLabel, 
-         Select, 
-         MenuItem, 
-         FormControl, 
-         Button, 
-         TextField, 
-         Paper } from '@material-ui/core';
+import { Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Paper } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import RegisterDialog from './RegisterDialog';
 import { useSelector } from 'react-redux';
 
 import t from './common/localization';
+import Logo from './Logo';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +20,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     background: theme.palette.common.purple,
-    width: '28%',
+    paddingBottom: theme.spacing(5),
+    width: `${theme.dimensions.sidebarWidth}%`,
+    [theme.breakpoints.down('md')]: {
+      width: `${theme.dimensions.minSidebarWidth}px`,
+    },
     [theme.breakpoints.down('xs')]: {
       width: '0px',
     },
@@ -38,19 +34,13 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    padding: theme.spacing(8, 4),
+    flex: 1,
+    //padding: theme.spacing(0, 25, 0, 0),
     boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)'
   },
   form: {
-    marginTop: theme.spacing(1),
+    maxWidth: theme.dimensions.maxFormWidth,
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  register: {
-    marginTop: theme.spacing(2),
-  }
 }));
 
 const LoginPage = () => {
@@ -99,66 +89,73 @@ const LoginPage = () => {
   return (
     <main className={classes.root}>
       <div className={classes.sidebar}>
-        {!matches && <img src='/logo.svg' alt='Traccar' />}
+        {!matches && <Logo fill='#fff'/> }
       </div>
       <Paper className={classes.paper}>
-        {matches && <img src='/logo_main.svg' alt='Traccar' />}
         <form className={classes.form} onSubmit={handleLogin}>
-          <TextField
-            margin='normal'
-            required
-            fullWidth
-            error={failed}
-            label={t('userEmail')}
-            name='email'
-            value={email}
-            autoComplete='email'
-            autoFocus
-            onChange={handleEmailChange}
-            helperText={failed && 'Invalid username or password'}
-            variant='filled' />
-          <TextField
-            margin='normal'
-            required
-            fullWidth
-            error={failed}
-            label={t('userPassword')}
-            name='password'
-            value={password}
-            type='password'
-            autoComplete='current-password'
-            onChange={handlePasswordChange}
-            variant='filled' />
-          <Button 
-            type='submit'
-            variant='contained' 
-            color='secondary'
-            className={classes.submit}
-            disabled={!email || !password}
-            fullWidth>
-            {t('loginLogin')}
-          </Button>
-          <Grid container>
-            <Grid item xs={3}>
-              <Button className={classes.register} onClick={handleRegister} disabled={!registrationEnabled} color="secondary">
-                {t('loginRegister')}
+          <Grid container direction='column' spacing={3}>
+            <Grid item>
+              {matches && <Logo fill='#333366'/>}
+            </Grid>
+            <Grid item>
+              <TextField
+                required
+                fullWidth
+                error={failed}
+                label={t('userEmail')}
+                name='email'
+                value={email}
+                autoComplete='email'
+                autoFocus
+                onChange={handleEmailChange}
+                helperText={failed && 'Invalid username or password'}
+                variant='filled' />
+            </Grid>
+            <Grid item>
+              <TextField
+                required
+                fullWidth
+                error={failed}
+                label={t('userPassword')}
+                name='password'
+                value={password}
+                type='password'
+                autoComplete='current-password'
+                onChange={handlePasswordChange}
+                variant='filled' />
+            </Grid>
+            <Grid item>
+              <Button 
+                type='submit'
+                variant='contained' 
+                color='secondary'
+                disabled={!email || !password}
+                fullWidth>
+                {t('loginLogin')}
               </Button>
             </Grid>
-            <Grid item xs={9}>
-              <FormControl variant="filled" margin="normal" fullWidth>
-                <InputLabel>{t('loginLanguage')}</InputLabel>
-                <Select>
-                  <MenuItem value="en">English</MenuItem>
-                </Select>
-              </FormControl>
+            <Grid item container>
+              <Grid item>
+                <Button onClick={handleRegister} disabled={!registrationEnabled} color="secondary">
+                  {t('loginRegister')}
+                </Button>
+              </Grid>
+              <Grid item xs>
+                <FormControl variant="filled" fullWidth>
+                  <InputLabel>{t('loginLanguage')}</InputLabel>
+                  <Select>
+                    <MenuItem value="en">English</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Button color="primary">
-                {t('loginReset')}
-              </Button>              
-            </Grid>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Button color="primary">
+                  {t('loginReset')}
+                </Button>              
+              </Grid>
+            </Grid>            
           </Grid>
         </form>
       </Paper>

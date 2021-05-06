@@ -32,7 +32,7 @@ import MaintenancePage from './settings/MaintenancePage';
 import StatisticsPage from './admin/StatisticsPage';
 import CachingController from './CachingController';
 
-import theme from './Theme';
+import theme from './theme';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
