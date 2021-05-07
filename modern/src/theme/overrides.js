@@ -18,6 +18,7 @@ export default {
     root: {
       height: dimensions.inputHeight,
       borderRadius: dimensions.borderRadius,
+      background: 'rgba(0, 0, 0, 0.035)',
     },
     input: {
       height: dimensions.inputHeight,
@@ -43,6 +44,7 @@ export default {
   MuiButton: {
     root: {
       height: dimensions.inputHeight,
+      textTransform: 'none'
     }
   }
 };

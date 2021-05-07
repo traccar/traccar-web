@@ -21,9 +21,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     background: theme.palette.common.purple,
     paddingBottom: theme.spacing(5),
-    width: `${theme.dimensions.sidebarWidth}%`,
+    width: theme.dimensions.sidebarWidth,
     [theme.breakpoints.down('md')]: {
-      width: `${theme.dimensions.minSidebarWidth}px`,
+      width: theme.dimensions.tabletSidebarWidth,
     },
     [theme.breakpoints.down('xs')]: {
       width: '0px',
@@ -35,11 +35,18 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    //padding: theme.spacing(0, 25, 0, 0),
-    boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)'
+    boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)',
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(0, 25, 0, 0)
+    },
   },
   form: {
-    maxWidth: theme.dimensions.maxFormWidth,
+    maxWidth: theme.spacing(52),
+    padding: theme.spacing(5),
+    width: "100%",
+  },
+  logo: {
+    textAlign: 'center',
   },
 }));
 
@@ -94,7 +101,7 @@ const LoginPage = () => {
       <Paper className={classes.paper}>
         <form className={classes.form} onSubmit={handleLogin}>
           <Grid container direction='column' spacing={3}>
-            <Grid item>
+            <Grid item className={classes.logo}>
               {matches && <Logo fill='#333366'/>}
             </Grid>
             <Grid item>

@@ -1,7 +1,6 @@
 export default {
-  inputHeight: 42,
-  borderRadius: 4,
-  maxFormWidth: 335,
-  sidebarWidth: 28,
-  minSidebarWidth: 52 
+  inputHeight: '42px',
+  borderRadius: '4px',
+  sidebarWidth: '28%',
+  tabletSidebarWidth: '52px' 
 };
