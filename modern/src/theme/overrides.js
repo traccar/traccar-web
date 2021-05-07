@@ -44,7 +44,6 @@ export default {
   MuiButton: {
     root: {
       height: dimensions.inputHeight,
-      textTransform: 'none'
     }
   }
 };

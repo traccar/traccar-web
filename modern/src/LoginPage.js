@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from './store';
-import { Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Paper } from '@material-ui/core';
+import { Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Paper, Link } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import RegisterDialog from './RegisterDialog';
 import { useSelector } from 'react-redux';
@@ -156,11 +156,9 @@ const LoginPage = () => {
                 </FormControl>
               </Grid>
             </Grid>
-            <Grid container justify="flex-end">
+            <Grid item container justify="flex-end">
               <Grid item>
-                <Button color="primary">
-                  {t('loginReset')}
-                </Button>              
+                <Link underline="none">{t('loginReset')}</Link>              
               </Grid>
             </Grid>            
           </Grid>
