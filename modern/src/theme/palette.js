@@ -1,5 +1,3 @@
-import { deepPurple, green } from '@material-ui/core/colors';
-
 const traccarPurple = '#333366';
 const traccarGreen = '#4CAF50';
 const traccarWhite = '#FFF';
