@@ -1,140 +1,64 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { sessionActions } from './store';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField';
-import RegisterDialog from './RegisterDialog';
-import { useSelector } from 'react-redux';
+import { useMediaQuery, makeStyles, Paper } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
-import t from './common/localization';
+import LoginForm from './components/LoginForm';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: 'auto',
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+    display: 'flex',
+    height: '100vh',
+  },
+  sidebar: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: theme.palette.common.purple,
+    paddingBottom: theme.spacing(5),
+    width: theme.dimensions.sidebarWidth,
+    [theme.breakpoints.down('md')]: {
+      width: theme.dimensions.tabletSidebarWidth,
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '0px',
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
+    display:'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing(3),
-  },
-  logo: {
-    marginTop: theme.spacing(2)
-  },
-  buttons: {
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    '& > *': {
-      flexBasis: '40%',
+    flex: 1,
+    boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)',
+    [theme.breakpoints.up('lg')]: {
+      padding: theme.spacing(0, 25, 0, 0)
     },
+  },
+  form: {
+    maxWidth: theme.spacing(52),
+    padding: theme.spacing(5),
+    width: "100%",
   },
 }));
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
-
-  const [failed, setFailed] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [registerDialogShown, setRegisterDialogShown] = useState(false);
-
   const classes = useStyles();
-  const history = useHistory();
+  const theme = useTheme();
 
-  const registrationEnabled =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
- 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  }
-
-  const handleRegister = () => {
-    setRegisterDialogShown(true);
-  }
-
-  const handleRegisterResult = () => {
-    setRegisterDialogShown(false);
-  }
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const response = await fetch('/api/session', { method: 'POST', body: new URLSearchParams(`email=${email}&password=${password}`) });
-    if (response.ok) {
-      const user = await response.json();
-      dispatch(sessionActions.updateUser(user));
-      history.push('/');
-    } else {
-      setFailed(true);
-      setPassword('');
-    }
-  }
+  const [CurrentForm, setCurrentForm] = useState(() => LoginForm);
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <main className={classes.root}>
+      <div className={classes.sidebar}>
+        {!matches && <img src='/logo.svg' alt='Traccar' /> }
+      </div>
       <Paper className={classes.paper}>
-        <img className={classes.logo} src='/logo.svg' alt='Traccar' />
-        <form onSubmit={handleLogin}>
-
-          <TextField
-            margin='normal'
-            required
-            fullWidth
-            error={failed}
-            label={t('userEmail')}
-            name='email'
-            value={email}
-            autoComplete='email'
-            autoFocus
-            onChange={handleEmailChange}
-            helperText={failed && 'Invalid username or password'} />
-
-          <TextField
-            margin='normal'
-            required
-            fullWidth
-            error={failed}
-            label={t('userPassword')}
-            name='password'
-            value={password}
-            type='password'
-            autoComplete='current-password'
-            onChange={handlePasswordChange} />
-
-          <FormControl fullWidth margin='normal'>
-            <div className={classes.buttons}>
-              <Button type='button' variant='contained' onClick={handleRegister} disabled={!registrationEnabled}>
-                {t('loginRegister')}
-              </Button>
-              <Button type='submit' variant='contained' color='primary' disabled={!email || !password}>
-                {t('loginLogin')}
-              </Button>
-            </div>
-          </FormControl>
+        <form className={classes.form}>
+            <CurrentForm setCurrentForm={setCurrentForm} />
         </form>
-
-        {registerDialogShown && 
-          <RegisterDialog showDialog={true} onResult={handleRegisterResult} />
-        }
-      
       </Paper>
     </main>
-  );
+  )
 }
-
 export default LoginPage;
