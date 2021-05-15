@@ -30,7 +30,7 @@ const Filter = ({ setItems }) => {
 
   return (
     <ReportFilter handleSubmit={handleSubmit}>
-      <FormControl variant="filled" margin="normal" fullWidth>
+      <FormControl variant="filled" fullWidth>
         <InputLabel>{t('reportEventTypes')}</InputLabel>
         <Select value={eventTypes} onChange={e => setEventTypes(e.target.value)} multiple>
           <MenuItem value="allEvents">{t('eventAll')}</MenuItem>

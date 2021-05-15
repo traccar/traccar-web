@@ -19,12 +19,17 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     display: 'flex',
   },
+  drawer: {
+    width: 360,
+    [theme.breakpoints.down("md")]: {
+      width: 0,
+    }
+  },  
   content: {
     flex: 1,
-    overflow: 'auto',
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
   },
-  drawer: {
+  drawerPaper: {
     width: 360,
     [theme.breakpoints.down("md")]: {
       width: 320,
@@ -35,6 +40,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
+  },
+  toolbar: {
+    [theme.breakpoints.down("md")]: {
+      ...theme.mixins.toolbar,
+    }
   },
   form: {
     padding: theme.spacing(1, 2, 2),
@@ -47,7 +57,6 @@ const ReportLayoutPage = ({ children, filter }) => {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [value, setValue] = useState(0);
 
   const routes = [
     { name: t('reportRoute'), link: '/reports/route', icon: <TimelineIcon />, activeIndex: 0 },
@@ -58,64 +67,78 @@ const ReportLayoutPage = ({ children, filter }) => {
     { name: t('reportChart'), link: '/reports/chart', icon: <TrendingUpIcon />, activeIndex: 5 },
   ];
 
-  const handleClick = (route) => {
+  const navigationList = (
+    <List disablePadding>
+      {routes.map(route => (
+        <ListItem
+          key={`${route}${route.activeIndex}`}
+          button
+          onClick={() => handleListItemClick(route)}
+        >
+          <ListItemIcon>
+            {route.icon}
+          </ListItemIcon>
+          <ListItemText primary={route.name} />
+        </ListItem>
+      ))}
+    </List>
+  );
+
+  const drawerHeader = (
+    <> 
+      <div className={classes.drawerHeader}>
+        <IconButton>
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography variant="h6" color='primary' noWrap>
+          Reports
+        </Typography> 
+      </div>
+      <Divider />
+    </>
+  );
+
+  const appBar = (
+    <AppBar position="fixed">
+      <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={() => setOpenDrawer(!openDrawer)}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="h6" noWrap>
+          Reports
+        </Typography>        
+      </Toolbar>
+    </AppBar>   
+  );
+
+  const handleListItemClick = (route) => {
     history.push(route.link);
   }
-  console.log('rendering Layout, ', value);
+
   return (
     <div className={classes.root}>
-      {matchesMD && <AppBar position="fixed">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={() => setOpenDrawer(!openDrawer)}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              Reports
-            </Typography>          
-          </Toolbar>
-        </AppBar>
-      }
-      <Drawer
-        variant={matchesMD ? "temporary": "permanent"}
-        open={openDrawer}
-        onClose={() => setOpenDrawer(!openDrawer)}
-        classes={{ paper: classes.drawer }}
-      >
-        { !matchesMD && 
-          <> 
-            <div className={classes.drawerHeader}>
-              <IconButton>
-                <ArrowBackIcon />
-              </IconButton>
-              <Typography variant="h6" color='primary' noWrap>
-                  Reports
-                </Typography> 
-            </div>
-            <Divider />
-          </> 
-        }
-        <List disablePadding>
-          {routes.map(route => (
-            <ListItem
-              key={`${route}${route.activeIndex}`}
-              button
-              selected={value === route.activeIndex}
-              onClick={() => { setValue(route.activeIndex); handleClick(route)}}
-            >
-              <ListItemIcon>
-                {route.icon}
-              </ListItemIcon>
-              <ListItemText primary={route.name} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+      { matchesMD && appBar }
+      <nav className={classes.drawer}>
+        <Drawer
+          variant={matchesMD ? "temporary": "permanent"}
+          open={openDrawer}
+          onClose={() => setOpenDrawer(!openDrawer)}
+          classes={{ paper: classes.drawerPaper }}
+        >
+          { !matchesMD && drawerHeader }
+          { navigationList }
+        </Drawer>
+      </nav>
+      <div className={classes.content}>
+        <div className={classes.toolbar} />
+        {filter}
+      </div>      
     </div>
   );
 }
