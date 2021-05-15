@@ -8,9 +8,9 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 
 import t from '../common/localization';
 
@@ -43,9 +43,11 @@ const useStyles = makeStyles(theme => ({
 
 const ReportLayoutPage = ({ children, filter }) => {
   const classes = useStyles();
+  const history = useHistory();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [value, setValue] = useState(0);
 
   const routes = [
     { name: t('reportRoute'), link: '/reports/route', icon: <TimelineIcon />, activeIndex: 0 },
@@ -56,6 +58,10 @@ const ReportLayoutPage = ({ children, filter }) => {
     { name: t('reportChart'), link: '/reports/chart', icon: <TrendingUpIcon />, activeIndex: 5 },
   ];
 
+  const handleClick = (route) => {
+    history.push(route.link);
+  }
+  console.log('rendering Layout, ', value);
   return (
     <div className={classes.root}>
       {matchesMD && <AppBar position="fixed">
@@ -81,27 +87,31 @@ const ReportLayoutPage = ({ children, filter }) => {
         onClose={() => setOpenDrawer(!openDrawer)}
         classes={{ paper: classes.drawer }}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
+        { !matchesMD && 
+          <> 
+            <div className={classes.drawerHeader}>
+              <IconButton>
+                <ArrowBackIcon />
+              </IconButton>
+              <Typography variant="h6" color='primary' noWrap>
+                  Reports
+                </Typography> 
+            </div>
+            <Divider />
+          </> 
+        }
         <List disablePadding>
           {routes.map(route => (
             <ListItem
               key={`${route}${route.activeIndex}`}
               button
-              component={Link}
-              to={route.link}
-              onClick={() => setOpenDrawer(false)}
+              selected={value === route.activeIndex}
+              onClick={() => { setValue(route.activeIndex); handleClick(route)}}
             >
               <ListItemIcon>
                 {route.icon}
               </ListItemIcon>
-              <ListItemText className={classes.drawerItem} disableTypography>
-                {route.name}
-              </ListItemText>
+              <ListItemText primary={route.name} />
             </ListItem>
           ))}
         </List>
