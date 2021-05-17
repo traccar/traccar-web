@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Drawer, makeStyles, useMediaQuery, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
 import { useTheme } from "@material-ui/core/styles";
 import MenuIcon from '@material-ui/icons/Menu';
 import TimelineIcon from '@material-ui/icons/Timeline';
@@ -10,7 +10,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 import t from '../common/localization';
 
@@ -21,9 +21,6 @@ const useStyles = makeStyles(theme => ({
   },
   drawerContainer: {
     width: theme.dimensions.drawerWidth,
-    [theme.breakpoints.down("md")]: {
-      width: 0,
-    }
   },
   drawer: {
     width: theme.dimensions.drawerWidth,
@@ -53,29 +50,32 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const routes = [
+  { name: t('reportRoute'), href: '/reports/route', icon: <TimelineIcon /> },
+  { name: t('reportEvents'), href: '/reports/event', icon: <NotificationsActiveIcon /> },
+  { name: t('reportTrips'), href: '/reports/trip', icon: <PlayCircleFilledIcon /> },
+  { name: t('reportStops'), href: '/reports/stop', icon: <PauseCircleFilledIcon /> },
+  { name: t('reportSummary'), href: '/reports/summary', icon: <FormatListBulletedIcon /> },
+  { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
+];
+
 const ReportLayoutPage = ({ children, filter }) => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const [openDrawer, setOpenDrawer] = useState(false);
-
-  const routes = [
-    { name: t('reportRoute'), link: '/reports/route', icon: <TimelineIcon />, activeIndex: 0 },
-    { name: t('reportEvents'), link: '/reports/event', icon: <NotificationsActiveIcon />, activeIndex: 1 },
-    { name: t('reportTrips'), link: '/reports/trip', icon: <PlayCircleFilledIcon />, activeIndex: 2 },
-    { name: t('reportStops'), link: '/reports/stop', icon: <PauseCircleFilledIcon />, activeIndex: 3 },
-    { name: t('reportSummary'), link: '/reports/summary', icon: <FormatListBulletedIcon />, activeIndex: 4 },
-    { name: t('reportChart'), link: '/reports/chart', icon: <TrendingUpIcon />, activeIndex: 5 },
-  ];
+  const location = useLocation();
 
   const navigationList = (
     <List disablePadding>
-      {routes.map(route => (
+      {routes.map((route, index) => (
         <ListItem
-          key={`${route}${route.activeIndex}`}
+          disableRipple
+          component={Link}
+          key={`${route}${index}`}
           button
-          onClick={() => handleListItemClick(route)}>
+          to={route.href}
+          selected={route.href === location.pathname}>
           <ListItemIcon>
             {route.icon}
           </ListItemIcon>
@@ -119,23 +119,29 @@ const ReportLayoutPage = ({ children, filter }) => {
     </AppBar>   
   );
 
-  const handleListItemClick = (route) => {
-    history.push(route.link);
-  }
-
   return (
     <div className={classes.root}>
-      {matchesMD && appBar}
-      <div className={classes.drawerContainer}>
+      <Hidden mdUp>
+        {appBar}
         <Drawer
-          variant={matchesMD ? "temporary": "permanent"}
+          variant="temporary"
           open={openDrawer}
           onClose={() => setOpenDrawer(!openDrawer)}
           classes={{paper: classes.drawer}}>
-          {!matchesMD && drawerHeader}
+          {drawerHeader}
           {navigationList}
         </Drawer>
-      </div>
+      </Hidden>
+      <Hidden mdDown>
+        <div className={classes.drawerContainer}>
+          <Drawer
+            variant="permanent"
+            classes={{paper: classes.drawer}}>
+            {drawerHeader}
+            {navigationList}
+          </Drawer>
+        </div>
+      </Hidden>
       <div className={classes.content}>
         <div className={classes.toolbar} />
         {filter}
