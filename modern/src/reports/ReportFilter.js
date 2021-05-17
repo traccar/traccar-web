@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, TextField, ButtonGroup, Grid } from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid } from '@material-ui/core';
 import t from '../common/localization';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
+
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
@@ -56,88 +57,80 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   }
 
   return (
-    <>
-      <Grid container spacing={3} direction='column'>
-        <Grid item container spacing={2}>
-          <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
-            <FormControl variant="filled" fullWidth>
-              <InputLabel>{t('reportDevice')}</InputLabel>
-              <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
-                {devices.map((device) => (
-                  <MenuItem value={device.id}>{device.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
-            <FormControl variant="filled" fullWidth>
-              <InputLabel>{t('reportPeriod')}</InputLabel>
-              <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
-                <MenuItem value="today">{t('reportToday')}</MenuItem>
-                <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
-                <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
-                <MenuItem value="previousWeek">{t('reportPreviousWeek')}</MenuItem>
-                <MenuItem value="thisMonth">{t('reportThisMonth')}</MenuItem>
-                <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
-                <MenuItem value="custom">{t('reportCustom')}</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          {period === 'custom' && <Grid item xs={12} sm={3}>
-            <TextField
-              variant="filled"
-              label={t('reportFrom')}
-              type="datetime-local"
-              value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-              onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-              fullWidth />
-          </Grid>}
-          {period === 'custom' && <Grid item xs={12} sm={3}>
-            <TextField
-              variant="filled"
-              label={t('reportTo')}
-              type="datetime-local"
-              value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-              onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-              fullWidth />
-          </Grid>}
-        </Grid>
-        <Grid item container spacing={2}>
-          {children && <Grid item xs={12} sm={6}>
-            {children}
-          </Grid>}
-          <Grid item xs={4} sm={!showOnly ? 2 : 4}>
-            <Button 
-              onClick={() => handleClick(false, true)}
-              variant='outlined'
-              color='secondary'
-              fullWidth>
-                {t('reportShow')}
-            </Button>
-          </Grid>
-          <Grid item xs={4} sm={2}>
-            {!showOnly && 
-              <Button 
-                onClick={() => handleClick(false, false)}
-                variant='outlined'
-                color='secondary'
-                fullWidth>
-                  {t('reportExport')}
-              </Button>}
-          </Grid>
-          <Grid item xs={4} sm={2}>
-            {!showOnly && 
-              <Button 
-                onClick={() => handleClick(true, false)}
-                variant='outlined'
-                color='secondary'
-                fullWidth>
-                  {t('reportEmail')}
-              </Button>}
-          </Grid>
-        </Grid>
+    <Grid container spacing={3}>
+      <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
+        <FormControl variant="filled" fullWidth>
+          <InputLabel>{t('reportDevice')}</InputLabel>
+          <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+            {devices.map((device) => (
+              <MenuItem value={device.id}>{device.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Grid>
-    </>
+      <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
+        <FormControl variant="filled" fullWidth>
+          <InputLabel>{t('reportPeriod')}</InputLabel>
+          <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+            <MenuItem value="today">{t('reportToday')}</MenuItem>
+            <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
+            <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
+            <MenuItem value="previousWeek">{t('reportPreviousWeek')}</MenuItem>
+            <MenuItem value="thisMonth">{t('reportThisMonth')}</MenuItem>
+            <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
+            <MenuItem value="custom">{t('reportCustom')}</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
+      {period === 'custom' && <Grid item xs={12} sm={3}>
+        <TextField
+          variant="filled"
+          label={t('reportFrom')}
+          type="datetime-local"
+          value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+          onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth />
+      </Grid>}
+      {period === 'custom' && <Grid item xs={12} sm={3}>
+        <TextField
+          variant="filled"
+          label={t('reportTo')}
+          type="datetime-local"
+          value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+          onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth />
+      </Grid>}
+      {children}
+      <Grid item xs={4} sm={!showOnly ? 2 : 4}>
+        <Button 
+          onClick={() => handleClick(false, true)}
+          variant='outlined'
+          color='secondary'
+          fullWidth>
+          {t('reportShow')}
+        </Button>
+      </Grid>
+      <Grid item xs={4} sm={2}>
+        {!showOnly && 
+          <Button 
+            onClick={() => handleClick(false, false)}
+            variant='outlined'
+            color='secondary'
+            fullWidth>
+            {t('reportExport')}
+          </Button>}
+      </Grid>
+      <Grid item xs={4} sm={2}>
+        {!showOnly && 
+          <Button 
+            onClick={() => handleClick(true, false)}
+            variant='outlined'
+            color='secondary'
+            fullWidth>
+            {t('reportEmail')}
+          </Button>}
+      </Grid>
+    </Grid>
   );
 }
 

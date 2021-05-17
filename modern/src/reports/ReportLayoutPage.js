@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Grid, Paper, Drawer, makeStyles, useMediaQuery, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Drawer, makeStyles, useMediaQuery, IconButton } from '@material-ui/core';
 import { useTheme } from "@material-ui/core/styles";
 import MenuIcon from '@material-ui/icons/Menu';
 import TimelineIcon from '@material-ui/icons/Timeline';
@@ -16,24 +16,24 @@ import t from '../common/localization';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100%',
     display: 'flex',
+    height: '100%',
   },
-  drawer: {
-    width: 360,
+  drawerContainer: {
+    width: theme.dimensions.drawerWidth,
     [theme.breakpoints.down("md")]: {
       width: 0,
     }
-  },  
+  },
+  drawer: {
+    width: theme.dimensions.drawerWidth,
+    [theme.breakpoints.down("md")]: {
+      width: theme.dimensions.tabletDrawerWidth,
+    }
+  }, 
   content: {
     flex: 1,
-    padding: theme.spacing(3),
-  },
-  drawerPaper: {
-    width: 360,
-    [theme.breakpoints.down("md")]: {
-      width: 320,
-    }
+    padding: theme.spacing(5, 3, 3, 3),
   },
   drawerHeader: {
     ...theme.mixins.toolbar,
@@ -41,13 +41,15 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing(0, 1),
   },
+  backArrowIconContainer: {
+    '&:hover': {
+      backgroundColor:"transparent"
+    }  
+  },
   toolbar: {
     [theme.breakpoints.down("md")]: {
       ...theme.mixins.toolbar,
     }
-  },
-  form: {
-    padding: theme.spacing(1, 2, 2),
   },
 }));
 
@@ -73,8 +75,7 @@ const ReportLayoutPage = ({ children, filter }) => {
         <ListItem
           key={`${route}${route.activeIndex}`}
           button
-          onClick={() => handleListItemClick(route)}
-        >
+          onClick={() => handleListItemClick(route)}>
           <ListItemIcon>
             {route.icon}
           </ListItemIcon>
@@ -87,11 +88,13 @@ const ReportLayoutPage = ({ children, filter }) => {
   const drawerHeader = (
     <> 
       <div className={classes.drawerHeader}>
-        <IconButton>
+        <IconButton 
+          className={classes.backArrowIconContainer} 
+          disableRipple>
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="h6" color='primary' noWrap>
-          Reports
+        <Typography variant="h6" color="inherit" noWrap>
+          {t('reportTitle')}
         </Typography> 
       </div>
       <Divider />
@@ -99,19 +102,18 @@ const ReportLayoutPage = ({ children, filter }) => {
   );
 
   const appBar = (
-    <AppBar position="fixed">
+    <AppBar position="fixed" color="inherit">
       <Toolbar>
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={() => setOpenDrawer(!openDrawer)}
-          className={classes.menuButton}
-        >
+          className={classes.menuButton}>
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          Reports
+          {t('reportTitle')}
         </Typography>        
       </Toolbar>
     </AppBar>   
@@ -123,18 +125,17 @@ const ReportLayoutPage = ({ children, filter }) => {
 
   return (
     <div className={classes.root}>
-      { matchesMD && appBar }
-      <nav className={classes.drawer}>
+      {matchesMD && appBar}
+      <div className={classes.drawerContainer}>
         <Drawer
           variant={matchesMD ? "temporary": "permanent"}
           open={openDrawer}
           onClose={() => setOpenDrawer(!openDrawer)}
-          classes={{ paper: classes.drawerPaper }}
-        >
-          { !matchesMD && drawerHeader }
-          { navigationList }
+          classes={{paper: classes.drawer}}>
+          {!matchesMD && drawerHeader}
+          {navigationList}
         </Drawer>
-      </nav>
+      </div>
       <div className={classes.content}>
         <div className={classes.toolbar} />
         {filter}

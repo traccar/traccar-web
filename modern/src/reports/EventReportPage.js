@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -30,29 +30,31 @@ const Filter = ({ setItems }) => {
 
   return (
     <ReportFilter handleSubmit={handleSubmit}>
-      <FormControl variant="filled" fullWidth>
-        <InputLabel>{t('reportEventTypes')}</InputLabel>
-        <Select value={eventTypes} onChange={e => setEventTypes(e.target.value)} multiple>
-          <MenuItem value="allEvents">{t('eventAll')}</MenuItem>
-          <MenuItem value="deviceOnline">{t('eventDeviceOnline')}</MenuItem>
-          <MenuItem value="deviceUnknown">{t('eventDeviceUnknown')}</MenuItem>
-          <MenuItem value="deviceOffline">{t('eventDeviceOffline')}</MenuItem>
-          <MenuItem value="deviceInactive">{t('eventDeviceInactive')}</MenuItem>
-          <MenuItem value="deviceMoving">{t('eventDeviceMoving')}</MenuItem>
-          <MenuItem value="deviceStopped">{t('eventDeviceStopped')}</MenuItem>
-          <MenuItem value="deviceOverspeed">{t('eventDeviceOverspeed')}</MenuItem>
-          <MenuItem value="deviceFuelDrop">{t('eventDeviceFuelDrop')}</MenuItem>
-          <MenuItem value="commandResult">{t('eventCommandResult')}</MenuItem>
-          <MenuItem value="geofenceEnter">{t('eventGeofenceEnter')}</MenuItem>
-          <MenuItem value="geofenceExit">{t('eventGeofenceExit')}</MenuItem>
-          <MenuItem value="alarm">{t('eventAlarm')}</MenuItem>
-          <MenuItem value="ignitionOn">{t('eventIgnitionOn')}</MenuItem>
-          <MenuItem value="ignitionOff">{t('eventIgnitionOff')}</MenuItem>
-          <MenuItem value="maintenance">{t('eventMaintenance')}</MenuItem>
-          <MenuItem value="textMessage">{t('eventTextMessage')}</MenuItem>
-          <MenuItem value="driverChanged">{t('eventDriverChanged')}</MenuItem>
-        </Select>
-      </FormControl>
+      <Grid item xs={12} sm={6}>
+        <FormControl variant="filled" fullWidth>
+          <InputLabel>{t('reportEventTypes')}</InputLabel>
+          <Select value={eventTypes} onChange={e => setEventTypes(e.target.value)} multiple>
+            <MenuItem value="allEvents">{t('eventAll')}</MenuItem>
+            <MenuItem value="deviceOnline">{t('eventDeviceOnline')}</MenuItem>
+            <MenuItem value="deviceUnknown">{t('eventDeviceUnknown')}</MenuItem>
+            <MenuItem value="deviceOffline">{t('eventDeviceOffline')}</MenuItem>
+            <MenuItem value="deviceInactive">{t('eventDeviceInactive')}</MenuItem>
+            <MenuItem value="deviceMoving">{t('eventDeviceMoving')}</MenuItem>
+            <MenuItem value="deviceStopped">{t('eventDeviceStopped')}</MenuItem>
+            <MenuItem value="deviceOverspeed">{t('eventDeviceOverspeed')}</MenuItem>
+            <MenuItem value="deviceFuelDrop">{t('eventDeviceFuelDrop')}</MenuItem>
+            <MenuItem value="commandResult">{t('eventCommandResult')}</MenuItem>
+            <MenuItem value="geofenceEnter">{t('eventGeofenceEnter')}</MenuItem>
+            <MenuItem value="geofenceExit">{t('eventGeofenceExit')}</MenuItem>
+            <MenuItem value="alarm">{t('eventAlarm')}</MenuItem>
+            <MenuItem value="ignitionOn">{t('eventIgnitionOn')}</MenuItem>
+            <MenuItem value="ignitionOff">{t('eventIgnitionOff')}</MenuItem>
+            <MenuItem value="maintenance">{t('eventMaintenance')}</MenuItem>
+            <MenuItem value="textMessage">{t('eventTextMessage')}</MenuItem>
+            <MenuItem value="driverChanged">{t('eventDriverChanged')}</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
     </ReportFilter>
   );
 }

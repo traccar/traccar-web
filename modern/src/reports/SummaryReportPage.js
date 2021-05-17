@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDistance, formatHours, formatDate, formatSpeed, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -28,9 +28,11 @@ const Filter = ({ setItems }) => {
 
   return (
     <ReportFilter handleSubmit={handleSubmit}>
-      <FormControlLabel
-        control={<Checkbox checked={daily} onChange={e => setDaily(e.target.checked)} />}
-        label={t('reportDaily')} />
+      <Grid item xs={12} sm={6}>
+        <FormControlLabel
+          control={<Checkbox checked={daily} onChange={e => setDaily(e.target.checked)} />}
+          label={t('reportDaily')} />
+      </Grid>
     </ReportFilter>
   );
 }
