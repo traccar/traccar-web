@@ -3,6 +3,6 @@ export default {
   borderRadius: '4px',
   sidebarWidth: '28%',
   tabletSidebarWidth: '52px',
-  drawerWidth: 360,
-  tabletDrawerWidth: 320,
+  desktopDrawerWidth: '360px',
+  tabletDrawerWidth: '320px',
 };

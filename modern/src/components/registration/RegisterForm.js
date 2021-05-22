@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Button, TextField, Typography, Link, makeStyles, Snackbar } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import LoginForm from './LoginForm';
-import t from './../common/localization';
+import t from './../../common/localization';
 
 const useStyles = makeStyles(theme => ({
   register: {

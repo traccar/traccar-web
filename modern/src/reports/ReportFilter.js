@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid } from '@material-ui/core';
-import t from '../common/localization';
+import { FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import t from '../common/localization';
 
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
 
@@ -101,7 +101,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
           fullWidth />
       </Grid>}
       {children}
-      <Grid item xs={4} sm={!showOnly ? 2 : 4}>
+      <Grid item xs={!showOnly ? 4 : 12} sm={!showOnly ? 2 : 6}>
         <Button 
           onClick={() => handleClick(false, true)}
           variant='outlined'
@@ -127,7 +127,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
             variant='outlined'
             color='secondary'
             fullWidth>
-            {t('reportEmail')}
+            <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
           </Button>}
       </Grid>
     </Grid>

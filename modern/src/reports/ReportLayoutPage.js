@@ -10,6 +10,9 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+import ReportSidebar from '../components/reports/ReportSidebar'
+import ReportNavbar from '../components/reports/ReportNavbar'
+
 import { Link, useHistory, useLocation } from 'react-router-dom';
 
 import t from '../common/localization';
@@ -20,10 +23,10 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   drawerContainer: {
-    width: theme.dimensions.drawerWidth,
+    width: theme.dimensions.desktopDrawerWidth,
   },
   drawer: {
-    width: theme.dimensions.drawerWidth,
+    width: theme.dimensions.desktopDrawerWidth,
     [theme.breakpoints.down("md")]: {
       width: theme.dimensions.tabletDrawerWidth,
     }
@@ -62,89 +65,45 @@ const routes = [
 const ReportLayoutPage = ({ children, filter }) => {
   const classes = useStyles();
   const history = useHistory();
-  const theme = useTheme();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const location = useLocation();
-
-  const navigationList = (
-    <List disablePadding>
-      {routes.map((route, index) => (
-        <ListItem
-          disableRipple
-          component={Link}
-          key={`${route}${index}`}
-          button
-          to={route.href}
-          selected={route.href === location.pathname}>
-          <ListItemIcon>
-            {route.icon}
-          </ListItemIcon>
-          <ListItemText primary={route.name} />
-        </ListItem>
-      ))}
-    </List>
-  );
-
-  const drawerHeader = (
-    <> 
-      <div className={classes.drawerHeader}>
-        <IconButton 
-          className={classes.backArrowIconContainer} 
-          disableRipple>
-          <ArrowBackIcon />
-        </IconButton>
-        <Typography variant="h6" color="inherit" noWrap>
-          {t('reportTitle')}
-        </Typography> 
-      </div>
-      <Divider />
-    </>
-  );
-
-  const appBar = (
-    <AppBar position="fixed" color="inherit">
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={() => setOpenDrawer(!openDrawer)}
-          className={classes.menuButton}>
-          <MenuIcon />
-        </IconButton>
-        <Typography variant="h6" noWrap>
-          {t('reportTitle')}
-        </Typography>        
-      </Toolbar>
-    </AppBar>   
-  );
 
   return (
     <div className={classes.root}>
-      <Hidden mdUp>
-        {appBar}
+      <Hidden only={['lg', 'xl']}>
+        <ReportNavbar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
         <Drawer
           variant="temporary"
           open={openDrawer}
           onClose={() => setOpenDrawer(!openDrawer)}
           classes={{paper: classes.drawer}}>
-          {drawerHeader}
-          {navigationList}
+          <ReportSidebar routes={routes} />
         </Drawer>
       </Hidden>
-      <Hidden mdDown>
+      <Hidden only={['xs', 'sm', 'md']}>
         <div className={classes.drawerContainer}>
           <Drawer
             variant="permanent"
             classes={{paper: classes.drawer}}>
-            {drawerHeader}
-            {navigationList}
+            <div className={classes.drawerHeader}>
+              <IconButton
+                onClick={() => history.push('/')}
+                className={classes.backArrowIconContainer} 
+                disableRipple>
+                <ArrowBackIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" noWrap>
+                {t('reportTitle')}
+              </Typography> 
+            </div>
+            <Divider />
+            <ReportSidebar routes={routes} />
           </Drawer>
         </div>
       </Hidden>
       <div className={classes.content}>
         <div className={classes.toolbar} />
         {filter}
+        {children}
       </div>      
     </div>
   );
