@@ -111,7 +111,7 @@ Ext.define('Traccar.view.Events', {
         }, {
             text: Strings.positionFixTime,
             dataIndex: 'eventTime',
-            renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
+            renderer: Traccar.AttributeFormatter.getFormatter('eventTime')
         }]
     }
 });
