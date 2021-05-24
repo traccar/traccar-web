@@ -1,16 +1,9 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
-
+import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import t from '../../common/localization';
 
-const useStyles = makeStyles(theme => ({
-  menuButton: {
-  }
-}));
-const ReportNavbar = ({ openDrawer, setOpenDrawer, reportName }) => {
-  
-  const classes = useStyles();
+const ReportNavbar = ({ openDrawer, setOpenDrawer }) => {
 
   return (
     <AppBar position="fixed" color="inherit">
@@ -19,12 +12,11 @@ const ReportNavbar = ({ openDrawer, setOpenDrawer, reportName }) => {
           color="inherit"
           aria-label="open drawer"
           edge="start"
-          onClick={() => setOpenDrawer(!openDrawer)}
-          className={classes.menuButton}>
+          onClick={() => setOpenDrawer(!openDrawer)}>
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          {t('reportTitle')} / {reportName}
+          {t('reportTitle')}
         </Typography>        
       </Toolbar>
     </AppBar> 

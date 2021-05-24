@@ -1,8 +1,8 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import { Link, useLocation } from 'react-router-dom';
 
-const ReportNavbar = ({ routes, setReportName }) => {
+const ReportNavbar = ({ routes }) => {
 
   const location = useLocation();
 
@@ -15,8 +15,7 @@ const ReportNavbar = ({ routes, setReportName }) => {
           key={`${route}${index}`}
           button
           to={route.href}
-          selected={route.href === location.pathname}
-          onClick={() =>  setReportName(route.name)}>
+          selected={route.href === location.pathname}>
           <ListItemIcon>
             {route.icon}
           </ListItemIcon>

@@ -22,12 +22,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import StorageIcon from '@material-ui/icons/Storage';
 import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import DescriptionIcon from '@material-ui/icons/Description';
 import FolderIcon from '@material-ui/icons/Folder';
 import ReplayIcon from '@material-ui/icons/Replay';
 import BuildIcon from '@material-ui/icons/Build';
@@ -104,50 +99,12 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportReplay')} />
             </ListItem>
-          </List>
-          <Divider />
-          <List
-            subheader={
-              <ListSubheader>
-                {t('reportTitle')}
-              </ListSubheader>
-            }>
             <ListItem button onClick={() => history.push('/reports/route')}>
               <ListItemIcon>
-                <TimelineIcon />
+                <DescriptionIcon />
               </ListItemIcon>
-              <ListItemText primary={t('reportRoute')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/reports/event')}>
-              <ListItemIcon>
-                <NotificationsActiveIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('reportEvents')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/reports/trip')}>
-              <ListItemIcon>
-                <PlayCircleFilledIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('reportTrips')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/reports/stop')}>
-              <ListItemIcon>
-                <PauseCircleFilledIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('reportStops')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/reports/summary')}>
-              <ListItemIcon>
-                <FormatListBulletedIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('reportSummary')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/reports/chart')}>
-              <ListItemIcon>
-                <TrendingUpIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('reportChart')} />
-            </ListItem>
+              <ListItemText primary={t('reportTitle')} />
+            </ListItem>            
           </List>
           <Divider />
           <List

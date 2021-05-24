@@ -61,15 +61,13 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
 
   return (
-    <>
-      <ReportLayoutPage filter={ 
-        <Filter setItems={setItems}>
-          <ChartType type={type} setType={setType} />
-        </Filter>
-      }>
-        <Graph items={items} type={type} />
-      </ReportLayoutPage>
-    </>
+    <ReportLayoutPage filter={ 
+      <Filter setItems={setItems}>
+        <ChartType type={type} setType={setType} />
+      </Filter>
+    }>
+      <Graph items={items} type={type} />
+    </ReportLayoutPage>
   )
 }
 

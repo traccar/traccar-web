@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Grid, Box, Typography, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
@@ -10,9 +11,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import ReportSidebar from '../components/reports/ReportSidebar'
 import ReportNavbar from '../components/reports/ReportNavbar'
-
-import { Link, useHistory, useLocation } from 'react-router-dom';
-
 import t from '../common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -60,7 +58,7 @@ const routes = [
   { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
 ];
 
-const ReportLayoutPage = ({ children, filter }) => {
+const ReportLayoutPage = ({ children, filter, }) => {
   const classes = useStyles();
   const history = useHistory();
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -102,11 +100,7 @@ const ReportLayoutPage = ({ children, filter }) => {
         <div className={classes.toolbar} />
         <Grid container direction="column" spacing={2}>
           <Grid item>{filter}</Grid>
-          <Grid item>
-              <Box sx={{ minWidth: 1050 }}>
-                {children}
-              </Box>
-          </Grid>
+          <Grid item>{children}</Grid>
         </Grid>
       </div>      
     </div>
