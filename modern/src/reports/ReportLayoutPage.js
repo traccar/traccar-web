@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, List, ListItem, ListItemText, ListItemIcon, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
-import { useTheme } from "@material-ui/core/styles";
-import MenuIcon from '@material-ui/icons/Menu';
+import { Grid, Box, Typography, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
@@ -102,8 +100,14 @@ const ReportLayoutPage = ({ children, filter }) => {
       </Hidden>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-        {filter}
-        {children}
+        <Grid container direction="column" spacing={2}>
+          <Grid item>{filter}</Grid>
+          <Grid item>
+              <Box sx={{ minWidth: 1050 }}>
+                {children}
+              </Box>
+          </Grid>
+        </Grid>
       </div>      
     </div>
   );
