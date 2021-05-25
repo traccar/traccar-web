@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
@@ -61,12 +61,26 @@ const routes = [
 const ReportLayoutPage = ({ children, filter, }) => {
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [reportTitle, setReportTitle] = useState();
+
+  useEffect(() => {
+    routes.forEach(route => {
+      switch (location.pathname) {
+        case `${route.href}`:
+          setReportTitle(route.name);
+          break;
+        default:
+          break;
+      }
+    });
+  }, []);
 
   return (
     <div className={classes.root}>
       <Hidden only={['lg', 'xl']}>
-        <ReportNavbar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+        <ReportNavbar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} reportTitle={reportTitle} />
         <Drawer
           variant="temporary"
           open={openDrawer}
