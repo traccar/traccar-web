@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import t from '../common/localization';
+import { useTheme } from "@material-ui/core/styles";
+import { useSelector } from 'react-redux';
 import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { prefixString } from '../common/stringUtils';
-import { useSelector } from 'react-redux';
+import t from '../common/localization';
 
 const Filter = ({ setItems }) => {
 
@@ -61,6 +62,7 @@ const Filter = ({ setItems }) => {
 
 const EventReportPage = () => {
 
+  const theme = useTheme();
   const geofences = useSelector(state => state.geofences.items);
   const [items, setItems] = useState([]);
 
@@ -76,24 +78,24 @@ const EventReportPage = () => {
     headerName: t('positionFixTime'),
     field: 'serverTime',
     type: 'dateTime',
-    flex: 1,
+    width: theme.dimensions.dateColumnWidth,
     valueFormatter: ({ value }) => formatDate(value),
   }, {
     headerName: t('sharedType'),
     field: 'type',
     type: 'string',
-    flex:1,
+    width: theme.dimensions.stringColumnWidth,
     valueFormatter: ({ value }) => t(prefixString('event', value)),
   }, {
     headerName: t('sharedGeofence'),
     field: 'geofenceId',
-    flex: 1,
+    width: theme.dimensions.stringColumnWidth,
     valueFormatter: ({ value }) => formatGeofence(value),
   }, {
     headerName: t('sharedMaintenance'),
     field: 'maintenanceId',
     type: 'number',
-    flex: 1
+    width: theme.dimensions.stringColumnWidth,
   }];
 
   return (

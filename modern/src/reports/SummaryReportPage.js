@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
-import t from '../common/localization';
+import { useTheme } from "@material-ui/core/styles";
 import { formatDistance, formatHours, formatDate, formatSpeed, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
+import t from '../common/localization';
 
 const Filter = ({ setItems }) => {
 
@@ -39,6 +40,8 @@ const Filter = ({ setItems }) => {
 
 const SummaryReportPage = () => {
 
+  const theme = useTheme();
+
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
@@ -49,49 +52,49 @@ const SummaryReportPage = () => {
     headerName: t('reportStartDate'),
     field: 'startTime',
     type: 'dateTime',
-    flex: 1,
+    width: theme.dimensions.dateColumnWidth,
     valueFormatter: ({ value }) => formatDate(value, 'YYYY-MM-DD'),
   }, {
     headerName: t('sharedDistance'),
     field: 'distance',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
   }, {
     headerName: t('reportStartOdometer'),
     field: 'startOdometer',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
   }, {
     headerName: t('reportEndOdometer'),
     field: 'endOdometer',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
   }, {
     headerName: t('reportAverageSpeed'),
     field: 'averageSpeed',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
   }, {
     headerName: t('reportMaximumSpeed'),
     field: 'maxSpeed',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
   }, {
     headerName: t('reportEngineHours'),
     field: 'engineHours',
     type: 'string',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     valueFormatter: ({ value }) => formatHours(value),
   }, {
     headerName: t('reportSpentFuel'),
     field: 'spentFuel',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.numberColumnWidth,
     hide: true,
     valueFormatter: ({ value }) => formatVolume(value, volumeUnit),                
   }]

@@ -5,4 +5,8 @@ export default {
   tabletSidebarWidth: '52px',
   desktopDrawerWidth: '360px',
   tabletDrawerWidth: '320px',
+  dateColumnWidth: 160,
+  numberColumnWidth: 130,
+  stringColumnWidth: 160,
+  booleanColumnWidth: 130
 };

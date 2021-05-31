@@ -7,7 +7,7 @@ const ReportNavbar = ({ routes }) => {
   const location = useLocation();
 
   return (
-    <List disablePadding>
+    <List disablePadding style={{paddingTop: '16px'}}>
       {routes.map((route, index) => (
         <ListItem
           disableRipple
