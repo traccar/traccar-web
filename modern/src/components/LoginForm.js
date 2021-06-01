@@ -11,6 +11,7 @@ import ResetPasswordForm from './ResetPasswordForm';
 const useStyles = makeStyles(theme => ({
   logoContainer: {
     textAlign: 'center',
+    color: theme.palette.primary.main,
   },
   resetPassword: {
     cursor: 'pointer',
@@ -28,7 +29,6 @@ const LoginForm = ({ setCurrentForm }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
@@ -58,9 +58,13 @@ const LoginForm = ({ setCurrentForm }) => {
 
   return (
     <Grid container direction='column' spacing={3}>
-      <Grid item className={classes.logoContainer}>
-        {matches && <img src='/logo.svg' alt='Traccar' />}
-      </Grid>    
+      {useMediaQuery(theme.breakpoints.down('md')) &&
+        <Grid item className={classes.logoContainer}>
+          <svg height="64" width="240">
+            <use xlinkHref="/logo.svg#img"></use>
+          </svg>
+        </Grid>
+      }
       <Grid item>
         <TextField
           required
