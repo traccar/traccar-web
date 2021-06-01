@@ -65,6 +65,7 @@
         'lt': { name: 'Lietuvių', code: 'lt' },
         'lv': { name: 'Latviešu', code: 'lv' },
         'ml': { name: 'മലയാളം', code: 'en' },
+        'mn': { name: 'Монгол хэл', code: 'en' },
         'ms': { name: 'بهاس ملايو', code: 'en' },
         'nb': { name: 'Norsk bokmål', code: 'no_NB' },
         'ne': { name: 'नेपाली', code: 'en' },
