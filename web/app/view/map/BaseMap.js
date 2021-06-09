@@ -30,7 +30,7 @@ Ext.define('Traccar.view.map.BaseMap', {
     },
 
     initMap: function () {
-        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, geocoder, popup, self = this;
+        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, geocoder, self = this;
 
         server = Traccar.app.getServer();
 
@@ -187,25 +187,22 @@ Ext.define('Traccar.view.map.BaseMap', {
 
         this.map.addControl(new ol.control.LayerSwitcher());
 
-        popup = new ol.Overlay.Popup();
-        this.map.addOverlay(popup);
-
         geocoder = new Geocoder('nominatim', {
-            provider: 'bing',
-            key: server.get('bingKey'),
-            lang: 'en-US',
+            provider: 'osm',
             placeholder: 'Search for ...',
             targetType: 'glass-button',
+            featureStyle: new ol.style.Style(),
             limit: 5,
-            autoComplete: true,
             keepOpen: true
         });
         this.map.addControl(geocoder);
 
         geocoder.on('addresschosen', function (evt) {
-            window.setTimeout(function () {
-                popup.show(evt.coordinate, evt.address.formatted);
-            }, 3000);
+            var popup = new ol.Overlay.Popup({
+                insertFirst: false
+            });
+            self.map.addOverlay(popup);
+            popup.show(evt.coordinate, evt.address.formatted);
         });
 
         target = this.map.getTarget();
