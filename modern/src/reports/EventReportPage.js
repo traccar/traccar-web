@@ -78,24 +78,24 @@ const EventReportPage = () => {
     headerName: t('positionFixTime'),
     field: 'serverTime',
     type: 'dateTime',
-    width: theme.dimensions.dateColumnWidth,
+    width: theme.dimensions.columnWidthDate,
     valueFormatter: ({ value }) => formatDate(value),
   }, {
     headerName: t('sharedType'),
     field: 'type',
     type: 'string',
-    width: theme.dimensions.stringColumnWidth,
+    width: theme.dimensions.columnWidthString,
     valueFormatter: ({ value }) => t(prefixString('event', value)),
   }, {
     headerName: t('sharedGeofence'),
     field: 'geofenceId',
-    width: theme.dimensions.stringColumnWidth,
+    width: theme.dimensions.columnWidthString,
     valueFormatter: ({ value }) => formatGeofence(value),
   }, {
     headerName: t('sharedMaintenance'),
     field: 'maintenanceId',
     type: 'number',
-    width: theme.dimensions.stringColumnWidth,
+    width: theme.dimensions.columnWidthString,
   }];
 
   return (

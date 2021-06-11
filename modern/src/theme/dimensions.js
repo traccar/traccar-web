@@ -2,11 +2,11 @@ export default {
   inputHeight: '42px',
   borderRadius: '4px',
   sidebarWidth: '28%',
-  tabletSidebarWidth: '52px',
-  desktopDrawerWidth: '360px',
-  tabletDrawerWidth: '320px',
-  dateColumnWidth: 160,
-  numberColumnWidth: 130,
-  stringColumnWidth: 160,
-  booleanColumnWidth: 130
+  sidebarWidthTablet: '52px',
+  drawerWidthDesktop: '360px',
+  drawerWidthTablet: '320px',
+  columnWidthDate: 160,
+  columnWidthNumber: 130,
+  columnWidthString: 160,
+  columnWidthBoolean: 130
 };

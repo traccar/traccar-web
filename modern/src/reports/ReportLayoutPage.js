@@ -19,12 +19,12 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   drawerContainer: {
-    width: theme.dimensions.desktopDrawerWidth,
+    width: theme.dimensions.drawerWidthDesktop,
   },
   drawer: {
-    width: theme.dimensions.desktopDrawerWidth,
+    width: theme.dimensions.drawerWidthDesktop,
     [theme.breakpoints.down("md")]: {
-      width: theme.dimensions.tabletDrawerWidth,
+      width: theme.dimensions.drawerWidthTablet,
     }
   }, 
   content: {
@@ -80,7 +80,7 @@ const ReportLayoutPage = ({ children, filter, }) => {
   return (
     <div className={classes.root}>
       <Hidden only={['lg', 'xl']}>
-        <ReportNavbar openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} reportTitle={reportTitle} />
+        <ReportNavbar setOpenDrawer={setOpenDrawer} reportTitle={reportTitle} />
         <Drawer
           variant="temporary"
           open={openDrawer}

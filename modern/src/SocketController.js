@@ -38,7 +38,6 @@ const SocketController = () => {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log('socket message received ', data);
       if (data.devices) {
         dispatch(devicesActions.update(data.devices));
       }

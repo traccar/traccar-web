@@ -121,26 +121,26 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
           {t('reportShow')}
         </Button>
       </Grid>
-      <Grid item xs={4} sm={2}>
-        {!showOnly && 
-          <Button 
-            onClick={() => handleClick(false, false)}
-            variant='outlined'
-            color='secondary'
-            fullWidth>
-            {t('reportExport')}
-          </Button>}
-      </Grid>
-      <Grid item xs={4} sm={2}>
-        {!showOnly && 
-          <Button 
-            onClick={() => handleClick(true, false)}
-            variant='outlined'
-            color='secondary'
-            fullWidth>
-            <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
-          </Button>}
-      </Grid>
+      {!showOnly && 
+        <Grid item xs={4} sm={2}>
+            <Button 
+              onClick={() => handleClick(false, false)}
+              variant='outlined'
+              color='secondary'
+              fullWidth>
+              {t('reportExport')}
+            </Button>
+        </Grid>}
+      {!showOnly && 
+        <Grid item xs={4} sm={2}>
+            <Button 
+              onClick={() => handleClick(true, false)}
+              variant='outlined'
+              color='secondary'
+              fullWidth>
+              <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
+            </Button>
+        </Grid>}
     </Grid>
   );
 }

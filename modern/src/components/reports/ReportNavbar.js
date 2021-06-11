@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import t from '../../common/localization';
 
-const ReportNavbar = ({ openDrawer, setOpenDrawer, reportTitle }) => {
+const ReportNavbar = ({ setOpenDrawer, reportTitle }) => {
 
   return (
     <AppBar position="fixed" color="inherit">
@@ -12,11 +12,11 @@ const ReportNavbar = ({ openDrawer, setOpenDrawer, reportTitle }) => {
           color="inherit"
           aria-label="open drawer"
           edge="start"
-          onClick={() => setOpenDrawer(!openDrawer)}>
+          onClick={() => setOpenDrawer(true)}>
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap>
-          {t('reportTitle')} {reportTitle ? `/ ${reportTitle}` : ''}
+          {t('reportTitle')} {` / ${reportTitle}`}
         </Typography>        
       </Toolbar>
     </AppBar> 

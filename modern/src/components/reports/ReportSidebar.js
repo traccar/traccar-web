@@ -2,7 +2,7 @@ import React from 'react';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import { Link, useLocation } from 'react-router-dom';
 
-const ReportNavbar = ({ routes }) => {
+const ReportSidebar = ({ routes }) => {
 
   const location = useLocation();
 
@@ -26,4 +26,4 @@ const ReportNavbar = ({ routes }) => {
   )
 }
 
-export default ReportNavbar;
+export default ReportSidebar;
