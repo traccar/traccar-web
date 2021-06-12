@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    color: theme.palette.secondary.contrastText,
     background: theme.palette.common.purple,
     paddingBottom: theme.spacing(5),
     width: theme.dimensions.sidebarWidth,
@@ -46,16 +47,19 @@ const LoginPage = () => {
   const theme = useTheme();
 
   const [CurrentForm, setCurrentForm] = useState(() => LoginForm);
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   return (
     <main className={classes.root}>
       <div className={classes.sidebar}>
-        {!matches && <img src='/logo.svg' alt='Traccar' /> }
+        {!useMediaQuery(theme.breakpoints.down('md')) &&
+          <svg height="64" width="240">
+            <use xlinkHref="/logo.svg#img"></use>
+          </svg>
+        }
       </div>
       <Paper className={classes.paper}>
         <form className={classes.form}>
-            <CurrentForm setCurrentForm={setCurrentForm} />
+          <CurrentForm setCurrentForm={setCurrentForm} />
         </form>
       </Paper>
     </main>

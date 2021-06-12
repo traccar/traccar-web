@@ -27,6 +27,7 @@ import lo from '../../../web/l10n/lo.json';
 import lt from '../../../web/l10n/lt.json';
 import lv from '../../../web/l10n/lv.json';
 import ml from '../../../web/l10n/ml.json';
+import mn from '../../../web/l10n/mn.json';
 import ms from '../../../web/l10n/ms.json';
 import nb from '../../../web/l10n/nb.json';
 import ne from '../../../web/l10n/ne.json';
@@ -82,6 +83,7 @@ const supportedLanguages = {
   'lt': { data: lt, name: 'Lietuvių' },
   'lv': { data: lv, name: 'Latviešu' },
   'ml': { data: ml, name: 'മലയാളം' },
+  'mn': { data: mn, name: 'Монгол хэл' },
   'ms': { data: ms, name: 'بهاس ملايو' },
   'nb': { data: nb, name: 'Norsk bokmål' },
   'ne': { data: ne, name: 'नेपाली' },
