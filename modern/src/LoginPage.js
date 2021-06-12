@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMediaQuery, makeStyles, Paper } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/registration/LoginForm';
 
 const useStyles = makeStyles(theme => ({
   root: {

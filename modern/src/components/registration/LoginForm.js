@@ -3,8 +3,8 @@ import { Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormCont
 import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { sessionActions } from './../store';
-import t from './../common/localization';
+import { sessionActions } from '../../store';
+import t from '../../common/localization';
 import RegisterForm from './RegisterForm';
 import ResetPasswordForm from './ResetPasswordForm';
 

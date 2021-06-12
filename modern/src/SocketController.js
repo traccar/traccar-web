@@ -27,11 +27,13 @@ const SocketController = () => {
   const authenticated = useSelector(state => !!state.session.user);
 
   const connectSocket = () => {
+    console.log('connect socket method invoked');
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const socket = new WebSocket(protocol + '//' + window.location.host + '/api/socket');
 
     socket.onclose = () => {
-      setTimeout(() => connectSocket(), 60 * 1000);
+      console.log('socket closed');
+      setTimeout(() => {console.log('socket reconnection try');connectSocket()}, 60 * 1000);
     };
 
     socket.onmessage = (event) => {

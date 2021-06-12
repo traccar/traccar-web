@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import t from '../common/localization';
+import { useTheme } from "@material-ui/core/styles";
 import { formatDistance, formatHours, formatDate, formatVolume } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference } from '../common/preferences';
+import t from '../common/localization';
 
 const Filter = ({ setItems }) => {
 
@@ -28,6 +29,8 @@ const Filter = ({ setItems }) => {
 
 const StopReportPage = () => {
 
+  const theme = useTheme();
+
   const distanceUnit = useAttributePreference('distanceUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
 
@@ -37,43 +40,43 @@ const StopReportPage = () => {
     headerName: t('reportStartTime'),
     field: 'startTime',
     type: 'dateTime',
-    flex: 1,
+    width: theme.dimensions.columnWidthDate,
     valueFormatter: ({ value }) => formatDate(value), 
   }, {
     headerName: t('positionOdometer'),
     field: 'startOdometer',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.columnWidthNumber,
     valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
   }, {
     headerName: t('positionAddress'),
     field: 'address',
     type: 'string',
     hide: true,
-    flex: 1,    
+    width: theme.dimensions.columnWidthString,    
   }, {
     headerName: t('reportEndTime'),
     field: 'endTime',
     type: 'dateTime',
-    flex: 1,
+    width: theme.dimensions.columnWidthDate,
     valueFormatter: ({ value }) => formatDate(value),
   }, {
     headerName: t('reportDuration'),
     field: 'duration',
     type: 'string',
-    flex: 1,
+    width: theme.dimensions.columnWidthString,
     valueFormatter: ({ value }) => formatHours(value),
   }, {
     headerName: t('reportEngineHours'),
     field: 'engineHours',
     type: 'string',
-    flex: 1,
+    width: theme.dimensions.columnWidthString,
     valueFormatter: ({ value }) => formatHours(value),
   }, {
     headerName: t('reportSpentFuel'),
     field: 'spentFuel',
     type: 'number',
-    flex: 1,
+    width: theme.dimensions.columnWidthNumber,
     hide: true,
     valueFormatter: ({ value }) => formatVolume(value, volumeUnit),    
   }]
