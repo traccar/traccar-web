@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
 import t from '../../common/localization';
-import RegisterForm from './RegisterForm';
-import ResetPasswordForm from './ResetPasswordForm';
+import LoginPage from './../../LoginPage';
 
 const useStyles = makeStyles(theme => ({
   logoContainer: {
@@ -18,12 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const forms = {
-  register: () => RegisterForm,
-  resetPassword: () => ResetPasswordForm,
-};
-
-const LoginForm = ({ setCurrentForm }) => {
+const LoginForm = () => {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -34,6 +28,7 @@ const LoginForm = ({ setCurrentForm }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const registrationEnabled =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
+  const emailEnabled =  useSelector(state => state.session.server ? state.session.server['emailEnabled'] : false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -56,73 +51,84 @@ const LoginForm = ({ setCurrentForm }) => {
     }
   }
 
+  const handleSpecialKey = e => {
+    if (e.keyCode === 13 && email && password) {
+      handleLogin(e);
+    }
+  }
+
   return (
-    <Grid container direction='column' spacing={3}>
-      {useMediaQuery(theme.breakpoints.down('md')) &&
-        <Grid item className={classes.logoContainer}>
-          <svg height="64" width="240">
-            <use xlinkHref="/logo.svg#img"></use>
-          </svg>
-        </Grid>
-      }
-      <Grid item>
-        <TextField
-          required
-          fullWidth
-          error={failed}
-          label={t('userEmail')}
-          name='email'
-          value={email}
-          autoComplete='email'
-          autoFocus
-          onChange={handleEmailChange}
-          helperText={failed && 'Invalid username or password'}
-          variant='filled' />
-      </Grid>
-      <Grid item>
-        <TextField
-          required
-          fullWidth
-          error={failed}
-          label={t('userPassword')}
-          name='password'
-          value={password}
-          type='password'
-          autoComplete='current-password'
-          onChange={handlePasswordChange}
-          variant='filled' />
-      </Grid>
-      <Grid item>
-        <Button 
-          onClick={handleLogin}
-          variant='contained' 
-          color='secondary'
-          disabled={!email || !password}
-          fullWidth>
-          {t('loginLogin')}
-        </Button>
-      </Grid>
-      <Grid item container>
+    <LoginPage>
+      <Grid container direction='column' spacing={3}>
+        {useMediaQuery(theme.breakpoints.down('md')) &&
+          <Grid item className={classes.logoContainer}>
+            <svg height="64" width="240">
+              <use xlinkHref="/logo.svg#img"></use>
+            </svg>
+          </Grid>
+        }
         <Grid item>
-          <Button onClick={() => setCurrentForm(forms.register)} disabled={!registrationEnabled} color="secondary">
-            {t('loginRegister')}
+          <TextField
+            required
+            fullWidth
+            error={failed}
+            label={t('userEmail')}
+            name='email'
+            value={email}
+            autoComplete='email'
+            autoFocus
+            onChange={handleEmailChange}
+            onKeyUp={handleSpecialKey}
+            helperText={failed && 'Invalid username or password'}
+            variant='filled' />
+        </Grid>
+        <Grid item>
+          <TextField
+            required
+            fullWidth
+            error={failed}
+            label={t('userPassword')}
+            name='password'
+            value={password}
+            type='password'
+            autoComplete='current-password'
+            onChange={handlePasswordChange}
+            onKeyUp={handleSpecialKey}
+            variant='filled' />
+        </Grid>
+        <Grid item>
+          <Button 
+            onClick={handleLogin}
+            onKeyUp={handleSpecialKey}
+            variant='contained' 
+            color='secondary'
+            disabled={!email || !password}
+            fullWidth>
+            {t('loginLogin')}
           </Button>
         </Grid>
-        <Grid item xs>
-          <FormControl variant="filled" fullWidth>
-            <InputLabel>{t('loginLanguage')}</InputLabel>
-            <Select>
-              <MenuItem value="en">English</MenuItem>
-            </Select>
-          </FormControl>
+        <Grid item container>
+          <Grid item>
+            <Button onClick={() => history.push('/register')} disabled={!registrationEnabled} color="secondary">
+              {t('loginRegister')}
+            </Button>
+          </Grid>
+          <Grid item xs>
+            <FormControl variant="filled" fullWidth>
+              <InputLabel>{t('loginLanguage')}</InputLabel>
+              <Select>
+                <MenuItem value="en">English</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
+        {emailEnabled && <Grid item container justify="flex-end">
+          <Grid item>
+            <Link onClick={() => history.push('/resetpassword')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>              
+          </Grid>
+        </Grid>}           
       </Grid>
-      <Grid item container justify="flex-end">
-        <Grid item>
-          <Link onClick={() => setCurrentForm(forms.resetPassword)} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>              
-        </Grid>
-      </Grid>            
-    </Grid>
+    </LoginPage>
   )
 }
 
