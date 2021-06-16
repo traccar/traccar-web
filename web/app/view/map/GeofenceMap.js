@@ -89,7 +89,7 @@ Ext.define('Traccar.view.map.GeofenceMap', {
         if (this.area) {
             geometry = Traccar.GeofenceConverter.wktToGeometry(mapView, this.area);
             this.features.push(new ol.Feature(geometry));
-            this.map.once('postrender', function (event) {
+            this.map.once('postrender', function () {
                 mapView.fit(geometry, {
                     padding: [20, 20, 20, 20]
                 });
