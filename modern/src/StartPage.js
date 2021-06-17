@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useMediaQuery, makeStyles, Paper } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-
-import LoginForm from './components/registration/LoginForm';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,11 +40,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const LoginPage = () => {
+const StartPage = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
-
-  const [CurrentForm, setCurrentForm] = useState(() => LoginForm);
 
   return (
     <main className={classes.root}>
@@ -59,10 +55,11 @@ const LoginPage = () => {
       </div>
       <Paper className={classes.paper}>
         <form className={classes.form}>
-          <CurrentForm setCurrentForm={setCurrentForm} />
+          { children }
         </form>
       </Paper>
     </main>
   )
 }
-export default LoginPage;
+
+export default StartPage;

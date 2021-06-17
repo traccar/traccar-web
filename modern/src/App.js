@@ -3,7 +3,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainPage from './MainPage';
-import LoginPage from './LoginPage';
 import RouteReportPage from './reports/RouteReportPage';
 import ServerPage from './admin/ServerPage';
 import UsersPage from './admin/UsersPage';
@@ -32,6 +31,10 @@ import MaintenancePage from './settings/MaintenancePage';
 import StatisticsPage from './admin/StatisticsPage';
 import CachingController from './CachingController';
 
+import LoginForm from './components/registration/LoginForm';
+import RegisterForm from './components/registration/RegisterForm';
+import ResetPasswordForm from './components/registration/ResetPasswordForm';
+
 import theme from './theme';
 
 const App = () => {
@@ -43,7 +46,9 @@ const App = () => {
       <SocketController />
       <CachingController />
       <Switch>
-        <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/login' component={LoginForm} />
+        <Route exact path='/register' component={RegisterForm} />
+        <Route exact path='/reset-password' component={ResetPasswordForm} />
         <Route>
           {!initialized ? (<LinearProgress />) : (
             <Switch>

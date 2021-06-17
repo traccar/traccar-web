@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Grid, Button, TextField, Typography, Link, makeStyles, Snackbar } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import LoginForm from './LoginForm';
+import StartPage from './../../StartPage';
 import t from './../../common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -17,13 +18,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const forms = {
-  login: () => LoginForm,
-};
-
-const RegisterForm = ({ setCurrentForm }) => {
+const RegisterForm = () => {
 
   const classes = useStyles();
+  const history = useHistory();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,18 +45,18 @@ const RegisterForm = ({ setCurrentForm }) => {
   }
 
   return (
-    <>
+    <StartPage>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
-        onClose={() => setCurrentForm(forms.login)}
+        onClose={() => history.push('/login')}
         autoHideDuration={6000}
         message={t('loginCreated')} />    
       <Grid container direction='column' spacing={3}>
         <Grid container item>
           <Grid item>
             <Typography className={classes.link} color='primary'>
-              <Link onClick={() => setCurrentForm(forms.login)}>
+              <Link onClick={() => history.push('/login')}>
                 <ArrowBackIcon />
               </Link>
             </Typography>
@@ -115,7 +114,7 @@ const RegisterForm = ({ setCurrentForm }) => {
           </Button>
         </Grid>
       </Grid>
-    </>
+    </StartPage>
   )
 }
 
