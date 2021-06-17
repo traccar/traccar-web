@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
 import t from '../../common/localization';
-import LoginPage from './../../LoginPage';
+import StartPage from './../../StartPage';
 
 const useStyles = makeStyles(theme => ({
   logoContainer: {
@@ -58,7 +58,7 @@ const LoginForm = () => {
   }
 
   return (
-    <LoginPage>
+    <StartPage>
       <Grid container direction='column' spacing={3}>
         {useMediaQuery(theme.breakpoints.down('md')) &&
           <Grid item className={classes.logoContainer}>
@@ -124,11 +124,11 @@ const LoginForm = () => {
         </Grid>
         {emailEnabled && <Grid item container justify="flex-end">
           <Grid item>
-            <Link onClick={() => history.push('/resetpassword')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>              
+            <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>              
           </Grid>
         </Grid>}           
       </Grid>
-    </LoginPage>
+    </StartPage>
   )
 }
 

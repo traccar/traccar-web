@@ -48,7 +48,7 @@ const App = () => {
       <Switch>
         <Route exact path='/login' component={LoginForm} />
         <Route exact path='/register' component={RegisterForm} />
-        <Route exact path='/resetpassword' component={ResetPasswordForm} />
+        <Route exact path='/reset-password' component={ResetPasswordForm} />
         <Route>
           {!initialized ? (<LinearProgress />) : (
             <Switch>

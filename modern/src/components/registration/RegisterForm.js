@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Button, TextField, Typography, Link, makeStyles, Snackbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import LoginPage from './../../LoginPage';
+import StartPage from './../../StartPage';
 import t from './../../common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -45,7 +45,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <LoginPage>
+    <StartPage>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
@@ -114,7 +114,7 @@ const RegisterForm = () => {
           </Button>
         </Grid>
       </Grid>
-    </LoginPage>
+    </StartPage>
   )
 }
 
