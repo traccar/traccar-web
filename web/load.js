@@ -157,7 +157,7 @@
     }
 
     extjsVersion = '6.2.0';
-    olVersion = '6.1.1';
+    olVersion = '6.5.0';
     olLayerSwitcherVersion = '3.8.3';
     proj4jsVersion = '2.6.0';
 
