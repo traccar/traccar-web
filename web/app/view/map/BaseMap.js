@@ -218,7 +218,7 @@ Ext.define('Traccar.view.map.BaseMap', {
             }
         });
 
-        this.map.once('postrender', function (event) {
+        this.map.once('postrender', function () {
             self.fireEvent('mapready');
         });
     },

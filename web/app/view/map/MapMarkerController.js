@@ -107,11 +107,11 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             image: new ol.style.Circle({
                 radius: 6,
                 fill: new ol.style.Fill({
-                    color: '#3399CC',
+                    color: '#3399CC'
                 }),
                 stroke: new ol.style.Stroke({
                     color: '#fff',
-                    width: 2,
+                    width: 2
                 })
             })
         }));
