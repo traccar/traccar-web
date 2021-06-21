@@ -66,6 +66,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             },
             component: {
                 '#': {
+                    mapready: 'initGeolocation',
                     selectfeature: 'selectFeature',
                     deselectfeature: 'deselectFeature'
                 }
@@ -80,6 +81,54 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         this.liveRoutes = {};
         this.liveRouteLength = Traccar.app.getAttributePreference('web.liveRouteLength', 10);
         this.selectZoom = Traccar.app.getAttributePreference('web.selectZoom', 0);
+    },
+
+    initGeolocation: function () {
+        var geolocation, accuracyFeature, positionFeature;
+
+        geolocation = new ol.Geolocation({
+            trackingOptions: {
+                enableHighAccuracy: true
+            },
+            projection: this.getView().getMapView().getProjection()
+        });
+
+        geolocation.on('error', function (error) {
+            Traccar.app.showError(error.message);
+        });
+
+        accuracyFeature = new ol.Feature();
+        geolocation.on('change:accuracyGeometry', function () {
+            accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+        });
+
+        positionFeature = new ol.Feature();
+        positionFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({
+                    color: '#3399CC',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff',
+                    width: 2,
+                })
+            })
+        }));
+
+        geolocation.on('change:position', function () {
+            var coordinates = geolocation.getPosition();
+            positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
+        });
+
+        this.getView().getAccuracySource().addFeature(accuracyFeature);
+        this.getView().getMarkersSource().addFeature(positionFeature);
+
+        this.geolocation = geolocation;
+    },
+
+    showCurrentLocation: function (view) {
+        this.geolocation.setTracking(view.pressed);
     },
 
     getAreaStyle: function (label, color) {

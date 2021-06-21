@@ -265,6 +265,7 @@
     "mapShapeCircle": "Circle",
     "mapShapePolyline": "Polyline",
     "mapLiveRoutes": "Live Routes",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "State",
     "stateName": "Attribute",
