@@ -110,6 +110,17 @@ const supportedLanguages = {
   'zh_TW': { data: zh_TW, name: '中文 (Taiwan)' }
 };
 
+export const languageList = Object.entries(supportedLanguages).map((values) => ({code: values[0], name: values[1].name}));
+
+console.log('languageList: ', languageList);
+
+/*
+// [];
+for (const [key, value] of Object.entries(supportedLanguages)) {
+  languageList.push({code: key, name: value.name});
+}
+ */
+
 const languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
 let language = window.navigator.userLanguage || window.navigator.language;
 languages.push(language);
@@ -128,7 +139,7 @@ for (let i = 0; i < languages.length; i++) {
   }
 }
 
-const selectedLanguage = supportedLanguages[language];
+let selectedLanguage = supportedLanguages[language];
 
 export const findStringKeys = (predicate) => {
   return Object.keys(selectedLanguage.data).filter(predicate);
@@ -137,3 +148,7 @@ export const findStringKeys = (predicate) => {
 export default key => {
   return selectedLanguage.data[key];
 };
+
+export const setSelectedLanguage = (language) => {
+  selectedLanguage = supportedLanguages[language];
+}
