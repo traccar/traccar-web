@@ -31,7 +31,7 @@ const SocketController = () => {
     const socket = new WebSocket(protocol + '//' + window.location.host + '/api/socket');
 
     socket.onclose = () => {
-      setTimeout(() => {console.log('socket reconnection try');connectSocket()}, 60 * 1000);
+      setTimeout(() => connectSocket(), 60 * 1000);
     };
 
     socket.onmessage = (event) => {
