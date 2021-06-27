@@ -9,8 +9,7 @@ export const loadImage = (url) => {
   });
 };
 
-export const loadIcon = async (key, background, url) => {
-  const image = await loadImage(url);
+export const loadIcon = async (background, url) => {
   const pixelRatio = window.devicePixelRatio;
 
   const canvas = document.createElement('canvas');
@@ -22,10 +21,13 @@ export const loadIcon = async (key, background, url) => {
   const context = canvas.getContext('2d');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  const iconRatio = 0.5;
-  const imageWidth = canvas.width * iconRatio;
-  const imageHeight = canvas.height * iconRatio;
-  context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+  if (url) {
+    const image = await loadImage(url);
+    const iconRatio = 0.5;
+    const imageWidth = canvas.width * iconRatio;
+    const imageHeight = canvas.height * iconRatio;
+    context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+  }
 
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };

@@ -10,6 +10,7 @@ import StatusView from './StatusView';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
+  const clusters = `${id}-clusters`;
 
   const history = useHistory();
   const devices = useSelector(state => state.devices.items);
@@ -26,7 +27,7 @@ const PositionsMap = ({ positions }) => {
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
 
-  const onClickCallback = useCallback(event => {
+  const onMarkerClick = useCallback(event => {
     const feature = event.features[0];
     let coordinates = feature.geometry.coordinates.slice();
     while (Math.abs(event.lngLat.lng - coordinates[0]) > 180) {
@@ -50,18 +51,35 @@ const PositionsMap = ({ positions }) => {
       .addTo(map);
   }, [history]);
 
+  const onClusterClick = event => {
+    const features = map.queryRenderedFeatures(event.point, {
+      layers: [clusters],
+    });
+    const clusterId = features[0].properties.cluster_id;
+    map.getSource(id).getClusterExpansionZoom(clusterId, (error, zoom) => {
+      if (!error) map.easeTo({
+        center: features[0].geometry.coordinates,
+        zoom: zoom,
+      });
+    });
+  };
+
   useEffect(() => {
     map.addSource(id, {
       'type': 'geojson',
       'data': {
         type: 'FeatureCollection',
         features: [],
-      }
+      },
+      'cluster': true,
+      'clusterMaxZoom': 14,
+      'clusterRadius': 50,
     });
     map.addLayer({
       'id': id,
       'type': 'symbol',
       'source': id,
+      'filter': ['!', ['has', 'point_count']],
       'layout': {
         'icon-image': '{category}',
         'icon-allow-overlap': true,
@@ -77,22 +95,42 @@ const PositionsMap = ({ positions }) => {
         'text-halo-width': 1,
       },
     });
+    map.addLayer({
+      'id': clusters,
+      'type': 'symbol',
+      'source': id,
+      'filter': ['has', 'point_count'],
+      'layout': {
+        'icon-image': 'background',
+        'text-field': '{point_count_abbreviated}',
+        'text-font': ['Roboto Regular'],
+        'text-size': 14,
+      },
+    });
+
 
     map.on('mouseenter', id, onMouseEnter);
     map.on('mouseleave', id, onMouseLeave);
-    map.on('click', id, onClickCallback);
+    map.on('mouseenter', clusters, onMouseEnter);
+    map.on('mouseleave', clusters, onMouseLeave);
+    map.on('click', id, onMarkerClick);
+    map.on('click', clusters, onClusterClick);
 
     return () => {
       Array.from(map.getContainer().getElementsByClassName('mapboxgl-popup')).forEach(el => el.remove());
 
       map.off('mouseenter', id, onMouseEnter);
       map.off('mouseleave', id, onMouseLeave);
-      map.off('click', id, onClickCallback);
+      map.off('mouseenter', clusters, onMouseEnter);
+      map.off('mouseleave', clusters, onMouseLeave);
+      map.off('click', id, onMarkerClick);
+      map.off('click', clusters, onClusterClick);
 
       map.removeLayer(id);
+      map.removeLayer(clusters);
       map.removeSource(id);
     };
-  }, [onClickCallback]);
+  }, [onMarkerClick]);
 
   useEffect(() => {
     map.getSource(id).setData({

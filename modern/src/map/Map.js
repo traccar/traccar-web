@@ -37,9 +37,10 @@ const updateReadyValue = value => {
 
 const initMap = async () => {
   const background = await loadImage('images/background.svg');
+  map.addImage('background', await loadIcon(background), { pixelRatio: window.devicePixelRatio });
   await Promise.all(deviceCategories.map(async category => {
     if (!map.hasImage(category)) {
-      const imageData = await loadIcon(category, background, `images/icon/${category}.svg`);
+      const imageData = await loadIcon(background, `images/icon/${category}.svg`);
       map.addImage(category, imageData, { pixelRatio: window.devicePixelRatio });
     }
   }));
