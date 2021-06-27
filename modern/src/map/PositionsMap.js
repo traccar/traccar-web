@@ -15,12 +15,24 @@ const PositionsMap = ({ positions }) => {
   const history = useHistory();
   const devices = useSelector(state => state.devices.items);
 
+  const deviceColor = device => {
+    switch (device.status) {
+      case 'online':
+        return 'green';
+      case 'offline':
+        return 'red';
+      default:
+        return 'gray';
+    }
+  };
+
   const createFeature = (devices, position) => {
     const device = devices[position.deviceId] || null;
     return {
       deviceId: position.deviceId,
       name: device ? device.name : '',
       category: device && (device.category || 'default'),
+      color: deviceColor(device),
     }
   };
 
@@ -81,7 +93,7 @@ const PositionsMap = ({ positions }) => {
       'source': id,
       'filter': ['!', ['has', 'point_count']],
       'layout': {
-        'icon-image': '{category}',
+        'icon-image': '{category}-{color}',
         'icon-allow-overlap': true,
         'text-field': '{name}',
         'text-allow-overlap': true,

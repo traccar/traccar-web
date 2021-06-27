@@ -1,4 +1,5 @@
 import wellknown from 'wellknown';
+import canvasTintImage from 'canvas-tint-image';
 import circle from '@turf/circle';
 
 export const loadImage = (url) => {
@@ -9,7 +10,7 @@ export const loadImage = (url) => {
   });
 };
 
-export const loadIcon = async (background, url) => {
+export const prepareIcon = (background, icon, color) => {
   const pixelRatio = window.devicePixelRatio;
 
   const canvas = document.createElement('canvas');
@@ -21,12 +22,11 @@ export const loadIcon = async (background, url) => {
   const context = canvas.getContext('2d');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  if (url) {
-    const image = await loadImage(url);
+  if (icon) {
     const iconRatio = 0.5;
     const imageWidth = canvas.width * iconRatio;
     const imageHeight = canvas.height * iconRatio;
-    context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+    context.drawImage(canvasTintImage(icon, color, 1), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
   }
 
   return context.getImageData(0, 0, canvas.width, canvas.height);
