@@ -1,4 +1,4 @@
-import wellknown from 'wellknown';
+import { parse, stringify } from 'wellknown';
 import canvasTintImage from 'canvas-tint-image';
 import circle from '@turf/circle';
 
@@ -54,18 +54,22 @@ export const geofenceToFeature = (item) => {
     let coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
     var options = { steps: 32, units: 'meters' };
     let polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
-    return { 
+    return {
+      id: item.id,
       type: 'Feature',
       geometry: polygon.geometry,
       properties: { name: item.name }
     };
   } else {
     return { 
+      id: item.id,
       type: 'Feature',
-      geometry: reverseCoordinates(wellknown(item.area)),
+      geometry: reverseCoordinates(parse(item.area)),
       properties: { name: item.name }
     };
   }
 }
 
-  
+export const geometryToArea = (geometry) => {
+  return stringify(reverseCoordinates(geometry));
+}
