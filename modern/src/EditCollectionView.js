@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const EditCollectionView = ({ content, editPath, endpoint }) => {
+const EditCollectionView = ({ content, editPath, endpoint, disableAdd }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -62,7 +62,7 @@ const EditCollectionView = ({ content, editPath, endpoint }) => {
   return (
     <>
       <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} />
-      {adminEnabled && 
+      {adminEnabled && !disableAdd &&
         <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
           <AddIcon />
         </Fab>

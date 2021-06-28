@@ -4,10 +4,11 @@ import mapboxgl from 'mapbox-gl';
 import { SwitcherControl } from './switcher/switcher';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { deviceCategories } from '../common/deviceCategories';
-import { loadIcon, loadImage } from './mapUtil';
+import { prepareIcon, loadImage } from './mapUtil';
 import { styleCarto, styleMapbox, styleOsm } from './mapStyles';
 import t from '../common/localization';
 import { useAttributePreference } from '../common/preferences';
+import palette from '../theme/palette';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -36,11 +37,17 @@ const updateReadyValue = value => {
 };
 
 const initMap = async () => {
+  if (ready) return;
   const background = await loadImage('images/background.svg');
+  map.addImage('background', await prepareIcon(background), {
+    pixelRatio: window.devicePixelRatio,
+  });
   await Promise.all(deviceCategories.map(async category => {
-    if (!map.hasImage(category)) {
-      const imageData = await loadIcon(category, background, `images/icon/${category}.svg`);
-      map.addImage(category, imageData, { pixelRatio: window.devicePixelRatio });
+    for (const color of ['green', 'red', 'gray']) {
+      const icon = await loadImage(`images/icon/${category}.svg`);
+      map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
+        pixelRatio: window.devicePixelRatio,
+      });
     }
   }));
   updateReadyValue(true);

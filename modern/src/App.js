@@ -36,6 +36,8 @@ import RegisterForm from './components/registration/RegisterForm';
 import ResetPasswordForm from './components/registration/ResetPasswordForm';
 
 import theme from './theme';
+import GeofencesPage from './GeofencesPage';
+import GeofencePage from './GeofencePage';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
@@ -57,6 +59,8 @@ const App = () => {
               <Route exact path='/position/:id?' component={PositionPage} />
               <Route exact path='/user/:id?' component={UserPage} />
               <Route exact path='/device/:id?' component={DevicePage} />
+              <Route exact path='/geofence/:id?' component={GeofencePage} />
+              <Route exact path='/geofences' component={GeofencesPage} />
               <Route exact path='/settings/notifications' component={NotificationsPage} />
               <Route exact path='/settings/notification/:id?' component={NotificationPage} />
               <Route exact path='/settings/groups' component={GroupsPage} />

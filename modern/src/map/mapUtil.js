@@ -1,4 +1,5 @@
-import wellknown from 'wellknown';
+import { parse, stringify } from 'wellknown';
+import canvasTintImage from 'canvas-tint-image';
 import circle from '@turf/circle';
 
 export const loadImage = (url) => {
@@ -9,8 +10,7 @@ export const loadImage = (url) => {
   });
 };
 
-export const loadIcon = async (key, background, url) => {
-  const image = await loadImage(url);
+export const prepareIcon = (background, icon, color) => {
   const pixelRatio = window.devicePixelRatio;
 
   const canvas = document.createElement('canvas');
@@ -22,10 +22,12 @@ export const loadIcon = async (key, background, url) => {
   const context = canvas.getContext('2d');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  const iconRatio = 0.5;
-  const imageWidth = canvas.width * iconRatio;
-  const imageHeight = canvas.height * iconRatio;
-  context.drawImage(image, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+  if (icon) {
+    const iconRatio = 0.5;
+    const imageWidth = canvas.width * iconRatio;
+    const imageHeight = canvas.height * iconRatio;
+    context.drawImage(canvasTintImage(icon, color, 1), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+  }
 
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };
@@ -52,18 +54,22 @@ export const geofenceToFeature = (item) => {
     let coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
     var options = { steps: 32, units: 'meters' };
     let polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
-    return { 
+    return {
+      id: item.id,
       type: 'Feature',
       geometry: polygon.geometry,
       properties: { name: item.name }
     };
   } else {
     return { 
+      id: item.id,
       type: 'Feature',
-      geometry: reverseCoordinates(wellknown(item.area)),
+      geometry: reverseCoordinates(parse(item.area)),
       properties: { name: item.name }
     };
   }
 }
 
-  
+export const geometryToArea = (geometry) => {
+  return stringify(reverseCoordinates(geometry));
+}

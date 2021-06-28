@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import { map } from './Map';
-import { useEffectAsync } from '../reactHelper';
 import { geofenceToFeature } from './mapUtil';
 
 const GeofenceMap = () => {
   const id = 'geofences';
 
-  const [geofences, setGeofences] = useState([]);
-
-  useEffectAsync(async () => {
-    const response = await fetch('/api/geofences');
-    if (response.ok) {
-      setGeofences(await response.json());
-    }
-  }, []);
+  const geofences = useSelector(state => Object.values(state.geofences.items));
 
   useEffect(() => {
     map.addSource(id, {

@@ -24,6 +24,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import DescriptionIcon from '@material-ui/icons/Description';
 import FolderIcon from '@material-ui/icons/Folder';
+import CreateIcon from '@material-ui/icons/Create';
 import ReplayIcon from '@material-ui/icons/Replay';
 import BuildIcon from '@material-ui/icons/Build';
 import t from './common/localization';
@@ -118,6 +119,12 @@ const MainToolbar = () => {
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary={t('settingsUser')} />
+            </ListItem>
+            <ListItem button onClick={() => history.push('/geofences')}>
+              <ListItemIcon>
+                <CreateIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('sharedGeofences')} />
             </ListItem>
             <ListItem button onClick={() => history.push('/settings/notifications')}>
               <ListItemIcon>
