@@ -112,15 +112,6 @@ const supportedLanguages = {
 
 export const languageList = Object.entries(supportedLanguages).map((values) => ({code: values[0], name: values[1].name}));
 
-console.log('languageList: ', languageList);
-
-/*
-// [];
-for (const [key, value] of Object.entries(supportedLanguages)) {
-  languageList.push({code: key, name: value.name});
-}
- */
-
 const languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
 let language = window.navigator.userLanguage || window.navigator.language;
 languages.push(language);
@@ -138,6 +129,8 @@ for (let i = 0; i < languages.length; i++) {
     }
   }
 }
+
+export const defaultLanguage = language;
 
 let selectedLanguage = supportedLanguages[language];
 

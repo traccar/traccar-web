@@ -1,9 +1,9 @@
 import {LanguageContext} from "./LanguageContext";
 import React, {useState} from "react";
-import {setSelectedLanguage} from "./common/localization";
+import {defaultLanguage, setSelectedLanguage} from "./common/localization";
 
 const LanguageProvider = (props) => {
-    const [language, setLanguage] = useState('en');
+    const [language, setLanguage] = useState(defaultLanguage);
 
     const handleLanguageChange = (nextLanguage) => {
         setSelectedLanguage(nextLanguage);
