@@ -75,7 +75,7 @@ const ReportLayoutPage = ({ children, filter, }) => {
           break;
       }
     });
-  }, []);
+  }, [location]);
 
   return (
     <div className={classes.root}>
