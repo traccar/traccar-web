@@ -33,7 +33,8 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down('xs')]: {
       height: 250,
-    }
+    },
+    overflow: 'hidden',
   },
   mapContainer: {
     flexGrow: 1,
