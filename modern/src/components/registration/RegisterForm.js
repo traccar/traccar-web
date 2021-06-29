@@ -52,7 +52,7 @@ const RegisterForm = () => {
         onClose={() => history.push('/login')}
         autoHideDuration={6000}
         message={t('loginCreated')} />    
-      <Grid container direction='column' spacing={3}>
+      <Grid container direction='column' spacing={2}>
         <Grid container item>
           <Grid item>
             <Typography className={classes.link} color='primary'>

@@ -59,7 +59,7 @@ const LoginForm = () => {
 
   return (
     <StartPage>
-      <Grid container direction='column' spacing={3}>
+      <Grid container direction='column' spacing={2}>
         {useMediaQuery(theme.breakpoints.down('md')) &&
           <Grid item className={classes.logoContainer}>
             <svg height="64" width="240">
