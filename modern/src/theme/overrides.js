@@ -3,14 +3,15 @@ import dimensions from './dimensions';
 export default {
   MuiFormControl: {
     root: {
-      height: dimensions.inputHeight,
+      marginTop: 5,
+      marginBottom: 5
     }
   },
   MuiInputLabel: {
     filled: {
       transform: 'translate(12px, 14px) scale(1)',
         '&$shrink' :{
-          transform: 'translate(12px, -12px) scale(0.75)'
+          transform: 'translate(12px, -14px) scale(0.72)'
         }
     },
   },      
@@ -18,7 +19,7 @@ export default {
     root: {
       height: dimensions.inputHeight,
       borderRadius: dimensions.borderRadius,
-      background: 'rgba(0, 0, 0, 0.035)',
+      backgroundColor: 'rgba(0, 0, 0, 0.035)',
     },
     input: {
       height: dimensions.inputHeight,
@@ -44,6 +45,8 @@ export default {
   MuiButton: {
     root: {
       height: dimensions.inputHeight,
+      marginTop: 5,
+      marginBottom: 5,
       '&$disabled': {
         opacity: .4,
         color: undefined,
@@ -54,6 +57,18 @@ export default {
         opacity: .4,
         color: undefined,
         backgroundColor: undefined
+      }
+    }
+  },
+  MuiFormHelperText: {
+    root: {
+      marginBottom: -10
+    }
+  },
+  MuiAutocomplete: {
+    inputRoot: {
+      '&.MuiFilledInput-root': {
+        paddingTop: 0
       }
     }
   }
