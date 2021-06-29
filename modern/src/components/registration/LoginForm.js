@@ -29,7 +29,6 @@ const LoginForm = () => {
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [language, setLanguage] = useState(languageContext.language);
   const registrationEnabled =  useSelector(state => state.session.server ? state.session.server['registration'] : false);
   const emailEnabled =  useSelector(state => state.session.server ? state.session.server['emailEnabled'] : false);
 
@@ -61,7 +60,6 @@ const LoginForm = () => {
   }
 
   const handleLanguageChange = e => {
-    setLanguage(e.target.value);
     languageContext.setLanguage(e.target.value);
   }
 
@@ -124,7 +122,7 @@ const LoginForm = () => {
           <Grid item xs>
             <FormControl variant="filled" fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select value={language} onChange={handleLanguageChange}>
+              <Select value={languageContext.language} onChange={handleLanguageChange}>
                 {languageList.map(lang => <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>)}
               </Select>
             </FormControl>
