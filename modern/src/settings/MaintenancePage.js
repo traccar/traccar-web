@@ -64,6 +64,8 @@ const MaintenancePage = () => {
           return speedFromKnots(value, speedUnit);
         case 'distance':
           return distanceFromMeters(value, distanceUnit);
+        default:
+          return value;
       }
     }
     return value;
@@ -78,6 +80,8 @@ const MaintenancePage = () => {
           return speedToKnots(value, speedUnit);
         case 'distance':
           return distanceToMeters(value, distanceUnit);
+        default:
+          return value;
       }
     }
     return value;
