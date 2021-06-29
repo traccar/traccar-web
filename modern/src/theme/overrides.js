@@ -44,6 +44,17 @@ export default {
   MuiButton: {
     root: {
       height: dimensions.inputHeight,
+      '&$disabled': {
+        opacity: .4,
+        color: undefined,
+      }
+    },
+    contained: {
+      '&$disabled': {
+        opacity: .4,
+        color: undefined,
+        backgroundColor: undefined
+      }
     }
   }
 };
