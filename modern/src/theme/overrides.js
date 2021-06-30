@@ -63,6 +63,9 @@ export default {
   MuiFormHelperText: {
     root: {
       marginBottom: -10
+    },
+    contained: {
+      marginLeft: 12
     }
   },
   MuiAutocomplete: {
