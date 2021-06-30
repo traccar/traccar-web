@@ -34,10 +34,7 @@ const GeofenceEditMap = () => {
 
     map.addControl(draw, 'top-left');
 
-    draw.deleteAll();
-    for (const geofence of geofences) {
-      draw.add(geofenceToFeature(geofence));
-    }
+    
 
     map.on('draw.create', async event => {
       const feature = event.features[0];
@@ -80,6 +77,13 @@ const GeofenceEditMap = () => {
 
     return () => map.removeControl(draw);
   }, []);
+
+  useEffect(() => {
+    draw.deleteAll();
+    for (const geofence of geofences) {
+      draw.add(geofenceToFeature(geofence));
+    }
+  }, [geofences]);
 
   return null;
 }
