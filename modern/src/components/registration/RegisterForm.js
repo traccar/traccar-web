@@ -8,7 +8,9 @@ import t from './../../common/localization';
 const useStyles = makeStyles(theme => ({
   register: {
     fontSize: theme.spacing(3),
-    fontWeight: 500
+    fontWeight: 500,
+    marginLeft: theme.spacing(2),
+    textTransform: "uppercase"
   },
   link: {
     fontSize: theme.spacing(3),
