@@ -18,4 +18,8 @@ export default {
     main: traccarGreen,
     contrastText: traccarWhite,
   },
+  statusGreen: traccarGreen,
+  statusRed: traccarRed,
+  statusGrey: traccarGray
+
 };
