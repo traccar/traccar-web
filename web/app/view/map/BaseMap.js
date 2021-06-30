@@ -103,37 +103,9 @@ Ext.define('Traccar.view.map.BaseMap', {
                     })
                 }),
                 new ol.layer.Tile({
-                    title: Strings.mapYandexMap,
-                    type: 'base',
-                    visible: type === 'yandexMap',
-                    source: new ol.source.XYZ({
-                        url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
-                        projection: 'EPSG:3395',
-                        attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapYandexSat,
-                    type: 'base',
-                    visible: type === 'yandexSat',
-                    source: new ol.source.XYZ({
-                        url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
-                        projection: 'EPSG:3395',
-                        attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapWikimedia,
-                    type: 'base',
-                    visible: type === 'wikimedia',
-                    source: new ol.source.OSM({
-                        url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
-                    })
-                }),
-                new ol.layer.Tile({
                     title: Strings.mapOsm,
                     type: 'base',
-                    visible: type === 'osm' || !type,
+                    visible: type === 'osm' || type === 'yandexMap' || type === 'yandexSat' || type === 'wikimedia' || !type,
                     source: new ol.source.OSM({})
                 })
             ]
@@ -231,13 +203,5 @@ Ext.define('Traccar.view.map.BaseMap', {
         resize: function () {
             this.map.updateSize();
         }
-    }
-}, function () {
-    var projection;
-    proj4.defs('EPSG:3395', '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs');
-    ol.proj.proj4.register(proj4);
-    projection = ol.proj.get('EPSG:3395');
-    if (projection) {
-        projection.setExtent([-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]);
     }
 });
