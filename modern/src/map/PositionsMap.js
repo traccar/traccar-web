@@ -27,11 +27,11 @@ const PositionsMap = ({ positions }) => {
   };
 
   const createFeature = (devices, position) => {
-    const device = devices[position.deviceId] || null;
+    const device = devices[position.deviceId];
     return {
       deviceId: position.deviceId,
-      name: device ? device.name : '',
-      category: device && (device.category || 'default'),
+      name: device.name,
+      category: device.category || 'default',
       color: deviceColor(device),
     }
   };
@@ -147,7 +147,7 @@ const PositionsMap = ({ positions }) => {
   useEffect(() => {
     map.getSource(id).setData({
       type: 'FeatureCollection',
-      features: positions.map(position => ({
+      features: positions.filter(it => devices.hasOwnProperty(it.deviceId)).map(position => ({
         type: 'Feature',
         geometry: {
           type: 'Point',
