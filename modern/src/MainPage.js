@@ -1,7 +1,19 @@
-import React from 'react';
-import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import ContainerDimensions from 'react-container-dimensions';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import classnames from 'classnames';
+import { makeStyles, withWidth, Paper, Toolbar, Grid, TextField, IconButton, Button } from '@material-ui/core';
+
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ListIcon from '@material-ui/icons/List';
+import ReplayIcon from '@material-ui/icons/Replay';
+import DescriptionIcon from '@material-ui/icons/Description';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
+import PersonIcon from '@material-ui/icons/Person';
+
 import DevicesList from './DevicesList';
 import MainToolbar from './MainToolbar';
 import Map from './map/Map';
@@ -10,21 +22,13 @@ import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
+import t from './common/localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%',
+    height: '100vh',
     display: 'flex',
     flexDirection: 'column',
-  },
-  content: {
-    flexGrow: 1,
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'row',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column-reverse',
-    },
   },
   drawerPaper: {
     position: 'relative',
@@ -36,36 +40,185 @@ const useStyles = makeStyles((theme) => ({
     },
     overflow: 'hidden',
   },
-  mapContainer: {
-    flexGrow: 1,
+  listContainer: {
+    position: 'absolute',
+    left: theme.spacing(1.5),
+    top: theme.spacing(10.5),
+    width: theme.dimensions.drawerWidthDesktop,
+    zIndex: 1301,
+    height: '100%',
+    maxHeight: `calc(100vh - ${theme.spacing(20)}px)`,
+    [theme.breakpoints.down("md")]: {
+      top: theme.spacing(7),
+      left: '0px',
+      width: '100%',
+      maxHeight: `calc(100vh - ${theme.spacing(14)}px)`,
+    }
   },
+  paper: {
+    borderRadius: '0px', 
+  },
+  toolbar: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
+  deviceList: {
+    height: '100%',
+  },
+  collapsed: {
+    transform: `translateX(-${360 + 16}px)`,
+    transition: 'transform .5s ease',
+    [theme.breakpoints.down("md")]: {
+      transform: `translateX(-100vw)`,
+    }
+  },
+  uncollapsed: {
+    transform: `translateX(${theme.spacing(1.5)})`,
+    transition: 'transform .5s ease',
+    [theme.breakpoints.down("md")]: {
+      transform: `translateX(0)`,
+    }
+  },
+  deviceButton: {
+    position: 'absolute',
+    left: theme.spacing(1),
+    top: theme.spacing(10.5),
+    borderRadius: '0px',
+    [theme.breakpoints.down("md")]: {
+      top: theme.spacing(7),
+    }
+  },
+  bottomMenuContainer: {
+    position: 'absolute',
+    left: theme.spacing(1.5),
+    bottom: theme.spacing(1.5),
+    width: theme.dimensions.drawerWidthDesktop,
+    zIndex: 1301,
+    [theme.breakpoints.down("md")]: {
+      bottom: theme.spacing(0),
+      left: '0px',
+      width: '100%'
+    }
+  },
+  menuButton: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  iconText: {
+    fontSize: '0.75rem',
+    fontWeight: 'normal',
+    color: '#222222',
+  }
 }));
 
 const MainPage = ({ width }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const theme = useTheme();
+
+  const [deviceName, setDeviceName] = useState();
+  const [collapsed, setCollapsed] = useState(false);
+
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleClose = () => {
+    setCollapsed(!collapsed);
+  }
 
   return (
     <div className={classes.root}>
       <MainToolbar />
-      <div className={classes.content}>
-        <Drawer
-          anchor={isWidthUp('sm', width) ? 'left' : 'bottom'}
-          variant="permanent"
-          classes={{ paper: classes.drawerPaper }}
-        >
-          <DevicesList />
-        </Drawer>
-        <div className={classes.mapContainer}>
-          <ContainerDimensions>
-            <Map>
-              <CurrentLocationMap />
-              <GeofenceMap />
-              <AccuracyMap />
-              <CurrentPositionsMap />
-              <SelectedDeviceMap />
-            </Map>
-          </ContainerDimensions>
-        </div>
+      <Map>
+        <CurrentLocationMap />
+        <GeofenceMap />
+        <AccuracyMap />
+        <CurrentPositionsMap />
+        <SelectedDeviceMap />
+      </Map>
+      {collapsed && 
+        <Button 
+          variant="contained" 
+          color={matchesMD ? "secondary": "default"}
+          className={classes.deviceButton}
+          onClick={handleClose}
+          startIcon={<ListIcon />}>
+          {t('deviceTitle')}
+        </Button>
+      }
+      <div className={`${classes.listContainer} ${collapsed ? classes.collapsed : classes.uncollapsed}`}>
+        <Grid container direction="column" spacing={matchesMD ? 0: 2} style={{height: '100%'}}>
+          <Grid item>
+            <Paper className={classes.paper}>
+              <Toolbar className={classes.toolbar} disableGutters>
+                <Grid container direction="row" alignItems="center" spacing={2}>
+                  {matchesMD && <Grid item> 
+                    <IconButton onClick={handleClose}>
+                      <ArrowBackIcon />
+                    </IconButton>            
+                  </Grid>}
+                  <Grid item xs>
+                    <TextField
+                      fullWidth
+                      name='deviceName'
+                      value={deviceName || ''}
+                      autoComplete='deviceName'
+                      autoFocus
+                      onChange={event => setDeviceName(event.target.value)}
+                      placeholder="Search Devices"
+                      variant='filled' />
+                  </Grid>
+                  <Grid item>
+                    <IconButton onClick={() => history.push('/device')}>
+                      <AddIcon />
+                    </IconButton>
+                  </Grid>
+                  {!matchesMD && <Grid item>
+                    <IconButton onClick={handleClose}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Grid>}
+                </Grid>
+              </Toolbar>
+            </Paper>
+          </Grid>
+          <Grid item xs>
+            <Paper className={`${classes.deviceList} ${classes.paper}`}>
+              <DevicesList />
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+      <div className={classes.bottomMenuContainer}>
+        <Paper className={classes.paper}>
+          <Toolbar className={classes.toolbar} disableGutters>
+            <Grid container justify="space-around">
+              <Grid item>
+                <IconButton classes={{ label: classes.menuButton }}>
+                  <ReplayIcon />
+                  <span className={classes.iconText}>{t('reportReplay')}</span>
+                </IconButton>                
+              </Grid>
+              <Grid item>
+                <IconButton classes={{ label: classes.menuButton }}>
+                  <DescriptionIcon />
+                  <span className={classes.iconText}>{t('reportTitle')}</span>
+                </IconButton>                
+              </Grid>
+              <Grid item>
+                <IconButton classes={{ label: classes.menuButton }}>
+                  <ShuffleIcon />
+                  <span className={classes.iconText}>Options</span>
+                </IconButton>                
+              </Grid>
+              <Grid item>
+                <IconButton classes={{ label: classes.menuButton }}>
+                  <PersonIcon />
+                  <span className={classes.iconText}>{t('settingsUser')}</span>
+                </IconButton>                
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </Paper>
       </div>
     </div>
   );
