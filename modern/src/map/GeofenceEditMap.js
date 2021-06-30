@@ -1,5 +1,6 @@
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import theme from '@mapbox/mapbox-gl-draw/src/lib/theme';
 import { useEffect } from 'react';
 
 import { map } from './Map';
@@ -14,6 +15,21 @@ const draw = new MapboxDraw({
     polygon: true,
     trash: true,
   },
+  userProperties: true,
+  styles: [...theme, {
+    'id': 'gl-draw-title',
+    'type': 'symbol',
+    'filter': ['all'],
+    'layout': {
+      'text-field': '{user_name}',
+      'text-font': ['Roboto Regular'],
+      'text-size': 12,
+    },
+    'paint': {
+      'text-halo-color': 'white',
+      'text-halo-width': 1,
+    },
+  }],
 });
 
 const GeofenceEditMap = () => {
@@ -33,8 +49,6 @@ const GeofenceEditMap = () => {
     refreshGeofences();
 
     map.addControl(draw, 'top-left');
-
-    
 
     map.on('draw.create', async event => {
       const feature = event.features[0];
