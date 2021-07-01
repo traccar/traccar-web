@@ -56,7 +56,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} justify="flex-end">
       <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportDevice')}</InputLabel>
