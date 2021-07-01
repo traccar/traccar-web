@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(5),
     width: theme.dimensions.sidebarWidth,
     [theme.breakpoints.down('md')]: {
-      width: theme.dimensions.tabletSidebarWidth,
+      width: theme.dimensions.sidebarWidthTablet,
     },
     [theme.breakpoints.down('xs')]: {
       width: '0px',
