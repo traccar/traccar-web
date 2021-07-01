@@ -5,12 +5,13 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
+import OptionsLayout from './OptionsLayout';
 
 const useStyles = makeStyles(theme => ({
   columnAction: {
     width: theme.spacing(1),
-    padding: theme.spacing(0, 1),
-  },
+    padding: theme.spacing(0, 1)
+  }
 }));
 
 const DriversView = ({ updateTimestamp, onMenuClick }) => {
@@ -36,10 +37,12 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {items.map((item) => (
+          {items.map(item => (
           <TableRow key={item.id}>
             <TableCell className={classes.columnAction} padding="none">
-              <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
+                <IconButton
+                  onClick={event => onMenuClick(event.currentTarget, item.id)}
+                >
                 <MoreVertIcon />
               </IconButton>
             </TableCell>
@@ -51,15 +54,18 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
     </Table>
     </TableContainer>
   );
-}
+};
 
 const DriversPage = () => {
   return (
-    <>
-      <MainToolbar />
-      <EditCollectionView content={DriversView} editPath="/settings/driver" endpoint="drivers" />
-    </>
+    <OptionsLayout>
+      <EditCollectionView
+        content={DriversView}
+        editPath="/settings/driver"
+        endpoint="drivers"
+      />
+    </OptionsLayout>
   );
-}
+};
 
 export default DriversPage;
