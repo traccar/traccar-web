@@ -52,18 +52,20 @@ const OptionsLayout = ({ children }) => {
   const history = useHistory();
   const location = useLocation();
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [OptionsTitle, setOptionsTitle] = useState();
+  const [optionTitle, setOptionTitle] = useState();
   const routes = useRoutes();
 
   useEffect(() => {
-    routes.find(route => route.href === location.pathname);
-    setOptionsTitle(route.name);
+    const activeRoute = routes.find(route => route.href === location.pathname);
+    setOptionTitle(activeRoute.name);
   }, [location]);
+
+  const title = `Options / ${optionTitle}`;
 
   return (
     <div className={classes.root}>
       <Hidden lgUp>
-        <NavBar setOpenDrawer={setOpenDrawer} OptionsTitle={OptionsTitle} />
+        <NavBar setOpenDrawer={setOpenDrawer} title={title} />
         <Drawer
           variant="temporary"
           open={openDrawer}
