@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { FormControl, InputLabel,Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDate } from '../common/formatter';
-import ReportLayout from '../reports/ReportLayout';
 import moment from 'moment';
+import OptionsLayout from '../settings/OptionsLayout';
 
 const Filter = ({ setItems }) => {
   const [period, setPeriod] = useState('today');
@@ -20,24 +20,36 @@ const Filter = ({ setItems }) => {
         selectedTo = moment().endOf('day');
         break;
       case 'yesterday':
-        selectedFrom = moment().subtract(1, 'day').startOf('day');
-        selectedTo = moment().subtract(1, 'day').endOf('day');
+        selectedFrom = moment()
+          .subtract(1, 'day')
+          .startOf('day');
+        selectedTo = moment()
+          .subtract(1, 'day')
+          .endOf('day');
         break;
       case 'thisWeek':
         selectedFrom = moment().startOf('week');
         selectedTo = moment().endOf('week');
         break;
       case 'previousWeek':
-        selectedFrom = moment().subtract(1, 'week').startOf('week');
-        selectedTo = moment().subtract(1, 'week').endOf('week');
+        selectedFrom = moment()
+          .subtract(1, 'week')
+          .startOf('week');
+        selectedTo = moment()
+          .subtract(1, 'week')
+          .endOf('week');
         break;
       case 'thisMonth':
         selectedFrom = moment().startOf('month');
         selectedTo = moment().endOf('month');
         break;
       case 'previousMonth':
-        selectedFrom = moment().subtract(1, 'month').startOf('month');
-        selectedTo = moment().subtract(1, 'month').endOf('month');
+        selectedFrom = moment()
+          .subtract(1, 'month')
+          .startOf('month');
+        selectedTo = moment()
+          .subtract(1, 'month')
+          .endOf('month');
         break;
       default:
         selectedFrom = from;
@@ -45,18 +57,23 @@ const Filter = ({ setItems }) => {
         break;
     }
 
-    const query = new URLSearchParams({ from: selectedFrom.toISOString(), to: selectedTo.toISOString() });
-    const response = await fetch(`/api/statistics?${query.toString()}`, { Accept: 'application/json' });
+    const query = new URLSearchParams({
+      from: selectedFrom.toISOString(),
+      to: selectedTo.toISOString()
+    });
+    const response = await fetch(`/api/statistics?${query.toString()}`, {
+      Accept: 'application/json'
+    });
     if (response.ok) {
       setItems(await response.json());
     }
-  }
+  };
 
   return (
     <>
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportPeriod')}</InputLabel>
-        <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+        <Select value={period} onChange={e => setPeriod(e.target.value)}>
           <MenuItem value="today">{t('reportToday')}</MenuItem>
           <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
           <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
@@ -73,8 +90,11 @@ const Filter = ({ setItems }) => {
           label={t('reportFrom')}
           type="datetime-local"
           value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth />
+          onChange={e =>
+            setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))
+          }
+          fullWidth
+        />
       )}
       {period === 'custom' && (
         <TextField
@@ -83,20 +103,30 @@ const Filter = ({ setItems }) => {
           label={t('reportTo')}
           type="datetime-local"
           value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth />
+          onChange={e =>
+            setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))
+          }
+          fullWidth
+        />
       )}
-      <Button variant="contained" color="primary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClick}
+        fullWidth
+      >
+        {t('reportShow')}
+      </Button>
     </>   
-  )
-}
+  );
+};
 
 const StatisticsPage = () => {
-
   const [items, setItems] = useState([]);
 
   return (
-    <ReportLayout filter={<Filter setItems={setItems} />}>
+    <OptionsLayout>
+      <Filter setItems={setItems} />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -114,7 +144,7 @@ const StatisticsPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item) => (
+            {items.map(item => (
               <TableRow key={item.id}>
                 <TableCell>{formatDate(item.captureTime)}</TableCell>
                 <TableCell>{item.activeUsers}</TableCell>
@@ -131,8 +161,8 @@ const StatisticsPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </ReportLayout>
+    </OptionsLayout>
   );
-}
+};
 
 export default StatisticsPage;
