@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
 import t, {languageList} from '../../common/localization';
 import StartPage from './../../StartPage';
-import { LanguageContext } from "../../LanguageContext";
+import { LanguageContext } from "../../LanguageProvider";
 
 const useStyles = makeStyles(theme => ({
   logoContainer: {
