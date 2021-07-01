@@ -58,7 +58,7 @@ const OptionsLayout = ({ children }) => {
   useEffect(() => {
     const activeRoute = routes.find(route => route.href === location.pathname);
     setOptionTitle(activeRoute.name);
-  }, [location]);
+  }, [location, routes]);
 
   const title = `Options / ${optionTitle}`;
 
