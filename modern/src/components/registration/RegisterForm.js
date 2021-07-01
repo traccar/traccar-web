@@ -8,7 +8,9 @@ import t from './../../common/localization';
 const useStyles = makeStyles(theme => ({
   register: {
     fontSize: theme.spacing(3),
-    fontWeight: 500
+    fontWeight: 500,
+    marginLeft: theme.spacing(2),
+    textTransform: "uppercase"
   },
   link: {
     fontSize: theme.spacing(3),
@@ -52,7 +54,7 @@ const RegisterForm = () => {
         onClose={() => history.push('/login')}
         autoHideDuration={6000}
         message={t('loginCreated')} />    
-      <Grid container direction='column' spacing={3}>
+      <Grid container direction='column' spacing={2}>
         <Grid container item>
           <Grid item>
             <Typography className={classes.link} color='primary'>

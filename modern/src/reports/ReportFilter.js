@@ -4,19 +4,7 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import t from '../common/localization';
 
-const useStyles = makeStyles(theme => ({
-  gridContainer: {
-    margin: theme.spacing(0, -1),
-    '& > .MuiGrid-item': {
-      padding: theme.spacing(1.5, 1)
-    }
-  } 
-}));
-
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
-
-  const classes = useStyles();
-
   const devices = useSelector(state => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
@@ -68,7 +56,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   }
 
   return (
-    <Grid container spacing={2} className={classes.gridContainer}>
+    <Grid container spacing={2}>
       <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportDevice')}</InputLabel>
