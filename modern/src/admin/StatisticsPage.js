@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FormControl, InputLabel,Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
 import t from '../common/localization';
 import { formatDate } from '../common/formatter';
-import ReportLayoutPage from '../reports/ReportLayoutPage';
+import ReportLayout from '../reports/ReportLayout';
 import moment from 'moment';
 
 const Filter = ({ setItems }) => {
@@ -96,7 +96,7 @@ const StatisticsPage = () => {
   const [items, setItems] = useState([]);
 
   return (
-    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
+    <ReportLayout filter={<Filter setItems={setItems} />}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -131,7 +131,7 @@ const StatisticsPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </ReportLayoutPage>
+    </ReportLayout>
   );
 }
 

@@ -4,7 +4,7 @@ import { DataGrid } from '@material-ui/data-grid';
 import { useTheme } from "@material-ui/core/styles";
 import { formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
-import ReportLayoutPage from './ReportLayoutPage';
+import ReportLayout from './ReportLayout';
 import { useAttributePreference, usePreference } from '../common/preferences';
 import t from '../common/localization';
 
@@ -83,7 +83,7 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
 
   return (
-    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
+    <ReportLayout filter={<Filter setItems={setItems} />}>
       <Paper>
         <DataGrid
           rows={items} 
@@ -91,7 +91,7 @@ const RouteReportPage = () => {
           hideFooter 
           autoHeight />
       </Paper>
-    </ReportLayoutPage>
+    </ReportLayout>
   );
 };
 

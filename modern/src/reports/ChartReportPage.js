@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import ReportLayoutPage from './ReportLayoutPage';
+import ReportLayout from './ReportLayout';
 import ReportFilter from './ReportFilter';
 import Graph from './Graph';
 import { useAttributePreference } from '../common/preferences';
@@ -61,13 +61,13 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
 
   return (
-    <ReportLayoutPage filter={ 
+    <ReportLayout filter={ 
       <Filter setItems={setItems}>
         <ChartType type={type} setType={setType} />
       </Filter>
     }>
       <Graph items={items} type={type} />
-    </ReportLayoutPage>
+    </ReportLayout>
   )
 }
 
