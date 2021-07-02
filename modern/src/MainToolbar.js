@@ -17,18 +17,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MapIcon from '@material-ui/icons/Map';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import PeopleIcon from '@material-ui/icons/People';
-import StorageIcon from '@material-ui/icons/Storage';
 import PersonIcon from '@material-ui/icons/Person';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import DescriptionIcon from '@material-ui/icons/Description';
-import FolderIcon from '@material-ui/icons/Folder';
-import CreateIcon from '@material-ui/icons/Create';
 import ReplayIcon from '@material-ui/icons/Replay';
-import BuildIcon from '@material-ui/icons/Build';
 import t from './common/localization';
-import * as selectors from './selectors'
+import * as selectors from './selectors';
 
 const useStyles = makeStyles(theme => ({
   flex: {
@@ -115,93 +108,17 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('reportTitle')} />
             </ListItem>
-          </List>
-          <Divider />
-          <List subheader={<ListSubheader>{t('settingsTitle')}</ListSubheader>}>
             <ListItem
               button
               disabled={!userId}
-              onClick={() => history.push(`/user/${userId}`)}
+              onClick={() => history.push(`/settings/notifications`)}
             >
               <ListItemIcon>
                 <PersonIcon />
               </ListItemIcon>
-              <ListItemText primary={t('settingsUser')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/geofences')}>
-              <ListItemIcon>
-                <CreateIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('sharedGeofences')} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => history.push('/settings/notifications')}
-            >
-              <ListItemIcon>
-                <NotificationsIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('sharedNotifications')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/settings/groups')}>
-              <ListItemIcon>
-                <FolderIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('settingsGroups')} />
-            </ListItem>
-            <ListItem button onClick={() => history.push('/settings/drivers')}>
-              <ListItemIcon>
-                <PersonIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('sharedDrivers')} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => history.push('/settings/attributes')}
-            >
-              <ListItemIcon>
-                <StorageIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('sharedComputedAttributes')} />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => history.push('/settings/maintenances')}
-            >
-              <ListItemIcon>
-                <BuildIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('sharedMaintenance')} />
+              <ListItemText primary={t('settingsTitle')} />
             </ListItem>
           </List>
-          {adminEnabled && (
-            <>
-              <Divider />
-              <List subheader={<ListSubheader>{t('userAdmin')}</ListSubheader>}>
-                <ListItem button onClick={() => history.push('/admin/server')}>
-                  <ListItemIcon>
-                    <StorageIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t('settingsServer')} />
-                </ListItem>
-                <ListItem button onClick={() => history.push('/admin/users')}>
-                  <ListItemIcon>
-                    <PeopleIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t('settingsUsers')} />
-                </ListItem>
-                <ListItem
-                  button
-                  onClick={() => history.push('/admin/statistics')}
-                >
-                  <ListItemIcon>
-                    <BarChartIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={t('statisticsTitle')} />
-                </ListItem>
-              </List>
-            </>
-          )}
         </div>
       </Drawer>
     </>

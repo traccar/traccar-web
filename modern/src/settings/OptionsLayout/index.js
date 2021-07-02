@@ -32,7 +32,10 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flex: 1,
-    padding: theme.spacing(5, 3, 3, 3)
+    padding: theme.spacing(5, 3, 3, 3),
+    [theme.breakpoints.down('md')]:{
+      paddingTop: theme.spacing(10)
+    }
   },
   drawerHeader: {
     ...theme.mixins.toolbar,
