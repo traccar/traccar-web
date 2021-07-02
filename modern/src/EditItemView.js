@@ -1,5 +1,4 @@
 import React from 'react';
-import MainToolbar from './MainToolbar';
 import { useHistory, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -8,18 +7,19 @@ import FormControl from '@material-ui/core/FormControl';
 
 import t from './common/localization';
 import { useEffectAsync } from './reactHelper';
+import OptionsLayout from './settings/OptionsLayout';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   buttons: {
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
-      flexBasis: '33%',
-    },
-  },
+      flexBasis: '33%'
+    }
+  }
 }));
 
 const EditItemView = ({ children, endpoint, item, setItem }) => {
@@ -47,7 +47,7 @@ const EditItemView = ({ children, endpoint, item, setItem }) => {
     const response = await fetch(url, {
       method: !id ? 'POST' : 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item),
+      body: JSON.stringify(item)
     });
 
     if (response.ok) {
@@ -56,23 +56,32 @@ const EditItemView = ({ children, endpoint, item, setItem }) => {
   };
 
   return (
-    <>
-      <MainToolbar />
-      <Container maxWidth='xs' className={classes.container}>
+    <OptionsLayout>
+      <Container maxWidth="xs" className={classes.container}>
         {children}
-        <FormControl fullWidth margin='normal'>
+        <FormControl fullWidth margin="normal">
           <div className={classes.buttons}>
-            <Button type='button' color='primary' variant='outlined' onClick={() => history.goBack()}>
+            <Button
+              type="button"
+              color="primary"
+              variant="outlined"
+              onClick={() => history.goBack()}
+            >
               {t('sharedCancel')}
             </Button>
-            <Button type='button' color='primary' variant='contained' onClick={handleSave}>
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={handleSave}
+            >
               {t('sharedSave')}
             </Button>
           </div>
         </FormControl>
       </Container>
-    </>
+    </OptionsLayout>
   );
-}
+};
 
 export default EditItemView;
