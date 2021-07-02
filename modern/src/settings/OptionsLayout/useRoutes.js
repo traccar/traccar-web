@@ -78,7 +78,7 @@ const mainRoutes = [
 export default () => {
   const isAdmin = useSelector(getIsAdmin);
   const userId = useSelector(getUserId);
-  accountRoute.match = accountRoute.href = `/user/${userId}`;
+  accountRoute.href = `/user/${userId}`;
 
   return useMemo(() => [...mainRoutes, ...(isAdmin ? adminRoutes : [])], [
     isAdmin
