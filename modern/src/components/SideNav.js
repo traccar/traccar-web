@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Divider,
-  ListSubheader
-} from '@material-ui/core';
+import { List, ListItem, ListItemText, ListItemIcon, Divider, ListSubheader } from '@material-ui/core';
 import { Link, useLocation } from 'react-router-dom';
 
 const SideNav = ({ routes }) => {
@@ -27,7 +20,7 @@ const SideNav = ({ routes }) => {
             key={route.href || route.subheader}
             button
             to={route.href}
-            selected={route.href === location.pathname}
+            selected={location.pathname.match(route.match || route.href)}
           >
             <ListItemIcon>{route.icon}</ListItemIcon>
             <ListItemText primary={route.name} />
