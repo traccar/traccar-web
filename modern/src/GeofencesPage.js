@@ -1,5 +1,5 @@
 import React from 'react';
-import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
+import { Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 import Map from './map/Map';
