@@ -8,8 +8,13 @@ import StorageIcon from '@material-ui/icons/Storage';
 import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import { getIsAdmin } from '../../selectors';
+import { getIsAdmin, getUserId } from '../../selectors';
 import t from '../../common/localization';
+
+const accountRoute = {
+  name: t('settingsUser'),
+  icon: <PersonIcon />
+};
 
 const adminRoutes = [
   { subheader: t('userAdmin') },
@@ -31,32 +36,39 @@ const adminRoutes = [
 ];
 
 const mainRoutes = [
+  accountRoute,
   {
+    match: 'geofence',
     name: t('sharedGeofences'),
     href: '/geofences',
     icon: <CreateIcon />
   },
   {
+    match: 'notification',
     name: t('sharedNotifications'),
     href: '/settings/notifications',
     icon: <NotificationsIcon />
   },
   {
+    match: 'group',
     name: t('settingsGroups'),
     href: '/settings/groups',
     icon: <FolderIcon />
   },
   {
+    match: 'driver',
     name: t('sharedDrivers'),
     href: '/settings/drivers',
     icon: <PersonIcon />
   },
   {
+    match: 'attribute',
     name: t('sharedComputedAttributes'),
     href: '/settings/attributes',
     icon: <StorageIcon />
   },
   {
+    match: 'maintenance',
     name: t('sharedMaintenance'),
     href: '/settings/maintenances',
     icon: <BuildIcon />
@@ -65,6 +77,9 @@ const mainRoutes = [
 
 export default () => {
   const isAdmin = useSelector(getIsAdmin);
+  const userId = useSelector(getUserId);
+  accountRoute.match = accountRoute.href = `/user/${userId}`;
+
   return useMemo(() => [...mainRoutes, ...(isAdmin ? adminRoutes : [])], [
     isAdmin
   ]);
