@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import mapboxgl from 'mapbox-gl';
+import maplibregl from 'maplibre-gl';
 import { Provider, useSelector } from 'react-redux';
 
 import { map } from './Map';
@@ -54,7 +54,7 @@ const PositionsMap = ({ positions }) => {
       placeholder
     );
 
-    new mapboxgl.Popup({
+    new maplibregl.Popup({
       offset: 25,
       anchor: 'top'
     })
@@ -129,7 +129,7 @@ const PositionsMap = ({ positions }) => {
     map.on('click', clusters, onClusterClick);
 
     return () => {
-      Array.from(map.getContainer().getElementsByClassName('mapboxgl-popup')).forEach(el => el.remove());
+      Array.from(map.getContainer().getElementsByClassName('maplibregl-popup')).forEach(el => el.remove());
 
       map.off('mouseenter', id, onMouseEnter);
       map.off('mouseleave', id, onMouseLeave);
