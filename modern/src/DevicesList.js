@@ -9,7 +9,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@material-ui/icons/BatteryFull';
@@ -35,15 +34,65 @@ const useStyles = makeStyles(theme => ({
     lineHeight: '0.875rem'
   },
   green: {
-    color: theme.palette.statusGreen
+    color: theme.palette.common.green,
   },
   red: {
-    color: theme.palette.statusRed
+    color: theme.palette.common.red,
   },
-  grey: {
-    color: theme.palette.statusGrey
+  gray: {
+    color: theme.palette.common.gray
   }
 }));
+
+const OnlineStatus =({ status }) => {
+  
+  const classes = useStyles();
+
+  switch (status) {
+    case 'online':
+      return <span className={classes.green}>{status}</span>
+    case 'offline':
+      return <span className={classes.red}>{status}</span>
+    case 'unknown':
+    default:
+      return <span className={classes.gray}>{status}</span>
+  }
+}
+
+const DeviceStatus = ({ deviceId }) => {
+  const classes = useStyles();
+  let batteryClass = '';
+  
+  const position = useSelector(state => state.positions.items[deviceId]);
+  if (!position) {
+    return null;
+  }
+  const batteryLevel = position.attributes.hasOwnProperty('batteryLevel') ? position.attributes.batteryLevel : 'undefined';
+  const ignitionStatus = position.attributes.hasOwnProperty('ignition') ? position.attributes.ignition : 'undefined';
+
+  if (batteryLevel >= 70) {
+    batteryClass = classes.green;
+  } else if (batteryLevel > 30) {
+    batteryClass = classes.gray;
+  } else {
+    batteryClass = classes.red;
+  }
+  return (
+    <Grid container direction="row" alignItems="center" alignContent="center" spacing={1}>
+      {ignitionStatus !== 'undefined' && <Grid item>
+        <VpnKeyIcon className={`${ignitionStatus ? classes.green : classes.gray}`}/>
+      </Grid>}
+      {batteryLevel !== 'undefined' && <Grid item container xs alignItems="center" alignContent="center">
+        <Grid item> 
+          <span className={classes.batteryText}>{formatPosition(batteryLevel, 'batteryLevel')}</span>
+        </Grid>      
+        <Grid item> 
+          <BatteryFullIcon className={batteryClass} />
+        </Grid>
+      </Grid>}
+    </Grid>
+  );
+}
 
 const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();
@@ -61,11 +110,9 @@ const DeviceRow = ({ data, index, style }) => {
               <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={item.name} secondary={item.uniqueId} />
+          <ListItemText primary={item.name} secondary={<OnlineStatus status={item.status} />} />
           <ListItemSecondaryAction>
-            <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
-              <MoreVertIcon />
-            </IconButton>
+            <DeviceStatus deviceId={item.id} />
           </ListItemSecondaryAction>
         </ListItem>
         {index < items.length - 1 ? <Divider /> : null}

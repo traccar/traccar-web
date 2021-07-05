@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { isWidthUp, makeStyles, withWidth, Paper, Toolbar, Grid, TextField, IconButton } from '@material-ui/core';
+import { makeStyles, withWidth, Paper, Toolbar, Grid, TextField, IconButton } from '@material-ui/core';
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
-import Drawer from '@material-ui/core/Drawer';
-import ContainerDimensions from 'react-container-dimensions';
-
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -62,14 +58,15 @@ const useStyles = makeStyles(theme => ({
     top: theme.spacing(20),
     width: theme.dimensions.drawerWidthDesktop,
     borderRadius: '0px',
-    maxHeight: 'calc(100vh - 184px)',
+    height: '100%',
+    maxHeight: `calc(100vh - ${theme.spacing(23)}px)`,
     overflowY: 'auto',
     [theme.breakpoints.down("md")]: {
       top: theme.spacing(14),
       left: '0px',
       width: '100%',
       height: `calc(100vh - ${theme.spacing(14)}px)`,
-      maxHeight: `100%`
+      maxHeight: '100%'
     }  
   }
 }));
@@ -94,41 +91,41 @@ const MainPage = ({ width }) => {
         <SelectedDeviceMap />
       </Map>
       <div className={classes.listContainer}>
-      <Paper className={classes.searchBox}>
-        <Toolbar className={classes.searchToolbar} disableGutters>
-          <Grid container direction="row" alignItems="center" spacing={2}>
-            {matchesMD && <Grid item> 
-              <IconButton>
-                <ArrowBackIcon />
-              </IconButton>            
-            </Grid>}
-            <Grid item xs>
-              <TextField
-                fullWidth
-                name='deviceName'
-                value={deviceName || ''}
-                autoComplete='deviceName'
-                autoFocus
-                onChange={event => setDeviceName(event.target.value)}
-                placeholder="Search Devices"
-                variant='filled' />
+        <Paper className={classes.searchBox}>
+          <Toolbar className={classes.searchToolbar} disableGutters>
+            <Grid container direction="row" alignItems="center" spacing={2}>
+              {matchesMD && <Grid item> 
+                <IconButton>
+                  <ArrowBackIcon />
+                </IconButton>            
+              </Grid>}
+              <Grid item xs>
+                <TextField
+                  fullWidth
+                  name='deviceName'
+                  value={deviceName || ''}
+                  autoComplete='deviceName'
+                  autoFocus
+                  onChange={event => setDeviceName(event.target.value)}
+                  placeholder="Search Devices"
+                  variant='filled' />
+              </Grid>
+              <Grid item>
+                <IconButton onClick={() => history.push('/device')}>
+                  <AddIcon />
+                </IconButton>
+              </Grid>
+              {!matchesMD && <Grid item>
+                <IconButton>
+                  <CloseIcon />
+                </IconButton>
+              </Grid>}
             </Grid>
-            <Grid item>
-              <IconButton onClick={() => history.push('/device')}>
-                <AddIcon />
-              </IconButton>
-            </Grid>
-            {!matchesMD && <Grid item>
-              <IconButton>
-                <CloseIcon />
-              </IconButton>
-            </Grid>}
-          </Grid>
-        </Toolbar>
-      </Paper>
-      <Paper className={classes.deviceList}>
-        <DevicesList />
-      </Paper>
+          </Toolbar>
+        </Paper>
+        <Paper className={classes.deviceList}>
+          <DevicesList />
+        </Paper>
       </div>
     </div>
   );
