@@ -1,6 +1,6 @@
-import 'mapbox-gl/dist/mapbox-gl.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import './switcher/switcher.css';
-import mapboxgl from 'mapbox-gl';
+import maplibregl from 'maplibre-gl';
 import { SwitcherControl } from './switcher/switcher';
 import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { deviceCategories } from '../common/deviceCategories';
@@ -14,7 +14,7 @@ const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
 
-export const map = new mapboxgl.Map({
+export const map = new maplibregl.Map({
   container: element,
   style: styleOsm(),
 });
@@ -55,7 +55,7 @@ const initMap = async () => {
 
 map.on('load', initMap);
 
-map.addControl(new mapboxgl.NavigationControl({
+map.addControl(new maplibregl.NavigationControl({
   showCompass: false,
 }));
 
@@ -89,7 +89,7 @@ const Map = ({ children }) => {
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
 
   useEffect(() => {
-    mapboxgl.accessToken = mapboxAccessToken;
+    maplibregl.accessToken = mapboxAccessToken;
   }, [mapboxAccessToken]);
 
   useEffect(() => {

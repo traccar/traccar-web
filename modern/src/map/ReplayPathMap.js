@@ -1,4 +1,4 @@
-import mapboxgl from 'mapbox-gl';
+import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
 import { map } from './Map';
 
@@ -46,7 +46,7 @@ const ReplayPathMap = ({ positions }) => {
       },
     });
     if (coordinates.length) {
-      const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+      const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
       map.fitBounds(bounds, {
         padding: { top: 50, bottom: 250, left: 25, right: 25 },
       });
