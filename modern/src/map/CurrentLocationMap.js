@@ -1,10 +1,10 @@
-import mapboxgl from 'mapbox-gl';
+import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
 import { map } from './Map';
 
 const CurrentLocationMap = () => {
   useEffect(() => {
-    const control = new mapboxgl.GeolocateControl({
+    const control = new maplibregl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true,
         timeout: 5000,

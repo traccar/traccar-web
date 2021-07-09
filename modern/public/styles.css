@@ -3,6 +3,6 @@ canvas {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
-.mapboxgl-popup-content {
+.maplibregl-popup-content {
   padding: 10px !important;
 }

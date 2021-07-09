@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography} from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import t from '../common/localization';
