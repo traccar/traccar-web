@@ -68,7 +68,6 @@ const DeviceStatus = ({ deviceId }) => {
     return null;
   }
   const batteryLevel = position.attributes.hasOwnProperty('batteryLevel') ? position.attributes.batteryLevel : 'undefined';
-  const ignitionStatus = position.attributes.hasOwnProperty('ignition') ? position.attributes.ignition : 'undefined';
 
   if (batteryLevel >= 70) {
     batteryClass = classes.green;
@@ -79,8 +78,8 @@ const DeviceStatus = ({ deviceId }) => {
   }
   return (
     <Grid container direction="row" alignItems="center" alignContent="center" spacing={1}>
-      {ignitionStatus !== 'undefined' && <Grid item>
-        <VpnKeyIcon className={`${ignitionStatus ? classes.green : classes.gray}`}/>
+      {position.attributes.hasOwnProperty('ignition') && <Grid item>
+        <VpnKeyIcon className={`${position.attributes.ignition ? classes.green : classes.gray}`}/>
       </Grid>}
       {batteryLevel !== 'undefined' && <Grid item container xs alignItems="center" alignContent="center">
         <Grid item> 
