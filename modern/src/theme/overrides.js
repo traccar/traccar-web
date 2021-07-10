@@ -4,17 +4,17 @@ export default {
   MuiFormControl: {
     root: {
       marginTop: 5,
-      marginBottom: 5
-    }
+      marginBottom: 5,
+    },
   },
   MuiInputLabel: {
     filled: {
       transform: 'translate(12px, 14px) scale(1)',
-        '&$shrink' :{
-          transform: 'translate(12px, -14px) scale(0.72)'
-        }
+      '&$shrink': {
+        transform: 'translate(12px, -14px) scale(0.72)',
+      },
     },
-  },      
+  },
   MuiFilledInput: {
     root: {
       height: dimensions.inputHeight,
@@ -28,19 +28,19 @@ export default {
       boxSizing: 'border-box',
       '&:-webkit-autofill': {
         WebkitBoxShadow: '0 0 0 100px #eeeeee inset',
-      },        
+      },
     },
     underline: {
-      "&:before": {
+      '&:before': {
         borderBottom: 'none',
       },
-      "&:after": {
+      '&:after': {
         borderBottom: 'none',
       },
-      "&:hover:before": {
+      '&:hover:before': {
         borderBottom: 'none',
-      },             
-    }
+      },
+    },
   },
   MuiButton: {
     root: {
@@ -48,31 +48,31 @@ export default {
       marginTop: 5,
       marginBottom: 5,
       '&$disabled': {
-        opacity: .4,
+        opacity: 0.4,
         color: undefined,
-      }
+      },
     },
     contained: {
       '&$disabled': {
-        opacity: .4,
+        opacity: 0.4,
         color: undefined,
-        backgroundColor: undefined
-      }
-    }
+        backgroundColor: undefined,
+      },
+    },
   },
   MuiFormHelperText: {
     root: {
-      marginBottom: -10
+      marginBottom: -10,
     },
     contained: {
-      marginLeft: 12
-    }
+      marginLeft: 12,
+    },
   },
   MuiAutocomplete: {
     inputRoot: {
       '&.MuiFilledInput-root': {
-        paddingTop: 0
-      }
-    }
-  }
+        paddingTop: 0,
+      },
+    },
+  },
 };

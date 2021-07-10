@@ -1,10 +1,11 @@
-
 import React, { useState } from 'react';
-import { FormControl, InputLabel,Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper } from '@material-ui/core';
+import {
+  FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper,
+} from '@material-ui/core';
+import moment from 'moment';
 import t from '../common/localization';
 import { formatDate } from '../common/formatter';
 import ReportLayoutPage from '../reports/ReportLayoutPage';
-import moment from 'moment';
 
 const Filter = ({ setItems }) => {
   const [period, setPeriod] = useState('today');
@@ -50,7 +51,7 @@ const Filter = ({ setItems }) => {
     if (response.ok) {
       setItems(await response.json());
     }
-  }
+  };
 
   return (
     <>
@@ -73,8 +74,9 @@ const Filter = ({ setItems }) => {
           label={t('reportFrom')}
           type="datetime-local"
           value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth />
+          onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth
+        />
       )}
       {period === 'custom' && (
         <TextField
@@ -83,16 +85,16 @@ const Filter = ({ setItems }) => {
           label={t('reportTo')}
           type="datetime-local"
           value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth />
+          onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth
+        />
       )}
       <Button variant="contained" color="primary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
-    </>   
-  )
-}
+    </>
+  );
+};
 
 const StatisticsPage = () => {
-
   const [items, setItems] = useState([]);
 
   return (
@@ -125,7 +127,7 @@ const StatisticsPage = () => {
                 <TableCell>{item.mailSent}</TableCell>
                 <TableCell>{item.smsSent}</TableCell>
                 <TableCell>{item.geocoderRequests}</TableCell>
-                <TableCell>{item.geolocationRequests}</TableCell>                           
+                <TableCell>{item.geolocationRequests}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -133,6 +135,6 @@ const StatisticsPage = () => {
       </TableContainer>
     </ReportLayoutPage>
   );
-}
+};
 
 export default StatisticsPage;

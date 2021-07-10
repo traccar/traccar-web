@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden } from '@material-ui/core';
+import {
+  Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden,
+} from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
@@ -9,11 +11,11 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import ReportSidebar from '../components/reports/ReportSidebar'
-import ReportNavbar from '../components/reports/ReportNavbar'
+import ReportSidebar from '../components/reports/ReportSidebar';
+import ReportNavbar from '../components/reports/ReportNavbar';
 import t from '../common/localization';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100%',
@@ -23,10 +25,10 @@ const useStyles = makeStyles(theme => ({
   },
   drawer: {
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
       width: theme.dimensions.drawerWidthTablet,
-    }
-  }, 
+    },
+  },
   content: {
     flex: 1,
     padding: theme.spacing(5, 3, 3, 3),
@@ -39,13 +41,13 @@ const useStyles = makeStyles(theme => ({
   },
   backArrowIconContainer: {
     '&:hover': {
-      backgroundColor:"transparent"
-    }  
+      backgroundColor: 'transparent',
+    },
   },
   toolbar: {
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
       ...theme.mixins.toolbar,
-    }
+    },
   },
 }));
 
@@ -58,7 +60,7 @@ const routes = [
   { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
 ];
 
-const ReportLayoutPage = ({ children, filter, }) => {
+const ReportLayoutPage = ({ children, filter }) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -66,7 +68,7 @@ const ReportLayoutPage = ({ children, filter, }) => {
   const [reportTitle, setReportTitle] = useState();
 
   useEffect(() => {
-    routes.forEach(route => {
+    routes.forEach((route) => {
       switch (location.pathname) {
         case `${route.href}`:
           setReportTitle(route.name);
@@ -85,7 +87,8 @@ const ReportLayoutPage = ({ children, filter, }) => {
           variant="temporary"
           open={openDrawer}
           onClose={() => setOpenDrawer(!openDrawer)}
-          classes={{paper: classes.drawer}}>
+          classes={{ paper: classes.drawer }}
+        >
           <ReportSidebar routes={routes} />
         </Drawer>
       </Hidden>
@@ -93,17 +96,19 @@ const ReportLayoutPage = ({ children, filter, }) => {
         <div className={classes.drawerContainer}>
           <Drawer
             variant="permanent"
-            classes={{paper: classes.drawer}}>
+            classes={{ paper: classes.drawer }}
+          >
             <div className={classes.drawerHeader}>
               <IconButton
                 onClick={() => history.push('/')}
-                className={classes.backArrowIconContainer} 
-                disableRipple>
+                className={classes.backArrowIconContainer}
+                disableRipple
+              >
                 <ArrowBackIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" noWrap>
                 {t('reportTitle')}
-              </Typography> 
+              </Typography>
             </div>
             <Divider />
             <ReportSidebar routes={routes} />
@@ -116,9 +121,9 @@ const ReportLayoutPage = ({ children, filter, }) => {
           <Grid item>{filter}</Grid>
           <Grid item>{children}</Grid>
         </Grid>
-      </div>      
+      </div>
     </div>
   );
-}
+};
 
 export default ReportLayoutPage;

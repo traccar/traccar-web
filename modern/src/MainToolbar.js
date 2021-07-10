@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { sessionActions } from './store';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -27,17 +26,18 @@ import FolderIcon from '@material-ui/icons/Folder';
 import CreateIcon from '@material-ui/icons/Create';
 import ReplayIcon from '@material-ui/icons/Replay';
 import BuildIcon from '@material-ui/icons/Build';
+import { sessionActions } from './store';
 import t from './common/localization';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   flex: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
   list: {
-    width: 250
+    width: 250,
   },
   menuButton: {
     marginLeft: -12,
@@ -50,11 +50,11 @@ const MainToolbar = () => {
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
   const history = useHistory();
-  const adminEnabled = useSelector(state => state.session.user && state.session.user.administrator);
-  const userId = useSelector(state => state.session.user && state.session.user.id);
+  const adminEnabled = useSelector((state) => state.session.user && state.session.user.administrator);
+  const userId = useSelector((state) => state.session.user && state.session.user.id);
 
-  const openDrawer = () => { setDrawer(true) }
-  const closeDrawer = () => { setDrawer(false) }
+  const openDrawer = () => { setDrawer(true); };
+  const closeDrawer = () => { setDrawer(false); };
 
   const handleLogout = async () => {
     const response = await fetch('/api/session', { method: 'DELETE' });
@@ -62,7 +62,7 @@ const MainToolbar = () => {
       dispatch(sessionActions.updateUser(null));
       history.push('/login');
     }
-  }
+  };
 
   return (
     <>
@@ -71,7 +71,8 @@ const MainToolbar = () => {
           <IconButton
             className={classes.menuButton}
             color="inherit"
-            onClick={openDrawer}>
+            onClick={openDrawer}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.flex}>
@@ -86,7 +87,8 @@ const MainToolbar = () => {
           className={classes.list}
           role="button"
           onClick={closeDrawer}
-          onKeyDown={closeDrawer}>
+          onKeyDown={closeDrawer}
+        >
           <List>
             <ListItem button onClick={() => history.push('/')}>
               <ListItemIcon>
@@ -105,15 +107,16 @@ const MainToolbar = () => {
                 <DescriptionIcon />
               </ListItemIcon>
               <ListItemText primary={t('reportTitle')} />
-            </ListItem>            
+            </ListItem>
           </List>
           <Divider />
           <List
-            subheader={
+            subheader={(
               <ListSubheader>
                 {t('settingsTitle')}
               </ListSubheader>
-            }>
+            )}
+          >
             <ListItem button disabled={!userId} onClick={() => history.push(`/user/${userId}`)}>
               <ListItemIcon>
                 <PersonIcon />
@@ -161,11 +164,12 @@ const MainToolbar = () => {
             <>
               <Divider />
               <List
-                subheader={
+                subheader={(
                   <ListSubheader>
                     {t('userAdmin')}
                   </ListSubheader>
-                }>
+                )}
+              >
                 <ListItem button onClick={() => history.push('/admin/server')}>
                   <ListItemIcon>
                     <StorageIcon />
@@ -191,6 +195,6 @@ const MainToolbar = () => {
       </Drawer>
     </>
   );
-}
+};
 
 export default MainToolbar;

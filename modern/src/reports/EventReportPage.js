@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { useTheme } from "@material-ui/core/styles";
+import {
+  Grid, FormControl, InputLabel, Select, MenuItem,
+} from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
@@ -10,12 +12,13 @@ import { prefixString } from '../common/stringUtils';
 import t from '../common/localization';
 
 const Filter = ({ setItems }) => {
-
   const [eventTypes, setEventTypes] = useState(['allEvents']);
 
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
-    eventTypes.forEach(it => query.append('type', it));
+    const query = new URLSearchParams({
+      deviceId, from, to, mail,
+    });
+    eventTypes.forEach((it) => query.append('type', it));
     const response = await fetch(`/api/reports/events?${query.toString()}`, { headers });
     if (response.ok) {
       const contentType = response.headers.get('content-type');
@@ -34,7 +37,7 @@ const Filter = ({ setItems }) => {
       <Grid item xs={12} sm={6}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportEventTypes')}</InputLabel>
-          <Select value={eventTypes} onChange={e => setEventTypes(e.target.value)} multiple>
+          <Select value={eventTypes} onChange={(e) => setEventTypes(e.target.value)} multiple>
             <MenuItem value="allEvents">{t('eventAll')}</MenuItem>
             <MenuItem value="deviceOnline">{t('eventDeviceOnline')}</MenuItem>
             <MenuItem value="deviceUnknown">{t('eventDeviceUnknown')}</MenuItem>
@@ -58,21 +61,20 @@ const Filter = ({ setItems }) => {
       </Grid>
     </ReportFilter>
   );
-}
+};
 
 const EventReportPage = () => {
-
   const theme = useTheme();
-  const geofences = useSelector(state => state.geofences.items);
+  const geofences = useSelector((state) => state.geofences.items);
   const [items, setItems] = useState([]);
 
-  const formatGeofence = value => {
+  const formatGeofence = (value) => {
     if (value > 0) {
-        const geofence = geofences[value];
-        return geofence ? geofence.name : '';
+      const geofence = geofences[value];
+      return geofence ? geofence.name : '';
     }
     return null;
-  }
+  };
 
   const columns = [{
     headerName: t('positionFixTime'),
@@ -101,12 +103,13 @@ const EventReportPage = () => {
   return (
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
       <DataGrid
-        rows={items} 
-        columns={columns} 
-        hideFooter 
-        autoHeight />
+        rows={items}
+        columns={columns}
+        hideFooter
+        autoHeight
+      />
     </ReportLayoutPage>
   );
-}
+};
 
 export default EventReportPage;

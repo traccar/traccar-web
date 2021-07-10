@@ -1,4 +1,4 @@
-const speedConverter = unit => {
+const speedConverter = (unit) => {
   switch (unit) {
     case 'kmh':
       return 1.852;
@@ -10,7 +10,7 @@ const speedConverter = unit => {
   }
 };
 
-const distanceConverter = unit => {
+const distanceConverter = (unit) => {
   switch (unit) {
     case 'mi':
       return 0.000621371;
@@ -19,21 +19,13 @@ const distanceConverter = unit => {
     case 'km':
     default:
       return 0.001;
-  } 
-}
+  }
+};
 
-export const speedFromKnots = (value, unit) => {
-  return value * speedConverter(unit);
-}
+export const speedFromKnots = (value, unit) => value * speedConverter(unit);
 
-export const speedToKnots = (value, unit) => {
-  return value / speedConverter(unit);
-}
+export const speedToKnots = (value, unit) => value / speedConverter(unit);
 
-export const distanceFromMeters = (value, unit) => {
-  return value * distanceConverter(unit);
-}
+export const distanceFromMeters = (value, unit) => value * distanceConverter(unit);
 
-export const distanceToMeters = (value, unit) => {
-  return value / distanceConverter(unit);
-}
+export const distanceToMeters = (value, unit) => value / distanceConverter(unit);

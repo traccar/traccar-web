@@ -7,9 +7,9 @@ const { reducer, actions } = createSlice({
   },
   reducers: {
     update(state, action) {
-      action.payload.forEach(item => state.items[item['deviceId']] = item);
+      action.payload.forEach((item) => state.items[item.deviceId] = item);
     },
-  }
+  },
 });
 
 export { actions as positionsActions };

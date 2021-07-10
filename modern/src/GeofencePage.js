@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
+import {
+  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import t from './common/localization';
 import EditItemView from './EditItemView';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from './attributes/EditAttributesView';
 import geofenceAttributes from './attributes/geofenceAttributes';
 
@@ -21,7 +23,8 @@ const GeofencePage = () => {
 
   return (
     <EditItemView endpoint="geofences" item={item} setItem={setItem}>
-      {item &&
+      {item
+        && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -33,9 +36,10 @@ const GeofencePage = () => {
               <TextField
                 margin="normal"
                 value={item.name || ''}
-                onChange={event => setItem({...item, name: event.target.value})}
+                onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-                variant="filled" />
+                variant="filled"
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -47,15 +51,15 @@ const GeofencePage = () => {
             <AccordionDetails className={classes.details}>
               <EditAttributesView
                 attributes={item.attributes}
-                setAttributes={attributes => setItem({...item, attributes})}
+                setAttributes={(attributes) => setItem({ ...item, attributes })}
                 definitions={geofenceAttributes}
-                />
+              />
             </AccordionDetails>
           </Accordion>
         </>
-      }
+        )}
     </EditItemView>
   );
-}
+};
 
 export default GeofencePage;

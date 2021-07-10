@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography } from '@material-ui/core';
+import {
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography,
+} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import t from '../common/localization';
 
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
-  const devices = useSelector(state => Object.values(state.devices.items));
+  const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
@@ -51,9 +53,9 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
       selectedFrom.toISOString(),
       selectedTo.toISOString(),
       mail,
-      { Accept: accept }
+      { Accept: accept },
     );
-  }
+  };
 
   return (
     <Grid container spacing={2}>
@@ -81,56 +83,69 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
           </Select>
         </FormControl>
       </Grid>
-      {period === 'custom' && <Grid item xs={12} sm={3}>
+      {period === 'custom' && (
+      <Grid item xs={12} sm={3}>
         <TextField
           variant="filled"
           label={t('reportFrom')}
           type="datetime-local"
           value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={e => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth />
-      </Grid>}
-      {period === 'custom' && <Grid item xs={12} sm={3}>
+          onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth
+        />
+      </Grid>
+      )}
+      {period === 'custom' && (
+      <Grid item xs={12} sm={3}>
         <TextField
           variant="filled"
           label={t('reportTo')}
           type="datetime-local"
           value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={e => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth />
-      </Grid>}
+          onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+          fullWidth
+        />
+      </Grid>
+      )}
       {children}
       <Grid item xs={!showOnly ? 4 : 12} sm={!showOnly ? 2 : 6}>
-        <Button 
+        <Button
           onClick={() => handleClick(false, true)}
-          variant='outlined'
-          color='secondary'
-          fullWidth>
+          variant="outlined"
+          color="secondary"
+          fullWidth
+        >
           {t('reportShow')}
         </Button>
       </Grid>
-      {!showOnly && 
+      {!showOnly
+        && (
         <Grid item xs={4} sm={2}>
-            <Button 
-              onClick={() => handleClick(false, false)}
-              variant='outlined'
-              color='secondary'
-              fullWidth>
-              {t('reportExport')}
-            </Button>
-        </Grid>}
-      {!showOnly && 
+          <Button
+            onClick={() => handleClick(false, false)}
+            variant="outlined"
+            color="secondary"
+            fullWidth
+          >
+            {t('reportExport')}
+          </Button>
+        </Grid>
+        )}
+      {!showOnly
+        && (
         <Grid item xs={4} sm={2}>
-            <Button 
-              onClick={() => handleClick(true, false)}
-              variant='outlined'
-              color='secondary'
-              fullWidth>
-              <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
-            </Button>
-        </Grid>}
+          <Button
+            onClick={() => handleClick(true, false)}
+            variant="outlined"
+            color="secondary"
+            fullWidth
+          >
+            <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
+          </Button>
+        </Grid>
+        )}
     </Grid>
   );
-}
+};
 
 export default ReportFilter;

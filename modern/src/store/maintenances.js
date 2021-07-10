@@ -7,9 +7,9 @@ const { reducer, actions } = createSlice({
   },
   reducers: {
     update(state, action) {
-      action.payload.forEach(item => state.items[item['id']] = item);
+      action.payload.forEach((item) => state.items[item.id] = item);
     },
-  }
+  },
 });
 
 export { actions as maintenancesActions };

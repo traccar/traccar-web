@@ -1,5 +1,4 @@
 export class SwitcherControl {
-
   constructor(styles, defaultStyle, beforeSwitch, afterSwitch) {
     this.styles = styles;
     this.defaultStyle = defaultStyle;
@@ -27,8 +26,8 @@ export class SwitcherControl {
       styleElement.innerText = style.title;
       styleElement.classList.add(style.title.replace(/[^a-z0-9-]/gi, '_'));
       styleElement.dataset.uri = JSON.stringify(style.uri);
-      styleElement.addEventListener('click', event => {
-        const srcElement = event.srcElement;
+      styleElement.addEventListener('click', (event) => {
+        const { srcElement } = event;
         if (srcElement.classList.contains('active')) {
           return;
         }

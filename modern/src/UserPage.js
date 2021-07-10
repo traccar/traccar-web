@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
+import {
+  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import t from './common/localization';
 import userAttributes from './attributes/userAttributes';
 import EditItemView from './EditItemView';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from './attributes/EditAttributesView';
 import LinkField from './form/LinkField';
 
@@ -22,7 +24,8 @@ const UserPage = () => {
 
   return (
     <EditItemView endpoint="users" item={item} setItem={setItem}>
-      {item &&
+      {item
+        && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -34,21 +37,24 @@ const UserPage = () => {
               <TextField
                 margin="normal"
                 value={item.name || ''}
-                onChange={event => setItem({...item, name: event.target.value})}
+                onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-                variant="filled" />
+                variant="filled"
+              />
               <TextField
                 margin="normal"
                 value={item.email || ''}
-                onChange={event => setItem({...item, email: event.target.value})}
+                onChange={(event) => setItem({ ...item, email: event.target.value })}
                 label={t('userEmail')}
-                variant="filled" />
+                variant="filled"
+              />
               <TextField
                 margin="normal"
                 type="password"
-                onChange={event => setItem({...item, password: event.target.value})}
+                onChange={(event) => setItem({ ...item, password: event.target.value })}
                 label={t('userPassword')}
-                variant="filled" />
+                variant="filled"
+              />
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -60,12 +66,13 @@ const UserPage = () => {
             <AccordionDetails className={classes.details}>
               <EditAttributesView
                 attributes={item.attributes}
-                setAttributes={attributes => setItem({...item, attributes})}
+                setAttributes={(attributes) => setItem({ ...item, attributes })}
                 definitions={userAttributes}
-                />
+              />
             </AccordionDetails>
           </Accordion>
-          {item.id &&
+          {item.id
+            && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">
@@ -76,28 +83,30 @@ const UserPage = () => {
                 <LinkField
                   margin="normal"
                   endpointAll="/api/devices?all=true"
-                  endpointLinked={"/api/devices?userId=" + item.id}
+                  endpointLinked={`/api/devices?userId=${item.id}`}
                   baseId={item.id}
                   keyBase="userId"
                   keyLink="deviceId"
                   label={t('deviceTitle')}
-                  variant="filled" />
+                  variant="filled"
+                />
                 <LinkField
                   margin="normal"
                   endpointAll="/api/groups?all=true"
-                  endpointLinked={"/api/groups?userId=" + item.id}
+                  endpointLinked={`/api/groups?userId=${item.id}`}
                   baseId={item.id}
                   keyBase="userId"
                   keyLink="groupId"
                   label={t('settingsGroups')}
-                  variant="filled" />
+                  variant="filled"
+                />
               </AccordionDetails>
             </Accordion>
-          }
+            )}
         </>
-      }
+        )}
     </EditItemView>
   );
-}
+};
 
 export default UserPage;

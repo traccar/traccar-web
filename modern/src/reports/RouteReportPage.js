@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
-import { useTheme } from "@material-ui/core/styles";
-import { formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinate } from '../common/formatter';
+import { useTheme } from '@material-ui/core/styles';
+import {
+  formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinate,
+} from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayoutPage from './ReportLayoutPage';
 import { useAttributePreference, usePreference } from '../common/preferences';
 import t from '../common/localization';
 
 const Filter = ({ setItems }) => {
-
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
+    const query = new URLSearchParams({
+      deviceId, from, to, mail,
+    });
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
     if (response.ok) {
       const contentType = response.headers.get('content-type');
@@ -23,7 +26,7 @@ const Filter = ({ setItems }) => {
         }
       }
     }
-  }
+  };
 
   return <ReportFilter handleSubmit={handleSubmit} />;
 };
@@ -78,7 +81,7 @@ const RouteReportPage = () => {
     width: theme.dimensions.columnWidthNumber,
     valueGetter: ({ row }) => row.attributes.totalDistance,
     valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
-  }]
+  }];
 
   const [items, setItems] = useState([]);
 
@@ -86,10 +89,11 @@ const RouteReportPage = () => {
     <ReportLayoutPage filter={<Filter setItems={setItems} />}>
       <Paper>
         <DataGrid
-          rows={items} 
-          columns={columns} 
-          hideFooter 
-          autoHeight />
+          rows={items}
+          columns={columns}
+          hideFooter
+          autoHeight
+        />
       </Paper>
     </ReportLayoutPage>
   );

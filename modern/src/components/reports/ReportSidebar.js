@@ -1,21 +1,23 @@
 import React from 'react';
-import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import {
+  List, ListItem, ListItemText, ListItemIcon,
+} from '@material-ui/core';
 import { Link, useLocation } from 'react-router-dom';
 
 const ReportSidebar = ({ routes }) => {
-
   const location = useLocation();
 
   return (
-    <List disablePadding style={{paddingTop: '16px'}}>
-      {routes.map((route, index) => (
+    <List disablePadding style={{ paddingTop: '16px' }}>
+      {routes.map((route) => (
         <ListItem
           disableRipple
           component={Link}
-          key={`${route}${index}`}
+          key={route}
           button
           to={route.href}
-          selected={route.href === location.pathname}>
+          selected={route.href === location.pathname}
+        >
           <ListItemIcon>
             {route.icon}
           </ListItemIcon>
@@ -23,7 +25,7 @@ const ReportSidebar = ({ routes }) => {
         </ListItem>
       ))}
     </List>
-  )
-}
+  );
+};
 
 export default ReportSidebar;

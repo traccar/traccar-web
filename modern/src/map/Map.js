@@ -1,9 +1,11 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './switcher/switcher.css';
 import maplibregl from 'maplibre-gl';
+import React, {
+  useRef, useLayoutEffect, useEffect, useState,
+} from 'react';
 import { SwitcherControl } from './switcher/switcher';
-import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
-import { deviceCategories } from '../common/deviceCategories';
+import deviceCategories from '../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import { styleCarto, styleMapbox, styleOsm } from './mapStyles';
 import t from '../common/localization';
@@ -22,18 +24,18 @@ export const map = new maplibregl.Map({
 let ready = false;
 const readyListeners = new Set();
 
-const addReadyListener = listener => {
+const addReadyListener = (listener) => {
   readyListeners.add(listener);
   listener(ready);
 };
 
-const removeReadyListener = listener => {
+const removeReadyListener = (listener) => {
   readyListeners.delete(listener);
 };
 
-const updateReadyValue = value => {
+const updateReadyValue = (value) => {
   ready = value;
-  readyListeners.forEach(listener => listener(value));
+  readyListeners.forEach((listener) => listener(value));
 };
 
 const initMap = async () => {
@@ -42,13 +44,16 @@ const initMap = async () => {
   map.addImage('background', await prepareIcon(background), {
     pixelRatio: window.devicePixelRatio,
   });
-  await Promise.all(deviceCategories.map(async category => {
-    for (const color of ['green', 'red', 'gray']) {
-      const icon = await loadImage(`images/icon/${category}.svg`);
-      map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
-        pixelRatio: window.devicePixelRatio,
-      });
-    }
+  await Promise.all(deviceCategories.map(async (category) => {
+    const results = [];
+    ['green', 'red', 'gray'].forEach((color) => {
+      results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
+        map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
+          pixelRatio: window.devicePixelRatio,
+        });
+      }));
+    });
+    await Promise.all(results);
   }));
   updateReadyValue(true);
 };
@@ -93,7 +98,7 @@ const Map = ({ children }) => {
   }, [mapboxAccessToken]);
 
   useEffect(() => {
-    const listener = ready => setMapReady(ready);
+    const listener = (ready) => setMapReady(ready);
     addReadyListener(listener);
     return () => {
       removeReadyListener(listener);

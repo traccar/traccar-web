@@ -7,33 +7,31 @@ import { map } from './Map';
 const AccuracyMap = () => {
   const id = 'accuracy';
 
-  const positions = useSelector(state => ({
+  const positions = useSelector((state) => ({
     type: 'FeatureCollection',
-    features: Object.values(state.positions.items).filter(position => position.accuracy > 0).map(position =>
-      circle([position.longitude, position.latitude], position.accuracy * 0.001)
-    ),
+    features: Object.values(state.positions.items).filter((position) => position.accuracy > 0).map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
   }));
 
   useEffect(() => {
     map.addSource(id, {
-      'type': 'geojson',
-      'data': {
+      type: 'geojson',
+      data: {
         type: 'FeatureCollection',
-        features: []
-      }
+        features: [],
+      },
     });
     map.addLayer({
-      'source': id,
-      'id': id,
-      'type': 'fill',
-      'filter': [
-         'all',
-         ['==', '$type', 'Polygon'],
+      source: id,
+      id,
+      type: 'fill',
+      filter: [
+        'all',
+        ['==', '$type', 'Polygon'],
       ],
-      'paint': {
-         'fill-color':'#3bb2d0',
-         'fill-outline-color':'#3bb2d0',
-         'fill-opacity':0.25,
+      paint: {
+        'fill-color': '#3bb2d0',
+        'fill-outline-color': '#3bb2d0',
+        'fill-opacity': 0.25,
       },
     });
 
@@ -48,6 +46,6 @@ const AccuracyMap = () => {
   }, [positions]);
 
   return null;
-}
+};
 
 export default AccuracyMap;

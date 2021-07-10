@@ -1,7 +1,6 @@
-
 import { useRef, useEffect } from 'react';
 
-export const usePrevious = value => {
+export const usePrevious = (value) => {
   const ref = useRef();
   useEffect(() => {
     ref.current = value;
@@ -12,5 +11,5 @@ export const usePrevious = value => {
 export const useEffectAsync = (effect, deps) => {
   useEffect(() => {
     effect();
-  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+  }, deps);
 };

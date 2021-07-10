@@ -16,6 +16,6 @@ const CurrentLocationMap = () => {
   }, []);
 
   return null;
-}
+};
 
 export default CurrentLocationMap;

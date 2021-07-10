@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import {
+  Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField,
+} from '@material-ui/core';
 
-import t from '../common/localization';
 import { Autocomplete, createFilterOptions } from '@material-ui/lab';
+import t from '../common/localization';
 
 const AddAttributeDialog = ({ open, onResult, definitions }) => {
   const filter = createFilterOptions({
-    stringify: option => option.name,
+    stringify: (option) => option.name,
   });
 
   const options = Object.entries(definitions).map(([key, value]) => ({
@@ -39,10 +41,8 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
             return filtered;
           }}
           options={options}
-          getOptionLabel={option => {
-            return option && typeof option === 'object' ? option.name : option;
-          }}
-          renderOption={option => option.name}
+          getOptionLabel={(option) => (option && typeof option === 'object' ? option.name : option)}
+          renderOption={(option) => option.name}
           freeSolo
           renderInput={(params) => (
             <TextField {...params} label={t('sharedAttribute')} variant="filled" margin="normal" />
@@ -52,14 +52,16 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           variant="filled"
           margin="normal"
           fullWidth
-          disabled={key in definitions}>
+          disabled={key in definitions}
+        >
           <InputLabel>{t('sharedType')}</InputLabel>
           <Select
             value={type}
-            onChange={e => setType(e.target.value)}>
-            <MenuItem value={'string'}>{t('sharedTypeString')}</MenuItem>
-            <MenuItem value={'number'}>{t('sharedTypeNumber')}</MenuItem>
-            <MenuItem value={'boolean'}>{t('sharedTypeBoolean')}</MenuItem>
+            onChange={(e) => setType(e.target.value)}
+          >
+            <MenuItem value="string">{t('sharedTypeString')}</MenuItem>
+            <MenuItem value="number">{t('sharedTypeNumber')}</MenuItem>
+            <MenuItem value="boolean">{t('sharedTypeBoolean')}</MenuItem>
           </Select>
         </FormControl>
       </DialogContent>
@@ -67,17 +69,19 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
         <Button
           color="primary"
           disabled={!key}
-          onClick={() => onResult({ key, type })}>
+          onClick={() => onResult({ key, type })}
+        >
           {t('sharedAdd')}
         </Button>
         <Button
           autoFocus
-          onClick={() => onResult(null)}>
+          onClick={() => onResult(null)}
+        >
           {t('sharedCancel')}
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
 export default AddAttributeDialog;

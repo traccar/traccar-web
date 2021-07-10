@@ -1,7 +1,7 @@
-import t from '../common/localization'
+import t from '../common/localization';
 
 export default {
-  'notificationTokens': {
+  notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',
   },
@@ -49,19 +49,19 @@ export default {
     name: t('attributeUiHidePositionAttributes'),
     type: 'string',
   },
-  'distanceUnit': {
+  distanceUnit: {
     name: t('settingsDistanceUnit'),
     type: 'string',
   },
-  'speedUnit': {
+  speedUnit: {
     name: t('settingsSpeedUnit'),
     type: 'string',
   },
-  'volumeUnit': {
+  volumeUnit: {
     name: t('settingsVolumeUnit'),
     type: 'string',
   },
-  'timezone': {
+  timezone: {
     name: t('sharedTimezone'),
     type: 'string',
   },

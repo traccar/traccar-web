@@ -34,7 +34,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   const { items, onMenuClick } = data;
   const item = items[index];
-  
+
   return (
     <div style={style}>
       <Fragment key={index}>
@@ -61,7 +61,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const items = useSelector(state => Object.values(state.devices.items));
+  const items = useSelector((state) => Object.values(state.devices.items));
 
   useEffectAsync(async () => {
     const response = await fetch('/api/devices');
@@ -79,7 +79,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
             height={height}
             itemCount={items.length}
             itemData={{ items, onMenuClick }}
-            itemSize={72 + 1} >
+            itemSize={72 + 1}
+          >
             {DeviceRow}
           </FixedSizeList>
         </List>
@@ -88,10 +89,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   );
 };
 
-const DevicesList = () => {
-  return (
-    <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
-  );
-};
+const DevicesList = () => (
+  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
+);
 
 export default DevicesList;
