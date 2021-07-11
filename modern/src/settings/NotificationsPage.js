@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton } from '@material-ui/core';
+import {
+  TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
+} from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
@@ -8,11 +10,11 @@ import { prefixString } from '../common/stringUtils';
 import { formatBoolean } from '../common/formatter';
 import OptionsLayout from './OptionsLayout';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   columnAction: {
     width: theme.spacing(1),
-    padding: theme.spacing(0, 1)
-  }
+    padding: theme.spacing(0, 1),
+  },
 }));
 
 const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
@@ -32,7 +34,7 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
       return value
         .split(/[, ]+/)
         .filter(Boolean)
-        .map(it => t(prefixString(prefix, it)))
+        .map((it) => t(prefixString(prefix, it)))
         .join(', ');
     }
     return '';
@@ -40,52 +42,50 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
 
   return (
     <TableContainer>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell className={classes.columnAction} />
-          <TableCell>{t('notificationType')}</TableCell>
-          <TableCell>{t('notificationAlways')}</TableCell>
-          <TableCell>{t('sharedAlarms')}</TableCell>
-          <TableCell>{t('notificationNotificators')}</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {items.map(item => (
-          <TableRow key={item.id}>
-            <TableCell className={classes.columnAction} padding="none">
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell className={classes.columnAction} />
+            <TableCell>{t('notificationType')}</TableCell>
+            <TableCell>{t('notificationAlways')}</TableCell>
+            <TableCell>{t('sharedAlarms')}</TableCell>
+            <TableCell>{t('notificationNotificators')}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell className={classes.columnAction} padding="none">
                 <IconButton
-                  onClick={event => onMenuClick(event.currentTarget, item.id)}
+                  onClick={(event) => onMenuClick(event.currentTarget, item.id)}
                 >
-                <MoreVertIcon />
-              </IconButton>
-            </TableCell>
-            <TableCell>{t(prefixString('event', item.type))}</TableCell>
-            <TableCell>{formatBoolean(item.always)}</TableCell>
+                  <MoreVertIcon />
+                </IconButton>
+              </TableCell>
+              <TableCell>{t(prefixString('event', item.type))}</TableCell>
+              <TableCell>{formatBoolean(item.always)}</TableCell>
               <TableCell>
                 {formatList('alarm', item.attributes.alarms)}
               </TableCell>
               <TableCell>
                 {formatList('notificator', item.notificators)}
               </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </TableContainer>
   );
 };
 
-const NotificationsPage = () => {
-  return (
-    <OptionsLayout>
-      <EditCollectionView
-        content={NotificationsView}
-        editPath="/settings/notification"
-        endpoint="notifications"
-      />
-    </OptionsLayout>
-  );
-};
+const NotificationsPage = () => (
+  <OptionsLayout>
+    <EditCollectionView
+      content={NotificationsView}
+      editPath="/settings/notification"
+      endpoint="notifications"
+    />
+  </OptionsLayout>
+);
 
 export default NotificationsPage;

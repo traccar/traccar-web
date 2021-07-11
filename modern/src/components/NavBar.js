@@ -1,5 +1,7 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import {
+  AppBar, Toolbar, Typography, IconButton,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const Navbar = ({ setOpenDrawer, title }) => (

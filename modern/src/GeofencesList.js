@@ -28,7 +28,7 @@ const GeofenceView = ({ onMenuClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const items = useSelector(state => Object.values(state.geofences.items));
+  const items = useSelector((state) => Object.values(state.geofences.items));
 
   return (
     <List className={classes.list}>
@@ -47,12 +47,10 @@ const GeofenceView = ({ onMenuClick }) => {
       ))}
     </List>
   );
-}
+};
 
-const GeofencesList = () => {
-  return (
-    <EditCollectionView content={GeofenceView} editPath="/geofence" endpoint="geofences" disableAdd />
-  );
-}
+const GeofencesList = () => (
+  <EditCollectionView content={GeofenceView} editPath="/geofence" endpoint="geofences" disableAdd />
+);
 
 export default GeofencesList;

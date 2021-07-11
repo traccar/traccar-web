@@ -7,7 +7,7 @@ import {
   Drawer,
   makeStyles,
   IconButton,
-  Hidden
+  Hidden,
 } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
@@ -21,35 +21,35 @@ import SideNav from '../components/SideNav';
 import NavBar from '../components/NavBar';
 import t from '../common/localization';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    height: '100%'
+    height: '100%',
   },
   drawerContainer: {
-    width: theme.dimensions.drawerWidthDesktop
+    width: theme.dimensions.drawerWidthDesktop,
   },
   drawer: {
     width: theme.dimensions.drawerWidthDesktop,
     [theme.breakpoints.down('md')]: {
-      width: theme.dimensions.drawerWidthTablet
-    }
+      width: theme.dimensions.drawerWidthTablet,
+    },
   },
   content: {
     flex: 1,
-    padding: theme.spacing(5, 3, 3, 3)
+    padding: theme.spacing(5, 3, 3, 3),
   },
   drawerHeader: {
     ...theme.mixins.toolbar,
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1)
+    padding: theme.spacing(0, 1),
   },
   toolbar: {
     [theme.breakpoints.down('md')]: {
-      ...theme.mixins.toolbar
-    }
-  }
+      ...theme.mixins.toolbar,
+    },
+  },
 }));
 
 const routes = [
@@ -57,24 +57,24 @@ const routes = [
   {
     name: t('reportEvents'),
     href: '/reports/event',
-    icon: <NotificationsActiveIcon />
+    icon: <NotificationsActiveIcon />,
   },
   {
     name: t('reportTrips'),
     href: '/reports/trip',
-    icon: <PlayCircleFilledIcon />
+    icon: <PlayCircleFilledIcon />,
   },
   {
     name: t('reportStops'),
     href: '/reports/stop',
-    icon: <PauseCircleFilledIcon />
+    icon: <PauseCircleFilledIcon />,
   },
   {
     name: t('reportSummary'),
     href: '/reports/summary',
-    icon: <FormatListBulletedIcon />
+    icon: <FormatListBulletedIcon />,
   },
-  { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> }
+  { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
 ];
 
 const ReportLayout = ({ children, filter }) => {
@@ -85,7 +85,7 @@ const ReportLayout = ({ children, filter }) => {
   const [reportTitle, setReportTitle] = useState();
 
   useEffect(() => {
-    routes.forEach(route => {
+    routes.forEach((route) => {
       switch (location.pathname) {
         case `${route.href}`:
           setReportTitle(route.name);

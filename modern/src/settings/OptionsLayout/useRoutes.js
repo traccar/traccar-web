@@ -13,7 +13,7 @@ import t from '../../common/localization';
 
 const accountRoute = {
   name: t('settingsUser'),
-  icon: <PersonIcon />
+  icon: <PersonIcon />,
 };
 
 const adminRoutes = [
@@ -21,18 +21,18 @@ const adminRoutes = [
   {
     name: t('settingsServer'),
     href: '/admin/server',
-    icon: <StorageIcon />
+    icon: <StorageIcon />,
   },
   {
     name: t('settingsUsers'),
     href: '/admin/users',
-    icon: <PeopleIcon />
+    icon: <PeopleIcon />,
   },
   {
     name: t('statisticsTitle'),
     href: '/admin/statistics',
-    icon: <BarChartIcon />
-  }
+    icon: <BarChartIcon />,
+  },
 ];
 
 const mainRoutes = [
@@ -41,38 +41,38 @@ const mainRoutes = [
     match: 'geofence',
     name: t('sharedGeofences'),
     href: '/geofences',
-    icon: <CreateIcon />
+    icon: <CreateIcon />,
   },
   {
     match: 'notification',
     name: t('sharedNotifications'),
     href: '/settings/notifications',
-    icon: <NotificationsIcon />
+    icon: <NotificationsIcon />,
   },
   {
     match: 'group',
     name: t('settingsGroups'),
     href: '/settings/groups',
-    icon: <FolderIcon />
+    icon: <FolderIcon />,
   },
   {
     match: 'driver',
     name: t('sharedDrivers'),
     href: '/settings/drivers',
-    icon: <PersonIcon />
+    icon: <PersonIcon />,
   },
   {
     match: 'attribute',
     name: t('sharedComputedAttributes'),
     href: '/settings/attributes',
-    icon: <StorageIcon />
+    icon: <StorageIcon />,
   },
   {
     match: 'maintenance',
     name: t('sharedMaintenance'),
     href: '/settings/maintenances',
-    icon: <BuildIcon />
-  }
+    icon: <BuildIcon />,
+  },
 ];
 
 export default () => {
@@ -81,6 +81,6 @@ export default () => {
   accountRoute.href = `/user/${userId}`;
 
   return useMemo(() => [...mainRoutes, ...(isAdmin ? adminRoutes : [])], [
-    isAdmin
+    isAdmin,
   ]);
 };

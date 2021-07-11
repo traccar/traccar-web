@@ -8,5 +8,5 @@ export default {
   columnWidthDate: 160,
   columnWidthNumber: 130,
   columnWidthString: 160,
-  columnWidthBoolean: 130
+  columnWidthBoolean: 130,
 };

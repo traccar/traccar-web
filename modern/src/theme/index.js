@@ -6,7 +6,7 @@ import dimensions from './dimensions';
 const theme = createMuiTheme({
   palette,
   overrides,
-  dimensions
+  dimensions,
 });
 
 export default theme;

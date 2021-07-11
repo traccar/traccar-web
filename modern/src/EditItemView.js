@@ -9,20 +9,22 @@ import t from './common/localization';
 import { useEffectAsync } from './reactHelper';
 import OptionsLayout from './settings/OptionsLayout';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   buttons: {
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
-      flexBasis: '33%'
-    }
-  }
+      flexBasis: '33%',
+    },
+  },
 }));
 
-const EditItemView = ({ children, endpoint, item, setItem }) => {
+const EditItemView = ({
+  children, endpoint, item, setItem,
+}) => {
   const history = useHistory();
   const classes = useStyles();
   const { id } = useParams();
@@ -47,7 +49,7 @@ const EditItemView = ({ children, endpoint, item, setItem }) => {
     const response = await fetch(url, {
       method: !id ? 'POST' : 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
+      body: JSON.stringify(item),
     });
 
     if (response.ok) {

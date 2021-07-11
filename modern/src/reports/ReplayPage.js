@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Container, makeStyles, Paper, Slider, Tooltip, Typography } from '@material-ui/core';
+import {
+  Accordion, AccordionDetails, AccordionSummary, Container, makeStyles, Paper, Slider, Tooltip, Typography,
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MainToolbar from '../MainToolbar';
 import Map from '../map/Map';
@@ -9,7 +11,7 @@ import PositionsMap from '../map/PositionsMap';
 import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -31,13 +33,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const TimeLabel = ({ children, open, value }) => {
-  return (
-    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-      {children}
-    </Tooltip>
-  );
-};
+const TimeLabel = ({ children, open, value }) => (
+  <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
+    {children}
+  </Tooltip>
+);
 
 const ReplayPage = () => {
   const classes = useStyles();
@@ -61,12 +61,12 @@ const ReplayPage = () => {
       <MainToolbar />
       <Map>
         <ReplayPathMap positions={positions} />
-        {index < positions.length &&
-          <PositionsMap positions={[positions[index]]} />
-        }
+        {index < positions.length
+          && <PositionsMap positions={[positions[index]]} />}
       </Map>
       <Container maxWidth="sm" className={classes.controlPanel}>
-        {!!positions.length &&
+        {!!positions.length
+          && (
           <Paper className={classes.controlContent}>
             <Slider
               max={positions.length - 1}
@@ -75,15 +75,15 @@ const ReplayPage = () => {
               value={index}
               onChange={(_, index) => setIndex(index)}
               valueLabelDisplay="auto"
-              valueLabelFormat={i => i < positions.length ? formatPosition(positions[i], 'fixTime') : ''}
+              valueLabelFormat={(i) => (i < positions.length ? formatPosition(positions[i], 'fixTime') : '')}
               ValueLabelComponent={TimeLabel}
-              />
+            />
           </Paper>
-        }
+          )}
         <div>
           <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography align='center'>
+              <Typography align="center">
                 {t('reportConfigure')}
               </Typography>
             </AccordionSummary>
@@ -95,6 +95,6 @@ const ReplayPage = () => {
       </Container>
     </div>
   );
-}
+};
 
 export default ReplayPage;

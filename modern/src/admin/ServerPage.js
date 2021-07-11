@@ -1,31 +1,33 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
-import t from '../common/localization';
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Button, FormControl, Container, Checkbox, FormControlLabel } from '@material-ui/core';
+import {
+  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Button, FormControl, Container, Checkbox, FormControlLabel,
+} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import t from '../common/localization';
 import { sessionActions } from '../store';
 import EditAttributesView from '../attributes/EditAttributesView';
 import deviceAttributes from '../attributes/deviceAttributes';
 import userAttributes from '../attributes/userAttributes';
 import OptionsLayout from '../settings/OptionsLayout';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   buttons: {
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
-      flexBasis: '33%'
-    }
+      flexBasis: '33%',
+    },
   },
   details: {
-    flexDirection: 'column'
-  }
+    flexDirection: 'column',
+  },
 }));
 
 const ServerPage = () => {
@@ -33,15 +35,14 @@ const ServerPage = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const item = useSelector(state => state.session.server);
-  const setItem = updatedItem =>
-    dispatch(sessionActions.updateServer(updatedItem));
+  const item = useSelector((state) => state.session.server);
+  const setItem = (updatedItem) => dispatch(sessionActions.updateServer(updatedItem));
 
   const handleSave = async () => {
     const response = await fetch('/api/server', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item)
+      body: JSON.stringify(item),
     });
 
     if (response.ok) {
@@ -64,9 +65,7 @@ const ServerPage = () => {
                 <TextField
                   margin="normal"
                   value={item.announcement || ''}
-                  onChange={event =>
-                    setItem({ ...item, announcement: event.target.value })
-                  }
+                  onChange={(event) => setItem({ ...item, announcement: event.target.value })}
                   label={t('serverAnnouncement')}
                   variant="filled"
                 />
@@ -80,53 +79,45 @@ const ServerPage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={item.registration}
-                      onChange={event =>
-                        setItem({ ...item, registration: event.target.checked })
-                      }
+                      onChange={(event) => setItem({ ...item, registration: event.target.checked })}
                     />
-                  }
+                  )}
                   label={t('serverRegistration')}
                 />
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={item.readonly}
-                      onChange={event =>
-                        setItem({ ...item, readonly: event.target.checked })
-                      }
+                      onChange={(event) => setItem({ ...item, readonly: event.target.checked })}
                     />
-                  }
+                  )}
                   label={t('serverReadonly')}
                 />
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={item.deviceReadonly}
-                      onChange={event =>
-                        setItem({
-                          ...item,
-                          deviceReadonly: event.target.checked
-                        })
-                      }
+                      onChange={(event) => setItem({
+                        ...item,
+                        deviceReadonly: event.target.checked,
+                      })}
                     />
-                  }
+                  )}
                   label={t('userDeviceReadonly')}
                 />
                 <FormControlLabel
-                  control={
+                  control={(
                     <Checkbox
                       checked={item.limitCommands}
-                      onChange={event =>
-                        setItem({
-                          ...item,
-                          limitCommands: event.target.checked
-                        })
-                      }
+                      onChange={(event) => setItem({
+                        ...item,
+                        limitCommands: event.target.checked,
+                      })}
                     />
-                  }
+                  )}
                   label={t('userLimitCommands')}
                 />
               </AccordionDetails>
@@ -140,9 +131,9 @@ const ServerPage = () => {
               <AccordionDetails className={classes.details}>
                 <EditAttributesView
                   attributes={item.attributes}
-                  setAttributes={attributes => setItem({ ...item, attributes })}
+                  setAttributes={(attributes) => setItem({ ...item, attributes })}
                   definitions={{ ...userAttributes, ...deviceAttributes }}
-                  />
+                />
               </AccordionDetails>
             </Accordion>
           </>

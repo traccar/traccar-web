@@ -1,4 +1,6 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import {
+  FormControl, InputLabel, MenuItem, Select,
+} from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../reactHelper';
 
@@ -12,8 +14,8 @@ const SelectField = ({
   onChange,
   endpoint,
   data,
-  keyGetter = item => item.id,
-  titleGetter = item => item.name,
+  keyGetter = (item) => item.id,
+  titleGetter = (item) => item.name,
 }) => {
   const [items, setItems] = useState(data);
 
@@ -33,19 +35,18 @@ const SelectField = ({
         <Select
           multiple={multiple}
           value={value}
-          onChange={onChange}>
-          {!multiple && emptyValue !== null &&
-            <MenuItem value={emptyValue}>&nbsp;</MenuItem>
-          }
-          {items.map(item => (
+          onChange={onChange}
+        >
+          {!multiple && emptyValue !== null
+            && <MenuItem value={emptyValue}>&nbsp;</MenuItem>}
+          {items.map((item) => (
             <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
           ))}
         </Select>
       </FormControl>
     );
-  } else {
-    return null;
   }
-}
+  return null;
+};
 
 export default SelectField;

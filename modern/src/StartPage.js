@@ -2,7 +2,7 @@ import React from 'react';
 import { useMediaQuery, makeStyles, Paper } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100vh',
@@ -23,20 +23,20 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    display:'flex',
+    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
     boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)',
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(0, 25, 0, 0)
+      padding: theme.spacing(0, 25, 0, 0),
     },
   },
   form: {
     maxWidth: theme.spacing(52),
     padding: theme.spacing(5),
-    width: "100%",
+    width: '100%',
   },
 }));
 
@@ -47,11 +47,12 @@ const StartPage = ({ children }) => {
   return (
     <main className={classes.root}>
       <div className={classes.sidebar}>
-        {!useMediaQuery(theme.breakpoints.down('md')) &&
+        {!useMediaQuery(theme.breakpoints.down('md'))
+          && (
           <svg height="64" width="240">
-            <use xlinkHref="/logo.svg#img"></use>
+            <use xlinkHref="/logo.svg#img" />
           </svg>
-        }
+          )}
       </div>
       <Paper className={classes.paper}>
         <form className={classes.form}>
@@ -59,7 +60,7 @@ const StartPage = ({ children }) => {
         </form>
       </Paper>
     </main>
-  )
-}
+  );
+};
 
 export default StartPage;

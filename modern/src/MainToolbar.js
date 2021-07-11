@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { sessionActions } from './store';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,23 +19,24 @@ import MapIcon from '@material-ui/icons/Map';
 import PersonIcon from '@material-ui/icons/Person';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ReplayIcon from '@material-ui/icons/Replay';
+import { sessionActions } from './store';
 import t from './common/localization';
 import * as selectors from './selectors';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   flex: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
   },
   list: {
-    width: 250
+    width: 250,
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20
-  }
+    marginRight: 20,
+  },
 }));
 
 const MainToolbar = () => {
@@ -111,7 +111,7 @@ const MainToolbar = () => {
             <ListItem
               button
               disabled={!userId}
-              onClick={() => history.push(`/settings/notifications`)}
+              onClick={() => history.push('/settings/notifications')}
             >
               <ListItemIcon>
                 <PersonIcon />

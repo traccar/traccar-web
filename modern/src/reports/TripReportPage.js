@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { useTheme } from "@material-ui/core/styles";
-import { formatDistance, formatSpeed, formatHours, formatDate, formatVolume } from '../common/formatter';
+import { useTheme } from '@material-ui/core/styles';
+import {
+  formatDistance, formatSpeed, formatHours, formatDate, formatVolume,
+} from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { useAttributePreference } from '../common/preferences';
 import t from '../common/localization';
 
 const Filter = ({ setItems }) => {
-
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
+    const query = new URLSearchParams({
+      deviceId, from, to, mail,
+    });
     const response = await fetch(`/api/reports/trips?${query.toString()}`, { headers });
     if (response.ok) {
       const contentType = response.headers.get('content-type');
@@ -22,15 +25,14 @@ const Filter = ({ setItems }) => {
         }
       }
     }
-  }
+  };
 
   return <ReportFilter handleSubmit={handleSubmit} />;
-}
+};
 
 const TripReportPage = () => {
-
   const theme = useTheme();
-  
+
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
@@ -109,19 +111,20 @@ const TripReportPage = () => {
     field: 'driverName',
     type: 'string',
     width: theme.dimensions.columnWidthString,
-    hide: true                                        
-  }]
+    hide: true,
+  }];
 
   return (
     <ReportLayout filter={<Filter setItems={setItems} />}>
       <DataGrid
-        rows={items} 
-        columns={columns} 
-        hideFooter 
+        rows={items}
+        columns={columns}
+        hideFooter
         autoHeight
-        getRowId={() => Math.random()} />
+        getRowId={() => Math.random()}
+      />
     </ReportLayout>
   );
-}
+};
 
 export default TripReportPage;

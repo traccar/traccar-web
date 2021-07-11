@@ -7,49 +7,49 @@ import { geofenceToFeature } from './mapUtil';
 const GeofenceMap = () => {
   const id = 'geofences';
 
-  const geofences = useSelector(state => Object.values(state.geofences.items));
+  const geofences = useSelector((state) => Object.values(state.geofences.items));
 
   useEffect(() => {
     map.addSource(id, {
-      'type': 'geojson',
-      'data': {
+      type: 'geojson',
+      data: {
         type: 'FeatureCollection',
-        features: []
-      }
+        features: [],
+      },
     });
     map.addLayer({
-      'source': id,
-      'id': 'geofences-fill',
-      'type': 'fill',
-      'filter': [
-         'all',
-         ['==', '$type', 'Polygon'],
+      source: id,
+      id: 'geofences-fill',
+      type: 'fill',
+      filter: [
+        'all',
+        ['==', '$type', 'Polygon'],
       ],
-      'paint': {
-         'fill-color':'#3bb2d0',
-         'fill-outline-color':'#3bb2d0',
-         'fill-opacity':0.1,
+      paint: {
+        'fill-color': '#3bb2d0',
+        'fill-outline-color': '#3bb2d0',
+        'fill-opacity': 0.1,
       },
     });
     map.addLayer({
-      'source': id,
-      'id': 'geofences-line',
-      'type': 'line',
-      'paint': {
-         'line-color': '#3bb2d0',
-         'line-width': 2,
+      source: id,
+      id: 'geofences-line',
+      type: 'line',
+      paint: {
+        'line-color': '#3bb2d0',
+        'line-width': 2,
       },
     });
     map.addLayer({
-      'source': id,
-      'id': 'geofences-title',
-      'type': 'symbol',
-      'layout': {
+      source: id,
+      id: 'geofences-title',
+      type: 'symbol',
+      layout: {
         'text-field': '{name}',
         'text-font': ['Roboto Regular'],
         'text-size': 12,
       },
-      'paint': {
+      paint: {
         'text-halo-color': 'white',
         'text-halo-width': 1,
       },
@@ -66,11 +66,11 @@ const GeofenceMap = () => {
   useEffect(() => {
     map.getSource(id).setData({
       type: 'FeatureCollection',
-      features: geofences.map(geofenceToFeature)
+      features: geofences.map(geofenceToFeature),
     });
   }, [geofences]);
 
   return null;
-}
+};
 
 export default GeofenceMap;

@@ -2,13 +2,11 @@ import { parse, stringify } from 'wellknown';
 import canvasTintImage from 'canvas-tint-image';
 import circle from '@turf/circle';
 
-export const loadImage = (url) => {
-  return new Promise(imageLoaded => {
-    const image = new Image();
-    image.onload = () => imageLoaded(image);
-    image.src = url;
-  });
-};
+export const loadImage = (url) => new Promise((imageLoaded) => {
+  const image = new Image();
+  image.onload = () => imageLoaded(image);
+  image.src = url;
+});
 
 export const prepareIcon = (background, icon, color) => {
   const pixelRatio = window.devicePixelRatio;
@@ -32,44 +30,39 @@ export const prepareIcon = (background, icon, color) => {
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
-export const reverseCoordinates = it => {
+export const reverseCoordinates = (it) => {
   if (!it) {
     return it;
-  } else if (Array.isArray(it)) {
+  } if (Array.isArray(it)) {
     if (it.length === 2 && !Number.isNaN(it[0]) && !Number.isNaN(it[1])) {
       return [it[1], it[0]];
-    } else {
-      return it.map(it => reverseCoordinates(it));
     }
-  } else {
-    return {
-      ...it,
-      coordinates: reverseCoordinates(it.coordinates),
-    }
+    return it.map((it) => reverseCoordinates(it));
   }
-}
+  return {
+    ...it,
+    coordinates: reverseCoordinates(it.coordinates),
+  };
+};
 
 export const geofenceToFeature = (item) => {
   if (item.area.indexOf('CIRCLE') > -1) {
-    let coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, " ").trim().split(/ +/);
-    var options = { steps: 32, units: 'meters' };
-    let polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
+    const coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, ' ').trim().split(/ +/);
+    const options = { steps: 32, units: 'meters' };
+    const polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
     return {
       id: item.id,
       type: 'Feature',
       geometry: polygon.geometry,
-      properties: { name: item.name }
-    };
-  } else {
-    return { 
-      id: item.id,
-      type: 'Feature',
-      geometry: reverseCoordinates(parse(item.area)),
-      properties: { name: item.name }
+      properties: { name: item.name },
     };
   }
-}
+  return {
+    id: item.id,
+    type: 'Feature',
+    geometry: reverseCoordinates(parse(item.area)),
+    properties: { name: item.name },
+  };
+};
 
-export const geometryToArea = (geometry) => {
-  return stringify(reverseCoordinates(geometry));
-}
+export const geometryToArea = (geometry) => stringify(reverseCoordinates(geometry));

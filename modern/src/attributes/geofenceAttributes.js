@@ -1,7 +1,7 @@
-import t from '../common/localization'
+import t from '../common/localization';
 
 export default {
-  'speedLimit': {
+  speedLimit: {
     name: t('attributeSpeedLimit'),
     type: 'string',
   },

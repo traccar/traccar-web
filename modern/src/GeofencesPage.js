@@ -1,21 +1,22 @@
 import React from 'react';
-import { Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton } from '@material-ui/core';
+import {
+  Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton,
+} from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Map from './map/Map';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import GeofenceEditMap from './map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
 
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
 import t from './common/localization';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   content: {
     flexGrow: 1,
@@ -23,27 +24,27 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column-reverse'
-    }
+      flexDirection: 'column-reverse',
+    },
   },
   drawerPaper: {
     position: 'relative',
     [theme.breakpoints.up('sm')]: {
-      width: 350
+      width: 350,
     },
     [theme.breakpoints.down('xs')]: {
-      height: 250
-    }
+      height: 250,
+    },
   },
   drawerHeader: {
     ...theme.mixins.toolbar,
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1)
+    padding: theme.spacing(0, 1),
   },
   mapContainer: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 const GeofencesPage = ({ width }) => {

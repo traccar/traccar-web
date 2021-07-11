@@ -1,19 +1,19 @@
-import t from '../common/localization'
+import t from '../common/localization';
 
 export default {
-  'raw': {
+  raw: {
     name: t('positionRaw'),
     type: 'string',
   },
-  'index': {
+  index: {
     name: t('positionIndex'),
     type: 'number',
   },
-  'ignition': {
+  ignition: {
     name: t('positionIgnition'),
     type: 'boolean',
   },
-  'odometer': {
+  odometer: {
     name: t('positionOdometer'),
     type: 'number',
     dataType: 'distance',
