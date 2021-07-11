@@ -7,10 +7,10 @@ import { useEffectAsync } from './reactHelper';
 const displayNotifications = (events) => {
   if ('Notification' in window) {
     if (Notification.permission === 'granted') {
-      for (const event of events) {
+      events.forEach((event) => {
         const notification = new Notification(`Event: ${event.type}`);
         setTimeout(notification.close.bind(notification), 4 * 1000);
-      }
+      });
     } else if (Notification.permission !== 'denied') {
       Notification.requestPermission((permission) => {
         if (permission === 'granted') {

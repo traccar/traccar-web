@@ -5,7 +5,7 @@ import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
 import { SwitcherControl } from './switcher/switcher';
-import { deviceCategories } from '../common/deviceCategories';
+import deviceCategories from '../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import { styleCarto, styleMapbox, styleOsm } from './mapStyles';
 import t from '../common/localization';
@@ -45,12 +45,15 @@ const initMap = async () => {
     pixelRatio: window.devicePixelRatio,
   });
   await Promise.all(deviceCategories.map(async (category) => {
-    for (const color of ['green', 'red', 'gray']) {
-      const icon = await loadImage(`images/icon/${category}.svg`);
-      map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
-        pixelRatio: window.devicePixelRatio,
-      });
-    }
+    const results = [];
+    ['green', 'red', 'gray'].forEach((color) => {
+      results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
+        map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
+          pixelRatio: window.devicePixelRatio,
+        });
+      }));
+    });
+    await Promise.all(results);
   }));
   updateReadyValue(true);
 };

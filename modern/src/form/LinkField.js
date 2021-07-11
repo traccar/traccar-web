@@ -44,20 +44,22 @@ const LinkField = ({
   const onChange = async (event) => {
     const oldValue = linked;
     const newValue = event.target.value;
-    for (const added of newValue.filter((it) => !oldValue.includes(it))) {
-      await fetch('/api/permissions', {
+    const results = [];
+    newValue.filter((it) => !oldValue.includes(it)).forEach((added) => {
+      results.push(fetch('/api/permissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(createBody(added)),
-      });
-    }
-    for (const removed of oldValue.filter((it) => !newValue.includes(it))) {
-      await fetch('/api/permissions', {
+      }));
+    });
+    oldValue.filter((it) => !newValue.includes(it)).forEach((removed) => {
+      results.push(fetch('/api/permissions', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(createBody(removed)),
-      });
-    }
+      }));
+    });
+    await Promise.all(results);
     setLinked(newValue);
   };
 

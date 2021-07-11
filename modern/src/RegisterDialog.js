@@ -88,6 +88,7 @@ const RegisterDialog = ({ showDialog, onResult }) => {
       </Dialog>
     );
   }
+  return null;
 };
 
 export default RegisterDialog;

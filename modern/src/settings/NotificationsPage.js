@@ -56,20 +56,14 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
           {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton
-                  onClick={(event) => onMenuClick(event.currentTarget, item.id)}
-                >
+                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>
               <TableCell>{t(prefixString('event', item.type))}</TableCell>
               <TableCell>{formatBoolean(item.always)}</TableCell>
-              <TableCell>
-                {formatList('alarm', item.attributes.alarms)}
-              </TableCell>
-              <TableCell>
-                {formatList('notificator', item.notificators)}
-              </TableCell>
+              <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
+              <TableCell>{formatList('notificator', item.notificators)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -80,11 +74,7 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
 
 const NotificationsPage = () => (
   <OptionsLayout>
-    <EditCollectionView
-      content={NotificationsView}
-      editPath="/settings/notification"
-      endpoint="notifications"
-    />
+    <EditCollectionView content={NotificationsView} editPath="/settings/notification" endpoint="notifications" />
   </OptionsLayout>
 );
 

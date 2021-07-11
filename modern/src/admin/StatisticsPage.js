@@ -106,14 +106,7 @@ const Filter = ({ setItems }) => {
           fullWidth
         />
       )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleClick}
-        fullWidth
-      >
-        {t('reportShow')}
-      </Button>
+      <Button variant="contained" color="primary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
     </>
   );
 };

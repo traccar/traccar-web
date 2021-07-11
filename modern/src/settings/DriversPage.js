@@ -41,9 +41,7 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
           {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton
-                  onClick={(event) => onMenuClick(event.currentTarget, item.id)}
-                >
+                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>
@@ -59,11 +57,7 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
 
 const DriversPage = () => (
   <OptionsLayout>
-    <EditCollectionView
-      content={DriversView}
-      editPath="/settings/driver"
-      endpoint="drivers"
-    />
+    <EditCollectionView content={DriversView} editPath="/settings/driver" endpoint="drivers" />
   </OptionsLayout>
 );
 

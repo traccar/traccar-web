@@ -23,38 +23,6 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
 
   const [addDialogShown, setAddDialogShown] = useState(false);
 
-  const convertToList = (attributes) => {
-    const booleanList = [];
-    const otherList = [];
-    for (const key in attributes) {
-      const value = attributes[key];
-      const type = getAttributeType(value);
-      if (type === 'boolean') {
-        booleanList.push({ key, value, type });
-      } else {
-        otherList.push({ key, value, type });
-      }
-    }
-    return otherList.concat(booleanList);
-  };
-
-  const handleAddResult = (definition) => {
-    setAddDialogShown(false);
-    if (definition) {
-      switch (definition.type) {
-        case 'number':
-          updateAttribute(definition.key, 0);
-          break;
-        case 'boolean':
-          updateAttribute(definition.key, false);
-          break;
-        default:
-          updateAttribute(definition.key, '');
-          break;
-      }
-    }
-  };
-
   const updateAttribute = (key, value) => {
     const updatedAttributes = { ...attributes };
     updatedAttributes[key] = value;
@@ -75,10 +43,43 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
   const getAttributeType = (value) => {
     if (typeof value === 'number') {
       return 'number';
-    } if (typeof value === 'boolean') {
+    }
+    if (typeof value === 'boolean') {
       return 'boolean';
     }
     return 'string';
+  };
+
+  const convertToList = (attributes) => {
+    const booleanList = [];
+    const otherList = [];
+    Object.keys(attributes).forEach((key) => {
+      const value = attributes[key];
+      const type = getAttributeType(value);
+      if (type === 'boolean') {
+        booleanList.push({ key, value, type });
+      } else {
+        otherList.push({ key, value, type });
+      }
+    });
+    return otherList.concat(booleanList);
+  };
+
+  const handleAddResult = (definition) => {
+    setAddDialogShown(false);
+    if (definition) {
+      switch (definition.type) {
+        case 'number':
+          updateAttribute(definition.key, 0);
+          break;
+        case 'boolean':
+          updateAttribute(definition.key, false);
+          break;
+        default:
+          updateAttribute(definition.key, '');
+          break;
+      }
+    }
   };
 
   return (

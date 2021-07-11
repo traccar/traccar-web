@@ -10,6 +10,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
     "@reduxjs/toolkit": "^1.6.0",
+    "@turf/circle": "^6.5.0",
     "@turf/turf": "^6.4.0",
     "canvas-tint-image": "^2.0.1",
     "maplibre-gl": "^1.15.0",
@@ -31,7 +32,9 @@
     "start": "craco start",
     "build": "craco build",
     "build_release": "PUBLIC_URL=/modern/ craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .js ."
   },
   "browserslist": {
     "production": [
@@ -44,5 +47,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }

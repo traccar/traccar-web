@@ -11,5 +11,5 @@ export const usePrevious = (value) => {
 export const useEffectAsync = (effect, deps) => {
   useEffect(() => {
     effect();
-  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+  }, deps);
 };

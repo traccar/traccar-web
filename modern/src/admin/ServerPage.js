@@ -79,45 +79,19 @@ const ServerPage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <FormControlLabel
-                  control={(
-                    <Checkbox
-                      checked={item.registration}
-                      onChange={(event) => setItem({ ...item, registration: event.target.checked })}
-                    />
-                  )}
+                  control={<Checkbox checked={item.registration} onChange={(event) => setItem({ ...item, registration: event.target.checked })} />}
                   label={t('serverRegistration')}
                 />
                 <FormControlLabel
-                  control={(
-                    <Checkbox
-                      checked={item.readonly}
-                      onChange={(event) => setItem({ ...item, readonly: event.target.checked })}
-                    />
-                  )}
+                  control={<Checkbox checked={item.readonly} onChange={(event) => setItem({ ...item, readonly: event.target.checked })} />}
                   label={t('serverReadonly')}
                 />
                 <FormControlLabel
-                  control={(
-                    <Checkbox
-                      checked={item.deviceReadonly}
-                      onChange={(event) => setItem({
-                        ...item,
-                        deviceReadonly: event.target.checked,
-                      })}
-                    />
-                  )}
+                  control={<Checkbox checked={item.deviceReadonly} onChange={(event) => setItem({ ...item, deviceReadonly: event.target.checked })} />}
                   label={t('userDeviceReadonly')}
                 />
                 <FormControlLabel
-                  control={(
-                    <Checkbox
-                      checked={item.limitCommands}
-                      onChange={(event) => setItem({
-                        ...item,
-                        limitCommands: event.target.checked,
-                      })}
-                    />
-                  )}
+                  control={<Checkbox checked={item.limitCommands} onChange={(event) => setItem({ ...item, limitCommands: event.target.checked })} />}
                   label={t('userLimitCommands')}
                 />
               </AccordionDetails>
@@ -140,20 +114,10 @@ const ServerPage = () => {
         )}
         <FormControl fullWidth margin="normal">
           <div className={classes.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              variant="outlined"
-              onClick={() => history.goBack()}
-            >
+            <Button type="button" color="primary" variant="outlined" onClick={() => history.goBack()}>
               {t('sharedCancel')}
             </Button>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={handleSave}
-            >
+            <Button type="button" color="primary" variant="contained" onClick={handleSave}>
               {t('sharedSave')}
             </Button>
           </div>

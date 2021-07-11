@@ -44,7 +44,7 @@ const PositionPage = () => {
 
   const attributesList = () => {
     const combinedList = { ...item, ...item.attributes };
-    return Object.entries(combinedList).filter(([_, value]) => typeof value !== 'object');
+    return Object.entries(combinedList).filter(([, value]) => typeof value !== 'object');
   };
 
   return (

@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Grid,
-  Typography,
-  Divider,
-  Drawer,
-  makeStyles,
-  IconButton,
-  Hidden,
+  Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden,
 } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
@@ -44,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
+  },
+  backArrowIconContainer: {
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
   },
   toolbar: {
     [theme.breakpoints.down('md')]: {

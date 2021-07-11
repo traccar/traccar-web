@@ -10,7 +10,7 @@ import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import deviceAttributes from './attributes/deviceAttributes';
 import SelectField from './form/SelectField';
-import { deviceCategories } from './common/deviceCategories';
+import deviceCategories from './common/deviceCategories';
 import LinkField from './form/LinkField';
 import { prefixString } from './common/stringUtils';
 

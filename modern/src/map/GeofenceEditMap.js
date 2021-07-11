@@ -94,9 +94,9 @@ const GeofenceEditMap = () => {
 
   useEffect(() => {
     draw.deleteAll();
-    for (const geofence of geofences) {
+    geofences.forEach((geofence) => {
       draw.add(geofenceToFeature(geofence));
-    }
+    });
   }, [geofences]);
 
   return null;

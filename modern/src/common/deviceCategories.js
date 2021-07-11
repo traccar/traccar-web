@@ -1,4 +1,4 @@
-export const deviceCategories = [
+export default [
   'default',
   'animal',
   'bicycle',

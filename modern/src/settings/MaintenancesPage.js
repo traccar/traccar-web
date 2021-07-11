@@ -65,9 +65,7 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
           {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton
-                  onClick={(event) => onMenuClick(event.currentTarget, item.id)}
-                >
+                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>
@@ -85,11 +83,7 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
 
 const MaintenacesPage = () => (
   <OptionsLayout>
-    <EditCollectionView
-      content={MaintenancesView}
-      editPath="/settings/maintenance"
-      endpoint="maintenance"
-    />
+    <EditCollectionView content={MaintenancesView} editPath="/settings/maintenance" endpoint="maintenance" />
   </OptionsLayout>
 );
 

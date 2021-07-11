@@ -46,7 +46,8 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              {adminEnabled && (
+              {adminEnabled
+              && (
               <TableCell className={classes.columnAction} padding="none">
                 <IconButton
                   onClick={(event) => onMenuClick(event.currentTarget, item.id)}
@@ -69,11 +70,8 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
 
 const ComputedAttributesPage = () => (
   <OptionsLayout>
-    <EditCollectionView
-      content={ComputedAttributeView}
-      editPath="/settings/attribute"
-      endpoint="attributes/computed"
-    />
+
+    <EditCollectionView content={ComputedAttributeView} editPath="/settings/attribute" endpoint="attributes/computed" />
   </OptionsLayout>
 );
 

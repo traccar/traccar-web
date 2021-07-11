@@ -30,12 +30,12 @@ const MaintenancePage = () => {
 
   const convertToList = (attributes) => {
     const otherList = [];
-    for (const key in attributes) {
+    Object.keys(attributes).forEach((key) => {
       const value = attributes[key];
       if (value.type === 'number') {
         otherList.push({ key, name: value.name, type: value.type });
       }
-    }
+    });
     return otherList;
   };
 

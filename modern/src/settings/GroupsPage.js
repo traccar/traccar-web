@@ -40,9 +40,7 @@ const GroupsView = ({ updateTimestamp, onMenuClick }) => {
           {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton
-                  onClick={(event) => onMenuClick(event.currentTarget, item.id)}
-                >
+                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>
@@ -57,11 +55,7 @@ const GroupsView = ({ updateTimestamp, onMenuClick }) => {
 
 const GroupsPage = () => (
   <OptionsLayout>
-    <EditCollectionView
-      content={GroupsView}
-      editPath="/settings/group"
-      endpoint="groups"
-    />
+    <EditCollectionView content={GroupsView} editPath="/settings/group" endpoint="groups" />
   </OptionsLayout>
 );
 

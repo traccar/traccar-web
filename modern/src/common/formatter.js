@@ -1,6 +1,12 @@
 import moment from 'moment';
 import t from './localization';
 
+export const formatBoolean = (value) => (value ? t('sharedYes') : t('sharedNo'));
+
+export const formatNumber = (value, precision = 1) => Number(value.toFixed(precision));
+
+export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
+
 export const formatPosition = (value, key) => {
   if (value != null && typeof value === 'object') {
     value = value[key];
@@ -28,12 +34,6 @@ export const formatPosition = (value, key) => {
       return value;
   }
 };
-
-export const formatBoolean = (value) => (value ? t('sharedYes') : t('sharedNo'));
-
-export const formatNumber = (value, precision = 1) => Number(value.toFixed(precision));
-
-export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
 
 export const formatDistance = (value, unit) => {
   switch (unit) {
