@@ -1,5 +1,8 @@
 module.exports = {
   extends: 'airbnb',
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
   plugins: [
     'react',
   ],

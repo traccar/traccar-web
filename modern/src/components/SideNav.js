@@ -9,7 +9,7 @@ const SideNav = ({ routes }) => {
 
   return (
     <List disablePadding style={{ paddingTop: '16px' }}>
-      {routes.map((route, index) => (route.subheader ? (
+      {routes.map((route) => (route.subheader ? (
         <>
           <Divider />
           <ListSubheader>{route.subheader}</ListSubheader>

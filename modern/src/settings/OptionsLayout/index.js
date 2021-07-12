@@ -6,7 +6,7 @@ import {
   Drawer,
   makeStyles,
   IconButton,
-  Hidden
+  Hidden,
 } from '@material-ui/core';
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -16,38 +16,38 @@ import NavBar from '../../components/NavBar';
 import t from '../../common/localization';
 import useRoutes from './useRoutes';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    height: '100%'
+    height: '100%',
   },
   drawerContainer: {
-    width: theme.dimensions.drawerWidthDesktop
+    width: theme.dimensions.drawerWidthDesktop,
   },
   drawer: {
     width: theme.dimensions.drawerWidthDesktop,
     [theme.breakpoints.down('md')]: {
-      width: theme.dimensions.drawerWidthTablet
-    }
+      width: theme.dimensions.drawerWidthTablet,
+    },
   },
   content: {
     flex: 1,
     padding: theme.spacing(5, 3, 3, 3),
     [theme.breakpoints.down('md')]: {
-      paddingTop: theme.spacing(10)
-    }
+      paddingTop: theme.spacing(10),
+    },
   },
   drawerHeader: {
     ...theme.mixins.toolbar,
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(0, 1)
+    padding: theme.spacing(0, 1),
   },
   toolbar: {
     [theme.breakpoints.down('md')]: {
-      ...theme.mixins.toolbar
-    }
-  }
+      ...theme.mixins.toolbar,
+    },
+  },
 }));
 
 const OptionsLayout = ({ children }) => {
@@ -59,7 +59,7 @@ const OptionsLayout = ({ children }) => {
 
   useEffect(() => {
     const activeRoute = routes.find(
-      route => route.href && location.pathname.match(route.match || route.href)
+      (route) => route.href && location.pathname.match(route.match || route.href),
     );
     setOptionTitle(activeRoute?.name);
   }, [location, routes]);

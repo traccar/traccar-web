@@ -1,3 +1,3 @@
-export const getIsAdmin = state => state.session.user?.administrator;
+export const getIsAdmin = (state) => state.session.user?.administrator;
 
-export const getUserId = state => state.session.user?.id;
+export const getUserId = (state) => state.session.user?.id;
