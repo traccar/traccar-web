@@ -53,26 +53,10 @@ const useStyles = makeStyles((theme) => ({
 
 const routes = [
   { name: t('reportRoute'), href: '/reports/route', icon: <TimelineIcon /> },
-  {
-    name: t('reportEvents'),
-    href: '/reports/event',
-    icon: <NotificationsActiveIcon />,
-  },
-  {
-    name: t('reportTrips'),
-    href: '/reports/trip',
-    icon: <PlayCircleFilledIcon />,
-  },
-  {
-    name: t('reportStops'),
-    href: '/reports/stop',
-    icon: <PauseCircleFilledIcon />,
-  },
-  {
-    name: t('reportSummary'),
-    href: '/reports/summary',
-    icon: <FormatListBulletedIcon />,
-  },
+  { name: t('reportEvents'), href: '/reports/event', icon: <NotificationsActiveIcon /> },
+  { name: t('reportTrips'), href: '/reports/trip', icon: <PlayCircleFilledIcon /> },
+  { name: t('reportStops'), href: '/reports/stop', icon: <PauseCircleFilledIcon /> },
+  { name: t('reportSummary'), href: '/reports/summary', icon: <FormatListBulletedIcon /> },
   { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
 ];
 
