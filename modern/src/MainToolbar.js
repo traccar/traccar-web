@@ -44,12 +44,8 @@ const MainToolbar = () => {
   const history = useHistory();
   const userId = useSelector(selectors.getUserId);
 
-  const openDrawer = () => {
-    setDrawer(true);
-  };
-  const closeDrawer = () => {
-    setDrawer(false);
-  };
+  const openDrawer = () => { setDrawer(true); };
+  const closeDrawer = () => { setDrawer(false); };
 
   const handleLogout = async () => {
     const response = await fetch('/api/session', { method: 'DELETE' });
@@ -73,9 +69,7 @@ const MainToolbar = () => {
           <Typography variant="h6" color="inherit" className={classes.flex}>
             Traccar
           </Typography>
-          <Button color="inherit" onClick={handleLogout}>
-            {t('loginLogout')}
-          </Button>
+          <Button color="inherit" onClick={handleLogout}>{t('loginLogout')}</Button>
         </Toolbar>
       </AppBar>
       <Drawer open={drawer} onClose={closeDrawer}>

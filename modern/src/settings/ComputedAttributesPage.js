@@ -20,9 +20,7 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
 
   const [items, setItems] = useState([]);
-  const adminEnabled = useSelector(
-    (state) => state.session.user && state.session.user.administrator,
-  );
+  const adminEnabled = useSelector((state) => state.session.user && state.session.user.administrator);
 
   useEffectAsync(async () => {
     const response = await fetch('/api/attributes/computed');
@@ -49,9 +47,7 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
               {adminEnabled
               && (
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton
-                  onClick={(event) => onMenuClick(event.currentTarget, item.id)}
-                >
+                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>

@@ -43,8 +43,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
   const getAttributeType = (value) => {
     if (typeof value === 'number') {
       return 'number';
-    }
-    if (typeof value === 'boolean') {
+    } if (typeof value === 'boolean') {
       return 'boolean';
     }
     return 'string';

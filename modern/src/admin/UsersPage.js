@@ -62,11 +62,7 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
 
 const UsersPage = () => (
   <OptionsLayout>
-    <EditCollectionView
-      content={UsersView}
-      editPath="/user"
-      endpoint="users"
-    />
+    <EditCollectionView content={UsersView} editPath="/user" endpoint="users" />
   </OptionsLayout>
 );
 
