@@ -178,6 +178,12 @@
     addStyleFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.css');
     addScriptFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.js');
 
+    addStyleFile('https://unpkg.com/ol-popup@4.0.0/src/ol-popup.css');
+    addScriptFile('https://unpkg.com/ol-popup@4.0.0');
+
+    addStyleFile('https://cdn.jsdelivr.net/npm/ol-geocoder@latest/dist/ol-geocoder.min.css');
+    addScriptFile('https://unpkg.com/ol-geocoder');
+
     addStyleFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.css');
     addScriptFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.js');
 
