@@ -19,7 +19,7 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { sessionActions } from './store';
 import t from './common/localization';
-import * as selectors from './selectors';
+import * as selectors from './common/selectors';
 
 const useStyles = makeStyles((theme) => ({
   flex: {

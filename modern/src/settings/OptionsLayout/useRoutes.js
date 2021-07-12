@@ -8,7 +8,7 @@ import StorageIcon from '@material-ui/icons/Storage';
 import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import { getIsAdmin, getUserId } from '../../selectors';
+import { getIsAdmin, getUserId } from '../../common/selectors';
 import t from '../../common/localization';
 
 const accountRoute = {
