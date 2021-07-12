@@ -64,7 +64,7 @@ const OptionsLayout = ({ children }) => {
     setOptionTitle(activeRoute?.name);
   }, [location, routes]);
 
-  const title = `Options / ${optionTitle}`;
+  const title = `${t('settingsTitle')} / ${optionTitle}`;
 
   return (
     <div className={classes.root}>
