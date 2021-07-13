@@ -70,7 +70,7 @@ const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { items, onMenuClick } = data;
+  const { items } = data;
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
 
