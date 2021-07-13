@@ -3,10 +3,10 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MainToolbar from '../MainToolbar';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
+import OptionsLayout from './OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -54,10 +54,9 @@ const GroupsView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const GroupsPage = () => (
-  <>
-    <MainToolbar />
+  <OptionsLayout>
     <EditCollectionView content={GroupsView} editPath="/settings/group" endpoint="groups" />
-  </>
+  </OptionsLayout>
 );
 
 export default GroupsPage;

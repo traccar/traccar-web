@@ -3,7 +3,6 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MainToolbar from '../MainToolbar';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
@@ -11,6 +10,7 @@ import EditCollectionView from '../EditCollectionView';
 import positionAttributes from '../attributes/positionAttributes';
 import { formatDistance, formatSpeed } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
+import OptionsLayout from './OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -82,10 +82,9 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const MaintenacesPage = () => (
-  <>
-    <MainToolbar />
+  <OptionsLayout>
     <EditCollectionView content={MaintenancesView} editPath="/settings/maintenance" endpoint="maintenance" />
-  </>
+  </OptionsLayout>
 );
 
 export default MaintenacesPage;
