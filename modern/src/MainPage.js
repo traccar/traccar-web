@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import classnames from 'classnames';
-import { makeStyles, withWidth, Paper, Toolbar, Grid, TextField, IconButton, Button } from '@material-ui/core';
+import {
+  makeStyles, Paper, Toolbar, Grid, TextField, IconButton, Button,
+} from '@material-ui/core';
 
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -48,15 +49,15 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1301,
     height: '100%',
     maxHeight: `calc(100vh - ${theme.spacing(20)}px)`,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
       top: theme.spacing(7),
       left: '0px',
       width: '100%',
       maxHeight: `calc(100vh - ${theme.spacing(14)}px)`,
-    }
+    },
   },
   paper: {
-    borderRadius: '0px', 
+    borderRadius: '0px',
   },
   toolbar: {
     paddingLeft: theme.spacing(2),
@@ -68,25 +69,33 @@ const useStyles = makeStyles((theme) => ({
   collapsed: {
     transform: `translateX(-${360 + 16}px)`,
     transition: 'transform .5s ease',
-    [theme.breakpoints.down("md")]: {
-      transform: `translateX(-100vw)`,
-    }
+    [theme.breakpoints.down('md')]: {
+      transform: 'translateX(-100vw)',
+    },
   },
   uncollapsed: {
     transform: `translateX(${theme.spacing(1.5)})`,
     transition: 'transform .5s ease',
-    [theme.breakpoints.down("md")]: {
-      transform: `translateX(0)`,
-    }
+    [theme.breakpoints.down('md')]: {
+      transform: 'translateX(0)',
+    },
   },
   deviceButton: {
     position: 'absolute',
     left: theme.spacing(1),
     top: theme.spacing(10.5),
     borderRadius: '0px',
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
+      left: theme.spacing(0),
       top: theme.spacing(7),
-    }
+    },
+  },
+  deviceButtonBackground: {
+    backgroundColor: 'white',
+    color: '#777777',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
   },
   bottomMenuContainer: {
     position: 'absolute',
@@ -94,11 +103,11 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
     zIndex: 1301,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
       bottom: theme.spacing(0),
       left: '0px',
-      width: '100%'
-    }
+      width: '100%',
+    },
   },
   menuButton: {
     display: 'flex',
@@ -108,10 +117,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '0.75rem',
     fontWeight: 'normal',
     color: '#222222',
-  }
+  },
 }));
 
-const MainPage = ({ width }) => {
+const MainPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
@@ -123,7 +132,7 @@ const MainPage = ({ width }) => {
 
   const handleClose = () => {
     setCollapsed(!collapsed);
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -135,48 +144,57 @@ const MainPage = ({ width }) => {
         <CurrentPositionsMap />
         <SelectedDeviceMap />
       </Map>
-      {collapsed && 
-        <Button 
-          variant="contained" 
-          color={matchesMD ? "secondary": "default"}
+      {collapsed
+        && (
+        <Button
+          variant="contained"
+          color={matchesMD ? 'secondary' : 'primary'}
+          classes={{ containedPrimary: classes.deviceButtonBackground }}
           className={classes.deviceButton}
           onClick={handleClose}
-          startIcon={<ListIcon />}>
-          {t('deviceTitle')}
+          startIcon={<ListIcon />}
+          disableElevation
+        >
+          {!matchesMD ? t('deviceTitle') : ''}
         </Button>
-      }
+        )}
       <div className={`${classes.listContainer} ${collapsed ? classes.collapsed : classes.uncollapsed}`}>
-        <Grid container direction="column" spacing={matchesMD ? 0: 2} style={{height: '100%'}}>
+        <Grid container direction="column" spacing={matchesMD ? 0 : 2} style={{ height: '100%' }}>
           <Grid item>
             <Paper className={classes.paper}>
               <Toolbar className={classes.toolbar} disableGutters>
                 <Grid container direction="row" alignItems="center" spacing={2}>
-                  {matchesMD && <Grid item> 
+                  {matchesMD && (
+                  <Grid item>
                     <IconButton onClick={handleClose}>
                       <ArrowBackIcon />
-                    </IconButton>            
-                  </Grid>}
+                    </IconButton>
+                  </Grid>
+                  )}
                   <Grid item xs>
                     <TextField
                       fullWidth
-                      name='deviceName'
+                      name="deviceName"
                       value={deviceName || ''}
-                      autoComplete='deviceName'
+                      autoComplete="deviceName"
                       autoFocus
-                      onChange={event => setDeviceName(event.target.value)}
+                      onChange={(event) => setDeviceName(event.target.value)}
                       placeholder="Search Devices"
-                      variant='filled' />
+                      variant="filled"
+                    />
                   </Grid>
                   <Grid item>
                     <IconButton onClick={() => history.push('/device')}>
                       <AddIcon />
                     </IconButton>
                   </Grid>
-                  {!matchesMD && <Grid item>
+                  {!matchesMD && (
+                  <Grid item>
                     <IconButton onClick={handleClose}>
                       <CloseIcon />
                     </IconButton>
-                  </Grid>}
+                  </Grid>
+                  )}
                 </Grid>
               </Toolbar>
             </Paper>
@@ -196,25 +214,25 @@ const MainPage = ({ width }) => {
                 <IconButton classes={{ label: classes.menuButton }}>
                   <ReplayIcon />
                   <span className={classes.iconText}>{t('reportReplay')}</span>
-                </IconButton>                
+                </IconButton>
               </Grid>
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <DescriptionIcon />
                   <span className={classes.iconText}>{t('reportTitle')}</span>
-                </IconButton>                
+                </IconButton>
               </Grid>
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <ShuffleIcon />
                   <span className={classes.iconText}>Options</span>
-                </IconButton>                
+                </IconButton>
               </Grid>
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <PersonIcon />
                   <span className={classes.iconText}>{t('settingsUser')}</span>
-                </IconButton>                
+                </IconButton>
               </Grid>
             </Grid>
           </Toolbar>
@@ -224,4 +242,4 @@ const MainPage = ({ width }) => {
   );
 };
 
-export default withWidth()(MainPage);
+export default MainPage;

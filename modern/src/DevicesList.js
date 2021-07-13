@@ -19,7 +19,7 @@ import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   list: {
     maxHeight: '100%',
   },
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   batteryText: {
     fontSize: '0.75rem',
     fontWeight: 'normal',
-    lineHeight: '0.875rem'
+    lineHeight: '0.875rem',
   },
   green: {
     color: theme.palette.common.green,
@@ -40,58 +40,31 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.red,
   },
   gray: {
-    color: theme.palette.common.gray
-  }
+    color: theme.palette.common.gray,
+  },
 }));
 
-const OnlineStatus =({ status }) => {
-  
-  const classes = useStyles();
-
+const getOnlineStatus = (status) => {
   switch (status) {
     case 'online':
-      return <span className={classes.green}>{status}</span>
+      return 'green';
     case 'offline':
-      return <span className={classes.red}>{status}</span>
+      return 'red';
     case 'unknown':
     default:
-      return <span className={classes.gray}>{status}</span>
+      return 'gray';
   }
-}
+};
 
-const DeviceStatus = ({ deviceId }) => {
-  const classes = useStyles();
-  let batteryClass = '';
-  
-  const position = useSelector(state => state.positions.items[deviceId]);
-  if (!position) {
-    return null;
-  }
-  const batteryLevel = position.attributes.hasOwnProperty('batteryLevel') ? position.attributes.batteryLevel : 'undefined';
-
+const getBatteryStatus = (batteryLevel) => {
   if (batteryLevel >= 70) {
-    batteryClass = classes.green;
-  } else if (batteryLevel > 30) {
-    batteryClass = classes.gray;
-  } else {
-    batteryClass = classes.red;
+    return 'green';
   }
-  return (
-    <Grid container direction="row" alignItems="center" alignContent="center" spacing={1}>
-      {position.attributes.hasOwnProperty('ignition') && <Grid item>
-        <VpnKeyIcon className={`${position.attributes.ignition ? classes.green : classes.gray}`}/>
-      </Grid>}
-      {batteryLevel !== 'undefined' && <Grid item container xs alignItems="center" alignContent="center">
-        <Grid item> 
-          <span className={classes.batteryText}>{formatPosition(batteryLevel, 'batteryLevel')}</span>
-        </Grid>      
-        <Grid item> 
-          <BatteryFullIcon className={batteryClass} />
-        </Grid>
-      </Grid>}
-    </Grid>
-  );
-}
+  if (batteryLevel > 30) {
+    return 'gray';
+  }
+  return 'red';
+};
 
 const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();
@@ -99,6 +72,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   const { items, onMenuClick } = data;
   const item = items[index];
+  const position = useSelector((state) => state.positions.items[item.id]);
 
   return (
     <div style={style}>
@@ -109,9 +83,27 @@ const DeviceRow = ({ data, index, style }) => {
               <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={item.name} secondary={<OnlineStatus status={item.status} />} />
+          <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getOnlineStatus(item.status)] }} />
           <ListItemSecondaryAction>
-            <DeviceStatus deviceId={item.id} />
+            {position && (
+              <Grid container direction="row" alignItems="center" alignContent="center" spacing={1}>
+                {position.attributes.hasOwnProperty('ignition') && (
+                  <Grid item>
+                    <VpnKeyIcon className={`${position.attributes.ignition ? classes.green : classes.gray}`} />
+                  </Grid>
+                )}
+                {position.attributes.hasOwnProperty('batteryLevel') && (
+                  <Grid item container xs alignItems="center" alignContent="center">
+                    <Grid item>
+                      <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel')}</span>
+                    </Grid>
+                    <Grid item>
+                      <BatteryFullIcon className={classes[getBatteryStatus(position.attributes.batteryLevel)]} />
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            )}
           </ListItemSecondaryAction>
         </ListItem>
         {index < items.length - 1 ? <Divider /> : null}
