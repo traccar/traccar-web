@@ -24,7 +24,11 @@ Ext.define('Traccar.view.EventsController', {
         listen: {
             controller: {
                 '*': {
-                    deselectevent: 'deselectEvent'
+                    selectdevice: 'deselectEvent',
+                    selectreport: 'deselectEvent'
+                },
+                'map': {
+                    deselectfeature: 'deselectFeature'
                 }
             },
             store: {
@@ -79,7 +83,14 @@ Ext.define('Traccar.view.EventsController', {
         Traccar.app.showEvents(false);
     },
 
-    deselectEvent: function () {
+
+    deselectEvent: function (object) {
+        if (object) {
+            this.deselectFeature();
+        }
+    },
+
+    deselectFeature: function () {
         this.getView().getSelectionModel().deselectAll();
     },
 

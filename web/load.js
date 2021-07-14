@@ -1,5 +1,5 @@
 (function () {
-    var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, fontAwesomeVersion, olVersion, i, language, languages, languageDefault;
+    var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, olVersion, i, language, languages, languageDefault;
 
     function addStyleFile(file) {
         var link = document.createElement('link');
@@ -46,13 +46,20 @@
         languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
         language = window.navigator.userLanguage || window.navigator.language;
         languages.push(language);
-        languages.push(language.substr(0, 2));
+        languages.push(language.substring(0, 2));
         languages.push(languageDefault);
         for (i = 0; i < languages.length; i++) {
             language = languages[i].replace('-', '_');
             if (language in locale.languages) {
                 locale.language = language;
                 break;
+            }
+            if (language.length > 2) {
+                language = languages[i].substring(0, 2);
+                if (language in locale.languages) {
+                    locale.language = language;
+                    break;
+                }
             }
         }
     }
@@ -97,44 +104,42 @@
     }
 
     extjsVersion = '6.2.0';
-    fontAwesomeVersion = '5.2.0';
-    olVersion = '4.6.5';
-    proj4jsVersion = '2.4.4';
+    olVersion = '6.5.0';
+    olLayerSwitcherVersion = '3.8.3';
+    proj4jsVersion = '2.6.0';
 
     if (debugMode) {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all-debug.js');
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/charts-debug.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/ext-all-debug.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/charts-debug.js');
     } else {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/ext-all.js');
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/charts.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/ext-all.js');
+        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/charts.js');
     }
-    addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
+    addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
 
-    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-triton/resources/theme-triton-all.css');
-    addScriptFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/classic/theme-triton/theme-triton.js');
+    addStyleFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/theme-triton/resources/theme-triton-all.css');
+    addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/theme-triton/theme-triton.js');
 
-    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
+    addStyleFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
 
-    addStyleFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.css');
+    addStyleFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.css');
+    addScriptFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.js');
+
+    addStyleFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.css');
+    addScriptFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.js');
+
+    /** Required for address search **/
     addStyleFile('./assets/address.ol.css');
-    if (debugMode) {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol-debug.js');
-        addScriptFile('./assets/address.ol.js');
-    } else {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/ol3/' + olVersion + '/ol.js');
-        addScriptFile('./assets/address.ol.js');
-    }
-
-    
+    addScriptFile('./assets/address.ol.js');
 
     if (debugMode) {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/proj4js/' + proj4jsVersion + '/proj4-src.js');
+        addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4-src.js');
     } else {
-        addScriptFile('//cdnjs.cloudflare.com/ajax/libs/proj4js/' + proj4jsVersion + '/proj4.js');
+        addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4.js');
     }
 
     window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
-        'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van'];
+        'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter'];
 
     for (i = 0; i < window.Images.length; i++) {
         addSvgFile('images/' + window.Images[i] + '.svg', window.Images[i] + 'Svg');

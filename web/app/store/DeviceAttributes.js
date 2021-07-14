@@ -36,5 +36,17 @@ Ext.define('Traccar.store.DeviceAttributes', {
         name: Strings.sharedTimezone,
         valueType: 'string',
         dataType: 'timezone'
+    }, {
+        key: 'deviceInactivityStart',
+        name: Strings.attributeDeviceInactivityStart,
+        valueType: 'number',
+        allowDecimals: false,
+        minValue: 1
+    }, {
+        key: 'deviceInactivityPeriod',
+        name: Strings.attributeDeviceInactivityPeriod,
+        valueType: 'number',
+        allowDecimals: false,
+        minValue: 1
     }]
 });

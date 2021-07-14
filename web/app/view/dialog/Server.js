@@ -20,7 +20,8 @@ Ext.define('Traccar.view.dialog.Server', {
 
     requires: [
         'Traccar.view.ClearableComboBox',
-        'Traccar.view.dialog.MapPickerController'
+        'Traccar.view.dialog.MapPickerController',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'mapPicker',
@@ -28,12 +29,6 @@ Ext.define('Traccar.view.dialog.Server', {
 
     items: {
         xtype: 'form',
-        listeners: {
-            afterrender: function (view) {
-                var field = view.up('panel').lookupReference('mapUrlField');
-                field.setValue(Ext.String.htmlDecode(field.getValue()));
-            }
-        },
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedPreferences,
@@ -48,14 +43,14 @@ Ext.define('Traccar.view.dialog.Server', {
                 displayField: 'name',
                 valueField: 'key'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'bingKey',
                 fieldLabel: Strings.mapBingKey
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 reference: 'mapUrlField',
                 name: 'mapUrl',
-                fieldLabel: Strings.mapCustom
+                fieldLabel: Strings.mapCustomLabel
             }, {
                 xtype: 'numberfield',
                 reference: 'latitude',
@@ -93,9 +88,13 @@ Ext.define('Traccar.view.dialog.Server', {
                 displayField: 'name',
                 valueField: 'key'
             }, {
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'poiLayer',
                 fieldLabel: Strings.mapPoiLayer
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'announcement',
+                fieldLabel: Strings.serverAnnouncement
             }]
         }, {
             xtype: 'fieldset',

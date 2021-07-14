@@ -4,6 +4,7 @@
 .DS_Store
 nbproject/
 web/app.min.js
+web/modern
 sencha-error-*
 node_modules
 package-lock.json

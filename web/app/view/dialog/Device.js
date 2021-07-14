@@ -16,100 +16,101 @@
  */
 
 Ext.define('Traccar.view.dialog.Device', {
-    extend: 'Traccar.view.dialog.BaseEdit',
+  extend: 'Traccar.view.dialog.BaseEdit',
 
-    requires: [
-        'Traccar.view.ClearableComboBox',
-        'Traccar.view.dialog.DeviceController'
-    ],
+  requires: [
+    'Traccar.view.ClearableComboBox',
+    'Traccar.view.dialog.DeviceController',
+    'Traccar.view.UnescapedTextField'
+  ],
 
-    controller: 'device',
-    title: Strings.sharedDevice,
+  controller: 'device',
+  title: Strings.sharedDevice,
 
-    items: {
-        xtype: 'form',
-        defaults: {
-            minWidth: 330
-        },
-        items: [{
-            xtype: 'fieldset',
-            title: Strings.sharedRequired,
-            defaults: {
-                minWidth: 320
-            },
-            items: [{
-                xtype: 'textfield',
-                name: 'name',
-                fieldLabel: Strings.sharedName,
-                allowBlank: false
-            }, {
-                xtype: 'textfield',
-                name: 'uniqueId',
-                fieldLabel: Strings.deviceIdentifier,
-                allowBlank: false
-            },{
-                xtype: 'clearableComboBox',
-                name: 'groupId',
-                fieldLabel: Strings.groupDialog,
-                store: 'Groups',
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'id'
-            }, {
-                xtype: 'textfield',
-                name: 'phone',
-                fieldLabel: Strings.sharedPhone
-            }]
-        }, {
-            xtype: 'fieldset',
-            title: Strings.sharedExtra,
-            collapsible: true,
-            collapsed: false,
-            defaults: {
-                minWidth: 300
-            },
-            items: [{
-                xtype: 'textfield',
-                name: 'model',
-                fieldLabel: Strings.deviceModel
-            }, {
-                xtype: 'textfield',
-                name: 'contact',
-                fieldLabel: Strings.deviceContact
-            }, {
-                xtype: 'combobox',
-                name: 'category',
-                fieldLabel: Strings.deviceCategory,
-                store: 'DeviceImages',
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'key',
-                editable: false,
-                listConfig: {
-                    getInnerTpl: function () {
-                        return '<table><tr valign="middle" ><td><div align="center" style="width:40px;height:40px;" >' +
-                        '{[new XMLSerializer().serializeToString(Traccar.DeviceImages.getImageSvg(' +
-                        'Traccar.Style.mapColorGreen, false, 0, values.key))]}</div></td>' +
-                        '<td>{name}</td></tr></table>';
-                    }
-                }
-            }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'disabled',
-                fieldLabel: Strings.sharedDisabled,
-                hidden: true,
-                reference: 'disabledField'
-            }, {
-                xtype: 'datefield',
-                name: 'expiration',
-                fieldLabel: Strings.userExpirationTime,
-                disabled: true,
-                reference: 'expirationField',
-                startDay: Traccar.Style.weekStartDay,
-                format: Traccar.Style.dateFormat
-            }]
-        }]
-    }
+  items: {
+    xtype: 'form',
+    defaults: {
+      minWidth: 330
+    },
+    items: [{
+      xtype: 'fieldset',
+      title: Strings.sharedRequired,
+      defaults: {
+        minWidth: 320
+      },
+      items: [{
+        xtype: 'unescapedTextField',
+        name: 'name',
+        fieldLabel: Strings.sharedName,
+        allowBlank: false
+      }, {
+        xtype: 'unescapedTextField',
+        name: 'uniqueId',
+        fieldLabel: Strings.deviceIdentifier,
+        allowBlank: false
+      }, {
+        xtype: 'clearableComboBox',
+        name: 'groupId',
+        fieldLabel: Strings.groupDialog,
+        store: 'Groups',
+        queryMode: 'local',
+        displayField: 'name',
+        valueField: 'id'
+      }, {
+        xtype: 'unescapedTextField',
+        name: 'phone',
+        fieldLabel: Strings.sharedPhone
+      }]
+    }, {
+      xtype: 'fieldset',
+      title: Strings.sharedExtra,
+      collapsible: true,
+      collapsed: false,
+      defaults: {
+        minWidth: 300
+      },
+      items: [{
+        xtype: 'unescapedTextField',
+        name: 'model',
+        fieldLabel: Strings.deviceModel
+      }, {
+        xtype: 'unescapedTextField',
+        name: 'contact',
+        fieldLabel: Strings.deviceContact
+      }, {
+        xtype: 'combobox',
+        name: 'category',
+        fieldLabel: Strings.deviceCategory,
+        store: 'DeviceImages',
+        queryMode: 'local',
+        displayField: 'name',
+        valueField: 'key',
+        editable: false,
+        listConfig: {
+          getInnerTpl: function () {
+            return '<table><tr valign="middle" ><td><div align="center" style="width:40px;height:40px;" >' +
+              '{[new XMLSerializer().serializeToString(Traccar.DeviceImages.getImageSvg(' +
+              'Traccar.Style.mapColorGreen, false, 0, values.key))]}</div></td>' +
+              '<td>{name}</td></tr></table>';
+          }
+        }
+      }, {
+        xtype: 'checkboxfield',
+        inputValue: true,
+        uncheckedValue: false,
+        name: 'disabled',
+        fieldLabel: Strings.sharedDisabled,
+        hidden: true,
+        reference: 'disabledField'
+      }, {
+        xtype: 'datefield',
+        name: 'expiration',
+        fieldLabel: Strings.userExpirationTime,
+        disabled: true,
+        reference: 'expirationField',
+        startDay: Traccar.Style.weekStartDay,
+        format: Traccar.Style.dateFormat
+      }]
+    }]
+  }
 });

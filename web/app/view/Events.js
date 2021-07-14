@@ -17,138 +17,138 @@
  */
 
 Ext.define('Traccar.view.Events', {
-    extend: 'Traccar.view.GridPanel',
-    xtype: 'eventsView',
+  extend: 'Traccar.view.GridPanel',
+  xtype: 'eventsView',
 
-    requires: [
-        'Traccar.view.EventsController'
-    ],
+  requires: [
+    'Traccar.view.EventsController'
+  ],
 
-    controller: 'events',
+  controller: 'events',
 
-    store: 'Events',
+  store: 'Events',
 
-    stateful: true,
-    stateId: 'events-grid',
+  stateful: true,
+  stateId: 'events-grid',
 
-    title: Strings.reportEvents,
+  title: Strings.reportEvents,
 
-    sortableColumns: true,
+  sortableColumns: true,
 
-    header: false,
+  header: false,
 
-    tbar: {
-        componentCls: 'toolbar-header-style',
-        defaults: {
-            xtype: 'button',
-            tooltipType: 'title',
-            stateEvents: ['toggle'],
-            enableToggle: true,
-            stateful: {
-                pressed: true
-            }
-        },
-        items: [{
-            xtype: 'tbtext',
-            html: Strings.reportEvents,
-            baseCls: 'x-panel-header-title-default'
-        }, {
-            xtype: 'tbfill'
-        }, {
-            glyph: 'xf063@FontAwesome',
-            pressed: true,
-            toggleHandler: 'onScrollToLastClick',
-            stateId: 'events-scroll-to-last-button',
-            tooltip: Strings.eventsScrollToLast,
-            reference: 'scrollToLastButton'
-        }, {
-            id: 'soundButton',
-            pressed: true,
-            glyph: 'xf0a2@FontAwesome',
-            tooltip: Strings.sharedSound,
-            stateId: 'sound-button'
-        }, {
-            glyph: 'xf014@FontAwesome',
-            tooltip: Strings.sharedRemove,
-            handler: 'onRemoveClick',
-            reference: 'removeEventButton',
-            disabled: true,
-            stateful: false,
-            enableToggle: false
-        }, {
-            glyph: 'xf1f8@FontAwesome',
-            tooltip: Strings.reportClear,
-            handler: 'onClearClick',
-            stateful: false,
-            enableToggle: false
-        }, {
-            glyph: 'xf00d@FontAwesome',
-            tooltip: Strings.sharedHide,
-            handler: 'onHideEvents',
-            reference: 'hideEventsButton',
-            hidden: true,
-            stateful: false,
-            enableToggle: false
-        }]
+  tbar: {
+    componentCls: 'toolbar-header-style',
+    defaults: {
+      xtype: 'button',
+      tooltipType: 'title',
+      stateEvents: ['toggle'],
+      enableToggle: true,
+      stateful: {
+        pressed: true
+      }
     },
+    items: [{
+      xtype: 'tbtext',
+      html: Strings.reportEvents,
+      baseCls: 'x-panel-header-title-default'
+    }, {
+      xtype: 'tbfill'
+    }, {
+      glyph: 'xf063@FontAwesome',
+      pressed: true,
+      toggleHandler: 'onScrollToLastClick',
+      stateId: 'events-scroll-to-last-button',
+      tooltip: Strings.eventsScrollToLast,
+      reference: 'scrollToLastButton'
+    }, {
+      id: 'soundButton',
+      pressed: true,
+      glyph: 'xf0a2@FontAwesome',
+      tooltip: Strings.sharedSound,
+      stateId: 'sound-button'
+    }, {
+      glyph: 'xf014@FontAwesome',
+      tooltip: Strings.sharedRemove,
+      handler: 'onRemoveClick',
+      reference: 'removeEventButton',
+      disabled: true,
+      stateful: false,
+      enableToggle: false
+    }, {
+      glyph: 'xf1f8@FontAwesome',
+      tooltip: Strings.reportClear,
+      handler: 'onClearClick',
+      stateful: false,
+      enableToggle: false
+    }, {
+      glyph: 'xf00d@FontAwesome',
+      tooltip: Strings.sharedHide,
+      handler: 'onHideEvents',
+      reference: 'hideEventsButton',
+      hidden: true,
+      stateful: false,
+      enableToggle: false
+    }]
+  },
 
-    listeners: {
-        selectionchange: 'onSelectionChange'
+  listeners: {
+    selectionchange: 'onSelectionChange'
+  },
+
+  columns: {
+    defaults: {
+      flex: 1,
+      minWidth: 60,
+      autoSizeColumn: true
     },
-
-    columns: {
-        defaults: {
-            flex: 1,
-            minWidth: 60,
-            autoSizeColumn : true
-        },
-        items: [{
-            text: Strings.sharedAsset,
-            dataIndex: 'deviceId',
-            minWidth: 80,
-            renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
-        }, {
-            text: Strings.positionFixTime,
-            dataIndex: 'serverTime',
-            renderer: Traccar.AttributeFormatter.getFormatter('lastUpdate')
-        }, {
-            flex: 2,
-            text: Strings.positionEvent,
-            minWidth: 150,
-            dataIndex: 'text',
-            renderer: function (value, record) {
-                return value;
-            }
-        }, {
-            text: Strings.positionSpeed,
-            dataIndex: 'attributes',
-            minWidth: 60,
-            renderer: function (value) {
-                var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
-                var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
-                if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph'|| lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
-                    return 'Not gps';
-                } else {
-                    return lesSpeed;
-                    }
-            }
-        }, {
-            text: Strings.positionAddress,
-            dataIndex: 'attributes',
-            minWidth: 135,
-            maxWidth: 255,
-            renderer: function (value, metaData, record) {
-                if (value && value['address'] !== undefined) {
-                    return Traccar.AttributeFormatter.getFormatter('address')(value['address']);
-                } else {
-                    return 'Not gps';
-                }
-            }
-        }, {
-            text: Strings.sharedGeofence,
-            dataIndex: 'geofenceId',
-            minWidth: 110,
-            renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
-        }]
-    }
+    items: [{
+      text: Strings.sharedAsset,
+      dataIndex: 'deviceId',
+      minWidth: 80,
+      renderer: Traccar.AttributeFormatter.getFormatter('deviceId')
+    }, {
+      text: Strings.positionFixTime,
+      dataIndex: 'serverTime',
+      renderer: Traccar.AttributeFormatter.getFormatter('eventTime')
+    }, {
+      flex: 2,
+      text: Strings.positionEvent,
+      minWidth: 150,
+      dataIndex: 'text',
+      renderer: function (value, record) {
+        return value;
+      }
+    }, {
+      text: Strings.positionSpeed,
+      dataIndex: 'attributes',
+      minWidth: 60,
+      renderer: function (value) {
+        var speed = Traccar.AttributeFormatter.getConverter('speed')(value['speed']);
+        var lesSpeed = Traccar.AttributeFormatter.speedFormatter(speed);
+        if (lesSpeed == 'NaN km/h' || lesSpeed == 'NaN kph' || lesSpeed == 'NaN kn' || lesSpeed == 'NaN mph') {
+          return 'Not gps';
+        } else {
+          return lesSpeed;
+        }
+      }
+    }, {
+      text: Strings.positionAddress,
+      dataIndex: 'attributes',
+      minWidth: 135,
+      maxWidth: 255,
+      renderer: function (value, metaData, record) {
+        if (value && value['address'] !== undefined) {
+          return Traccar.AttributeFormatter.getFormatter('address')(value['address']);
+        } else {
+          return 'Not gps';
+        }
+      }
+    }, {
+      text: Strings.sharedGeofence,
+      dataIndex: 'geofenceId',
+      minWidth: 110,
+      renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
+    }]
+  }
 });

@@ -96,6 +96,9 @@ Ext.define('Traccar.Style', {
     mapGeofenceWidth: 2,
     mapGeofenceRadius: 4,
 
+    mapAnimateMarkerDuration: 2000,
+    mapAnimateMarkerTimeout: 40,
+
     coordinatePrecision: 6,
     numberPrecision: 2,
 

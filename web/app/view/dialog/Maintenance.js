@@ -21,7 +21,8 @@ Ext.define('Traccar.view.dialog.Maintenance', {
 
     requires: [
         'Traccar.view.dialog.MaintenanceController',
-        'Traccar.view.CustomNumberField'
+        'Traccar.view.CustomNumberField',
+        'Traccar.view.UnescapedTextField'
     ],
 
     controller: 'maintenance',
@@ -37,7 +38,7 @@ Ext.define('Traccar.view.dialog.Maintenance', {
             xtype: 'fieldset',
             title: Strings.sharedRequired,
             items: [{
-                xtype: 'textfield',
+                xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false

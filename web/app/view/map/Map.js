@@ -66,6 +66,10 @@ Ext.define('Traccar.view.map.Map', {
             stateId: 'show-geofences-button',
             tooltip: Strings.sharedGeofences
         }, {
+            handler: 'showCurrentLocation',
+            glyph: 'xf124@FontAwesome',
+            tooltip: Strings.mapCurrentLocation
+        }, {
             handler: 'showLiveRoutes',
             reference: 'showLiveRoutes',
             glyph: 'xf1b0@FontAwesome',

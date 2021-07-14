@@ -27,7 +27,7 @@ Ext.define('Traccar.model.Event', {
         name: 'type',
         type: 'string'
     }, {
-        name: 'serverTime',
+        name: 'eventTime',
         type: 'date',
         dateFormat: 'c'
     }, {

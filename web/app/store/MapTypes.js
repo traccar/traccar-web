@@ -26,11 +26,14 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'googlemodsat',
         name: Strings.googleModSat
     }, {
+        key: 'osm',
+        name: Strings.mapOsm
+    }, {
         key: 'carto',
         name: Strings.mapCarto
     }, {
-        key: 'osm',
-        name: Strings.mapOsm
+        key: 'autoNavi',
+        name: Strings.mapAutoNavi
     }, {
         key: 'bingRoad',
         name: Strings.mapBingRoad
@@ -41,19 +44,10 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'bingHybrid',
         name: Strings.mapBingHybrid
     }, {
-        key: 'baidu',
-        name: Strings.mapBaidu
-    }, {
-        key: 'yandexMap',
-        name: Strings.mapYandexMap
-    }, {
-        key: 'yandexSat',
-        name: Strings.mapYandexSat
-    }, {
-        key: 'wikimedia',
-        name: Strings.mapWikimedia
-    }, {
         key: 'custom',
         name: Strings.mapCustom
+    }, {
+        key: 'customArcgis',
+        name: Strings.mapCustomArcgis
     }]
 });

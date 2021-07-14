@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 - 2021 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,26 @@ Ext.define('Traccar.view.map.GeofenceMap', {
             listeners: {
                 select: 'onTypeSelect'
             }
+        }, '-', {
+            xtype: 'tbtext',
+            html: Strings.sharedImport
+        }, {
+            xtype: 'filefield',
+            name: 'file',
+            buttonConfig: {
+                glyph: 'xf093@FontAwesome',
+                text: '',
+                tooltip: Strings.sharedSelectFile,
+                tooltipType: 'title'
+            },
+            listeners: {
+                change: 'onFileChange',
+                afterrender: function (fileField) {
+                    fileField.fileInputEl.set({
+                        accept: '.gpx'
+                    });
+                }
+            }
         }, {
             xtype: 'tbfill'
         }, {
@@ -59,16 +79,21 @@ Ext.define('Traccar.view.map.GeofenceMap', {
     },
 
     initMap: function () {
-        var map, featureOverlay, geometry, fillColor;
+        var map, mapView, featureOverlay, geometry, fillColor;
         this.callParent();
 
         map = this.map;
+        mapView = this.mapView;
 
         this.features = new ol.Collection();
         if (this.area) {
-            geometry = Traccar.GeofenceConverter.wktToGeometry(this.mapView, this.area);
+            geometry = Traccar.GeofenceConverter.wktToGeometry(mapView, this.area);
             this.features.push(new ol.Feature(geometry));
-            this.mapView.fit(geometry);
+            this.map.once('postrender', function () {
+                mapView.fit(geometry, {
+                    padding: [20, 20, 20, 20]
+                });
+            });
         } else {
             this.controller.fireEvent('mapstaterequest');
         }
@@ -105,13 +130,14 @@ Ext.define('Traccar.view.map.GeofenceMap', {
     },
 
     addInteraction: function (type) {
+        var self = this;
         this.draw = new ol.interaction.Draw({
             features: this.features,
             type: type
         });
         this.draw.on('drawstart', function () {
-            this.features.clear();
-        }, this);
+            self.features.clear();
+        });
         this.map.addInteraction(this.draw);
     },
 
