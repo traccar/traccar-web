@@ -1,7 +1,7 @@
 (function () {
     var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, olVersion, i, language, languages, languageDefault;
 
-    function addStyleFile(file) {
+    function addStyleFile (file) {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
@@ -9,14 +9,14 @@
         document.head.appendChild(link);
     }
 
-    function addScriptFile(file) {
+    function addScriptFile (file) {
         var script = document.createElement('script');
         script.setAttribute('src', file);
         script.async = false;
         document.head.appendChild(script);
     }
 
-    function addSvgFile(file, id) {
+    function addSvgFile (file, id) {
         var svg = document.createElement('object');
         svg.setAttribute('id', id);
         svg.setAttribute('data', file);

@@ -22,12 +22,17 @@ Ext.define('Traccar.store.MapTypes', {
     data: [{
         key: 'googlemod',
         name: Strings.googleMod
-    }, {
+    },
+    {
         key: 'googlemodsat',
         name: Strings.googleModSat
-    }, {
+    },
+    {
         key: 'osm',
         name: Strings.mapOsm
+    }, {
+        key: 'autoNavi',
+        name: Strings.mapAutoNavi
     }, {
         key: 'carto',
         name: Strings.mapCarto
