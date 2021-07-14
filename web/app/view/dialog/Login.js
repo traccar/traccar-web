@@ -16,114 +16,117 @@
  */
 
 Ext.define('Traccar.view.dialog.Login', {
-    extend: 'Traccar.view.dialog.Base',
-    alias: 'widget.login',
+  extend: 'Traccar.view.dialog.Base',
+  alias: 'widget.login',
 
-    requires: [
-        'Traccar.view.dialog.LoginController'
-    ],
+  requires: [
+    'Traccar.view.dialog.LoginController'
+  ],
 
-    controller: 'login',
+  controller: 'login',
 
-    header: false,
-    closable: false,
-    minWidth: 320,
+  header: false,
+  closable: false,
+  minWidth: 320,
 
-    items: {
-        xtype: 'form',
-        reference: 'form',
+  items: {
+    xtype: 'form',
+    reference: 'form',
 
-        autoEl: {
-            tag: 'form',
-            method: 'POST',
-            action: 'fake-login.html',
-            target: 'submitTarget'
-        },
-
-        items: [{
-            xtype: 'image',
-            src: './logo/front.png',
-            alt: Strings.loginLogo,
-            width: 122,
-            height: 43,
-            style: {
-                display: 'block',
-                margin: '10px auto 25px'
-            }
-        }, {
-            xtype: 'textfield',
-            name: 'email',
-            reference: 'userField',
-            emptyText: Strings.userEmail,
-            /*fieldLabel: Strings.userEmail,*/
-            allowBlank: false,
-            enableKeyEvents: true,
-            minWidth: 320,
-            listeners: {
-                specialKey: 'onSpecialKey',
-                afterrender: 'onAfterRender'
-            },
-            inputAttrTpl: ['autocomplete="on" autocapitalize="none"']
-        },{
-            height:1
-       }, {
-            xtype: 'textfield',
-            name: 'password',
-            reference: 'passwordField',
-            emptyText: Strings.userPassword,
-            /*fieldLabel: Strings.userPassword,*/
-            inputType: 'password',
-            allowBlank: false,
-            enableKeyEvents: true,
-            minWidth: 320,
-            listeners: {
-                specialKey: 'onSpecialKey'
-            },
-            inputAttrTpl: ['autocomplete="on"']
-        },{
-            height:1
-       }, {
-            xtype: 'combobox',
-            name: 'language',
-            /*fieldLabel: Strings.loginLanguage,*/
-            store: 'Languages',
-            displayField: 'name',
-            valueField: 'code',
-            editable: false,
-            submitValue: false,
-            listeners: {
-                select: 'onSelectLanguage'
-            },
-            reference: 'languageField'
-        }, {
-            xtype: 'checkboxfield',
-            inputValue: true,
-            uncheckedValue: false,
-            reference: 'rememberField',
-            labelAlign: 'left',
-            hideLabel: true,
-            checked: true,
-            fieldLabel: Strings.userRemember,
-            boxLabel: Strings.userRemember
-        }, {
-            xtype: 'component',
-            html: '<iframe id="submitTarget" name="submitTarget" style="display:none"></iframe>'
-        }, {
-            xtype: 'component',
-            html: '<input type="submit" id="submitButton" style="display:none">'
-        }]
+    autoEl: {
+      tag: 'form',
+      method: 'POST',
+      action: 'fake-login.html',
+      target: 'submitTarget'
     },
 
-    buttons: [/**{
-        text: Strings.loginReset,
-        handler: 'onResetClick',
-        reference: 'resetButton'
+    items: [{
+      xtype: 'image',
+      src: './logo/front.png',
+      alt: Strings.loginLogo,
+      width: 122,
+      height: 43,
+      style: {
+        display: 'block',
+        margin: '10px auto 25px'
+      }
     }, {
+      xtype: 'textfield',
+      name: 'email',
+      reference: 'userField',
+      emptyText: Strings.userEmail,
+      /*fieldLabel: Strings.userEmail,*/
+      allowBlank: false,
+      enableKeyEvents: true,
+      minWidth: 320,
+      listeners: {
+        specialKey: 'onSpecialKey',
+        afterrender: 'onAfterRender'
+      },
+      inputAttrTpl: ['autocomplete="on" autocapitalize="none"']
+    }, {
+      height: 1
+    }, {
+      xtype: 'textfield',
+      name: 'password',
+      reference: 'passwordField',
+      emptyText: Strings.userPassword,
+      /*fieldLabel: Strings.userPassword,*/
+      inputType: 'password',
+      allowBlank: false,
+      enableKeyEvents: true,
+      minWidth: 320,
+      listeners: {
+        specialKey: 'onSpecialKey'
+      },
+      inputAttrTpl: ['autocomplete="on"']
+    }, {
+      height: 1
+    }, {
+      xtype: 'combobox',
+      name: 'language',
+      /*fieldLabel: Strings.loginLanguage,*/
+      store: 'Languages',
+      displayField: 'name',
+      valueField: 'code',
+      editable: false,
+      submitValue: false,
+      listeners: {
+        select: 'onSelectLanguage'
+      },
+      reference: 'languageField'
+    }, {
+      xtype: 'checkboxfield',
+      inputValue: true,
+      uncheckedValue: false,
+      reference: 'rememberField',
+      labelAlign: 'left',
+      hideLabel: true,
+      checked: true,
+      fieldLabel: Strings.userRemember,
+      boxLabel: Strings.userRemember
+    }, {
+      xtype: 'component',
+      html: '<iframe id="submitTarget" name="submitTarget" style="display:none"></iframe>'
+    }, {
+      xtype: 'component',
+      html: '<input type="submit" id="submitButton" style="display:none">'
+    }]
+  },
+
+  buttons: [{
+      text: Strings.loginReset,
+      handler: 'onResetClick',
+      reference: 'resetButton'
+    },
+    /** {
         text: Strings.loginRegister,
         handler: 'onRegisterClick',
         reference: 'registerButton'
-    }, **/{
-        text: Strings.loginLogin,
-        handler: 'onLoginClick'
-    }]
+    }, **/
+    {
+      text: Strings.loginLogin,
+      handler: 'onLoginClick'
+    }
+  ]
 });

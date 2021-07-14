@@ -112,6 +112,28 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
     /* onRegisterClick: function () {
         Ext.create('Traccar.view.dialog.Register').show();
+    },
+
+    onResetClick: function () {
+        Ext.Msg.prompt(Strings.loginReset, Strings.userEmail, function (btn, text) {
+            if (btn === 'ok') {
+                Ext.Ajax.request({
+                    scope: this,
+                    method: 'POST',
+                    url: 'api/password/reset',
+                    params: {
+                        email: text
+                    },
+                    callback: function (options, success, response) {
+                        if (success) {
+                            Traccar.app.showToast(Strings.loginResetSuccess);
+                        } else {
+                            Traccar.app.showError(response.responseText);
+                        }
+                    }
+                });
+            }
+        });
     }
     }, */
     onResetClick: function () {
