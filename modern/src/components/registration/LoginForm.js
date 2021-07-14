@@ -41,7 +41,10 @@ const LoginForm = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const response = await fetch('/api/session', { method: 'POST', body: new URLSearchParams(`email=${email}&password=${password}`) });
+    const response = await fetch('/api/session', {
+      method: 'POST',
+      body: new URLSearchParams(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
+    });
     if (response.ok) {
       const user = await response.json();
       dispatch(sessionActions.updateUser(user));
