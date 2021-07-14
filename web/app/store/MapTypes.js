@@ -16,38 +16,38 @@
  */
 
 Ext.define('Traccar.store.MapTypes', {
-  extend: 'Ext.data.Store',
-  fields: ['key', 'name'],
+    extend: 'Ext.data.Store',
+    fields: ['key', 'name'],
 
-  data: [{
-    key: 'googlemod',
-    name: Strings.googleMod
-  }, {
-    key: 'googlemodsat',
-    name: Strings.googleModSat
-  }, {
-    key: 'autoNavi',
-    name: Strings.mapAutoNavi
-  }, {
-    key: 'carto',
-    name: Strings.mapCarto
-  }, {
-    key: 'autoNavi',
-    name: Strings.mapAutoNavi
-  }, {
-    key: 'bingRoad',
-    name: Strings.mapBingRoad
-  }, {
-    key: 'bingAerial',
-    name: Strings.mapBingAerial
-  }, {
-    key: 'bingHybrid',
-    name: Strings.mapBingHybrid
-  }, {
-    key: 'custom',
-    name: Strings.mapCustom
-  }, {
-    key: 'customArcgis',
-    name: Strings.mapCustomArcgis
-  }]
+    data: [{
+        key: 'googlemod',
+        name: Strings.googleMod
+    }, {
+        key: 'googlemodsat',
+        name: Strings.googleModSat
+    }, {
+        key: 'osm',
+        name: Strings.mapOsm
+    }, {
+        key: 'carto',
+        name: Strings.mapCarto
+    }, {
+        key: 'autoNavi',
+        name: Strings.mapAutoNavi
+    }, {
+        key: 'bingRoad',
+        name: Strings.mapBingRoad
+    }, {
+        key: 'bingAerial',
+        name: Strings.mapBingAerial
+    }, {
+        key: 'bingHybrid',
+        name: Strings.mapBingHybrid
+    }, {
+        key: 'custom',
+        name: Strings.mapCustom
+    }, {
+        key: 'customArcgis',
+        name: Strings.mapCustomArcgis
+    }]
 });
