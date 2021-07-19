@@ -52,7 +52,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
   const convertToList = (attributes) => {
     const booleanList = [];
     const otherList = [];
-    Object.keys(attributes).forEach((key) => {
+    Object.keys(attributes || []).forEach((key) => {
       const value = attributes[key];
       const type = getAttributeType(value);
       if (type === 'boolean') {
