@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
     height: '25px',
     filter: 'brightness(0) invert(1)',
   },
+  listItem: {
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
+  },
   batteryText: {
     fontSize: '0.75rem',
     fontWeight: 'normal',
@@ -44,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getOnlineStatus = (status) => {
+const getStatusColor = (status) => {
   switch (status) {
     case 'online':
       return 'green';
@@ -77,13 +83,13 @@ const DeviceRow = ({ data, index, style }) => {
   return (
     <div style={style}>
       <Fragment key={index}>
-        <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item))}>
+        <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item))}>
           <ListItemAvatar>
             <Avatar>
               <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getOnlineStatus(item.status)] }} />
+          <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
           <ListItemSecondaryAction>
             {position && (
               <Grid container direction="row" alignItems="center" alignContent="center" spacing={1}>
@@ -145,7 +151,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const DevicesList = () => (
-  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
+  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd />
 );
 
 export default DevicesList;

@@ -65,6 +65,10 @@ const useStyles = makeStyles((theme) => ({
   },
   deviceList: {
     height: '100%',
+    backgroundColor: 'transparent',
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: 'white',
+    },
   },
   collapsed: {
     transform: `translateX(-${360 + 16}px)`,
@@ -112,8 +116,6 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  iconText: {
     fontSize: '0.75rem',
     fontWeight: 'normal',
     color: '#222222',
@@ -128,7 +130,8 @@ const MainPage = () => {
   const [deviceName, setDeviceName] = useState();
   const [collapsed, setCollapsed] = useState(false);
 
-  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
 
   const handleClose = () => {
     setCollapsed(!collapsed);
@@ -148,23 +151,23 @@ const MainPage = () => {
         && (
         <Button
           variant="contained"
-          color={matchesMD ? 'secondary' : 'primary'}
+          color={isPhone ? 'secondary' : 'primary'}
           classes={{ containedPrimary: classes.deviceButtonBackground }}
           className={classes.deviceButton}
           onClick={handleClose}
           startIcon={<ListIcon />}
           disableElevation
         >
-          {!matchesMD ? t('deviceTitle') : ''}
+          {!isPhone ? t('deviceTitle') : ''}
         </Button>
         )}
       <div className={`${classes.listContainer} ${collapsed ? classes.collapsed : classes.uncollapsed}`}>
-        <Grid container direction="column" spacing={matchesMD ? 0 : 2} style={{ height: '100%' }}>
+        <Grid container direction="column" spacing={isTablet ? 0 : 2} style={{ height: '100%' }}>
           <Grid item>
             <Paper className={classes.paper}>
               <Toolbar className={classes.toolbar} disableGutters>
                 <Grid container direction="row" alignItems="center" spacing={2}>
-                  {matchesMD && (
+                  {isTablet && (
                   <Grid item>
                     <IconButton onClick={handleClose}>
                       <ArrowBackIcon />
@@ -188,7 +191,7 @@ const MainPage = () => {
                       <AddIcon />
                     </IconButton>
                   </Grid>
-                  {!matchesMD && (
+                  {!isTablet && (
                   <Grid item>
                     <IconButton onClick={handleClose}>
                       <CloseIcon />
@@ -200,9 +203,9 @@ const MainPage = () => {
             </Paper>
           </Grid>
           <Grid item xs>
-            <Paper className={`${classes.deviceList} ${classes.paper}`}>
+            <div className={classes.deviceList}>
               <DevicesList />
-            </Paper>
+            </div>
           </Grid>
         </Grid>
       </div>
@@ -213,25 +216,25 @@ const MainPage = () => {
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <ReplayIcon />
-                  <span className={classes.iconText}>{t('reportReplay')}</span>
+                  {t('reportReplay')}
                 </IconButton>
               </Grid>
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <DescriptionIcon />
-                  <span className={classes.iconText}>{t('reportTitle')}</span>
+                  {t('reportTitle')}
                 </IconButton>
               </Grid>
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <ShuffleIcon />
-                  <span className={classes.iconText}>Options</span>
+                  Options
                 </IconButton>
               </Grid>
               <Grid item>
                 <IconButton classes={{ label: classes.menuButton }}>
                   <PersonIcon />
-                  <span className={classes.iconText}>{t('settingsUser')}</span>
+                  {t('settingsUser')}
                 </IconButton>
               </Grid>
             </Grid>
