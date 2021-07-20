@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   makeStyles, Paper, Toolbar, TextField, IconButton, Button,
@@ -87,15 +87,20 @@ const MainPage = () => {
   const history = useHistory();
   const theme = useTheme();
 
-  const [deviceName, setDeviceName] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
-
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const [deviceName, setDeviceName] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
 
   const handleClose = () => {
     setCollapsed(!collapsed);
   };
+
+  // Collapse sidebar for tablets and phones
+  useEffect(() => {
+    setCollapsed(isTablet);
+  }, [isTablet]);
 
   return (
     <div className={classes.root}>
