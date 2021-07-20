@@ -9,7 +9,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ListIcon from '@material-ui/icons/List';
+import ListIcon from '@material-ui/icons/ViewList';
 
 import DevicesList from './DevicesList';
 import Map from './map/Map';
@@ -18,7 +18,7 @@ import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
-import BottomNav from "./components/BottomNav"
+import BottomNav from './components/BottomNav';
 import t from './common/localization';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,13 +27,13 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebar: {
     display: 'flex',
-    flexDirection: "column",
+    flexDirection: 'column',
     position: 'absolute',
     left: 0,
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    bottom: theme.spacing(9.5),
+    bottom: theme.spacing(8),
     zIndex: 1301,
     transition: 'transform .5s ease',
     [theme.breakpoints.down('md')]: {
@@ -57,12 +57,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     '& > *': {
       margin: theme.spacing(0, 1),
-    }
+    },
   },
   deviceList: {
     flex: 1,
     overflow: 'auto',
-    paddingTop: theme.spacing(1.5),
+    padding: theme.spacing(1.5, 0),
   },
   sidebarToggle: {
     position: 'absolute',
@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '0px',
     [theme.breakpoints.down('md')]: {
       left: theme.spacing(0),
-      top: theme.spacing(7),
     },
   },
   sidebarToggleBg: {
@@ -113,9 +112,9 @@ const MainPage = () => {
         classes={{ containedPrimary: classes.sidebarToggleBg }}
         className={classes.sidebarToggle}
         onClick={handleClose}
-        startIcon={<ListIcon />}
         disableElevation
       >
+        <ListIcon />
         {!isPhone ? t('deviceTitle') : ''}
       </Button>
       <div className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
@@ -150,7 +149,7 @@ const MainPage = () => {
           <DevicesList />
         </div>
       </div>
-      
+
       <BottomNav showOnDesktop />
     </div>
   );
