@@ -3,11 +3,11 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MainToolbar from '../MainToolbar';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import { formatBoolean } from '../common/formatter';
+import OptionsLayout from '../settings/OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -61,10 +61,9 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const UsersPage = () => (
-  <>
-    <MainToolbar />
+  <OptionsLayout>
     <EditCollectionView content={UsersView} editPath="/user" endpoint="users" />
-  </>
+  </OptionsLayout>
 );
 
 export default UsersPage;

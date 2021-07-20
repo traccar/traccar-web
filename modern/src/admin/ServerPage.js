@@ -8,11 +8,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import t from '../common/localization';
-import MainToolbar from '../MainToolbar';
 import { sessionActions } from '../store';
 import EditAttributesView from '../attributes/EditAttributesView';
 import deviceAttributes from '../attributes/deviceAttributes';
 import userAttributes from '../attributes/userAttributes';
+import OptionsLayout from '../settings/OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,11 +51,9 @@ const ServerPage = () => {
   };
 
   return (
-    <>
-      <MainToolbar />
+    <OptionsLayout>
       <Container maxWidth="xs" className={classes.container}>
-        {item
-          && (
+        {item && (
           <>
             <Accordion defaultExpanded>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -113,7 +111,7 @@ const ServerPage = () => {
               </AccordionDetails>
             </Accordion>
           </>
-          )}
+        )}
         <FormControl fullWidth margin="normal">
           <div className={classes.buttons}>
             <Button type="button" color="primary" variant="outlined" onClick={() => history.goBack()}>
@@ -125,7 +123,7 @@ const ServerPage = () => {
           </div>
         </FormControl>
       </Container>
-    </>
+    </OptionsLayout>
   );
 };
 

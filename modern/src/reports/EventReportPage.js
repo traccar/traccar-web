@@ -7,7 +7,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
-import ReportLayoutPage from './ReportLayoutPage';
+import ReportLayout from './ReportLayout';
 import { prefixString } from '../common/stringUtils';
 import t from '../common/localization';
 
@@ -101,14 +101,14 @@ const EventReportPage = () => {
   }];
 
   return (
-    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
+    <ReportLayout filter={<Filter setItems={setItems} />}>
       <DataGrid
         rows={items}
         columns={columns}
         hideFooter
         autoHeight
       />
-    </ReportLayoutPage>
+    </ReportLayout>
   );
 };
 

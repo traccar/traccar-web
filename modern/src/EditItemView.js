@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
-import MainToolbar from './MainToolbar';
 
 import t from './common/localization';
 import { useEffectAsync } from './reactHelper';
+import OptionsLayout from './settings/OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,8 +58,7 @@ const EditItemView = ({
   };
 
   return (
-    <>
-      <MainToolbar />
+    <OptionsLayout>
       <Container maxWidth="xs" className={classes.container}>
         {children}
         <FormControl fullWidth margin="normal">
@@ -73,7 +72,7 @@ const EditItemView = ({
           </div>
         </FormControl>
       </Container>
-    </>
+    </OptionsLayout>
   );
 };
 

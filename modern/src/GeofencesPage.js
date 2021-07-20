@@ -1,12 +1,16 @@
 import React from 'react';
-import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
+import {
+  Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton,
+} from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
-import MainToolbar from './MainToolbar';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Map from './map/Map';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import GeofenceEditMap from './map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
+
+import t from './common/localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +36,12 @@ const useStyles = makeStyles((theme) => ({
       height: 250,
     },
   },
+  drawerHeader: {
+    ...theme.mixins.toolbar,
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+  },
   mapContainer: {
     flexGrow: 1,
   },
@@ -42,13 +52,21 @@ const GeofencesPage = ({ width }) => {
 
   return (
     <div className={classes.root}>
-      <MainToolbar />
       <div className={classes.content}>
         <Drawer
           anchor={isWidthUp('sm', width) ? 'left' : 'bottom'}
           variant="permanent"
           classes={{ paper: classes.drawerPaper }}
         >
+          <div className={classes.drawerHeader}>
+            <IconButton component="a" href="/">
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" noWrap>
+              {t('sharedGeofences')}
+            </Typography>
+          </div>
+          <Divider />
           <GeofencesList />
         </Drawer>
         <div className={classes.mapContainer}>

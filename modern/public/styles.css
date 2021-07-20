@@ -6,3 +6,7 @@ canvas {
 .maplibregl-popup-content {
   padding: 10px !important;
 }
+
+.mapboxgl-ctrl {
+  margin: 10px;
+}
