@@ -3,10 +3,10 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MainToolbar from '../MainToolbar';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
+import OptionsLayout from './OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -56,10 +56,9 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const DriversPage = () => (
-  <>
-    <MainToolbar />
+  <OptionsLayout>
     <EditCollectionView content={DriversView} editPath="/settings/driver" endpoint="drivers" />
-  </>
+  </OptionsLayout>
 );
 
 export default DriversPage;

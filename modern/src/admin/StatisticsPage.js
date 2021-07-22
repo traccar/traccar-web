@@ -5,7 +5,7 @@ import {
 import moment from 'moment';
 import t from '../common/localization';
 import { formatDate } from '../common/formatter';
-import ReportLayoutPage from '../reports/ReportLayoutPage';
+import OptionsLayout from '../settings/OptionsLayout';
 
 const Filter = ({ setItems }) => {
   const [period, setPeriod] = useState('today');
@@ -98,7 +98,8 @@ const StatisticsPage = () => {
   const [items, setItems] = useState([]);
 
   return (
-    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
+    <OptionsLayout>
+      <Filter setItems={setItems} />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -133,7 +134,7 @@ const StatisticsPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </ReportLayoutPage>
+    </OptionsLayout>
   );
 };
 

@@ -9,10 +9,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@material-ui/icons/BatteryFull';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { ReactComponent as IgnitionIcon } from '../public/images/icon/ignition.svg';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
@@ -48,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   gray: {
     color: theme.palette.common.gray,
   },
+  indicators: {
+    lineHeight: 1,
+  },
 }));
 
 const getStatusColor = (status) => {
@@ -79,6 +83,7 @@ const DeviceRow = ({ data, index, style }) => {
   const { items } = data;
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
+  const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition
 
   return (
     <div style={style}>
@@ -90,12 +95,12 @@ const DeviceRow = ({ data, index, style }) => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
-          <ListItemSecondaryAction>
+          <ListItemSecondaryAction className={classes.indicators}>
             {position && (
-              <Grid container direction="row" alignItems="center" alignContent="center" spacing={1}>
-                {position.attributes.hasOwnProperty('ignition') && (
+              <Grid container direction="row" alignItems="center" alignContent="center" spacing={2}>
+                {showIgnition && (
                   <Grid item>
-                    <VpnKeyIcon className={`${position.attributes.ignition ? classes.green : classes.gray}`} />
+                    <SvgIcon component={IgnitionIcon} />
                   </Grid>
                 )}
                 {position.attributes.hasOwnProperty('batteryLevel') && (

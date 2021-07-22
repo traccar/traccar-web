@@ -11,8 +11,8 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import ReportSidebar from '../components/reports/ReportSidebar';
-import ReportNavbar from '../components/reports/ReportNavbar';
+import SideNav from '../components/SideNav';
+import NavBar from '../components/NavBar';
 import t from '../common/localization';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +60,7 @@ const routes = [
   { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
 ];
 
-const ReportLayoutPage = ({ children, filter }) => {
+const ReportLayout = ({ children, filter }) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -79,41 +79,39 @@ const ReportLayoutPage = ({ children, filter }) => {
     });
   }, [location]);
 
+  const pageTitle = `${t('reportTitle')} / ${reportTitle}`;
+
   return (
     <div className={classes.root}>
       <Hidden only={['lg', 'xl']}>
-        <ReportNavbar setOpenDrawer={setOpenDrawer} reportTitle={reportTitle} />
+        <NavBar setOpenDrawer={setOpenDrawer} title={pageTitle} />
         <Drawer
           variant="temporary"
           open={openDrawer}
           onClose={() => setOpenDrawer(!openDrawer)}
           classes={{ paper: classes.drawer }}
         >
-          <ReportSidebar routes={routes} />
+          <SideNav routes={routes} />
         </Drawer>
       </Hidden>
       <Hidden only={['xs', 'sm', 'md']}>
-        <div className={classes.drawerContainer}>
-          <Drawer
-            variant="permanent"
-            classes={{ paper: classes.drawer }}
-          >
-            <div className={classes.drawerHeader}>
-              <IconButton
-                onClick={() => history.push('/')}
-                className={classes.backArrowIconContainer}
-                disableRipple
-              >
-                <ArrowBackIcon />
-              </IconButton>
-              <Typography variant="h6" color="inherit" noWrap>
-                {t('reportTitle')}
-              </Typography>
-            </div>
-            <Divider />
-            <ReportSidebar routes={routes} />
-          </Drawer>
-        </div>
+        <Drawer
+          variant="permanent"
+          classes={{ root: classes.drawerContainer, paper: classes.drawer }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton
+              onClick={() => history.push('/')}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" noWrap>
+              {t('reportTitle')}
+            </Typography>
+          </div>
+          <Divider />
+          <SideNav routes={routes} />
+        </Drawer>
       </Hidden>
       <div className={classes.content}>
         <div className={classes.toolbar} />
@@ -126,4 +124,4 @@ const ReportLayoutPage = ({ children, filter }) => {
   );
 };
 
-export default ReportLayoutPage;
+export default ReportLayout;

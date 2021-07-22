@@ -5,7 +5,7 @@ import {
   formatDistance, formatHours, formatDate, formatVolume,
 } from '../common/formatter';
 import ReportFilter from './ReportFilter';
-import ReportLayoutPage from './ReportLayoutPage';
+import ReportLayout from './ReportLayout';
 import { useAttributePreference } from '../common/preferences';
 import t from '../common/localization';
 
@@ -84,7 +84,7 @@ const StopReportPage = () => {
   }];
 
   return (
-    <ReportLayoutPage filter={<Filter setItems={setItems} />}>
+    <ReportLayout filter={<Filter setItems={setItems} />}>
       <DataGrid
         rows={items}
         columns={columns}
@@ -92,7 +92,7 @@ const StopReportPage = () => {
         autoHeight
         getRowId={() => Math.random()}
       />
-    </ReportLayoutPage>
+    </ReportLayout>
   );
 };
 

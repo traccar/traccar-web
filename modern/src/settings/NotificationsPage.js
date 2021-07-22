@@ -3,12 +3,12 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import MainToolbar from '../MainToolbar';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import { prefixString } from '../common/stringUtils';
 import { formatBoolean } from '../common/formatter';
+import OptionsLayout from './OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -73,10 +73,9 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const NotificationsPage = () => (
-  <>
-    <MainToolbar />
+  <OptionsLayout>
     <EditCollectionView content={NotificationsView} editPath="/settings/notification" endpoint="notifications" />
-  </>
+  </OptionsLayout>
 );
 
 export default NotificationsPage;

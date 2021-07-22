@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
-  makeStyles, Paper, Toolbar, Grid, TextField, IconButton, Button,
+  makeStyles, Paper, Toolbar, TextField, IconButton, Button,
 } from '@material-ui/core';
 
 import { useTheme } from '@material-ui/core/styles';
@@ -9,116 +9,77 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ListIcon from '@material-ui/icons/List';
-import ReplayIcon from '@material-ui/icons/Replay';
-import DescriptionIcon from '@material-ui/icons/Description';
-import ShuffleIcon from '@material-ui/icons/Shuffle';
-import PersonIcon from '@material-ui/icons/Person';
+import ListIcon from '@material-ui/icons/ViewList';
 
 import DevicesList from './DevicesList';
-import MainToolbar from './MainToolbar';
 import Map from './map/Map';
 import SelectedDeviceMap from './map/SelectedDeviceMap';
 import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
+import BottomNav from './components/BottomNav';
 import t from './common/localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+  },
+  sidebar: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  drawerPaper: {
-    position: 'relative',
-    [theme.breakpoints.up('sm')]: {
-      width: 350,
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: 250,
-    },
-    overflow: 'hidden',
-  },
-  listContainer: {
     position: 'absolute',
-    left: theme.spacing(1.5),
-    top: theme.spacing(10.5),
+    left: 0,
+    top: 0,
+    margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
+    bottom: theme.spacing(8),
     zIndex: 1301,
-    height: '100%',
-    maxHeight: `calc(100vh - ${theme.spacing(20)}px)`,
+    transition: 'transform .5s ease',
     [theme.breakpoints.down('md')]: {
-      top: theme.spacing(7),
-      left: '0px',
       width: '100%',
-      maxHeight: `calc(100vh - ${theme.spacing(14)}px)`,
+      margin: 0,
+      backgroundColor: 'white',
+    },
+  },
+  sidebarCollapsed: {
+    transform: `translateX(-${theme.dimensions.drawerWidthDesktop})`,
+    marginLeft: 0,
+    [theme.breakpoints.down('md')]: {
+      transform: 'translateX(-100vw)',
     },
   },
   paper: {
     borderRadius: '0px',
   },
   toolbar: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    display: 'flex',
+    padding: theme.spacing(0, 1),
+    '& > *': {
+      margin: theme.spacing(0, 1),
+    },
   },
   deviceList: {
-    height: '100%',
-    backgroundColor: 'transparent',
-    [theme.breakpoints.down('md')]: {
-      backgroundColor: 'white',
-    },
+    flex: 1,
+    overflow: 'auto',
+    padding: theme.spacing(1.5, 0),
   },
-  collapsed: {
-    transform: `translateX(-${360 + 16}px)`,
-    transition: 'transform .5s ease',
-    [theme.breakpoints.down('md')]: {
-      transform: 'translateX(-100vw)',
-    },
-  },
-  uncollapsed: {
-    transform: `translateX(${theme.spacing(1.5)})`,
-    transition: 'transform .5s ease',
-    [theme.breakpoints.down('md')]: {
-      transform: 'translateX(0)',
-    },
-  },
-  deviceButton: {
+  sidebarToggle: {
     position: 'absolute',
-    left: theme.spacing(1),
-    top: theme.spacing(10.5),
+    left: theme.spacing(1.5),
+    top: theme.spacing(3),
     borderRadius: '0px',
+    minWidth: 0,
     [theme.breakpoints.down('md')]: {
       left: theme.spacing(0),
-      top: theme.spacing(7),
     },
   },
-  deviceButtonBackground: {
+  sidebarToggleBg: {
     backgroundColor: 'white',
     color: '#777777',
     '&:hover': {
       backgroundColor: 'white',
     },
-  },
-  bottomMenuContainer: {
-    position: 'absolute',
-    left: theme.spacing(1.5),
-    bottom: theme.spacing(1.5),
-    width: theme.dimensions.drawerWidthDesktop,
-    zIndex: 1301,
-    [theme.breakpoints.down('md')]: {
-      bottom: theme.spacing(0),
-      left: '0px',
-      width: '100%',
-    },
-  },
-  menuButton: {
-    display: 'flex',
-    flexDirection: 'column',
-    fontSize: '0.75rem',
-    fontWeight: 'normal',
-    color: '#222222',
   },
 }));
 
@@ -127,19 +88,23 @@ const MainPage = () => {
   const history = useHistory();
   const theme = useTheme();
 
-  const [deviceName, setDeviceName] = useState();
-  const [collapsed, setCollapsed] = useState(false);
-
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const [deviceName, setDeviceName] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
 
   const handleClose = () => {
     setCollapsed(!collapsed);
   };
 
+  // Collapse sidebar for tablets and phones
+  useEffect(() => {
+    setCollapsed(isTablet);
+  }, [isTablet]);
+
   return (
     <div className={classes.root}>
-      <MainToolbar />
       <Map>
         <CurrentLocationMap />
         <GeofenceMap />
@@ -147,100 +112,51 @@ const MainPage = () => {
         <CurrentPositionsMap />
         <SelectedDeviceMap />
       </Map>
-      {collapsed
-        && (
-        <Button
-          variant="contained"
-          color={isPhone ? 'secondary' : 'primary'}
-          classes={{ containedPrimary: classes.deviceButtonBackground }}
-          className={classes.deviceButton}
-          onClick={handleClose}
-          startIcon={<ListIcon />}
-          disableElevation
-        >
-          {!isPhone ? t('deviceTitle') : ''}
-        </Button>
-        )}
-      <div className={`${classes.listContainer} ${collapsed ? classes.collapsed : classes.uncollapsed}`}>
-        <Grid container direction="column" spacing={isTablet ? 0 : 2} style={{ height: '100%' }}>
-          <Grid item>
-            <Paper className={classes.paper}>
-              <Toolbar className={classes.toolbar} disableGutters>
-                <Grid container direction="row" alignItems="center" spacing={2}>
-                  {isTablet && (
-                  <Grid item>
-                    <IconButton onClick={handleClose}>
-                      <ArrowBackIcon />
-                    </IconButton>
-                  </Grid>
-                  )}
-                  <Grid item xs>
-                    <TextField
-                      fullWidth
-                      name="deviceName"
-                      value={deviceName || ''}
-                      autoComplete="deviceName"
-                      autoFocus
-                      onChange={(event) => setDeviceName(event.target.value)}
-                      placeholder="Search Devices"
-                      variant="filled"
-                    />
-                  </Grid>
-                  <Grid item>
-                    <IconButton onClick={() => history.push('/device')}>
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                  {!isTablet && (
-                  <Grid item>
-                    <IconButton onClick={handleClose}>
-                      <CloseIcon />
-                    </IconButton>
-                  </Grid>
-                  )}
-                </Grid>
-              </Toolbar>
-            </Paper>
-          </Grid>
-          <Grid item xs>
-            <div className={classes.deviceList}>
-              <DevicesList />
-            </div>
-          </Grid>
-        </Grid>
-      </div>
-      <div className={classes.bottomMenuContainer}>
-        <Paper className={classes.paper}>
+      <Button
+        variant="contained"
+        color={isPhone ? 'secondary' : 'primary'}
+        classes={{ containedPrimary: classes.sidebarToggleBg }}
+        className={classes.sidebarToggle}
+        onClick={handleClose}
+        disableElevation
+      >
+        <ListIcon />
+        {!isPhone ? t('deviceTitle') : ''}
+      </Button>
+      <div className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
+        <Paper className={classes.paper} elevation={isTablet ? 3 : 1}>
           <Toolbar className={classes.toolbar} disableGutters>
-            <Grid container justify="space-around">
-              <Grid item>
-                <IconButton classes={{ label: classes.menuButton }}>
-                  <ReplayIcon />
-                  {t('reportReplay')}
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton classes={{ label: classes.menuButton }}>
-                  <DescriptionIcon />
-                  {t('reportTitle')}
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton classes={{ label: classes.menuButton }}>
-                  <ShuffleIcon />
-                  Options
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton classes={{ label: classes.menuButton }}>
-                  <PersonIcon />
-                  {t('settingsUser')}
-                </IconButton>
-              </Grid>
-            </Grid>
+            {isTablet && (
+            <IconButton onClick={handleClose}>
+              <ArrowBackIcon />
+            </IconButton>
+            )}
+            <TextField
+              fullWidth
+              name="deviceName"
+              value={deviceName}
+              autoComplete="deviceName"
+              autoFocus
+              onChange={(event) => setDeviceName(event.target.value)}
+              placeholder="Search Devices"
+              variant="filled"
+            />
+            <IconButton onClick={() => history.push('/device')}>
+              <AddIcon />
+            </IconButton>
+            {!isTablet && (
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+            )}
           </Toolbar>
         </Paper>
+        <div className={classes.deviceList}>
+          <DevicesList />
+        </div>
       </div>
+
+      <BottomNav showOnDesktop />
     </div>
   );
 };

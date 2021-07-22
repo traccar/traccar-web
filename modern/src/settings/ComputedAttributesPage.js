@@ -4,10 +4,10 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useSelector } from 'react-redux';
-import MainToolbar from '../MainToolbar';
 import t from '../common/localization';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
+import OptionsLayout from './OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -65,10 +65,10 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const ComputedAttributesPage = () => (
-  <>
-    <MainToolbar />
+  <OptionsLayout>
+
     <EditCollectionView content={ComputedAttributeView} editPath="/settings/attribute" endpoint="attributes/computed" />
-  </>
+  </OptionsLayout>
 );
 
 export default ComputedAttributesPage;
