@@ -3,21 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SvgIcon from '@material-ui/core/SvgIcon';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import BatteryFullIcon from '@material-ui/icons/BatteryFull';
+import { ReactComponent as IgnitionIcon } from '../public/images/icon/ignition.svg';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
+import { formatPosition } from './common/formatter';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   list: {
     maxHeight: '100%',
   },
@@ -26,29 +29,92 @@ const useStyles = makeStyles(() => ({
     height: '25px',
     filter: 'brightness(0) invert(1)',
   },
+  listItem: {
+    backgroundColor: 'white',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
+  },
+  batteryText: {
+    fontSize: '0.75rem',
+    fontWeight: 'normal',
+    lineHeight: '0.875rem',
+  },
+  green: {
+    color: theme.palette.common.green,
+  },
+  red: {
+    color: theme.palette.common.red,
+  },
+  gray: {
+    color: theme.palette.common.gray,
+  },
+  indicators: {
+    lineHeight: 1,
+  },
 }));
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'online':
+      return 'green';
+    case 'offline':
+      return 'red';
+    case 'unknown':
+    default:
+      return 'gray';
+  }
+};
+
+const getBatteryStatus = (batteryLevel) => {
+  if (batteryLevel >= 70) {
+    return 'green';
+  }
+  if (batteryLevel > 30) {
+    return 'gray';
+  }
+  return 'red';
+};
 
 const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { items, onMenuClick } = data;
+  const { items } = data;
   const item = items[index];
+  const position = useSelector((state) => state.positions.items[item.id]);
+  const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition;
 
   return (
     <div style={style}>
       <Fragment key={index}>
-        <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item))}>
+        <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item))}>
           <ListItemAvatar>
             <Avatar>
               <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={item.name} secondary={item.uniqueId} />
-          <ListItemSecondaryAction>
-            <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
-              <MoreVertIcon />
-            </IconButton>
+          <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
+          <ListItemSecondaryAction className={classes.indicators}>
+            {position && (
+              <Grid container direction="row" alignItems="center" alignContent="center" spacing={2}>
+                {showIgnition && (
+                  <Grid item>
+                    <SvgIcon component={IgnitionIcon} />
+                  </Grid>
+                )}
+                {position.attributes.hasOwnProperty('batteryLevel') && (
+                  <Grid item container xs alignItems="center" alignContent="center">
+                    <Grid item>
+                      <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel')}</span>
+                    </Grid>
+                    <Grid item>
+                      <BatteryFullIcon className={classes[getBatteryStatus(position.attributes.batteryLevel)]} />
+                    </Grid>
+                  </Grid>
+                )}
+              </Grid>
+            )}
           </ListItemSecondaryAction>
         </ListItem>
         {index < items.length - 1 ? <Divider /> : null}
@@ -90,7 +156,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const DevicesList = () => (
-  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" />
+  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd />
 );
 
 export default DevicesList;

@@ -1,74 +1,164 @@
-import React from 'react';
-import { isWidthUp, makeStyles, withWidth } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import ContainerDimensions from 'react-container-dimensions';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import {
+  makeStyles, Paper, Toolbar, TextField, IconButton, Button,
+} from '@material-ui/core';
+
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ListIcon from '@material-ui/icons/ViewList';
+
 import DevicesList from './DevicesList';
-import MainToolbar from './MainToolbar';
 import Map from './map/Map';
 import SelectedDeviceMap from './map/SelectedDeviceMap';
 import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
+import BottomNav from './components/BottomNav';
+import t from './common/localization';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%',
+    height: '100vh',
+  },
+  sidebar: {
     display: 'flex',
     flexDirection: 'column',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    margin: theme.spacing(1.5),
+    width: theme.dimensions.drawerWidthDesktop,
+    bottom: theme.spacing(8),
+    zIndex: 1301,
+    transition: 'transform .5s ease',
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      margin: 0,
+      backgroundColor: 'white',
+    },
   },
-  content: {
-    flexGrow: 1,
-    overflow: 'hidden',
+  sidebarCollapsed: {
+    transform: `translateX(-${theme.dimensions.drawerWidthDesktop})`,
+    marginLeft: 0,
+    [theme.breakpoints.down('md')]: {
+      transform: 'translateX(-100vw)',
+    },
+  },
+  paper: {
+    borderRadius: '0px',
+  },
+  toolbar: {
     display: 'flex',
-    flexDirection: 'row',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column-reverse',
+    padding: theme.spacing(0, 1),
+    '& > *': {
+      margin: theme.spacing(0, 1),
     },
   },
-  drawerPaper: {
-    position: 'relative',
-    [theme.breakpoints.up('sm')]: {
-      width: 350,
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: 250,
-    },
-    overflow: 'hidden',
+  deviceList: {
+    flex: 1,
+    overflow: 'auto',
+    padding: theme.spacing(1.5, 0),
   },
-  mapContainer: {
-    flexGrow: 1,
+  sidebarToggle: {
+    position: 'absolute',
+    left: theme.spacing(1.5),
+    top: theme.spacing(3),
+    borderRadius: '0px',
+    minWidth: 0,
+    [theme.breakpoints.down('md')]: {
+      left: theme.spacing(0),
+    },
+  },
+  sidebarToggleBg: {
+    backgroundColor: 'white',
+    color: '#777777',
+    '&:hover': {
+      backgroundColor: 'white',
+    },
   },
 }));
 
-const MainPage = ({ width }) => {
+const MainPage = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const theme = useTheme();
+
+  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const [deviceName, setDeviceName] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
+
+  const handleClose = () => {
+    setCollapsed(!collapsed);
+  };
+
+  // Collapse sidebar for tablets and phones
+  useEffect(() => {
+    setCollapsed(isTablet);
+  }, [isTablet]);
 
   return (
     <div className={classes.root}>
-      <MainToolbar />
-      <div className={classes.content}>
-        <Drawer
-          anchor={isWidthUp('sm', width) ? 'left' : 'bottom'}
-          variant="permanent"
-          classes={{ paper: classes.drawerPaper }}
-        >
+      <Map>
+        <CurrentLocationMap />
+        <GeofenceMap />
+        <AccuracyMap />
+        <CurrentPositionsMap />
+        <SelectedDeviceMap />
+      </Map>
+      <Button
+        variant="contained"
+        color={isPhone ? 'secondary' : 'primary'}
+        classes={{ containedPrimary: classes.sidebarToggleBg }}
+        className={classes.sidebarToggle}
+        onClick={handleClose}
+        disableElevation
+      >
+        <ListIcon />
+        {!isPhone ? t('deviceTitle') : ''}
+      </Button>
+      <div className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
+        <Paper className={classes.paper} elevation={isTablet ? 3 : 1}>
+          <Toolbar className={classes.toolbar} disableGutters>
+            {isTablet && (
+            <IconButton onClick={handleClose}>
+              <ArrowBackIcon />
+            </IconButton>
+            )}
+            <TextField
+              fullWidth
+              name="deviceName"
+              value={deviceName}
+              autoComplete="deviceName"
+              autoFocus
+              onChange={(event) => setDeviceName(event.target.value)}
+              placeholder="Search Devices"
+              variant="filled"
+            />
+            <IconButton onClick={() => history.push('/device')}>
+              <AddIcon />
+            </IconButton>
+            {!isTablet && (
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+            )}
+          </Toolbar>
+        </Paper>
+        <div className={classes.deviceList}>
           <DevicesList />
-        </Drawer>
-        <div className={classes.mapContainer}>
-          <ContainerDimensions>
-            <Map>
-              <CurrentLocationMap />
-              <GeofenceMap />
-              <AccuracyMap />
-              <CurrentPositionsMap />
-              <SelectedDeviceMap />
-            </Map>
-          </ContainerDimensions>
         </div>
       </div>
+
+      <BottomNav showOnDesktop />
     </div>
   );
 };
 
-export default withWidth()(MainPage);
+export default MainPage;
