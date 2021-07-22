@@ -83,7 +83,7 @@ const DeviceRow = ({ data, index, style }) => {
   const { items } = data;
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
-  const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition
+  const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition;
 
   return (
     <div style={style}>
