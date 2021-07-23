@@ -76,6 +76,18 @@ const getBatteryStatus = (batteryLevel) => {
   return 'red';
 };
 
+const getStatusColorIcon = (item) => {
+  if (item.status === 'online') {
+    return 'green';
+  }
+  if (item.status === 'offline') {
+    return 'red';
+  }
+  if (item.status === 'unknown') {
+    return 'gray';
+  }
+}
+
 const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -90,7 +102,7 @@ const DeviceRow = ({ data, index, style }) => {
       <Fragment key={index}>
         <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item))}>
           <ListItemAvatar>
-            <Avatar>
+            <Avatar style={{ background: getStatusColorIcon(item) }}>
               <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
             </Avatar>
           </ListItemAvatar>
