@@ -151,7 +151,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
             height={height}
             itemCount={items.length}
             itemData={{ items, onMenuClick }}
-            itemSize={72 + 1}
+            itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}
           >
