@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(8),
     zIndex: 1301,
     transition: 'transform .5s ease',
+    backgroundColor: 'white',
     [theme.breakpoints.down('md')]: {
       width: '100%',
       margin: 0,
-      backgroundColor: 'white',
     },
   },
   sidebarCollapsed: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    borderRadius: '0px',
+    zIndex: 1,
   },
   toolbar: {
     display: 'flex',
@@ -61,8 +61,6 @@ const useStyles = makeStyles((theme) => ({
   },
   deviceList: {
     flex: 1,
-    overflow: 'auto',
-    padding: theme.spacing(1.5, 0),
   },
   sidebarToggle: {
     position: 'absolute',
@@ -71,7 +69,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '0px',
     minWidth: 0,
     [theme.breakpoints.down('md')]: {
-      left: theme.spacing(0),
+      left: 0,
+    },
+  },
+  sidebarToggleText: {
+    marginLeft: theme.spacing(1),
+    [theme.breakpoints.only('xs')]: {
+      display: 'none',
     },
   },
   sidebarToggleBg: {
@@ -121,10 +125,10 @@ const MainPage = () => {
         disableElevation
       >
         <ListIcon />
-        {!isPhone ? t('deviceTitle') : ''}
+        <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
       </Button>
-      <div className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
-        <Paper className={classes.paper} elevation={isTablet ? 3 : 1}>
+      <Paper elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
+        <Paper className={classes.paper} square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {isTablet && (
             <IconButton onClick={handleClose}>
@@ -154,7 +158,7 @@ const MainPage = () => {
         <div className={classes.deviceList}>
           <DevicesList />
         </div>
-      </div>
+      </Paper>
 
       <BottomNav showOnDesktop />
     </div>
