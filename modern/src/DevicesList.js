@@ -77,14 +77,14 @@ const getBatteryStatus = (batteryLevel) => {
 };
 
 const getStatusColorIcon = (item) => {
-  if (item.status === 'online') {
-    return 'green';
-  }
-  if (item.status === 'offline') {
-    return 'red';
-  }
-  if (item.status === 'unknown') {
-    return 'gray';
+  switch (item.status) {
+    case 'online':
+      return 'green';
+    case 'offline':
+      return 'red';
+    case 'unknown':
+    default:
+      return 'gray';
   }
 }
 
