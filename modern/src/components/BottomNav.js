@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
       width: theme.dimensions.drawerWidthDesktop,
     },
   },
-  paper: {
-    borderRadius: '0px',
-  },
   toolbar: {
     padding: theme.spacing(0, 2),
     display: 'flex',
@@ -71,7 +68,7 @@ const BottomNav = ({ showOnDesktop }) => {
 
   return (
     <div className={classes.container}>
-      <Paper className={classes.paper} elevation={isDesktop ? 1 : 3}>
+      <Paper square elevation={3}>
         <Toolbar className={classes.toolbar} disableGutters>
 
           {isDesktop ? (

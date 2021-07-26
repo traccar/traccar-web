@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -19,10 +18,15 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
+import { getDevices, getPosition } from './common/selectors';
 
 const useStyles = makeStyles((theme) => ({
   list: {
     maxHeight: '100%',
+  },
+  listInner: {
+    position: 'relative',
+    margin: theme.spacing(1.5, 0),
   },
   icon: {
     width: '25px',
@@ -82,43 +86,40 @@ const DeviceRow = ({ data, index, style }) => {
 
   const { items } = data;
   const item = items[index];
-  const position = useSelector((state) => state.positions.items[item.id]);
+  const position = useSelector(getPosition(item.id));
   const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition;
 
   return (
     <div style={style}>
-      <Fragment key={index}>
-        <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item))}>
-          <ListItemAvatar>
-            <Avatar>
-              <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
-          <ListItemSecondaryAction className={classes.indicators}>
-            {position && (
-              <Grid container direction="row" alignItems="center" alignContent="center" spacing={2}>
-                {showIgnition && (
-                  <Grid item>
-                    <SvgIcon component={IgnitionIcon} />
-                  </Grid>
-                )}
-                {position.attributes.hasOwnProperty('batteryLevel') && (
-                  <Grid item container xs alignItems="center" alignContent="center">
-                    <Grid item>
-                      <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel')}</span>
-                    </Grid>
-                    <Grid item>
-                      <BatteryFullIcon className={classes[getBatteryStatus(position.attributes.batteryLevel)]} />
-                    </Grid>
-                  </Grid>
-                )}
-              </Grid>
+      <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item))}>
+        <ListItemAvatar>
+          <Avatar>
+            <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
+        <ListItemSecondaryAction className={classes.indicators}>
+          {position && (
+          <Grid container direction="row" alignItems="center" alignContent="center" spacing={2}>
+            {showIgnition && (
+            <Grid item>
+              <SvgIcon component={IgnitionIcon} />
+            </Grid>
             )}
-          </ListItemSecondaryAction>
-        </ListItem>
-        {index < items.length - 1 ? <Divider /> : null}
-      </Fragment>
+            {position.attributes.hasOwnProperty('batteryLevel') && (
+            <Grid item container xs alignItems="center" alignContent="center">
+              <Grid item>
+                <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel')}</span>
+              </Grid>
+              <Grid item>
+                <BatteryFullIcon className={classes[getBatteryStatus(position.attributes.batteryLevel)]} />
+              </Grid>
+            </Grid>
+            )}
+          </Grid>
+          )}
+        </ListItemSecondaryAction>
+      </ListItem>
     </div>
   );
 };
@@ -126,8 +127,13 @@ const DeviceRow = ({ data, index, style }) => {
 const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const listInnerEl = useRef(null);
 
-  const items = useSelector((state) => Object.values(state.devices.items));
+  const items = useSelector(getDevices);
+
+  if (listInnerEl.current) {
+    listInnerEl.current.className = classes.listInner;
+  }
 
   useEffectAsync(async () => {
     const response = await fetch('/api/devices');
@@ -145,7 +151,9 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
             height={height}
             itemCount={items.length}
             itemData={{ items, onMenuClick }}
-            itemSize={72 + 1}
+            itemSize={72}
+            overscanCount={10}
+            innerRef={listInnerEl}
           >
             {DeviceRow}
           </FixedSizeList>
