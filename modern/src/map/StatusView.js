@@ -2,10 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import t from '../common/localization';
 import { formatPosition } from '../common/formatter';
+import { getPosition } from '../common/selectors';
 
 const StatusView = ({ deviceId, onShowDetails }) => {
   const device = useSelector((state) => state.devices.items[deviceId]);
-  const position = useSelector((state) => state.positions.items[deviceId]);
+  const position = useSelector(getPosition(deviceId));
 
   const handleClick = (e) => {
     e.preventDefault();

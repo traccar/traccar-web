@@ -18,7 +18,7 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
-import { getDevices, getItemPosition } from './common/selectors';
+import { getDevices, getPosition } from './common/selectors';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -86,7 +86,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   const { items } = data;
   const item = items[index];
-  const position = useSelector(getItemPosition(item.id));
+  const position = useSelector(getPosition(item.id));
   const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition;
 
   return (
