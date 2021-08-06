@@ -19,7 +19,6 @@ import {
 import { useAttributePreference } from '../common/preferences';
 import RemoveDialog from '../RemoveDialog';
 import t from '../common/localization';
-import { formatPosition } from '../common/formatter';
 import { getPosition } from '../common/selectors';
 
 const useStyles = makeStyles((theme) => ({
