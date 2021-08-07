@@ -98,3 +98,25 @@ export const formatCoordinate = (key, value, unit) => {
       return `${value.toFixed(6)}°`;
   }
 };
+
+export const getStatusColor = (status) => {
+  switch (status) {
+    case 'online':
+      return 'green';
+    case 'offline':
+      return 'red';
+    case 'unknown':
+    default:
+      return 'gray';
+  }
+};
+
+export const getBatteryStatus = (batteryLevel) => {
+  if (batteryLevel >= 70) {
+    return 'green';
+  }
+  if (batteryLevel > 30) {
+    return 'gray';
+  }
+  return 'red';
+};

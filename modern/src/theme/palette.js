@@ -18,4 +18,15 @@ export default {
     main: traccarGreen,
     contrastText: traccarWhite,
   },
+  colors: {
+    red: {
+      color: traccarRed,
+    },
+    green: {
+      color: traccarGreen,
+    },
+    gray: {
+      color: traccarGray,
+    },
+  },
 };

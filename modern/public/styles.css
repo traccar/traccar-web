@@ -10,3 +10,7 @@ canvas {
 .mapboxgl-ctrl {
   margin: 10px;
 }
+
+.maplibregl-popup {
+  max-width: 330px !important;
+}

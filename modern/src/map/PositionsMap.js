@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
 import maplibregl from 'maplibre-gl';
 import { Provider, useSelector } from 'react-redux';
 
@@ -7,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { map } from './Map';
 import store from '../store';
 import StatusView from './StatusView';
+import theme from '../theme';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
@@ -49,7 +51,14 @@ const PositionsMap = ({ positions }) => {
     const placeholder = document.createElement('div');
     ReactDOM.render(
       <Provider store={store}>
-        <StatusView deviceId={feature.properties.deviceId} onShowDetails={(positionId) => history.push(`/position/${positionId}`)} />
+        <ThemeProvider theme={theme}>
+          <StatusView
+            deviceId={feature.properties.deviceId}
+            onShowDetails={(positionId) => history.push(`/position/${positionId}`)}
+            onShowHistory={() => history.push('/replay')}
+            onEditClick={(deviceId) => history.push(`/device/${deviceId}`)}
+          />
+        </ThemeProvider>
       </Provider>,
       placeholder,
     );
