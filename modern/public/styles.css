@@ -12,5 +12,5 @@ canvas {
 }
 
 .maplibregl-popup {
-  max-width: 330px!important;
+  max-width: 330px !important;
 }
