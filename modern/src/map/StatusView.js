@@ -25,15 +25,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: '300px',
   },
-  green: {
-    color: theme.palette.common.green,
-  },
-  red: {
-    color: theme.palette.common.red,
-  },
-  gray: {
-    color: theme.palette.common.gray,
-  },
+  ...theme.palette.colors,
   listItemContainer: {
     maxWidth: '240px',
   },
