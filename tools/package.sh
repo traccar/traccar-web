@@ -2,7 +2,9 @@
 
 cd $(dirname $0)
 
-rm -r ../web/lib
+cd ..
+
+rm -r web/lib
 npm install
 npm run build
 
