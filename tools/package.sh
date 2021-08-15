@@ -5,7 +5,7 @@ cd $(dirname $0)
 cd ..
 
 rm -r web/lib
-npm install
+npm install --unsafe-perm
 npm run build
 
 cd modern
