@@ -8,7 +8,7 @@ rm -r web/lib
 npm install
 npm run build
 
-cd ../modern
+cd modern
 
 rm -r ../web/modern
 npm install
