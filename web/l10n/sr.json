@@ -265,6 +265,7 @@
     "mapShapeCircle": "Krug",
     "mapShapePolyline": "Višelinijski",
     "mapLiveRoutes": "Validne rute",
+    "mapCurrentLocation": "Trenutna lokacija",
     "mapPoiLayer": "POI sloj",
     "stateTitle": "Stanje",
     "stateName": "Parametar",

@@ -265,6 +265,7 @@
     "mapShapeCircle": "Apskritimas",
     "mapShapePolyline": "Polilinija",
     "mapLiveRoutes": "Tiesioginiai maršrutai",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "Lankytinų vietų sluoksnis",
     "stateTitle": "Būklė",
     "stateName": "Parametras",

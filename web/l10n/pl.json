@@ -265,6 +265,7 @@
     "mapShapeCircle": "Okrąg",
     "mapShapePolyline": "Krzywa",
     "mapLiveRoutes": "Ścieżki na żywo",
+    "mapCurrentLocation": "Aktualna lokalizacja",
     "mapPoiLayer": "Warstwa POI",
     "stateTitle": "Stan i lokalizacja",
     "stateName": "Właściwość",

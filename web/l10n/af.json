@@ -265,6 +265,7 @@
     "mapShapeCircle": "Sirkel",
     "mapShapePolyline": "Veelhoeklyn",
     "mapLiveRoutes": "Lewendige Routes",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Vlak",
     "stateTitle": "Toestand",
     "stateName": "Attribuut",

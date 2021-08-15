@@ -265,6 +265,7 @@
     "mapShapeCircle": "Çember",
     "mapShapePolyline": "Çizim",
     "mapLiveRoutes": "Canlı Takip",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Katmanı",
     "stateTitle": "Bölge",
     "stateName": "Özellik",

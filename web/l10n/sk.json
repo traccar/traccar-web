@@ -265,6 +265,7 @@
     "mapShapeCircle": "Kruh",
     "mapShapePolyline": "Lomená čiara",
     "mapLiveRoutes": "Live Routes",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "Parametre",
     "stateName": "Parameter",

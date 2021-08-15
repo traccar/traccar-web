@@ -265,6 +265,7 @@
     "mapShapeCircle": "Kreis",
     "mapShapePolyline": "Polylinie",
     "mapLiveRoutes": "Live Route",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Ebene",
     "stateTitle": "Status",
     "stateName": "Parameter",

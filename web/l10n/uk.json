@@ -265,6 +265,7 @@
     "mapShapeCircle": "Коло",
     "mapShapePolyline": "Лінія",
     "mapLiveRoutes": "Поточні маршрути",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "Шар POI",
     "stateTitle": "Стан",
     "stateName": "Атрибут",

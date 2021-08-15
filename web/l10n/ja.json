@@ -265,6 +265,7 @@
     "mapShapeCircle": "円形",
     "mapShapePolyline": "折れ線形",
     "mapLiveRoutes": "リアルタイム経路",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI レイヤー",
     "stateTitle": "詳細",
     "stateName": "属性",

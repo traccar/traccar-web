@@ -265,6 +265,7 @@
     "mapShapeCircle": "Ympyrä",
     "mapShapePolyline": "Murtoviiva",
     "mapLiveRoutes": "Live-reitit",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "Kohdepistetaso",
     "stateTitle": "Tila",
     "stateName": "Ominaisuus",

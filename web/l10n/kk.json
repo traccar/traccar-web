@@ -265,6 +265,7 @@
     "mapShapeCircle": "Шеңбер",
     "mapShapePolyline": "Сызық",
     "mapLiveRoutes": "Нақты бағыттар",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "Жай күйі",
     "stateName": "Параметрі",
