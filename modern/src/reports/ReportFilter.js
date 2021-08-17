@@ -6,10 +6,12 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../LocalizationProvider';
 
-const ReportFilter = ({ children, handleSubmit, showOnly }) => {
+const ReportFilter = ({
+  children, handleSubmit, showOnly, fullScreen,
+}) => {
   const t = useTranslation();
-
   const devices = useSelector((state) => Object.values(state.devices.items));
+
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
@@ -59,9 +61,23 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
     );
   };
 
+  const GridItem = ({ children }) => (
+    <>
+      {fullScreen ? (
+        <Grid item xs={6} sm={6}>
+          {children}
+        </Grid>
+      ) : (
+        <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
+          {children}
+        </Grid>
+      )}
+    </>
+  );
+
   return (
     <Grid container spacing={2} justify="flex-end">
-      <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
+      <GridItem>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportDevice')}</InputLabel>
           <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
@@ -70,8 +86,8 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
             ))}
           </Select>
         </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
+      </GridItem>
+      <GridItem>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
           <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -84,9 +100,9 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
             <MenuItem value="custom">{t('reportCustom')}</MenuItem>
           </Select>
         </FormControl>
-      </Grid>
+      </GridItem>
       {period === 'custom' && (
-      <Grid item xs={12} sm={3}>
+      <GridItem>
         <TextField
           variant="filled"
           label={t('reportFrom')}
@@ -95,10 +111,10 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
           onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
           fullWidth
         />
-      </Grid>
+      </GridItem>
       )}
       {period === 'custom' && (
-      <Grid item xs={12} sm={3}>
+      <GridItem>
         <TextField
           variant="filled"
           label={t('reportTo')}
@@ -107,45 +123,56 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
           onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
           fullWidth
         />
-      </Grid>
+      </GridItem>
       )}
       {children}
-      <Grid item xs={!showOnly ? 4 : 12} sm={!showOnly ? 2 : 6}>
-        <Button
-          onClick={() => handleClick(false, true)}
-          variant="outlined"
-          color="secondary"
-          fullWidth
-        >
-          {t('reportShow')}
-        </Button>
-      </Grid>
-      {!showOnly
-        && (
-        <Grid item xs={4} sm={2}>
+      {fullScreen ? (
+        <Grid item xs={12}>
           <Button
-            onClick={() => handleClick(false, false)}
+            onClick={() => handleClick(false, true)}
+            variant="contained"
+            color="secondary"
+            fullWidth
+          >
+            {t('reportShow')}
+          </Button>
+        </Grid>
+      ) : (
+        <Grid item xs={!showOnly ? 4 : 12} sm={!showOnly ? 2 : 6}>
+          <Button
+            onClick={() => handleClick(false, true)}
             variant="outlined"
             color="secondary"
             fullWidth
           >
-            {t('reportExport')}
+            {t('reportShow')}
           </Button>
         </Grid>
-        )}
-      {!showOnly
-        && (
-        <Grid item xs={4} sm={2}>
-          <Button
-            onClick={() => handleClick(true, false)}
-            variant="outlined"
-            color="secondary"
-            fullWidth
-          >
-            <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
-          </Button>
-        </Grid>
-        )}
+      )}
+      {!showOnly && (
+        <>
+          <Grid item xs={4} sm={2}>
+            <Button
+              onClick={() => handleClick(false, false)}
+              variant="outlined"
+              color="secondary"
+              fullWidth
+            >
+              {t('reportExport')}
+            </Button>
+          </Grid>
+          <Grid item xs={4} sm={2}>
+            <Button
+              onClick={() => handleClick(true, false)}
+              variant="outlined"
+              color="secondary"
+              fullWidth
+            >
+              <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
+            </Button>
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };
