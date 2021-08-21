@@ -38,7 +38,7 @@ export class SwitcherControl {
         }
         this.beforeSwitch();
         let uri = srcElement.dataset.uri;
-        Object.entries(this.variables).forEach(([key, value]) => uri = uri.replaceAll(`\$\{${key}\}`, value));
+        Object.entries(this.variables).forEach(([key, value]) => uri = uri.replaceAll(`$\{${key}}`, value));
         this.map.setStyle(uri);
         this.afterSwitch();
         this.mapStyleContainer.style.display = 'none';
