@@ -7,7 +7,9 @@ import React, {
 import { SwitcherControl } from './switcher/switcher';
 import deviceCategories from '../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
-import { styleCarto, styleMapbox, styleMapTiler, styleOsm } from './mapStyles';
+import {
+  styleCarto, styleMapbox, styleMapTiler, styleOsm,
+} from './mapStyles';
 import t from '../common/localization';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
@@ -73,7 +75,7 @@ const switcher = new SwitcherControl(
     { title: t('mapMapboxStreets'), uri: styleMapbox('streets-v11') },
     { title: t('mapMapboxOutdoors'), uri: styleMapbox('outdoors-v11') },
     { title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
-    { title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', '${mapTilerKey}') },
+    { title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', '{mapTilerKey}') },
   ],
   t('mapOsm'),
   () => updateReadyValue(false),

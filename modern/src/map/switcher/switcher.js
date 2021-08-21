@@ -39,7 +39,7 @@ export class SwitcherControl {
         this.beforeSwitch();
         let uri = JSON.parse(srcElement.dataset.uri);
         if (typeof uri === 'string') {
-          Object.entries(this.variables).forEach(([key, value]) => uri = uri.replaceAll(`$\{${key}}`, value));
+          Object.entries(this.variables).forEach(([key, value]) => uri = uri.replaceAll(`\{${key}}`, value));
         }
         this.map.setStyle(uri);
         this.afterSwitch();
