@@ -261,6 +261,7 @@
     "mapMapboxStreets": "Mapbox Streets",
     "mapMapboxOutdoors": "Mapbox Outdoors",
     "mapMapboxSatellite": "Mapbox Satellite",
+    "mapMapTilerBasic": "MapTiler Basic",
     "mapShapePolygon": "Polygon",
     "mapShapeCircle": "Circle",
     "mapShapePolyline": "Polyline",

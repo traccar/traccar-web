@@ -7,7 +7,7 @@ import React, {
 import { SwitcherControl } from './switcher/switcher';
 import deviceCategories from '../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
-import { styleCarto, styleMapbox, styleOsm } from './mapStyles';
+import { styleCarto, styleMapbox, styleMapTiler, styleOsm } from './mapStyles';
 import t from '../common/localization';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
@@ -64,13 +64,14 @@ map.addControl(new maplibregl.NavigationControl({
   showCompass: false,
 }));
 
-map.addControl(new SwitcherControl(
+const switcher = new SwitcherControl(
   [
     { title: t('mapOsm'), uri: styleOsm() },
     { title: t('mapCarto'), uri: styleCarto() },
     { title: t('mapMapboxStreets'), uri: styleMapbox('streets-v11') },
     { title: t('mapMapboxOutdoors'), uri: styleMapbox('outdoors-v11') },
     { title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
+    { title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', '${mapTilerKey}') },
   ],
   t('mapOsm'),
   () => updateReadyValue(false),
@@ -84,7 +85,9 @@ map.addControl(new SwitcherControl(
     };
     waiting();
   },
-));
+);
+
+map.addControl(switcher);
 
 const Map = ({ children }) => {
   const containerEl = useRef(null);
@@ -96,6 +99,12 @@ const Map = ({ children }) => {
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
   }, [mapboxAccessToken]);
+
+  const mapTilerKey = useAttributePreference('mapTilerKey');
+
+  useEffect(() => {
+    switcher.setVariable('mapTilerKey', mapTilerKey);
+  }, [mapTilerKey]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);
