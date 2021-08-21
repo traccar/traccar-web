@@ -40,21 +40,23 @@ const updateReadyValue = (value) => {
 
 const initMap = async () => {
   if (ready) return;
-  const background = await loadImage('images/background.svg');
-  map.addImage('background', await prepareIcon(background), {
-    pixelRatio: window.devicePixelRatio,
-  });
-  await Promise.all(deviceCategories.map(async (category) => {
-    const results = [];
-    ['green', 'red', 'gray'].forEach((color) => {
-      results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
-        map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
-          pixelRatio: window.devicePixelRatio,
-        });
-      }));
+  if (!map.hasImage('background')) {
+    const background = await loadImage('images/background.svg');
+    map.addImage('background', await prepareIcon(background), {
+      pixelRatio: window.devicePixelRatio,
     });
-    await Promise.all(results);
-  }));
+    await Promise.all(deviceCategories.map(async (category) => {
+      const results = [];
+      ['green', 'red', 'gray'].forEach((color) => {
+        results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
+          map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
+            pixelRatio: window.devicePixelRatio,
+          });
+        }));
+      });
+      await Promise.all(results);
+    }));
+  }
   updateReadyValue(true);
 };
 
