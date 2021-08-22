@@ -76,6 +76,7 @@ const switcher = new SwitcherControl(
     { title: t('mapMapboxOutdoors'), uri: styleMapbox('outdoors-v11') },
     { title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
     { title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', '{mapTilerKey}') },
+    { title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', '{mapTilerKey}') },
   ],
   t('mapOsm'),
   () => updateReadyValue(false),
