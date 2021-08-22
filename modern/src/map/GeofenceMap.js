@@ -56,10 +56,18 @@ const GeofenceMap = () => {
     });
 
     return () => {
-      map.removeLayer('geofences-fill');
-      map.removeLayer('geofences-line');
-      map.removeLayer('geofences-title');
-      map.removeSource(id);
+      if (map.getLayer('geofences-fill')) {
+        map.removeLayer('geofences-fill');
+      }
+      if (map.getLayer('geofences-line')) {
+        map.removeLayer('geofences-line');
+      }
+      if (map.getLayer('geofences-title')) {
+        map.removeLayer('geofences-title');
+      }
+      if (map.getSource(id)) {
+        map.removeSource(id);
+      }
     };
   }, []);
 

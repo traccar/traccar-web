@@ -148,9 +148,15 @@ const PositionsMap = ({ positions }) => {
       map.off('click', id, onMarkerClick);
       map.off('click', clusters, onClusterClick);
 
-      map.removeLayer(id);
-      map.removeLayer(clusters);
-      map.removeSource(id);
+      if (map.getLayer(id)) {
+        map.removeLayer(id);
+      }
+      if (map.getLayer(clusters)) {
+        map.removeLayer(clusters);
+      }
+      if (map.getSource(id)) {
+        map.removeSource(id);
+      }
     };
   }, [onMarkerClick]);
 
