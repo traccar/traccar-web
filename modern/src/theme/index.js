@@ -7,10 +7,6 @@ const theme = createMuiTheme({
   palette,
   overrides,
   dimensions,
-  typography : {
-    fontFamily : 'IranSans'
-  }
-  // direction  : 'rtl'
 });
 
 export default theme;

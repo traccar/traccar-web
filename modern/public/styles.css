@@ -14,8 +14,3 @@ canvas {
 .maplibregl-popup {
   max-width: 330px !important;
 }
-
-@font-face {
-  font-family: IranSans;
-  src: url('fonts/IRANSansWeb\(FaNum\).ttf');
-}
