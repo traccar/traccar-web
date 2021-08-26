@@ -38,12 +38,13 @@ import ResetPasswordForm from './components/registration/ResetPasswordForm';
 import theme from './theme';
 import GeofencesPage from './GeofencesPage';
 import GeofencePage from './GeofencePage';
+import { LocalizationProvider } from './common/localization';
 
 const App = () => {
   const initialized = useSelector((state) => !!state.session.server && !!state.session.user);
 
   return (
-    <ThemeProvider theme={theme}>
+    <LocalizationProvider>
       <CssBaseline />
       <SocketController />
       <CachingController />
@@ -84,7 +85,8 @@ const App = () => {
           )}
         </Route>
       </Switch>
-    </ThemeProvider>
+    </LocalizationProvider>
+
   );
 };
 

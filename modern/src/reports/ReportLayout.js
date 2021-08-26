@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden,
+  Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden, useTheme,
 } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
@@ -10,6 +10,7 @@ import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import SideNav from '../components/SideNav';
 import NavBar from '../components/NavBar';
@@ -66,6 +67,7 @@ const ReportLayout = ({ children, filter }) => {
   const location = useLocation();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [reportTitle, setReportTitle] = useState();
+  const theme = useTheme();
 
   useEffect(() => {
     routes.forEach((route) => {
@@ -103,7 +105,7 @@ const ReportLayout = ({ children, filter }) => {
             <IconButton
               onClick={() => history.push('/')}
             >
-              <ArrowBackIcon />
+              {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               {t('reportTitle')}

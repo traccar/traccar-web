@@ -9,6 +9,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ListIcon from '@material-ui/icons/ViewList';
 
 import DevicesList from './DevicesList';
@@ -131,9 +132,9 @@ const MainPage = () => {
         <Paper className={classes.paper} square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {isTablet && (
-            <IconButton onClick={handleClose}>
-              <ArrowBackIcon />
-            </IconButton>
+              <IconButton onClick={handleClose}>
+                {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+              </IconButton>
             )}
             <TextField
               fullWidth
@@ -149,9 +150,9 @@ const MainPage = () => {
               <AddIcon />
             </IconButton>
             {!isTablet && (
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
             )}
           </Toolbar>
         </Paper>
