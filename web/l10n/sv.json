@@ -265,6 +265,7 @@
     "mapShapeCircle": "Cirkel",
     "mapShapePolyline": "Polyline",
     "mapLiveRoutes": "Liverutter",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "Status",
     "stateName": "Attribut",

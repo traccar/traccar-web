@@ -265,6 +265,7 @@
     "mapShapeCircle": "วงกลม",
     "mapShapePolyline": "โพลีไลน์",
     "mapLiveRoutes": "เส้นทาง Live",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "สถานะ",
     "stateName": "พารามิเตอร์",

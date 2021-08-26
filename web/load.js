@@ -156,36 +156,22 @@
         navigator.__defineGetter__('userAgent', function () { return __originalUserAgent.replace(/\/OPR[^)]*/g, ''); });
     }
 
-    extjsVersion = '6.2.0';
-    olVersion = '6.5.0';
-    olLayerSwitcherVersion = '3.8.3';
-    proj4jsVersion = '2.6.0';
+    addScriptFile('lib/extjs/ext-all.js');
+    addScriptFile('lib/extjs/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
 
-    if (debugMode) {
-        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/ext-all-debug.js');
-        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/charts-debug.js');
-    } else {
-        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/ext-all.js');
-        addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/charts.js');
-    }
-    addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/locale/locale-' + locale.languages[locale.language].code + '.js');
+    addStyleFile('lib/extjs/classic/theme-triton/resources/theme-triton-all.css');
+    addScriptFile('lib/extjs/classic/theme-triton/theme-triton.js');
 
-    addStyleFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/theme-triton/resources/theme-triton-all.css');
-    addScriptFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/classic/theme-triton/theme-triton.js');
+    addScriptFile('lib/extjs/packages/charts/classic/charts.js');
+    addStyleFile('lib/extjs/packages/charts/classic/triton/resources/charts-all.css');
 
-    addStyleFile('https://cdn.traccar.com/js/extjs/' + extjsVersion + '/packages/charts/classic/triton/resources/charts-all.css');
+    addStyleFile('lib/ol/ol.css');
+    addScriptFile('lib/ol/ol.js');
 
-    addStyleFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.css');
-    addScriptFile('https://cdn.traccar.com/js/ol/' + olVersion + '/ol.js');
+    addStyleFile('lib/ol-layerswitcher/ol-layerswitcher.css');
+    addScriptFile('lib/ol-layerswitcher/ol-layerswitcher.js');
 
-    addStyleFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.css');
-    addScriptFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.js');
-
-    if (debugMode) {
-        addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4-src.js');
-    } else {
-        addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4.js');
-    }
+    addScriptFile('lib/proj4/proj4.js');
 
     window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
         'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter'];

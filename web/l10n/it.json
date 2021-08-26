@@ -265,6 +265,7 @@
     "mapShapeCircle": "Cerchio",
     "mapShapePolyline": "Polylinea",
     "mapLiveRoutes": "Diretta Tragitti",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "Layer POI",
     "stateTitle": "Stato",
     "stateName": "Attributo",

@@ -31,8 +31,12 @@ const ReplayPathMap = ({ positions }) => {
     });
 
     return () => {
-      map.removeLayer(id);
-      map.removeSource(id);
+      if (map.getLayer(id)) {
+        map.removeLayer(id);
+      }
+      if (map.getSource(id)) {
+        map.removeSource(id);
+      }
     };
   }, []);
 

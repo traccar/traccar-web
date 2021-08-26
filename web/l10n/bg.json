@@ -265,6 +265,7 @@
     "mapShapeCircle": "Кръг",
     "mapShapePolyline": "Линия",
     "mapLiveRoutes": "Маршрут",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI слой",
     "stateTitle": "Състояние",
     "stateName": "Параметър",

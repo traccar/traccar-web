@@ -265,6 +265,7 @@
     "mapShapeCircle": "Cerc",
     "mapShapePolyline": "Polilinie",
     "mapLiveRoutes": "Rute in timp real",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI ",
     "stateTitle": "Stare",
     "stateName": "Atribut",

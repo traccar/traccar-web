@@ -2,9 +2,13 @@
 
 cd $(dirname $0)
 
-./minify.sh
+cd ..
 
-cd ../modern
+rm -r web/lib
+npm install --unsafe-perm
+npm run build
+
+cd modern
 
 rm -r ../web/modern
 npm install

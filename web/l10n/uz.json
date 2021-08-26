@@ -265,6 +265,7 @@
     "mapShapeCircle": "Айлана",
     "mapShapePolyline": "Чизиқ",
     "mapLiveRoutes": "Амалдаги маршрутлар",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "Ҳолат",
     "stateName": "Параметр",

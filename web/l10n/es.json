@@ -265,6 +265,7 @@
     "mapShapeCircle": "Círculo",
     "mapShapePolyline": "Polilínea",
     "mapLiveRoutes": "Rutas en vivo",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "Capa POI",
     "stateTitle": "Estado",
     "stateName": "Parámetro",

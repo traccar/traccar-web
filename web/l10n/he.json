@@ -265,6 +265,7 @@
     "mapShapeCircle": "מעגל",
     "mapShapePolyline": "צלע",
     "mapLiveRoutes": "מסלול נסיעה",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "שכבת נק' עניין",
     "stateTitle": "מצב",
     "stateName": "תכונה",

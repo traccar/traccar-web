@@ -265,6 +265,7 @@
     "mapShapeCircle": "دائرة",
     "mapShapePolyline": "متعدد الضلوع",
     "mapLiveRoutes": "مسار حي",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "طبقة POI نقاط الإهتمام",
     "stateTitle": "حالة",
     "stateName": "خاصية",

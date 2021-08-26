@@ -265,6 +265,7 @@
     "mapShapeCircle": "வட்டம்",
     "mapShapePolyline": "பாலிலைன்",
     "mapLiveRoutes": "நேரடி வழிகள்",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI லேயர்",
     "stateTitle": "நிலை",
     "stateName": "சாட்டு",

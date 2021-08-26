@@ -183,6 +183,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         if (typeof target === 'string') {
             target = Ext.get(target).dom;
         }
+        target.focus();
 
         this.map.on('pointermove', function (e) {
             var hit = this.forEachFeatureAtPixel(e.pixel, function () {

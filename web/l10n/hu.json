@@ -265,6 +265,7 @@
     "mapShapeCircle": "Kör",
     "mapShapePolyline": "Vonallánc",
     "mapLiveRoutes": "Élő útvonalak",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI réteg",
     "stateTitle": "Helyzet",
     "stateName": "Paraméter",

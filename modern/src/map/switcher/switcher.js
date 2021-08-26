@@ -5,10 +5,15 @@ export class SwitcherControl {
     this.beforeSwitch = beforeSwitch;
     this.afterSwitch = afterSwitch;
     this.onDocumentClick = this.onDocumentClick.bind(this);
+    this.variables = {};
   }
 
   getDefaultPosition() {
     return 'top-right';
+  }
+
+  setVariable(key, value) {
+    this.variables[key] = value;
   }
 
   onAdd(map) {
@@ -32,7 +37,11 @@ export class SwitcherControl {
           return;
         }
         this.beforeSwitch();
-        this.map.setStyle(JSON.parse(srcElement.dataset.uri));
+        let uri = JSON.parse(srcElement.dataset.uri);
+        if (typeof uri === 'string') {
+          Object.entries(this.variables).forEach(([key, value]) => uri = uri.replaceAll(`\{${key}}`, value));
+        }
+        this.map.setStyle(uri);
         this.afterSwitch();
         this.mapStyleContainer.style.display = 'none';
         this.styleButton.style.display = 'block';

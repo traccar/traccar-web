@@ -265,6 +265,7 @@
     "mapShapeCircle": "원형",
     "mapShapePolyline": "폴리라인",
     "mapLiveRoutes": "실시간 경로",
+    "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "상태",
     "stateName": "속성",

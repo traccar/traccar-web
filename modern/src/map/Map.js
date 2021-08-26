@@ -60,7 +60,7 @@ const initMap = async () => {
 
 map.on('load', initMap);
 
-const switchingControl = new SwitcherControl(
+const switcher = new SwitcherControl(
   [
     { title: t('mapOsm'), uri: styleOsm() },
     { title: t('mapCarto'), uri: styleCarto() },
@@ -88,12 +88,12 @@ const navigationControl = new maplibregl.NavigationControl({
 
 const addPrimaryControls = position => {
   map.addControl(navigationControl, position);
-  map.addControl(switchingControl, position);
+  map.addControl(switcher, position);
 }
 
 const removePrimaryControls =()=> {
   map.removeControl(navigationControl);
-  map.removeControl(switchingControl);
+  map.removeControl(switcher);
 }
 
 
