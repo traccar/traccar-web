@@ -41,6 +41,9 @@ Ext.define('Traccar.model.Server', {
         name: 'bingKey',
         type: 'string'
     }, {
+        name: 'osKey',
+        type: 'string'
+    }, {        
         name: 'mapUrl',
         type: 'string'
     }, {
