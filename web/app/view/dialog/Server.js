@@ -45,6 +45,10 @@ Ext.define('Traccar.view.dialog.Server', {
                 fieldLabel: Strings.mapBingKey
             }, {
                 xtype: 'unescapedTextField',
+                name: 'osKey',
+                fieldLabel: Strings.mapOsKey
+            }, {
+                xtype: 'unescapedTextField',
                 reference: 'mapUrlField',
                 name: 'mapUrl',
                 fieldLabel: Strings.mapCustomLabel
