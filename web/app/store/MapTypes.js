@@ -38,6 +38,15 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'bingHybrid',
         name: Strings.mapBingHybrid
     }, {
+        key: 'osroad',
+        name: Strings.mapOsroad	
+    }, {
+        key: 'osoutdoor',
+        name: Strings.mapOsoutdoor
+    }, {
+        key: 'osleisure',
+        name: Strings.mapOsleisure
+	}, {        
         key: 'yandexMap',
         name: Strings.mapYandexMap
     }, {
