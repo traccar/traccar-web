@@ -30,16 +30,51 @@ Ext.define('Traccar.view.map.BaseMap', {
     },
 
     initMap: function () {
-        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
+        var server, layer, type, bingKey, osKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
 
         server = Traccar.app.getServer();
 
         type = Traccar.app.getPreference('map', null);
         bingKey = server.get('bingKey');
+        oskey = server.get('osKey');
 
         layer = new ol.layer.Group({
             title: Strings.mapLayer,
             layers: [
+                new ol.layer.Tile({
+                    title: Strings.mapOsleisure,
+                    type: 'base',
+                    visible: type === 'osleisure',
+                    source: new ol.source.XYZ({
+                        url: 'https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + oskey,
+						projection: 'EPSG:27700',
+						tileGrid: new ol.tilegrid.TileGrid({
+							resolutions: [ 896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75 ],
+							origin: [ -238375.0, 1376256.0 ]
+                        }),						
+                        attributions: '&copy; <a href="https://osmaps.ordnancesurvey.co.uk/">Ordnance Survey Leisure_27700</a>'
+                    })
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapOsoutdoor,
+                    type: 'base',
+                    visible: type === 'osoutdoor',
+                    source: new ol.source.XYZ({
+                        url: 'https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=' + oskey,
+                        projection: 'EPSG:3857',
+                        attributions: '&copy; <a href="https://osmaps.ordnancesurvey.co.uk/">Ordnance Survey Outdoor_38570</a>'
+					})
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapOsroad,
+                    type: 'base',
+                    visible: type === 'osroad',
+                    source: new ol.source.XYZ({
+                        url: 'https://api.os.uk/maps/raster/v1/zxy/Road_3857/{z}/{x}/{y}.png?key=' + oskey,
+                        projection: 'EPSG:3857',
+                        attributions: '&copy; <a href="https://osmaps.ordnancesurvey.co.uk/">Ordnance Survey Road_3857</a>'
+                    })
+                }),			
                 new ol.layer.Tile({
                     title: Strings.mapCustom,
                     type: 'base',
