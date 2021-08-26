@@ -64,6 +64,10 @@ const initMap = async () => {
 
 map.on('load', initMap);
 
+const navigationControl = new maplibregl.NavigationControl({
+  showCompass: false,
+})
+
 const switcher = new SwitcherControl(
   [
     { title: t('mapOsm'), uri: styleOsm() },
