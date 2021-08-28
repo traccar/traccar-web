@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Grid, Button, TextField, Typography, Link, makeStyles, Snackbar, useTheme,
+  Grid, Button, TextField, Typography, Link, makeStyles, Snackbar,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import StartPage from '../../StartPage';
 import t from '../../common/localization';
 
@@ -31,7 +30,6 @@ const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const theme = useTheme();
 
   const submitDisabled = () => !name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password;
 
@@ -61,7 +59,7 @@ const RegisterForm = () => {
           <Grid item>
             <Typography className={classes.link} color="primary">
               <Link onClick={() => history.push('/login')}>
-                {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+                <ArrowBackIcon />
               </Link>
             </Typography>
           </Grid>

@@ -7,11 +7,9 @@ import {
   makeStyles,
   IconButton,
   Hidden,
-  useTheme,
 } from '@material-ui/core';
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 import SideNav from '../../components/SideNav';
 import NavBar from '../../components/NavBar';
@@ -58,7 +56,6 @@ const OptionsLayout = ({ children }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [optionTitle, setOptionTitle] = useState();
   const routes = useRoutes();
-  const theme = useTheme();
 
   useEffect(() => {
     const activeRoute = routes.find(
@@ -90,7 +87,7 @@ const OptionsLayout = ({ children }) => {
         >
           <div className={classes.drawerHeader}>
             <IconButton component="a" href="/">
-              {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+              <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               {t('settingsTitle')}

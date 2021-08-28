@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton, useTheme,
+  Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton,
 } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Map from './map/Map';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import GeofenceEditMap from './map/GeofenceEditMap';
@@ -50,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
 
 const GeofencesPage = ({ width }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <div className={classes.root}>
@@ -62,7 +60,7 @@ const GeofencesPage = ({ width }) => {
         >
           <div className={classes.drawerHeader}>
             <IconButton component="a" href="/">
-              {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+              <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               {t('sharedGeofences')}
