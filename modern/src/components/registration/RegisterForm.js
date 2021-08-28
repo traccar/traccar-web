@@ -4,9 +4,9 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import StartPage from '../../StartPage';
 import t from '../../common/localization';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const useStyles = makeStyles((theme) => ({
   register: {
@@ -61,7 +61,7 @@ const RegisterForm = () => {
           <Grid item>
             <Typography className={classes.link} color="primary">
               <Link onClick={() => history.push('/login')}>
-              {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
+                {theme.direction === 'rtl' ? <ArrowForwardIcon /> : <ArrowBackIcon />}
               </Link>
             </Typography>
           </Grid>

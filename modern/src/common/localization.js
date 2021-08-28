@@ -1,7 +1,5 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { create } from 'jss';
-import rtl from 'jss-rtl';
-import { StylesProvider, jssPreset, useTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import af from '../../../web/l10n/af.json';
 import ar from '../../../web/l10n/ar.json';
@@ -149,47 +147,28 @@ export default key => {
   return selectedLanguage.data[key];
 };
 
-const rtlLangueges = ['ar', 'he', 'fa'];
-const isRtl = (language) => rtlLangueges.indexOf(language) > -1;
-
 export const setSelectedLanguage = (language) => {
   selectedLanguage = supportedLanguages[language];
   localStorage.setItem('language', language);
-  localStorage.setItem('direction', isRtl(language) ? 'rtl' : 'ltr');
 }
 
 export const defaultLanguage = language;
-const defaultDirection = localStorage.getItem('direction') || 'ltr';
 
 export const LocalizationContext = createContext({
-  direction: defaultDirection,
   language
 });
 
-const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 export function LocalizationProvider(props) {
   const [language, setLanguage] = useState(defaultLanguage);
 
-  const [direction, setDirection] = useState(defaultDirection);
-
   const handleLanguageChange = (nextLanguage) => {
     setSelectedLanguage(nextLanguage);
     setLanguage(nextLanguage);
-    setDirection(isRtl(nextLanguage) ? 'rtl' : 'ltr');
   };
 
-  useEffect(() => {
-    theme.direction = direction;
-    window.document.body.dir = direction
-  }, [direction])
-
-  return <LocalizationContext.Provider value={{ language, setLanguage: handleLanguageChange, languageList, direction }}>
-    <StylesProvider jss={jss}>
-      <ThemeProvider theme={theme}>
-        {props.children}
-      </ThemeProvider>
-    </StylesProvider>
+  return <LocalizationContext.Provider value={{ language, setLanguage: handleLanguageChange, languageList }}>
+    {props.children}
   </LocalizationContext.Provider>
 }
 

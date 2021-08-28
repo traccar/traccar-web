@@ -62,9 +62,9 @@ const LoginForm = () => {
     }
   };
 
-  const handleLanguageChange = e => {
+  const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
-  }
+  };
 
   return (
     <StartPage>
@@ -130,7 +130,7 @@ const LoginForm = () => {
             <FormControl variant="filled" fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select value={language} onChange={handleLanguageChange}>
-                {languageList.map(lang => <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>)}
+                {languageList.map((lang) => <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>)}
               </Select>
             </FormControl>
           </Grid>
@@ -145,7 +145,6 @@ const LoginForm = () => {
       </Grid>
     </StartPage>
   );
-
 };
 
 export default LoginForm;

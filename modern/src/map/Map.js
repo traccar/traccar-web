@@ -7,10 +7,10 @@ import React, {
 import { SwitcherControl } from './switcher/switcher';
 import deviceCategories from '../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
-import t, { useLocalization } from '../common/localization';
 import {
   styleCarto, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
+import t from '../common/localization';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
 
@@ -64,9 +64,9 @@ const initMap = async () => {
 
 map.on('load', initMap);
 
-const navigationControl = new maplibregl.NavigationControl({
+map.addControl(new maplibregl.NavigationControl({
   showCompass: false,
-})
+}));
 
 const switcher = new SwitcherControl(
   [
@@ -92,31 +92,14 @@ const switcher = new SwitcherControl(
   },
 );
 
-const addPrimaryControls = position => {
-  map.addControl(navigationControl, position);
-  map.addControl(switcher, position);
-}
-
-const removePrimaryControls =()=> {
-  map.removeControl(navigationControl);
-  map.removeControl(switcher);
-}
-
-
 map.addControl(switcher);
 
 const Map = ({ children }) => {
   const containerEl = useRef(null);
-  const {direction} = useLocalization();
+
   const [mapReady, setMapReady] = useState(false);
 
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
-
-  useEffect(()=>{
-    const controlsPosition = direction ==='rtl' ? 'top-left' : 'top-right';
-    addPrimaryControls(controlsPosition);
-    return removePrimaryControls;
-  },[direction])
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
