@@ -13,7 +13,6 @@
     "@turf/circle": "^6.5.0",
     "@turf/turf": "^6.4.0",
     "canvas-tint-image": "^2.0.1",
-    "jss-rtl": "^0.3.0",
     "mapbox-gl": "^1.13.1",
     "maplibre-gl": "^1.15.0",
     "moment": "^2.29.1",
