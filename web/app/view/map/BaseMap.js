@@ -159,8 +159,6 @@ Ext.define('Traccar.view.map.BaseMap', {
             }));
         }
 
-        this.body.dom.tabIndex = 0;
-
         switch (Traccar.app.getAttributePreference('distanceUnit', 'km')) {
             case 'mi':
                 this.map.addControl(new ol.control.ScaleLine({
