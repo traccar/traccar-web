@@ -238,7 +238,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     animateMarker: function (marker, geometry, course) {
-        var start, end, duration, timeout, line, updatePosition, self;
+        var start, end, duration, timeout, line, updatePosition, self, follow;
 
         start = marker.getGeometry().getCoordinates();
         end = geometry.getCoordinates();
@@ -246,12 +246,16 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         duration = Traccar.Style.mapAnimateMarkerDuration;
         timeout = Traccar.Style.mapAnimateMarkerTimeout;
         self = this;
+        follow = this.lookupReference('deviceFollowButton').pressed;
 
         updatePosition = function (position, marker) {
             var coordinate, style;
             coordinate = marker.get('line').getCoordinateAt(position / (duration / timeout));
             style = marker.getStyle();
             marker.setGeometry(new ol.geom.Point(coordinate));
+            if (marker === self.selectedMarker && follow) {
+                self.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
+            }
             if (position < duration / timeout) {
                 setTimeout(updatePosition, timeout, position + 1, marker);
             } else {
@@ -344,10 +348,9 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             if (this.isDeviceVisible(device)) {
                 this.getView().getMarkersSource().addFeature(marker);
             }
-        }
-
-        if (marker === this.selectedMarker && this.lookupReference('deviceFollowButton').pressed) {
-            this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
+            if (marker === this.selectedMarker && this.lookupReference('deviceFollowButton').pressed) {
+                this.getView().getMapView().setCenter(marker.getGeometry().getCoordinates());
+            }
         }
     },
 
