@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, { useState, createContext, useContext } from "react";
 
 import af from '../../../web/l10n/af.json';
 import ar from '../../../web/l10n/ar.json';
@@ -141,14 +141,14 @@ export default key => {
   return selectedLanguage.data[key];
 };
 
-export const setSelectedLanguage = (language) => {
+const setSelectedLanguage = (language) => {
   selectedLanguage = supportedLanguages[language];
   localStorage.setItem('language', language);
 }
 
-export const defaultLanguage = language;
+const defaultLanguage = language;
 
-export const LocalizationContext = createContext({
+const LocalizationContext = createContext({
   language
 });
 
