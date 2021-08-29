@@ -11,6 +11,7 @@ import GeofenceEditMap from './map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
 
 import t from './common/localization';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GeofencesPage = ({ width }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <div className={classes.root}>
@@ -59,7 +61,7 @@ const GeofencesPage = ({ width }) => {
           classes={{ paper: classes.drawerPaper }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton component="a" href="/">
+            <IconButton onClick={() => history.goBack()}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>

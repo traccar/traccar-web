@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Typography,
   Divider,
@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const OptionsLayout = ({ children }) => {
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [optionTitle, setOptionTitle] = useState();
   const routes = useRoutes();
@@ -86,7 +87,7 @@ const OptionsLayout = ({ children }) => {
           classes={{ root: classes.drawerContainer, paper: classes.drawer }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton component="a" href="/">
+            <IconButton onClick={() => history.push('/')}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
