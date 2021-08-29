@@ -112,7 +112,7 @@ const supportedLanguages = {
   zh_TW: { data: zh_TW, name: '中文 (Taiwan)' },
 };
 
-export const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
+const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
 const languages = localStorage.getItem('language') ? [localStorage.getItem('language')] : (window.navigator.languages !== undefined ? window.navigator.languages.slice() : []);
 let language = localStorage.getItem('language') || window.navigator.userLanguage || window.navigator.language;
 languages.push(language);
