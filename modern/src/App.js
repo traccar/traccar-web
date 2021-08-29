@@ -35,10 +35,10 @@ import LoginForm from './components/registration/LoginForm';
 import RegisterForm from './components/registration/RegisterForm';
 import ResetPasswordForm from './components/registration/ResetPasswordForm';
 
+import theme from './theme';
 import GeofencesPage from './GeofencesPage';
 import GeofencePage from './GeofencePage';
 import { LocalizationProvider } from './common/localization';
-import theme from './theme';
 
 const App = () => {
   const initialized = useSelector((state) => !!state.session.server && !!state.session.user);
@@ -88,7 +88,6 @@ const App = () => {
         </Switch>
       </ThemeProvider>
     </LocalizationProvider>
-
   );
 };
 

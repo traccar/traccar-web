@@ -1,5 +1,4 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { create } from 'jss';
 
 import af from '../../../web/l10n/af.json';
 import ar from '../../../web/l10n/ar.json';
@@ -55,7 +54,6 @@ import uz from '../../../web/l10n/uz.json';
 import vi from '../../../web/l10n/vi.json';
 import zh from '../../../web/l10n/zh.json';
 import zh_TW from '../../../web/l10n/zh_TW.json';
-import theme from "../theme";
 
 const supportedLanguages = {
   af: { data: af, name: 'Afrikaans' },
@@ -115,17 +113,13 @@ const supportedLanguages = {
 };
 
 export const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
-
 const languages = localStorage.getItem('language') ? [localStorage.getItem('language')] : (window.navigator.languages !== undefined ? window.navigator.languages.slice() : []);
-
 let language = localStorage.getItem('language') || window.navigator.userLanguage || window.navigator.language;
-
 languages.push(language);
 languages.push(language.substring(0, 2));
 languages.push('en');
 for (let i = 0; i < languages.length; i++) {
   language = languages[i].replace('-', '_');
-
   if (language in supportedLanguages) {
     break;
   }
@@ -157,7 +151,6 @@ export const defaultLanguage = language;
 export const LocalizationContext = createContext({
   language
 });
-
 
 export function LocalizationProvider(props) {
   const [language, setLanguage] = useState(defaultLanguage);

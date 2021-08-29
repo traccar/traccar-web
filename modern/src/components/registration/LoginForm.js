@@ -136,11 +136,11 @@ const LoginForm = () => {
           </Grid>
         </Grid>
         {emailEnabled && (
-          <Grid item container justify="flex-end">
-            <Grid item>
-              <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
-            </Grid>
+        <Grid item container justify="flex-end">
+          <Grid item>
+            <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
           </Grid>
+        </Grid>
         )}
       </Grid>
     </StartPage>
