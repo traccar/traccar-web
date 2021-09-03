@@ -1,4 +1,5 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { createContext, useContext } from 'react';
+import usePersistedState from './common/usePersistedState';
 
 import af from '../../web/l10n/af.json';
 import ar from '../../web/l10n/ar.json';
@@ -55,7 +56,7 @@ import vi from '../../web/l10n/vi.json';
 import zh from '../../web/l10n/zh.json';
 import zh_TW from '../../web/l10n/zh_TW.json';
 
-const supportedLanguages = {
+const languages = {
   af: { data: af, name: 'Afrikaans' },
   ar: { data: ar, name: 'العربية' },
   az: { data: az, name: 'Azərbaycanca' },
@@ -112,59 +113,55 @@ const supportedLanguages = {
   zh_TW: { data: zh_TW, name: '中文 (Taiwan)' },
 };
 
-const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
-const languages = localStorage.getItem('language') ? [localStorage.getItem('language')] : (window.navigator.languages !== undefined ? window.navigator.languages.slice() : []);
-let language = localStorage.getItem('language') || window.navigator.userLanguage || window.navigator.language;
-languages.push(language);
-languages.push(language.substring(0, 2));
-languages.push('en');
-for (let i = 0; i < languages.length; i++) {
-  language = languages[i].replace('-', '_');
-  if (language in supportedLanguages) {
-    break;
-  }
-  if (language.length > 2) {
-    language = languages[i].substring(0, 2);
-    if (language in supportedLanguages) {
-      break;
+//const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
+
+const getDefaultLanguage = () => {
+  const browserLanguages = window.navigator.languages ? window.navigator.languages.slice() : [];
+  const browserLanguage = window.navigator.userLanguage || window.navigator.language;
+  browserLanguages.push(browserLanguage);
+  browserLanguages.push(browserLanguage.substring(0, 2));
+  browserLanguages.push('en');
+
+  for (let i = 0; i < browserLanguages.length; i++) {
+    let language = browserLanguages[i].replace('-', '_');
+    if (language in languages) {
+      return language;
+    }
+    if (language.length > 2) {
+      language = language.substring(0, 2);
+      if (language in languages) {
+        return language;
+      }
     }
   }
-}
-
-let selectedLanguage = supportedLanguages[language];
-
-export const findStringKeys = (predicate) => {
-  return Object.keys(selectedLanguage.data).filter(predicate);
-}
-
-export default key => {
-  return selectedLanguage.data[key];
 };
 
-const setSelectedLanguage = (language) => {
-  selectedLanguage = supportedLanguages[language];
-  localStorage.setItem('language', language);
-}
-
-const defaultLanguage = language;
-
 const LocalizationContext = createContext({
-  language
+  languages,
+  language: 'en',
+  setLanguage: () => {},
 });
 
-export function LocalizationProvider(props) {
-  const [language, setLanguage] = useState(defaultLanguage);
+export const LocalizationProvider = ({ children }) => {
+  const [language, setLanguage] = usePersistedState('language', getDefaultLanguage());
 
-  const handleLanguageChange = (nextLanguage) => {
-    setSelectedLanguage(nextLanguage);
-    setLanguage(nextLanguage);
-  };
-
-  return <LocalizationContext.Provider value={{ language, setLanguage: handleLanguageChange, languageList }}>
-    {props.children}
-  </LocalizationContext.Provider>
-}
+  return (
+    <LocalizationContext.Provider value={{ languages, language, setLanguage }}>
+      {children}
+    </LocalizationContext.Provider>
+  );
+};
 
 export const useLocalization = () => {
   return useContext(LocalizationContext);
-}
+};
+
+export const useTranslation = () => {
+  const context = useContext(LocalizationContext);
+  return (key) => context.languages[context.language].data[key];
+};
+
+export const useTranslationKeys = (predicate) => {
+  const context = useContext(LocalizationContext);
+  return Object.keys(context.languages[context.language].data).filter(predicate);
+};
