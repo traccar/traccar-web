@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export default (t) => useMemo({
+export default (t) => useMemo(() => ({
   speedLimit: {
     name: t('attributeSpeedLimit'),
     type: 'string',
@@ -9,4 +9,4 @@ export default (t) => useMemo({
     name: t('attributeReportIgnoreOdometer'),
     type: 'boolean',
   },
-}, [t]);
+}), [t]);

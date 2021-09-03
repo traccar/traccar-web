@@ -11,7 +11,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import { getIsAdmin, getUserId } from '../../common/selectors';
 import { useTranslation } from '../../LocalizationProvider';
 
-const useAdminRoutes = (t) => useMemo([
+const useAdminRoutes = (t) => useMemo(() => [
   { subheader: t('userAdmin') },
   {
     name: t('settingsServer'),
@@ -30,7 +30,7 @@ const useAdminRoutes = (t) => useMemo([
   },
 ], [t]);
 
-const useMainRoutes = (t, userId) => useMemo([
+const useMainRoutes = (t, userId) => useMemo(() => [
   {
     name: t('settingsUser'),
     href: `/user/${userId}`,
@@ -84,6 +84,6 @@ export default () => {
   const adminRoutes = useAdminRoutes(t);
 
   return useMemo(() => [...mainRoutes, ...(isAdmin ? adminRoutes : [])], [
-    isAdmin,
+    mainRoutes, isAdmin, adminRoutes,
   ]);
 };

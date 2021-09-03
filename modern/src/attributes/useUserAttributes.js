@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export default (t) => useMemo({
+export default (t) => useMemo(() => ({
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',
@@ -65,4 +65,4 @@ export default (t) => useMemo({
     name: t('sharedTimezone'),
     type: 'string',
   },
-}, [t]);
+}), [t]);

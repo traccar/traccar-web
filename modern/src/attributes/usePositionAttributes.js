@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export default (t) => useMemo({
+export default (t) => useMemo(() => ({
   raw: {
     name: t('positionRaw'),
     type: 'string',
@@ -18,4 +18,4 @@ export default (t) => useMemo({
     type: 'number',
     dataType: 'distance',
   },
-}, [t]);
+}), [t]);
