@@ -7,8 +7,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useSelector } from 'react-redux';
 
-import t from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -23,6 +23,7 @@ const EditCollectionView = ({
 }) => {
   const classes = useStyles();
   const history = useHistory();
+  const t = useTranslation();
 
   const [selectedId, setSelectedId] = useState(null);
   const [selectedAnchorEl, setSelectedAnchorEl] = useState(null);

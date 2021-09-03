@@ -8,9 +8,11 @@ import {
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { useAttributePreference } from '../common/preferences';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
+  const t = useTranslation();
+
   const [daily, setDaily] = useState(false);
 
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
@@ -44,6 +46,7 @@ const Filter = ({ setItems }) => {
 
 const SummaryReportPage = () => {
   const theme = useTheme();
+  const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');

@@ -18,8 +18,8 @@ import {
 } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
 import RemoveDialog from '../RemoveDialog';
-import t from '../LocalizationProvider';
 import { getPosition } from '../common/selectors';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,6 +35,7 @@ const StatusView = ({
   deviceId, onShowDetails, onShowHistory, onEditClick,
 }) => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
   const device = useSelector((state) => state.devices.items[deviceId]);

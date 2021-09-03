@@ -3,11 +3,13 @@ import {
   FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper,
 } from '@material-ui/core';
 import moment from 'moment';
-import t from '../LocalizationProvider';
 import { formatDate } from '../common/formatter';
 import OptionsLayout from '../settings/OptionsLayout';
+import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
+  const t = useTranslation();
+
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
@@ -95,6 +97,8 @@ const Filter = ({ setItems }) => {
 };
 
 const StatisticsPage = () => {
+  const t = useTranslation();
+
   const [items, setItems] = useState([]);
 
   return (

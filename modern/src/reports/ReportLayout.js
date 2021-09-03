@@ -13,7 +13,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SideNav from '../components/SideNav';
 import NavBar from '../components/NavBar';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +64,8 @@ const ReportLayout = ({ children, filter }) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const t = useTranslation();
+
   const [openDrawer, setOpenDrawer] = useState(false);
   const [reportTitle, setReportTitle] = useState();
 

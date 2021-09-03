@@ -5,7 +5,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StartPage from '../../StartPage';
-import t from '../../LocalizationProvider';
+import { useTranslation } from '../../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   register: {
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterForm = () => {
   const classes = useStyles();
   const history = useHistory();
+  const t = useTranslation();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

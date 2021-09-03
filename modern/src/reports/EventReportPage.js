@@ -9,9 +9,11 @@ import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { prefixString } from '../common/stringUtils';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
+  const t = useTranslation();
+
   const [eventTypes, setEventTypes] = useState(['allEvents']);
 
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
@@ -65,7 +67,10 @@ const Filter = ({ setItems }) => {
 
 const EventReportPage = () => {
   const theme = useTheme();
+  const t = useTranslation();
+
   const geofences = useSelector((state) => state.geofences.items);
+
   const [items, setItems] = useState([]);
 
   const formatGeofence = (value) => {

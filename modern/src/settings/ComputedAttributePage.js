@@ -3,9 +3,9 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t from '../LocalizationProvider';
 import EditItemView from '../EditItemView';
 import positionAttributes from '../attributes/positionAttributes';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -15,6 +15,8 @@ const useStyles = makeStyles(() => ({
 
 const ComputedAttributePage = () => {
   const classes = useStyles();
+  const t = useTranslation();
+
   const [item, setItem] = useState();
   const [key, setKey] = useState();
 

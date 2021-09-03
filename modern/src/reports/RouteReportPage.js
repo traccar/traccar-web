@@ -8,7 +8,7 @@ import {
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { useAttributePreference, usePreference } from '../common/preferences';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
@@ -32,6 +32,8 @@ const Filter = ({ setItems }) => {
 };
 
 const RouteReportPage = () => {
+  const t = useTranslation();
+
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');

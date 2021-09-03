@@ -5,9 +5,9 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 
-import t from './LocalizationProvider';
 import { useEffectAsync } from './reactHelper';
 import OptionsLayout from './settings/OptionsLayout';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,6 +27,8 @@ const EditItemView = ({
 }) => {
   const history = useHistory();
   const classes = useStyles();
+  const t = useTranslation();
+
   const { id } = useParams();
 
   useEffectAsync(async () => {

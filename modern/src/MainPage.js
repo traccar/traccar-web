@@ -19,7 +19,7 @@ import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import BottomNav from './components/BottomNav';
-import t from './LocalizationProvider';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -91,6 +91,7 @@ const MainPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
+  const t = useTranslation();
 
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));

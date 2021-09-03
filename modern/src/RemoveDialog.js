@@ -4,11 +4,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import t from './LocalizationProvider';
+import { useTranslation } from './LocalizationProvider';
 
 const RemoveDialog = ({
   open, endpoint, itemId, onResult,
 }) => {
+  const t = useTranslation();
+
   const handleRemove = async () => {
     const response = await fetch(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
     if (response.ok) {

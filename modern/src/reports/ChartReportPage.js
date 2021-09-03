@@ -8,7 +8,7 @@ import Graph from './Graph';
 import { useAttributePreference } from '../common/preferences';
 import { formatDate } from '../common/formatter';
 import { speedFromKnots } from '../common/converter';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ children, setItems }) => {
   const speedUnit = useAttributePreference('speedUnit');
@@ -37,20 +37,24 @@ const Filter = ({ children, setItems }) => {
   );
 };
 
-const ChartType = ({ type, setType }) => (
-  <Grid container spacing={3}>
-    <Grid item xs={12} sm={6}>
-      <FormControl variant="filled" margin="normal" fullWidth>
-        <InputLabel>{t('reportChartType')}</InputLabel>
-        <Select value={type} onChange={(e) => setType(e.target.value)}>
-          <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
-          <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
-          <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
-        </Select>
-      </FormControl>
+const ChartType = ({ type, setType }) => {
+  const t = useTranslation();
+  
+  return (
+    <Grid container spacing={3}>
+      <Grid item xs={12} sm={6}>
+        <FormControl variant="filled" margin="normal" fullWidth>
+          <InputLabel>{t('reportChartType')}</InputLabel>
+          <Select value={type} onChange={(e) => setType(e.target.value)}>
+            <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
+            <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
+            <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
 
 const ChartReportPage = () => {
   const [items, setItems] = useState([]);

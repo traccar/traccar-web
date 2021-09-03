@@ -4,7 +4,6 @@ import {
 } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t from '../LocalizationProvider';
 import { prefixString } from '../common/stringUtils';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
@@ -13,6 +12,7 @@ import { useAttributePreference } from '../common/preferences';
 import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
 } from '../common/converter';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -22,6 +22,8 @@ const useStyles = makeStyles(() => ({
 
 const MaintenancePage = () => {
   const classes = useStyles();
+  const t = useTranslation();
+
   const [item, setItem] = useState();
   const [labels, setLabels] = useState({ start: '', period: '' });
 

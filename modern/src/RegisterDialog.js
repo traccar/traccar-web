@@ -6,9 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import t from './LocalizationProvider';
+import { useTranslation } from './LocalizationProvider';
 
 const RegisterDialog = ({ showDialog, onResult }) => {
+  const t = useTranslation();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

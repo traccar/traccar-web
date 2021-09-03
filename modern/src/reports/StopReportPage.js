@@ -7,7 +7,7 @@ import {
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { useAttributePreference } from '../common/preferences';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
@@ -32,6 +32,7 @@ const Filter = ({ setItems }) => {
 
 const StopReportPage = () => {
   const theme = useTheme();
+  const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const volumeUnit = useAttributePreference('volumeUnit');

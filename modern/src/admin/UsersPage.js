@@ -3,11 +3,11 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import t from '../LocalizationProvider';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import { formatBoolean } from '../common/formatter';
 import OptionsLayout from '../settings/OptionsLayout';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UsersView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [items, setItems] = useState([]);
 

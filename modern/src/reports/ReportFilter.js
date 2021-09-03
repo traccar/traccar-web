@@ -4,9 +4,11 @@ import {
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
+  const t = useTranslation();
+
   const devices = useSelector((state) => Object.values(state.devices.items));
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');

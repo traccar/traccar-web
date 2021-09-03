@@ -5,8 +5,8 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
-import t from '../LocalizationProvider';
 import AddAttributeDialog from './AddAttributeDialog';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [addDialogShown, setAddDialogShown] = useState(false);
 

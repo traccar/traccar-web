@@ -158,10 +158,12 @@ export const useLocalization = () => {
 
 export const useTranslation = () => {
   const context = useContext(LocalizationContext);
-  return (key) => context.languages[context.language].data[key];
+  const data = context.languages[context.language];
+  return (key) => data[key];
 };
 
 export const useTranslationKeys = (predicate) => {
   const context = useContext(LocalizationContext);
-  return Object.keys(context.languages[context.language].data).filter(predicate);
+  const data = context.languages[context.language];
+  return Object.keys(data).filter(predicate);
 };

@@ -5,11 +5,11 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t from './LocalizationProvider';
 import userAttributes from './attributes/userAttributes';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import LinkField from './form/LinkField';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -19,6 +19,7 @@ const useStyles = makeStyles(() => ({
 
 const UserPage = () => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [item, setItem] = useState();
 

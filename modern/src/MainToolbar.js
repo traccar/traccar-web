@@ -18,8 +18,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { sessionActions } from './store';
-import t from './LocalizationProvider';
 import * as selectors from './common/selectors';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   flex: {
@@ -38,11 +38,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainToolbar = () => {
-  const dispatch = useDispatch();
-  const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const t = useTranslation();
+
   const userId = useSelector(selectors.getUserId);
+
+  const [drawer, setDrawer] = useState(false);
 
   const openDrawer = () => { setDrawer(true); };
   const closeDrawer = () => { setDrawer(false); };

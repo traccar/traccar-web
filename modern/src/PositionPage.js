@@ -4,7 +4,6 @@ import {
   makeStyles, Typography, ListItem, ListItemText, ListItemSecondaryAction, List, Container, Paper, Divider,
 } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import t from './LocalizationProvider';
 import { useEffectAsync } from './reactHelper';
 import MainToolbar from './MainToolbar';
 import { formatPosition } from './common/formatter';
@@ -19,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PositionPage = () => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const { id } = useParams();
 

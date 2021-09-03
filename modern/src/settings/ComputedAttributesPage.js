@@ -4,10 +4,10 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useSelector } from 'react-redux';
-import t from '../LocalizationProvider';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import OptionsLayout from './OptionsLayout';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [items, setItems] = useState([]);
   const adminEnabled = useSelector((state) => state.session.user && state.session.user.administrator);
@@ -66,7 +67,6 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
 
 const ComputedAttributesPage = () => (
   <OptionsLayout>
-
     <EditCollectionView content={ComputedAttributeView} editPath="/settings/attribute" endpoint="attributes/computed" />
   </OptionsLayout>
 );

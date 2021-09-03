@@ -7,12 +7,12 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import t from '../LocalizationProvider';
 import { sessionActions } from '../store';
 import EditAttributesView from '../attributes/EditAttributesView';
 import deviceAttributes from '../attributes/deviceAttributes';
 import userAttributes from '../attributes/userAttributes';
 import OptionsLayout from '../settings/OptionsLayout';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ServerPage = () => {
+  const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const t = useTranslation();
 
   const item = useSelector((state) => state.session.server);
   const setItem = (updatedItem) => dispatch(sessionActions.updateServer(updatedItem));

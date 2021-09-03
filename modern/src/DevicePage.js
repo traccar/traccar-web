@@ -5,7 +5,6 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t from './LocalizationProvider';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import deviceAttributes from './attributes/deviceAttributes';
@@ -13,6 +12,7 @@ import SelectField from './form/SelectField';
 import deviceCategories from './common/deviceCategories';
 import LinkField from './form/LinkField';
 import { prefixString } from './common/stringUtils';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -22,6 +22,7 @@ const useStyles = makeStyles(() => ({
 
 const DevicePage = () => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [item, setItem] = useState();
 

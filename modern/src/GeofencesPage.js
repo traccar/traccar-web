@@ -10,8 +10,7 @@ import Map from './map/Map';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import GeofenceEditMap from './map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
-
-import t from './LocalizationProvider';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const GeofencesPage = ({ width }) => {
   const classes = useStyles();
   const history = useHistory();
+  const t = useTranslation();
 
   return (
     <div className={classes.root}>
