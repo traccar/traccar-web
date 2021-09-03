@@ -50,7 +50,7 @@ const StopReportPage = () => {
     field: 'startOdometer',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('positionAddress'),
     field: 'address',
@@ -81,7 +81,7 @@ const StopReportPage = () => {
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
     hide: true,
-    valueFormatter: ({ value }) => formatVolume(value, volumeUnit),
+    valueFormatter: ({ value }) => formatVolume(value, volumeUnit, t),
   }];
 
   return (

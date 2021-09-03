@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
   Grid, Typography, Divider, Drawer, makeStyles, IconButton, Hidden,
@@ -51,15 +51,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const routes = [
-  { name: t('reportRoute'), href: '/reports/route', icon: <TimelineIcon /> },
-  { name: t('reportEvents'), href: '/reports/event', icon: <NotificationsActiveIcon /> },
-  { name: t('reportTrips'), href: '/reports/trip', icon: <PlayCircleFilledIcon /> },
-  { name: t('reportStops'), href: '/reports/stop', icon: <PauseCircleFilledIcon /> },
-  { name: t('reportSummary'), href: '/reports/summary', icon: <FormatListBulletedIcon /> },
-  { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
-];
-
 const ReportLayout = ({ children, filter }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -68,6 +59,15 @@ const ReportLayout = ({ children, filter }) => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [reportTitle, setReportTitle] = useState();
+
+  const routes = useMemo(() => [
+    { name: t('reportRoute'), href: '/reports/route', icon: <TimelineIcon /> },
+    { name: t('reportEvents'), href: '/reports/event', icon: <NotificationsActiveIcon /> },
+    { name: t('reportTrips'), href: '/reports/trip', icon: <PlayCircleFilledIcon /> },
+    { name: t('reportStops'), href: '/reports/stop', icon: <PauseCircleFilledIcon /> },
+    { name: t('reportSummary'), href: '/reports/summary', icon: <FormatListBulletedIcon /> },
+    { name: t('reportChart'), href: '/reports/chart', icon: <TrendingUpIcon /> },
+  ], [t]);
 
   useEffect(() => {
     routes.forEach((route) => {

@@ -19,6 +19,7 @@ import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
 import { getDevices, getPosition } from './common/selectors';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -83,6 +84,7 @@ const getBatteryStatus = (batteryLevel) => {
 const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const t = useTranslation();
 
   const { items } = data;
   const item = items[index];
@@ -109,7 +111,7 @@ const DeviceRow = ({ data, index, style }) => {
             {position.attributes.hasOwnProperty('batteryLevel') && (
             <Grid item container xs alignItems="center" alignContent="center">
               <Grid item>
-                <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel')}</span>
+                <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel', t)}</span>
               </Grid>
               <Grid item>
                 <BatteryFullIcon className={classes[getBatteryStatus(position.attributes.batteryLevel)]} />

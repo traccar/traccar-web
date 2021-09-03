@@ -62,7 +62,7 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
                 </IconButton>
               </TableCell>
               <TableCell>{t(prefixString('event', item.type))}</TableCell>
-              <TableCell>{formatBoolean(item.always)}</TableCell>
+              <TableCell>{formatBoolean(item.always, t)}</TableCell>
               <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
               <TableCell>{formatList('notificator', item.notificators)}</TableCell>
             </TableRow>

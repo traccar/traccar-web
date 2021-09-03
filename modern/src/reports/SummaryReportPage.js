@@ -65,31 +65,31 @@ const SummaryReportPage = () => {
     field: 'distance',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('reportStartOdometer'),
     field: 'startOdometer',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('reportEndOdometer'),
     field: 'endOdometer',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('reportAverageSpeed'),
     field: 'averageSpeed',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
   }, {
     headerName: t('reportMaximumSpeed'),
     field: 'maxSpeed',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
   }, {
     headerName: t('reportEngineHours'),
     field: 'engineHours',
@@ -102,7 +102,7 @@ const SummaryReportPage = () => {
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
     hide: true,
-    valueFormatter: ({ value }) => formatVolume(value, volumeUnit),
+    valueFormatter: ({ value }) => formatVolume(value, volumeUnit, t),
   }];
 
   return (

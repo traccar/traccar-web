@@ -51,7 +51,7 @@ const TripReportPage = () => {
     field: 'startOdometer',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('reportStartAddress'),
     field: 'startAddress',
@@ -69,7 +69,7 @@ const TripReportPage = () => {
     field: 'endOdometer',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('reportEndAddress'),
     field: 'endAddress',
@@ -81,19 +81,19 @@ const TripReportPage = () => {
     field: 'distance',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }, {
     headerName: t('reportAverageSpeed'),
     field: 'averageSpeed',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
   }, {
     headerName: t('reportMaximumSpeed'),
     field: 'maxSpeed',
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
   }, {
     headerName: t('reportDuration'),
     field: 'duration',
@@ -106,7 +106,7 @@ const TripReportPage = () => {
     type: 'number',
     width: theme.dimensions.columnWidthNumber,
     hide: true,
-    valueFormatter: ({ value }) => formatVolume(value, volumeUnit),
+    valueFormatter: ({ value }) => formatVolume(value, volumeUnit, t),
   }, {
     headerName: t('sharedDriver'),
     field: 'driverName',

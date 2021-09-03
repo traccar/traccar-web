@@ -41,9 +41,9 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
     if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
-          return formatSpeed(value, speedUnit);
+          return formatSpeed(value, speedUnit, t);
         case 'distance':
-          return formatDistance(value, distanceUnit);
+          return formatDistance(value, distanceUnit, t);
         default:
           return value;
       }

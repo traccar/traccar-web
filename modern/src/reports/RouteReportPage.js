@@ -32,12 +32,12 @@ const Filter = ({ setItems }) => {
 };
 
 const RouteReportPage = () => {
+  const theme = useTheme();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');
-  const theme = useTheme();
 
   const columns = [{
     headerName: t('positionFixTime'),
@@ -62,7 +62,7 @@ const RouteReportPage = () => {
     field: 'speed',
     type: 'number',
     width: theme.dimensions.columnWidthString,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit),
+    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
   }, {
     headerName: t('positionAddress'),
     field: 'address',
@@ -74,7 +74,7 @@ const RouteReportPage = () => {
     type: 'boolean',
     width: theme.dimensions.columnWidthBoolean,
     valueGetter: ({ row }) => row.attributes.ignition,
-    valueFormatter: ({ value }) => formatBoolean(value),
+    valueFormatter: ({ value }) => formatBoolean(value, t),
   }, {
     headerName: t('deviceTotalDistance'),
     field: 'totalDistance',
@@ -82,7 +82,7 @@ const RouteReportPage = () => {
     hide: true,
     width: theme.dimensions.columnWidthNumber,
     valueGetter: ({ row }) => row.attributes.totalDistance,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit),
+    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
   }];
 
   const [items, setItems] = useState([]);

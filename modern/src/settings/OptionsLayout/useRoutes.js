@@ -9,13 +9,9 @@ import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import { getIsAdmin, getUserId } from '../../common/selectors';
+import { useTranslation } from '../../LocalizationProvider';
 
-const accountRoute = {
-  name: t('settingsUser'),
-  icon: <PersonIcon />,
-};
-
-const adminRoutes = [
+const useAdminRoutes = (t) => useMemo([
   { subheader: t('userAdmin') },
   {
     name: t('settingsServer'),
@@ -32,10 +28,14 @@ const adminRoutes = [
     href: '/admin/statistics',
     icon: <BarChartIcon />,
   },
-];
+], [t]);
 
-const mainRoutes = [
-  accountRoute,
+const useMainRoutes = (t, userId) => useMemo([
+  {
+    name: t('settingsUser'),
+    href: `/user/${userId}`,
+    icon: <PersonIcon />,
+  },
   {
     match: 'geofence',
     name: t('sharedGeofences'),
@@ -72,12 +72,16 @@ const mainRoutes = [
     href: '/settings/maintenances',
     icon: <BuildIcon />,
   },
-];
+], [t, userId]);
 
 export default () => {
+  const t = useTranslation();
+
   const isAdmin = useSelector(getIsAdmin);
   const userId = useSelector(getUserId);
-  accountRoute.href = `/user/${userId}`;
+
+  const mainRoutes = useMainRoutes(t, userId);
+  const adminRoutes = useAdminRoutes(t);
 
   return useMemo(() => [...mainRoutes, ...(isAdmin ? adminRoutes : [])], [
     isAdmin,

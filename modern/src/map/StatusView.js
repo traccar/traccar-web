@@ -77,27 +77,29 @@ const StatusView = ({
               <ListItem classes={{ container: classes.listItemContainer }}>
                 <ListItemText primary={t('positionSpeed')} />
                 <ListItemSecondaryAction>
-                  <span>{formatSpeed(position.speed, speedUnit)}</span>
+                  {formatSpeed(position.speed, speedUnit, t)}
                 </ListItemSecondaryAction>
               </ListItem>
               {position.attributes.batteryLevel && (
                 <ListItem classes={{ container: classes.listItemContainer }}>
                   <ListItemText primary={t('positionBattery')} />
                   <ListItemSecondaryAction>
-                    <span className={classes[getBatteryStatus(position.attributes.batteryLevel)]}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel')}</span>
+                    <span className={classes[getBatteryStatus(position.attributes.batteryLevel)]}>
+                      {formatPosition(position.attributes.batteryLevel, 'batteryLevel', t)}
+                    </span>
                   </ListItemSecondaryAction>
                 </ListItem>
               )}
               <ListItem classes={{ container: classes.listItemContainer }}>
                 <ListItemText primary={t('positionDistance')} />
                 <ListItemSecondaryAction>
-                  <span>{formatDistance(position.attributes.totalDistance, distanceUnit)}</span>
+                  {formatDistance(position.attributes.totalDistance, distanceUnit, t)}
                 </ListItemSecondaryAction>
               </ListItem>
               <ListItem classes={{ container: classes.listItemContainer }}>
                 <ListItemText primary={t('positionCourse')} />
                 <ListItemSecondaryAction>
-                  <span>{formatPosition(position.course, 'course')}</span>
+                  {formatPosition(position.course, 'course', t)}
                 </ListItemSecondaryAction>
               </ListItem>
             </List>

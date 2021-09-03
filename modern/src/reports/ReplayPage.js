@@ -76,7 +76,7 @@ const ReplayPage = () => {
               value={index}
               onChange={(_, index) => setIndex(index)}
               valueLabelDisplay="auto"
-              valueLabelFormat={(i) => (i < positions.length ? formatPosition(positions[i], 'fixTime') : '')}
+              valueLabelFormat={(i) => (i < positions.length ? formatPosition(positions[i], 'fixTime', t) : '')}
               ValueLabelComponent={TimeLabel}
             />
           </Paper>

@@ -64,7 +64,7 @@ const PositionPage = () => {
                     />
                     <ListItemSecondaryAction>
                       <Typography variant="body2">
-                        {formatPosition(value, key)}
+                        {formatPosition(value, key, t)}
                       </Typography>
                     </ListItemSecondaryAction>
                   </ListItem>

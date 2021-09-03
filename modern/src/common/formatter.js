@@ -1,8 +1,7 @@
 import moment from 'moment';
 import { useTranslation } from '../LocalizationProvider';
 
-export const formatBoolean = (value) => {
-  const t = useTranslation();
+export const formatBoolean = (value, t) => {
   return value ? t('sharedYes') : t('sharedNo');
 }
 
@@ -10,7 +9,7 @@ export const formatNumber = (value, precision = 1) => Number(value.toFixed(preci
 
 export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
 
-export const formatPosition = (value, key) => {
+export const formatPosition = (value, key, t) => {
   if (value != null && typeof value === 'object') {
     value = value[key];
   }
@@ -32,14 +31,13 @@ export const formatPosition = (value, key) => {
       if (typeof value === 'number') {
         return formatNumber(value);
       } if (typeof value === 'boolean') {
-        return formatBoolean(value);
+        return formatBoolean(value, t);
       }
       return value;
   }
 };
 
-export const formatDistance = (value, unit) => {
-  const t = useTranslation();
+export const formatDistance = (value, unit, t) => {
   switch (unit) {
     case 'mi':
       return `${(value * 0.000621371).toFixed(2)} ${t('sharedMi')}`;
@@ -51,8 +49,7 @@ export const formatDistance = (value, unit) => {
   }
 };
 
-export const formatSpeed = (value, unit) => {
-  const t = useTranslation();
+export const formatSpeed = (value, unit, t) => {
   switch (unit) {
     case 'kmh':
       return `${(value * 1.852).toFixed(2)} ${t('sharedKmh')}`;
@@ -64,8 +61,7 @@ export const formatSpeed = (value, unit) => {
   }
 };
 
-export const formatVolume = (value, unit) => {
-  const t = useTranslation();
+export const formatVolume = (value, unit, t) => {
   switch (unit) {
     case 'impGal':
       return `${(value / 4.546).toFixed(2)} ${t('sharedGallonAbbreviation')}`;

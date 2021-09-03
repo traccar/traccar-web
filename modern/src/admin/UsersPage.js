@@ -51,8 +51,8 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
               </TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.email}</TableCell>
-              <TableCell>{formatBoolean(item, 'administrator')}</TableCell>
-              <TableCell>{formatBoolean(item, 'disabled')}</TableCell>
+              <TableCell>{formatBoolean(item, 'administrator', t)}</TableCell>
+              <TableCell>{formatBoolean(item, 'disabled', t)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
