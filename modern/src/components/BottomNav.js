@@ -12,7 +12,7 @@ import MapIcon from '@material-ui/icons/Map';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 
 import { sessionActions } from '../store';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,6 +46,7 @@ const BottomNav = ({ showOnDesktop }) => {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const t = useTranslation();
 
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const dispatch = useDispatch();

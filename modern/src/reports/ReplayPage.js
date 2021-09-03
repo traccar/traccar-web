@@ -5,11 +5,11 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MainToolbar from '../MainToolbar';
 import Map from '../map/Map';
-import t from '../LocalizationProvider';
 import ReplayPathMap from '../map/ReplayPathMap';
 import PositionsMap from '../map/PositionsMap';
 import { formatPosition } from '../common/formatter';
 import ReportFilter from './ReportFilter';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +41,7 @@ const TimeLabel = ({ children, open, value }) => (
 
 const ReplayPage = () => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [expanded, setExpanded] = useState(true);
   const [positions, setPositions] = useState([]);
