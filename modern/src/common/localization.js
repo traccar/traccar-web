@@ -1,3 +1,5 @@
+import React, { useState, createContext, useContext } from "react";
+
 import af from '../../../web/l10n/af.json';
 import ar from '../../../web/l10n/ar.json';
 import az from '../../../web/l10n/az.json';
@@ -110,8 +112,9 @@ const supportedLanguages = {
   zh_TW: { data: zh_TW, name: '中文 (Taiwan)' },
 };
 
-const languages = window.navigator.languages !== undefined ? window.navigator.languages.slice() : [];
-let language = window.navigator.userLanguage || window.navigator.language;
+const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
+const languages = localStorage.getItem('language') ? [localStorage.getItem('language')] : (window.navigator.languages !== undefined ? window.navigator.languages.slice() : []);
+let language = localStorage.getItem('language') || window.navigator.userLanguage || window.navigator.language;
 languages.push(language);
 languages.push(language.substring(0, 2));
 languages.push('en');
@@ -128,8 +131,40 @@ for (let i = 0; i < languages.length; i++) {
   }
 }
 
-const selectedLanguage = supportedLanguages[language];
+let selectedLanguage = supportedLanguages[language];
 
-export const findStringKeys = (predicate) => Object.keys(selectedLanguage.data).filter(predicate);
+export const findStringKeys = (predicate) => {
+  return Object.keys(selectedLanguage.data).filter(predicate);
+}
 
-export default (key) => selectedLanguage.data[key];
+export default key => {
+  return selectedLanguage.data[key];
+};
+
+const setSelectedLanguage = (language) => {
+  selectedLanguage = supportedLanguages[language];
+  localStorage.setItem('language', language);
+}
+
+const defaultLanguage = language;
+
+const LocalizationContext = createContext({
+  language
+});
+
+export function LocalizationProvider(props) {
+  const [language, setLanguage] = useState(defaultLanguage);
+
+  const handleLanguageChange = (nextLanguage) => {
+    setSelectedLanguage(nextLanguage);
+    setLanguage(nextLanguage);
+  };
+
+  return <LocalizationContext.Provider value={{ language, setLanguage: handleLanguageChange, languageList }}>
+    {props.children}
+  </LocalizationContext.Provider>
+}
+
+export const useLocalization = () => {
+  return useContext(LocalizationContext);
+}

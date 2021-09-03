@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
-import t from '../../common/localization';
+import t, { useLocalization } from '../../common/localization';
 import StartPage from '../../StartPage';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +24,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
+  const { language, languageList, setLanguage } = useLocalization();
 
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
@@ -61,16 +62,20 @@ const LoginForm = () => {
     }
   };
 
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+
   return (
     <StartPage>
       <Grid container direction="column" spacing={2}>
         {useMediaQuery(theme.breakpoints.down('md'))
           && (
-          <Grid item className={classes.logoContainer}>
-            <svg height="64" width="240">
-              <use xlinkHref="/logo.svg#img" />
-            </svg>
-          </Grid>
+            <Grid item className={classes.logoContainer}>
+              <svg height="64" width="240">
+                <use xlinkHref="/logo.svg#img" />
+              </svg>
+            </Grid>
           )}
         <Grid item>
           <TextField
@@ -124,8 +129,8 @@ const LoginForm = () => {
           <Grid item xs>
             <FormControl variant="filled" fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select>
-                <MenuItem value="en">English</MenuItem>
+              <Select value={language} onChange={handleLanguageChange}>
+                {languageList.map((lang) => <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>)}
               </Select>
             </FormControl>
           </Grid>
