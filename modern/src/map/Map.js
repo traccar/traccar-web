@@ -15,6 +15,7 @@ import palette from '../theme/palette';
 
 // TODO fix localization
 import en from '../../../web/l10n/en.json';
+
 const t = (key) => en[key];
 
 const element = document.createElement('div');

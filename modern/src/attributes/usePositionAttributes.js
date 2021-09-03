@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export const usePositionAttributes = (t) => useMemo({
+export default (t) => useMemo({
   raw: {
     name: t('positionRaw'),
     type: 'string',

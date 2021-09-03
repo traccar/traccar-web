@@ -4,7 +4,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t, { findStringKeys, useTranslation, useTranslationKeys } from '../LocalizationProvider';
+import { useTranslation, useTranslationKeys } from '../LocalizationProvider';
 import EditItemView from '../EditItemView';
 import { prefixString, unprefixString } from '../common/stringUtils';
 import SelectField from '../form/SelectField';

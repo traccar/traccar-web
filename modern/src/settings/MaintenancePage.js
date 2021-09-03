@@ -12,7 +12,7 @@ import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
 } from '../common/converter';
 import { useTranslation } from '../LocalizationProvider';
-import { usePositionAttributes } from '../attributes/positionAttributes';
+import usePositionAttributes from '../attributes/usePositionAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

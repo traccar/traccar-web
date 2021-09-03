@@ -5,7 +5,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from '../EditItemView';
 import { useTranslation } from '../LocalizationProvider';
-import { usePositionAttributes } from '../attributes/positionAttributes';
+import usePositionAttributes from '../attributes/usePositionAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

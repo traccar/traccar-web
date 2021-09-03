@@ -7,7 +7,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
-import { useDeviceAttributes } from '../attributes/deviceAttributes';
+import useDeviceAttributes from '../attributes/useDeviceAttributes';
 import SelectField from '../form/SelectField';
 import { useTranslation } from '../LocalizationProvider';
 

@@ -12,7 +12,7 @@ import deviceCategories from './common/deviceCategories';
 import LinkField from './form/LinkField';
 import { prefixString } from './common/stringUtils';
 import { useTranslation } from './LocalizationProvider';
-import { useDeviceAttributes } from './attributes/deviceAttributes';
+import useDeviceAttributes from './attributes/useDeviceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export const useUserAttributes = (t) => useMemo({
+export default (t) => useMemo({
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',

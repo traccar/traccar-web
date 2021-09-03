@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export const useDeviceAttributes = (t) => useMemo({
+export default (t) => useMemo({
   speedLimit: {
     name: t('attributeSpeedLimit'),
     type: 'string',

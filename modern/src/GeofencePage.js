@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import { useTranslation } from './LocalizationProvider';
-import { useGeofenceAttributes } from './attributes/geofenceAttributes';
+import useGeofenceAttributes from './attributes/useGeofenceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

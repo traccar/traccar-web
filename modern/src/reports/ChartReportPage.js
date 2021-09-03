@@ -39,7 +39,7 @@ const Filter = ({ children, setItems }) => {
 
 const ChartType = ({ type, setType }) => {
   const t = useTranslation();
-  
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={6}>

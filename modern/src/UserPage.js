@@ -9,7 +9,7 @@ import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import LinkField from './form/LinkField';
 import { useTranslation } from './LocalizationProvider';
-import { useUserAttributes } from './attributes/userAttributes';
+import useUserAttributes from './attributes/useUserAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

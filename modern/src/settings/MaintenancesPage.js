@@ -6,7 +6,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 
-import { usePositionAttributes } from '../attributes/positionAttributes';
+import usePositionAttributes from '../attributes/usePositionAttributes';
 import { formatDistance, formatSpeed } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
 import OptionsLayout from './OptionsLayout';

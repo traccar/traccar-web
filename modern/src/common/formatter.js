@@ -1,9 +1,6 @@
 import moment from 'moment';
-import { useTranslation } from '../LocalizationProvider';
 
-export const formatBoolean = (value, t) => {
-  return value ? t('sharedYes') : t('sharedNo');
-}
+export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));
 
 export const formatNumber = (value, precision = 1) => Number(value.toFixed(precision));
 

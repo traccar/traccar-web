@@ -9,8 +9,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
 import EditAttributesView from '../attributes/EditAttributesView';
-import { useDeviceAttributes } from '../attributes/deviceAttributes';
-import { useUserAttributes } from '../attributes/userAttributes';
+import useDeviceAttributes from '../attributes/useDeviceAttributes';
+import useUserAttributes from '../attributes/useUserAttributes';
 import OptionsLayout from '../settings/OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 

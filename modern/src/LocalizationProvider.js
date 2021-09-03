@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { usePersistedState } from './common/usePersistedState';
+import usePersistedState from './common/usePersistedState';
 
 import af from '../../web/l10n/af.json';
 import ar from '../../web/l10n/ar.json';
@@ -38,7 +38,7 @@ import nl from '../../web/l10n/nl.json';
 import nn from '../../web/l10n/nn.json';
 import pl from '../../web/l10n/pl.json';
 import pt from '../../web/l10n/pt.json';
-import pt_BR from '../../web/l10n/pt_BR.json';
+import ptBR from '../../web/l10n/pt_BR.json';
 import ro from '../../web/l10n/ro.json';
 import ru from '../../web/l10n/ru.json';
 import si from '../../web/l10n/si.json';
@@ -54,7 +54,7 @@ import uk from '../../web/l10n/uk.json';
 import uz from '../../web/l10n/uz.json';
 import vi from '../../web/l10n/vi.json';
 import zh from '../../web/l10n/zh.json';
-import zh_TW from '../../web/l10n/zh_TW.json';
+import zhTW from '../../web/l10n/zh_TW.json';
 
 const languages = {
   af: { data: af, name: 'Afrikaans' },
@@ -94,7 +94,7 @@ const languages = {
   nn: { data: nn, name: 'Norsk nynorsk' },
   pl: { data: pl, name: 'Polski' },
   pt: { data: pt, name: 'Português' },
-  pt_BR: { data: pt_BR, name: 'Português (Brasil)' },
+  ptBR: { data: ptBR, name: 'Português (Brasil)' },
   ro: { data: ro, name: 'Română' },
   ru: { data: ru, name: 'Русский' },
   si: { data: si, name: 'සිංහල' },
@@ -110,7 +110,7 @@ const languages = {
   uz: { data: uz, name: 'Oʻzbekcha' },
   vi: { data: vi, name: 'Tiếng Việt' },
   zh: { data: zh, name: '中文' },
-  zh_TW: { data: zh_TW, name: '中文 (Taiwan)' },
+  zhTW: { data: zhTW, name: '中文 (Taiwan)' },
 };
 
 const getDefaultLanguage = () => {
@@ -118,10 +118,9 @@ const getDefaultLanguage = () => {
   const browserLanguage = window.navigator.userLanguage || window.navigator.language;
   browserLanguages.push(browserLanguage);
   browserLanguages.push(browserLanguage.substring(0, 2));
-  browserLanguages.push('en');
 
-  for (let i = 0; i < browserLanguages.length; i++) {
-    let language = browserLanguages[i].replace('-', '_');
+  for (let i = 0; i < browserLanguages.length; i += 1) {
+    let language = browserLanguages[i].replace('-', '');
     if (language in languages) {
       return language;
     }
@@ -132,6 +131,7 @@ const getDefaultLanguage = () => {
       }
     }
   }
+  return 'en';
 };
 
 const LocalizationContext = createContext({
@@ -150,18 +150,16 @@ export const LocalizationProvider = ({ children }) => {
   );
 };
 
-export const useLocalization = () => {
-  return useContext(LocalizationContext);
-};
+export const useLocalization = () => useContext(LocalizationContext);
 
 export const useTranslation = () => {
   const context = useContext(LocalizationContext);
-  const data = context.languages[context.language].data;
+  const { data } = context.languages[context.language];
   return (key) => data[key];
 };
 
 export const useTranslationKeys = (predicate) => {
   const context = useContext(LocalizationContext);
-  const data = context.languages[context.language].data;
+  const { data } = context.languages[context.language];
   return Object.keys(data).filter(predicate);
 };
