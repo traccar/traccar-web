@@ -10,9 +10,12 @@ import { prepareIcon, loadImage } from './mapUtil';
 import {
   styleCarto, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
-import t from '../LocalizationProvider';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
+
+// TODO fix localization
+import en from '../../../web/l10n/en.json';
+const t = (key) => en[key];
 
 const element = document.createElement('div');
 element.style.width = '100%';

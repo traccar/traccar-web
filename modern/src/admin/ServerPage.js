@@ -9,8 +9,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
 import EditAttributesView from '../attributes/EditAttributesView';
-import deviceAttributes from '../attributes/deviceAttributes';
-import userAttributes from '../attributes/userAttributes';
+import { useDeviceAttributes } from '../attributes/deviceAttributes';
+import { useUserAttributes } from '../attributes/userAttributes';
 import OptionsLayout from '../settings/OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 
@@ -35,6 +35,9 @@ const ServerPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const t = useTranslation();
+
+  const userAttributes = useUserAttributes(t);
+  const deviceAttributes = useDeviceAttributes(t);
 
   const item = useSelector((state) => state.session.server);
   const setItem = (updatedItem) => dispatch(sessionActions.updateServer(updatedItem));

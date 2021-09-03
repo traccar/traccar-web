@@ -7,8 +7,8 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
-import geofenceAttributes from './attributes/geofenceAttributes';
 import { useTranslation } from './LocalizationProvider';
+import { useGeofenceAttributes } from './attributes/geofenceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -19,6 +19,8 @@ const useStyles = makeStyles(() => ({
 const GeofencePage = () => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const geofenceAttributes = useGeofenceAttributes(t);
 
   const [item, setItem] = useState();
 

@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import usePersistedState from './common/usePersistedState';
+import { usePersistedState } from './common/usePersistedState';
 
 import af from '../../web/l10n/af.json';
 import ar from '../../web/l10n/ar.json';
@@ -112,8 +112,6 @@ const languages = {
   zh: { data: zh, name: '中文' },
   zh_TW: { data: zh_TW, name: '中文 (Taiwan)' },
 };
-
-//const languageList = Object.entries(supportedLanguages).map((values) => ({ code: values[0], name: values[1].name }));
 
 const getDefaultLanguage = () => {
   const browserLanguages = window.navigator.languages ? window.navigator.languages.slice() : [];

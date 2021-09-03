@@ -1,8 +1,8 @@
-import t from '../LocalizationProvider';
+import { useMemo } from 'react';
 
-export default {
+export const useGeofenceAttributes = (t) => useMemo({
   speedLimit: {
     name: t('attributeSpeedLimit'),
     type: 'string',
   },
-};
+}, [t]);

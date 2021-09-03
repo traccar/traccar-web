@@ -7,7 +7,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
-import deviceAttributes from '../attributes/deviceAttributes';
+import { useDeviceAttributes } from '../attributes/deviceAttributes';
 import SelectField from '../form/SelectField';
 import { useTranslation } from '../LocalizationProvider';
 
@@ -20,6 +20,8 @@ const useStyles = makeStyles(() => ({
 const GroupPage = () => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const deviceAttributes = useDeviceAttributes(t);
 
   const [item, setItem] = useState();
 

@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
-import t, { useLocalization } from '../../LocalizationProvider';
+import { useLocalization, useTranslation } from '../../LocalizationProvider';
 import StartPage from '../../StartPage';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,21 +24,16 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const theme = useTheme();
-  const { language, languageList, setLanguage } = useLocalization();
+  const t = useTranslation();
+
+  const { languages, language, setLanguage } = useLocalization();
+  const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const registrationEnabled = useSelector((state) => (state.session.server ? state.session.server.registration : false));
   const emailEnabled = useSelector((state) => (state.session.server ? state.session.server.emailEnabled : false));
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -62,10 +57,6 @@ const LoginForm = () => {
     }
   };
 
-  const handleLanguageChange = (e) => {
-    setLanguage(e.target.value);
-  };
-
   return (
     <StartPage>
       <Grid container direction="column" spacing={2}>
@@ -87,7 +78,7 @@ const LoginForm = () => {
             value={email}
             autoComplete="email"
             autoFocus
-            onChange={handleEmailChange}
+            onChange={(e) => setEmail(e.target.value)}
             onKeyUp={handleSpecialKey}
             helperText={failed && 'Invalid username or password'}
             variant="filled"
@@ -103,7 +94,7 @@ const LoginForm = () => {
             value={password}
             type="password"
             autoComplete="current-password"
-            onChange={handlePasswordChange}
+            onChange={(e) => setPassword(e.target.value)}
             onKeyUp={handleSpecialKey}
             variant="filled"
           />
@@ -129,8 +120,8 @@ const LoginForm = () => {
           <Grid item xs>
             <FormControl variant="filled" fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select value={language} onChange={handleLanguageChange}>
-                {languageList.map((lang) => <MenuItem key={lang.code} value={lang.code}>{lang.name}</MenuItem>)}
+              <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
             </FormControl>
           </Grid>

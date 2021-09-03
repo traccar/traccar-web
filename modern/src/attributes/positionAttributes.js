@@ -1,6 +1,6 @@
-import t from '../LocalizationProvider';
+import { useMemo } from 'react';
 
-export default {
+export const usePositionAttributes = (t) => useMemo({
   raw: {
     name: t('positionRaw'),
     type: 'string',
@@ -18,4 +18,4 @@ export default {
     type: 'number',
     dataType: 'distance',
   },
-};
+}, [t]);

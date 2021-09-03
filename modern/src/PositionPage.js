@@ -8,6 +8,7 @@ import { useEffectAsync } from './reactHelper';
 import MainToolbar from './MainToolbar';
 import { formatPosition } from './common/formatter';
 import { prefixString } from './common/stringUtils';
+import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {

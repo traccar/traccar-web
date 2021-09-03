@@ -7,12 +7,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { prefixString } from '../common/stringUtils';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
-import positionAttributes from '../attributes/positionAttributes';
 import { useAttributePreference } from '../common/preferences';
 import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
 } from '../common/converter';
 import { useTranslation } from '../LocalizationProvider';
+import { usePositionAttributes } from '../attributes/positionAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -23,6 +23,8 @@ const useStyles = makeStyles(() => ({
 const MaintenancePage = () => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const positionAttributes = usePositionAttributes(t);
 
   const [item, setItem] = useState();
   const [labels, setLabels] = useState({ start: '', period: '' });

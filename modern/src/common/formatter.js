@@ -1,7 +1,10 @@
 import moment from 'moment';
-import t from '../LocalizationProvider';
+import { useTranslation } from '../LocalizationProvider';
 
-export const formatBoolean = (value) => (value ? t('sharedYes') : t('sharedNo'));
+export const formatBoolean = (value) => {
+  const t = useTranslation();
+  return value ? t('sharedYes') : t('sharedNo');
+}
 
 export const formatNumber = (value, precision = 1) => Number(value.toFixed(precision));
 
@@ -36,6 +39,7 @@ export const formatPosition = (value, key) => {
 };
 
 export const formatDistance = (value, unit) => {
+  const t = useTranslation();
   switch (unit) {
     case 'mi':
       return `${(value * 0.000621371).toFixed(2)} ${t('sharedMi')}`;
@@ -48,6 +52,7 @@ export const formatDistance = (value, unit) => {
 };
 
 export const formatSpeed = (value, unit) => {
+  const t = useTranslation();
   switch (unit) {
     case 'kmh':
       return `${(value * 1.852).toFixed(2)} ${t('sharedKmh')}`;
@@ -60,6 +65,7 @@ export const formatSpeed = (value, unit) => {
 };
 
 export const formatVolume = (value, unit) => {
+  const t = useTranslation();
   switch (unit) {
     case 'impGal':
       return `${(value / 4.546).toFixed(2)} ${t('sharedGallonAbbreviation')}`;
@@ -74,8 +80,11 @@ export const formatVolume = (value, unit) => {
 export const formatHours = (value) => moment.duration(value).humanize();
 
 export const formatCoordinate = (key, value, unit) => {
-  let hemisphere; let degrees; let minutes; let
-    seconds;
+  let hemisphere;
+  let degrees;
+  let minutes;
+  let seconds;
+
   if (key === 'latitude') {
     hemisphere = value >= 0 ? 'N' : 'S';
   } else {

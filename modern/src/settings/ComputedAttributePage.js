@@ -4,8 +4,8 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from '../EditItemView';
-import positionAttributes from '../attributes/positionAttributes';
 import { useTranslation } from '../LocalizationProvider';
+import { usePositionAttributes } from '../attributes/positionAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -16,6 +16,8 @@ const useStyles = makeStyles(() => ({
 const ComputedAttributePage = () => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const positionAttributes = usePositionAttributes(t);
 
   const [item, setItem] = useState();
   const [key, setKey] = useState();

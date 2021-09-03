@@ -7,12 +7,12 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
-import deviceAttributes from './attributes/deviceAttributes';
 import SelectField from './form/SelectField';
 import deviceCategories from './common/deviceCategories';
 import LinkField from './form/LinkField';
 import { prefixString } from './common/stringUtils';
 import { useTranslation } from './LocalizationProvider';
+import { useDeviceAttributes } from './attributes/deviceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -23,6 +23,8 @@ const useStyles = makeStyles(() => ({
 const DevicePage = () => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const deviceAttributes = useDeviceAttributes(t);
 
   const [item, setItem] = useState();
 

@@ -13,8 +13,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SideNav from '../../components/SideNav';
 import NavBar from '../../components/NavBar';
-import t from '../../LocalizationProvider';
 import useRoutes from './useRoutes';
+import { useTranslation } from '../../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,9 +54,11 @@ const OptionsLayout = ({ children }) => {
   const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
+  const routes = useRoutes();
+  const t = useTranslation();
+
   const [openDrawer, setOpenDrawer] = useState(false);
   const [optionTitle, setOptionTitle] = useState();
-  const routes = useRoutes();
 
   useEffect(() => {
     const activeRoute = routes.find(

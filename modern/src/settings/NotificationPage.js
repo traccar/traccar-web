@@ -4,7 +4,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t, { findStringKeys } from '../LocalizationProvider';
+import t, { findStringKeys, useTranslation, useTranslationKeys } from '../LocalizationProvider';
 import EditItemView from '../EditItemView';
 import { prefixString, unprefixString } from '../common/stringUtils';
 import SelectField from '../form/SelectField';
@@ -17,10 +17,11 @@ const useStyles = makeStyles(() => ({
 
 const NotificationPage = () => {
   const classes = useStyles();
+  const t = useTranslation();
 
   const [item, setItem] = useState();
 
-  const alarms = findStringKeys((it) => it.startsWith('alarm')).map((it) => ({
+  const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
     key: unprefixString('alarm', it),
     name: t(it),
   }));

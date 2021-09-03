@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default usePersistedState = (key, defaultValue) => {
+export const usePersistedState = (key, defaultValue) => {
 
   const [value, setValue] = useState(() => {
     const stickyValue = window.localStorage.getItem(key);
     return stickyValue ? JSON.parse(stickyValue) : defaultValue;
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.localStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);
 

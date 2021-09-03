@@ -6,7 +6,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 
-import positionAttributes from '../attributes/positionAttributes';
+import { usePositionAttributes } from '../attributes/positionAttributes';
 import { formatDistance, formatSpeed } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
 import OptionsLayout from './OptionsLayout';
@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
 const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const positionAttributes = usePositionAttributes(t);
 
   const [items, setItems] = useState([]);
   const speedUnit = useAttributePreference('speedUnit');

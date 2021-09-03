@@ -1,6 +1,6 @@
-import t from '../LocalizationProvider';
+import { useMemo } from 'react';
 
-export default {
+export const useDeviceAttributes = (t) => useMemo({
   speedLimit: {
     name: t('attributeSpeedLimit'),
     type: 'string',
@@ -9,4 +9,4 @@ export default {
     name: t('attributeReportIgnoreOdometer'),
     type: 'boolean',
   },
-};
+}, [t]);

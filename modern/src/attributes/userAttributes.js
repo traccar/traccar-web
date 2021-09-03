@@ -1,6 +1,6 @@
-import t from '../LocalizationProvider';
+import { useMemo } from 'react';
 
-export default {
+export const useUserAttributes = (t) => useMemo({
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',
@@ -65,4 +65,4 @@ export default {
     name: t('sharedTimezone'),
     type: 'string',
   },
-};
+}, [t]);
