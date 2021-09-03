@@ -1,4 +1,4 @@
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 
 export default {
   speedLimit: {

@@ -11,7 +11,7 @@ import CurrentLocationMap from './map/CurrentLocationMap';
 import GeofenceEditMap from './map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
 
-import t from './common/localization';
+import t from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {

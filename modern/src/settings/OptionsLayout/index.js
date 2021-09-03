@@ -13,7 +13,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import SideNav from '../../components/SideNav';
 import NavBar from '../../components/NavBar';
-import t from '../../common/localization';
+import t from '../../LocalizationProvider';
 import useRoutes from './useRoutes';
 
 const useStyles = makeStyles((theme) => ({

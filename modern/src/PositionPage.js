@@ -4,7 +4,7 @@ import {
   makeStyles, Typography, ListItem, ListItemText, ListItemSecondaryAction, List, Container, Paper, Divider,
 } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
-import t from './common/localization';
+import t from './LocalizationProvider';
 import { useEffectAsync } from './reactHelper';
 import MainToolbar from './MainToolbar';
 import { formatPosition } from './common/formatter';

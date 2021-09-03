@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 
-import t from './common/localization';
+import t from './LocalizationProvider';
 import { useEffectAsync } from './reactHelper';
 import OptionsLayout from './settings/OptionsLayout';
 

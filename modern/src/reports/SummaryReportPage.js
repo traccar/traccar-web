@@ -8,7 +8,7 @@ import {
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { useAttributePreference } from '../common/preferences';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
   const [daily, setDaily] = useState(false);

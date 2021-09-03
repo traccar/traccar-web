@@ -12,7 +12,7 @@ import MapIcon from '@material-ui/icons/Map';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 
 import { sessionActions } from '../store';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {

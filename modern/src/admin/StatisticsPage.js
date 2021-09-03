@@ -3,7 +3,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Paper,
 } from '@material-ui/core';
 import moment from 'moment';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import { formatDate } from '../common/formatter';
 import OptionsLayout from '../settings/OptionsLayout';
 

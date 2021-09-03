@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import t from './common/localization';
+import t from './LocalizationProvider';
 
 const RegisterDialog = ({ showDialog, onResult }) => {
   const [name, setName] = useState('');

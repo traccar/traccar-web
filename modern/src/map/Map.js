@@ -10,7 +10,7 @@ import { prepareIcon, loadImage } from './mapUtil';
 import {
   styleCarto, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
 

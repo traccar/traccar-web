@@ -8,7 +8,7 @@ import Graph from './Graph';
 import { useAttributePreference } from '../common/preferences';
 import { formatDate } from '../common/formatter';
 import { speedFromKnots } from '../common/converter';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 
 const Filter = ({ children, setItems }) => {
   const speedUnit = useAttributePreference('speedUnit');

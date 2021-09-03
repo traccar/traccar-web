@@ -9,7 +9,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import { getIsAdmin, getUserId } from '../../common/selectors';
-import t from '../../common/localization';
+import t from '../../LocalizationProvider';
 
 const accountRoute = {
   name: t('settingsUser'),

@@ -19,7 +19,7 @@ import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import BottomNav from './components/BottomNav';
-import t from './common/localization';
+import t from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {

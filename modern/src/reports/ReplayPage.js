@@ -5,7 +5,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MainToolbar from '../MainToolbar';
 import Map from '../map/Map';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import ReplayPathMap from '../map/ReplayPathMap';
 import PositionsMap from '../map/PositionsMap';
 import { formatPosition } from '../common/formatter';

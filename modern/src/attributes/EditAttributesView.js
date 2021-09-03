@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import AddAttributeDialog from './AddAttributeDialog';
 
 const useStyles = makeStyles((theme) => ({

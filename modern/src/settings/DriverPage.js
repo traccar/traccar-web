@@ -4,7 +4,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
 

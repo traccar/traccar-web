@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
-import t, { useLocalization } from '../../common/localization';
+import t, { useLocalization } from '../../LocalizationProvider';
 import StartPage from '../../StartPage';
 
 const useStyles = makeStyles((theme) => ({

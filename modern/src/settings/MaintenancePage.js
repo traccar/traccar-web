@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import { prefixString } from '../common/stringUtils';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';

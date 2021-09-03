@@ -1,5 +1,5 @@
 import moment from 'moment';
-import t from './localization';
+import t from '../LocalizationProvider';
 
 export const formatBoolean = (value) => (value ? t('sharedYes') : t('sharedNo'));
 

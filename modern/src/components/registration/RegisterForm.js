@@ -5,7 +5,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StartPage from '../../StartPage';
-import t from '../../common/localization';
+import t from '../../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   register: {

@@ -7,7 +7,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import { sessionActions } from '../store';
 import EditAttributesView from '../attributes/EditAttributesView';
 import deviceAttributes from '../attributes/deviceAttributes';

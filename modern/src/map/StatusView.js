@@ -18,7 +18,7 @@ import {
 } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
 import RemoveDialog from '../RemoveDialog';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import { getPosition } from '../common/selectors';
 
 const useStyles = makeStyles((theme) => ({

@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   const devices = useSelector((state) => Object.values(state.devices.items));

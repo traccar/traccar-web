@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useSelector } from 'react-redux';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import OptionsLayout from './OptionsLayout';

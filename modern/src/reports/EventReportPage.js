@@ -9,7 +9,7 @@ import { formatDate } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
 import { prefixString } from '../common/stringUtils';
-import t from '../common/localization';
+import t from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {
   const [eventTypes, setEventTypes] = useState(['allEvents']);

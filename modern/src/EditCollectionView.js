@@ -7,7 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { useSelector } from 'react-redux';
 
-import t from './common/localization';
+import t from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
 
 const useStyles = makeStyles((theme) => ({
