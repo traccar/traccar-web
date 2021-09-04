@@ -45,8 +45,8 @@ const BottomMenu = () => {
         break;
       case 3:
         await fetch('/api/session', { method: 'DELETE' });
-        dispatch(sessionActions.updateUser(null));
         history.push('/login');
+        dispatch(sessionActions.updateUser(null));
         break;
       default:
         break;
