@@ -111,7 +111,7 @@ const LoginForm = () => {
             {t('loginLogin')}
           </Button>
         </Grid>
-        <Grid item container>
+        <Grid item container spacing={2}>
           <Grid item>
             <Button onClick={() => history.push('/register')} disabled={!registrationEnabled} color="secondary">
               {t('loginRegister')}
