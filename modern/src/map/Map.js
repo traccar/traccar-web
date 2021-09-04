@@ -12,11 +12,7 @@ import {
 } from './mapStyles';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
-
-// TODO fix localization
-import en from '../../../web/l10n/en.json';
-
-const t = (key) => en[key];
+import { useTranslation } from '../LocalizationProvider';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -24,7 +20,6 @@ element.style.height = '100%';
 
 export const map = new maplibregl.Map({
   container: element,
-  style: styleOsm(),
 });
 
 let ready = false;
@@ -66,23 +61,11 @@ const initMap = async () => {
   updateReadyValue(true);
 };
 
-map.on('load', initMap);
-
 map.addControl(new maplibregl.NavigationControl({
   showCompass: false,
 }));
 
 const switcher = new SwitcherControl(
-  [
-    { title: t('mapOsm'), uri: styleOsm() },
-    { title: t('mapCarto'), uri: styleCarto() },
-    { title: t('mapMapboxStreets'), uri: styleMapbox('streets-v11') },
-    { title: t('mapMapboxOutdoors'), uri: styleMapbox('outdoors-v11') },
-    { title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
-    { title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', '{mapTilerKey}') },
-    { title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', '{mapTilerKey}') },
-  ],
-  t('mapOsm'),
   () => updateReadyValue(false),
   () => {
     const waiting = () => {
@@ -100,19 +83,27 @@ map.addControl(switcher);
 
 const Map = ({ children }) => {
   const containerEl = useRef(null);
+  const t = useTranslation();
 
   const [mapReady, setMapReady] = useState(false);
 
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
+  const mapTilerKey = useAttributePreference('mapTilerKey');
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
   }, [mapboxAccessToken]);
 
-  const mapTilerKey = useAttributePreference('mapTilerKey');
-
   useEffect(() => {
-    switcher.setVariable('mapTilerKey', mapTilerKey);
+    switcher.updateStyles([
+      { id: 'osm', title: t('mapOsm'), uri: styleOsm() },
+      { id: 'carto', title: t('mapCarto'), uri: styleCarto() },
+      { id: 'mapboxStreets', title: t('mapMapboxStreets'), uri: styleMapbox('streets-v11') },
+      { id: 'mapboxOutdoors', title: t('mapMapboxOutdoors'), uri: styleMapbox('outdoors-v11') },
+      { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
+      { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
+      { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
+    ], 'osm');
   }, [mapTilerKey]);
 
   useEffect(() => {
@@ -126,9 +117,7 @@ const Map = ({ children }) => {
   useLayoutEffect(() => {
     const currentEl = containerEl.current;
     currentEl.appendChild(element);
-    if (map) {
-      map.resize();
-    }
+    map.resize();
     return () => {
       currentEl.removeChild(element);
     };

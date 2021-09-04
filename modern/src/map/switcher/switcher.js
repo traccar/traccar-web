@@ -1,19 +1,65 @@
 export class SwitcherControl {
-  constructor(styles, defaultStyle, beforeSwitch, afterSwitch) {
-    this.styles = styles;
-    this.defaultStyle = defaultStyle;
-    this.beforeSwitch = beforeSwitch;
-    this.afterSwitch = afterSwitch;
+
+  constructor(onBeforeSwitch, onAfterSwitch) {
+    this.onBeforeSwitch = onBeforeSwitch;
+    this.onAfterSwitch = onAfterSwitch;
     this.onDocumentClick = this.onDocumentClick.bind(this);
-    this.variables = {};
+    this.styles = [];
+    this.currentStyle = null;
   }
 
   getDefaultPosition() {
     return 'top-right';
   }
 
-  setVariable(key, value) {
-    this.variables[key] = value;
+  updateStyles(updatedStyles, selectedStyle) {
+    this.styles = updatedStyles;
+
+    while (this.mapStyleContainer.firstChild) {
+      this.mapStyleContainer.removeChild(this.mapStyleContainer.firstChild);
+    }
+
+    let selectedStyleElement;
+
+    for (const style of this.styles) {
+      const styleElement = document.createElement('button');
+      styleElement.type = 'button';
+      styleElement.innerText = style.title;
+      styleElement.dataset.id = style.id;
+      styleElement.dataset.uri = JSON.stringify(style.uri);
+      styleElement.addEventListener('click', (event) => {
+        const { target } = event;
+        if (!target.classList.contains('active')) {
+          this.onSelectStyle(target);
+        }
+      });
+      if (style.id === selectedStyle) {
+        selectedStyleElement = styleElement;
+        styleElement.classList.add('active');
+      }
+      this.mapStyleContainer.appendChild(styleElement);
+    }
+
+    if (this.currentStyle !== selectedStyle) {
+      this.onSelectStyle(selectedStyleElement);
+    }
+  }
+
+  onSelectStyle(target) {
+    this.onBeforeSwitch();
+
+    this.map.setStyle(JSON.parse(target.dataset.uri));
+
+    this.mapStyleContainer.style.display = 'none';
+    this.styleButton.style.display = 'block';
+
+    const elements = this.mapStyleContainer.getElementsByClassName('active');
+    while (elements[0]) {
+      elements[0].classList.remove('active');
+    }
+    target.classList.add('active');
+
+    this.onAfterSwitch();
   }
 
   onAdd(map) {
@@ -25,39 +71,6 @@ export class SwitcherControl {
     this.styleButton = document.createElement('button');
     this.styleButton.type = 'button';
     this.mapStyleContainer.classList.add('maplibregl-style-list');
-    for (const style of this.styles) {
-      const styleElement = document.createElement('button');
-      styleElement.type = 'button';
-      styleElement.innerText = style.title;
-      if (style.title) {
-        styleElement.classList.add(style.title.replace(/[^a-z0-9-]/gi, '_'));
-      }
-      styleElement.dataset.uri = JSON.stringify(style.uri);
-      styleElement.addEventListener('click', (event) => {
-        const { srcElement } = event;
-        if (srcElement.classList.contains('active')) {
-          return;
-        }
-        this.beforeSwitch();
-        let uri = JSON.parse(srcElement.dataset.uri);
-        if (typeof uri === 'string') {
-          Object.entries(this.variables).forEach(([key, value]) => uri = uri.replaceAll(`\{${key}}`, value));
-        }
-        this.map.setStyle(uri);
-        this.afterSwitch();
-        this.mapStyleContainer.style.display = 'none';
-        this.styleButton.style.display = 'block';
-        const elms = this.mapStyleContainer.getElementsByClassName('active');
-        while (elms[0]) {
-          elms[0].classList.remove('active');
-        }
-        srcElement.classList.add('active');
-      });
-      if (style.title === this.defaultStyle) {
-        styleElement.classList.add('active');
-      }
-      this.mapStyleContainer.appendChild(styleElement);
-    }
     this.styleButton.classList.add('maplibregl-ctrl-icon');
     this.styleButton.classList.add('maplibregl-style-switcher');
     this.styleButton.addEventListener('click', () => {
