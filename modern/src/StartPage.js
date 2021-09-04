@@ -38,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5),
     width: '100%',
   },
+  attribution: {
+    position: 'absolute',
+    bottom: theme.spacing(1),
+    right: theme.spacing(1.5),
+    fontSize: 'x-small',
+  },
 }));
 
 const StartPage = ({ children }) => {
@@ -45,21 +51,26 @@ const StartPage = ({ children }) => {
   const theme = useTheme();
 
   return (
-    <main className={classes.root}>
-      <div className={classes.sidebar}>
-        {!useMediaQuery(theme.breakpoints.down('md'))
-          && (
-          <svg height="64" width="240">
-            <use xlinkHref="/logo.svg#img" />
-          </svg>
-          )}
+    <>
+      <main className={classes.root}>
+        <div className={classes.sidebar}>
+          {!useMediaQuery(theme.breakpoints.down('md'))
+            && (
+            <svg height="64" width="240">
+              <use xlinkHref="/logo.svg#img" />
+            </svg>
+            )}
+        </div>
+        <Paper className={classes.paper}>
+          <form className={classes.form}>
+            { children }
+          </form>
+        </Paper>
+      </main>
+      <div className={classes.attribution}>
+        Powered by <a href="https://www.traccar.org/">Traccar GPS Tracking System</a>
       </div>
-      <Paper className={classes.paper}>
-        <form className={classes.form}>
-          { children }
-        </form>
-      </Paper>
-    </main>
+    </>
   );
 };
 
