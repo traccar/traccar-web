@@ -68,7 +68,8 @@ const StartPage = ({ children }) => {
         </Paper>
       </main>
       <div className={classes.attribution}>
-        Powered by <a href="https://www.traccar.org/">Traccar GPS Tracking System</a>
+        Powered by&nbsp;
+        <a href="https://www.traccar.org/">Traccar GPS Tracking System</a>
       </div>
     </>
   );
