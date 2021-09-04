@@ -44,11 +44,11 @@ const BottomMenu = () => {
         history.push('/settings/notifications');
         break;
       case 3:
-        const response = await fetch('/api/session', { method: 'DELETE' });
-        if (response.ok) {
-          dispatch(sessionActions.updateUser(null));
-          history.push('/login');
-        }
+        await fetch('/api/session', { method: 'DELETE' });
+        dispatch(sessionActions.updateUser(null));
+        history.push('/login');
+        break;
+      default:
         break;
     }
   };
