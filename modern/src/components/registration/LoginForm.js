@@ -35,7 +35,7 @@ const LoginForm = () => {
   const registrationEnabled = useSelector((state) => (state.session.server ? state.session.server.registration : false));
   const emailEnabled = useSelector((state) => (state.session.server ? state.session.server.emailEnabled : false));
 
-  const handleLogin = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await fetch('/api/session', {
       method: 'POST',
@@ -53,7 +53,7 @@ const LoginForm = () => {
 
   const handleSpecialKey = (e) => {
     if (e.keyCode === 13 && email && password) {
-      handleLogin(e);
+      handleSubmit(e);
     }
   };
 
@@ -101,7 +101,7 @@ const LoginForm = () => {
         </Grid>
         <Grid item>
           <Button
-            onClick={handleLogin}
+            onClick={handleSubmit}
             onKeyUp={handleSpecialKey}
             variant="contained"
             color="secondary"

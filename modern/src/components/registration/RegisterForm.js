@@ -8,7 +8,7 @@ import StartPage from '../../StartPage';
 import { useTranslation } from '../../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
-  register: {
+  title: {
     fontSize: theme.spacing(3),
     fontWeight: 500,
     marginLeft: theme.spacing(2),
@@ -32,15 +32,12 @@ const RegisterForm = () => {
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const submitDisabled = () => !name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password;
-
-  const handleRegister = async () => {
+  const handleSubmit = async () => {
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
     });
-
     if (response.ok) {
       setSnackbarOpen(true);
     }
@@ -65,7 +62,7 @@ const RegisterForm = () => {
             </Typography>
           </Grid>
           <Grid item xs>
-            <Typography className={classes.register} color="primary">
+            <Typography className={classes.title} color="primary">
               {t('loginRegister')}
             </Typography>
           </Grid>
@@ -76,7 +73,7 @@ const RegisterForm = () => {
             fullWidth
             label={t('sharedName')}
             name="name"
-            value={name || ''}
+            value={name}
             autoComplete="name"
             autoFocus
             onChange={(event) => setName(event.target.value)}
@@ -90,7 +87,7 @@ const RegisterForm = () => {
             type="email"
             label={t('userEmail')}
             name="email"
-            value={email || ''}
+            value={email}
             autoComplete="email"
             onChange={(event) => setEmail(event.target.value)}
             variant="filled"
@@ -102,7 +99,7 @@ const RegisterForm = () => {
             fullWidth
             label={t('userPassword')}
             name="password"
-            value={password || ''}
+            value={password}
             type="password"
             autoComplete="current-password"
             onChange={(event) => setPassword(event.target.value)}
@@ -113,8 +110,8 @@ const RegisterForm = () => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={handleRegister}
-            disabled={submitDisabled()}
+            onClick={handleSubmit}
+            disabled={!name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password}
             fullWidth
           >
             {t('loginRegister')}
