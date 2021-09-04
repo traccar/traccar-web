@@ -9,5 +9,4 @@ export default {
   columnWidthNumber: 130,
   columnWidthString: 160,
   columnWidthBoolean: 130,
-  bottomNavMaxWidth: '400px',
 };

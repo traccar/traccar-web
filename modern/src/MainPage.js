@@ -18,7 +18,7 @@ import AccuracyMap from './map/AccuracyMap';
 import GeofenceMap from './map/GeofenceMap';
 import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
-import BottomNav from './components/BottomNav';
+import BottomMenu from './components/BottomMenu';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    bottom: theme.spacing(8),
+    bottom: 56,
     zIndex: 1301,
     transition: 'transform .5s ease',
     backgroundColor: 'white',
@@ -103,10 +103,7 @@ const MainPage = () => {
     setCollapsed(!collapsed);
   };
 
-  // Collapse sidebar for tablets and phones
-  useEffect(() => {
-    setCollapsed(isTablet);
-  }, [isTablet]);
+  useEffect(() => setCollapsed(isTablet), [isTablet]);
 
   return (
     <div className={classes.root}>
@@ -128,7 +125,7 @@ const MainPage = () => {
         <ListIcon />
         <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
       </Button>
-      <Paper elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
+      <Paper square elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
         <Paper className={classes.paper} square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {isTablet && (
@@ -160,8 +157,7 @@ const MainPage = () => {
           <DevicesList />
         </div>
       </Paper>
-
-      <BottomNav showOnDesktop />
+      <BottomMenu />
     </div>
   );
 };
