@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../../store';
 import { useLocalization, useTranslation } from '../../LocalizationProvider';
 import StartPage from '../../StartPage';
+import usePersistedState from '../../common/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   logoContainer: {
@@ -30,8 +31,10 @@ const LoginForm = () => {
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
-  const [email, setEmail] = useState('');
+
+  const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
+
   const registrationEnabled = useSelector((state) => (state.session.server ? state.session.server.registration : false));
   const emailEnabled = useSelector((state) => (state.session.server ? state.session.server.emailEnabled : false));
 
@@ -77,7 +80,7 @@ const LoginForm = () => {
             name="email"
             value={email}
             autoComplete="email"
-            autoFocus
+            autoFocus={!email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyUp={handleSpecialKey}
             helperText={failed && 'Invalid username or password'}
@@ -94,6 +97,7 @@ const LoginForm = () => {
             value={password}
             type="password"
             autoComplete="current-password"
+            autoFocus={!!email}
             onChange={(e) => setPassword(e.target.value)}
             onKeyUp={handleSpecialKey}
             variant="filled"
