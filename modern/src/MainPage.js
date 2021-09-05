@@ -110,7 +110,7 @@ const MainPage = () => {
   return (
     <div className={classes.root}>
       <Map>
-        {!isTablet && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop)} />}
+        {!isTablet && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
         <CurrentLocationMap />
         <GeofenceMap />
         <AccuracyMap />
