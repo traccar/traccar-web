@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StartPage from '../../StartPage';
 import { useTranslation } from '../../LocalizationProvider';
+import useQuery from '../../common/useQuery';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,16 +27,28 @@ const ResetPasswordForm = () => {
   const classes = useStyles();
   const history = useHistory();
   const t = useTranslation();
+  const query = useQuery();
+
+  const token = query.get('passwordReset');
 
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch('/api/password/reset', {
-      method: 'POST',
-      body: new URLSearchParams(`email=${encodeURIComponent(email)}`),
-    });
+    let response;
+    if (!token) {
+      response = await fetch('/api/password/reset', {
+        method: 'POST',
+        body: new URLSearchParams(`email=${encodeURIComponent(email)}`),
+      });
+    } else {
+      response = await fetch('/api/password/update', {
+        method: 'POST',
+        body: new URLSearchParams(`token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`),
+      });
+    }
     if (response.ok) {
       setSnackbarOpen(true);
     }
@@ -48,7 +61,7 @@ const ResetPasswordForm = () => {
         open={snackbarOpen}
         onClose={() => history.push('/login')}
         autoHideDuration={6000}
-        message={t('loginResetSuccess')}
+        message={!token ? t('loginResetSuccess') : t('loginUpdateSuccess')}
       />
       <Grid container direction="column" spacing={2}>
         <Grid container item>
@@ -65,25 +78,40 @@ const ResetPasswordForm = () => {
             </Typography>
           </Grid>
         </Grid>
-        <Grid item>
-          <TextField
-            required
-            fullWidth
-            type="email"
-            label={t('userEmail')}
-            name="email"
-            value={email}
-            autoComplete="email"
-            onChange={(event) => setEmail(event.target.value)}
-            variant="filled"
-          />
-        </Grid>
+        {!token
+          ? <Grid item>
+              <TextField
+                required
+                fullWidth
+                type="email"
+                label={t('userEmail')}
+                name="email"
+                value={email}
+                autoComplete="email"
+                onChange={(event) => setEmail(event.target.value)}
+                variant="filled"
+              />
+            </Grid>
+          : <Grid item>
+              <TextField
+                required
+                fullWidth
+                label={t('userPassword')}
+                name="password"
+                value={password}
+                type="password"
+                autoComplete="current-password"
+                onChange={(event) => setPassword(event.target.value)}
+                variant="filled"
+              />
+            </Grid>
+        }
         <Grid item>
           <Button
             variant="contained"
             color="secondary"
             onClick={handleSubmit}
-            disabled={!/(.+)@(.+)\.(.{2,})/.test(email)}
+            disabled={!/(.+)@(.+)\.(.{2,})/.test(email) && !password}
             fullWidth
           >
             {t('loginReset')}
