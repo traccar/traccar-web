@@ -79,7 +79,8 @@ const ResetPasswordForm = () => {
           </Grid>
         </Grid>
         {!token
-          ? <Grid item>
+          ? (
+            <Grid item>
               <TextField
                 required
                 fullWidth
@@ -92,7 +93,9 @@ const ResetPasswordForm = () => {
                 variant="filled"
               />
             </Grid>
-          : <Grid item>
+          )
+          : (
+            <Grid item>
               <TextField
                 required
                 fullWidth
@@ -105,7 +108,7 @@ const ResetPasswordForm = () => {
                 variant="filled"
               />
             </Grid>
-        }
+          )}
         <Grid item>
           <Button
             variant="contained"
