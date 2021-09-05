@@ -63,6 +63,29 @@ const UserPage = () => {
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">
+                {t('sharedPreferences')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <TextField
+                margin="normal"
+                value={item.phone || ''}
+                onChange={(event) => setItem({ ...item, phone: event.target.value })}
+                label={t('sharedPhone')}
+                variant="filled"
+              />
+              <TextField
+                margin="normal"
+                value={item.poiLayer || ''}
+                onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
+                label={t('mapPoiLayer')}
+                variant="filled"
+              />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
                 {t('sharedAttributes')}
               </Typography>
             </AccordionSummary>

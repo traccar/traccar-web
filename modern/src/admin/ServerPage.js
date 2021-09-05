@@ -68,6 +68,20 @@ const ServerPage = () => {
               <AccordionDetails className={classes.details}>
                 <TextField
                   margin="normal"
+                  value={item.mapUrl || ''}
+                  onChange={(event) => setItem({ ...item, mapUrl: event.target.value })}
+                  label={t('mapCustomLabel')}
+                  variant="filled"
+                />
+                <TextField
+                  margin="normal"
+                  value={item.poiLayer || ''}
+                  onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
+                  label={t('mapPoiLayer')}
+                  variant="filled"
+                />
+                <TextField
+                  margin="normal"
                   value={item.announcement || ''}
                   onChange={(event) => setItem({ ...item, announcement: event.target.value })}
                   label={t('serverAnnouncement')}
