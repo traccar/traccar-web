@@ -21,6 +21,7 @@ import CurrentLocationMap from './map/CurrentLocationMap';
 import BottomMenu from './components/BottomMenu';
 import { useTranslation } from './LocalizationProvider';
 import PoiMap from './map/PoiMap';
+import MapPadding from './map/MapPadding';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -109,6 +110,7 @@ const MainPage = () => {
   return (
     <div className={classes.root}>
       <Map>
+        {!isTablet && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop)} />}
         <CurrentLocationMap />
         <GeofenceMap />
         <AccuracyMap />
