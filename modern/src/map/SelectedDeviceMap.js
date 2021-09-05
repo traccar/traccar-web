@@ -56,7 +56,6 @@ const SelectedDeviceMap = () => {
   useEffect(() => {
     if (mapCenter) {
       map.easeTo({ center: mapCenter.position });
-      showStatus(mapCenter.deviceId, mapCenter.position);
     }
   }, [mapCenter]);
 
