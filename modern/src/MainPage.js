@@ -20,6 +20,7 @@ import CurrentPositionsMap from './map/CurrentPositionsMap';
 import CurrentLocationMap from './map/CurrentLocationMap';
 import BottomMenu from './components/BottomMenu';
 import { useTranslation } from './LocalizationProvider';
+import PoiMap from './map/PoiMap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,6 +114,7 @@ const MainPage = () => {
         <AccuracyMap />
         <CurrentPositionsMap />
         <SelectedDeviceMap />
+        <PoiMap />
       </Map>
       <Button
         variant="contained"
