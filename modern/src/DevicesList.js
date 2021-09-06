@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -12,7 +12,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@material-ui/icons/BatteryFull';
-import { ReactComponent as IgnitionIcon } from '../public/images/icon/ignition.svg';
+import { ReactComponent as IgnitionIcon } from '../public/images/ignition.svg';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
@@ -126,12 +126,21 @@ const DeviceRow = ({ data, index, style }) => {
   );
 };
 
-const DeviceView = ({ updateTimestamp, onMenuClick }) => {
+const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
 
   const items = useSelector(getDevices);
+  const [filteredItems, setFilteredItems] = useState(null);
+
+  useEffect(() => {
+    setFilteredItems(
+      filter.trim().length > 0
+        ? items.filter((item) => `${item.name} ${item.uniqueId}`.toLowerCase().includes(filter?.toLowerCase()))
+        : items,
+    );
+  }, [filter, items]);
 
   if (listInnerEl.current) {
     listInnerEl.current.className = classes.listInner;
@@ -151,8 +160,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
           <FixedSizeList
             width={width}
             height={height}
-            itemCount={items.length}
-            itemData={{ items, onMenuClick }}
+            itemCount={filteredItems.length}
+            itemData={{ items: filteredItems, onMenuClick }}
             itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}
@@ -165,8 +174,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   );
 };
 
-const DevicesList = () => (
-  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd />
+const DevicesList = ({ filter }) => (
+  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd filter={filter} />
 );
 
 export default DevicesList;

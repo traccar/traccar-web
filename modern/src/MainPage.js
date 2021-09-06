@@ -98,7 +98,7 @@ const MainPage = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
 
-  const [deviceName, setDeviceName] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [collapsed, setCollapsed] = useState(false);
 
   const handleClose = () => {
@@ -139,11 +139,11 @@ const MainPage = () => {
             )}
             <TextField
               fullWidth
-              name="deviceName"
-              value={deviceName}
-              autoComplete="deviceName"
+              name="searchKeyword"
+              value={searchKeyword}
+              autoComplete="searchKeyword"
               autoFocus
-              onChange={(event) => setDeviceName(event.target.value)}
+              onChange={(event) => setSearchKeyword(event.target.value)}
               placeholder="Search Devices"
               variant="filled"
             />
@@ -158,7 +158,7 @@ const MainPage = () => {
           </Toolbar>
         </Paper>
         <div className={classes.deviceList}>
-          <DevicesList />
+          <DevicesList filter={searchKeyword} />
         </div>
       </Paper>
       <BottomMenu />

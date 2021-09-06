@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2022 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,19 +61,20 @@ Ext.define('Traccar.view.State', {
             dataIndex: 'value',
             cellWrap: true,
             renderer: function (value, metaData, record) {
-                var position, device;
-                if (record.get('attribute') === 'alarm') {
+                var position, device, attribute;
+                attribute = record.get('attribute');
+                if (attribute === 'alarm') {
                     metaData.tdCls = 'view-color-red';
-                } else if (record.get('name') === Strings.positionAddress && !value) {
+                } else if (attribute === 'address' && !value) {
                     return '<a href="#" onclick="Ext.fireEvent(\'stategeocode\')" >' +
                         Strings.sharedShowAddress + '</a>';
-                } else if (record.get('name') === Strings.positionImage || record.get('name') === Strings.positionAudio) {
+                } else if (attribute === 'image' || attribute === 'video' || attribute === 'audio') {
                     position = this.getController().position;
                     if (position) {
                         device = Ext.getStore('Devices').getById(position.get('deviceId'));
                         if (device) {
-                            return '<a target="_blank" href="/api/media/' + device.get('uniqueId') + '/' + value + '" >' +
-                                value + '</a>';
+                            return '<a target="_blank" href="/api/media/' +
+                                device.get('uniqueId') + '/' + value + '" >' + value + '</a>';
                         }
                     }
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2017 - 2022 Anton Tananaev (anton@traccar.org)
  * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@ Ext.define('Traccar.view.MainController', {
     alias: 'controller.mainController',
 
     init: function () {
-        this.lookupReference('reportView').setHidden(Traccar.app.getBooleanAttributePreference('ui.disableReport'));
+        this.lookupReference('reportView').setHidden(Traccar.app.getPreference('disableReports', false));
         this.lookupReference('eventsView').setHidden(Traccar.app.getBooleanAttributePreference('ui.disableEvents'));
     }
 });

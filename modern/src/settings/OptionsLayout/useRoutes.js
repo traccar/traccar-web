@@ -8,6 +8,7 @@ import StorageIcon from '@material-ui/icons/Storage';
 import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import TodayIcon from '@material-ui/icons/Today';
 import { getIsAdmin, getUserId } from '../../common/selectors';
 import { useTranslation } from '../../LocalizationProvider';
 
@@ -59,6 +60,12 @@ const useMainRoutes = (t, userId) => useMemo(() => [
     name: t('sharedDrivers'),
     href: '/settings/drivers',
     icon: <PersonIcon />,
+  },
+  {
+    match: 'calendar',
+    name: t('sharedCalendars'),
+    href: '/settings/calendars',
+    icon: <TodayIcon />,
   },
   {
     match: 'attribute',

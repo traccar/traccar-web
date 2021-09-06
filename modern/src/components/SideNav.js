@@ -21,7 +21,7 @@ const SideNav = ({ routes }) => {
           key={route.href || route.subheader}
           button
           to={route.href}
-          selected={location.pathname.match(route.match || route.href)}
+          selected={location.pathname.match(route.match || route.href) !== null}
         >
           <ListItemIcon>{route.icon}</ListItemIcon>
           <ListItemText primary={route.name} />

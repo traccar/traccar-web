@@ -35,6 +35,9 @@ Ext.define('Traccar.model.Server', {
         name: 'limitCommands',
         type: 'boolean'
     }, {
+        name: 'disableReports',
+        type: 'boolean'
+    }, {
         name: 'map',
         type: 'string'
     }, {

@@ -5,8 +5,7 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
-import { formatBoolean } from '../common/formatter';
-import OptionsLayout from '../settings/OptionsLayout';
+import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,14 +15,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsersView = ({ updateTimestamp, onMenuClick }) => {
+const CalendarsView = ({ updateTimestamp, onMenuClick }) => {
   const classes = useStyles();
   const t = useTranslation();
 
   const [items, setItems] = useState([]);
 
   useEffectAsync(async () => {
-    const response = await fetch('/api/users');
+    const response = await fetch('/api/calendars');
     if (response.ok) {
       setItems(await response.json());
     }
@@ -36,9 +35,6 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
           <TableRow>
             <TableCell className={classes.columnAction} />
             <TableCell>{t('sharedName')}</TableCell>
-            <TableCell>{t('userEmail')}</TableCell>
-            <TableCell>{t('userAdmin')}</TableCell>
-            <TableCell>{t('sharedDisabled')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -50,9 +46,6 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
                 </IconButton>
               </TableCell>
               <TableCell>{item.name}</TableCell>
-              <TableCell>{item.email}</TableCell>
-              <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
-              <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -61,10 +54,10 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
   );
 };
 
-const UsersPage = () => (
+const CalendarsPage = () => (
   <OptionsLayout>
-    <EditCollectionView content={UsersView} editPath="/user" endpoint="users" />
+    <EditCollectionView content={CalendarsView} editPath="/settings/calendar" endpoint="calendars" />
   </OptionsLayout>
 );
 
-export default UsersPage;
+export default CalendarsPage;

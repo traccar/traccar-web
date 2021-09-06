@@ -17,10 +17,6 @@ export default (t) => useMemo(() => ({
     name: t('attributeWebMaxZoom'),
     type: 'number',
   },
-  'ui.disableReport': {
-    name: t('attributeUiDisableReport'),
-    type: 'boolean',
-  },
   'ui.disableEvents': {
     name: t('attributeUiDisableEvents'),
     type: 'boolean',

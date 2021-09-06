@@ -12,14 +12,14 @@ import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
 }));
 
 const EditCollectionView = ({
-  content, editPath, endpoint, disableAdd,
+  content, editPath, endpoint, disableAdd, filter,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -64,7 +64,7 @@ const EditCollectionView = ({
 
   return (
     <>
-      <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} />
+      <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} filter={filter} />
       {adminEnabled && !disableAdd
         && (
         <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>

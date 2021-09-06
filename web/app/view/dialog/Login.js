@@ -50,6 +50,47 @@ Ext.define('Traccar.view.dialog.Login', {
                 margin: '10px auto 25px'
             }
         }, {
+            xtype: 'pickerfield',
+            fieldLabel: Strings.settingsServer,
+            editable: false,
+            value: window.location.host,
+            hidden: !window.appInterface && !(window.webkit && window.webkit.messageHandlers.appInterface),
+            createPicker: function () {
+                var self = this, popup = Ext.create({
+                    xtype: 'window',
+                    closeAction: 'hide',
+                    referenceHolder: true,
+                    minWidth: 204,
+                    layout: 'form',
+                    header: false,
+                    resizable: true,
+                    items: [{
+                        xtype: 'textfield',
+                        anchor: '100%',
+                        reference: 'serverAddress',
+                        value: window.location.href
+                    }],
+                    fbar: [{
+                        text: Strings.sharedSet,
+                        handler: function () {
+                            var message = 'server|' + popup.lookupReference('serverAddress').getValue();
+                            if (window.webkit && window.webkit.messageHandlers.appInterface) {
+                                window.webkit.messageHandlers.appInterface.postMessage(message);
+                            }
+                            if (window.appInterface) {
+                                window.appInterface.postMessage(message);
+                            }
+                        }
+                    }, {
+                        text: Strings.sharedCancel,
+                        handler: function () {
+                            self.collapse();
+                        }
+                    }]
+                });
+                return popup;
+            }
+        }, {
             xtype: 'combobox',
             name: 'language',
             fieldLabel: Strings.loginLanguage,

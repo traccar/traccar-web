@@ -66,6 +66,13 @@ Ext.define('Traccar.view.map.Map', {
             stateId: 'show-geofences-button',
             tooltip: Strings.sharedGeofences
         }, {
+            handler: 'showAccuracy',
+            reference: 'showAccuracyButton',
+            glyph: 'xf140@FontAwesome',
+            pressed: true,
+            stateId: 'show-accuracy-button',
+            tooltip: Strings.positionAccuracy
+        }, {
             handler: 'showCurrentLocation',
             glyph: 'xf124@FontAwesome',
             tooltip: Strings.mapCurrentLocation
@@ -93,6 +100,10 @@ Ext.define('Traccar.view.map.Map', {
 
     getAccuracySource: function () {
         return this.accuracySource;
+    },
+
+    getAccuracyLayer: function () {
+        return this.accuracyLayer;
     },
 
     getRouteSource: function () {
@@ -133,10 +144,11 @@ Ext.define('Traccar.view.map.Map', {
         }));
 
         this.accuracySource = new ol.source.Vector({});
-        this.map.addLayer(new ol.layer.Vector({
+        this.accuracyLayer = new ol.layer.Vector({
             name: 'accuracyLayer',
             source: this.accuracySource
-        }));
+        });
+        this.map.addLayer(this.accuracyLayer);
 
         this.markersSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
