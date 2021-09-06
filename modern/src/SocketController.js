@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 
 import { useHistory } from 'react-router-dom';
@@ -24,13 +25,17 @@ const displayNotifications = (events) => {
 const SocketController = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
   const authenticated = useSelector((state) => !!state.session.user);
+
+  const socketRef = useRef();
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const socket = new WebSocket(`${protocol}//${window.location.host}/api/socket`);
+    socketRef.current = socket;
 
-    socket.onclose = () => {
+    socket.onerror = () => {
       setTimeout(() => connectSocket(), 60 * 1000);
     };
 
@@ -62,6 +67,12 @@ const SocketController = () => {
         dispatch(devicesActions.refresh(await response.json()));
       }
       connectSocket();
+      return () => {
+        const socket = socketRef.current;
+        if (socket) {
+          socket.close();
+        }
+      }
     } else {
       const response = await fetch('/api/session');
       if (response.ok) {
