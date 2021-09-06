@@ -72,15 +72,15 @@ const SocketController = () => {
         if (socket) {
           socket.close();
         }
-      }
-    } else {
-      const response = await fetch('/api/session');
-      if (response.ok) {
-        dispatch(sessionActions.updateUser(await response.json()));
-      } else {
-        history.push('/login');
-      }
+      };
     }
+    const response = await fetch('/api/session');
+    if (response.ok) {
+      dispatch(sessionActions.updateUser(await response.json()));
+    } else {
+      history.push('/login');
+    }
+    return null;
   }, [authenticated]);
 
   return null;
