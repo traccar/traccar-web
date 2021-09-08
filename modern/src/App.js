@@ -24,6 +24,8 @@ import SummaryReportPage from './reports/SummaryReportPage';
 import ChartReportPage from './reports/ChartReportPage';
 import DriversPage from './settings/DriversPage';
 import DriverPage from './settings/DriverPage';
+import CalendarsPage from './settings/CalendarsPage';
+import CalendarPage from './settings/CalendarPage';
 import ComputedAttributesPage from './settings/ComputedAttributesPage';
 import ComputedAttributePage from './settings/ComputedAttributePage';
 import MaintenancesPage from './settings/MaintenancesPage';
@@ -69,6 +71,8 @@ const App = () => {
                 <Route exact path="/settings/group/:id?" component={GroupPage} />
                 <Route exact path="/settings/drivers" component={DriversPage} />
                 <Route exact path="/settings/driver/:id?" component={DriverPage} />
+                <Route exact path="/settings/calendars" component={CalendarsPage} />
+                <Route exact path="/settings/calendar/:id?" component={CalendarPage} />
                 <Route exact path="/settings/attributes" component={ComputedAttributesPage} />
                 <Route exact path="/settings/attribute/:id?" component={ComputedAttributePage} />
                 <Route exact path="/settings/maintenances" component={MaintenancesPage} />
