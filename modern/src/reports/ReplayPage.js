@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid, FormControlLabel, Switch, IconButton, TextField, makeStyles, Paper, Slider, Toolbar, Tooltip, Typography,
 } from '@material-ui/core';
@@ -76,7 +76,7 @@ const ReplayPage = () => {
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
-      const device = state.devices.items[selectedDeviceId] || null;
+      const device = state.devices.items[selectedDeviceId];
       if (device) {
         return device.name;
       }
@@ -89,6 +89,19 @@ const ReplayPage = () => {
       setIndex((index) => index + 1);
     }
   };
+
+  useEffect(() => {
+    let timer;
+    if (autoPlay) {
+      timer = setInterval(routePlayback, 500);
+    }
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, [positions]);
+
   const handleSubmit = async (deviceId, from, to, _, headers) => {
     setSelectedDeviceId(deviceId);
     const query = new URLSearchParams({ deviceId, from, to });
@@ -97,10 +110,6 @@ const ReplayPage = () => {
       setIndex(0);
       setPositions(await response.json());
       setExpanded(false);
-
-      if (autoPlay) {
-        setInterval(routePlayback, 500);
-      }
     }
   };
 

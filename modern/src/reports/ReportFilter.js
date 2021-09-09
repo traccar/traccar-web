@@ -62,17 +62,9 @@ const ReportFilter = ({
   };
 
   const GridItem = ({ children }) => (
-    <>
-      {fullScreen ? (
-        <Grid item xs={6} sm={6}>
-          {children}
-        </Grid>
-      ) : (
-        <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
-          {children}
-        </Grid>
-      )}
-    </>
+    <Grid item xs={fullScreen ? 6 : 12} sm={!fullScreen && period === 'custom' ? 3 : 6}>
+      {children}
+    </Grid>
   );
 
   return (
