@@ -4,6 +4,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { DropzoneArea } from 'material-ui-dropzone';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
 import { useTranslation } from '../LocalizationProvider';
@@ -19,6 +20,19 @@ const CalendarPage = () => {
   const t = useTranslation();
 
   const [item, setItem] = useState();
+
+  const handleFiles = (files) => {
+    if (files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const { result } = event.target;
+        setItem({ ...item, data: result.substr(result.indexOf(',') + 1) });
+      };
+      reader.readAsDataURL(files[0]);
+    } else {
+      setItem({ ...item, data: null });
+    }
+  };
 
   return (
     <EditItemView endpoint="calendars" item={item} setItem={setItem}>
@@ -38,6 +52,10 @@ const CalendarPage = () => {
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
                 variant="filled"
+              />
+              <DropzoneArea
+                filesLimit={1}
+                onChange={handleFiles}
               />
             </AccordionDetails>
           </Accordion>
