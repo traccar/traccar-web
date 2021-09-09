@@ -12,7 +12,7 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@material-ui/icons/BatteryFull';
-import { ReactComponent as IgnitionIcon } from '../public/images/icon/ignition.svg';
+import { ReactComponent as IgnitionIcon } from '../public/images/ignition.svg';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
