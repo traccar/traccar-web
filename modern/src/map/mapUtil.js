@@ -20,13 +20,13 @@ const canvasTintImage = (image, color) => {
   context.fillStyle = color;
   context.globalAlpha = 1;
   context.fillRect(0, 0, canvas.width, canvas.height);
-  context.globalCompositeOperation = "destination-atop";
+  context.globalCompositeOperation = 'destination-atop';
   context.globalAlpha = 1;
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
   context.restore();
 
   return canvas;
-}
+};
 
 export const prepareIcon = (background, icon, color) => {
   const canvas = document.createElement('canvas');
@@ -42,7 +42,7 @@ export const prepareIcon = (background, icon, color) => {
     const iconRatio = 0.5;
     const imageWidth = canvas.width * iconRatio;
     const imageHeight = canvas.height * iconRatio;
-    if (navigator.userAgent.indexOf("Firefox") > 0) {
+    if (navigator.userAgent.indexOf('Firefox') > 0) {
       context.drawImage(icon, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
     } else {
       context.drawImage(canvasTintImage(icon, color), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
