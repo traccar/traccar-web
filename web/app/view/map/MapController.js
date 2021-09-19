@@ -68,6 +68,10 @@ Ext.define('Traccar.view.map.MapController', {
         this.getView().getLiveRouteLayer().setVisible(button.pressed);
     },
 
+    showAccuracy: function (button) {
+        this.getView().getAccuracyLayer().setVisible(button.pressed);
+    },
+
     getMapState: function () {
         var zoom, center, projection;
         projection = this.getView().getMapView().getProjection();
