@@ -528,6 +528,12 @@ Ext.define('Traccar.view.ReportController', {
             return Traccar.app.getEventString(value);
         }
     }, {
+        text: Strings.positionAlarm,
+        dataIndex: 'attributes',
+        renderer: function (value) {
+            return value['alarm'];
+        }
+    }, {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
         renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
