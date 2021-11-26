@@ -8,7 +8,7 @@ import { SwitcherControl } from './switcher/switcher';
 import deviceCategories from '../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import {
-  styleCarto, styleMapbox, styleMapTiler, styleOsm,
+  styleCarto, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
@@ -89,6 +89,7 @@ const Map = ({ children }) => {
 
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const mapTilerKey = useAttributePreference('mapTilerKey');
+  const locationIqKey = useAttributePreference('locationIqKey', 'pk.b34237342901fc175252c790d1674dcc');
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
@@ -96,6 +97,9 @@ const Map = ({ children }) => {
 
   useEffect(() => {
     switcher.updateStyles([
+      { id: 'locationIqStreets', title: t('mapLocationIqStreets'), uri: styleLocationIq('streets', locationIqKey) },
+      { id: 'locationIqEarth', title: t('mapLocationIqEarth'), uri: styleLocationIq('earth', locationIqKey) },
+      { id: 'locationIqHybrid', title: t('mapLocationIqHybrid'), uri: styleLocationIq('hybrid', locationIqKey) },
       { id: 'osm', title: t('mapOsm'), uri: styleOsm() },
       { id: 'carto', title: t('mapCarto'), uri: styleCarto() },
       { id: 'mapboxStreets', title: t('mapMapboxStreets'), uri: styleMapbox('streets-v11') },
@@ -103,7 +107,7 @@ const Map = ({ children }) => {
       { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
-    ], 'osm');
+    ], 'locationIqStreets');
   }, [mapTilerKey]);
 
   useEffect(() => {

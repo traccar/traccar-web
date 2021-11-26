@@ -30,12 +30,13 @@ Ext.define('Traccar.view.map.BaseMap', {
     },
 
     initMap: function () {
-        var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
+        var server, layer, type, bingKey, locationIqKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
 
         server = Traccar.app.getServer();
 
         type = Traccar.app.getPreference('map', null);
         bingKey = server.get('bingKey');
+        locationIqKey = Traccar.app.getAttributePreference('locationIqKey', 'pk.b34237342901fc175252c790d1674dcc');
 
         layer = new ol.layer.Group({
             title: Strings.mapLayer,
@@ -125,8 +126,35 @@ Ext.define('Traccar.view.map.BaseMap', {
                 new ol.layer.Tile({
                     title: Strings.mapOsm,
                     type: 'base',
-                    visible: type === 'osm' || type === 'wikimedia' || !type,
+                    visible: type === 'osm',
                     source: new ol.source.OSM({})
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapLocationIqHybrid,
+                    type: 'base',
+                    visible: type === 'locationIqHybrid',
+                    source: new ol.source.XYZ({
+                        url: 'https://{a-c}-tiles.locationiq.com/v3/hybrid/r/{z}/{x}/{y}.jpg?key=' + locationIqKey,
+                        attributions: '&copy; <a href="https://locationiq.com/">LocationIQ</a>'
+                    })
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapLocationIqEarth,
+                    type: 'base',
+                    visible: type === 'locationIqEarth',
+                    source: new ol.source.XYZ({
+                        url: 'https://{a-c}-tiles.locationiq.com/v3/earth/r/{z}/{x}/{y}.jpg?key=' + locationIqKey,
+                        attributions: '&copy; <a href="https://locationiq.com/">LocationIQ</a>'
+                    })
+                }),
+                new ol.layer.Tile({
+                    title: Strings.mapLocationIqStreets,
+                    type: 'base',
+                    visible: type === 'locationIqStreets' || type === 'wikimedia' || !type,
+                    source: new ol.source.XYZ({
+                        url: 'https://{a-c}-tiles.locationiq.com/v3/streets/r/{z}/{x}/{y}.png?key=' + locationIqKey,
+                        attributions: '&copy; <a href="https://locationiq.com/">LocationIQ</a>'
+                    })
                 })
             ]
         });
