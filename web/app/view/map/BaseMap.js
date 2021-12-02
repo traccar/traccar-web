@@ -36,7 +36,7 @@ Ext.define('Traccar.view.map.BaseMap', {
 
         type = Traccar.app.getPreference('map', null);
         bingKey = server.get('bingKey');
-        locationIqKey = Traccar.app.getAttributePreference('locationIqKey', 'pk.b34237342901fc175252c790d1674dcc');
+        locationIqKey = Traccar.app.getAttributePreference('locationIqKey', 'pk.0f147952a41c555a5b70614039fd148b');
 
         layer = new ol.layer.Group({
             title: Strings.mapLayer,
