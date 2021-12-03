@@ -48,5 +48,9 @@ Ext.define('Traccar.store.DeviceAttributes', {
         valueType: 'number',
         allowDecimals: false,
         minValue: 1
+    }, {
+        key: 'allowForwarding',
+        name: Strings.attributeAllowForwarding,
+        valueType: 'boolean'
     }]
 });
