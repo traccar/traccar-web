@@ -24,7 +24,8 @@ export default {
     input: {
       height: dimensions.inputHeight,
       borderRadius: dimensions.borderRadius,
-      paddingTop: '10px',
+      paddingTop: '11.5px',
+      paddingBottom: '11.5px',
       boxSizing: 'border-box',
       '&:-webkit-autofill': {
         WebkitBoxShadow: '0 0 0 100px #eeeeee inset',
@@ -39,6 +40,14 @@ export default {
       },
       '&:hover:before': {
         borderBottom: 'none',
+      },
+    },
+  },
+  MuiSelect: {
+    select: {
+      borderRadius: dimensions.borderRadius,
+      '&&:focus': {
+        borderRadius: dimensions.borderRadius,
       },
     },
   },
