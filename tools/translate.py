@@ -1,35 +1,32 @@
-#!/usr/bin/python
+#!/usr/local/bin/python3
+
+# Requires transifex-python module
 
 import os
 import optparse
-import urllib2
-import json
-import base64
+import requests
+from transifex.api import transifex_api
 
 parser = optparse.OptionParser()
-parser.add_option("-u", "--user", dest="username", help="transifex user login")
-parser.add_option("-p", "--password", dest="password", help="transifex user password")
+parser.add_option("-t", "--token", dest="token", help="transifex token")
 
 (options, args) = parser.parse_args()
 
-if not options.username or not options.password:
-    parser.error('User name and password are required')
+if not options.token:
+    parser.error('Token is required')
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-path = "../web/l10n/"
+transifex_api.setup(auth=options.token)
 
-def request(url):
-    req = urllib2.Request(url)
-    auth = base64.encodestring("%s:%s" % (options.username, options.password)).replace("\n", "")
-    req.add_header("Authorization", "Basic %s" % auth)
-    return urllib2.urlopen(req)
+organization = transifex_api.Organization.get(slug='traccar')
+project = organization.fetch('projects').get(slug='traccar')
+resource = project.fetch('resources').get(slug='web')
+languages = project.fetch('languages')
 
-resource = json.load(request("https://www.transifex.com/api/2/project/traccar/resource/web/?details"))
-
-for language in resource["available_languages"]:
-    code = language["code"]
-    data = request("https://www.transifex.com/api/2/project/traccar/resource/web/translation/" + code + "?file")
-    file = open(path + code + ".json", "wb")
-    file.write(data.read())
-    file.close()
+for language in languages:
+    print(language.code)
+    url = transifex_api.ResourceTranslationsAsyncDownload.download(resource=resource, language=language)
+    result = requests.get(url)
+    with open('../web/l10n/' + language.code + '.json', "w") as file:
+        file.write(result.text)
