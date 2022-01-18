@@ -60,13 +60,13 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   };
 
   return (
-    <Grid container spacing={2} justify="flex-end">
+    <Grid container spacing={2} justifyContent="flex-end">
       <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportDevice')}</InputLabel>
           <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
             {devices.map((device) => (
-              <MenuItem value={device.id}>{device.name}</MenuItem>
+              <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
             ))}
           </Select>
         </FormControl>

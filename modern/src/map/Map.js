@@ -107,7 +107,7 @@ const Map = ({ children }) => {
       { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
-    ], 'locationIqStreets');
+    ], 'osm');
   }, [mapTilerKey]);
 
   useEffect(() => {
