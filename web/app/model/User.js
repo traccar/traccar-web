@@ -81,6 +81,9 @@ Ext.define('Traccar.model.User', {
         name: 'limitCommands',
         type: 'boolean'
     }, {
+        name: 'disableReports',
+        type: 'boolean'
+    }, {
         name: 'poiLayer',
         type: 'string'
     }, {

@@ -122,6 +122,12 @@ Ext.define('Traccar.view.dialog.Server', {
                 uncheckedValue: false,
                 name: 'limitCommands',
                 fieldLabel: Strings.userLimitCommands
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'disableReports',
+                fieldLabel: Strings.userDisableReports
             }]
         }]
     },
