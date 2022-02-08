@@ -21,14 +21,6 @@ const { reducer, actions } = createSlice({
     remove(state, action) {
       delete state.items[action.payload];
     },
-    filterByName(state, action) {
-      return {
-        ...state,
-        filteredItems: action.payload
-          ? Object.values(state.items).filter((item) => item.name?.toLowerCase().includes(action.payload?.toLowerCase()))
-          : state.items,
-      };
-    },
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -18,7 +18,7 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
-import { getDevices, getFilteredDevices, getPosition } from './common/selectors';
+import { getDevices, getPosition } from './common/selectors';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -126,16 +126,21 @@ const DeviceRow = ({ data, index, style }) => {
   );
 };
 
-const DeviceView = ({ updateTimestamp, onMenuClick }) => {
+const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
 
   const items = useSelector(getDevices);
+  const [filteredItems, setFilteredItems] = useState(null);
 
-  const filteredItems = useSelector(getFilteredDevices);
-
-  const getItems = () => (filteredItems.length === 0 ? items : filteredItems);
+  useEffect(() => {
+    setFilteredItems(
+      filter.trim().length > 0
+        ? items.filter((item) => `${item.name} ${item.uniqueId} ${item.groupId}`.toLowerCase().includes(filter?.toLowerCase()))
+        : items,
+    );
+  }, [filter, items]);
 
   if (listInnerEl.current) {
     listInnerEl.current.className = classes.listInner;
@@ -155,8 +160,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
           <FixedSizeList
             width={width}
             height={height}
-            itemCount={getItems().length}
-            itemData={{ items: getItems(), onMenuClick }}
+            itemCount={filteredItems.length}
+            itemData={{ items: filteredItems, onMenuClick }}
             itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}
@@ -169,8 +174,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
   );
 };
 
-const DevicesList = () => (
-  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd />
+const DevicesList = ({ filter }) => (
+  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd filter={filter} />
 );
 
 export default DevicesList;
