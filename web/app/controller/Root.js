@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2022 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -308,7 +308,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     updatePositions: function (array, first) {
-        var i, store, entity, deviceId, device;
+        var i, store, entity, uniqueId, device;
         store = Ext.getStore('LatestPositions');
         for (i = 0; i < array.length; i++) {
             entity = store.findRecord('deviceId', array[i].deviceId, 0, false, false, true);
@@ -322,9 +322,9 @@ Ext.define('Traccar.controller.Root', {
             }
         }
         if (first) {
-            deviceId = Ext.Object.fromQueryString(window.location.search).deviceId;
-            if (deviceId) {
-                device = Ext.getStore('VisibleDevices').findRecord('id', deviceId, 0, false, true, true);
+            uniqueId = Ext.Object.fromQueryString(window.location.search).deviceId;
+            if (uniqueId) {
+                device = Ext.getStore('VisibleDevices').findRecord('uniqueId', uniqueId, 0, false, true, true);
                 if (device) {
                     this.fireEvent('selectdevice', device, true);
                 }
