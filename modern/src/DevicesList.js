@@ -18,7 +18,7 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
-import { getDevices, getPosition } from './common/selectors';
+import { getDevices, getFilteredDevices, getPosition } from './common/selectors';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -133,6 +133,10 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
 
   const items = useSelector(getDevices);
 
+  const filteredItems = useSelector(getFilteredDevices);
+
+  const getItems = () => filteredItems.length == 0 ? items : filteredItems;
+
   if (listInnerEl.current) {
     listInnerEl.current.className = classes.listInner;
   }
@@ -151,8 +155,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
           <FixedSizeList
             width={width}
             height={height}
-            itemCount={items.length}
-            itemData={{ items, onMenuClick }}
+            itemCount={getItems().length}
+            itemData={{ items: getItems(), onMenuClick }}
             itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}

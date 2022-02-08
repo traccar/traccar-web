@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   makeStyles, Paper, Toolbar, TextField, IconButton, Button,
@@ -22,6 +23,7 @@ import BottomMenu from './components/BottomMenu';
 import { useTranslation } from './LocalizationProvider';
 import PoiMap from './map/PoiMap';
 import MapPadding from './map/MapPadding';
+import { devicesActions } from './store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,6 +95,7 @@ const MainPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
@@ -104,6 +107,8 @@ const MainPage = () => {
   const handleClose = () => {
     setCollapsed(!collapsed);
   };
+
+  useEffect(() => dispatch(devicesActions.filterByName(deviceName.trim())), [deviceName]);
 
   useEffect(() => setCollapsed(isTablet), [isTablet]);
 
