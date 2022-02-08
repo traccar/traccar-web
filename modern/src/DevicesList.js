@@ -137,7 +137,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
   useEffect(() => {
     setFilteredItems(
       filter.trim().length > 0
-        ? items.filter((item) => `${item.name} ${item.uniqueId} ${item.groupId}`.toLowerCase().includes(filter?.toLowerCase()))
+        ? items.filter((item) => `${item.name} ${item.uniqueId}`.toLowerCase().includes(filter?.toLowerCase()))
         : items,
     );
   }, [filter, items]);

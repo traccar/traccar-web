@@ -5,7 +5,6 @@ const { reducer, actions } = createSlice({
   initialState: {
     items: {},
     selectedId: null,
-    filteredItems: {},
   },
   reducers: {
     refresh(state, action) {
