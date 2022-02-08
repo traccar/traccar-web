@@ -24,11 +24,11 @@ const { reducer, actions } = createSlice({
     filterByName(state, action) {
       return {
         ...state,
-        filteredItems: action.payload ? 
-          Object.values(state.items).filter((item) => item.name?.toLowerCase().includes(action.payload?.toLowerCase()))
+        filteredItems: action.payload
+          ? Object.values(state.items).filter((item) => item.name?.toLowerCase().includes(action.payload?.toLowerCase()))
           : state.items,
-      }
-    }
+      };
+    },
   },
 });
 

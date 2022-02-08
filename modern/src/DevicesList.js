@@ -135,7 +135,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick }) => {
 
   const filteredItems = useSelector(getFilteredDevices);
 
-  const getItems = () => filteredItems.length == 0 ? items : filteredItems;
+  const getItems = () => (filteredItems.length === 0 ? items : filteredItems);
 
   if (listInnerEl.current) {
     listInnerEl.current.className = classes.listInner;
