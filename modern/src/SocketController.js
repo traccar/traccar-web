@@ -1,34 +1,53 @@
-import { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 
+import { Snackbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
-
-const displayNotifications = (events) => {
-  if ('Notification' in window) {
-    if (Notification.permission === 'granted') {
-      events.forEach((event) => {
-        const notification = new Notification(`Event: ${event.type}`);
-        setTimeout(notification.close.bind(notification), 4 * 1000);
-      });
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission((permission) => {
-        if (permission === 'granted') {
-          displayNotifications(events);
-        }
-      });
-    }
-  }
-};
+import { useTranslation } from './LocalizationProvider';
+import { prefixString } from './common/stringUtils';
 
 const SocketController = () => {
   const dispatch = useDispatch();
+  const t = useTranslation();
   const history = useHistory();
 
   const authenticated = useSelector((state) => !!state.session.user);
+  const devices = useSelector((state) => state.devices.items);
 
   const socketRef = useRef();
+
+  const [event, setEvent] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+
+  const displayNotifications = (events) => {
+    if ('Notification' in window) {
+      if (Notification.permission === 'granted') {
+        events.forEach((event) => {
+          const notification = new Notification(`Event: ${event.type}`);
+          setTimeout(notification.close.bind(notification), 4 * 1000);
+
+          setEvent(event);
+        });
+      } else if (Notification.permission !== 'denied') {
+        Notification.requestPermission((permission) => {
+          if (permission === 'granted') {
+            displayNotifications(events);
+          }
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const device = event ? devices[event.deviceId] : null;
+    if (event && device) {
+      setNotificationMessage(`${device.name}: ${t(prefixString('event', event.type))}`);
+      setShowNotification(true);
+    }
+  }, [event]);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -83,7 +102,15 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  return null;
+  return (
+    <Snackbar
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      open={showNotification}
+      autoHideDuration={5000}
+      onClose={() => setShowNotification(false)}
+      message={notificationMessage}
+    />
+  );
 };
 
 export default connect()(SocketController);
