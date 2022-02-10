@@ -14,7 +14,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MapIcon from '@material-ui/icons/Map';
-import PersonIcon from '@material-ui/icons/Person';
+import ShuffleIcon from '@material-ui/icons/Shuffle';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { sessionActions } from './store';
@@ -108,7 +108,7 @@ const MainToolbar = () => {
               onClick={() => history.push('/settings/notifications')}
             >
               <ListItemIcon>
-                <PersonIcon />
+                <ShuffleIcon />
               </ListItemIcon>
               <ListItemText primary={t('settingsTitle')} />
             </ListItem>
