@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-import { Snackbar } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import { useHistory } from 'react-router-dom';
 
 import { positionsActions, devicesActions, sessionActions } from './store';
@@ -12,17 +12,13 @@ const SocketController = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const t = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const authenticated = useSelector((state) => !!state.session.user);
-  const devices = useSelector((state) => state.devices.items);
 
   const socketRef = useRef();
 
-  const [events, setEvents] = useState([]);
-  const [notification, setNotification] = useState({
-    message: '',
-    show: false,
-  });
+  const enqueueEvents = (events) => events.forEach((event) => enqueueSnackbar(t(prefixString('event', event.type))));
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -42,7 +38,7 @@ const SocketController = () => {
         dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
-        setEvents(data.events);
+        enqueueEvents(data.events);
       }
     };
   };
@@ -77,27 +73,7 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  useEffect(() => {
-    events.forEach((event) => {
-      setNotification({
-        message: `${devices[event.deviceId]?.name}: ${t(prefixString('event', `${event.type}`))}`,
-        show: true,
-      });
-      setTimeout(() => setNotification({ message: '', show: false }), 6000);
-    });
-  }, [events]);
-
-  return (
-    <Snackbar
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
-      }}
-      open={notification.show}
-      autoHideDuration={5000}
-      message={notification.message}
-    />
-  );
+  return null;
 };
 
 export default connect()(SocketController);
