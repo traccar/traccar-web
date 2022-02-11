@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-import { useSnackbar } from 'notistack';
+import { Snackbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
 import { positionsActions, devicesActions, sessionActions } from './store';
@@ -12,13 +12,14 @@ const SocketController = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const t = useTranslation();
-  const { enqueueSnackbar } = useSnackbar();
 
   const authenticated = useSelector((state) => !!state.session.user);
+  const devices = useSelector((state) => state.devices.items);
 
   const socketRef = useRef();
 
-  const enqueueEvents = (events) => events.forEach((event) => enqueueSnackbar(t(prefixString('event', event.type))));
+  const [events, setEvents] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -38,7 +39,7 @@ const SocketController = () => {
         dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
-        enqueueEvents(data.events);
+        setEvents(data.events);
       }
     };
   };
@@ -73,7 +74,30 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  return null;
+  useEffect(() => {
+    setNotifications(events.map((event) => {
+      event.message = `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`;
+      event.show = true;
+      setTimeout(() => event.show = false, 5000);
+      return event;
+    }));
+  }, [events]);
+
+  return (
+    <>
+      {notifications.map((notification) => (
+        <Snackbar
+          key={notification.id}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          open={notification.show}
+          message={notification.message}
+        />
+      ))}
+    </>
+  );
 };
 
 export default connect()(SocketController);
