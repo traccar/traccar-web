@@ -79,7 +79,6 @@ const SocketController = () => {
       id: event.id,
       message: `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`,
       show: true,
-      close: () => setEvents(events.filter((e) => e.id !== event.id)),
     })));
   }, [events, devices]);
 
@@ -95,7 +94,7 @@ const SocketController = () => {
           open={notification.show}
           message={notification.message}
           autoHideDuration={5000}
-          onClose={notification.close}
+          onClose={() => setEvents(events.filter((e) => e.id !== notification.id))}
         />
       ))}
     </>
