@@ -1,34 +1,25 @@
-import { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-
+import { Snackbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
-
-const displayNotifications = (events) => {
-  if ('Notification' in window) {
-    if (Notification.permission === 'granted') {
-      events.forEach((event) => {
-        const notification = new Notification(`Event: ${event.type}`);
-        setTimeout(notification.close.bind(notification), 4 * 1000);
-      });
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission((permission) => {
-        if (permission === 'granted') {
-          displayNotifications(events);
-        }
-      });
-    }
-  }
-};
+import { useTranslation } from './LocalizationProvider';
+import { prefixString } from './common/stringUtils';
 
 const SocketController = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const t = useTranslation();
 
   const authenticated = useSelector((state) => !!state.session.user);
+  const devices = useSelector((state) => state.devices.items);
 
   const socketRef = useRef();
+
+  const [events, setEvents] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -48,7 +39,7 @@ const SocketController = () => {
         dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
-        displayNotifications(data.events);
+        setEvents(data.events);
       }
     };
   };
@@ -83,7 +74,31 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  return null;
+  useEffect(() => {
+    setNotifications(events.map((event) => ({
+      id: event.id,
+      message: `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`,
+      show: true,
+    })));
+  }, [events, devices]);
+
+  return (
+    <>
+      {notifications.map((notification) => (
+        <Snackbar
+          key={notification.id}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          open={notification.show}
+          message={notification.message}
+          autoHideDuration={5000}
+          onClose={() => setEvents(events.filter((e) => e.id !== notification.id))}
+        />
+      ))}
+    </>
+  );
 };
 
 export default connect()(SocketController);
