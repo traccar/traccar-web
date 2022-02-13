@@ -75,13 +75,13 @@ const SocketController = () => {
   }, [authenticated]);
 
   useEffect(() => {
-    setNotifications(events.map((event) => {
-      event.message = `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`;
-      event.show = true;
-      setTimeout(() => event.show = false, 5000);
-      return event;
-    }));
-  }, [events]);
+    setNotifications(events.map((event) => ({
+      id: event.id,
+      message: `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`,
+      show: true,
+      close: () => setEvents(events.filter((e) => e.id !== event.id)),
+    })));
+  }, [events, devices]);
 
   return (
     <>
@@ -94,6 +94,8 @@ const SocketController = () => {
           }}
           open={notification.show}
           message={notification.message}
+          autoHideDuration={5000}
+          onClose={notification.close}
         />
       ))}
     </>
