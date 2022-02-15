@@ -144,7 +144,7 @@ const MainPage = () => {
               autoComplete="searchKeyword"
               autoFocus
               onChange={(event) => setSearchKeyword(event.target.value)}
-              placeholder="Search Devices"
+              placeholder={t('sharedSearchDevices')}
               variant="filled"
             />
             <IconButton onClick={() => history.push('/device')}>
