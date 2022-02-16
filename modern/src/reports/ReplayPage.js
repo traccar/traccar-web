@@ -86,6 +86,7 @@ const ReplayPage = () => {
   useEffect(() => {
     if (isPlaying && positions.length > 0) {
       timerRef.current = setInterval(() => {
+        console.log('in setInterval func');
         setIndex((index) => index + 1);
       }, 500);
     } else {
@@ -94,6 +95,12 @@ const ReplayPage = () => {
 
     return () => clearInterval(timerRef.current);
   }, [isPlaying, positions]);
+
+  useEffect(() => {
+    if (index >= positions.length) {
+      clearInterval(timerRef.current);
+    }
+  }, [index]);
 
   const handleSubmit = async (deviceId, from, to, _, headers) => {
     setSelectedDeviceId(deviceId);
@@ -187,7 +194,6 @@ const ReplayPage = () => {
                     <TextField
                       fullWidth
                       label={t('reportPlaybackPerMinute')}
-                      name="playbackpermin"
                       value={playbackSpeed}
                       onChange={(e) => setPlaybackSpeed(e.target.value)}
                       variant="filled"
@@ -200,7 +206,6 @@ const ReplayPage = () => {
                         <Switch
                           checked={isPlaying}
                           onChange={(e) => setIsPlaying(e.target.checked)}
-                          name="autoPlay"
                           color="primary"
                           edge="start"
                         />
