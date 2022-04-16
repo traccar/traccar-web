@@ -68,14 +68,16 @@ map.addControl(new maplibregl.NavigationControl({
 const switcher = new SwitcherControl(
   () => updateReadyValue(false),
   () => {
-    const waiting = () => {
-      if (!map.loaded()) {
-        setTimeout(waiting, 100);
-      } else {
-        initMap();
-      }
-    };
-    waiting();
+    map.once('styledata', () => {
+      const waiting = () => {
+        if (!map.loaded()) {
+          setTimeout(waiting, 100);
+        } else {
+          initMap();
+        }
+      };
+      waiting();
+    });
   },
 );
 
@@ -107,7 +109,7 @@ const Map = ({ children }) => {
       { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
-    ], 'osm');
+    ], 'locationIqStreets');
   }, [mapTilerKey]);
 
   useEffect(() => {

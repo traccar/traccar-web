@@ -48,7 +48,9 @@ export class SwitcherControl {
   onSelectStyle(target) {
     this.onBeforeSwitch();
 
-    this.map.setStyle(JSON.parse(target.dataset.uri));
+    this.map.setStyle(JSON.parse(target.dataset.uri), {
+      diff: false,
+    });
 
     this.mapStyleContainer.style.display = 'none';
     this.styleButton.style.display = 'block';
