@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   List, ListItem, ListItemText, ListItemIcon, Divider, ListSubheader,
 } from '@material-ui/core';
@@ -10,15 +10,15 @@ const SideNav = ({ routes }) => {
   return (
     <List disablePadding style={{ paddingTop: '16px' }}>
       {routes.map((route) => (route.subheader ? (
-        <>
+        <Fragment key={route.subheader}>
           <Divider />
           <ListSubheader>{route.subheader}</ListSubheader>
-        </>
+        </Fragment>
       ) : (
         <ListItem
           disableRipple
           component={Link}
-          key={route.href || route.subheader}
+          key={route.href}
           button
           to={route.href}
           selected={location.pathname.match(route.match || route.href) !== null}
