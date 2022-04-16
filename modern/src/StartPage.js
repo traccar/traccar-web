@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     color: theme.palette.secondary.contrastText,
-    background: theme.palette.common.purple,
+    background: theme.palette.primary.main,
     paddingBottom: theme.spacing(5),
     width: theme.dimensions.sidebarWidth,
     [theme.breakpoints.down('md')]: {

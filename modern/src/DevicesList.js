@@ -17,7 +17,7 @@ import { ReactComponent as IgnitionIcon } from '../public/images/ignition.svg';
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
-import { formatPosition } from './common/formatter';
+import { formatPosition, getBatteryStatus, getStatusColor } from './common/formatter';
 import { getDevices, getPosition } from './common/selectors';
 import { useTranslation } from './LocalizationProvider';
 
@@ -45,41 +45,19 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'normal',
     lineHeight: '0.875rem',
   },
-  green: {
-    color: theme.palette.common.green,
+  positive: {
+    color: theme.palette.colors.positive,
   },
-  red: {
-    color: theme.palette.common.red,
+  negative: {
+    color: theme.palette.colors.negative,
   },
-  gray: {
-    color: theme.palette.common.gray,
+  neutral: {
+    color: theme.palette.colors.neutral,
   },
   indicators: {
     lineHeight: 1,
   },
 }));
-
-const getStatusColor = (status) => {
-  switch (status) {
-    case 'online':
-      return 'green';
-    case 'offline':
-      return 'red';
-    case 'unknown':
-    default:
-      return 'gray';
-  }
-};
-
-const getBatteryStatus = (batteryLevel) => {
-  if (batteryLevel >= 70) {
-    return 'green';
-  }
-  if (batteryLevel > 30) {
-    return 'gray';
-  }
-  return 'red';
-};
 
 const DeviceRow = ({ data, index, style }) => {
   const classes = useStyles();

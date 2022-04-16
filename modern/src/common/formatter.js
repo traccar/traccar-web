@@ -104,21 +104,21 @@ export const formatCoordinate = (key, value, unit) => {
 export const getStatusColor = (status) => {
   switch (status) {
     case 'online':
-      return 'green';
+      return 'positive';
     case 'offline':
-      return 'red';
+      return 'negative';
     case 'unknown':
     default:
-      return 'gray';
+      return 'neutral';
   }
 };
 
 export const getBatteryStatus = (batteryLevel) => {
   if (batteryLevel >= 70) {
-    return 'green';
+    return 'positive';
   }
   if (batteryLevel > 30) {
-    return 'gray';
+    return 'neutral';
   }
-  return 'red';
+  return 'negative';
 };

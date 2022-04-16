@@ -9,6 +9,7 @@ import { map } from './Map';
 import store from '../store';
 import StatusView from './StatusView';
 import theme from '../theme';
+import { getStatusColor } from '../common/formatter';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
@@ -17,24 +18,13 @@ const PositionsMap = ({ positions }) => {
   const history = useHistory();
   const devices = useSelector((state) => state.devices.items);
 
-  const deviceColor = (device) => {
-    switch (device.status) {
-      case 'online':
-        return 'green';
-      case 'offline':
-        return 'red';
-      default:
-        return 'gray';
-    }
-  };
-
   const createFeature = (devices, position) => {
     const device = devices[position.deviceId];
     return {
       deviceId: position.deviceId,
       name: device.name,
       category: device.category || 'default',
-      color: deviceColor(device),
+      color: getStatusColor(device.status),
     };
   };
 

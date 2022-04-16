@@ -1,32 +1,14 @@
-const traccarWhite = '#FFF';
-const traccarPurple = '#333366';
-const traccarGreen = '#4CAF50';
-const traccarRed = '#CC2222';
-const traccarGray = '#888888';
-
 export default {
-  common: {
-    purple: traccarPurple,
-    green: traccarGreen,
-    red: traccarRed,
-    gray: traccarGray,
-  },
   primary: {
-    main: traccarPurple,
+    main: '#333366',
   },
   secondary: {
-    main: traccarGreen,
-    contrastText: traccarWhite,
+    main: '#4CAF50',
+    contrastText: '#FFFFFF',
   },
   colors: {
-    red: {
-      color: traccarRed,
-    },
-    green: {
-      color: traccarGreen,
-    },
-    gray: {
-      color: traccarGray,
-    },
+    positive: '#4CAF50',
+    negative: '#CC2222',
+    neutral: '#888888',
   },
 };

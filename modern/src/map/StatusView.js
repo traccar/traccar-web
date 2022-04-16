@@ -25,7 +25,9 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: '300px',
   },
-  ...theme.palette.colors,
+  negative: {
+    color: theme.palette.colors.negative,
+  },
   listItemContainer: {
     maxWidth: '240px',
   },
@@ -124,7 +126,7 @@ const StatusView = ({
               </IconButton>
             </Grid>
             <Grid item>
-              <IconButton onClick={handleRemove} className={classes.red}>
+              <IconButton onClick={handleRemove} className={classes.negative}>
                 <DeleteIcon />
               </IconButton>
             </Grid>

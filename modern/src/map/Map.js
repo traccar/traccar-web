@@ -48,9 +48,9 @@ const initMap = async () => {
     });
     await Promise.all(deviceCategories.map(async (category) => {
       const results = [];
-      ['green', 'red', 'gray'].forEach((color) => {
+      ['positive', 'negative', 'neutral'].forEach((color) => {
         results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
-          map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.common[color]), {
+          map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.colors[color]), {
             pixelRatio: window.devicePixelRatio,
           });
         }));
