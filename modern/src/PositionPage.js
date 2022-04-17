@@ -1,24 +1,26 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
-  makeStyles, Typography, ListItem, ListItemText, ListItemSecondaryAction, List, Container, Paper, Divider,
+  makeStyles, Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
 } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { useHistory, useParams } from 'react-router-dom';
 import { useEffectAsync } from './reactHelper';
-import MainToolbar from './MainToolbar';
 import { formatPosition } from './common/formatter';
 import { prefixString } from './common/stringUtils';
 import { useTranslation } from './LocalizationProvider';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
   },
 }));
 
 const PositionPage = () => {
   const classes = useStyles();
+  const history = useHistory();
   const t = useTranslation();
 
   const { id } = useParams();
@@ -41,7 +43,15 @@ const PositionPage = () => {
     }
   }, [id]);
 
-  const formatKey = (key) => t(prefixString('position', key)) || `${t('sharedAttribute')} "${key}"`;
+  const deviceName = useSelector((state) => {
+    if (item) {
+      const device = state.devices.items[item.deviceId];
+      if (device) {
+        return device.name;
+      }
+    }
+    return null;
+  });
 
   const attributesList = () => {
     const combinedList = { ...item, ...item.attributes };
@@ -50,29 +60,36 @@ const PositionPage = () => {
 
   return (
     <>
-      <MainToolbar />
+      <AppBar position="sticky" color="inherit">
+        <Toolbar>
+          <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h6">
+            {deviceName}
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Container maxWidth="sm" className={classes.root}>
         <Paper>
-          {item
-            && (
-            <List>
-              {attributesList().map(([key, value], index, list) => (
-                <Fragment key={key}>
-                  <ListItem>
-                    <ListItemText
-                      primary={formatKey(key)}
-                    />
-                    <ListItemSecondaryAction>
-                      <Typography variant="body2">
-                        {formatPosition(value, key, t)}
-                      </Typography>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  {index < list.length - 1 ? <Divider /> : null}
-                </Fragment>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>{t('stateName')}</TableCell>
+                <TableCell>{t('sharedName')}</TableCell>
+                <TableCell>{t('stateValue')}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {item && attributesList().map(([key, value]) => (
+                <TableRow key={key}>
+                  <TableCell>{key}</TableCell>
+                  <TableCell><strong>{t(prefixString('position', key))}</strong></TableCell>
+                  <TableCell>{formatPosition(value, key, t)}</TableCell>
+                </TableRow>
               ))}
-            </List>
-            )}
+            </TableBody>
+          </Table>
         </Paper>
       </Container>
     </>

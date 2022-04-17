@@ -7,12 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 const Navbar = ({ setOpenDrawer, title }) => (
   <AppBar position="fixed" color="inherit">
     <Toolbar>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        edge="start"
-        onClick={() => setOpenDrawer(true)}
-      >
+      <IconButton color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
         <MenuIcon />
       </IconButton>
       <Typography variant="h6" noWrap>

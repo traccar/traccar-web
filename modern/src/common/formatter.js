@@ -5,6 +5,7 @@ export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo
 export const formatNumber = (value, precision = 1) => Number(value.toFixed(precision));
 
 export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
+export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => moment(value).format(format);
 
 export const formatPosition = (value, key, t) => {
   if (value != null && typeof value === 'object') {
@@ -15,7 +16,7 @@ export const formatPosition = (value, key, t) => {
     case 'deviceTime':
     case 'serverTime':
     case 'eventTime':
-      return moment(value).format('LLL');
+      return formatTime(value);
     case 'latitude':
     case 'longitude':
       return value.toFixed(5);
