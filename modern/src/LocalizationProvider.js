@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import usePersistedState from './common/usePersistedState';
 
 import af from '../../web/l10n/af.json';
@@ -155,7 +155,7 @@ export const useLocalization = () => useContext(LocalizationContext);
 export const useTranslation = () => {
   const context = useContext(LocalizationContext);
   const { data } = context.languages[context.language];
-  return (key) => data[key];
+  return useMemo(() => (key) => data[key], [data]);
 };
 
 export const useTranslationKeys = (predicate) => {
