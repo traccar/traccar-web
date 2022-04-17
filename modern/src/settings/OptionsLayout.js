@@ -9,13 +9,9 @@ import {
   Hidden,
 } from '@material-ui/core';
 
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-import SideNav from '../components/SideNav';
-import NavBar from '../components/NavBar';
-import { useTranslation } from '../LocalizationProvider';
 import { useSelector } from 'react-redux';
 import CreateIcon from '@material-ui/icons/Create';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import FolderIcon from '@material-ui/icons/Folder';
 import PersonIcon from '@material-ui/icons/Person';
@@ -24,6 +20,10 @@ import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import TodayIcon from '@material-ui/icons/Today';
+
+import SideNav from '../components/SideNav';
+import NavBar from '../components/NavBar';
+import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +77,7 @@ const OptionsLayout = ({ children }) => {
     { name: t('settingsUsers'), href: '/admin/users', icon: <PeopleIcon /> },
     { name: t('statisticsTitle'), href: '/admin/statistics', icon: <BarChartIcon /> },
   ], [t]);
-  
+
   const mainRoutes = useMemo(() => [
     { name: t('settingsUser'), href: `/user/${userId}`, icon: <PersonIcon /> },
     { name: t('sharedGeofences'), href: '/geofences', icon: <CreateIcon /> },

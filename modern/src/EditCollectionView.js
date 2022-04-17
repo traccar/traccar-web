@@ -65,11 +65,11 @@ const EditCollectionView = ({
   return (
     <>
       <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} filter={filter} />
-        {adminEnabled && !disableAdd && (
-          <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
-            <AddIcon />
-          </Fab>
-        )}
+      {adminEnabled && !disableAdd && (
+        <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
+          <AddIcon />
+        </Fab>
+      )}
       <Menu open={!!selectedAnchorEl} anchorEl={selectedAnchorEl} onClose={menuHide}>
         <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
         <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>

@@ -86,7 +86,6 @@ const ReplayPage = () => {
   useEffect(() => {
     if (isPlaying && positions.length > 0) {
       timerRef.current = setInterval(() => {
-        console.log('in setInterval func');
         setIndex((index) => index + 1);
       }, 500);
     } else {
