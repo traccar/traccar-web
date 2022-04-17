@@ -100,7 +100,7 @@ const ReplayPage = () => {
     if (index >= positions.length) {
       clearInterval(timerRef.current);
     }
-  }, [index]);
+  }, [index, positions]);
 
   const handleSubmit = async (deviceId, from, to, _, headers) => {
     setSelectedDeviceId(deviceId);

@@ -80,7 +80,7 @@ const SocketController = () => {
       message: `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`,
       show: true,
     })));
-  }, [events, devices]);
+  }, [events, devices, t]);
 
   return (
     <>

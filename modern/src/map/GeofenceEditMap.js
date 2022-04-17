@@ -2,7 +2,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import theme from '@mapbox/mapbox-gl-draw/src/lib/theme';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -39,19 +39,22 @@ const GeofenceEditMap = () => {
 
   const geofences = useSelector((state) => Object.values(state.geofences.items));
 
-  const refreshGeofences = async () => {
+  const refreshGeofences = useCallback(async () => {
     const response = await fetch('/api/geofences');
     if (response.ok) {
       dispatch(geofencesActions.refresh(await response.json()));
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     refreshGeofences();
 
     map.addControl(draw, 'top-left');
+    return () => map.removeControl(draw);
+  }, [refreshGeofences]);
 
-    map.on('draw.create', async (event) => {
+  useEffect(() => {
+    const listener = async (event) => {
       const feature = event.features[0];
       const newItem = { name: '', area: geometryToArea(feature.geometry) };
       draw.delete(feature.id);
@@ -64,17 +67,27 @@ const GeofenceEditMap = () => {
         const item = await response.json();
         history.push(`/geofence/${item.id}`);
       }
-    });
+    };
 
-    map.on('draw.delete', async (event) => {
+    map.on('draw.create', listener);
+    return () => map.off('draw.create', listener);
+  }, [history]);
+
+  useEffect(() => {
+    const listener = async (event) => {
       const feature = event.features[0];
       const response = await fetch(`/api/geofences/${feature.id}`, { method: 'DELETE' });
       if (response.ok) {
         refreshGeofences();
       }
-    });
+    };
 
-    map.on('draw.update', async (event) => {
+    map.on('draw.delete', listener);
+    return () => map.off('draw.delete', listener);
+  }, [refreshGeofences]);
+
+  useEffect(() => {
+    const listener = async (event) => {
       const feature = event.features[0];
       const item = geofences.find((i) => i.id === feature.id);
       if (item) {
@@ -88,10 +101,11 @@ const GeofenceEditMap = () => {
           refreshGeofences();
         }
       }
-    });
+    };
 
-    return () => map.removeControl(draw);
-  }, []);
+    map.on('draw.update', listener);
+    return () => map.off('draw.update', listener);
+  }, [geofences, refreshGeofences]);
 
   useEffect(() => {
     draw.deleteAll();

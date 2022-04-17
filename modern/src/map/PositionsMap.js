@@ -62,7 +62,7 @@ const PositionsMap = ({ positions }) => {
       .addTo(map);
   }, [history]);
 
-  const onClusterClick = (event) => {
+  const onClusterClick = useCallback((event) => {
     const features = map.queryRenderedFeatures(event.point, {
       layers: [clusters],
     });
@@ -75,7 +75,7 @@ const PositionsMap = ({ positions }) => {
         });
       }
     });
-  };
+  }, [clusters]);
 
   useEffect(() => {
     map.addSource(id, {
@@ -148,7 +148,7 @@ const PositionsMap = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, [onMarkerClick]);
+  }, [clusters, onMarkerClick, onClusterClick]);
 
   useEffect(() => {
     map.getSource(id).setData({

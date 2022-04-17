@@ -79,7 +79,7 @@ const ReportLayout = ({ children, filter }) => {
           break;
       }
     });
-  }, [location]);
+  }, [routes, location]);
 
   const pageTitle = `${t('reportTitle')} / ${reportTitle}`;
 

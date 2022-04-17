@@ -110,7 +110,7 @@ const Map = ({ children }) => {
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
     ], 'locationIqStreets');
-  }, [mapTilerKey]);
+  }, [t, locationIqKey, mapTilerKey]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);
