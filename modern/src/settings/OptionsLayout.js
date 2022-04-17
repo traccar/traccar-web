@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
   Typography,
@@ -11,10 +11,19 @@ import {
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import SideNav from '../../components/SideNav';
-import NavBar from '../../components/NavBar';
-import useRoutes from './useRoutes';
-import { useTranslation } from '../../LocalizationProvider';
+import SideNav from '../components/SideNav';
+import NavBar from '../components/NavBar';
+import { useTranslation } from '../LocalizationProvider';
+import { useSelector } from 'react-redux';
+import CreateIcon from '@material-ui/icons/Create';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import FolderIcon from '@material-ui/icons/Folder';
+import PersonIcon from '@material-ui/icons/Person';
+import StorageIcon from '@material-ui/icons/Storage';
+import BuildIcon from '@material-ui/icons/Build';
+import PeopleIcon from '@material-ui/icons/People';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import TodayIcon from '@material-ui/icons/Today';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,19 +60,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OptionsLayout = ({ children }) => {
+  const t = useTranslation();
   const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
-  const routes = useRoutes();
-  const t = useTranslation();
 
   const [openDrawer, setOpenDrawer] = useState(false);
   const [optionTitle, setOptionTitle] = useState();
 
+  const admin = useSelector((state) => state.session.user?.administrator);
+  const userId = useSelector((state) => state.session.user?.id);
+
+  const adminRoutes = useMemo(() => [
+    { subheader: t('userAdmin') },
+    { name: t('settingsServer'), href: '/admin/server', icon: <StorageIcon /> },
+    { name: t('settingsUsers'), href: '/admin/users', icon: <PeopleIcon /> },
+    { name: t('statisticsTitle'), href: '/admin/statistics', icon: <BarChartIcon /> },
+  ], [t]);
+  
+  const mainRoutes = useMemo(() => [
+    { name: t('settingsUser'), href: `/user/${userId}`, icon: <PersonIcon /> },
+    { name: t('sharedGeofences'), href: '/geofences', icon: <CreateIcon /> },
+    { name: t('sharedNotifications'), href: '/settings/notifications', icon: <NotificationsIcon /> },
+    { name: t('settingsGroups'), href: '/settings/groups', icon: <FolderIcon /> },
+    { name: t('sharedDrivers'), href: '/settings/drivers', icon: <PersonIcon /> },
+    { name: t('sharedCalendars'), href: '/settings/calendars', icon: <TodayIcon /> },
+    { name: t('sharedComputedAttributes'), href: '/settings/attributes', icon: <StorageIcon /> },
+    { name: t('sharedMaintenance'), href: '/settings/maintenances', icon: <BuildIcon /> },
+  ], [t, userId]);
+
+  const routes = useMemo(() => [...mainRoutes, ...(admin ? adminRoutes : [])], [mainRoutes, admin, adminRoutes]);
+
   useEffect(() => {
-    const activeRoute = routes.find(
-      (route) => route.href && location.pathname.match(route.match || route.href),
-    );
+    const activeRoute = routes.find((route) => route.href && location.pathname.includes(route.href));
     setOptionTitle(activeRoute?.name);
   }, [location, routes]);
 

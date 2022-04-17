@@ -7,7 +7,7 @@ import { geofenceToFeature } from './mapUtil';
 const GeofenceMap = () => {
   const id = 'geofences';
 
-  const geofences = useSelector((state) => Object.values(state.geofences.items));
+  const geofences = useSelector((state) => state.geofences.items);
 
   useEffect(() => {
     map.addSource(id, {
@@ -74,7 +74,7 @@ const GeofenceMap = () => {
   useEffect(() => {
     map.getSource(id).setData({
       type: 'FeatureCollection',
-      features: geofences.map(geofenceToFeature),
+      features: Object.values(geofences).map(geofenceToFeature),
     });
   }, [geofences]);
 

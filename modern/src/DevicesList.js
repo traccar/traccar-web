@@ -108,14 +108,15 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
 
-  const items = useSelector((state) => Object.values(state.devices.items));
+  const items = useSelector((state) => state.devices.items);
   const [filteredItems, setFilteredItems] = useState(null);
 
   useEffect(() => {
+    const array = Object.values(items);
     setFilteredItems(
       filter.trim().length > 0
-        ? items.filter((item) => `${item.name} ${item.uniqueId}`.toLowerCase().includes(filter?.toLowerCase()))
-        : items,
+        ? array.filter((item) => `${item.name} ${item.uniqueId}`.toLowerCase().includes(filter?.toLowerCase()))
+        : array,
     );
   }, [filter, items]);
 

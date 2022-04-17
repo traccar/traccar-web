@@ -9,7 +9,7 @@ import { useTranslation } from '../LocalizationProvider';
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   const t = useTranslation();
 
-  const devices = useSelector((state) => Object.values(state.devices.items));
+  const devices = useSelector((state) => state.devices.items);
   const [deviceId, setDeviceId] = useState();
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
@@ -65,7 +65,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportDevice')}</InputLabel>
           <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
-            {devices.map((device) => (
+            {Object.values(devices).map((device) => (
               <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
             ))}
           </Select>

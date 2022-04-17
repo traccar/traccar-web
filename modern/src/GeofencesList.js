@@ -28,11 +28,11 @@ const GeofenceView = ({ onMenuClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const items = useSelector((state) => Object.values(state.geofences.items));
+  const items = useSelector((state) => state.geofences.items);
 
   return (
     <List className={classes.list}>
-      {items.map((item, index, list) => (
+      {Object.values(items).map((item, index, list) => (
         <Fragment key={item.id}>
           <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item))}>
             <ListItemText primary={item.name} />

@@ -37,7 +37,7 @@ const GeofenceEditMap = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const geofences = useSelector((state) => Object.values(state.geofences.items));
+  const geofences = useSelector((state) => state.geofences.items);
 
   const refreshGeofences = useCallback(async () => {
     const response = await fetch('/api/geofences');
@@ -89,7 +89,7 @@ const GeofenceEditMap = () => {
   useEffect(() => {
     const listener = async (event) => {
       const feature = event.features[0];
-      const item = geofences.find((i) => i.id === feature.id);
+      const item = Object.values(geofences).find((i) => i.id === feature.id);
       if (item) {
         const updatedItem = { ...item, area: geometryToArea(feature.geometry) };
         const response = await fetch(`/api/geofences/${feature.id}`, {
@@ -109,7 +109,7 @@ const GeofenceEditMap = () => {
 
   useEffect(() => {
     draw.deleteAll();
-    geofences.forEach((geofence) => {
+    Object.values(geofences).forEach((geofence) => {
       draw.add(geofenceToFeature(geofence));
     });
   }, [geofences]);
