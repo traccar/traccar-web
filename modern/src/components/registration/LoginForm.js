@@ -145,11 +145,11 @@ const LoginForm = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={announcement && !announcementShown}
           message={announcement}
-          action={
+          action={(
             <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
               <CloseIcon fontSize="small" />
             </IconButton>
-          }
+          )}
         />
       </Grid>
     </StartPage>
