@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link,
+  Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton,
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -37,6 +38,9 @@ const LoginForm = () => {
 
   const registrationEnabled = useSelector((state) => (state.session.server ? state.session.server.registration : false));
   const emailEnabled = useSelector((state) => (state.session.server ? state.session.server.emailEnabled : false));
+
+  const [announcementShown, setAnnouncementShown] = useState(false);
+  const announcement = useSelector((state) => (state.session.server && state.session.server.announcement));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -131,12 +135,22 @@ const LoginForm = () => {
           </Grid>
         </Grid>
         {emailEnabled && (
-        <Grid item container justify="flex-end">
-          <Grid item>
-            <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
+          <Grid item container justify="flex-end">
+            <Grid item>
+              <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
+            </Grid>
           </Grid>
-        </Grid>
         )}
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={announcement && !announcementShown}
+          message={announcement}
+          action={
+            <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        />
       </Grid>
     </StartPage>
   );

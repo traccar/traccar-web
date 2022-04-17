@@ -7,6 +7,7 @@ import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './LocalizationProvider';
 import { prefixString } from './common/stringUtils';
+import { snackBarDurationLongMs } from './common/duration';
 
 const SocketController = () => {
   const dispatch = useDispatch();
@@ -93,7 +94,7 @@ const SocketController = () => {
           }}
           open={notification.show}
           message={notification.message}
-          autoHideDuration={5000}
+          autoHideDuration={snackBarDurationLongMs}
           onClose={() => setEvents(events.filter((e) => e.id !== notification.id))}
         />
       ))}

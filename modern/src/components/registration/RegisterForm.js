@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StartPage from '../../StartPage';
 import { useTranslation } from '../../LocalizationProvider';
+import { snackBarDurationShortMs } from '../../common/duration';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -49,7 +50,7 @@ const RegisterForm = () => {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
         onClose={() => history.push('/login')}
-        autoHideDuration={6000}
+        autoHideDuration={snackBarDurationShortMs}
         message={t('loginCreated')}
       />
       <Grid container direction="column" spacing={2}>

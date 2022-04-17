@@ -7,6 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { useTranslation } from './LocalizationProvider';
+import { snackBarDurationShortMs } from './common/duration';
 
 const RegisterDialog = ({ showDialog, onResult }) => {
   const t = useTranslation();
@@ -36,7 +37,7 @@ const RegisterDialog = ({ showDialog, onResult }) => {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={snackbarOpen}
-        autoHideDuration={6000}
+        autoHideDuration={snackBarDurationShortMs}
         onClose={() => { onResult(true); }}
         message={t('loginCreated')}
       />
