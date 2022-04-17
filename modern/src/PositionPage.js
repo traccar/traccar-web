@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   makeStyles, Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
@@ -9,7 +10,6 @@ import { useEffectAsync } from './reactHelper';
 import { formatPosition } from './common/formatter';
 import { prefixString } from './common/stringUtils';
 import { useTranslation } from './LocalizationProvider';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
