@@ -29,14 +29,12 @@ const PositionPage = () => {
 
   useEffectAsync(async () => {
     if (id) {
-      const response = await fetch(`/api/positions?id=${id}`, {
-        headers: {
-          Accept: 'application/json',
-        },
-      });
+      const response = await fetch(`/api/positions?id=${id}`);
       if (response.ok) {
-        const items = await response.json();
-        setItem(items[0]);
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setItem(positions[0]);
+        }
       }
     } else {
       setItem({});

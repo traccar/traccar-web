@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LinearProgress } from '@material-ui/core';
 import MainPage from './MainPage';
 import RouteReportPage from './reports/RouteReportPage';
@@ -41,11 +41,44 @@ import theme from './theme';
 import GeofencesPage from './GeofencesPage';
 import GeofencePage from './GeofencePage';
 import { LocalizationProvider } from './LocalizationProvider';
+import useQuery from './common/useQuery';
+import { useEffectAsync } from './reactHelper';
+import { devicesActions } from './store';
+import EventPage from './EventPage';
 
 const App = () => {
-  const initialized = useSelector((state) => !!state.session.server && !!state.session.user);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  return (
+  const initialized = useSelector((state) => !!state.session.server && !!state.session.user);
+  const [redirectsHandled, setRedirectsHandled] = useState(false);
+
+  const query = useQuery();
+
+  useEffectAsync(async () => {
+    if (query.get('token')) {
+      const token = query.get('token');
+      await fetch(`/api/session?token=${encodeURIComponent(token)}`);
+      history.push('/');
+    } else if (query.get('deviceId')) {
+      const deviceId = query.get('deviceId');
+      const response = await fetch(`/api/devices?uniqueId=${deviceId}`);
+      if (response.ok) {
+        const items = await response.json();
+        if (items.length > 0) {
+          dispatch(devicesActions.select(items[0]));
+        }
+      }
+      history.push('/');
+    } else if (query.get('eventId')) {
+      const eventId = parseInt(query.get('eventId'), 10);
+      history.push(`/event/${eventId}`);
+    } else {
+      setRedirectsHandled(true);
+    }
+  }, [query]);
+
+  return (!redirectsHandled ? (<LinearProgress />) : (
     <LocalizationProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -61,6 +94,7 @@ const App = () => {
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/replay" component={ReplayPage} />
                 <Route exact path="/position/:id?" component={PositionPage} />
+                <Route exact path="/event/:id?" component={EventPage} />
                 <Route exact path="/user/:id?" component={UserPage} />
                 <Route exact path="/device/:id?" component={DevicePage} />
                 <Route exact path="/geofence/:id?" component={GeofencePage} />
@@ -92,7 +126,7 @@ const App = () => {
         </Switch>
       </ThemeProvider>
     </LocalizationProvider>
-  );
+  ));
 };
 
 export default App;

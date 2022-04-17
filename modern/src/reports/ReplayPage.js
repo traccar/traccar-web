@@ -116,8 +116,7 @@ const ReplayPage = () => {
     <div className={classes.root}>
       <Map>
         <ReplayPathMap positions={positions} />
-        {index < positions.length
-          && <PositionsMap positions={[positions[index]]} />}
+        {index < positions.length && <PositionsMap positions={[positions[index]]} />}
       </Map>
       <div className={classes.sidebar}>
         <Grid container direction="column" spacing={1}>
