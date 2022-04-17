@@ -18,7 +18,6 @@ import {
 } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
 import RemoveDialog from '../RemoveDialog';
-import { getPosition } from '../common/selectors';
 import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +40,7 @@ const StatusView = ({
 
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
   const device = useSelector((state) => state.devices.items[deviceId]);
-  const position = useSelector(getPosition(deviceId));
+  const position = useSelector((state) => state.positions.items[deviceId]);
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');

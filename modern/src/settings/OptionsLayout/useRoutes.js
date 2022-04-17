@@ -9,7 +9,6 @@ import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import TodayIcon from '@material-ui/icons/Today';
-import { getIsAdmin, getUserId } from '../../common/selectors';
 import { useTranslation } from '../../LocalizationProvider';
 
 const useAdminRoutes = (t) => useMemo(() => [
@@ -84,8 +83,8 @@ const useMainRoutes = (t, userId) => useMemo(() => [
 export default () => {
   const t = useTranslation();
 
-  const isAdmin = useSelector(getIsAdmin);
-  const userId = useSelector(getUserId);
+  const isAdmin = useSelector((state) => state.session.user?.administrator);
+  const userId = useSelector((state) => state.session.user?.id);
 
   const mainRoutes = useMainRoutes(t, userId);
   const adminRoutes = useAdminRoutes(t);

@@ -18,7 +18,6 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatPosition, getBatteryStatus, getStatusColor } from './common/formatter';
-import { getDevices, getPosition } from './common/selectors';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +65,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   const { items } = data;
   const item = items[index];
-  const position = useSelector(getPosition(item.id));
+  const position = useSelector((state) => state.positions.items[item.id]);
   const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition;
 
   return (
@@ -109,7 +108,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
 
-  const items = useSelector(getDevices);
+  const items = useSelector((state) => Object.values(state.devices.items));
   const [filteredItems, setFilteredItems] = useState(null);
 
   useEffect(() => {
