@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { IconButton, Tooltip } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,7 +25,6 @@ import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatBoolean, formatPercentage, getStatusColor } from './common/formatter';
 import { useTranslation } from './LocalizationProvider';
-import { IconButton, Tooltip } from '@material-ui/core';
 import { prefixString } from './common/stringUtils';
 
 const useStyles = makeStyles((theme) => ({
