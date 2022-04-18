@@ -23,7 +23,9 @@ import ErrorIcon from '@material-ui/icons/Error';
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
-import { formatAlarm, formatBoolean, formatPercentage, getStatusColor } from './common/formatter';
+import {
+  formatAlarm, formatBoolean, formatPercentage, getStatusColor,
+} from './common/formatter';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
