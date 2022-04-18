@@ -10,17 +10,22 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@material-ui/icons/BatteryFull';
+import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
 import Battery60Icon from '@material-ui/icons/Battery60';
+import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
 import Battery20Icon from '@material-ui/icons/Battery20';
+import BatteryCharging20Icon from '@material-ui/icons/BatteryCharging20';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
 import FlashOffIcon from '@material-ui/icons/FlashOff';
+import ErrorIcon from '@material-ui/icons/Error';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import { formatBoolean, formatPercentage, getStatusColor } from './common/formatter';
 import { useTranslation } from './LocalizationProvider';
-import { Tooltip } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
+import { prefixString } from './common/stringUtils';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -55,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
   negative: {
     color: theme.palette.colors.negative,
   },
+  neutral: {
+    color: theme.palette.colors.neutral,
+  },
   indicators: {
     lineHeight: 1,
   },
@@ -81,24 +89,41 @@ const DeviceRow = ({ data, index, style }) => {
         <ListItemSecondaryAction className={classes.indicators}>
           {position && (
             <>
+              {position.attributes.hasOwnProperty('alarm') && (
+                <Tooltip title={`${t('eventAlarm')}: ${t(prefixString('alarm', position.attributes.alarm))}`}>
+                  <IconButton size="small">
+                    <ErrorIcon fontSize="small" className={classes.negative} />
+                  </IconButton>
+                </Tooltip>
+              )}
               {position.attributes.hasOwnProperty('ignition') && (
                 <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
-                  {position.attributes.ignition ? (
-                    <FlashOnIcon className={classes.positive} />
-                  ) : (
-                    <FlashOffIcon className={classes.negative} />
-                  )}
+                  <IconButton size="small">
+                    {position.attributes.ignition ? (
+                      <FlashOnIcon fontSize="small" className={classes.positive} />
+                    ) : (
+                      <FlashOffIcon fontSize="small" className={classes.neutral} />
+                    )}
+                  </IconButton>
                 </Tooltip>
               )}
               {position.attributes.hasOwnProperty('batteryLevel') && (
                 <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
-                  {position.attributes.batteryLevel > 70 ? (
-                    <BatteryFullIcon className={classes.positive} />
-                  ) : position.attributes.batteryLevel > 30 ? (
-                    <Battery60Icon className={classes.medium} />
-                  ) : (
-                    <Battery20Icon className={classes.negative} />
-                  )}
+                  <IconButton size="small">
+                    {position.attributes.batteryLevel > 70 ? (
+                      position.attributes.charge
+                        ? (<BatteryChargingFullIcon fontSize="small" className={classes.positive} />)
+                        : (<BatteryFullIcon fontSize="small" className={classes.positive} />)
+                    ) : position.attributes.batteryLevel > 30 ? (
+                      position.attributes.charge
+                        ? (<BatteryCharging60Icon fontSize="small" className={classes.medium} />)
+                        : (<Battery60Icon fontSize="small" className={classes.medium} />)
+                    ) : (
+                      position.attributes.charge
+                        ? (<BatteryCharging20Icon fontSize="small" className={classes.negative} />)
+                        : (<Battery20Icon fontSize="small" className={classes.negative} />)
+                    )}
+                  </IconButton>
                 </Tooltip>
               )}
             </>
