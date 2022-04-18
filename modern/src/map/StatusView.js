@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import {
-  formatPosition, getStatusColor, getBatteryStatus, formatDistance, formatSpeed,
+  formatPosition, getStatusColor, getBatteryStatus, formatDistance, formatSpeed, formatStatus,
 } from '../common/formatter';
 import { useAttributePreference } from '../common/preferences';
 import RemoveDialog from '../RemoveDialog';
@@ -72,7 +72,7 @@ const StatusView = ({
               <ListItem classes={{ container: classes.listItemContainer }}>
                 <ListItemText primary={t('deviceStatus')} />
                 <ListItemSecondaryAction>
-                  <span className={classes[getStatusColor(device.status)]}>{device.status}</span>
+                  <span className={classes[getStatusColor(device.status)]}>{formatStatus(device.status, t)}</span>
                 </ListItemSecondaryAction>
               </ListItem>
               <ListItem classes={{ container: classes.listItemContainer }}>
@@ -107,7 +107,7 @@ const StatusView = ({
           </Grid>
           <Grid item container>
             <Grid item>
-              <Button color="secondary" onClick={handleClick}>More Info</Button>
+              <Button color="secondary" onClick={handleClick}>{t('sharedInfoTitle')}</Button>
             </Grid>
             <Grid item>
               <IconButton onClick={onShowHistory}>

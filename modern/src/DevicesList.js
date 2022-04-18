@@ -24,7 +24,7 @@ import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import {
-  formatAlarm, formatBoolean, formatPercentage, getStatusColor,
+  formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
 } from './common/formatter';
 import { useTranslation } from './LocalizationProvider';
 
@@ -86,7 +86,11 @@ const DeviceRow = ({ data, index, style }) => {
             <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
+        <ListItemText
+          primary={item.name}
+          secondary={formatStatus(item.status, t)}
+          classes={{ secondary: classes[getStatusColor(item.status)] }}
+        />
         <ListItemSecondaryAction className={classes.indicators}>
           {position && (
             <>

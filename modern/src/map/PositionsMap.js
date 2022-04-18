@@ -10,6 +10,7 @@ import store from '../store';
 import StatusView from './StatusView';
 import theme from '../theme';
 import { getStatusColor } from '../common/formatter';
+import { LocalizationProvider } from '../LocalizationProvider';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
@@ -41,14 +42,16 @@ const PositionsMap = ({ positions }) => {
     const placeholder = document.createElement('div');
     ReactDOM.render(
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <StatusView
-            deviceId={feature.properties.deviceId}
-            onShowDetails={(positionId) => history.push(`/position/${positionId}`)}
-            onShowHistory={() => history.push('/replay')}
-            onEditClick={(deviceId) => history.push(`/device/${deviceId}`)}
-          />
-        </ThemeProvider>
+        <LocalizationProvider>
+          <ThemeProvider theme={theme}>
+            <StatusView
+              deviceId={feature.properties.deviceId}
+              onShowDetails={(positionId) => history.push(`/position/${positionId}`)}
+              onShowHistory={() => history.push('/replay')}
+              onEditClick={(deviceId) => history.push(`/device/${deviceId}`)}
+            />
+          </ThemeProvider>
+        </LocalizationProvider>
       </Provider>,
       placeholder,
     );

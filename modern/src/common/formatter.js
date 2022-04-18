@@ -10,6 +10,7 @@ export const formatPercentage = (value) => `${value}%`;
 export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
 export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => moment(value).format(format);
 
+export const formatStatus = (value, t) => t(prefixString('deviceStatus', value));
 export const formatAlarm = (value, t) => t(prefixString('alarm', value));
 
 export const formatPosition = (value, key, t) => {
