@@ -4,6 +4,8 @@ export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo
 
 export const formatNumber = (value, precision = 1) => Number(value.toFixed(precision));
 
+export const formatPercentage = (value) => `${value}%`;
+
 export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
 export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => moment(value).format(format);
 
@@ -24,7 +26,7 @@ export const formatPosition = (value, key, t) => {
     case 'course':
       return value.toFixed(1);
     case 'batteryLevel':
-      return `${value}%`;
+      return formatPercentage(value);
     default:
       if (typeof value === 'number') {
         return formatNumber(value);
@@ -119,7 +121,7 @@ export const getBatteryStatus = (batteryLevel) => {
     return 'positive';
   }
   if (batteryLevel > 30) {
-    return 'neutral';
+    return 'medium';
   }
   return 'negative';
 };

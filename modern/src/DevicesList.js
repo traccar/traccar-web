@@ -6,19 +6,21 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Grid from '@material-ui/core/Grid';
 import ListItemText from '@material-ui/core/ListItemText';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@material-ui/icons/BatteryFull';
-import { ReactComponent as IgnitionIcon } from '../public/images/ignition.svg';
+import Battery60Icon from '@material-ui/icons/Battery60';
+import Battery20Icon from '@material-ui/icons/Battery20';
+import FlashOnIcon from '@material-ui/icons/FlashOn';
+import FlashOffIcon from '@material-ui/icons/FlashOff';
 
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
-import { formatPosition, getBatteryStatus, getStatusColor } from './common/formatter';
+import { formatBoolean, formatPercentage, getStatusColor } from './common/formatter';
 import { useTranslation } from './LocalizationProvider';
+import { Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -47,11 +49,11 @@ const useStyles = makeStyles((theme) => ({
   positive: {
     color: theme.palette.colors.positive,
   },
+  medium: {
+    color: theme.palette.colors.medium,
+  },
   negative: {
     color: theme.palette.colors.negative,
-  },
-  neutral: {
-    color: theme.palette.colors.neutral,
   },
   indicators: {
     lineHeight: 1,
@@ -66,7 +68,6 @@ const DeviceRow = ({ data, index, style }) => {
   const { items } = data;
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
-  const showIgnition = position?.attributes.hasOwnProperty('ignition') && position.attributes.ignition;
 
   return (
     <div style={style}>
@@ -79,23 +80,28 @@ const DeviceRow = ({ data, index, style }) => {
         <ListItemText primary={item.name} secondary={item.status} classes={{ secondary: classes[getStatusColor(item.status)] }} />
         <ListItemSecondaryAction className={classes.indicators}>
           {position && (
-          <Grid container direction="row" alignItems="center" alignContent="center" spacing={2}>
-            {showIgnition && (
-            <Grid item>
-              <SvgIcon component={IgnitionIcon} />
-            </Grid>
-            )}
-            {position.attributes.hasOwnProperty('batteryLevel') && (
-            <Grid item container xs alignItems="center" alignContent="center">
-              <Grid item>
-                <span className={classes.batteryText}>{formatPosition(position.attributes.batteryLevel, 'batteryLevel', t)}</span>
-              </Grid>
-              <Grid item>
-                <BatteryFullIcon className={classes[getBatteryStatus(position.attributes.batteryLevel)]} />
-              </Grid>
-            </Grid>
-            )}
-          </Grid>
+            <>
+              {position.attributes.hasOwnProperty('ignition') && (
+                <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
+                  {position.attributes.ignition ? (
+                    <FlashOnIcon className={classes.positive} />
+                  ) : (
+                    <FlashOffIcon className={classes.negative} />
+                  )}
+                </Tooltip>
+              )}
+              {position.attributes.hasOwnProperty('batteryLevel') && (
+                <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
+                  {position.attributes.batteryLevel > 70 ? (
+                    <BatteryFullIcon className={classes.positive} />
+                  ) : position.attributes.batteryLevel > 30 ? (
+                    <Battery60Icon className={classes.medium} />
+                  ) : (
+                    <Battery20Icon className={classes.negative} />
+                  )}
+                </Tooltip>
+              )}
+            </>
           )}
         </ListItemSecondaryAction>
       </ListItem>
