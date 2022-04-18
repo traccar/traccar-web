@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { prefixString } from './stringUtils';
 
 export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));
 
@@ -8,6 +9,8 @@ export const formatPercentage = (value) => `${value}%`;
 
 export const formatDate = (value, format = 'YYYY-MM-DD HH:mm') => moment(value).format(format);
 export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => moment(value).format(format);
+
+export const formatAlarm = (value, t) => t(prefixString('alarm', value));
 
 export const formatPosition = (value, key, t) => {
   if (value != null && typeof value === 'object') {
@@ -27,6 +30,8 @@ export const formatPosition = (value, key, t) => {
       return value.toFixed(1);
     case 'batteryLevel':
       return formatPercentage(value);
+    case 'alarm':
+      return formatAlarm(value, t);
     default:
       if (typeof value === 'number') {
         return formatNumber(value);

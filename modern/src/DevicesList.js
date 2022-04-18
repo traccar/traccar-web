@@ -23,9 +23,8 @@ import ErrorIcon from '@material-ui/icons/Error';
 import { devicesActions } from './store';
 import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
-import { formatBoolean, formatPercentage, getStatusColor } from './common/formatter';
+import { formatAlarm, formatBoolean, formatPercentage, getStatusColor } from './common/formatter';
 import { useTranslation } from './LocalizationProvider';
-import { prefixString } from './common/stringUtils';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -90,7 +89,7 @@ const DeviceRow = ({ data, index, style }) => {
           {position && (
             <>
               {position.attributes.hasOwnProperty('alarm') && (
-                <Tooltip title={`${t('eventAlarm')}: ${t(prefixString('alarm', position.attributes.alarm))}`}>
+                <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
                   <IconButton size="small">
                     <ErrorIcon fontSize="small" className={classes.negative} />
                   </IconButton>
