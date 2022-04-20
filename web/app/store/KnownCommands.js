@@ -180,7 +180,7 @@ Ext.define('Traccar.store.KnownCommands', {
             valueType: 'boolean'
         }]
     }, {
-        type: 'movementAlarm',
+        type: 'alarmGeofence',
         parameters: [{
             key: 'radius',
             name: Strings.commandRadius,
