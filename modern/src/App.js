@@ -30,6 +30,8 @@ import ComputedAttributesPage from './settings/ComputedAttributesPage';
 import ComputedAttributePage from './settings/ComputedAttributePage';
 import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
+import CommandsPage from './settings/CommandsPage';
+import CommandPage from './settings/CommandPage';
 import StatisticsPage from './admin/StatisticsPage';
 import CachingController from './CachingController';
 
@@ -111,6 +113,8 @@ const App = () => {
                 <Route exact path="/settings/attribute/:id?" component={ComputedAttributePage} />
                 <Route exact path="/settings/maintenances" component={MaintenancesPage} />
                 <Route exact path="/settings/maintenance/:id?" component={MaintenancePage} />
+                <Route exact path="/settings/commands" component={CommandsPage} />
+                <Route exact path="/settings/command/:id?" component={CommandPage} />
                 <Route exact path="/admin/server" component={ServerPage} />
                 <Route exact path="/admin/users" component={UsersPage} />
                 <Route exact path="/admin/statistics" component={StatisticsPage} />

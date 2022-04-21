@@ -40,7 +40,7 @@ const ComputedAttributePage = () => {
   };
 
   return (
-    <EditItemView endpoint="/attributes/computed" item={item} setItem={setItem}>
+    <EditItemView endpoint="attributes/computed" item={item} setItem={setItem}>
       {item
         && (
         <Accordion defaultExpanded>

@@ -116,7 +116,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
                     <CloseIcon />
                   </IconButton>
                 </InputAdornment>
-                )}
+              )}
             />
           </FormControl>
         );

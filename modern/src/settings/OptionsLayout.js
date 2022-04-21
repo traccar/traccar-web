@@ -20,6 +20,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import TodayIcon from '@material-ui/icons/Today';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import SideNav from '../components/SideNav';
 import NavBar from '../components/NavBar';
@@ -79,14 +80,15 @@ const OptionsLayout = ({ children }) => {
   ], [t]);
 
   const mainRoutes = useMemo(() => [
+    { name: t('sharedNotifications'), href: '/settings/notifications', icon: <NotificationsIcon /> },
     { name: t('settingsUser'), href: `/user/${userId}`, icon: <PersonIcon /> },
     { name: t('sharedGeofences'), href: '/geofences', icon: <CreateIcon /> },
-    { name: t('sharedNotifications'), href: '/settings/notifications', icon: <NotificationsIcon /> },
     { name: t('settingsGroups'), href: '/settings/groups', icon: <FolderIcon /> },
     { name: t('sharedDrivers'), href: '/settings/drivers', icon: <PersonIcon /> },
     { name: t('sharedCalendars'), href: '/settings/calendars', icon: <TodayIcon /> },
     { name: t('sharedComputedAttributes'), href: '/settings/attributes', icon: <StorageIcon /> },
     { name: t('sharedMaintenance'), href: '/settings/maintenances', icon: <BuildIcon /> },
+    { name: t('sharedSavedCommands'), href: '/settings/commands', icon: <ExitToAppIcon /> },
   ], [t, userId]);
 
   const routes = useMemo(() => [...mainRoutes, ...(admin ? adminRoutes : [])], [mainRoutes, admin, adminRoutes]);
