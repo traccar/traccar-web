@@ -67,9 +67,9 @@ const BottomMenu = () => {
         <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} />
         <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />
       </BottomNavigation>
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)} >
+      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={() => history.push(`/user/${userId}`)}>
-        <Typography color="textPrimary">{t('settingsUser')}</Typography>
+          <Typography color="textPrimary">{t('settingsUser')}</Typography>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <Typography color="error">{t('loginLogout')}</Typography>
