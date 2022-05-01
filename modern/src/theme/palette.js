@@ -9,7 +9,7 @@ export default {
   colors: {
     positive: '#4CAF50',
     medium: '#F3A813',
-    negative: '#CC2222',
+    negative: '#f44336',
     neutral: '#888888',
   },
 };
