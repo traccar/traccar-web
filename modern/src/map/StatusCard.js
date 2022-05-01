@@ -74,7 +74,7 @@ const StatusCard = ({ deviceId, onClose }) => {
   return (
     <>
       {device && (
-        <Card>
+        <Card elevation={3}>
           <CardHeader
             avatar={(
               <Avatar>
