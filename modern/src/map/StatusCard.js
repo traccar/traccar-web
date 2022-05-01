@@ -11,7 +11,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { useTranslation } from '../LocalizationProvider';
-import { formatDistance, formatPosition, formatSpeed, formatStatus } from '../common/formatter';
+import {
+  formatDistance, formatPosition, formatSpeed, formatStatus,
+} from '../common/formatter';
 import RemoveDialog from '../RemoveDialog';
 import { useAttributePreference } from '../common/preferences';
 
@@ -54,7 +56,7 @@ const StatusRow = ({ name, value }) => {
       </TableCell>
     </TableRow>
   );
-}
+};
 
 const StatusCard = ({ deviceId, onClose }) => {
   const classes = useStyles();
@@ -71,23 +73,23 @@ const StatusCard = ({ deviceId, onClose }) => {
 
   return (
     <>
-      {device &&
+      {device && (
         <Card>
           <CardHeader
-            avatar={
+            avatar={(
               <Avatar>
                 <img className={classes.icon} src={`images/icon/${device.category || 'default'}.svg`} alt="" />
               </Avatar>
-            }
-            action={
+            )}
+            action={(
               <IconButton onClick={onClose}>
                 <CloseIcon />
               </IconButton>
-            }
+            )}
             title={device.name}
             subheader={formatStatus(device.status, t)}
           />
-          {position &&
+          {position && (
             <CardContent>
               <TableContainer>
                 <Table size="small" classes={{ root: classes.table }}>
@@ -96,14 +98,13 @@ const StatusCard = ({ deviceId, onClose }) => {
                     <StatusRow name={t('positionBattery')} value={formatSpeed(position.speed, speedUnit, t)} />
                     {position.attributes.odometer
                       ? <StatusRow name={t('positionOdometer')} value={formatDistance(position.attributes.odometer, distanceUnit, t)} />
-                      : <StatusRow name={t('deviceTotalDistance')} value={formatDistance(position.attributes.totalDistance, distanceUnit, t)} />
-                    }
+                      : <StatusRow name={t('deviceTotalDistance')} value={formatDistance(position.attributes.totalDistance, distanceUnit, t)} />}
                     <StatusRow name={t('positionCourse')} value={formatPosition(position.course, 'course', t)} />
                   </TableBody>
                 </Table>
               </TableContainer>
             </CardContent>
-          }
+          )}
           <CardActions disableSpacing>
             <Button onClick={() => history.push(`/position/${position.id}`)} disabled={!position} color="secondary">
               {t('sharedInfoTitle')}
@@ -122,7 +123,7 @@ const StatusCard = ({ deviceId, onClose }) => {
             </IconButton>
           </CardActions>
         </Card>
-      }
+      )}
       <RemoveDialog
         open={removeDialogShown}
         endpoint="devices"

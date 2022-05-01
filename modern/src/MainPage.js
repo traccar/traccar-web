@@ -11,6 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ListIcon from '@material-ui/icons/ViewList';
 
+import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
 import Map from './map/Map';
 import SelectedDeviceMap from './map/SelectedDeviceMap';
@@ -23,7 +24,6 @@ import { useTranslation } from './LocalizationProvider';
 import PoiMap from './map/PoiMap';
 import MapPadding from './map/MapPadding';
 import StatusCard from './map/StatusCard';
-import { useDispatch, useSelector } from 'react-redux';
 import { devicesActions } from './store';
 
 const useStyles = makeStyles((theme) => ({
@@ -179,14 +179,14 @@ const MainPage = () => {
         </div>
       </Paper>
       <BottomMenu />
-      {selectedDeviceId &&
+      {selectedDeviceId && (
         <div className={classes.statusCard}>
           <StatusCard
             deviceId={selectedDeviceId}
             onClose={() => dispatch(devicesActions.select(null))}
           />
         </div>
-      }
+      )}
     </div>
   );
 };
