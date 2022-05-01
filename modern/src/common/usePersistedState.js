@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 
+export const savePersistedState = (key, value) => {
+  window.localStorage.setItem(key, JSON.stringify(value));
+};
+
 export default (key, defaultValue) => {
   const [value, setValue] = useState(() => {
     const stickyValue = window.localStorage.getItem(key);
@@ -7,7 +11,7 @@ export default (key, defaultValue) => {
   });
 
   useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    savePersistedState(key, value);
   }, [key, value]);
 
   return [value, setValue];

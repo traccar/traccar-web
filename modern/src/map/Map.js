@@ -13,6 +13,7 @@ import {
 import { useAttributePreference } from '../common/preferences';
 import palette from '../theme/palette';
 import { useTranslation } from '../LocalizationProvider';
+import usePersistedState, { savePersistedState } from '../common/usePersistedState';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -67,6 +68,7 @@ map.addControl(new maplibregl.NavigationControl({
 
 const switcher = new SwitcherControl(
   () => updateReadyValue(false),
+  (layerId) => savePersistedState('mapLayer', layerId),
   () => {
     map.once('styledata', () => {
       const waiting = () => {
@@ -89,6 +91,7 @@ const Map = ({ children }) => {
 
   const [mapReady, setMapReady] = useState(false);
 
+  const [defaultMapLayer] = usePersistedState('mapLayer', 'locationIqStreets');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey', 'pk.0f147952a41c555a5b70614039fd148b');
@@ -109,8 +112,8 @@ const Map = ({ children }) => {
       { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
-    ], 'locationIqStreets');
-  }, [t, locationIqKey, mapTilerKey]);
+    ], defaultMapLayer);
+  }, [t, locationIqKey, mapTilerKey, defaultMapLayer]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);

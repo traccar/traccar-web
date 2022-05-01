@@ -1,7 +1,8 @@
 export class SwitcherControl {
 
-  constructor(onBeforeSwitch, onAfterSwitch) {
+  constructor(onBeforeSwitch, onSwitch, onAfterSwitch) {
     this.onBeforeSwitch = onBeforeSwitch;
+    this.onSwitch = onSwitch;
     this.onAfterSwitch = onAfterSwitch;
     this.onDocumentClick = this.onDocumentClick.bind(this);
     this.styles = [];
@@ -51,6 +52,8 @@ export class SwitcherControl {
     this.map.setStyle(JSON.parse(target.dataset.uri), {
       diff: false,
     });
+
+    this.onSwitch(target.dataset.id);
 
     this.mapStyleContainer.style.display = 'none';
     this.styleButton.style.display = 'block';
