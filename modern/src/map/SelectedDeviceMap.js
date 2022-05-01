@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
+import dimensions from '../theme/dimensions';
 import { map } from './Map';
 
 const SelectedDeviceMap = () => {
@@ -16,7 +17,10 @@ const SelectedDeviceMap = () => {
 
   useEffect(() => {
     if (mapCenter) {
-      map.easeTo({ center: mapCenter.position });
+      map.easeTo({
+        center: mapCenter.position,
+        offset: [0, -dimensions.popupMapOffset / 2],
+      });
     }
   }, [mapCenter]);
 
