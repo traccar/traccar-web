@@ -22,6 +22,9 @@ import BottomMenu from './components/BottomMenu';
 import { useTranslation } from './LocalizationProvider';
 import PoiMap from './map/PoiMap';
 import MapPadding from './map/MapPadding';
+import StatusCard from './map/StatusCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { devicesActions } from './store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,8 +38,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    bottom: 56,
-    zIndex: 1301,
+    bottom: theme.dimensions.bottomBarHeight,
     transition: 'transform .5s ease',
     backgroundColor: 'white',
     [theme.breakpoints.down('md')]: {
@@ -63,6 +65,18 @@ const useStyles = makeStyles((theme) => ({
   },
   deviceList: {
     flex: 1,
+  },
+  statusCard: {
+    position: 'fixed',
+    [theme.breakpoints.up('md')]: {
+      left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
+      bottom: theme.spacing(3),
+    },
+    [theme.breakpoints.down('md')]: {
+      left: '50%',
+      bottom: theme.spacing(3) + theme.dimensions.bottomBarHeight,
+    },
+    transform: 'translateX(-50%)',
   },
   sidebarToggle: {
     position: 'absolute',
@@ -92,11 +106,14 @@ const useStyles = makeStyles((theme) => ({
 const MainPage = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const t = useTranslation();
 
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
+
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [collapsed, setCollapsed] = useState(false);
@@ -162,6 +179,14 @@ const MainPage = () => {
         </div>
       </Paper>
       <BottomMenu />
+      {selectedDeviceId &&
+        <div className={classes.statusCard}>
+          <StatusCard
+            deviceId={selectedDeviceId}
+            onClose={() => dispatch(devicesActions.select(null))}
+          />
+        </div>
+      }
     </div>
   );
 };

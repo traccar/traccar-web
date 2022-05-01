@@ -34,7 +34,7 @@ const GeofenceView = ({ onMenuClick }) => {
     <List className={classes.list}>
       {Object.values(items).map((item, index, list) => (
         <Fragment key={item.id}>
-          <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item))}>
+          <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item.id))}>
             <ListItemText primary={item.name} />
             <ListItemSecondaryAction>
               <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>

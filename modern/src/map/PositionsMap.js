@@ -1,22 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { ThemeProvider } from '@material-ui/core/styles';
-import maplibregl from 'maplibre-gl';
-import { Provider, useSelector } from 'react-redux';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useHistory } from 'react-router-dom';
 import { map } from './Map';
-import store from '../store';
-import StatusView from './StatusView';
-import theme from '../theme';
 import { getStatusColor } from '../common/formatter';
-import { LocalizationProvider } from '../LocalizationProvider';
+import { devicesActions } from '../store';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
   const clusters = `${id}-clusters`;
 
-  const history = useHistory();
+  const dispatch = useDispatch();
   const devices = useSelector((state) => state.devices.items);
 
   const createFeature = (devices, position) => {
@@ -34,36 +27,8 @@ const PositionsMap = ({ positions }) => {
 
   const onMarkerClick = useCallback((event) => {
     const feature = event.features[0];
-    const coordinates = feature.geometry.coordinates.slice();
-    while (Math.abs(event.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += event.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
-
-    const placeholder = document.createElement('div');
-    ReactDOM.render(
-      <Provider store={store}>
-        <LocalizationProvider>
-          <ThemeProvider theme={theme}>
-            <StatusView
-              deviceId={feature.properties.deviceId}
-              onShowDetails={(positionId) => history.push(`/position/${positionId}`)}
-              onShowHistory={() => history.push('/replay')}
-              onEditClick={(deviceId) => history.push(`/device/${deviceId}`)}
-            />
-          </ThemeProvider>
-        </LocalizationProvider>
-      </Provider>,
-      placeholder,
-    );
-
-    new maplibregl.Popup({
-      offset: 25,
-      anchor: 'top',
-    })
-      .setDOMContent(placeholder)
-      .setLngLat(coordinates)
-      .addTo(map);
-  }, [history]);
+    dispatch(devicesActions.select(feature.properties.deviceId));
+  }, [dispatch]);
 
   const onClusterClick = useCallback((event) => {
     const features = map.queryRenderedFeatures(event.point, {

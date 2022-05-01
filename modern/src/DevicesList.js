@@ -80,7 +80,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   return (
     <div style={style}>
-      <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item))}>
+      <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item.id))}>
         <ListItemAvatar>
           <Avatar>
             <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
