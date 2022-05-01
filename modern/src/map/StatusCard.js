@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import ReplayIcon from '@material-ui/icons/Replay';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PublishIcon from '@material-ui/icons/Publish';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -113,7 +113,7 @@ const StatusCard = ({ deviceId, onClose }) => {
               <ReplayIcon />
             </IconButton>
             <IconButton>
-              <ExitToAppIcon />
+              <PublishIcon />
             </IconButton>
             <IconButton onClick={() => history.push(`/device/${deviceId}`)}>
               <EditIcon />
