@@ -47,6 +47,7 @@ import useQuery from './common/useQuery';
 import { useEffectAsync } from './reactHelper';
 import { devicesActions } from './store';
 import EventPage from './EventPage';
+import PreferencesPage from './settings/PreferencesPage';
 
 const App = () => {
   const history = useHistory();
@@ -101,6 +102,7 @@ const App = () => {
                 <Route exact path="/device/:id?" component={DevicePage} />
                 <Route exact path="/geofence/:id?" component={GeofencePage} />
                 <Route exact path="/geofences" component={GeofencesPage} />
+                <Route exact path="/settings/preferences" component={PreferencesPage} />
                 <Route exact path="/settings/notifications" component={NotificationsPage} />
                 <Route exact path="/settings/notification/:id?" component={NotificationPage} />
                 <Route exact path="/settings/groups" component={GroupsPage} />

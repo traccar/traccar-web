@@ -43,7 +43,7 @@ const BottomMenu = () => {
         history.push('/reports/route');
         break;
       case 2:
-        history.push('/settings/notifications');
+        history.push('/settings/preferences');
         break;
       case 3:
         setAnchorEl(event.currentTarget);

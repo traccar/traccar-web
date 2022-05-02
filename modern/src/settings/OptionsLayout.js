@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 
 import { useSelector } from 'react-redux';
+import SettingsIcon from '@material-ui/icons/Settings';
 import CreateIcon from '@material-ui/icons/Create';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -80,6 +81,7 @@ const OptionsLayout = ({ children }) => {
   ], [t]);
 
   const mainRoutes = useMemo(() => [
+    { name: t('sharedPreferences'), href: '/settings/preferences', icon: <SettingsIcon /> },
     { name: t('sharedNotifications'), href: '/settings/notifications', icon: <NotificationsIcon /> },
     { name: t('settingsUser'), href: `/user/${userId}`, icon: <PersonIcon /> },
     { name: t('sharedGeofences'), href: '/geofences', icon: <CreateIcon /> },
