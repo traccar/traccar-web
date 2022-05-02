@@ -18,6 +18,7 @@ import usePersistedState, { savePersistedState } from '../common/usePersistedSta
 const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
+element.style.boxSizing = 'initial';
 
 export const map = new maplibregl.Map({
   container: element,
