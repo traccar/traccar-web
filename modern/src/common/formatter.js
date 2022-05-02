@@ -43,6 +43,11 @@ export const formatPosition = (value, key, t) => {
   }
 };
 
+export const formatCourse = (value) => {
+  const courseValues = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  return courseValues[Math.floor(value / 45)];
+};
+
 export const formatDistance = (value, unit, t) => {
   switch (unit) {
     case 'mi':

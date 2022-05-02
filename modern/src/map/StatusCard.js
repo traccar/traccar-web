@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { useTranslation } from '../LocalizationProvider';
 import {
-  formatDistance, formatPosition, formatSpeed, formatStatus,
+  formatCourse, formatDistance, formatSpeed, formatStatus,
 } from '../common/formatter';
 import RemoveDialog from '../RemoveDialog';
 import { useAttributePreference } from '../common/preferences';
@@ -99,7 +99,7 @@ const StatusCard = ({ deviceId, onClose }) => {
                     {position.attributes.odometer
                       ? <StatusRow name={t('positionOdometer')} value={formatDistance(position.attributes.odometer, distanceUnit, t)} />
                       : <StatusRow name={t('deviceTotalDistance')} value={formatDistance(position.attributes.totalDistance, distanceUnit, t)} />}
-                    <StatusRow name={t('positionCourse')} value={formatPosition(position.course, 'course', t)} />
+                    <StatusRow name={t('positionCourse')} value={formatCourse(position.course)} />
                   </TableBody>
                 </Table>
               </TableContainer>
