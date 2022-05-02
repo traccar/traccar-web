@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
-  makeStyles, Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography,
+  Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography,
 } from '@material-ui/core';
 
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -13,23 +13,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import { sessionActions } from '../store';
 import { useTranslation } from '../LocalizationProvider';
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    bottom: theme.spacing(0),
-    left: '0px',
-    width: '100%',
-    position: 'fixed',
-    [theme.breakpoints.up('lg')]: {
-      left: theme.spacing(1.5),
-      bottom: theme.spacing(1.5),
-      width: theme.dimensions.drawerWidthDesktop,
-    },
-  },
-}));
-
 const BottomMenu = () => {
-  const classes = useStyles();
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -37,8 +23,25 @@ const BottomMenu = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleSelection = async (event, value) => {
+  const currentSelection = () => {
+    if (location.pathname.startsWith('/user')) {
+      return 3;
+    } else if (location.pathname.startsWith('/settings')) {
+      return 2;
+    } else if (location.pathname.startsWith('/reports')) {
+      return 1;
+    } else if (location.pathname === '/') {
+      return 0;
+    } else {
+      return null;
+    }
+  }
+
+  const handleSelection = (event, value) => {
     switch (value) {
+      case 0:
+        history.push('/');
+        break;
       case 1:
         history.push('/reports/route');
         break;
@@ -53,22 +56,28 @@ const BottomMenu = () => {
     }
   };
 
+  const handleAccount = () => {
+    setAnchorEl(null);
+    history.push(`/user/${userId}`);
+  };
+
   const handleLogout = async () => {
+    setAnchorEl(null);
     await fetch('/api/session', { method: 'DELETE' });
     history.push('/login');
     dispatch(sessionActions.updateUser(null));
   };
 
   return (
-    <Paper square elevation={3} className={classes.container}>
-      <BottomNavigation value={0} onChange={handleSelection} showLabels>
+    <Paper square elevation={3}>
+      <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
         <BottomNavigationAction label={t('mapTitle')} icon={<MapIcon />} />
         <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} />
         <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} />
         <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />
       </BottomNavigation>
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-        <MenuItem onClick={() => history.push(`/user/${userId}`)}>
+        <MenuItem onClick={handleAccount}>
           <Typography color="textPrimary">{t('settingsUser')}</Typography>
         </MenuItem>
         <MenuItem onClick={handleLogout}>

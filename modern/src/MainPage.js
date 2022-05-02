@@ -28,7 +28,7 @@ import { devicesActions } from './store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: '100%',
   },
   sidebar: {
     display: 'flex',
@@ -52,9 +52,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       transform: 'translateX(-100vw)',
     },
-  },
-  paper: {
-    zIndex: 1,
   },
   toolbar: {
     display: 'flex',
@@ -100,6 +97,12 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: 'white',
     },
+  },
+  bottomMenu: {
+    position: 'fixed',
+    left: theme.spacing(1.5),
+    bottom: theme.spacing(1.5),
+    width: theme.dimensions.drawerWidthDesktop,
   },
 }));
 
@@ -147,7 +150,7 @@ const MainPage = () => {
         <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
       </Button>
       <Paper square elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
-        <Paper className={classes.paper} square elevation={3}>
+        <Paper square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {isTablet && (
             <IconButton onClick={handleClose}>
@@ -178,7 +181,11 @@ const MainPage = () => {
           <DevicesList filter={searchKeyword} />
         </div>
       </Paper>
-      <BottomMenu />
+      {!isPhone && !isTablet && (
+        <div className={classes.bottomMenu}>
+          <BottomMenu />
+        </div>
+      )}
       {selectedDeviceId && (
         <div className={classes.statusCard}>
           <StatusCard
