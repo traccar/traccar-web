@@ -58,9 +58,10 @@ const useStyles = makeStyles(() => ({
   },
   page: {
     flexGrow: 1,
+    overflow: 'auto',
   },
   menu: {
-    zIndex: 1,
+    zIndex: 4,
   },
 }));
 

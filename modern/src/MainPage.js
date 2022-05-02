@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     left: 0,
     top: 0,
+    zIndex: 3,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
     bottom: theme.dimensions.bottomBarHeight,
@@ -102,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     left: theme.spacing(1.5),
     bottom: theme.spacing(1.5),
+    zIndex: 4,
     width: theme.dimensions.drawerWidthDesktop,
   },
 }));
