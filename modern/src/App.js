@@ -50,7 +50,7 @@ import EventPage from './EventPage';
 import PreferencesPage from './settings/PreferencesPage';
 import BottomMenu from './components/BottomMenu';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

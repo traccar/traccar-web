@@ -26,16 +26,15 @@ const BottomMenu = () => {
   const currentSelection = () => {
     if (location.pathname.startsWith('/user')) {
       return 3;
-    } else if (location.pathname.startsWith('/settings')) {
+    } if (location.pathname.startsWith('/settings')) {
       return 2;
-    } else if (location.pathname.startsWith('/reports')) {
+    } if (location.pathname.startsWith('/reports')) {
       return 1;
-    } else if (location.pathname === '/') {
+    } if (location.pathname === '/') {
       return 0;
-    } else {
-      return null;
     }
-  }
+    return null;
+  };
 
   const handleSelection = (event, value) => {
     switch (value) {

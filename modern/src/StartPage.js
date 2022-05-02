@@ -59,7 +59,7 @@ const StartPage = ({ children }) => {
             <svg height="64" width="240">
               <use xlinkHref="/logo.svg#img" />
             </svg>
-          )}
+            )}
         </div>
         <Paper className={classes.paper}>
           <form className={classes.form}>
