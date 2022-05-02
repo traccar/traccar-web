@@ -3,26 +3,25 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import dimensions from '../theme/dimensions';
 import { map } from './Map';
+import { usePrevious } from '../reactHelper';
+import usePersistedState from '../common/usePersistedState';
 
 const SelectedDeviceMap = () => {
-  const mapCenter = useSelector((state) => {
-    if (state.devices.selectedId) {
-      const position = state.positions.items[state.devices.selectedId] || null;
-      if (position) {
-        return { deviceId: state.devices.selectedId, position: [position.longitude, position.latitude] };
-      }
-    }
-    return null;
-  });
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+  const previousDeviceId = usePrevious(selectedDeviceId);
+
+  const position = useSelector((state) => state.positions.items[selectedDeviceId]);
+
+  const [mapFollow] = usePersistedState('mapFollow', false);
 
   useEffect(() => {
-    if (mapCenter) {
+    if ((selectedDeviceId != previousDeviceId || mapFollow) && position) {
       map.easeTo({
-        center: mapCenter.position,
+        center: [position.longitude, position.latitude],
         offset: [0, -dimensions.popupMapOffset / 2],
       });
     }
-  }, [mapCenter]);
+  });
 
   return null;
 };

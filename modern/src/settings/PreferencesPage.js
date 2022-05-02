@@ -1,9 +1,11 @@
 import React from 'react';
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, FormControl, InputLabel, Select, MenuItem,
+  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useLocalization, useTranslation } from '../LocalizationProvider';
 import OptionsLayout from './OptionsLayout';
+import usePersistedState from '../common/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,11 +23,14 @@ const PreferencesPage = () => {
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
+  const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
+  const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
+
   return (
     <OptionsLayout>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
-          <AccordionSummary>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">
               {t('sharedPreferences')}
             </Typography>
@@ -37,6 +42,23 @@ const PreferencesPage = () => {
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
             </FormControl>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">
+              {t('mapTitle')}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.details}>
+            <FormControlLabel
+              control={<Checkbox checked={mapLiveRoutes} onChange={(event) => setMapLiveRoutes(event.target.checked)} />}
+              label={t('mapLiveRoutes')}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={mapFollow} onChange={(event) => setMapFollow(event.target.checked)} />}
+              label={t('deviceFollow')}
+            />
           </AccordionDetails>
         </Accordion>
       </Container>
