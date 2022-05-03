@@ -68,12 +68,10 @@ const PositionValue = ({ position, property, attribute }) => {
   if (property === 'address') {
     if (address) {
       return (<>{address}</>);
-    } else {
-      return (<Link onClick={showAddress}>{t('sharedShowAddress')}</Link>)
     }
-  } else {
-    return (<>{formatValue(value)}</>);
+    return (<Link onClick={showAddress}>{t('sharedShowAddress')}</Link>);
   }
+  return (<>{formatValue(value)}</>);
 };
 
 export default PositionValue;
