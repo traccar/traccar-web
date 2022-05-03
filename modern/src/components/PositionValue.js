@@ -1,5 +1,7 @@
 import React from 'react';
-import { formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime } from '../common/formatter';
+import {
+  formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
+} from '../common/formatter';
 import { useAttributePreference, usePreference } from '../common/preferences';
 import { useTranslation } from '../LocalizationProvider';
 
@@ -34,7 +36,7 @@ const PositionValue = ({ position, property, attribute }) => {
       case 'odometer':
       case 'distance':
       case 'totalDistance':
-        return formatDistance(value, distanceUnit, t)
+        return formatDistance(value, distanceUnit, t);
       default:
         if (typeof value === 'number') {
           return formatNumber(value);
@@ -43,7 +45,7 @@ const PositionValue = ({ position, property, attribute }) => {
         }
         return value;
     }
-  }
+  };
 
   return (<>{formatValue(value)}</>);
 };
