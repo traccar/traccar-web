@@ -74,7 +74,7 @@ const switcher = new SwitcherControl(
     map.once('styledata', () => {
       const waiting = () => {
         if (!map.loaded()) {
-          setTimeout(waiting, 100);
+          setTimeout(waiting, 33);
         } else {
           initMap();
         }
