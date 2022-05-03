@@ -13,36 +13,6 @@ export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => moment(valu
 export const formatStatus = (value, t) => t(prefixString('deviceStatus', value));
 export const formatAlarm = (value, t) => t(prefixString('alarm', value));
 
-export const formatPosition = (value, key, t) => {
-  if (value != null && typeof value === 'object') {
-    value = value[key];
-  }
-  switch (key) {
-    case 'fixTime':
-    case 'deviceTime':
-    case 'serverTime':
-    case 'eventTime':
-      return formatTime(value);
-    case 'latitude':
-    case 'longitude':
-      return value.toFixed(5);
-    case 'speed':
-    case 'course':
-      return value.toFixed(1);
-    case 'batteryLevel':
-      return formatPercentage(value);
-    case 'alarm':
-      return formatAlarm(value, t);
-    default:
-      if (typeof value === 'number') {
-        return formatNumber(value);
-      } if (typeof value === 'boolean') {
-        return formatBoolean(value, t);
-      }
-      return value;
-  }
-};
-
 export const formatCourse = (value) => {
   const courseValues = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   return courseValues[Math.floor(value / 45)];

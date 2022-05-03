@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import Map from '../map/Map';
 import ReplayPathMap from '../map/ReplayPathMap';
 import PositionsMap from '../map/PositionsMap';
-import { formatPosition } from '../common/formatter';
+import { formatTime } from '../common/formatter';
 import ReportFilter from './ReportFilter';
 import { useTranslation } from '../LocalizationProvider';
 
@@ -160,7 +160,7 @@ const ReplayPage = () => {
                       value={index}
                       onChange={(_, index) => setIndex(index)}
                       valueLabelDisplay="auto"
-                      valueLabelFormat={(i) => (i < positions.length ? formatPosition(positions[i], 'fixTime') : '')}
+                      valueLabelFormat={(i) => (i < positions.length ? formatTime(positions[i]) : '')}
                       ValueLabelComponent={TimeLabel}
                     />
                   </Grid>
@@ -181,7 +181,7 @@ const ReplayPage = () => {
                         <FastForwardIcon />
                       </IconButton>
                     </Grid>
-                    <Grid item xs>{formatPosition(positions[index], 'fixTime')}</Grid>
+                    <Grid item xs>{formatTime(positions[index])}</Grid>
                   </Grid>
                 </Grid>
               </Paper>

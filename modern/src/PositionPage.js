@@ -7,9 +7,9 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffectAsync } from './reactHelper';
-import { formatPosition } from './common/formatter';
 import { prefixString } from './common/stringUtils';
 import { useTranslation } from './LocalizationProvider';
+import PositionValue from './components/PositionValue';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,11 +51,6 @@ const PositionPage = () => {
     return null;
   });
 
-  const attributesList = () => {
-    const combinedList = { ...item, ...item.attributes };
-    return Object.entries(combinedList).filter(([, value]) => typeof value !== 'object');
-  };
-
   return (
     <>
       <AppBar position="sticky" color="inherit">
@@ -79,11 +74,18 @@ const PositionPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {item && attributesList().map(([key, value]) => (
-                <TableRow key={key}>
-                  <TableCell>{key}</TableCell>
-                  <TableCell><strong>{t(prefixString('position', key))}</strong></TableCell>
-                  <TableCell>{formatPosition(value, key, t)}</TableCell>
+              {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
+                <TableRow key={property}>
+                  <TableCell>{property}</TableCell>
+                  <TableCell><strong>{t(prefixString('position', property))}</strong></TableCell>
+                  <TableCell><PositionValue position={item} property={property} /></TableCell>
+                </TableRow>
+              ))}
+              {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
+                <TableRow key={attribute}>
+                  <TableCell>{attribute}</TableCell>
+                  <TableCell><strong>{t(prefixString('position', attribute)) || t(prefixString('device', attribute))}</strong></TableCell>
+                  <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   statusCard: {
     position: 'fixed',
+    zIndex: 5,
     [theme.breakpoints.up('md')]: {
       left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
       bottom: theme.spacing(3),
