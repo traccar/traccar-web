@@ -11,21 +11,17 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { useTranslation } from '../LocalizationProvider';
-import {
-  formatCourse, formatDistance, formatSpeed, formatStatus,
-} from '../common/formatter';
+import { formatStatus } from '../common/formatter';
 import RemoveDialog from '../RemoveDialog';
-import { useAttributePreference } from '../common/preferences';
+import PositionValue from '../components/PositionValue';
+import dimensions from '../theme/dimensions';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    width: '300px',
+  card: {
+    width: dimensions.popupMaxWidth,
   },
   negative: {
     color: theme.palette.colors.negative,
-  },
-  listItemContainer: {
-    maxWidth: '240px',
   },
   icon: {
     width: '25px',
@@ -43,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StatusRow = ({ name, value }) => {
+const StatusRow = ({ name, content }) => {
   const classes = useStyles();
 
   return (
@@ -52,7 +48,7 @@ const StatusRow = ({ name, value }) => {
         <Typography variant="body2">{name}</Typography>
       </TableCell>
       <TableCell className={classes.cell}>
-        <Typography variant="body2" color="textSecondary">{value}</Typography>
+        <Typography variant="body2" color="textSecondary">{content}</Typography>
       </TableCell>
     </TableRow>
   );
@@ -66,15 +62,12 @@ const StatusCard = ({ deviceId, onClose }) => {
   const device = useSelector((state) => state.devices.items[deviceId]);
   const position = useSelector((state) => state.positions.items[deviceId]);
 
-  const distanceUnit = useAttributePreference('distanceUnit');
-  const speedUnit = useAttributePreference('speedUnit');
-
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
 
   return (
     <>
       {device && (
-        <Card elevation={3}>
+        <Card elevation={3} className={classes.card}>
           <CardHeader
             avatar={(
               <Avatar>
@@ -94,12 +87,12 @@ const StatusCard = ({ deviceId, onClose }) => {
               <TableContainer>
                 <Table size="small" classes={{ root: classes.table }}>
                   <TableBody>
-                    <StatusRow name={t('positionSpeed')} value={formatSpeed(position.speed, speedUnit, t)} />
-                    <StatusRow name={t('positionBattery')} value={formatSpeed(position.speed, speedUnit, t)} />
+                    <StatusRow name={t('positionSpeed')} content={<PositionValue position={position} property="speed" />} />
+                    <StatusRow name={t('positionAddress')} content={<PositionValue position={position} property="address" />} />
                     {position.attributes.odometer
-                      ? <StatusRow name={t('positionOdometer')} value={formatDistance(position.attributes.odometer, distanceUnit, t)} />
-                      : <StatusRow name={t('deviceTotalDistance')} value={formatDistance(position.attributes.totalDistance, distanceUnit, t)} />}
-                    <StatusRow name={t('positionCourse')} value={formatCourse(position.course)} />
+                      ? <StatusRow name={t('positionOdometer')} content={<PositionValue position={position} attribute="odometer" />} />
+                      : <StatusRow name={t('deviceTotalDistance')} content={<PositionValue position={position} attribute="totalDistance" />} />}
+                    <StatusRow name={t('positionCourse')} content={<PositionValue position={position} property="course" />} />
                   </TableBody>
                 </Table>
               </TableContainer>

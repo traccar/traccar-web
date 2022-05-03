@@ -11,4 +11,5 @@ export default {
   columnWidthString: 160,
   columnWidthBoolean: 130,
   popupMapOffset: 300,
+  popupMaxWidth: 272,
 };
