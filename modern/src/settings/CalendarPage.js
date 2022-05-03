@@ -34,10 +34,11 @@ const CalendarPage = () => {
     }
   };
 
+  const validate = () => item && item.name && item.data;
+
   return (
-    <EditItemView endpoint="calendars" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="calendars" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -74,7 +75,7 @@ const CalendarPage = () => {
             </AccordionDetails>
           </Accordion>
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

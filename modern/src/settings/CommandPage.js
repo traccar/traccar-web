@@ -30,8 +30,10 @@ const CommandPage = () => {
     }
   }, [availableAttributes, item]);
 
+  const validate = () => item && item.type;
+
   return (
-    <EditItemView endpoint="commands" item={item} setItem={setItem}>
+    <EditItemView endpoint="commands" item={item} setItem={setItem} validate={validate}>
       {item && (
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

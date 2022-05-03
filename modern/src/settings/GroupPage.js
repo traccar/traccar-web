@@ -25,10 +25,11 @@ const GroupPage = () => {
 
   const [item, setItem] = useState();
 
+  const validate = () => item && item.name;
+
   return (
-    <EditItemView endpoint="groups" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="groups" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -78,7 +79,7 @@ const GroupPage = () => {
             </AccordionDetails>
           </Accordion>
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

@@ -20,10 +20,11 @@ const DriverPage = () => {
 
   const [item, setItem] = useState();
 
+  const validate = () => item && item.name && item.uniqueId;
+
   return (
-    <EditItemView endpoint="drivers" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="drivers" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -63,7 +64,7 @@ const DriverPage = () => {
             </AccordionDetails>
           </Accordion>
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

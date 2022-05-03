@@ -39,10 +39,11 @@ const ComputedAttributePage = () => {
     }
   };
 
+  const validate = () => item && item.description && item.expression;
+
   return (
-    <EditItemView endpoint="attributes/computed" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="attributes/computed" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">
@@ -95,7 +96,7 @@ const ComputedAttributePage = () => {
             </FormControl>
           </AccordionDetails>
         </Accordion>
-        )}
+      )}
     </EditItemView>
   );
 };

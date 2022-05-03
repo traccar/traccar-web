@@ -25,10 +25,11 @@ const UserPage = () => {
 
   const [item, setItem] = useState();
 
+  const validate = () => item && item.name && item.email && (item.id || item.password);
+
   return (
-    <EditItemView endpoint="users" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="users" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -97,8 +98,7 @@ const UserPage = () => {
               />
             </AccordionDetails>
           </Accordion>
-          {item.id
-            && (
+          {item.id && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">
@@ -128,9 +128,9 @@ const UserPage = () => {
                 />
               </AccordionDetails>
             </Accordion>
-            )}
+          )}
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

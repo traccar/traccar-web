@@ -94,10 +94,11 @@ const MaintenancePage = () => {
     return value;
   };
 
+  const validate = () => item && item.name && item.type && item.start && item.period;
+
   return (
-    <EditItemView endpoint="maintenance" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="maintenance" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -163,7 +164,7 @@ const MaintenancePage = () => {
             </AccordionDetails>
           </Accordion>
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

@@ -26,10 +26,11 @@ const NotificationPage = () => {
     name: t(it),
   }));
 
+  const validate = () => item && item.type && item.notificators;
+
   return (
-    <EditItemView endpoint="notifications" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="notifications" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -60,8 +61,7 @@ const NotificationPage = () => {
                 label={t('notificationNotificators')}
                 variant="filled"
               />
-              {(!item.type || item.type === 'alarm')
-                && (
+              {(!item.type || item.type === 'alarm') && (
                 <SelectField
                   multiple
                   margin="normal"
@@ -72,7 +72,7 @@ const NotificationPage = () => {
                   label={t('sharedAlarms')}
                   variant="filled"
                 />
-                )}
+              )}
               <FormControlLabel
                 control={(
                   <Checkbox
@@ -85,7 +85,7 @@ const NotificationPage = () => {
             </AccordionDetails>
           </Accordion>
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

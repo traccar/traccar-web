@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditItemView = ({
-  children, endpoint, item, setItem,
+  children, endpoint, item, setItem, validate,
 }) => {
   const history = useHistory();
   const classes = useStyles();
@@ -65,10 +65,21 @@ const EditItemView = ({
         {children}
         <FormControl fullWidth margin="normal">
           <div className={classes.buttons}>
-            <Button type="button" color="primary" variant="outlined" onClick={() => history.goBack()}>
+            <Button
+              type="button"
+              color="primary"
+              variant="outlined"
+              onClick={() => history.goBack()}
+            >
               {t('sharedCancel')}
             </Button>
-            <Button type="button" color="primary" variant="contained" onClick={handleSave}>
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={handleSave}
+              disabled={!validate()}
+            >
               {t('sharedSave')}
             </Button>
           </div>

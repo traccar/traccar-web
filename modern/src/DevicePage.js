@@ -28,10 +28,11 @@ const DevicePage = () => {
 
   const [item, setItem] = useState();
 
+  const validate = () => item && item.name && item.uniqueId;
+
   return (
-    <EditItemView endpoint="devices" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="devices" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -124,8 +125,7 @@ const DevicePage = () => {
               />
             </AccordionDetails>
           </Accordion>
-          {item.id
-            && (
+          {item.id && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">
@@ -187,9 +187,9 @@ const DevicePage = () => {
                 />
               </AccordionDetails>
             </Accordion>
-            )}
+          )}
         </>
-        )}
+      )}
     </EditItemView>
   );
 };

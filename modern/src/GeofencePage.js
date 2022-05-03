@@ -24,10 +24,11 @@ const GeofencePage = () => {
 
   const [item, setItem] = useState();
 
+  const validate = () => item && item.name;
+
   return (
-    <EditItemView endpoint="geofences" item={item} setItem={setItem}>
-      {item
-        && (
+    <EditItemView endpoint="geofences" item={item} setItem={setItem} validate={validate}>
+      {item && (
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -60,7 +61,7 @@ const GeofencePage = () => {
             </AccordionDetails>
           </Accordion>
         </>
-        )}
+      )}
     </EditItemView>
   );
 };
