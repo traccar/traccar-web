@@ -26,6 +26,8 @@ import MapPadding from './map/MapPadding';
 import StatusCard from './map/StatusCard';
 import { devicesActions } from './store';
 import DefaultCameraMap from './map/DefaultCameraMap';
+import usePersistedState from './common/usePersistedState';
+import LiveRoutesMap from './map/LiveRoutesMap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -120,6 +122,8 @@ const MainPage = () => {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
 
+  const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
+
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -138,6 +142,7 @@ const MainPage = () => {
         <CurrentLocationMap />
         <GeofenceMap />
         <AccuracyMap />
+        {mapLiveRoutes && <LiveRoutesMap />}
         <CurrentPositionsMap />
         <DefaultCameraMap />
         <SelectedDeviceMap />
