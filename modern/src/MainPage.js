@@ -25,6 +25,7 @@ import PoiMap from './map/PoiMap';
 import MapPadding from './map/MapPadding';
 import StatusCard from './map/StatusCard';
 import { devicesActions } from './store';
+import DefaultCameraMap from './map/DefaultCameraMap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,6 +139,7 @@ const MainPage = () => {
         <GeofenceMap />
         <AccuracyMap />
         <CurrentPositionsMap />
+        <DefaultCameraMap />
         <SelectedDeviceMap />
         <PoiMap />
       </Map>

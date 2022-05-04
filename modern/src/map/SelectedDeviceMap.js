@@ -18,6 +18,7 @@ const SelectedDeviceMap = () => {
     if ((selectedDeviceId !== previousDeviceId || mapFollow) && position) {
       map.easeTo({
         center: [position.longitude, position.latitude],
+        zoom: Math.max(map.getZoom(), 10),
         offset: [0, -dimensions.popupMapOffset / 2],
       });
     }
