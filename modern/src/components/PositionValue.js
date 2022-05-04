@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
 } from '../common/formatter';
@@ -8,6 +10,8 @@ import { useTranslation } from '../LocalizationProvider';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
+
+  const admin = useSelector((state) => state.session.user?.administrator);
 
   const key = property || attribute;
   const value = property ? position[property] : position.attributes[attribute];
@@ -65,13 +69,24 @@ const PositionValue = ({ position, property, attribute }) => {
     }
   };
 
-  if (property === 'address') {
-    if (address) {
-      return (<>{address}</>);
-    }
-    return (<Link onClick={showAddress}>{t('sharedShowAddress')}</Link>);
+  switch (key) {
+    case 'totalDistance':
+    case 'hours':
+      return (
+        <>
+          {formatValue(value)}
+          &nbsp;&nbsp;
+          {admin && (<Link component={RouterLink} to={`/settings/accumulators/${position.deviceId}`}>&#9881;</Link>)}
+        </>
+      );
+    case 'address':
+      if (address) {
+        return (<>{address}</>);
+      }
+      return (<Link href="#" onClick={showAddress}>{t('sharedShowAddress')}</Link>);
+    default:
+      return (<>{formatValue(value)}</>);
   }
-  return (<>{formatValue(value)}</>);
 };
 
 export default PositionValue;

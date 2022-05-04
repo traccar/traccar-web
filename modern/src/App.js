@@ -49,6 +49,7 @@ import { devicesActions } from './store';
 import EventPage from './EventPage';
 import PreferencesPage from './settings/PreferencesPage';
 import BottomMenu from './components/BottomMenu';
+import AccumulatorsPage from './settings/AccumulatorsPage';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -123,6 +124,7 @@ const App = () => {
                     <Route exact path="/device/:id?" component={DevicePage} />
                     <Route exact path="/geofence/:id?" component={GeofencePage} />
                     <Route exact path="/geofences" component={GeofencesPage} />
+                    <Route exact path="/settings/accumulators/:id?" component={AccumulatorsPage} />
                     <Route exact path="/settings/preferences" component={PreferencesPage} />
                     <Route exact path="/settings/notifications" component={NotificationsPage} />
                     <Route exact path="/settings/notification/:id?" component={NotificationPage} />
