@@ -25,8 +25,8 @@ const ReplayPathMap = ({ positions }) => {
         'line-cap': 'round',
       },
       paint: {
-        'line-color': '#333',
-        'line-width': 5,
+        'line-color': '#3bb2d0',
+        'line-width': 2,
       },
     });
 

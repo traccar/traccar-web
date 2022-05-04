@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
-  title: {
-    ...theme.typography.title,
-  },
   sidebar: {
     position: 'absolute',
     left: 0,
@@ -130,9 +127,7 @@ const ReplayPage = () => {
                     </IconButton>
                   </Grid>
                   <Grid item xs>
-                    <Typography className={classes.replay} color="primary">
-                      {t('reportReplay')}
-                    </Typography>
+                    <Typography variant="h6">{t('reportReplay')}</Typography>
                   </Grid>
                   {!expanded && (
                     <Grid item>
@@ -150,7 +145,7 @@ const ReplayPage = () => {
               <Paper className={classes.sliderContainer}>
                 <Grid container direction="column" alignItems="center">
                   <Grid item>
-                    <span className={classes.title}>{deviceName}</span>
+                    {deviceName}
                   </Grid>
                   <Grid item style={{ width: '100%' }}>
                     <Slider
