@@ -1,6 +1,6 @@
 export default {
   primary: {
-    main: '#333366',
+    main: '#1a237e',
   },
   secondary: {
     main: '#4CAF50',
@@ -8,8 +8,8 @@ export default {
   },
   colors: {
     positive: '#4CAF50',
-    medium: '#F3A813',
+    medium: '#ffa000',
     negative: '#f44336',
-    neutral: '#888888',
+    neutral: '#9e9e9e',
   },
 };
