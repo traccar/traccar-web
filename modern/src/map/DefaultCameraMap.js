@@ -44,7 +44,7 @@ const DefaultCameraMap = () => {
         }
       }
     }
-  });
+  }, [selectedDeviceId, initialized, defaultLatitude, defaultLongitude, defaultZoom, positions]);
 
   return null;
 };
