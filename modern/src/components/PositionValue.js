@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import {
   formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
 } from '../common/formatter';
 import { useAttributePreference, usePreference } from '../common/preferences';
 import { useTranslation } from '../LocalizationProvider';
+import { useAdministrator } from '../common/permissions';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
 
-  const admin = useSelector((state) => state.session.user?.administrator);
+  const admin = useAdministrator();
 
   const key = property || attribute;
   const value = property ? position[property] : position.attributes[attribute];

@@ -28,6 +28,7 @@ import { devicesActions } from './store';
 import DefaultCameraMap from './map/DefaultCameraMap';
 import usePersistedState from './common/usePersistedState';
 import LiveRoutesMap from './map/LiveRoutesMap';
+import { useDeviceReadonly } from './common/permissions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,6 +120,7 @@ const MainPage = () => {
   const theme = useTheme();
   const t = useTranslation();
 
+  const deviceReadonly = useDeviceReadonly();
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -163,9 +165,9 @@ const MainPage = () => {
         <Paper square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {isTablet && (
-            <IconButton onClick={handleClose}>
-              <ArrowBackIcon />
-            </IconButton>
+              <IconButton onClick={handleClose}>
+                <ArrowBackIcon />
+              </IconButton>
             )}
             <TextField
               fullWidth
@@ -177,13 +179,13 @@ const MainPage = () => {
               placeholder={t('sharedSearchDevices')}
               variant="filled"
             />
-            <IconButton onClick={() => history.push('/device')}>
+            <IconButton onClick={() => history.push('/device')} disabled={deviceReadonly}>
               <AddIcon />
             </IconButton>
             {!isTablet && (
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
             )}
           </Toolbar>
         </Paper>

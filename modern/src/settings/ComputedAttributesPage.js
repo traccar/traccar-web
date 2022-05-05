@@ -3,11 +3,11 @@ import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { useSelector } from 'react-redux';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
+import { useAdministrator } from '../common/permissions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -21,7 +21,7 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
   const t = useTranslation();
 
   const [items, setItems] = useState([]);
-  const adminEnabled = useSelector((state) => state.session.user && state.session.user.administrator);
+  const administrator = useAdministrator();
 
   useEffectAsync(async () => {
     const response = await fetch('/api/attributes/computed');
@@ -35,7 +35,7 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
       <Table>
         <TableHead>
           <TableRow>
-            {adminEnabled && <TableCell className={classes.columnAction} />}
+            {administrator && <TableCell className={classes.columnAction} />}
             <TableCell>{t('sharedDescription')}</TableCell>
             <TableCell>{t('sharedAttribute')}</TableCell>
             <TableCell>{t('sharedExpression')}</TableCell>
@@ -45,13 +45,12 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              {adminEnabled
-              && (
-              <TableCell className={classes.columnAction} padding="none">
-                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
-                  <MoreVertIcon />
-                </IconButton>
-              </TableCell>
+              {administrator && (
+                <TableCell className={classes.columnAction} padding="none">
+                  <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
+                    <MoreVertIcon />
+                  </IconButton>
+                </TableCell>
               )}
               <TableCell>{item.description}</TableCell>
               <TableCell>{item.attribute}</TableCell>

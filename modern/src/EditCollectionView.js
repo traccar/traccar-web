@@ -5,11 +5,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import { useSelector } from 'react-redux';
 
 import RemoveDialog from './RemoveDialog';
 import { useTranslation } from './LocalizationProvider';
 import dimensions from './theme/dimensions';
+import { useEditable } from './common/permissions';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -29,11 +29,12 @@ const EditCollectionView = ({
   const history = useHistory();
   const t = useTranslation();
 
+  const editable = useEditable();
+
   const [selectedId, setSelectedId] = useState(null);
   const [selectedAnchorEl, setSelectedAnchorEl] = useState(null);
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
   const [updateTimestamp, setUpdateTimestamp] = useState(Date.now());
-  const adminEnabled = useSelector((state) => state.session.user && state.session.user.administrator);
 
   const menuShow = (anchorId, itemId) => {
     setSelectedAnchorEl(anchorId);
@@ -69,7 +70,7 @@ const EditCollectionView = ({
   return (
     <>
       <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} filter={filter} />
-      {adminEnabled && !disableAdd && (
+      {editable && !disableAdd && (
         <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
           <AddIcon />
         </Fab>

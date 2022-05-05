@@ -36,11 +36,11 @@ const LoginForm = () => {
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
 
-  const registrationEnabled = useSelector((state) => (state.session.server ? state.session.server.registration : false));
-  const emailEnabled = useSelector((state) => (state.session.server ? state.session.server.emailEnabled : false));
+  const registrationEnabled = useSelector((state) => state.session.server?.registration);
+  const emailEnabled = useSelector((state) => state.session.server?.emailEnabled);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
-  const announcement = useSelector((state) => (state.session.server && state.session.server.announcement));
+  const announcement = useSelector((state) => state.session.server?.announcement);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -9,9 +9,11 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MapIcon from '@material-ui/icons/Map';
 import PersonIcon from '@material-ui/icons/Person';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { sessionActions } from '../store';
 import { useTranslation } from '../LocalizationProvider';
+import { useReadonly } from '../common/permissions';
 
 const BottomMenu = () => {
   const history = useHistory();
@@ -19,6 +21,7 @@ const BottomMenu = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
+  const readonly = useReadonly();
   const userId = useSelector((state) => state.session.user?.id);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -48,7 +51,11 @@ const BottomMenu = () => {
         history.push('/settings/preferences');
         break;
       case 3:
-        setAnchorEl(event.currentTarget);
+        if (readonly) {
+          handleLogout();
+        } else {
+          setAnchorEl(event.currentTarget);
+        }
         break;
       default:
         break;
@@ -73,7 +80,10 @@ const BottomMenu = () => {
         <BottomNavigationAction label={t('mapTitle')} icon={<MapIcon />} />
         <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} />
         <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} />
-        <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />
+        {readonly
+          ? (<BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} />)
+          : (<BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />)
+        }
       </BottomNavigation>
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={handleAccount}>

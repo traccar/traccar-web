@@ -26,6 +26,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SideNav from '../components/SideNav';
 import NavBar from '../components/NavBar';
 import { useTranslation } from '../LocalizationProvider';
+import { useAdministrator, useReadonly } from '../common/permissions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,18 +71,15 @@ const OptionsLayout = ({ children }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [optionTitle, setOptionTitle] = useState();
 
-  const admin = useSelector((state) => state.session.user?.administrator);
+  const readonly = useReadonly();
+  const admin = useAdministrator();
   const userId = useSelector((state) => state.session.user?.id);
 
-  const adminRoutes = useMemo(() => [
-    { subheader: t('userAdmin') },
-    { name: t('settingsServer'), href: '/admin/server', icon: <StorageIcon /> },
-    { name: t('settingsUsers'), href: '/admin/users', icon: <PeopleIcon /> },
-    { name: t('statisticsTitle'), href: '/admin/statistics', icon: <BarChartIcon /> },
+  const readonlyRoutes = useMemo(() => [
+    { name: t('sharedPreferences'), href: '/settings/preferences', icon: <SettingsIcon /> },
   ], [t]);
 
   const mainRoutes = useMemo(() => [
-    { name: t('sharedPreferences'), href: '/settings/preferences', icon: <SettingsIcon /> },
     { name: t('sharedNotifications'), href: '/settings/notifications', icon: <NotificationsIcon /> },
     { name: t('settingsUser'), href: `/user/${userId}`, icon: <PersonIcon /> },
     { name: t('sharedGeofences'), href: '/geofences', icon: <CreateIcon /> },
@@ -93,7 +91,16 @@ const OptionsLayout = ({ children }) => {
     { name: t('sharedSavedCommands'), href: '/settings/commands', icon: <ExitToAppIcon /> },
   ], [t, userId]);
 
-  const routes = useMemo(() => [...mainRoutes, ...(admin ? adminRoutes : [])], [mainRoutes, admin, adminRoutes]);
+  const adminRoutes = useMemo(() => [
+    { subheader: t('userAdmin') },
+    { name: t('settingsServer'), href: '/admin/server', icon: <StorageIcon /> },
+    { name: t('settingsUsers'), href: '/admin/users', icon: <PeopleIcon /> },
+    { name: t('statisticsTitle'), href: '/admin/statistics', icon: <BarChartIcon /> },
+  ], [t]);
+
+  const routes = useMemo(() => (
+    [ ...readonlyRoutes, ...(!readonly ? mainRoutes : []), ...(admin ? adminRoutes : [])]
+  ), [readonlyRoutes, readonly, mainRoutes, admin, adminRoutes]);
 
   useEffect(() => {
     const activeRoute = routes.find((route) => route.href && location.pathname.includes(route.href));

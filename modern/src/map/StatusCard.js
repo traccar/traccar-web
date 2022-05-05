@@ -15,6 +15,7 @@ import { formatStatus } from '../common/formatter';
 import RemoveDialog from '../RemoveDialog';
 import PositionValue from '../components/PositionValue';
 import dimensions from '../theme/dimensions';
+import { useDeviceReadonly, useReadonly } from '../common/permissions';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -58,6 +59,9 @@ const StatusCard = ({ deviceId, onClose }) => {
   const classes = useStyles();
   const history = useHistory();
   const t = useTranslation();
+
+  const readonly = useReadonly();
+  const deviceReadonly = useDeviceReadonly();
 
   const device = useSelector((state) => state.devices.items[deviceId]);
   const position = useSelector((state) => state.positions.items[deviceId]);
@@ -105,13 +109,13 @@ const StatusCard = ({ deviceId, onClose }) => {
             <IconButton onClick={() => history.push('/replay')} disabled={!position}>
               <ReplayIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/command/${deviceId}`)}>
+            <IconButton onClick={() => history.push(`/command/${deviceId}`)} disabled={readonly}>
               <PublishIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/device/${deviceId}`)}>
+            <IconButton onClick={() => history.push(`/device/${deviceId}`)} disabled={deviceReadonly}>
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => setRemoveDialogShown(true)} className={classes.negative}>
+            <IconButton onClick={() => setRemoveDialogShown(true)} disabled={deviceReadonly} className={classes.negative}>
               <DeleteIcon />
             </IconButton>
           </CardActions>
