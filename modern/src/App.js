@@ -50,6 +50,7 @@ import EventPage from './EventPage';
 import PreferencesPage from './settings/PreferencesPage';
 import BottomMenu from './components/BottomMenu';
 import AccumulatorsPage from './settings/AccumulatorsPage';
+import SendCommandPage from './settings/SendCommandPage';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -124,7 +125,7 @@ const App = () => {
                     <Route exact path="/device/:id?" component={DevicePage} />
                     <Route exact path="/geofence/:id?" component={GeofencePage} />
                     <Route exact path="/geofences" component={GeofencesPage} />
-                    <Route exact path="/settings/accumulators/:id?" component={AccumulatorsPage} />
+                    <Route exact path="/settings/accumulators/:deviceId?" component={AccumulatorsPage} />
                     <Route exact path="/settings/preferences" component={PreferencesPage} />
                     <Route exact path="/settings/notifications" component={NotificationsPage} />
                     <Route exact path="/settings/notification/:id?" component={NotificationPage} />
@@ -140,6 +141,7 @@ const App = () => {
                     <Route exact path="/settings/maintenance/:id?" component={MaintenancePage} />
                     <Route exact path="/settings/commands" component={CommandsPage} />
                     <Route exact path="/settings/command/:id?" component={CommandPage} />
+                    <Route exact path="/command/:deviceId?" component={SendCommandPage} />
                     <Route exact path="/admin/server" component={ServerPage} />
                     <Route exact path="/admin/users" component={UsersPage} />
                     <Route exact path="/admin/statistics" component={StatisticsPage} />

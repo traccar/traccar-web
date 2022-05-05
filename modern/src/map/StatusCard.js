@@ -105,7 +105,7 @@ const StatusCard = ({ deviceId, onClose }) => {
             <IconButton onClick={() => history.push('/replay')} disabled={!position}>
               <ReplayIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => history.push(`/command/${deviceId}`)}>
               <PublishIcon />
             </IconButton>
             <IconButton onClick={() => history.push(`/device/${deviceId}`)}>

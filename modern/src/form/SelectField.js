@@ -11,6 +11,7 @@ const SelectField = ({
   multiple,
   value,
   emptyValue = 0,
+  emptyTitle = '\u00a0',
   onChange,
   endpoint,
   data,
@@ -38,7 +39,7 @@ const SelectField = ({
           onChange={onChange}
         >
           {!multiple && emptyValue !== null
-            && <MenuItem value={emptyValue}>&nbsp;</MenuItem>}
+            && <MenuItem value={emptyValue}>{emptyTitle}</MenuItem>}
           {items.map((item) => (
             <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
           ))}

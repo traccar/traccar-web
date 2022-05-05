@@ -29,23 +29,23 @@ const AccumulatorsPage = () => {
   const classes = useStyles();
   const t = useTranslation();
 
-  const { id } = useParams();
-  const position = useSelector((state) => state.positions.items[id]);
+  const { deviceId } = useParams();
+  const position = useSelector((state) => state.positions.items[deviceId]);
 
   const [item, setItem] = useState();
 
   useEffect(() => {
     if (position) {
       setItem({
-        deviceId: parseInt(id, 10),
+        deviceId: parseInt(deviceId, 10),
         hours: position.attributes.hours || 0,
         totalDistance: position.attributes.totalDistance || 0,
       });
     }
-  }, [id, position]);
+  }, [deviceId, position]);
 
   const handleSave = async () => {
-    const response = await fetch(`/api/devices/${id}/accumulators`, {
+    const response = await fetch(`/api/devices/${deviceId}/accumulators`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
