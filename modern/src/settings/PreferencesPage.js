@@ -25,6 +25,7 @@ const PreferencesPage = () => {
 
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
+  const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
 
   return (
     <OptionsLayout>
@@ -58,6 +59,10 @@ const PreferencesPage = () => {
             <FormControlLabel
               control={<Checkbox checked={mapFollow} onChange={(event) => setMapFollow(event.target.checked)} />}
               label={t('deviceFollow')}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={mapCluster} onChange={(event) => setMapCluster(event.target.checked)} />}
+              label={t('mapClustering')}
             />
           </AccordionDetails>
         </Accordion>

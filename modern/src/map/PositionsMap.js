@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { map } from './Map';
 import { getStatusColor } from '../common/formatter';
 import { devicesActions } from '../store';
+import usePersistedState from '../common/usePersistedState';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';
@@ -11,6 +12,8 @@ const PositionsMap = ({ positions }) => {
 
   const dispatch = useDispatch();
   const devices = useSelector((state) => state.devices.items);
+
+  const [mapCluster] = usePersistedState('mapCluster', true);
 
   const createFeature = (devices, position) => {
     const device = devices[position.deviceId];
@@ -52,7 +55,7 @@ const PositionsMap = ({ positions }) => {
         type: 'FeatureCollection',
         features: [],
       },
-      cluster: true,
+      cluster: mapCluster,
       clusterMaxZoom: 14,
       clusterRadius: 50,
     });
@@ -116,7 +119,7 @@ const PositionsMap = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, [clusters, onMarkerClick, onClusterClick]);
+  }, [mapCluster, clusters, onMarkerClick, onClusterClick]);
 
   useEffect(() => {
     map.getSource(id).setData({
