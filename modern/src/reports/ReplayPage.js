@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
       margin: 0,
     },
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   reportFilterContainer: {
     flex: 1,
     padding: theme.spacing(2),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       margin: theme.spacing(1),
     },
   },

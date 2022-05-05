@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.dimensions.bottomBarHeight,
     transition: 'transform .5s ease',
     backgroundColor: 'white',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '100%',
       margin: 0,
     },
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   sidebarCollapsed: {
     transform: `translateX(-${theme.dimensions.drawerWidthDesktop})`,
     marginLeft: 0,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       transform: 'translateX(-100vw)',
     },
   },
@@ -71,11 +71,11 @@ const useStyles = makeStyles((theme) => ({
   statusCard: {
     position: 'fixed',
     zIndex: 5,
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('sm')]: {
       left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
       bottom: theme.spacing(3),
     },
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       left: '50%',
       bottom: theme.spacing(3) + theme.dimensions.bottomBarHeight,
     },
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(3),
     borderRadius: '0px',
     minWidth: 0,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       left: 0,
     },
   },
@@ -121,7 +121,7 @@ const MainPage = () => {
   const t = useTranslation();
 
   const deviceReadonly = useDeviceReadonly();
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
+  const isTablet = useMediaQuery(theme.breakpoints.down('sm'));
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
 
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);

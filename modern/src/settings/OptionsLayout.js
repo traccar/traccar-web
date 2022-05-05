@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       width: theme.dimensions.drawerWidthTablet,
     },
   },
   content: {
     flex: 1,
     padding: theme.spacing(5, 3, 3, 3),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       paddingTop: theme.spacing(10),
     },
   },
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
   },
   toolbar: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       ...theme.mixins.toolbar,
     },
   },
@@ -111,7 +111,7 @@ const OptionsLayout = ({ children }) => {
 
   return (
     <div className={classes.root}>
-      <Hidden lgUp>
+      <Hidden mdUp>
         <NavBar setOpenDrawer={setOpenDrawer} title={title} />
         <Drawer
           variant="temporary"
@@ -123,7 +123,7 @@ const OptionsLayout = ({ children }) => {
         </Drawer>
       </Hidden>
 
-      <Hidden mdDown>
+      <Hidden smDown>
         <Drawer
           variant="permanent"
           classes={{ root: classes.drawerContainer, paper: classes.drawer }}

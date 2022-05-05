@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       width: theme.dimensions.drawerWidthTablet,
     },
   },
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   toolbar: {
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('sm')]: {
       ...theme.mixins.toolbar,
     },
   },
@@ -85,7 +85,7 @@ const ReportLayout = ({ children, filter }) => {
 
   return (
     <div className={classes.root}>
-      <Hidden only={['lg', 'xl']}>
+      <Hidden mdUp>
         <NavBar setOpenDrawer={setOpenDrawer} title={pageTitle} />
         <Drawer
           variant="temporary"
@@ -96,7 +96,7 @@ const ReportLayout = ({ children, filter }) => {
           <SideNav routes={routes} />
         </Drawer>
       </Hidden>
-      <Hidden only={['xs', 'sm', 'md']}>
+      <Hidden smDown>
         <Drawer
           variant="permanent"
           classes={{ root: classes.drawerContainer, paper: classes.drawer }}

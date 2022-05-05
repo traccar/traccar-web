@@ -72,7 +72,7 @@ const App = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const desktop = useMediaQuery(theme.breakpoints.up('lg'));
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const initialized = useSelector((state) => !!state.session.server && !!state.session.user);
   const [redirectsHandled, setRedirectsHandled] = useState(false);
