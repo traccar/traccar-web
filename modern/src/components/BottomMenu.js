@@ -39,6 +39,18 @@ const BottomMenu = () => {
     return null;
   };
 
+  const handleAccount = () => {
+    setAnchorEl(null);
+    history.push(`/user/${userId}`);
+  };
+
+  const handleLogout = async () => {
+    setAnchorEl(null);
+    await fetch('/api/session', { method: 'DELETE' });
+    history.push('/login');
+    dispatch(sessionActions.updateUser(null));
+  };
+
   const handleSelection = (event, value) => {
     switch (value) {
       case 0:
@@ -62,18 +74,6 @@ const BottomMenu = () => {
     }
   };
 
-  const handleAccount = () => {
-    setAnchorEl(null);
-    history.push(`/user/${userId}`);
-  };
-
-  const handleLogout = async () => {
-    setAnchorEl(null);
-    await fetch('/api/session', { method: 'DELETE' });
-    history.push('/login');
-    dispatch(sessionActions.updateUser(null));
-  };
-
   return (
     <Paper square elevation={3}>
       <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
@@ -82,8 +82,7 @@ const BottomMenu = () => {
         <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} />
         {readonly
           ? (<BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} />)
-          : (<BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />)
-        }
+          : (<BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />)}
       </BottomNavigation>
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={handleAccount}>

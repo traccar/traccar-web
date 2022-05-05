@@ -99,7 +99,7 @@ const OptionsLayout = ({ children }) => {
   ], [t]);
 
   const routes = useMemo(() => (
-    [ ...readonlyRoutes, ...(!readonly ? mainRoutes : []), ...(admin ? adminRoutes : [])]
+    [...readonlyRoutes, ...(!readonly ? mainRoutes : []), ...(admin ? adminRoutes : [])]
   ), [readonlyRoutes, readonly, mainRoutes, admin, adminRoutes]);
 
   useEffect(() => {
