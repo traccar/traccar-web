@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 export default (t) => useMemo(() => ({
   speedLimit: {
     name: t('attributeSpeedLimit'),
-    type: 'string',
+    type: 'number',
+    subtype: 'speed',
   },
   'report.ignoreOdometer': {
     name: t('attributeReportIgnoreOdometer'),

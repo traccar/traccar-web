@@ -13,6 +13,7 @@ import LinkField from './form/LinkField';
 import { prefixString } from './common/stringUtils';
 import { useTranslation } from './LocalizationProvider';
 import useDeviceAttributes from './attributes/useDeviceAttributes';
+import { useAdministrator } from './common/permissions';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -23,6 +24,8 @@ const useStyles = makeStyles(() => ({
 const DevicePage = () => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const admin = useAdministrator();
 
   const deviceAttributes = useDeviceAttributes(t);
 
@@ -105,10 +108,12 @@ const DevicePage = () => {
                 label={t('deviceCategory')}
                 variant="filled"
               />
-              <FormControlLabel
-                control={<Checkbox checked={item.disabled} onChange={(event) => setItem({ ...item, disabled: event.target.checked })} />}
-                label={t('sharedDisabled')}
-              />
+              {admin && (
+                <FormControlLabel
+                  control={<Checkbox checked={item.disabled} onChange={(event) => setItem({ ...item, disabled: event.target.checked })} />}
+                  label={t('sharedDisabled')}
+                />
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion>

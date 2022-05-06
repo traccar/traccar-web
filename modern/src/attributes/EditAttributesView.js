@@ -7,6 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../LocalizationProvider';
+import { useAttributePreference } from '../common/preferences';
+import { distanceFromMeters, distanceToMeters, distanceUnitString, speedFromKnots, speedToKnots, speedUnitString, volumeFromLiters, volumeToLiters, volumeUnitString } from '../common/converter';
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -22,11 +24,28 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
   const classes = useStyles();
   const t = useTranslation();
 
+  const speedUnit = useAttributePreference('speedUnit');
+  const distanceUnit = useAttributePreference('distanceUnit');
+  const volumeUnit = useAttributePreference('volumeUnit');
+
   const [addDialogShown, setAddDialogShown] = useState(false);
 
-  const updateAttribute = (key, value) => {
+  const updateAttribute = (key, value, type, subtype) => {
     const updatedAttributes = { ...attributes };
-    updatedAttributes[key] = value;
+    switch (subtype) {
+      case 'speed':
+        updatedAttributes[key] = speedToKnots(Number(value), speedUnit);
+        break;
+      case 'distance':
+        updatedAttributes[key] = distanceToMeters(Number(value), distanceUnit);
+        break;
+      case 'volume':
+        updatedAttributes[key] = volumeToLiters(Number(value), volumeUnit);
+        break;
+      default:
+        updatedAttributes[key] = type === 'number' ? Number(value) : value;
+        break;
+    }
     setAttributes(updatedAttributes);
   };
 
@@ -36,9 +55,19 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
     setAttributes(updatedAttributes);
   };
 
-  const getAttributeName = (key) => {
+  const getAttributeName = (key, subtype) => {
     const definition = definitions[key];
-    return definition ? definition.name : key;
+    const name = definition ? definition.name : key;
+    switch (subtype) {
+      case 'speed':
+        return `${name} (${speedUnitString(speedUnit, t)})`;
+      case 'distance':
+        return `${name} (${distanceUnitString(distanceUnit, t)})`;
+      case 'volume':
+        return `${name} (${volumeUnitString(volumeUnit, t)})`;
+      default:
+        return name;
+    }
   };
 
   const getAttributeType = (value) => {
@@ -50,19 +79,41 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
     return 'string';
   };
 
+  const getAttributeSubtype = (key) => {
+    const definition = definitions[key];
+    return definition && definition.subtype;
+  };
+
+  const getDisplayValue = (value, subtype) => {
+    if (value) {
+      switch (subtype) {
+        case 'speed':
+          return speedFromKnots(value, speedUnit);
+        case 'distance':
+          return distanceFromMeters(value, distanceUnit);
+        case 'volume':
+          return volumeFromLiters(value, volumeUnit);
+        default:
+          return value;
+      }
+    }
+    return '';
+  }
+
   const convertToList = (attributes) => {
     const booleanList = [];
     const otherList = [];
     Object.keys(attributes || []).forEach((key) => {
       const value = attributes[key];
       const type = getAttributeType(value);
+      const subtype = getAttributeSubtype(key);
       if (type === 'boolean') {
-        booleanList.push({ key, value, type });
+        booleanList.push({ key, value, type, subtype });
       } else {
-        otherList.push({ key, value, type });
+        otherList.push({ key, value, type, subtype });
       }
     });
-    return otherList.concat(booleanList);
+    return [...otherList, ...booleanList];
   };
 
   const handleAddResult = (definition) => {
@@ -84,10 +135,10 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
 
   return (
     <>
-      {convertToList(attributes).map(({ key, value, type }) => {
+      {convertToList(attributes).map(({ key, value, type, subtype }) => {
         if (type === 'boolean') {
           return (
-            <Grid container direction="row" justify="space-between">
+            <Grid container direction="row" justify="space-between" key={key}>
               <FormControlLabel
                 control={(
                   <Checkbox
@@ -95,7 +146,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
                     onChange={(e) => updateAttribute(key, e.target.checked)}
                   />
                 )}
-                label={getAttributeName(key)}
+                label={getAttributeName(key, subtype)}
               />
               <IconButton className={classes.removeButton} onClick={() => deleteAttribute(key)}>
                 <CloseIcon />
@@ -105,11 +156,11 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
         }
         return (
           <FormControl variant="filled" margin="normal" key={key}>
-            <InputLabel>{getAttributeName(key)}</InputLabel>
+            <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
             <FilledInput
               type={type === 'number' ? 'number' : 'text'}
-              value={value || ''}
-              onChange={(e) => updateAttribute(key, e.target.value)}
+              value={getDisplayValue(value, subtype)}
+              onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
               endAdornment={(
                 <InputAdornment position="end">
                   <IconButton onClick={() => deleteAttribute(key)}>
