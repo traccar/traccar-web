@@ -147,7 +147,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
       }) => {
         if (type === 'boolean') {
           return (
-            <Grid container direction="row" justify="space-between" key={key}>
+            <Grid container direction="row" justifyContent="space-between" key={key}>
               <FormControlLabel
                 control={(
                   <Checkbox

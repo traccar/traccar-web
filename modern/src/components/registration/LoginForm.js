@@ -135,7 +135,7 @@ const LoginForm = () => {
           </Grid>
         </Grid>
         {emailEnabled && (
-          <Grid item container justify="flex-end">
+          <Grid item container justifyContent="flex-end">
             <Grid item>
               <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
             </Grid>
