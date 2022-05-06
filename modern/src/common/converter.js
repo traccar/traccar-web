@@ -20,7 +20,7 @@ export const speedUnitString = (unit, t) => {
     default:
       return t('sharedKn');
   }
-}
+};
 
 export const speedFromKnots = (value, unit) => value * speedConverter(unit);
 

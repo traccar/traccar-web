@@ -1,5 +1,7 @@
 import moment from 'moment';
-import { distanceFromMeters, distanceUnitString, speedFromKnots, speedUnitString, volumeFromLiters, volumeUnitString } from './converter';
+import {
+  distanceFromMeters, distanceUnitString, speedFromKnots, speedUnitString, volumeFromLiters, volumeUnitString,
+} from './converter';
 import { prefixString } from './stringUtils';
 
 export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));

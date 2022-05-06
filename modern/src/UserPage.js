@@ -5,12 +5,12 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useDispatch, useSelector } from 'react-redux';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import LinkField from './form/LinkField';
 import { useTranslation } from './LocalizationProvider';
 import useUserAttributes from './attributes/useUserAttributes';
-import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from './store';
 
 const useStyles = makeStyles(() => ({

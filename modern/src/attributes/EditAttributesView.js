@@ -8,7 +8,9 @@ import AddIcon from '@material-ui/icons/Add';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../LocalizationProvider';
 import { useAttributePreference } from '../common/preferences';
-import { distanceFromMeters, distanceToMeters, distanceUnitString, speedFromKnots, speedToKnots, speedUnitString, volumeFromLiters, volumeToLiters, volumeUnitString } from '../common/converter';
+import {
+  distanceFromMeters, distanceToMeters, distanceUnitString, speedFromKnots, speedToKnots, speedUnitString, volumeFromLiters, volumeToLiters, volumeUnitString,
+} from '../common/converter';
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -98,7 +100,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
       }
     }
     return '';
-  }
+  };
 
   const convertToList = (attributes) => {
     const booleanList = [];
@@ -108,9 +110,13 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
       const type = getAttributeType(value);
       const subtype = getAttributeSubtype(key);
       if (type === 'boolean') {
-        booleanList.push({ key, value, type, subtype });
+        booleanList.push({
+          key, value, type, subtype,
+        });
       } else {
-        otherList.push({ key, value, type, subtype });
+        otherList.push({
+          key, value, type, subtype,
+        });
       }
     });
     return [...otherList, ...booleanList];
@@ -135,7 +141,9 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
 
   return (
     <>
-      {convertToList(attributes).map(({ key, value, type, subtype }) => {
+      {convertToList(attributes).map(({
+        key, value, type, subtype,
+      }) => {
         if (type === 'boolean') {
           return (
             <Grid container direction="row" justify="space-between" key={key}>
