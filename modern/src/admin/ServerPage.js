@@ -146,7 +146,7 @@ const ServerPage = () => {
                 <SelectField
                   margin="normal"
                   value={item.attributes.timezone || ''}
-                  emptyValue={''}
+                  emptyValue=""
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
                   endpoint="/api/server/timezones"
                   keyGetter={(it) => it}

@@ -5,7 +5,7 @@ export default (t) => useMemo(() => ({
     name: t('attributeNotificationTokens'),
     type: 'string',
   },
-  /*'web.liveRouteLength': {
+  /* 'web.liveRouteLength': {
     name: t('attributeWebLiveRouteLength'),
     type: 'number',
   },
@@ -44,5 +44,5 @@ export default (t) => useMemo(() => ({
   'ui.hidePositionAttributes': {
     name: t('attributeUiHidePositionAttributes'),
     type: 'string',
-  },*/
+  }, */
 }), [t]);
