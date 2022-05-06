@@ -105,7 +105,8 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
   const convertToList = (attributes) => {
     const booleanList = [];
     const otherList = [];
-    Object.keys(attributes || []).forEach((key) => {
+    const excludeAttributes = ['speedUnit', 'distanceUnit', 'volumeUnit'];
+    Object.keys(attributes || []).filter((key) => !excludeAttributes.includes(key)).forEach((key) => {
       const value = attributes[key];
       const type = getAttributeType(value);
       const subtype = getAttributeSubtype(key);

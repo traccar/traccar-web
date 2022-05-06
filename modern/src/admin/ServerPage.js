@@ -109,6 +109,39 @@ const ServerPage = () => {
                     <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                   </Select>
                 </FormControl>
+                <FormControl variant="filled" margin="normal" fullWidth>
+                  <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
+                  <Select
+                    value={item.attributes.speedUnit || 'kn'}
+                    onChange={(event) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: event.target.value } })}
+                  >
+                    <MenuItem value="kn">{t('sharedKn')}</MenuItem>
+                    <MenuItem value="kmh">{t('sharedKmh')}</MenuItem>
+                    <MenuItem value="mph">{t('sharedMph')}</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl variant="filled" margin="normal" fullWidth>
+                  <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
+                  <Select
+                    value={item.attributes.distanceUnit || 'km'}
+                    onChange={(event) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: event.target.value } })}
+                  >
+                    <MenuItem value="km">{t('sharedKm')}</MenuItem>
+                    <MenuItem value="mi">{t('sharedMi')}</MenuItem>
+                    <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl variant="filled" margin="normal" fullWidth>
+                  <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
+                  <Select
+                    value={item.attributes.volumeUnit || 'ltr'}
+                    onChange={(event) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: event.target.value } })}
+                  >
+                    <MenuItem value="ltr">{t('sharedLiter')}</MenuItem>
+                    <MenuItem value="usGal">{t('sharedUsGallon')}</MenuItem>
+                    <MenuItem value="impGal">{t('sharedImpGallon')}</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                   margin="normal"
                   value={item.poiLayer || ''}

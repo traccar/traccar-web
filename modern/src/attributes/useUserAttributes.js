@@ -45,18 +45,6 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiHidePositionAttributes'),
     type: 'string',
   },
-  distanceUnit: {
-    name: t('settingsDistanceUnit'),
-    type: 'string',
-  },
-  speedUnit: {
-    name: t('settingsSpeedUnit'),
-    type: 'string',
-  },
-  volumeUnit: {
-    name: t('settingsVolumeUnit'),
-    type: 'string',
-  },
   timezone: {
     name: t('sharedTimezone'),
     type: 'string',
