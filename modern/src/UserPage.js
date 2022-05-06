@@ -12,6 +12,7 @@ import LinkField from './form/LinkField';
 import { useTranslation } from './LocalizationProvider';
 import useUserAttributes from './attributes/useUserAttributes';
 import { sessionActions } from './store';
+import SelectField from './form/SelectField';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -90,7 +91,7 @@ const UserPage = () => {
                 <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                 <Select
                   value={item.attributes.speedUnit || 'kn'}
-                  onChange={(event) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: event.target.value } })}
+                  onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: e.target.value } })}
                 >
                   <MenuItem value="kn">{t('sharedKn')}</MenuItem>
                   <MenuItem value="kmh">{t('sharedKmh')}</MenuItem>
@@ -101,7 +102,7 @@ const UserPage = () => {
                 <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                 <Select
                   value={item.attributes.distanceUnit || 'km'}
-                  onChange={(event) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: event.target.value } })}
+                  onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: e.target.value } })}
                 >
                   <MenuItem value="km">{t('sharedKm')}</MenuItem>
                   <MenuItem value="mi">{t('sharedMi')}</MenuItem>
@@ -112,13 +113,24 @@ const UserPage = () => {
                 <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                 <Select
                   value={item.attributes.volumeUnit || 'ltr'}
-                  onChange={(event) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: event.target.value } })}
+                  onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: e.target.value } })}
                 >
                   <MenuItem value="ltr">{t('sharedLiter')}</MenuItem>
                   <MenuItem value="usGal">{t('sharedUsGallon')}</MenuItem>
                   <MenuItem value="impGal">{t('sharedImpGallon')}</MenuItem>
                 </Select>
               </FormControl>
+              <SelectField
+                margin="normal"
+                value={item.attributes.timezone || ''}
+                emptyValue={''}
+                onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
+                endpoint="/api/server/timezones"
+                keyGetter={(it) => it}
+                titleGetter={(it) => it}
+                label={t('sharedTimezone')}
+                variant="filled"
+              />
               <TextField
                 margin="normal"
                 value={item.poiLayer || ''}
