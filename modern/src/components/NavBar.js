@@ -5,7 +5,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 
 const Navbar = ({ setOpenDrawer, title }) => (
-  <AppBar position="fixed" color="inherit">
+  <AppBar position="sticky" color="inherit">
     <Toolbar>
       <IconButton color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
         <MenuIcon />

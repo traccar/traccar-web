@@ -31,6 +31,9 @@ import { useAdministrator, useReadonly } from '../common/permissions';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
     height: '100%',
   },
   drawerContainer: {
@@ -44,10 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: 1,
-    padding: theme.spacing(5, 3, 3, 3),
-    [theme.breakpoints.down('sm')]: {
-      paddingTop: theme.spacing(10),
-    },
   },
   drawerHeader: {
     ...theme.mixins.toolbar,

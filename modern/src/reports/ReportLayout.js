@@ -18,6 +18,9 @@ import { useTranslation } from '../LocalizationProvider';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
     height: '100%',
   },
   drawerContainer: {
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: 1,
-    padding: theme.spacing(5, 3, 3, 3),
+    padding: theme.spacing(3, 3, 3, 3),
   },
   drawerHeader: {
     ...theme.mixins.toolbar,
@@ -42,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
   backArrowIconContainer: {
     '&:hover': {
       backgroundColor: 'transparent',
-    },
-  },
-  toolbar: {
-    [theme.breakpoints.down('sm')]: {
-      ...theme.mixins.toolbar,
     },
   },
 }));
@@ -114,7 +112,6 @@ const ReportLayout = ({ children, filter }) => {
         </Drawer>
       </Hidden>
       <div className={classes.content}>
-        <div className={classes.toolbar} />
         <Grid container direction="column" spacing={2}>
           <Grid item>{filter}</Grid>
           <Grid item>{children}</Grid>
