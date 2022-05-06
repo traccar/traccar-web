@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Button, FormControl, Container, Checkbox, FormControlLabel,
+  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Button, FormControl, Container, Checkbox, FormControlLabel, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
@@ -75,6 +75,41 @@ const ServerPage = () => {
                 />
                 <TextField
                   margin="normal"
+                  type="number"
+                  value={item.latitude || 0}
+                  onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
+                  label={t('positionLatitude')}
+                  variant="filled"
+                />
+                <TextField
+                  margin="normal"
+                  type="number"
+                  value={item.longitude || 0}
+                  onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
+                  label={t('positionLongitude')}
+                  variant="filled"
+                />
+                <TextField
+                  margin="normal"
+                  type="number"
+                  value={item.zoom || 0}
+                  onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
+                  label={t('serverZoom')}
+                  variant="filled"
+                />
+                <FormControl variant="filled" margin="normal" fullWidth>
+                  <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
+                  <Select
+                    value={item.coordinateFormat || 'dd'}
+                    onChange={(event) => setItem({ ...item, coordinateFormat: event.target.value })}
+                  >
+                    <MenuItem value="dd">{t('sharedDecimalDegrees')}</MenuItem>
+                    <MenuItem value="ddm">{t('sharedDegreesDecimalMinutes')}</MenuItem>
+                    <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  margin="normal"
                   value={item.poiLayer || ''}
                   onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
                   label={t('mapPoiLayer')}
@@ -86,6 +121,14 @@ const ServerPage = () => {
                   onChange={(event) => setItem({ ...item, announcement: event.target.value })}
                   label={t('serverAnnouncement')}
                   variant="filled"
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
+                  label={t('settingsTwelveHourFormat')}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.forceSettings} onChange={(event) => setItem({ ...item, forceSettings: event.target.checked })} />}
+                  label={t('serverForceSettings')}
                 />
               </AccordionDetails>
             </Accordion>
@@ -111,6 +154,10 @@ const ServerPage = () => {
                 <FormControlLabel
                   control={<Checkbox checked={item.limitCommands} onChange={(event) => setItem({ ...item, limitCommands: event.target.checked })} />}
                   label={t('userLimitCommands')}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.disableReports} onChange={(event) => setItem({ ...item, disableReports: event.target.checked })} />}
+                  label={t('userDisableReports')}
                 />
               </AccordionDetails>
             </Accordion>
