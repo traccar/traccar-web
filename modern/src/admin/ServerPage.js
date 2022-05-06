@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import {
@@ -39,8 +39,8 @@ const ServerPage = () => {
   const userAttributes = useUserAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
 
-  const item = useSelector((state) => state.session.server);
-  const setItem = (updatedItem) => dispatch(sessionActions.updateServer(updatedItem));
+  const original = useSelector((state) => state.session.server);
+  const [item, setItem] = useState({ ...original });
 
   const handleSave = async () => {
     const response = await fetch('/api/server', {
@@ -50,6 +50,7 @@ const ServerPage = () => {
     });
 
     if (response.ok) {
+      dispatch(sessionActions.updateServer(await response.json()));
       history.goBack();
     }
   };

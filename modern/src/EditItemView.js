@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditItemView = ({
-  children, endpoint, item, setItem, validate,
+  children, endpoint, item, setItem, validate, onItemSaved,
 }) => {
   const history = useHistory();
   const classes = useStyles();
@@ -55,6 +55,9 @@ const EditItemView = ({
     });
 
     if (response.ok) {
+      if (onItemSaved) {
+        onItemSaved(await response.json());
+      }
       history.goBack();
     }
   };

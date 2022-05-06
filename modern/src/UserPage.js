@@ -10,6 +10,8 @@ import EditAttributesView from './attributes/EditAttributesView';
 import LinkField from './form/LinkField';
 import { useTranslation } from './LocalizationProvider';
 import useUserAttributes from './attributes/useUserAttributes';
+import { useDispatch, useSelector } from 'react-redux';
+import { sessionActions } from './store';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -19,16 +21,25 @@ const useStyles = makeStyles(() => ({
 
 const UserPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const t = useTranslation();
+
+  const currentUserId = useSelector((state) => state.session.user.id);
 
   const userAttributes = useUserAttributes(t);
 
   const [item, setItem] = useState();
 
+  const onItemSaved = (result) => {
+    if (result.id === currentUserId) {
+      dispatch(sessionActions.updateUser(result));
+    }
+  };
+
   const validate = () => item && item.name && item.email && (item.id || item.password);
 
   return (
-    <EditItemView endpoint="users" item={item} setItem={setItem} validate={validate}>
+    <EditItemView endpoint="users" item={item} setItem={setItem} validate={validate} onItemSaved={onItemSaved}>
       {item && (
         <>
           <Accordion defaultExpanded>
