@@ -7,7 +7,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useDispatch, useSelector } from 'react-redux';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from '../common/attributes/EditAttributesView';
+import EditAttributesView from './components/EditAttributesView';
 import LinkField from '../common/components/LinkField';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useUserAttributes from '../common/attributes/useUserAttributes';

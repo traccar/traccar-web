@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from '../common/attributes/EditAttributesView';
+import EditAttributesView from './components/EditAttributesView';
 import SelectField from '../common/components/SelectField';
 import deviceCategories from '../common/util/deviceCategories';
 import LinkField from '../common/components/LinkField';

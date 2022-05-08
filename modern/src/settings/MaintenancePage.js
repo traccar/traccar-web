@@ -6,7 +6,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { prefixString } from '../common/util/stringUtils';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from '../common/attributes/EditAttributesView';
+import EditAttributesView from './components/EditAttributesView';
 import { useAttributePreference } from '../common/util/preferences';
 import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,

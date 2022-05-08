@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
-import EditAttributesView from '../common/attributes/EditAttributesView';
+import EditAttributesView from './components/EditAttributesView';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import useUserAttributes from '../common/attributes/useUserAttributes';
 import OptionsLayout from './components/OptionsLayout';

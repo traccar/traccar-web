@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from '../common/attributes/EditAttributesView';
+import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
 
