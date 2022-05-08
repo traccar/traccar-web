@@ -27,7 +27,7 @@ const BottomMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const currentSelection = () => {
-    if (location.pathname.startsWith('/user')) {
+    if (location.pathname.startsWith('/settings/user')) {
       return 3;
     } if (location.pathname.startsWith('/settings')) {
       return 2;
@@ -41,7 +41,7 @@ const BottomMenu = () => {
 
   const handleAccount = () => {
     setAnchorEl(null);
-    history.push(`/user/${userId}`);
+    history.push(`/settings/user/${userId}`);
   };
 
   const handleLogout = async () => {

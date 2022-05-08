@@ -179,7 +179,7 @@ const MainPage = () => {
               placeholder={t('sharedSearchDevices')}
               variant="filled"
             />
-            <IconButton onClick={() => history.push('/device')} disabled={deviceReadonly}>
+            <IconButton onClick={() => history.push('/settings/device')} disabled={deviceReadonly}>
               <AddIcon />
             </IconButton>
             {!isTablet && (

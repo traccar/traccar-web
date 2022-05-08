@@ -80,7 +80,7 @@ const OptionsLayout = ({ children }) => {
 
   const mainRoutes = useMemo(() => [
     { name: t('sharedNotifications'), href: '/settings/notifications', icon: <NotificationsIcon /> },
-    { name: t('settingsUser'), href: `/user/${userId}`, icon: <PersonIcon /> },
+    { name: t('settingsUser'), href: `/settings/user/${userId}`, icon: <PersonIcon /> },
     { name: t('sharedGeofences'), href: '/geofences', icon: <CreateIcon /> },
     { name: t('settingsGroups'), href: '/settings/groups', icon: <FolderIcon /> },
     { name: t('sharedDrivers'), href: '/settings/drivers', icon: <PersonIcon /> },
@@ -92,9 +92,9 @@ const OptionsLayout = ({ children }) => {
 
   const adminRoutes = useMemo(() => [
     { subheader: t('userAdmin') },
-    { name: t('settingsServer'), href: '/admin/server', icon: <StorageIcon /> },
-    { name: t('settingsUsers'), href: '/admin/users', icon: <PeopleIcon /> },
-    { name: t('statisticsTitle'), href: '/admin/statistics', icon: <BarChartIcon /> },
+    { name: t('settingsServer'), href: '/settings/server', icon: <StorageIcon /> },
+    { name: t('settingsUsers'), href: '/settings/users', icon: <PeopleIcon /> },
+    { name: t('statisticsTitle'), href: '/reports/statistics', icon: <BarChartIcon /> },
   ], [t]);
 
   const routes = useMemo(() => (

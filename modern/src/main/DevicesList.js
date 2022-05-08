@@ -189,7 +189,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
 };
 
 const DevicesList = ({ filter }) => (
-  <EditCollectionView content={DeviceView} editPath="/device" endpoint="devices" disableAdd filter={filter} />
+  <EditCollectionView content={DeviceView} editPath="/settings/device" endpoint="devices" disableAdd filter={filter} />
 );
 
 export default DevicesList;

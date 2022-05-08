@@ -50,7 +50,7 @@ const GeofenceView = ({ onMenuClick }) => {
 };
 
 const GeofencesList = () => (
-  <EditCollectionView content={GeofenceView} editPath="/geofence" endpoint="geofences" disableAdd />
+  <EditCollectionView content={GeofenceView} editPath="/settings/geofence" endpoint="geofences" disableAdd />
 );
 
 export default GeofencesList;

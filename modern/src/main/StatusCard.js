@@ -109,10 +109,10 @@ const StatusCard = ({ deviceId, onClose }) => {
             <IconButton onClick={() => history.push('/replay')} disabled={!position}>
               <ReplayIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/command/${deviceId}`)} disabled={readonly}>
+            <IconButton onClick={() => history.push(`/settings/command-send/${deviceId}`)} disabled={readonly}>
               <PublishIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/device/${deviceId}`)} disabled={deviceReadonly}>
+            <IconButton onClick={() => history.push(`/settings/device/${deviceId}`)} disabled={deviceReadonly}>
               <EditIcon />
             </IconButton>
             <IconButton onClick={() => setRemoveDialogShown(true)} disabled={deviceReadonly} className={classes.negative}>

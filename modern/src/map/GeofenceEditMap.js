@@ -65,7 +65,7 @@ const GeofenceEditMap = () => {
       });
       if (response.ok) {
         const item = await response.json();
-        history.push(`/geofence/${item.id}`);
+        history.push(`/settings/geofence/${item.id}`);
       }
     };
 
