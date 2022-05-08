@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Graph = ({ type, items }) => {
   const classes = useStyles();
-  
+
   return (
     <ResponsiveContainer height={400} width="100%" debounce={1} className={classes.chart}>
       <LineChart data={items}>
@@ -37,7 +37,7 @@ const Graph = ({ type, items }) => {
         <Line type="natural" dataKey={type} />
       </LineChart>
     </ResponsiveContainer>
-  )
+  );
 };
 
 export default withWidth()(Graph);
