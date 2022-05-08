@@ -53,11 +53,6 @@ import AccumulatorsPage from './settings/AccumulatorsPage';
 import CommandSendPage from './settings/CommandSendPage';
 
 const useStyles = makeStyles(() => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
   page: {
     flexGrow: 1,
     overflow: 'auto',
@@ -114,7 +109,7 @@ const App = () => {
           <Route exact path="/reset-password" component={ResetPasswordPage} />
           <Route>
             {!initialized ? (<LinearProgress />) : (
-              <div className={classes.root}>
+              <>
                 <div className={classes.page}>
                   <Switch>
                     <Route exact path="/" component={MainPage} />
@@ -158,7 +153,7 @@ const App = () => {
                     <BottomMenu />
                   </div>
                 )}
-              </div>
+              </>
             )}
           </Route>
         </Switch>

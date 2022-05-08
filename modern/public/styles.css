@@ -12,6 +12,12 @@ canvas {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .maplibregl-popup-content {
   padding: 10px !important;
 }
