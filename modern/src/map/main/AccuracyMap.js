@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import circle from '@turf/circle';
 
-import { map } from './Map';
+import { map } from '../core/Map';
 
 const AccuracyMap = () => {
   const id = 'accuracy';

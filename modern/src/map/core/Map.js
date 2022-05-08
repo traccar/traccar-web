@@ -1,19 +1,19 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
-import './switcher/switcher.css';
+import '../switcher/switcher.css';
 import maplibregl from 'maplibre-gl';
 import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
-import { SwitcherControl } from './switcher/switcher';
-import deviceCategories from '../common/deviceCategories';
+import { SwitcherControl } from '../switcher/switcher';
+import deviceCategories from '../../common/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import {
   styleCarto, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
-import { useAttributePreference } from '../common/preferences';
-import palette from '../theme/palette';
-import { useTranslation } from '../LocalizationProvider';
-import usePersistedState, { savePersistedState } from '../common/usePersistedState';
+import { useAttributePreference } from '../../common/preferences';
+import palette from '../../theme/palette';
+import { useTranslation } from '../../LocalizationProvider';
+import usePersistedState, { savePersistedState } from '../../common/usePersistedState';
 
 const element = document.createElement('div');
 element.style.width = '100%';

@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { map } from './Map';
+import { map } from './core/Map';
 import { getStatusColor } from '../common/formatter';
 import { devicesActions } from '../store';
 import usePersistedState from '../common/usePersistedState';

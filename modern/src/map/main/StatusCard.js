@@ -10,12 +10,12 @@ import PublishIcon from '@material-ui/icons/Publish';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { useTranslation } from '../LocalizationProvider';
-import { formatStatus } from '../common/formatter';
-import RemoveDialog from '../RemoveDialog';
-import PositionValue from '../components/PositionValue';
-import dimensions from '../theme/dimensions';
-import { useDeviceReadonly, useReadonly } from '../common/permissions';
+import { useTranslation } from '../../LocalizationProvider';
+import { formatStatus } from '../../common/formatter';
+import RemoveDialog from '../../RemoveDialog';
+import PositionValue from '../../components/PositionValue';
+import dimensions from '../../theme/dimensions';
+import { useDeviceReadonly, useReadonly } from '../../common/permissions';
 
 const useStyles = makeStyles((theme) => ({
   card: {

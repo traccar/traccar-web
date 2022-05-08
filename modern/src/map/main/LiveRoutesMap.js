@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { map } from './Map';
-import { usePrevious } from '../reactHelper';
+import { map } from '../core/Map';
+import { usePrevious } from '../../reactHelper';
 
 const LiveRoutesMap = () => {
   const id = 'liveRoute';

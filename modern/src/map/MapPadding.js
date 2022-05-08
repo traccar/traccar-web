@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { map } from './Map';
+import { map } from './core/Map';
 
 const MapPadding = ({
   top, right, bottom, left,

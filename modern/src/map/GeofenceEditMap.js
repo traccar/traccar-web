@@ -6,8 +6,8 @@ import { useCallback, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { map } from './Map';
-import { geofenceToFeature, geometryToArea } from './mapUtil';
+import { map } from './core/Map';
+import { geofenceToFeature, geometryToArea } from './core/mapUtil';
 import { geofencesActions } from '../store';
 
 const draw = new MapboxDraw({

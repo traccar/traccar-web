@@ -1,6 +1,6 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
-import { map } from './Map';
+import { map } from './core/Map';
 
 const ReplayPathMap = ({ positions }) => {
   const id = 'replay';

@@ -8,7 +8,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import ContainerDimensions from 'react-container-dimensions';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './LocalizationProvider';
-import Map from './map/Map';
+import Map from './map/core/Map';
 import PositionsMap from './map/PositionsMap';
 
 const useStyles = makeStyles(() => ({

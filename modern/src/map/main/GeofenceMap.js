@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { map } from './Map';
-import { geofenceToFeature } from './mapUtil';
+import { map } from '../core/Map';
+import { geofenceToFeature } from '../core/mapUtil';
 
 const GeofenceMap = () => {
   const id = 'geofences';

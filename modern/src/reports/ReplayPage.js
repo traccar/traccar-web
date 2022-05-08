@@ -10,7 +10,7 @@ import FastForwardIcon from '@material-ui/icons/FastForward';
 import FastRewindIcon from '@material-ui/icons/FastRewind';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Map from '../map/Map';
+import Map from '../map/core/Map';
 import ReplayPathMap from '../map/ReplayPathMap';
 import PositionsMap from '../map/PositionsMap';
 import { formatTime } from '../common/formatter';
