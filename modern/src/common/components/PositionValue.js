@@ -81,11 +81,11 @@ const PositionValue = ({ position, property, attribute }) => {
       );
     case 'address':
       if (address) {
-        return (<>{address}</>);
+        return address;
       }
       return (<Link href="#" onClick={showAddress}>{t('sharedShowAddress')}</Link>);
     default:
-      return (<>{formatValue(value)}</>);
+      return formatValue(value);
   }
 };
 
