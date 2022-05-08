@@ -19,7 +19,7 @@ import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: '100%',
   },
   sidebar: {
     position: 'absolute',
