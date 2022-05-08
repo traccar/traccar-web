@@ -11,9 +11,6 @@ import { formatBoolean } from '../common/formatter';
 import { prefixString } from '../common/stringUtils';
 
 const useStyles = makeStyles((theme) => ({
-  table: {
-    backgroundColor: theme.palette.colors.white,
-  },
   columnAction: {
     width: theme.spacing(1),
     padding: theme.spacing(0, 1),
@@ -34,7 +31,7 @@ const CommandsView = ({ updateTimestamp, onMenuClick }) => {
   }, [updateTimestamp]);
 
   return (
-    <TableContainer className={classes.table}>
+    <TableContainer>
       <Table>
         <TableHead>
           <TableRow>

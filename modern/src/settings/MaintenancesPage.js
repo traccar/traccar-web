@@ -13,9 +13,6 @@ import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
-  table: {
-    backgroundColor: theme.palette.colors.white,
-  },
   columnAction: {
     width: theme.spacing(1),
     padding: theme.spacing(0, 1),
@@ -56,7 +53,7 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
   };
 
   return (
-    <TableContainer className={classes.table}>
+    <TableContainer>
       <Table>
         <TableHead>
           <TableRow>
