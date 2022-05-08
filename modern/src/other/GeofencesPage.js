@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  Divider, isWidthUp, makeStyles, withWidth, Typography, IconButton,
+  Divider, makeStyles, Typography, IconButton, useMediaQuery,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -47,16 +48,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const GeofencesPage = ({ width }) => {
+const GeofencesPage = () => {
+  const theme = useTheme();
   const classes = useStyles();
   const history = useHistory();
   const t = useTranslation();
+
+  const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
 
   return (
     <div className={classes.root}>
       <div className={classes.content}>
         <Drawer
-          anchor={isWidthUp('sm', width) ? 'left' : 'bottom'}
+          anchor={isPhone ? 'bottom' : 'left'}
           variant="permanent"
           classes={{ paper: classes.drawerPaper }}
         >
@@ -84,4 +88,4 @@ const GeofencesPage = ({ width }) => {
   );
 };
 
-export default withWidth()(GeofencesPage);
+export default GeofencesPage;

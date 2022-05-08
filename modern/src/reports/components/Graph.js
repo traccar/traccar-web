@@ -1,5 +1,5 @@
 import React from 'react';
-import { withWidth, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
@@ -40,4 +40,4 @@ const Graph = ({ type, items }) => {
   );
 };
 
-export default withWidth()(Graph);
+export default Graph;
