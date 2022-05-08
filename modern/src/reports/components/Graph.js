@@ -1,5 +1,5 @@
 import React from 'react';
-import { withWidth } from '@material-ui/core';
+import { withWidth, makeStyles } from '@material-ui/core';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
@@ -17,17 +17,27 @@ const CustomizedAxisTick = ({ x, y, payload }) => {
   );
 };
 
-const Graph = ({ type, items }) => (
-  <ResponsiveContainer height={400} width="100%" debounce={1}>
-    <LineChart data={items}>
-      <XAxis dataKey="fixTime" tick={<CustomizedAxisTick />} height={60} />
-      <YAxis />
-      <CartesianGrid strokeDasharray="3 3" />
-      <Tooltip />
-      <Legend />
-      <Line type="natural" dataKey={type} />
-    </LineChart>
-  </ResponsiveContainer>
-);
+const useStyles = makeStyles((theme) => ({
+  chart: {
+    backgroundColor: theme.palette.colors.white,
+  },
+}));
+
+const Graph = ({ type, items }) => {
+  const classes = useStyles();
+  
+  return (
+    <ResponsiveContainer height={400} width="100%" debounce={1} className={classes.chart}>
+      <LineChart data={items}>
+        <XAxis dataKey="fixTime" tick={<CustomizedAxisTick />} height={60} />
+        <YAxis />
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip />
+        <Legend />
+        <Line type="natural" dataKey={type} />
+      </LineChart>
+    </ResponsiveContainer>
+  )
+};
 
 export default withWidth()(Graph);
