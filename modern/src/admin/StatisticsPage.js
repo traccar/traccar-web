@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles,
+  FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
 } from '@material-ui/core';
 import moment from 'moment';
 import { formatDate } from '../common/formatter';
 import OptionsLayout from '../settings/OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
-
-const useStyles = makeStyles((theme) => ({
-  table: {
-    backgroundColor: theme.palette.colors.white,
-  },
-}));
 
 const Filter = ({ setItems }) => {
   const t = useTranslation();
@@ -103,7 +97,6 @@ const Filter = ({ setItems }) => {
 };
 
 const StatisticsPage = () => {
-  const classes = useStyles();
   const t = useTranslation();
 
   const [items, setItems] = useState([]);
@@ -111,7 +104,7 @@ const StatisticsPage = () => {
   return (
     <OptionsLayout>
       <Filter setItems={setItems} />
-      <TableContainer className={classes.table}>
+      <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
