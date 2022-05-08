@@ -35,9 +35,9 @@ import CommandPage from './settings/CommandPage';
 import StatisticsPage from './admin/StatisticsPage';
 import CachingController from './CachingController';
 
-import LoginForm from './components/registration/LoginForm';
-import RegisterForm from './components/registration/RegisterForm';
-import ResetPasswordForm from './components/registration/ResetPasswordForm';
+import LoginPage from './login/LoginPage';
+import RegisterPage from './login/RegisterPage';
+import ResetPasswordPage from './login/ResetPasswordPage';
 
 import theme from './theme';
 import GeofencesPage from './GeofencesPage';
@@ -109,9 +109,9 @@ const App = () => {
         <SocketController />
         <CachingController />
         <Switch>
-          <Route exact path="/login" component={LoginForm} />
-          <Route exact path="/register" component={RegisterForm} />
-          <Route exact path="/reset-password" component={ResetPasswordForm} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/reset-password" component={ResetPasswordPage} />
           <Route>
             {!initialized ? (<LinearProgress />) : (
               <div className={classes.root}>

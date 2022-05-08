@@ -4,10 +4,10 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import StartPage from '../../StartPage';
-import { useTranslation } from '../../LocalizationProvider';
-import useQuery from '../../common/useQuery';
-import { snackBarDurationShortMs } from '../../common/duration';
+import LoginLayout from './LoginLayout';
+import { useTranslation } from '../LocalizationProvider';
+import useQuery from '../common/useQuery';
+import { snackBarDurationShortMs } from '../common/duration';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ResetPasswordForm = () => {
+const ResetPasswordPage = () => {
   const classes = useStyles();
   const history = useHistory();
   const t = useTranslation();
@@ -56,7 +56,7 @@ const ResetPasswordForm = () => {
   };
 
   return (
-    <StartPage>
+    <LoginLayout>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
@@ -122,8 +122,8 @@ const ResetPasswordForm = () => {
           </Button>
         </Grid>
       </Grid>
-    </StartPage>
+    </LoginLayout>
   );
 };
 
-export default ResetPasswordForm;
+export default ResetPasswordPage;

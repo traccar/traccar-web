@@ -7,10 +7,10 @@ import CachedIcon from '@material-ui/icons/Cached';
 import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { sessionActions } from '../../store';
-import { useLocalization, useTranslation } from '../../LocalizationProvider';
-import StartPage from '../../StartPage';
-import usePersistedState from '../../common/usePersistedState';
+import { sessionActions } from '../store';
+import { useLocalization, useTranslation } from '../LocalizationProvider';
+import LoginLayout from './LoginLayout';
+import usePersistedState from '../common/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   legacy: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginForm = () => {
+const LoginPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -71,7 +71,7 @@ const LoginForm = () => {
   };
 
   return (
-    <StartPage>
+    <LoginLayout>
       <Tooltip title="Switch to Legacy App" className={classes.legacy}>
         <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
           <CachedIcon />
@@ -163,8 +163,8 @@ const LoginForm = () => {
           )}
         />
       </Grid>
-    </StartPage>
+    </LoginLayout>
   );
 };
 
-export default LoginForm;
+export default LoginPage;

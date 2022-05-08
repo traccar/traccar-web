@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StartPage = ({ children }) => {
+const LoginLayout = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -75,4 +75,4 @@ const StartPage = ({ children }) => {
   );
 };
 
-export default StartPage;
+export default LoginLayout;
