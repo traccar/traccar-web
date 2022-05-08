@@ -21,7 +21,7 @@ import BuildIcon from '@material-ui/icons/Build';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import TodayIcon from '@material-ui/icons/Today';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PublishIcon from '@material-ui/icons/Publish';
 
 import SideNav from '../../common/components/SideNav';
 import NavBar from '../../common/components/NavBar';
@@ -87,7 +87,7 @@ const OptionsLayout = ({ children }) => {
     { name: t('sharedCalendars'), href: '/settings/calendars', icon: <TodayIcon /> },
     { name: t('sharedComputedAttributes'), href: '/settings/attributes', icon: <StorageIcon /> },
     { name: t('sharedMaintenance'), href: '/settings/maintenances', icon: <BuildIcon /> },
-    { name: t('sharedSavedCommands'), href: '/settings/commands', icon: <ExitToAppIcon /> },
+    { name: t('sharedSavedCommands'), href: '/settings/commands', icon: <PublishIcon /> },
   ], [t, userId]);
 
   const adminRoutes = useMemo(() => [
