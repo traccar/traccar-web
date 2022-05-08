@@ -41,7 +41,7 @@ const NotificationPage = () => {
             <AccordionDetails className={classes.details}>
               <SelectField
                 margin="normal"
-                value={item.type || 'alarm'}
+                value={item.type}
                 emptyValue={null}
                 onChange={(e) => setItem({ ...item, type: e.target.value })}
                 endpoint="/api/notifications/types"
