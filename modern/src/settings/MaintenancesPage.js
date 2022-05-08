@@ -13,6 +13,9 @@ import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
+  table: {
+    backgroundColor: theme.palette.colors.white,
+  },
   columnAction: {
     width: theme.spacing(1),
     padding: theme.spacing(0, 1),
@@ -53,7 +56,7 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
   };
 
   return (
-    <TableContainer>
+    <TableContainer className={classes.table}>
       <Table>
         <TableHead>
           <TableRow>
@@ -68,7 +71,7 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
           {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
+                <IconButton size="small" onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                   <MoreVertIcon />
                 </IconButton>
               </TableCell>

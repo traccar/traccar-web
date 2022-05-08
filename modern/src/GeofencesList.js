@@ -37,7 +37,7 @@ const GeofenceView = ({ onMenuClick }) => {
           <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item.id))}>
             <ListItemText primary={item.name} />
             <ListItemSecondaryAction>
-              <IconButton onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
+              <IconButton size="small" onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
                 <MoreVertIcon />
               </IconButton>
             </ListItemSecondaryAction>
