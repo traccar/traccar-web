@@ -42,7 +42,6 @@ import ResetPasswordPage from './login/ResetPasswordPage';
 import theme from './common/theme';
 import GeofencesPage from './other/GeofencesPage';
 import GeofencePage from './settings/GeofencePage';
-import { LocalizationProvider } from './common/components/LocalizationProvider';
 import useQuery from './common/util/useQuery';
 import { useEffectAsync } from './reactHelper';
 import { devicesActions } from './store';
@@ -98,67 +97,65 @@ const App = () => {
   }, [query]);
 
   return (!redirectsHandled ? (<LinearProgress />) : (
-    <LocalizationProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <SocketController />
-        <CachingController />
-        <Switch>
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/register" component={RegisterPage} />
-          <Route exact path="/reset-password" component={ResetPasswordPage} />
-          <Route>
-            {!initialized ? (<LinearProgress />) : (
-              <>
-                <div className={classes.page}>
-                  <Switch>
-                    <Route exact path="/" component={MainPage} />
-                    <Route exact path="/replay" component={ReplayPage} />
-                    <Route exact path="/position/:id?" component={PositionPage} />
-                    <Route exact path="/event/:id?" component={EventPage} />
-                    <Route exact path="/user/:id?" component={UserPage} />
-                    <Route exact path="/device/:id?" component={DevicePage} />
-                    <Route exact path="/geofence/:id?" component={GeofencePage} />
-                    <Route exact path="/geofences" component={GeofencesPage} />
-                    <Route exact path="/settings/accumulators/:deviceId?" component={AccumulatorsPage} />
-                    <Route exact path="/settings/preferences" component={PreferencesPage} />
-                    <Route exact path="/settings/notifications" component={NotificationsPage} />
-                    <Route exact path="/settings/notification/:id?" component={NotificationPage} />
-                    <Route exact path="/settings/groups" component={GroupsPage} />
-                    <Route exact path="/settings/group/:id?" component={GroupPage} />
-                    <Route exact path="/settings/drivers" component={DriversPage} />
-                    <Route exact path="/settings/driver/:id?" component={DriverPage} />
-                    <Route exact path="/settings/calendars" component={CalendarsPage} />
-                    <Route exact path="/settings/calendar/:id?" component={CalendarPage} />
-                    <Route exact path="/settings/attributes" component={ComputedAttributesPage} />
-                    <Route exact path="/settings/attribute/:id?" component={ComputedAttributePage} />
-                    <Route exact path="/settings/maintenances" component={MaintenancesPage} />
-                    <Route exact path="/settings/maintenance/:id?" component={MaintenancePage} />
-                    <Route exact path="/settings/commands" component={CommandsPage} />
-                    <Route exact path="/settings/command/:id?" component={CommandPage} />
-                    <Route exact path="/command/:deviceId?" component={CommandSendPage} />
-                    <Route exact path="/admin/server" component={ServerPage} />
-                    <Route exact path="/admin/users" component={UsersPage} />
-                    <Route exact path="/admin/statistics" component={StatisticsPage} />
-                    <Route exact path="/reports/route" component={RouteReportPage} />
-                    <Route exact path="/reports/event" component={EventReportPage} />
-                    <Route exact path="/reports/trip" component={TripReportPage} />
-                    <Route exact path="/reports/stop" component={StopReportPage} />
-                    <Route exact path="/reports/summary" component={SummaryReportPage} />
-                    <Route exact path="/reports/chart" component={ChartReportPage} />
-                  </Switch>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SocketController />
+      <CachingController />
+      <Switch>
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/reset-password" component={ResetPasswordPage} />
+        <Route>
+          {!initialized ? (<LinearProgress />) : (
+            <>
+              <div className={classes.page}>
+                <Switch>
+                  <Route exact path="/" component={MainPage} />
+                  <Route exact path="/replay" component={ReplayPage} />
+                  <Route exact path="/position/:id?" component={PositionPage} />
+                  <Route exact path="/event/:id?" component={EventPage} />
+                  <Route exact path="/user/:id?" component={UserPage} />
+                  <Route exact path="/device/:id?" component={DevicePage} />
+                  <Route exact path="/geofence/:id?" component={GeofencePage} />
+                  <Route exact path="/geofences" component={GeofencesPage} />
+                  <Route exact path="/settings/accumulators/:deviceId?" component={AccumulatorsPage} />
+                  <Route exact path="/settings/preferences" component={PreferencesPage} />
+                  <Route exact path="/settings/notifications" component={NotificationsPage} />
+                  <Route exact path="/settings/notification/:id?" component={NotificationPage} />
+                  <Route exact path="/settings/groups" component={GroupsPage} />
+                  <Route exact path="/settings/group/:id?" component={GroupPage} />
+                  <Route exact path="/settings/drivers" component={DriversPage} />
+                  <Route exact path="/settings/driver/:id?" component={DriverPage} />
+                  <Route exact path="/settings/calendars" component={CalendarsPage} />
+                  <Route exact path="/settings/calendar/:id?" component={CalendarPage} />
+                  <Route exact path="/settings/attributes" component={ComputedAttributesPage} />
+                  <Route exact path="/settings/attribute/:id?" component={ComputedAttributePage} />
+                  <Route exact path="/settings/maintenances" component={MaintenancesPage} />
+                  <Route exact path="/settings/maintenance/:id?" component={MaintenancePage} />
+                  <Route exact path="/settings/commands" component={CommandsPage} />
+                  <Route exact path="/settings/command/:id?" component={CommandPage} />
+                  <Route exact path="/command/:deviceId?" component={CommandSendPage} />
+                  <Route exact path="/admin/server" component={ServerPage} />
+                  <Route exact path="/admin/users" component={UsersPage} />
+                  <Route exact path="/admin/statistics" component={StatisticsPage} />
+                  <Route exact path="/reports/route" component={RouteReportPage} />
+                  <Route exact path="/reports/event" component={EventReportPage} />
+                  <Route exact path="/reports/trip" component={TripReportPage} />
+                  <Route exact path="/reports/stop" component={StopReportPage} />
+                  <Route exact path="/reports/summary" component={SummaryReportPage} />
+                  <Route exact path="/reports/chart" component={ChartReportPage} />
+                </Switch>
+              </div>
+              {!desktop && (
+                <div className={classes.menu}>
+                  <BottomMenu />
                 </div>
-                {!desktop && (
-                  <div className={classes.menu}>
-                    <BottomMenu />
-                  </div>
-                )}
-              </>
-            )}
-          </Route>
-        </Switch>
-      </ThemeProvider>
-    </LocalizationProvider>
+              )}
+            </>
+          )}
+        </Route>
+      </Switch>
+    </ThemeProvider>
   ));
 };
 
