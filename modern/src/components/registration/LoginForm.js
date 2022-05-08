@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton,
+  Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import CachedIcon from '@material-ui/icons/Cached';
 import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +13,11 @@ import StartPage from '../../StartPage';
 import usePersistedState from '../../common/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
+  legacy: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+  },
   logoContainer: {
     textAlign: 'center',
     color: theme.palette.primary.main,
@@ -66,6 +72,11 @@ const LoginForm = () => {
 
   return (
     <StartPage>
+      <Tooltip title="Switch to Legacy App" className={classes.legacy}>
+        <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
+          <CachedIcon />
+        </IconButton>
+      </Tooltip>
       <Grid container direction="column" spacing={2}>
         {useMediaQuery(theme.breakpoints.down('md'))
           && (
