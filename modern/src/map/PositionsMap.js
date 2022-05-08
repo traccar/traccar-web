@@ -2,9 +2,9 @@ import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { map } from './core/Map';
-import { getStatusColor } from '../common/formatter';
+import { getStatusColor } from '../common/util/formatter';
 import { devicesActions } from '../store';
-import usePersistedState from '../common/usePersistedState';
+import usePersistedState from '../common/util/usePersistedState';
 
 const PositionsMap = ({ positions }) => {
   const id = 'positions';

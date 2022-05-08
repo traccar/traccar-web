@@ -5,9 +5,9 @@ import {
 import ReportLayout from './ReportLayout';
 import ReportFilter from './ReportFilter';
 import Graph from './Graph';
-import { useAttributePreference } from '../common/preferences';
-import { formatDate } from '../common/formatter';
-import { speedFromKnots } from '../common/converter';
+import { useAttributePreference } from '../common/util/preferences';
+import { formatDate } from '../common/util/formatter';
+import { speedFromKnots } from '../common/util/converter';
 import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ children, setItems }) => {

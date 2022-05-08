@@ -5,7 +5,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useLocalization, useTranslation } from '../LocalizationProvider';
 import OptionsLayout from './OptionsLayout';
-import usePersistedState from '../common/usePersistedState';
+import usePersistedState from '../common/util/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   container: {

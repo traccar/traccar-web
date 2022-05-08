@@ -5,10 +5,10 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
-import { formatDate } from '../common/formatter';
+import { formatDate } from '../common/util/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
-import { prefixString } from '../common/stringUtils';
+import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {

@@ -11,8 +11,8 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import SideNav from '../components/SideNav';
-import NavBar from '../components/NavBar';
+import SideNav from '../common/components/SideNav';
+import NavBar from '../common/components/NavBar';
 import { useTranslation } from '../LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({

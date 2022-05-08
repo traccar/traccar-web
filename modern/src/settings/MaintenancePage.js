@@ -4,13 +4,13 @@ import {
 } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { prefixString } from '../common/stringUtils';
+import { prefixString } from '../common/util/stringUtils';
 import EditItemView from '../EditItemView';
 import EditAttributesView from '../attributes/EditAttributesView';
-import { useAttributePreference } from '../common/preferences';
+import { useAttributePreference } from '../common/util/preferences';
 import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
-} from '../common/converter';
+} from '../common/util/converter';
 import { useTranslation } from '../LocalizationProvider';
 import usePositionAttributes from '../attributes/usePositionAttributes';
 

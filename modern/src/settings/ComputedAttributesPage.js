@@ -7,7 +7,7 @@ import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
-import { useAdministrator } from '../common/permissions';
+import { useAdministrator } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {

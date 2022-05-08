@@ -39,16 +39,16 @@ import LoginPage from './login/LoginPage';
 import RegisterPage from './login/RegisterPage';
 import ResetPasswordPage from './login/ResetPasswordPage';
 
-import theme from './theme';
+import theme from './common/theme';
 import GeofencesPage from './GeofencesPage';
 import GeofencePage from './GeofencePage';
 import { LocalizationProvider } from './LocalizationProvider';
-import useQuery from './common/useQuery';
+import useQuery from './common/util/useQuery';
 import { useEffectAsync } from './reactHelper';
 import { devicesActions } from './store';
 import EventPage from './EventPage';
 import PreferencesPage from './settings/PreferencesPage';
-import BottomMenu from './components/BottomMenu';
+import BottomMenu from './common/components/BottomMenu';
 import AccumulatorsPage from './settings/AccumulatorsPage';
 import SendCommandPage from './settings/SendCommandPage';
 

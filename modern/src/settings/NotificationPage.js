@@ -6,7 +6,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useTranslation, useTranslationKeys } from '../LocalizationProvider';
 import EditItemView from '../EditItemView';
-import { prefixString, unprefixString } from '../common/stringUtils';
+import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../form/SelectField';
 
 const useStyles = makeStyles(() => ({

@@ -7,9 +7,9 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory, useParams } from 'react-router-dom';
 import { useEffectAsync } from './reactHelper';
-import { prefixString } from './common/stringUtils';
+import { prefixString } from './common/util/stringUtils';
 import { useTranslation } from './LocalizationProvider';
-import PositionValue from './components/PositionValue';
+import PositionValue from './common/components/PositionValue';
 
 const useStyles = makeStyles((theme) => ({
   root: {

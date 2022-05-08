@@ -5,8 +5,8 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
-import { prefixString } from '../common/stringUtils';
-import { formatBoolean } from '../common/formatter';
+import { prefixString } from '../common/util/stringUtils';
+import { formatBoolean } from '../common/util/formatter';
 import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 

@@ -8,12 +8,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './EditItemView';
 import EditAttributesView from './attributes/EditAttributesView';
 import SelectField from './form/SelectField';
-import deviceCategories from './common/deviceCategories';
+import deviceCategories from './common/util/deviceCategories';
 import LinkField from './form/LinkField';
-import { prefixString } from './common/stringUtils';
+import { prefixString } from './common/util/stringUtils';
 import { useTranslation } from './LocalizationProvider';
 import useDeviceAttributes from './attributes/useDeviceAttributes';
-import { useAdministrator } from './common/permissions';
+import { useAdministrator } from './common/util/permissions';
 
 const useStyles = makeStyles(() => ({
   details: {

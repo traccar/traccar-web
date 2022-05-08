@@ -25,7 +25,7 @@ import EditCollectionView from './EditCollectionView';
 import { useEffectAsync } from './reactHelper';
 import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
-} from './common/formatter';
+} from './common/util/formatter';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({

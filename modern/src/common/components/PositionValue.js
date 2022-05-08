@@ -3,10 +3,10 @@ import { Link } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
-} from '../common/formatter';
-import { useAttributePreference, usePreference } from '../common/preferences';
-import { useTranslation } from '../LocalizationProvider';
-import { useAdministrator } from '../common/permissions';
+} from '../util/formatter';
+import { useAttributePreference, usePreference } from '../util/preferences';
+import { useTranslation } from '../../LocalizationProvider';
+import { useAdministrator } from '../util/permissions';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();

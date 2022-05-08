@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from '../LocalizationProvider';
 import SelectField from '../form/SelectField';
-import { prefixString } from '../common/stringUtils';
+import { prefixString } from '../common/util/stringUtils';
 import useCommandAttributes from '../attributes/useCommandAttributes';
 
 const BaseCommandView = ({ item, setItem }) => {

@@ -4,10 +4,10 @@ import { DataGrid } from '@material-ui/data-grid';
 import { useTheme } from '@material-ui/core/styles';
 import {
   formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinate,
-} from '../common/formatter';
+} from '../common/util/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
-import { useAttributePreference, usePreference } from '../common/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {

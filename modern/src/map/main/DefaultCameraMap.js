@@ -1,7 +1,7 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { usePreference } from '../../common/preferences';
+import { usePreference } from '../../common/util/preferences';
 import { map } from '../core/Map';
 
 const DefaultCameraMap = () => {

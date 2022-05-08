@@ -7,8 +7,8 @@ import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from '../EditCollectionView';
 
 import usePositionAttributes from '../attributes/usePositionAttributes';
-import { formatDistance, formatSpeed } from '../common/formatter';
-import { useAttributePreference } from '../common/preferences';
+import { formatDistance, formatSpeed } from '../common/util/formatter';
+import { useAttributePreference } from '../common/util/preferences';
 import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../LocalizationProvider';
 

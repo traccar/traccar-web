@@ -23,10 +23,10 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import TodayIcon from '@material-ui/icons/Today';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import SideNav from '../components/SideNav';
-import NavBar from '../components/NavBar';
+import SideNav from '../common/components/SideNav';
+import NavBar from '../common/components/NavBar';
 import { useTranslation } from '../LocalizationProvider';
-import { useAdministrator, useReadonly } from '../common/permissions';
+import { useAdministrator, useReadonly } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   root: {

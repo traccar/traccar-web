@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import usePersistedState from './common/usePersistedState';
+import usePersistedState from './common/util/usePersistedState';
 
 import af from '../../web/l10n/af.json';
 import ar from '../../web/l10n/ar.json';

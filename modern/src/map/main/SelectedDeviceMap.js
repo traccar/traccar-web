@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import dimensions from '../../theme/dimensions';
+import dimensions from '../../common/theme/dimensions';
 import { map } from '../core/Map';
 import { usePrevious } from '../../reactHelper';
-import usePersistedState from '../../common/usePersistedState';
+import usePersistedState from '../../common/util/usePersistedState';
 
 const SelectedDeviceMap = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);

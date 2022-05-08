@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../LocalizationProvider';
-import useQuery from '../common/useQuery';
-import { snackBarDurationShortMs } from '../common/duration';
+import useQuery from '../common/util/useQuery';
+import { snackBarDurationShortMs } from '../common/util/duration';
 
 const useStyles = makeStyles((theme) => ({
   title: {

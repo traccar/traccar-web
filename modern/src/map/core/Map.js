@@ -5,15 +5,15 @@ import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
 import { SwitcherControl } from '../switcher/switcher';
-import deviceCategories from '../../common/deviceCategories';
+import deviceCategories from '../../common/util/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import {
   styleCarto, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
-import { useAttributePreference } from '../../common/preferences';
-import palette from '../../theme/palette';
+import { useAttributePreference } from '../../common/util/preferences';
+import palette from '../../common/theme/palette';
 import { useTranslation } from '../../LocalizationProvider';
-import usePersistedState, { savePersistedState } from '../../common/usePersistedState';
+import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
 
 const element = document.createElement('div');
 element.style.width = '100%';

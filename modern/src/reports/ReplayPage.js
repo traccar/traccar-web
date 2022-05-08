@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import Map from '../map/core/Map';
 import ReplayPathMap from '../map/ReplayPathMap';
 import PositionsMap from '../map/PositionsMap';
-import { formatTime } from '../common/formatter';
+import { formatTime } from '../common/util/formatter';
 import ReportFilter from './ReportFilter';
 import { useTranslation } from '../LocalizationProvider';
 

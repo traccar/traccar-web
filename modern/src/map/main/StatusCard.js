@@ -11,11 +11,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { useTranslation } from '../../LocalizationProvider';
-import { formatStatus } from '../../common/formatter';
-import RemoveDialog from '../../RemoveDialog';
-import PositionValue from '../../components/PositionValue';
-import dimensions from '../../theme/dimensions';
-import { useDeviceReadonly, useReadonly } from '../../common/permissions';
+import { formatStatus } from '../../common/util/formatter';
+import RemoveDialog from '../../common/components/RemoveDialog';
+import PositionValue from '../../common/components/PositionValue';
+import dimensions from '../../common/theme/dimensions';
+import { useDeviceReadonly, useReadonly } from '../../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   card: {

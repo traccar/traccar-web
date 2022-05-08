@@ -4,10 +4,10 @@ import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
-} from '../common/formatter';
+} from '../common/util/formatter';
 import ReportFilter from './ReportFilter';
 import ReportLayout from './ReportLayout';
-import { useAttributePreference } from '../common/preferences';
+import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../LocalizationProvider';
 
 const Filter = ({ setItems }) => {

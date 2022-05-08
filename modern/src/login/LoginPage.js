@@ -10,7 +10,7 @@ import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../LocalizationProvider';
 import LoginLayout from './LoginLayout';
-import usePersistedState from '../common/usePersistedState';
+import usePersistedState from '../common/util/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   legacy: {
