@@ -154,7 +154,7 @@ const LoginForm = () => {
         )}
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          open={announcement && !announcementShown}
+          open={!!announcement && !announcementShown}
           message={announcement}
           action={(
             <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
