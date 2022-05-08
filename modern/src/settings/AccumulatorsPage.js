@@ -5,8 +5,8 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, TextField, FormControl, Button,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useTranslation } from '../LocalizationProvider';
-import OptionsLayout from './OptionsLayout';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import OptionsLayout from './components/OptionsLayout';
 
 const useStyles = makeStyles((theme) => ({
   container: {

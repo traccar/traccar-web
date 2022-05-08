@@ -9,8 +9,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-import { devicesActions } from './store';
-import EditCollectionView from './EditCollectionView';
+import { devicesActions } from '../store';
+import EditCollectionView from '../settings/components/EditCollectionView';
 
 const useStyles = makeStyles(() => ({
   list: {

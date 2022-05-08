@@ -5,10 +5,10 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditItemView from './EditItemView';
-import EditAttributesView from './attributes/EditAttributesView';
-import { useTranslation } from './LocalizationProvider';
-import useGeofenceAttributes from './attributes/useGeofenceAttributes';
+import EditItemView from './components/EditItemView';
+import EditAttributesView from '../common/attributes/EditAttributesView';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

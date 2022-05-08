@@ -5,10 +5,10 @@ import { useTheme } from '@material-ui/core/styles';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
-import ReportFilter from './ReportFilter';
-import ReportLayout from './ReportLayout';
+import ReportFilter from './components/ReportFilter';
+import ReportLayout from './components/ReportLayout';
 import { useAttributePreference } from '../common/util/preferences';
-import { useTranslation } from '../LocalizationProvider';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const Filter = ({ setItems }) => {
   const t = useTranslation();

@@ -5,7 +5,7 @@ import {
   formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
 } from '../util/formatter';
 import { useAttributePreference, usePreference } from '../util/preferences';
-import { useTranslation } from '../../LocalizationProvider';
+import { useTranslation } from './LocalizationProvider';
 import { useAdministrator } from '../util/permissions';
 
 const PositionValue = ({ position, property, attribute }) => {

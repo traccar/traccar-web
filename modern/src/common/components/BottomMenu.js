@@ -12,7 +12,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import { sessionActions } from '../../store';
-import { useTranslation } from '../../LocalizationProvider';
+import { useTranslation } from './LocalizationProvider';
 import { useReadonly } from '../util/permissions';
 
 const BottomMenu = () => {

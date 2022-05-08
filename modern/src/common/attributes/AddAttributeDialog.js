@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 
 import { Autocomplete, createFilterOptions } from '@material-ui/lab';
-import { useTranslation } from '../LocalizationProvider';
+import { useTranslation } from '../components/LocalizationProvider';
 
 const AddAttributeDialog = ({ open, onResult, definitions }) => {
   const t = useTranslation();

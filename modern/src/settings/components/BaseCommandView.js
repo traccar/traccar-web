@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
   TextField, FormControlLabel, Checkbox,
 } from '@material-ui/core';
-import { useTranslation } from '../LocalizationProvider';
-import SelectField from '../form/SelectField';
-import { prefixString } from '../common/util/stringUtils';
-import useCommandAttributes from '../attributes/useCommandAttributes';
+import { useTranslation } from '../../common/components/LocalizationProvider';
+import SelectField from '../../common/components/SelectField';
+import { prefixString } from '../../common/util/stringUtils';
+import useCommandAttributes from '../../common/attributes/useCommandAttributes';
 
 const BaseCommandView = ({ item, setItem }) => {
   const t = useTranslation();

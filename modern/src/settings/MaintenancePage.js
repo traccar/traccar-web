@@ -5,14 +5,14 @@ import {
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { prefixString } from '../common/util/stringUtils';
-import EditItemView from '../EditItemView';
-import EditAttributesView from '../attributes/EditAttributesView';
+import EditItemView from './components/EditItemView';
+import EditAttributesView from '../common/attributes/EditAttributesView';
 import { useAttributePreference } from '../common/util/preferences';
 import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
 } from '../common/util/converter';
-import { useTranslation } from '../LocalizationProvider';
-import usePositionAttributes from '../attributes/usePositionAttributes';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

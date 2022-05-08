@@ -2,7 +2,7 @@ import {
   FormControl, InputLabel, MenuItem, Select,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import { useEffectAsync } from '../reactHelper';
+import { useEffectAsync } from '../../reactHelper';
 
 const LinkField = ({
   margin,

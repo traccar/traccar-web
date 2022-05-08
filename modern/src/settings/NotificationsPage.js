@@ -4,11 +4,11 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
-import EditCollectionView from '../EditCollectionView';
+import EditCollectionView from './components/EditCollectionView';
 import { prefixString } from '../common/util/stringUtils';
 import { formatBoolean } from '../common/util/formatter';
-import OptionsLayout from './OptionsLayout';
-import { useTranslation } from '../LocalizationProvider';
+import OptionsLayout from './components/OptionsLayout';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {

@@ -4,9 +4,9 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
-import EditCollectionView from '../EditCollectionView';
-import OptionsLayout from './OptionsLayout';
-import { useTranslation } from '../LocalizationProvider';
+import EditCollectionView from './components/EditCollectionView';
+import OptionsLayout from './components/OptionsLayout';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {

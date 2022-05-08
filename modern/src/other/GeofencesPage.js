@@ -6,11 +6,11 @@ import Drawer from '@material-ui/core/Drawer';
 import ContainerDimensions from 'react-container-dimensions';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory } from 'react-router-dom';
-import Map from './map/core/Map';
-import CurrentLocationMap from './map/CurrentLocationMap';
-import GeofenceEditMap from './map/GeofenceEditMap';
+import Map from '../map/core/Map';
+import CurrentLocationMap from '../map/CurrentLocationMap';
+import GeofenceEditMap from '../map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
-import { useTranslation } from './LocalizationProvider';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {

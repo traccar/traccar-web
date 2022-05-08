@@ -5,15 +5,15 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditItemView from './EditItemView';
-import EditAttributesView from './attributes/EditAttributesView';
-import SelectField from './form/SelectField';
-import deviceCategories from './common/util/deviceCategories';
-import LinkField from './form/LinkField';
-import { prefixString } from './common/util/stringUtils';
-import { useTranslation } from './LocalizationProvider';
-import useDeviceAttributes from './attributes/useDeviceAttributes';
-import { useAdministrator } from './common/util/permissions';
+import EditItemView from './components/EditItemView';
+import EditAttributesView from '../common/attributes/EditAttributesView';
+import SelectField from '../common/components/SelectField';
+import deviceCategories from '../common/util/deviceCategories';
+import LinkField from '../common/components/LinkField';
+import { prefixString } from '../common/util/stringUtils';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
+import { useAdministrator } from '../common/util/permissions';
 
 const useStyles = makeStyles(() => ({
   details: {

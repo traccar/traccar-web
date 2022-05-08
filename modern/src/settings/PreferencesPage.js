@@ -3,8 +3,8 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useLocalization, useTranslation } from '../LocalizationProvider';
-import OptionsLayout from './OptionsLayout';
+import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
+import OptionsLayout from './components/OptionsLayout';
 import usePersistedState from '../common/util/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({

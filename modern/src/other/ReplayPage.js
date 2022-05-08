@@ -14,8 +14,8 @@ import Map from '../map/core/Map';
 import ReplayPathMap from '../map/ReplayPathMap';
 import PositionsMap from '../map/PositionsMap';
 import { formatTime } from '../common/util/formatter';
-import ReportFilter from './ReportFilter';
-import { useTranslation } from '../LocalizationProvider';
+import ReportFilter from '../reports/components/ReportFilter';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {

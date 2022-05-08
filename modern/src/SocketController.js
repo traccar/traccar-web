@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
-import { useTranslation } from './LocalizationProvider';
+import { useTranslation } from './common/components/LocalizationProvider';
 import { prefixString } from './common/util/stringUtils';
 import { snackBarDurationLongMs } from './common/util/duration';
 

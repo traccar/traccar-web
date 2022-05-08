@@ -12,7 +12,7 @@ import {
 } from './mapStyles';
 import { useAttributePreference } from '../../common/util/preferences';
 import palette from '../../common/theme/palette';
-import { useTranslation } from '../../LocalizationProvider';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
 
 const element = document.createElement('div');

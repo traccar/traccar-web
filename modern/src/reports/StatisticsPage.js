@@ -4,8 +4,8 @@ import {
 } from '@material-ui/core';
 import moment from 'moment';
 import { formatDate } from '../common/util/formatter';
-import OptionsLayout from '../settings/OptionsLayout';
-import { useTranslation } from '../LocalizationProvider';
+import OptionsLayout from '../settings/components/OptionsLayout';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const Filter = ({ setItems }) => {
   const t = useTranslation();

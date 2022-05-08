@@ -20,13 +20,13 @@ import FlashOnIcon from '@material-ui/icons/FlashOn';
 import FlashOffIcon from '@material-ui/icons/FlashOff';
 import ErrorIcon from '@material-ui/icons/Error';
 
-import { devicesActions } from './store';
-import EditCollectionView from './EditCollectionView';
-import { useEffectAsync } from './reactHelper';
+import { devicesActions } from '../store';
+import EditCollectionView from '../settings/components/EditCollectionView';
+import { useEffectAsync } from '../reactHelper';
 import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
-} from './common/util/formatter';
-import { useTranslation } from './LocalizationProvider';
+} from '../common/util/formatter';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   list: {

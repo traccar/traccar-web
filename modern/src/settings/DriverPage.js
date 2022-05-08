@@ -4,9 +4,9 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditItemView from '../EditItemView';
-import EditAttributesView from '../attributes/EditAttributesView';
-import { useTranslation } from '../LocalizationProvider';
+import EditItemView from './components/EditItemView';
+import EditAttributesView from '../common/attributes/EditAttributesView';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles(() => ({
   details: {

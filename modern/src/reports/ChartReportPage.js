@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import {
   Grid, FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
-import ReportLayout from './ReportLayout';
-import ReportFilter from './ReportFilter';
-import Graph from './Graph';
+import ReportLayout from './components/ReportLayout';
+import ReportFilter from './components/ReportFilter';
+import Graph from './components/Graph';
 import { useAttributePreference } from '../common/util/preferences';
 import { formatDate } from '../common/util/formatter';
 import { speedFromKnots } from '../common/util/converter';
-import { useTranslation } from '../LocalizationProvider';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
 const Filter = ({ children, setItems }) => {
   const speedUnit = useAttributePreference('speedUnit');

@@ -4,10 +4,10 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControlLabel, Checkbox,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useTranslation, useTranslationKeys } from '../LocalizationProvider';
-import EditItemView from '../EditItemView';
+import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
+import EditItemView from './components/EditItemView';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
-import SelectField from '../form/SelectField';
+import SelectField from '../common/components/SelectField';
 
 const useStyles = makeStyles(() => ({
   details: {

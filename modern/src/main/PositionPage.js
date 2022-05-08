@@ -6,10 +6,10 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory, useParams } from 'react-router-dom';
-import { useEffectAsync } from './reactHelper';
-import { prefixString } from './common/util/stringUtils';
-import { useTranslation } from './LocalizationProvider';
-import PositionValue from './common/components/PositionValue';
+import { useEffectAsync } from '../reactHelper';
+import { prefixString } from '../common/util/stringUtils';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import PositionValue from '../common/components/PositionValue';
 
 const useStyles = makeStyles((theme) => ({
   root: {

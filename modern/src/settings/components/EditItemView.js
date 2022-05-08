@@ -5,9 +5,9 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 
-import { useEffectAsync } from './reactHelper';
-import OptionsLayout from './settings/OptionsLayout';
-import { useTranslation } from './LocalizationProvider';
+import { useEffectAsync } from '../../reactHelper';
+import OptionsLayout from './OptionsLayout';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
   container: {

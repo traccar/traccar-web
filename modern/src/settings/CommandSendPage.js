@@ -4,10 +4,10 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, Button, FormControl,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useTranslation } from '../LocalizationProvider';
-import OptionsLayout from './OptionsLayout';
-import BaseCommandView from './BaseCommandView';
-import SelectField from '../form/SelectField';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import OptionsLayout from './components/OptionsLayout';
+import BaseCommandView from './components/BaseCommandView';
+import SelectField from '../common/components/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SendCommandPage = () => {
+const CommandSendPage = () => {
   const history = useHistory();
   const classes = useStyles();
   const t = useTranslation();
@@ -112,4 +112,4 @@ const SendCommandPage = () => {
   );
 };
 
-export default SendCommandPage;
+export default CommandSendPage;

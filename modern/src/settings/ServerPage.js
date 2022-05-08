@@ -8,12 +8,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
-import EditAttributesView from '../attributes/EditAttributesView';
-import useDeviceAttributes from '../attributes/useDeviceAttributes';
-import useUserAttributes from '../attributes/useUserAttributes';
-import OptionsLayout from '../settings/OptionsLayout';
-import { useTranslation } from '../LocalizationProvider';
-import SelectField from '../form/SelectField';
+import EditAttributesView from '../common/attributes/EditAttributesView';
+import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
+import useUserAttributes from '../common/attributes/useUserAttributes';
+import OptionsLayout from './components/OptionsLayout';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import SelectField from '../common/components/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   container: {

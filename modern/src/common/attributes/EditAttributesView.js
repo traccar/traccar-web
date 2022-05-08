@@ -6,11 +6,11 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
 import AddAttributeDialog from './AddAttributeDialog';
-import { useTranslation } from '../LocalizationProvider';
-import { useAttributePreference } from '../common/util/preferences';
+import { useTranslation } from '../components/LocalizationProvider';
+import { useAttributePreference } from '../util/preferences';
 import {
   distanceFromMeters, distanceToMeters, distanceUnitString, speedFromKnots, speedToKnots, speedUnitString, volumeFromLiters, volumeToLiters, volumeUnitString,
-} from '../common/util/converter';
+} from '../util/converter';
 
 const useStyles = makeStyles((theme) => ({
   addButton: {

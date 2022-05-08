@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { useTranslation } from '../LocalizationProvider';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   const t = useTranslation();

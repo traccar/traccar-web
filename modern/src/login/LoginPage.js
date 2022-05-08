@@ -8,7 +8,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { sessionActions } from '../store';
-import { useLocalization, useTranslation } from '../LocalizationProvider';
+import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
 

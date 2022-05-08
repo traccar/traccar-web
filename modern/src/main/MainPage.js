@@ -13,22 +13,22 @@ import ListIcon from '@material-ui/icons/ViewList';
 
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
-import Map from './map/core/Map';
-import SelectedDeviceMap from './map/main/SelectedDeviceMap';
-import AccuracyMap from './map/main/AccuracyMap';
-import GeofenceMap from './map/main/GeofenceMap';
-import CurrentPositionsMap from './map/main/CurrentPositionsMap';
-import CurrentLocationMap from './map/CurrentLocationMap';
-import BottomMenu from './common/components/BottomMenu';
-import { useTranslation } from './LocalizationProvider';
-import PoiMap from './map/main/PoiMap';
-import MapPadding from './map/MapPadding';
-import StatusCard from './map/main/StatusCard';
-import { devicesActions } from './store';
-import DefaultCameraMap from './map/main/DefaultCameraMap';
-import usePersistedState from './common/util/usePersistedState';
-import LiveRoutesMap from './map/main/LiveRoutesMap';
-import { useDeviceReadonly } from './common/util/permissions';
+import Map from '../map/core/Map';
+import SelectedDeviceMap from '../map/main/SelectedDeviceMap';
+import AccuracyMap from '../map/main/AccuracyMap';
+import GeofenceMap from '../map/main/GeofenceMap';
+import CurrentPositionsMap from '../map/main/CurrentPositionsMap';
+import CurrentLocationMap from '../map/CurrentLocationMap';
+import BottomMenu from '../common/components/BottomMenu';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import PoiMap from '../map/main/PoiMap';
+import MapPadding from '../map/MapPadding';
+import StatusCard from './StatusCard';
+import { devicesActions } from '../store';
+import DefaultCameraMap from '../map/main/DefaultCameraMap';
+import usePersistedState from '../common/util/usePersistedState';
+import LiveRoutesMap from '../map/main/LiveRoutesMap';
+import { useDeviceReadonly } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   root: {

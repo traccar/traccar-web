@@ -4,20 +4,20 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles, LinearProgress, useMediaQuery } from '@material-ui/core';
-import MainPage from './MainPage';
+import MainPage from './main/MainPage';
 import RouteReportPage from './reports/RouteReportPage';
-import ServerPage from './admin/ServerPage';
-import UsersPage from './admin/UsersPage';
-import DevicePage from './DevicePage';
-import UserPage from './UserPage';
+import ServerPage from './settings/ServerPage';
+import UsersPage from './settings/UsersPage';
+import DevicePage from './settings/DevicePage';
+import UserPage from './settings/UserPage';
 import SocketController from './SocketController';
 import NotificationsPage from './settings/NotificationsPage';
 import NotificationPage from './settings/NotificationPage';
 import GroupsPage from './settings/GroupsPage';
 import GroupPage from './settings/GroupPage';
-import PositionPage from './PositionPage';
+import PositionPage from './main/PositionPage';
 import EventReportPage from './reports/EventReportPage';
-import ReplayPage from './reports/ReplayPage';
+import ReplayPage from './other/ReplayPage';
 import TripReportPage from './reports/TripReportPage';
 import StopReportPage from './reports/StopReportPage';
 import SummaryReportPage from './reports/SummaryReportPage';
@@ -32,7 +32,7 @@ import MaintenancesPage from './settings/MaintenancesPage';
 import MaintenancePage from './settings/MaintenancePage';
 import CommandsPage from './settings/CommandsPage';
 import CommandPage from './settings/CommandPage';
-import StatisticsPage from './admin/StatisticsPage';
+import StatisticsPage from './reports/StatisticsPage';
 import CachingController from './CachingController';
 
 import LoginPage from './login/LoginPage';
@@ -40,17 +40,17 @@ import RegisterPage from './login/RegisterPage';
 import ResetPasswordPage from './login/ResetPasswordPage';
 
 import theme from './common/theme';
-import GeofencesPage from './GeofencesPage';
-import GeofencePage from './GeofencePage';
-import { LocalizationProvider } from './LocalizationProvider';
+import GeofencesPage from './other/GeofencesPage';
+import GeofencePage from './settings/GeofencePage';
+import { LocalizationProvider } from './common/components/LocalizationProvider';
 import useQuery from './common/util/useQuery';
 import { useEffectAsync } from './reactHelper';
 import { devicesActions } from './store';
-import EventPage from './EventPage';
+import EventPage from './other/EventPage';
 import PreferencesPage from './settings/PreferencesPage';
 import BottomMenu from './common/components/BottomMenu';
 import AccumulatorsPage from './settings/AccumulatorsPage';
-import SendCommandPage from './settings/SendCommandPage';
+import CommandSendPage from './settings/CommandSendPage';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -141,7 +141,7 @@ const App = () => {
                     <Route exact path="/settings/maintenance/:id?" component={MaintenancePage} />
                     <Route exact path="/settings/commands" component={CommandsPage} />
                     <Route exact path="/settings/command/:id?" component={CommandPage} />
-                    <Route exact path="/command/:deviceId?" component={SendCommandPage} />
+                    <Route exact path="/command/:deviceId?" component={CommandSendPage} />
                     <Route exact path="/admin/server" component={ServerPage} />
                     <Route exact path="/admin/users" component={UsersPage} />
                     <Route exact path="/admin/statistics" component={StatisticsPage} />

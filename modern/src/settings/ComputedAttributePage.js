@@ -3,9 +3,9 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EditItemView from '../EditItemView';
-import { useTranslation } from '../LocalizationProvider';
-import usePositionAttributes from '../attributes/usePositionAttributes';
+import EditItemView from './components/EditItemView';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {

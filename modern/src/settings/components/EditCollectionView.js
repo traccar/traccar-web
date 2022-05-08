@@ -6,10 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
-import RemoveDialog from './common/components/RemoveDialog';
-import { useTranslation } from './LocalizationProvider';
-import dimensions from './common/theme/dimensions';
-import { useEditable } from './common/util/permissions';
+import RemoveDialog from '../../common/components/RemoveDialog';
+import { useTranslation } from '../../common/components/LocalizationProvider';
+import dimensions from '../../common/theme/dimensions';
+import { useEditable } from '../../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
