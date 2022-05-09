@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Paper } from '@material-ui/core';
 import { DataGrid } from '@material-ui/data-grid';
 import { useTheme } from '@material-ui/core/styles';
 import {
   formatDistance, formatSpeed, formatBoolean, formatDate, formatCoordinate,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
-import ReportLayout from './components/ReportLayout';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import ReportsMenu from './components/ReportsMenu';
 
 const Filter = ({ setItems }) => {
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
@@ -88,16 +88,15 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
 
   return (
-    <ReportLayout filter={<Filter setItems={setItems} />}>
-      <Paper>
-        <DataGrid
-          rows={items}
-          columns={columns}
-          hideFooter
-          autoHeight
-        />
-      </Paper>
-    </ReportLayout>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
+      <Filter setItems={setItems} />
+      <DataGrid
+        rows={items}
+        columns={columns}
+        hideFooter
+        autoHeight
+      />
+    </PageLayout>
   );
 };
 

@@ -6,9 +6,10 @@ import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
-import ReportLayout from './components/ReportLayout';
 import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import ReportsMenu from './components/ReportsMenu';
 
 const Filter = ({ setItems }) => {
   const t = useTranslation();
@@ -106,7 +107,8 @@ const SummaryReportPage = () => {
   }];
 
   return (
-    <ReportLayout filter={<Filter setItems={setItems} />}>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
+      <Filter setItems={setItems} />
       <DataGrid
         rows={items}
         columns={columns}
@@ -114,7 +116,7 @@ const SummaryReportPage = () => {
         autoHeight
         getRowId={() => Math.random()}
       />
-    </ReportLayout>
+    </PageLayout>
   );
 };
 

@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  FormControl, InputLabel, Select, MenuItem, TextField, Button, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles,
 } from '@material-ui/core';
 import moment from 'moment';
 import { formatDate } from '../common/util/formatter';
-import OptionsLayout from '../settings/components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import ReportsMenu from './components/ReportsMenu';
+
+const useStyles = makeStyles((theme) => ({
+  filter: {
+    margin: theme.spacing(1),
+  },
+}));
 
 const Filter = ({ setItems }) => {
+  const classes = useStyles();
   const t = useTranslation();
 
   const [period, setPeriod] = useState('today');
@@ -56,7 +64,7 @@ const Filter = ({ setItems }) => {
   };
 
   return (
-    <>
+    <div className={classes.filter}>
       <FormControl variant="filled" margin="normal" fullWidth>
         <InputLabel>{t('reportPeriod')}</InputLabel>
         <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -91,8 +99,8 @@ const Filter = ({ setItems }) => {
           fullWidth
         />
       )}
-      <Button variant="contained" color="primary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
-    </>
+      <Button variant="outlined" color="secondary" onClick={handleClick} fullWidth>{t('reportShow')}</Button>
+    </div>
   );
 };
 
@@ -102,7 +110,7 @@ const StatisticsPage = () => {
   const [items, setItems] = useState([]);
 
   return (
-    <OptionsLayout>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <Filter setItems={setItems} />
       <TableContainer>
         <Table>
@@ -138,7 +146,7 @@ const StatisticsPage = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </OptionsLayout>
+    </PageLayout>
   );
 };
 

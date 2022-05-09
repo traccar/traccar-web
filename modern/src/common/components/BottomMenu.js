@@ -27,7 +27,7 @@ const BottomMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const currentSelection = () => {
-    if (location.pathname.startsWith('/settings/user')) {
+    if (location.pathname === `/settings/user/${userId}`) {
       return 3;
     } if (location.pathname.startsWith('/settings')) {
       return 2;

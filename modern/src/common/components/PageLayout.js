@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     alignItems: 'stretch',
     overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 

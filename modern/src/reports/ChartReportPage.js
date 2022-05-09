@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import {
   Grid, FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
-import ReportLayout from './components/ReportLayout';
 import ReportFilter from './components/ReportFilter';
 import Graph from './components/Graph';
 import { useAttributePreference } from '../common/util/preferences';
 import { formatDate } from '../common/util/formatter';
 import { speedFromKnots } from '../common/util/converter';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import ReportsMenu from './components/ReportsMenu';
 
 const Filter = ({ children, setItems }) => {
   const speedUnit = useAttributePreference('speedUnit');
@@ -61,14 +62,12 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
 
   return (
-    <ReportLayout filter={(
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
       <Filter setItems={setItems}>
         <ChartType type={type} setType={setType} />
       </Filter>
-    )}
-    >
       <Graph items={items} type={type} />
-    </ReportLayout>
+    </PageLayout>
   );
 };
 

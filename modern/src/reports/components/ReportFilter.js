@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography,
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography, makeStyles,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
+const useStyles = makeStyles((theme) => ({
+  filter: {
+    padding: theme.spacing(2),
+  },
+}));
+
 const ReportFilter = ({ children, handleSubmit, showOnly }) => {
+  const classes = useStyles();
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);
@@ -60,7 +67,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   };
 
   return (
-    <Grid container spacing={2} justifyContent="flex-end">
+    <Grid container className={classes.filter} spacing={2} justifyContent="flex-end">
       <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportDevice')}</InputLabel>
