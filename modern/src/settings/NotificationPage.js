@@ -8,6 +8,7 @@ import { useTranslation, useTranslationKeys } from '../common/components/Localiz
 import EditItemView from './components/EditItemView';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -29,7 +30,14 @@ const NotificationPage = () => {
   const validate = () => item && item.type && item.notificators;
 
   return (
-    <EditItemView endpoint="notifications" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="notifications"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'sharedNotification']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

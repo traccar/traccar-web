@@ -8,6 +8,7 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -37,7 +38,14 @@ const CalendarPage = () => {
   const validate = () => item && item.name && item.data;
 
   return (
-    <EditItemView endpoint="calendars" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="calendars"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'sharedCalendar']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

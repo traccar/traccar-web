@@ -7,8 +7,9 @@ import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from './components/EditCollectionView';
 import { prefixString } from '../common/util/stringUtils';
 import { formatBoolean } from '../common/util/formatter';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -74,9 +75,9 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const NotificationsPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedNotifications']}>
     <EditCollectionView content={NotificationsView} editPath="/settings/notification" endpoint="notifications" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default NotificationsPage;

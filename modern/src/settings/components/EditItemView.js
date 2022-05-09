@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 
 import { useEffectAsync } from '../../reactHelper';
-import OptionsLayout from './OptionsLayout';
 import { useTranslation } from '../../common/components/LocalizationProvider';
+import PageLayout from '../../common/components/PageLayout';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditItemView = ({
-  children, endpoint, item, setItem, validate, onItemSaved,
+  children, endpoint, item, setItem, validate, onItemSaved, menu, breadcrumbs,
 }) => {
   const history = useHistory();
   const classes = useStyles();
@@ -63,7 +63,7 @@ const EditItemView = ({
   };
 
   return (
-    <OptionsLayout>
+    <PageLayout menu={menu} breadcrumbs={breadcrumbs}>
       <Container maxWidth="xs" className={classes.container}>
         {children}
         <FormControl fullWidth margin="normal">
@@ -88,7 +88,7 @@ const EditItemView = ({
           </div>
         </FormControl>
       </Container>
-    </OptionsLayout>
+    </PageLayout>
   );
 };
 

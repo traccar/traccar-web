@@ -5,10 +5,11 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from './components/EditCollectionView';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatBoolean } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -61,9 +62,9 @@ const CommandsView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const CommandsPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedSavedCommands']}>
     <EditCollectionView content={CommandsView} editPath="/settings/command" endpoint="commands" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default CommandsPage;

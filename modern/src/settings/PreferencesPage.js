@@ -4,8 +4,9 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
-import OptionsLayout from './components/OptionsLayout';
 import usePersistedState from '../common/util/usePersistedState';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,7 +29,7 @@ const PreferencesPage = () => {
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
 
   return (
-    <OptionsLayout>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -67,7 +68,7 @@ const PreferencesPage = () => {
           </AccordionDetails>
         </Accordion>
       </Container>
-    </OptionsLayout>
+    </PageLayout>
   );
 };
 

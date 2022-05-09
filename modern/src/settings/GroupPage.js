@@ -10,6 +10,7 @@ import EditAttributesView from './components/EditAttributesView';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import SelectField from '../common/components/SelectField';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -28,7 +29,14 @@ const GroupPage = () => {
   const validate = () => item && item.name;
 
   return (
-    <EditItemView endpoint="groups" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="groups"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'groupDialog']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

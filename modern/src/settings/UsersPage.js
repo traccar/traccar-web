@@ -6,8 +6,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from './components/EditCollectionView';
 import { formatBoolean } from '../common/util/formatter';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -62,9 +63,9 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const UsersPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
     <EditCollectionView content={UsersView} editPath="/settings/user" endpoint="users" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default UsersPage;

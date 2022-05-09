@@ -5,9 +5,10 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import OptionsLayout from './components/OptionsLayout';
 import BaseCommandView from './components/BaseCommandView';
 import SelectField from '../common/components/SelectField';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -62,7 +63,7 @@ const CommandSendPage = () => {
   const validate = () => savedId || (item && item.type);
 
   return (
-    <OptionsLayout>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceCommand']}>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -108,7 +109,7 @@ const CommandSendPage = () => {
           </div>
         </FormControl>
       </Container>
-    </OptionsLayout>
+    </PageLayout>
   );
 };
 

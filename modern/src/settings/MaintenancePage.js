@@ -13,6 +13,7 @@ import {
 } from '../common/util/converter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -97,7 +98,14 @@ const MaintenancePage = () => {
   const validate = () => item && item.name && item.type && item.start && item.period;
 
   return (
-    <EditItemView endpoint="maintenance" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="maintenance"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'sharedMaintenance']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

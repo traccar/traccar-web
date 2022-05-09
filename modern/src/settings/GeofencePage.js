@@ -9,6 +9,7 @@ import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -27,7 +28,14 @@ const GeofencePage = () => {
   const validate = () => item && item.name;
 
   return (
-    <EditItemView endpoint="geofences" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="geofences"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'sharedGeofence']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

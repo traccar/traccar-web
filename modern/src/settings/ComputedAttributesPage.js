@@ -5,9 +5,10 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from './components/EditCollectionView';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAdministrator } from '../common/util/permissions';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -65,9 +66,9 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const ComputedAttributesPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
     <EditCollectionView content={ComputedAttributeView} editPath="/settings/attribute" endpoint="attributes/computed" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default ComputedAttributesPage;

@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -23,7 +24,14 @@ const DriverPage = () => {
   const validate = () => item && item.name && item.uniqueId;
 
   return (
-    <EditItemView endpoint="drivers" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="drivers"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'sharedDriver']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

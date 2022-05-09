@@ -5,8 +5,9 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from './components/EditCollectionView';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -57,9 +58,9 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const DriversPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedDrivers']}>
     <EditCollectionView content={DriversView} editPath="/settings/driver" endpoint="drivers" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default DriversPage;

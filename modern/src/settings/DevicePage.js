@@ -14,6 +14,7 @@ import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import { useAdministrator } from '../common/util/permissions';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -34,7 +35,14 @@ const DevicePage = () => {
   const validate = () => item && item.name && item.uniqueId;
 
   return (
-    <EditItemView endpoint="devices" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="devices"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['sharedDevice']}
+    >
       {item && (
         <>
           <Accordion defaultExpanded>

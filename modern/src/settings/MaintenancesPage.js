@@ -9,8 +9,9 @@ import EditCollectionView from './components/EditCollectionView';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { formatDistance, formatSpeed } from '../common/util/formatter';
 import { useAttributePreference } from '../common/util/preferences';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -85,9 +86,9 @@ const MaintenancesView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const MaintenacesPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedMaintenance']}>
     <EditCollectionView content={MaintenancesView} editPath="/settings/maintenance" endpoint="maintenance" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default MaintenacesPage;

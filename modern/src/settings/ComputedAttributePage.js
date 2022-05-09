@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './components/EditItemView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -42,7 +43,14 @@ const ComputedAttributePage = () => {
   const validate = () => item && item.description && item.expression;
 
   return (
-    <EditItemView endpoint="attributes/computed" item={item} setItem={setItem} validate={validate}>
+    <EditItemView
+      endpoint="attributes/computed"
+      item={item}
+      setItem={setItem}
+      validate={validate}
+      menu={<SettingsMenu />}
+      breadcrumbs={['settingsTitle', 'sharedComputedAttribute']}
+    >
       {item && (
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -5,8 +5,9 @@ import {
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { useEffectAsync } from '../reactHelper';
 import EditCollectionView from './components/EditCollectionView';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -55,9 +56,9 @@ const CalendarsView = ({ updateTimestamp, onMenuClick }) => {
 };
 
 const CalendarsPage = () => (
-  <OptionsLayout>
+  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedCalendars']}>
     <EditCollectionView content={CalendarsView} editPath="/settings/calendar" endpoint="calendars" />
-  </OptionsLayout>
+  </PageLayout>
 );
 
 export default CalendarsPage;

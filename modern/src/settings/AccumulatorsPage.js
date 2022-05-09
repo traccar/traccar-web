@@ -6,7 +6,8 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import OptionsLayout from './components/OptionsLayout';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,7 +58,7 @@ const AccumulatorsPage = () => {
   };
 
   return (
-    <OptionsLayout>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['sharedDeviceAccumulators']}>
       {item && (
         <Container maxWidth="xs" className={classes.container}>
           <Accordion defaultExpanded>
@@ -107,7 +108,7 @@ const AccumulatorsPage = () => {
           </FormControl>
         </Container>
       )}
-    </OptionsLayout>
+    </PageLayout>
   );
 };
 

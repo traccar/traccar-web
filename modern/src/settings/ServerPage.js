@@ -11,9 +11,10 @@ import { sessionActions } from '../store';
 import EditAttributesView from './components/EditAttributesView';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import useUserAttributes from '../common/attributes/useUserAttributes';
-import OptionsLayout from './components/OptionsLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SelectField from '../common/components/SelectField';
+import PageLayout from '../common/components/PageLayout';
+import SettingsMenu from './components/SettingsMenu';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,7 +58,7 @@ const ServerPage = () => {
   };
 
   return (
-    <OptionsLayout>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsServer']}>
       <Container maxWidth="xs" className={classes.container}>
         {item && (
           <>
@@ -234,7 +235,7 @@ const ServerPage = () => {
           </div>
         </FormControl>
       </Container>
-    </OptionsLayout>
+    </PageLayout>
   );
 };
 
