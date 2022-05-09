@@ -13,8 +13,14 @@ import PositionValue from '../common/components/PositionValue';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    overflow: 'auto',
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
 }));
 
@@ -52,7 +58,7 @@ const PositionPage = () => {
   });
 
   return (
-    <>
+    <div className={classes.root}>
       <AppBar position="sticky" color="inherit">
         <Toolbar>
           <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
@@ -63,36 +69,38 @@ const PositionPage = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="sm" className={classes.root}>
-        <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>{t('stateName')}</TableCell>
-                <TableCell>{t('sharedName')}</TableCell>
-                <TableCell>{t('stateValue')}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
-                <TableRow key={property}>
-                  <TableCell>{property}</TableCell>
-                  <TableCell><strong>{t(prefixString('position', property))}</strong></TableCell>
-                  <TableCell><PositionValue position={item} property={property} /></TableCell>
+      <div className={classes.content}>
+        <Container maxWidth="sm">
+          <Paper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{t('stateName')}</TableCell>
+                  <TableCell>{t('sharedName')}</TableCell>
+                  <TableCell>{t('stateValue')}</TableCell>
                 </TableRow>
-              ))}
-              {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
-                <TableRow key={attribute}>
-                  <TableCell>{attribute}</TableCell>
-                  <TableCell><strong>{t(prefixString('position', attribute)) || t(prefixString('device', attribute))}</strong></TableCell>
-                  <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
-      </Container>
-    </>
+              </TableHead>
+              <TableBody>
+                {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
+                  <TableRow key={property}>
+                    <TableCell>{property}</TableCell>
+                    <TableCell><strong>{t(prefixString('position', property))}</strong></TableCell>
+                    <TableCell><PositionValue position={item} property={property} /></TableCell>
+                  </TableRow>
+                ))}
+                {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
+                  <TableRow key={attribute}>
+                    <TableCell>{attribute}</TableCell>
+                    <TableCell><strong>{t(prefixString('position', attribute)) || t(prefixString('device', attribute))}</strong></TableCell>
+                    <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        </Container>
+      </div>
+    </div>
   );
 };
 
