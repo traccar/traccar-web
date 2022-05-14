@@ -99,7 +99,7 @@ const UserPage = () => {
               <FormControl variant="filled" margin="normal" fullWidth>
                 <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                 <Select
-                  value={item.attributes.speedUnit || 'kn'}
+                  value={(item.attributes && item.attributes.speedUnit) || 'kn'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: e.target.value } })}
                 >
                   <MenuItem value="kn">{t('sharedKn')}</MenuItem>
@@ -110,7 +110,7 @@ const UserPage = () => {
               <FormControl variant="filled" margin="normal" fullWidth>
                 <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                 <Select
-                  value={item.attributes.distanceUnit || 'km'}
+                  value={(item.attributes && item.attributes.distanceUnit) || 'km'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: e.target.value } })}
                 >
                   <MenuItem value="km">{t('sharedKm')}</MenuItem>
@@ -121,7 +121,7 @@ const UserPage = () => {
               <FormControl variant="filled" margin="normal" fullWidth>
                 <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                 <Select
-                  value={item.attributes.volumeUnit || 'ltr'}
+                  value={(item.attributes && item.attributes.volumeUnit) || 'ltr'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: e.target.value } })}
                 >
                   <MenuItem value="ltr">{t('sharedLiter')}</MenuItem>
@@ -131,7 +131,7 @@ const UserPage = () => {
               </FormControl>
               <SelectField
                 margin="normal"
-                value={item.attributes.timezone || ''}
+                value={(item.attributes && item.attributes.timezone) || ''}
                 emptyValue=""
                 onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
                 endpoint="/api/server/timezones"
