@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
-import { Grid, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+  FormControl, InputLabel, Select, MenuItem,
+} from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { useFilterStyles } from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 
 const Filter = ({ setItems }) => {
+  const classes = useFilterStyles();
   const t = useTranslation();
 
   const [daily, setDaily] = useState(false);
@@ -35,12 +38,15 @@ const Filter = ({ setItems }) => {
 
   return (
     <ReportFilter handleSubmit={handleSubmit}>
-      <Grid item xs={12} sm={6}>
-        <FormControlLabel
-          control={<Checkbox checked={daily} onChange={(e) => setDaily(e.target.checked)} />}
-          label={t('reportDaily')}
-        />
-      </Grid>
+      <div className={classes.item}>
+        <FormControl variant="filled" fullWidth>
+          <InputLabel>{t('sharedType')}</InputLabel>
+          <Select value={daily} onChange={(e) => setDaily(e.target.value)}>
+            <MenuItem value={false}>{t('reportSummary')}</MenuItem>
+            <MenuItem value>{t('reportDaily')}</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
     </ReportFilter>
   );
 };

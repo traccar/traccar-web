@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import {
-  Grid, FormControl, InputLabel, Select, MenuItem,
+  FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { formatDate } from '../common/util/formatter';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { useFilterStyles } from './components/ReportFilter';
 import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 
 const Filter = ({ setItems }) => {
+  const classes = useFilterStyles();
   const t = useTranslation();
 
   const [eventTypes, setEventTypes] = useState(['allEvents']);
@@ -37,7 +38,7 @@ const Filter = ({ setItems }) => {
 
   return (
     <ReportFilter handleSubmit={handleSubmit}>
-      <Grid item xs={12} sm={6}>
+      <div className={classes.item}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportEventTypes')}</InputLabel>
           <Select value={eventTypes} onChange={(e) => setEventTypes(e.target.value)} multiple>
@@ -61,7 +62,7 @@ const Filter = ({ setItems }) => {
             <MenuItem value="driverChanged">{t('eventDriverChanged')}</MenuItem>
           </Select>
         </FormControl>
-      </Grid>
+      </div>
     </ReportFilter>
   );
 };

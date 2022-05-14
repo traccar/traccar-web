@@ -1,23 +1,42 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Grid, Typography, makeStyles,
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, makeStyles,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
+import dimensions from '../../common/theme/dimensions';
 
-const useStyles = makeStyles((theme) => ({
+export const useFilterStyles = makeStyles((theme) => ({
   filter: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: theme.spacing(1),
     padding: theme.spacing(2),
+  },
+  item: {
+    flex: `1 1 ${dimensions.filterFormWidth}`,
+  },
+  buttons: {
+    display: 'flex',
+    gap: theme.spacing(1),
+    flex: `1 1 ${dimensions.filterFormWidth}`,
+  },
+  button: {
+    flexGrow: 1,
   },
 }));
 
-const ReportFilter = ({ children, handleSubmit, showOnly }) => {
-  const classes = useStyles();
+const ReportFilter = ({
+  children, handleSubmit, showOnly, ignoreDevice,
+}) => {
+  const classes = useFilterStyles();
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);
-  const [deviceId, setDeviceId] = useState();
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+
+  const [deviceId, setDeviceId] = useState(selectedDeviceId);
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
@@ -67,18 +86,20 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
   };
 
   return (
-    <Grid container className={classes.filter} spacing={2} justifyContent="flex-end">
-      <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
-        <FormControl variant="filled" fullWidth>
-          <InputLabel>{t('reportDevice')}</InputLabel>
-          <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
-            {Object.values(devices).map((device) => (
-              <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={period === 'custom' ? 3 : 6}>
+    <div className={classes.filter}>
+      {!ignoreDevice && (
+        <div className={classes.item}>
+          <FormControl variant="filled" fullWidth>
+            <InputLabel>{t('reportDevice')}</InputLabel>
+            <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+              {Object.values(devices).map((device) => (
+                <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      )}
+      <div className={classes.item}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
           <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -91,69 +112,66 @@ const ReportFilter = ({ children, handleSubmit, showOnly }) => {
             <MenuItem value="custom">{t('reportCustom')}</MenuItem>
           </Select>
         </FormControl>
-      </Grid>
+      </div>
       {period === 'custom' && (
-      <Grid item xs={12} sm={3}>
-        <TextField
-          variant="filled"
-          label={t('reportFrom')}
-          type="datetime-local"
-          value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth
-        />
-      </Grid>
+        <div className={classes.item}>
+          <TextField
+            variant="filled"
+            label={t('reportFrom')}
+            type="datetime-local"
+            value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+            onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+            fullWidth
+          />
+        </div>
       )}
       {period === 'custom' && (
-      <Grid item xs={12} sm={3}>
-        <TextField
-          variant="filled"
-          label={t('reportTo')}
-          type="datetime-local"
-          value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-          onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-          fullWidth
-        />
-      </Grid>
+        <div className={classes.item}>
+          <TextField
+            variant="filled"
+            label={t('reportTo')}
+            type="datetime-local"
+            value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+            onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+            fullWidth
+          />
+        </div>
       )}
       {children}
-      <Grid item xs={!showOnly ? 4 : 12} sm={!showOnly ? 2 : 6}>
+      <div className={classes.buttons}>
         <Button
           onClick={() => handleClick(false, true)}
           variant="outlined"
           color="secondary"
-          fullWidth
+          className={classes.button}
+          disabled={!ignoreDevice && !deviceId}
         >
           {t('reportShow')}
         </Button>
-      </Grid>
-      {!showOnly
-        && (
-        <Grid item xs={4} sm={2}>
+        {!showOnly && (
           <Button
             onClick={() => handleClick(false, false)}
             variant="outlined"
             color="secondary"
-            fullWidth
+            className={classes.button}
+            disabled={!ignoreDevice && !deviceId}
           >
             {t('reportExport')}
           </Button>
-        </Grid>
         )}
-      {!showOnly
-        && (
-        <Grid item xs={4} sm={2}>
+        {!showOnly && (
           <Button
             onClick={() => handleClick(true, false)}
             variant="outlined"
             color="secondary"
-            fullWidth
+            className={classes.button}
+            disabled={!ignoreDevice && !deviceId}
           >
             <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
           </Button>
-        </Grid>
         )}
-    </Grid>
+      </div>
+    </div>
   );
 };
 

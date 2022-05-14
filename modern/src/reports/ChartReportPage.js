@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Grid, FormControl, InputLabel, Select, MenuItem,
+  FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { useFilterStyles } from './components/ReportFilter';
 import Graph from './components/Graph';
 import { useAttributePreference } from '../common/util/preferences';
 import { formatDate } from '../common/util/formatter';
@@ -11,8 +11,14 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 
-const Filter = ({ children, setItems }) => {
+const ChartReportPage = () => {
+  const classes = useFilterStyles();
+  const t = useTranslation();
+
   const speedUnit = useAttributePreference('speedUnit');
+
+  const [items, setItems] = useState([]);
+  const [type, setType] = useState('speed');
 
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
@@ -30,42 +36,21 @@ const Filter = ({ children, setItems }) => {
       setItems(formattedPositions);
     }
   };
-  return (
-    <>
-      <ReportFilter handleSubmit={handleSubmit} showOnly />
-      {children}
-    </>
-  );
-};
-
-const ChartType = ({ type, setType }) => {
-  const t = useTranslation();
-
-  return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} sm={6}>
-        <FormControl variant="filled" margin="normal" fullWidth>
-          <InputLabel>{t('reportChartType')}</InputLabel>
-          <Select value={type} onChange={(e) => setType(e.target.value)}>
-            <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
-            <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
-            <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-    </Grid>
-  );
-};
-
-const ChartReportPage = () => {
-  const [items, setItems] = useState([]);
-  const [type, setType] = useState('speed');
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
-      <Filter setItems={setItems}>
-        <ChartType type={type} setType={setType} />
-      </Filter>
+      <ReportFilter handleSubmit={handleSubmit} showOnly>
+        <div className={classes.item}>
+          <FormControl variant="filled" fullWidth>
+            <InputLabel>{t('reportChartType')}</InputLabel>
+            <Select value={type} onChange={(e) => setType(e.target.value)}>
+              <MenuItem value="speed">{t('positionSpeed')}</MenuItem>
+              <MenuItem value="accuracy">{t('positionAccuracy')}</MenuItem>
+              <MenuItem value="altitude">{t('positionAltitude')}</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+      </ReportFilter>
       <Graph items={items} type={type} />
     </PageLayout>
   );
