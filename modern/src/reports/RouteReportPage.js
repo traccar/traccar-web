@@ -56,28 +56,30 @@ const RouteReportPage = () => {
           </FormControl>
         </div>
       </ReportFilter>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.id}>
-              {columns.map((key) => (
-                <TableCell>
-                  <PositionValue
-                    position={item}
-                    property={item.hasOwnProperty(key) ? key : null}
-                    attribute={item.hasOwnProperty(key) ? null : key}
-                  />
-                </TableCell>
-              ))}
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                {columns.map((key) => (
+                  <TableCell>
+                    <PositionValue
+                      position={item}
+                      property={item.hasOwnProperty(key) ? key : null}
+                      attribute={item.hasOwnProperty(key) ? null : key}
+                    />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </PageLayout>
   );
 };

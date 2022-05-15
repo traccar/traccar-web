@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  TableContainer, Table, TableRow, TableCell, TableHead, TableBody, FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
 import { formatDate } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { useFilterStyles } from './components/ReportFilter';
+import usePersistedState from '../common/util/usePersistedState';
+
+const columnsArray = [
+  ['captureTime', 'statisticsCaptureTime'],
+  ['activeUsers', 'statisticsActiveUsers'],
+  ['activeDevices', 'statisticsActiveDevices'],
+  ['requests', 'statisticsRequests'],
+  ['messagesReceived', 'statisticsMessagesReceived'],
+  ['messagesStored', 'statisticsMessagesStored'],
+  ['mailSent', 'notificatorMail'],
+  ['smsSent', 'notificatorSms'],
+  ['geocoderRequests', 'statisticsGeocoder'],
+  ['geolocationRequests', 'statisticsGeolocation'],
+];
+const columnsMap = new Map(columnsArray);
 
 const StatisticsPage = () => {
+  const classes = useFilterStyles();
   const t = useTranslation();
 
+  const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
   const [items, setItems] = useState([]);
 
   const handleSubmit = async (_, from, to) => {
@@ -23,36 +40,33 @@ const StatisticsPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
-      <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice />
+      <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice>
+        <div className={classes.item}>
+          <FormControl variant="filled" fullWidth>
+            <InputLabel>{t('sharedColumns')}</InputLabel>
+            <Select value={columns} onChange={(e) => setColumns(e.target.value)} renderValue={(it) => it.length} multiple>
+              {columnsArray.map(([key, string]) => (
+                <MenuItem value={key}>{t(string)}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      </ReportFilter>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>{t('statisticsCaptureTime')}</TableCell>
-              <TableCell>{t('statisticsActiveUsers')}</TableCell>
-              <TableCell>{t('statisticsActiveDevices')}</TableCell>
-              <TableCell>{t('statisticsRequests')}</TableCell>
-              <TableCell>{t('statisticsMessagesReceived')}</TableCell>
-              <TableCell>{t('statisticsMessagesStored')}</TableCell>
-              <TableCell>{t('notificatorMail')}</TableCell>
-              <TableCell>{t('notificatorSms')}</TableCell>
-              <TableCell>{t('statisticsGeocoder')}</TableCell>
-              <TableCell>{t('statisticsGeolocation')}</TableCell>
+              {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{formatDate(item.captureTime)}</TableCell>
-                <TableCell>{item.activeUsers}</TableCell>
-                <TableCell>{item.activeDevices}</TableCell>
-                <TableCell>{item.requests}</TableCell>
-                <TableCell>{item.messagesReceived}</TableCell>
-                <TableCell>{item.messagesStored}</TableCell>
-                <TableCell>{item.mailSent}</TableCell>
-                <TableCell>{item.smsSent}</TableCell>
-                <TableCell>{item.geocoderRequests}</TableCell>
-                <TableCell>{item.geolocationRequests}</TableCell>
+                {columns.map((key) => (
+                  <TableCell>
+                    {key === 'captureTime' ? formatDate(item[key]) : item[key]}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
