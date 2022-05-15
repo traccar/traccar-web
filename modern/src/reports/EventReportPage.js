@@ -68,7 +68,6 @@ const Filter = ({ setItems }) => {
             onChange={(event, child) => {
               let values = event.target.value;
               const clicked = child.props.value;
-              console.log(`${values} ${clicked}`)
               if (values.includes('allEvents') && values.length > 1) {
                 values = [clicked];
               }
