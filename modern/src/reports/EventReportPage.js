@@ -12,6 +12,28 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 
+const typesArray = [
+  ['allEvents', 'eventAll'],
+  ['deviceOnline', 'eventDeviceOnline'],
+  ['deviceUnknown', 'eventDeviceUnknown'],
+  ['deviceOffline', 'eventDeviceOffline'],
+  ['deviceInactive', 'eventDeviceInactive'],
+  ['deviceMoving', 'eventDeviceMoving'],
+  ['deviceStopped', 'eventDeviceStopped'],
+  ['deviceOverspeed', 'eventDeviceOverspeed'],
+  ['deviceFuelDrop', 'eventDeviceFuelDrop'],
+  ['commandResult', 'eventCommandResult'],
+  ['geofenceEnter', 'eventGeofenceEnter'],
+  ['geofenceExit', 'eventGeofenceExit'],
+  ['alarm', 'eventAlarm'],
+  ['ignitionOn', 'eventIgnitionOn'],
+  ['ignitionOff', 'eventIgnitionOff'],
+  ['maintenance', 'eventMaintenance'],
+  ['textMessage', 'eventTextMessage'],
+  ['driverChanged', 'eventDriverChanged'],
+];
+const typesMap = new Map(typesArray);
+
 const Filter = ({ setItems }) => {
   const classes = useFilterStyles();
   const t = useTranslation();
@@ -41,25 +63,15 @@ const Filter = ({ setItems }) => {
       <div className={classes.item}>
         <FormControl variant="filled" fullWidth>
           <InputLabel>{t('reportEventTypes')}</InputLabel>
-          <Select value={eventTypes} onChange={(e) => setEventTypes(e.target.value)} multiple>
-            <MenuItem value="allEvents">{t('eventAll')}</MenuItem>
-            <MenuItem value="deviceOnline">{t('eventDeviceOnline')}</MenuItem>
-            <MenuItem value="deviceUnknown">{t('eventDeviceUnknown')}</MenuItem>
-            <MenuItem value="deviceOffline">{t('eventDeviceOffline')}</MenuItem>
-            <MenuItem value="deviceInactive">{t('eventDeviceInactive')}</MenuItem>
-            <MenuItem value="deviceMoving">{t('eventDeviceMoving')}</MenuItem>
-            <MenuItem value="deviceStopped">{t('eventDeviceStopped')}</MenuItem>
-            <MenuItem value="deviceOverspeed">{t('eventDeviceOverspeed')}</MenuItem>
-            <MenuItem value="deviceFuelDrop">{t('eventDeviceFuelDrop')}</MenuItem>
-            <MenuItem value="commandResult">{t('eventCommandResult')}</MenuItem>
-            <MenuItem value="geofenceEnter">{t('eventGeofenceEnter')}</MenuItem>
-            <MenuItem value="geofenceExit">{t('eventGeofenceExit')}</MenuItem>
-            <MenuItem value="alarm">{t('eventAlarm')}</MenuItem>
-            <MenuItem value="ignitionOn">{t('eventIgnitionOn')}</MenuItem>
-            <MenuItem value="ignitionOff">{t('eventIgnitionOff')}</MenuItem>
-            <MenuItem value="maintenance">{t('eventMaintenance')}</MenuItem>
-            <MenuItem value="textMessage">{t('eventTextMessage')}</MenuItem>
-            <MenuItem value="driverChanged">{t('eventDriverChanged')}</MenuItem>
+          <Select
+            value={eventTypes}
+            onChange={(e) => setEventTypes(e.target.value)}
+            renderValue={(it) => (it.length > 1 ? it.length : it.length > 0 ? t(typesMap.get(it[0])) : it)}
+            multiple
+          >
+            {typesArray.map(([key, string]) => (
+              <MenuItem value={key}>{t(string)}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
