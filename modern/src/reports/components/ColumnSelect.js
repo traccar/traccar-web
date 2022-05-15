@@ -1,10 +1,12 @@
-import { useTranslation } from "../../common/components/LocalizationProvider";
-import { useFilterStyles } from "./ReportFilter";
+import React from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { useTranslation } from '../../common/components/LocalizationProvider';
+import { useFilterStyles } from './ReportFilter';
 
 const ColumnSelect = ({ columns, setColumns, columnsArray }) => {
   const classes = useFilterStyles();
   const t = useTranslation();
-  
+
   return (
     <div className={classes.item}>
       <FormControl variant="filled" fullWidth>
@@ -23,5 +25,5 @@ const ColumnSelect = ({ columns, setColumns, columnsArray }) => {
     </div>
   );
 };
-  
+
 export default ColumnSelect;

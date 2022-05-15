@@ -8,6 +8,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import PositionValue from '../common/components/PositionValue';
+import ColumnSelect from './components/ColumnSelect';
 
 const columnsArray = [
   ['fixTime', 'positionFixTime'],
