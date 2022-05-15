@@ -15,6 +15,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
+import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -28,6 +29,7 @@ const DevicePage = () => {
 
   const admin = useAdministrator();
 
+  const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
 
   const [item, setItem] = useState();
@@ -134,7 +136,7 @@ const DevicePage = () => {
               <EditAttributesView
                 attributes={item.attributes}
                 setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={deviceAttributes}
+                definitions={{ ...commonDeviceAttributes, ...deviceAttributes }}
               />
             </AccordionDetails>
           </Accordion>
@@ -186,6 +188,17 @@ const DevicePage = () => {
                   keyLink="attributeId"
                   titleGetter={(it) => it.description}
                   label={t('sharedComputedAttributes')}
+                  variant="filled"
+                />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/commands"
+                  endpointLinked={`/api/commands?deviceId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="deviceId"
+                  keyLink="commandId"
+                  titleGetter={(it) => it.description}
+                  label={t('sharedSavedCommands')}
                   variant="filled"
                 />
                 <LinkField

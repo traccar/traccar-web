@@ -1,48 +1,48 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
-  notificationTokens: {
-    name: t('attributeNotificationTokens'),
+  'mail.smtp.host': {
+    name: t('attributeMailSmtpHost'),
     type: 'string',
   },
-  /* 'web.liveRouteLength': {
-    name: t('attributeWebLiveRouteLength'),
+  'mail.smtp.port': {
+    name: t('attributeMailSmtpPort'),
     type: 'number',
   },
-  'web.selectZoom': {
-    name: t('attributeWebSelectZoom'),
-    type: 'number',
-  },
-  'web.maxZoom': {
-    name: t('attributeWebMaxZoom'),
-    type: 'number',
-  },
-  'ui.disableEvents': {
-    name: t('attributeUiDisableEvents'),
+  'mail.smtp.starttls.enable': {
+    name: t('attributeMailSmtpStarttlsEnable'),
     type: 'boolean',
   },
-  'ui.disableVehicleFetures': {
-    name: t('attributeUiDisableVehicleFetures'),
+  'mail.smtp.starttls.required': {
+    name: t('attributeMailSmtpStarttlsRequired'),
     type: 'boolean',
   },
-  'ui.disableDrivers': {
-    name: t('attributeUiDisableDrivers'),
+  'mail.smtp.ssl.enable': {
+    name: t('attributeMailSmtpSslEnable'),
     type: 'boolean',
   },
-  'ui.disableComputedAttributes': {
-    name: t('attributeUiDisableComputedAttributes'),
-    type: 'boolean',
-  },
-  'ui.disableCalendars': {
-    name: t('attributeUiDisableCalendars'),
-    type: 'boolean',
-  },
-  'ui.disableMaintenance': {
-    name: t('attributeUiDisableMaintenance'),
-    type: 'boolean',
-  },
-  'ui.hidePositionAttributes': {
-    name: t('attributeUiHidePositionAttributes'),
+  'mail.smtp.ssl.trust': {
+    name: t('attributeMailSmtpSslTrust'),
     type: 'string',
-  }, */
+  },
+  'mail.smtp.ssl.protocols': {
+    name: t('attributeMailSmtpSslProtocols'),
+    type: 'string',
+  },
+  'mail.smtp.from': {
+    name: t('attributeMailSmtpFrom'),
+    type: 'string',
+  },
+  'mail.smtp.auth': {
+    name: t('attributeMailSmtpAuth'),
+    type: 'boolean',
+  },
+  'mail.smtp.username': {
+    name: t('attributeMailSmtpUsername'),
+    type: 'string',
+  },
+  'mail.smtp.password': {
+    name: t('attributeMailSmtpPassword'),
+    type: 'string',
+  },
 }), [t]);

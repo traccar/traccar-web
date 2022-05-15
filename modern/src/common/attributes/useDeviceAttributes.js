@@ -1,13 +1,24 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
-  speedLimit: {
-    name: t('attributeSpeedLimit'),
-    type: 'number',
-    subtype: 'speed',
+  devicePassword: {
+    name: t('attributeDevicePassword'),
+    type: 'string',
   },
-  'report.ignoreOdometer': {
-    name: t('attributeReportIgnoreOdometer'),
-    type: 'boolean',
+  'processing.copyAttributes': {
+    name: t('attributeProcessingCopyAttributes'),
+    type: 'string',
+  },
+  'decoder.timezone': {
+    name: t('sharedTimezone'),
+    type: 'string',
+  },
+  deviceInactivityStart: {
+    name: t('attributeDeviceInactivityStart'),
+    type: 'number',
+  },
+  deviceInactivityPeriod: {
+    name: t('attributeDeviceInactivityPeriod'),
+    type: 'number',
   },
 }), [t]);

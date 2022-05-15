@@ -9,12 +9,12 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
 import EditAttributesView from './components/EditAttributesView';
-import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
-import useUserAttributes from '../common/attributes/useUserAttributes';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SelectField from '../common/components/SelectField';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
+import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
+import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,8 +38,8 @@ const ServerPage = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
-  const userAttributes = useUserAttributes(t);
-  const deviceAttributes = useDeviceAttributes(t);
+  const commonUserAttributes = useCommonUserAttributes(t);
+  const commonDeviceAttributes = useCommonDeviceAttributes(t);
 
   const original = useSelector((state) => state.session.server);
   const [item, setItem] = useState({ ...original });
@@ -218,7 +218,7 @@ const ServerPage = () => {
                 <EditAttributesView
                   attributes={item.attributes}
                   setAttributes={(attributes) => setItem({ ...item, attributes })}
-                  definitions={{ ...userAttributes, ...deviceAttributes }}
+                  definitions={{ ...commonUserAttributes, ...commonDeviceAttributes }}
                 />
               </AccordionDetails>
             </Accordion>

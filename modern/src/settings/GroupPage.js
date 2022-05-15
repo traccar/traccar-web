@@ -7,10 +7,11 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
-import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import SelectField from '../common/components/SelectField';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
+import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
+import useGroupAttributes from '../common/attributes/useGroupAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -22,7 +23,8 @@ const GroupPage = () => {
   const classes = useStyles();
   const t = useTranslation();
 
-  const deviceAttributes = useDeviceAttributes(t);
+  const commonDeviceAttributes = useCommonDeviceAttributes(t);
+  const groupAttributes = useGroupAttributes(t);
 
   const [item, setItem] = useState();
 
@@ -82,7 +84,7 @@ const GroupPage = () => {
               <EditAttributesView
                 attributes={item.attributes}
                 setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={deviceAttributes}
+                definitions={{ ...commonDeviceAttributes, ...groupAttributes }}
               />
             </AccordionDetails>
           </Accordion>

@@ -14,6 +14,7 @@ import useUserAttributes from '../common/attributes/useUserAttributes';
 import { sessionActions } from '../store';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
+import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -28,6 +29,7 @@ const UserPage = () => {
 
   const currentUserId = useSelector((state) => state.session.user.id);
 
+  const commonUserAttributes = useCommonUserAttributes(t);
   const userAttributes = useUserAttributes(t);
 
   const [item, setItem] = useState();
@@ -159,7 +161,7 @@ const UserPage = () => {
               <EditAttributesView
                 attributes={item.attributes}
                 setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={userAttributes}
+                definitions={{ ...commonUserAttributes, ...userAttributes }}
               />
             </AccordionDetails>
           </Accordion>
