@@ -115,8 +115,9 @@ const ReplayPage = () => {
   }, [playing, positions]);
 
   useEffect(() => {
-    if (index >= positions.length) {
+    if (index >= positions.length - 1) {
       clearInterval(timerRef.current);
+      setPlaying(false);
     }
   }, [index, positions]);
 
@@ -171,7 +172,7 @@ const ReplayPage = () => {
                 ValueLabelComponent={TimeLabel}
               />
               <div className={classes.controls}>
-                {`${index}/${positions.length}`}
+                {`${index + 1}/${positions.length}`}
                 <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing}>
                   <FastRewindIcon />
                 </IconButton>
