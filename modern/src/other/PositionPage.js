@@ -61,7 +61,7 @@ const PositionPage = () => {
     <div className={classes.root}>
       <AppBar position="sticky" color="inherit">
         <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
+          <IconButton color="inherit" edge="start" onClick={() => history.goBack()}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6">

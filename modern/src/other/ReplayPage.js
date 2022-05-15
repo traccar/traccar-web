@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useCallback,
+} from 'react';
 import {
-  Grid, FormControlLabel, Switch, IconButton, TextField, makeStyles, Paper, Slider, Toolbar, Tooltip, Typography,
+  Grid, IconButton, makeStyles, Paper, Slider, Toolbar, Tooltip, Typography,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -22,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   sidebar: {
+    display: 'flex',
+    flexDirection: 'column',
     position: 'absolute',
+    zIndex: 3,
     left: 0,
     top: 0,
     margin: theme.spacing(1.5),
@@ -32,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
     },
   },
+  title: {
+    flexGrow: 1,
+  },
+  slider: {
+    width: '100%',
+  },
+  controls: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   formControlLabel: {
     height: '100%',
     width: '100%',
@@ -39,15 +55,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  reportFilterContainer: {
-    flex: 1,
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
     padding: theme.spacing(2),
     [theme.breakpoints.down('sm')]: {
       margin: theme.spacing(1),
     },
-  },
-  sliderContainer: {
-    padding: theme.spacing(2),
+    [theme.breakpoints.up('md')]: {
+      marginTop: theme.spacing(1),
+    },
   },
 }));
 
@@ -63,12 +80,13 @@ const ReplayPage = () => {
   const history = useHistory();
   const timerRef = useRef();
 
+  const defaultDeviceId = useSelector((state) => state.devices.selectedId);
+
   const [positions, setPositions] = useState([]);
   const [index, setIndex] = useState(0);
-  const [selectedDeviceId, setSelectedDeviceId] = useState();
-  const [playbackSpeed, setPlaybackSpeed] = useState('');
+  const [selectedDeviceId, setSelectedDeviceId] = useState(defaultDeviceId);
   const [expanded, setExpanded] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -80,8 +98,12 @@ const ReplayPage = () => {
     return null;
   });
 
+  const onClick = useCallback((positionId) => {
+    history.push(`/position/${positionId}`);
+  }, [history]);
+
   useEffect(() => {
-    if (isPlaying && positions.length > 0) {
+    if (playing && positions.length > 0) {
       timerRef.current = setInterval(() => {
         setIndex((index) => index + 1);
       }, 500);
@@ -90,7 +112,7 @@ const ReplayPage = () => {
     }
 
     return () => clearInterval(timerRef.current);
-  }, [isPlaying, positions]);
+  }, [playing, positions]);
 
   useEffect(() => {
     if (index >= positions.length) {
@@ -113,105 +135,59 @@ const ReplayPage = () => {
     <div className={classes.root}>
       <Map>
         <ReplayPathMap positions={positions} />
-        {index < positions.length && <PositionsMap positions={[positions[index]]} />}
+        {index < positions.length && (
+          <PositionsMap positions={[positions[index]]} onClick={onClick} />
+        )}
       </Map>
       <div className={classes.sidebar}>
-        <Grid container direction="column" spacing={1}>
-          <Grid item>
-            <Paper elevation={3} square>
-              <Toolbar disableGutters>
-                <Grid container alignItems="center">
-                  <Grid item>
-                    <IconButton onClick={() => history.push('/')}>
-                      <ArrowBackIcon />
-                    </IconButton>
-                  </Grid>
-                  <Grid item xs>
-                    <Typography variant="h6">{t('reportReplay')}</Typography>
-                  </Grid>
-                  {!expanded && (
-                    <Grid item>
-                      <IconButton onClick={() => setExpanded(true)}>
-                        <SettingsIcon />
-                      </IconButton>
-                    </Grid>
-                  )}
-                </Grid>
-              </Toolbar>
-            </Paper>
-          </Grid>
-          <Grid item>
-            {!expanded ? (
-              <Paper className={classes.sliderContainer}>
-                <Grid container direction="column" alignItems="center">
-                  <Grid item>
-                    {deviceName}
-                  </Grid>
-                  <Grid item style={{ width: '100%' }}>
-                    <Slider
-                      max={positions.length - 1}
-                      step={null}
-                      marks={positions.map((_, index) => ({ value: index }))}
-                      value={index}
-                      onChange={(_, index) => setIndex(index)}
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={(i) => (i < positions.length ? formatTime(positions[i]) : '')}
-                      ValueLabelComponent={TimeLabel}
-                    />
-                  </Grid>
-                  <Grid item container justifyContent="space-between" alignItems="center">
-                    <Grid item xs={2}>{`${index}/${positions.length}`}</Grid>
-                    <Grid item xs={2}>
-                      <IconButton onClick={() => setIndex((index) => index - 1)} disabled={isPlaying}>
-                        <FastRewindIcon />
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <IconButton onClick={() => setIsPlaying(!isPlaying)}>
-                        {isPlaying ? <PauseIcon /> : <PlayArrowIcon /> }
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <IconButton onClick={() => setIndex((index) => index + 1)} disabled={isPlaying}>
-                        <FastForwardIcon />
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs>{formatTime(positions[index])}</Grid>
-                  </Grid>
-                </Grid>
-              </Paper>
-            ) : (
-              <Paper elevation={3} className={classes.reportFilterContainer} square>
-                <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly>
-                  <Grid item xs={6}>
-                    <TextField
-                      fullWidth
-                      label={t('reportPlaybackPerMinute')}
-                      value={playbackSpeed}
-                      onChange={(e) => setPlaybackSpeed(e.target.value)}
-                      variant="filled"
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControlLabel
-                      classes={{ root: classes.formControlLabel }}
-                      control={(
-                        <Switch
-                          checked={isPlaying}
-                          onChange={(e) => setIsPlaying(e.target.checked)}
-                          color="primary"
-                          edge="start"
-                        />
-                      )}
-                      label={t('reportAutoPlay')}
-                      labelPlacement="start"
-                    />
-                  </Grid>
-                </ReportFilter>
-              </Paper>
+        <Paper elevation={3} square>
+          <Toolbar>
+            <IconButton onClick={() => history.push('/')}>
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
+            {!expanded && (
+              <Grid item>
+                <IconButton onClick={() => setExpanded(true)}>
+                  <SettingsIcon />
+                </IconButton>
+              </Grid>
             )}
-          </Grid>
-        </Grid>
+          </Toolbar>
+        </Paper>
+        <Paper className={classes.content} square>
+          {!expanded ? (
+            <>
+              <Typography variant="subtitle1" align="center">{deviceName}</Typography>
+              <Slider
+                className={classes.slider}
+                max={positions.length - 1}
+                step={null}
+                marks={positions.map((_, index) => ({ value: index }))}
+                value={index}
+                onChange={(_, index) => setIndex(index)}
+                valueLabelDisplay="auto"
+                valueLabelFormat={(i) => (i < positions.length ? formatTime(positions[i]) : '')}
+                ValueLabelComponent={TimeLabel}
+              />
+              <div className={classes.controls}>
+                {`${index}/${positions.length}`}
+                <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing}>
+                  <FastRewindIcon />
+                </IconButton>
+                <IconButton onClick={() => setPlaying(!playing)}>
+                  {playing ? <PauseIcon /> : <PlayArrowIcon /> }
+                </IconButton>
+                <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing}>
+                  <FastForwardIcon />
+                </IconButton>
+                {formatTime(positions[index].fixTime)}
+              </div>
+            </>
+          ) : (
+            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly />
+          )}
+        </Paper>
       </div>
     </div>
   );

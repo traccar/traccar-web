@@ -91,7 +91,7 @@ const ReportFilter = ({
         <div className={classes.item}>
           <FormControl variant="filled" fullWidth>
             <InputLabel>{t('reportDevice')}</InputLabel>
-            <Select value={deviceId} onChange={(e) => setDeviceId(e.target.value)}>
+            <Select value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
               {Object.values(devices).map((device) => (
                 <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
               ))}

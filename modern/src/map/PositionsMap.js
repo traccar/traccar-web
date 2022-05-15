@@ -1,16 +1,14 @@
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { map } from './core/Map';
 import { getStatusColor } from '../common/util/formatter';
-import { devicesActions } from '../store';
 import usePersistedState from '../common/util/usePersistedState';
 
-const PositionsMap = ({ positions }) => {
+const PositionsMap = ({ positions, onClick }) => {
   const id = 'positions';
   const clusters = `${id}-clusters`;
 
-  const dispatch = useDispatch();
   const devices = useSelector((state) => state.devices.items);
 
   const [mapCluster] = usePersistedState('mapCluster', true);
@@ -18,6 +16,7 @@ const PositionsMap = ({ positions }) => {
   const createFeature = (devices, position) => {
     const device = devices[position.deviceId];
     return {
+      id: position.id,
       deviceId: position.deviceId,
       name: device.name,
       category: device.category || 'default',
@@ -30,8 +29,10 @@ const PositionsMap = ({ positions }) => {
 
   const onMarkerClick = useCallback((event) => {
     const feature = event.features[0];
-    dispatch(devicesActions.select(feature.properties.deviceId));
-  }, [dispatch]);
+    if (onClick) {
+      onClick(feature.properties.id, feature.properties.deviceId);
+    }
+  }, [onClick]);
 
   const onClusterClick = useCallback((event) => {
     const features = map.queryRenderedFeatures(event.point, {
