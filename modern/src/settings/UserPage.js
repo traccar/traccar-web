@@ -7,6 +7,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CachedIcon from '@material-ui/icons/Cached';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import LinkField from '../common/components/LinkField';
@@ -18,7 +19,6 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useManager } from '../common/util/permissions';
 import { prefixString } from '../common/util/stringUtils';
-import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -216,7 +216,8 @@ const UserPage = () => {
                       <IconButton onClick={() => {
                         const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
                         setItem({ ...item, token });
-                      }}>
+                      }}
+                      >
                         <CachedIcon />
                       </IconButton>
                     </InputAdornment>
