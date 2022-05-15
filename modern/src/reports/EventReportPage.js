@@ -65,7 +65,15 @@ const Filter = ({ setItems }) => {
           <InputLabel>{t('reportEventTypes')}</InputLabel>
           <Select
             value={eventTypes}
-            onChange={(e) => setEventTypes(e.target.value)}
+            onChange={(event, child) => {
+              let values = event.target.value;
+              const clicked = child.props.value;
+              console.log(`${values} ${clicked}`)
+              if (values.includes('allEvents') && values.length > 1) {
+                values = [clicked];
+              }
+              setEventTypes(values);
+            }}
             renderValue={(it) => (it.length > 1 ? it.length : it.length > 0 ? t(typesMap.get(it[0])) : it)}
             multiple
           >
