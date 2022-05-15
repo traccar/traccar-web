@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@material-ui/data-grid';
-import { useTheme } from '@material-ui/core/styles';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+} from '@material-ui/core';
 import {
   formatDistance, formatHours, formatDate, formatVolume,
 } from '../common/util/formatter';
@@ -9,8 +10,29 @@ import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
+import ColumnSelect from './components/ColumnSelect';
+import usePersistedState from '../common/util/usePersistedState';
 
-const Filter = ({ setItems }) => {
+const columnsArray = [
+  ['startTime', 'reportStartTime'],
+  ['startOdometer', 'positionOdometer'],
+  ['address', 'positionAddress'],
+  ['endTime', 'reportEndTime'],
+  ['duration', 'reportDuration'],
+  ['engineHours', 'reportEngineHours'],
+  ['spentFuel', 'reportSpentFuel'],
+];
+const columnsMap = new Map(columnsArray);
+
+const StopReportPage = () => {
+  const t = useTranslation();
+
+  const distanceUnit = useAttributePreference('distanceUnit');
+  const volumeUnit = useAttributePreference('volumeUnit');
+
+  const [columns, setColumns] = usePersistedState('stopColumns', ['startTime', 'endTime', 'startOdometer', 'address']);
+  const [items, setItems] = useState([]);
+
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
       deviceId, from, to, mail,
@@ -28,73 +50,49 @@ const Filter = ({ setItems }) => {
     }
   };
 
-  return <ReportFilter handleSubmit={handleSubmit} />;
-};
-
-const StopReportPage = () => {
-  const theme = useTheme();
-  const t = useTranslation();
-
-  const distanceUnit = useAttributePreference('distanceUnit');
-  const volumeUnit = useAttributePreference('volumeUnit');
-
-  const [items, setItems] = useState([]);
-
-  const columns = [{
-    headerName: t('reportStartTime'),
-    field: 'startTime',
-    type: 'dateTime',
-    width: theme.dimensions.columnWidthDate,
-    valueFormatter: ({ value }) => formatDate(value),
-  }, {
-    headerName: t('positionOdometer'),
-    field: 'startOdometer',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
-  }, {
-    headerName: t('positionAddress'),
-    field: 'address',
-    type: 'string',
-    hide: true,
-    width: theme.dimensions.columnWidthString,
-  }, {
-    headerName: t('reportEndTime'),
-    field: 'endTime',
-    type: 'dateTime',
-    width: theme.dimensions.columnWidthDate,
-    valueFormatter: ({ value }) => formatDate(value),
-  }, {
-    headerName: t('reportDuration'),
-    field: 'duration',
-    type: 'string',
-    width: theme.dimensions.columnWidthString,
-    valueFormatter: ({ value }) => formatHours(value),
-  }, {
-    headerName: t('reportEngineHours'),
-    field: 'engineHours',
-    type: 'string',
-    width: theme.dimensions.columnWidthString,
-    valueFormatter: ({ value }) => formatHours(value),
-  }, {
-    headerName: t('reportSpentFuel'),
-    field: 'spentFuel',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    hide: true,
-    valueFormatter: ({ value }) => formatVolume(value, volumeUnit, t),
-  }];
+  const formatValue = (item, key) => {
+    switch (key) {
+      case 'startTime':
+      case 'endTime':
+        return formatDate(item[key]);
+      case 'startOdometer':
+        return formatDistance(item[key], distanceUnit, t);
+      case 'duration':
+        return formatHours(item[key]);
+      case 'engineHours':
+        return formatHours(item[key]);
+      case 'spentFuel':
+        return formatVolume(item[key], volumeUnit, t);
+      default:
+        return item[key];
+    }
+  };
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
-      <Filter setItems={setItems} />
-      <DataGrid
-        rows={items}
-        columns={columns}
-        hideFooter
-        autoHeight
-        getRowId={() => Math.random()}
-      />
+      <ReportFilter handleSubmit={handleSubmit}>
+        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+      </ReportFilter>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                {columns.map((key) => (
+                  <TableCell>
+                    {formatValue(item, key)}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </PageLayout>
   );
 };
