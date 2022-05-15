@@ -9,20 +9,15 @@ import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
-
-const columnsArray = [
-  ['fixTime', 'positionFixTime'],
-  ['latitude', 'positionLatitude'],
-  ['longitude', 'positionLongitude'],
-  ['speed', 'positionSpeed'],
-  ['address', 'positionAddress'],
-  ['ignition', 'positionIgnition'],
-  ['totalDistance', 'deviceTotalDistance'],
-];
-const columnsMap = new Map(columnsArray);
+import usePositionProperties from '../common/attributes/usePositionProperties';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const RouteReportPage = () => {
   const t = useTranslation();
+
+  const positionProperties = usePositionProperties(t);
+  const positionAttributes = usePositionAttributes(t);
+  const columnsObject = { ...positionProperties, ...positionAttributes };
 
   const [columns, setColumns] = usePersistedState('routeColumns', ['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
@@ -47,13 +42,17 @@ const RouteReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
       <ReportFilter handleSubmit={handleSubmit}>
-        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+        <ColumnSelect
+          columns={columns}
+          setColumns={setColumns}
+          columnsObject={columnsObject}
+        />
       </ReportFilter>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
+              {columns.map((key) => (<TableCell>{columnsObject[key].name}</TableCell>))}
             </TableRow>
           </TableHead>
           <TableBody>

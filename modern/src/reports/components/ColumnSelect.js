@@ -5,7 +5,9 @@ import {
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useFilterStyles } from './ReportFilter';
 
-const ColumnSelect = ({ columns, setColumns, columnsArray }) => {
+const ColumnSelect = ({
+  columns, setColumns, columnsArray, columnsObject,
+}) => {
   const classes = useFilterStyles();
   const t = useTranslation();
 
@@ -19,9 +21,13 @@ const ColumnSelect = ({ columns, setColumns, columnsArray }) => {
           renderValue={(it) => it.length}
           multiple
         >
-          {columnsArray.map(([key, string]) => (
-            <MenuItem value={key}>{t(string)}</MenuItem>
-          ))}
+          {columnsArray
+            ? columnsArray.map(([key, string]) => (
+              <MenuItem key={key} value={key}>{t(string)}</MenuItem>
+            ))
+            : Object.keys(columnsObject).map((key) => (
+              <MenuItem key={key} value={key}>{columnsObject[key].name}</MenuItem>
+            ))}
         </Select>
       </FormControl>
     </div>

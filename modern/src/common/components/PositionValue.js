@@ -65,7 +65,7 @@ const PositionValue = ({ position, property, attribute }) => {
         } if (typeof value === 'boolean') {
           return formatBoolean(value, t);
         }
-        return value;
+        return value || '';
     }
   };
 
