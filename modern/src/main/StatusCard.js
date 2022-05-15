@@ -16,6 +16,9 @@ import RemoveDialog from '../common/components/RemoveDialog';
 import PositionValue from '../common/components/PositionValue';
 import dimensions from '../common/theme/dimensions';
 import { useDeviceReadonly, useReadonly } from '../common/util/permissions';
+import usePersistedState from '../common/util/usePersistedState';
+import usePositionProperties from '../common/attributes/usePositionProperties';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -66,6 +69,11 @@ const StatusCard = ({ deviceId, onClose }) => {
   const device = useSelector((state) => state.devices.items[deviceId]);
   const position = useSelector((state) => state.positions.items[deviceId]);
 
+  const positionProperties = usePositionProperties(t);
+  const positionAttributes = usePositionAttributes(t);
+  const positionObject = { ...positionProperties, ...positionAttributes };
+  const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
+
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
 
   return (
@@ -91,12 +99,15 @@ const StatusCard = ({ deviceId, onClose }) => {
               <TableContainer>
                 <Table size="small" classes={{ root: classes.table }}>
                   <TableBody>
-                    <StatusRow name={t('positionSpeed')} content={<PositionValue position={position} property="speed" />} />
-                    <StatusRow name={t('positionAddress')} content={<PositionValue position={position} property="address" />} />
-                    {position.attributes.odometer
-                      ? <StatusRow name={t('positionOdometer')} content={<PositionValue position={position} attribute="odometer" />} />
-                      : <StatusRow name={t('deviceTotalDistance')} content={<PositionValue position={position} attribute="totalDistance" />} />}
-                    <StatusRow name={t('positionCourse')} content={<PositionValue position={position} property="course" />} />
+                    {positionItems.map((key) => (
+                      <StatusRow name={positionObject[key].name} content={
+                        <PositionValue
+                          position={position}
+                          property={position.hasOwnProperty(key) ? key : null}
+                          attribute={position.hasOwnProperty(key) ? null : key}
+                        />
+                      } />
+                    ))}
                   </TableBody>
                 </Table>
               </TableContainer>

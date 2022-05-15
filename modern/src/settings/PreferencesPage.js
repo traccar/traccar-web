@@ -7,6 +7,8 @@ import { useLocalization, useTranslation } from '../common/components/Localizati
 import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
+import usePositionProperties from '../common/attributes/usePositionProperties';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,6 +25,11 @@ const PreferencesPage = () => {
 
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
+
+  const positionProperties = usePositionProperties(t);
+  const positionAttributes = usePositionAttributes(t);
+  const positionObject = { ...positionProperties, ...positionAttributes };
+  const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
@@ -53,6 +60,19 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
+            <FormControl variant="filled" fullWidth>
+              <InputLabel>{t('sharedAttributes')}</InputLabel>
+              <Select
+                value={positionItems}
+                onChange={(e) => setPositionItems(e.target.value)}
+                renderValue={(it) => it.length}
+                multiple
+              >
+                {Object.keys(positionObject).map((key) => (
+                  <MenuItem key={key} value={key}>{positionObject[key].name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControlLabel
               control={<Checkbox checked={mapLiveRoutes} onChange={(event) => setMapLiveRoutes(event.target.checked)} />}
               label={t('mapLiveRoutes')}
