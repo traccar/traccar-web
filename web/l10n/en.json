@@ -84,6 +84,7 @@
     "sharedAlarms": "Alarms",
     "sharedLocation": "Location",
     "sharedImport": "Import",
+    "sharedColumns": "Columns",
     "attributeSpeedLimit": "Speed Limit",
     "attributePolylineDistance": "Polyline Distance",
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",
