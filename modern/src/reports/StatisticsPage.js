@@ -13,7 +13,7 @@ const StatisticsPage = () => {
 
   const [items, setItems] = useState([]);
 
-  const handleSubmit = async (from, to) => {
+  const handleSubmit = async (_, from, to) => {
     const query = new URLSearchParams({ from, to });
     const response = await fetch(`/api/statistics?${query.toString()}`, { Accept: 'application/json' });
     if (response.ok) {
