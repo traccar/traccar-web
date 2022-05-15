@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { DataGrid } from '@material-ui/data-grid';
 import {
-  FormControl, InputLabel, Select, MenuItem,
+  FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
@@ -12,12 +10,32 @@ import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
+import usePersistedState from '../common/util/usePersistedState';
+import ColumnSelect from './components/ColumnSelect';
 
-const Filter = ({ setItems }) => {
+const columnsArray = [
+  ['startTime', 'reportStartDate'],
+  ['distance', 'sharedDistance'],
+  ['startOdometer', 'reportStartOdometer'],
+  ['endOdometer', 'reportEndOdometer'],
+  ['averageSpeed', 'reportAverageSpeed'],
+  ['maxSpeed', 'reportMaximumSpeed'],
+  ['engineHours', 'reportEngineHours'],
+  ['spentFuel', 'reportSpentFuel'],
+];
+const columnsMap = new Map(columnsArray);
+
+const SummaryReportPage = () => {
   const classes = useFilterStyles();
   const t = useTranslation();
 
+  const distanceUnit = useAttributePreference('distanceUnit');
+  const speedUnit = useAttributePreference('speedUnit');
+  const volumeUnit = useAttributePreference('volumeUnit');
+
+  const [columns, setColumns] = usePersistedState('summaryColumns', ['startTime', 'startOdometer', 'distance', 'averageSpeed']);
   const [daily, setDaily] = useState(false);
+  const [items, setItems] = useState([]);
 
   const handleSubmit = async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
@@ -36,92 +54,60 @@ const Filter = ({ setItems }) => {
     }
   };
 
-  return (
-    <ReportFilter handleSubmit={handleSubmit}>
-      <div className={classes.item}>
-        <FormControl variant="filled" fullWidth>
-          <InputLabel>{t('sharedType')}</InputLabel>
-          <Select value={daily} onChange={(e) => setDaily(e.target.value)}>
-            <MenuItem value={false}>{t('reportSummary')}</MenuItem>
-            <MenuItem value>{t('reportDaily')}</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-    </ReportFilter>
-  );
-};
-
-const SummaryReportPage = () => {
-  const theme = useTheme();
-  const t = useTranslation();
-
-  const distanceUnit = useAttributePreference('distanceUnit');
-  const speedUnit = useAttributePreference('speedUnit');
-  const volumeUnit = useAttributePreference('volumeUnit');
-
-  const [items, setItems] = useState([]);
-
-  const columns = [{
-    headerName: t('reportStartDate'),
-    field: 'startTime',
-    type: 'dateTime',
-    width: theme.dimensions.columnWidthDate,
-    valueFormatter: ({ value }) => formatDate(value, 'YYYY-MM-DD'),
-  }, {
-    headerName: t('sharedDistance'),
-    field: 'distance',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
-  }, {
-    headerName: t('reportStartOdometer'),
-    field: 'startOdometer',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
-  }, {
-    headerName: t('reportEndOdometer'),
-    field: 'endOdometer',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatDistance(value, distanceUnit, t),
-  }, {
-    headerName: t('reportAverageSpeed'),
-    field: 'averageSpeed',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
-  }, {
-    headerName: t('reportMaximumSpeed'),
-    field: 'maxSpeed',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatSpeed(value, speedUnit, t),
-  }, {
-    headerName: t('reportEngineHours'),
-    field: 'engineHours',
-    type: 'string',
-    width: theme.dimensions.columnWidthNumber,
-    valueFormatter: ({ value }) => formatHours(value),
-  }, {
-    headerName: t('reportSpentFuel'),
-    field: 'spentFuel',
-    type: 'number',
-    width: theme.dimensions.columnWidthNumber,
-    hide: true,
-    valueFormatter: ({ value }) => formatVolume(value, volumeUnit, t),
-  }];
+  const formatValue = (item, key) => {
+    switch (key) {
+      case 'startTime':
+        return item[key] ? formatDate(item[key], 'YYYY-MM-DD') : null;
+      case 'startOdometer':
+      case 'endOdometer':
+      case 'distance':
+        return formatDistance(item[key], distanceUnit, t);
+      case 'averageSpeed':
+      case 'maxSpeed':
+        return formatSpeed(item[key], speedUnit, t);
+      case 'engineHours':
+        return formatHours(item[key]);
+      case 'spentFuel':
+        return formatVolume(item[key], volumeUnit, t);
+      default:
+        return item[key];
+    }
+  };
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
-      <Filter setItems={setItems} />
-      <DataGrid
-        rows={items}
-        columns={columns}
-        hideFooter
-        autoHeight
-        getRowId={() => Math.random()}
-      />
+      <ReportFilter handleSubmit={handleSubmit}>
+        <div className={classes.item}>
+          <FormControl variant="filled" fullWidth>
+            <InputLabel>{t('sharedType')}</InputLabel>
+            <Select value={daily} onChange={(e) => setDaily(e.target.value)}>
+              <MenuItem value={false}>{t('reportSummary')}</MenuItem>
+              <MenuItem value>{t('reportDaily')}</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+      </ReportFilter>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                {columns.map((key) => (
+                  <TableCell>
+                    {formatValue(item, key)}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </PageLayout>
   );
 };
