@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import {
+  FormControl, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+} from '@material-ui/core';
 import ReportFilter, { useFilterStyles } from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
-import { FormControl, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import PositionValue from '../common/components/PositionValue';
 
 const columnsArray = [
