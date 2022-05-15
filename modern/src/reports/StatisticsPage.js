@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody, FormControl, InputLabel, Select, MenuItem,
+  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
 } from '@material-ui/core';
 import { formatDate } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import ReportFilter, { useFilterStyles } from './components/ReportFilter';
+import ReportFilter from './components/ReportFilter';
 import usePersistedState from '../common/util/usePersistedState';
+import ColumnSelect from './components/ColumnSelect';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -24,7 +25,6 @@ const columnsArray = [
 const columnsMap = new Map(columnsArray);
 
 const StatisticsPage = () => {
-  const classes = useFilterStyles();
   const t = useTranslation();
 
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
@@ -41,16 +41,7 @@ const StatisticsPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice>
-        <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
-            <InputLabel>{t('sharedColumns')}</InputLabel>
-            <Select value={columns} onChange={(e) => setColumns(e.target.value)} renderValue={(it) => it.length} multiple>
-              {columnsArray.map(([key, string]) => (
-                <MenuItem value={key}>{t(string)}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
       </ReportFilter>
       <TableContainer>
         <Table>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@material-ui/core';
-import ReportFilter, { useFilterStyles } from './components/ReportFilter';
+import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -21,7 +21,6 @@ const columnsArray = [
 const columnsMap = new Map(columnsArray);
 
 const RouteReportPage = () => {
-  const classes = useFilterStyles();
   const t = useTranslation();
 
   const [columns, setColumns] = usePersistedState('routeColumns', ['fixTime', 'latitude', 'longitude', 'speed', 'address']);
@@ -47,16 +46,7 @@ const RouteReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
       <ReportFilter handleSubmit={handleSubmit}>
-        <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
-            <InputLabel>{t('sharedColumns')}</InputLabel>
-            <Select value={columns} onChange={(e) => setColumns(e.target.value)} renderValue={(it) => it.length} multiple>
-              {columnsArray.map(([key, string]) => (
-                <MenuItem value={key}>{t(string)}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
       </ReportFilter>
       <TableContainer>
         <Table>
