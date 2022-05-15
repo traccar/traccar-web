@@ -6,19 +6,12 @@ import {
   CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import ReportFilter, { useFilterStyles } from './components/ReportFilter';
-import { useAttributePreference } from '../common/util/preferences';
 import { formatDate } from '../common/util/formatter';
-import { speedFromKnots } from '../common/util/converter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-
-const typesArray = [
-  ['speed', 'positionSpeed'],
-  ['accuracy', 'positionAccuracy'],
-  ['altitude', 'positionAltitude'],
-];
-const typesMap = new Map(typesArray);
+import usePositionProperties from '../common/attributes/usePositionProperties';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles(() => ({
   chart: {
@@ -32,7 +25,9 @@ const ChartReportPage = () => {
   const filterClasses = useFilterStyles();
   const t = useTranslation();
 
-  const speedUnit = useAttributePreference('speedUnit');
+  const positionProperties = usePositionProperties(t);
+  const positionAttributes = usePositionAttributes(t);
+  const typesObject = { ...positionProperties, ...positionAttributes };
 
   const [items, setItems] = useState([]);
   const [type, setType] = useState('speed');
@@ -51,9 +46,8 @@ const ChartReportPage = () => {
     if (response.ok) {
       const positions = await response.json();
       const formattedPositions = positions.map((position) => ({
-        speed: Number(speedFromKnots(position.speed, speedUnit)),
-        altitude: position.altitude,
-        accuracy: position.accuracy,
+        ...position,
+        ...position.attributes,
         fixTime: formatDate(position.fixTime, 'HH:mm:ss'),
       }));
       setItems(formattedPositions);
@@ -67,8 +61,8 @@ const ChartReportPage = () => {
           <FormControl variant="filled" fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select value={type} onChange={(e) => setType(e.target.value)}>
-              {typesArray.map(([key, string]) => (
-                <MenuItem key={key} value={key}>{t(string)}</MenuItem>
+              {Object.keys(typesObject).filter((key) => typesObject[key].type === 'number').map((key) => (
+                <MenuItem key={key} value={key}>{typesObject[key].name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -86,7 +80,7 @@ const ChartReportPage = () => {
               <XAxis dataKey="fixTime" />
               <YAxis type="number" domain={[`dataMin - ${dataRange / 5}`, `dataMax + ${dataRange / 5}`]} />
               <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip formatter={(value, name) => [value, t(typesMap.get(name))]} />
+              <Tooltip formatter={(value, name) => [value, typesObject[name].name]} />
               <Line type="natural" dataKey={type} />
             </LineChart>
           </ResponsiveContainer>

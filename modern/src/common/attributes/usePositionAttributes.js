@@ -205,7 +205,7 @@ export default (t) => useMemo(() => ({
   },
   armed: {
     name: t('positionArmed'),
-    type: 'number',
+    type: 'boolean',
   },
   geofence: {
     name: t('sharedGeofence'),
@@ -245,7 +245,7 @@ export default (t) => useMemo(() => ({
   },
   blocked: {
     name: t('positionBlocked'),
-    type: 'number',
+    type: 'boolean',
   },
   dtcs: {
     name: t('positionDtcs'),
