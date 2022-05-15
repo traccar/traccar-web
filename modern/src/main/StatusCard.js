@@ -17,7 +17,6 @@ import PositionValue from '../common/components/PositionValue';
 import dimensions from '../common/theme/dimensions';
 import { useDeviceReadonly, useReadonly } from '../common/util/permissions';
 import usePersistedState from '../common/util/usePersistedState';
-import usePositionProperties from '../common/attributes/usePositionProperties';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,9 +68,7 @@ const StatusCard = ({ deviceId, onClose }) => {
   const device = useSelector((state) => state.devices.items[deviceId]);
   const position = useSelector((state) => state.positions.items[deviceId]);
 
-  const positionProperties = usePositionProperties(t);
   const positionAttributes = usePositionAttributes(t);
-  const positionObject = { ...positionProperties, ...positionAttributes };
   const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
   const [removeDialogShown, setRemoveDialogShown] = useState(false);
@@ -100,13 +97,16 @@ const StatusCard = ({ deviceId, onClose }) => {
                 <Table size="small" classes={{ root: classes.table }}>
                   <TableBody>
                     {positionItems.map((key) => (
-                      <StatusRow name={positionObject[key].name} content={
-                        <PositionValue
-                          position={position}
-                          property={position.hasOwnProperty(key) ? key : null}
-                          attribute={position.hasOwnProperty(key) ? null : key}
-                        />
-                      } />
+                      <StatusRow
+                        name={positionAttributes[key].name}
+                        content={(
+                          <PositionValue
+                            position={position}
+                            property={position.hasOwnProperty(key) ? key : null}
+                            attribute={position.hasOwnProperty(key) ? null : key}
+                          />
+                        )}
+                      />
                     ))}
                   </TableBody>
                 </Table>

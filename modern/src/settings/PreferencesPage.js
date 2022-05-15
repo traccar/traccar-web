@@ -7,7 +7,6 @@ import { useLocalization, useTranslation } from '../common/components/Localizati
 import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
-import usePositionProperties from '../common/attributes/usePositionProperties';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,9 +25,7 @@ const PreferencesPage = () => {
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
-  const positionProperties = usePositionProperties(t);
   const positionAttributes = usePositionAttributes(t);
-  const positionObject = { ...positionProperties, ...positionAttributes };
   const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
@@ -68,8 +65,8 @@ const PreferencesPage = () => {
                 renderValue={(it) => it.length}
                 multiple
               >
-                {Object.keys(positionObject).map((key) => (
-                  <MenuItem key={key} value={key}>{positionObject[key].name}</MenuItem>
+                {Object.keys(positionAttributes).map((key) => (
+                  <MenuItem key={key} value={key}>{positionAttributes[key].name}</MenuItem>
                 ))}
               </Select>
             </FormControl>

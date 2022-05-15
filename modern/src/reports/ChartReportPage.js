@@ -10,7 +10,6 @@ import { formatDate } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import usePositionProperties from '../common/attributes/usePositionProperties';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles(() => ({
@@ -25,9 +24,7 @@ const ChartReportPage = () => {
   const filterClasses = useFilterStyles();
   const t = useTranslation();
 
-  const positionProperties = usePositionProperties(t);
   const positionAttributes = usePositionAttributes(t);
-  const typesObject = { ...positionProperties, ...positionAttributes };
 
   const [items, setItems] = useState([]);
   const [type, setType] = useState('speed');
@@ -61,8 +58,8 @@ const ChartReportPage = () => {
           <FormControl variant="filled" fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select value={type} onChange={(e) => setType(e.target.value)}>
-              {Object.keys(typesObject).filter((key) => typesObject[key].type === 'number').map((key) => (
-                <MenuItem key={key} value={key}>{typesObject[key].name}</MenuItem>
+              {Object.keys(positionAttributes).filter((key) => positionAttributes[key].type === 'number').map((key) => (
+                <MenuItem key={key} value={key}>{positionAttributes[key].name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -80,7 +77,7 @@ const ChartReportPage = () => {
               <XAxis dataKey="fixTime" />
               <YAxis type="number" domain={[`dataMin - ${dataRange / 5}`, `dataMax + ${dataRange / 5}`]} />
               <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip formatter={(value, name) => [value, typesObject[name].name]} />
+              <Tooltip formatter={(value, name) => [value, positionAttributes[name].name]} />
               <Line type="natural" dataKey={type} />
             </LineChart>
           </ResponsiveContainer>

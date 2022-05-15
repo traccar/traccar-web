@@ -9,15 +9,12 @@ import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
-import usePositionProperties from '../common/attributes/usePositionProperties';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const RouteReportPage = () => {
   const t = useTranslation();
 
-  const positionProperties = usePositionProperties(t);
   const positionAttributes = usePositionAttributes(t);
-  const columnsObject = { ...positionProperties, ...positionAttributes };
 
   const [columns, setColumns] = usePersistedState('routeColumns', ['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
@@ -45,14 +42,14 @@ const RouteReportPage = () => {
         <ColumnSelect
           columns={columns}
           setColumns={setColumns}
-          columnsObject={columnsObject}
+          columnsObject={positionAttributes}
         />
       </ReportFilter>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              {columns.map((key) => (<TableCell>{columnsObject[key].name}</TableCell>))}
+              {columns.map((key) => (<TableCell>{positionAttributes[key].name}</TableCell>))}
             </TableRow>
           </TableHead>
           <TableBody>
