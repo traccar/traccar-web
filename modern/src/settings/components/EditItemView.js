@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EditItemView = ({
-  children, endpoint, item, setItem, validate, onItemSaved, menu, breadcrumbs,
+  children, endpoint, item, setItem, defaultItem, validate, onItemSaved, menu, breadcrumbs,
 }) => {
   const history = useHistory();
   const classes = useStyles();
@@ -38,7 +38,7 @@ const EditItemView = ({
         setItem(await response.json());
       }
     } else {
-      setItem({});
+      setItem(defaultItem || {});
     }
   }, [id]);
 

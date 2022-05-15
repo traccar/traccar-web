@@ -2,6 +2,8 @@ import { useSelector } from 'react-redux';
 
 export const useAdministrator = () => useSelector((state) => state.session.user?.administrator);
 
+export const useManager = () => useSelector((state) => state.session.user?.administrator || (state.session.user?.userLimit || 0) > 0);
+
 export const useReadonly = () => useSelector((state) => state.session.server?.readonly || state.session.user?.readonly);
 
 export const useDeviceReadonly = () => useSelector((state) => state.session.server?.readonly || state.session.user?.readonly
