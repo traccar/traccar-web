@@ -277,7 +277,7 @@
     "mapLiveRoutes": "Live Routes",
     "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
-    "mapClustering": "Clustering",
+    "mapClustering": "Markers Clustering",
     "stateTitle": "State",
     "stateName": "Attribute",
     "stateValue": "Value",
