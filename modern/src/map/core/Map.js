@@ -8,7 +8,7 @@ import { SwitcherControl } from '../switcher/switcher';
 import deviceCategories from '../../common/util/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import {
-  styleCarto, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
+  styleCarto, styleLocationIq, styleMapbox, styleMapTiler, styleOsm, styleOSMaps
 } from './mapStyles';
 import { useAttributePreference } from '../../common/util/preferences';
 import palette from '../../common/theme/palette';
@@ -19,6 +19,9 @@ const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
 element.style.boxSizing = 'initial';
+
+const d = new Date();
+let year = d.getFullYear()
 
 export const map = new maplibregl.Map({
   container: element,
@@ -96,6 +99,7 @@ const Map = ({ children }) => {
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey', 'pk.0f147952a41c555a5b70614039fd148b');
+  const osMapsKey = useAttributePreference('osMapsKey');
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
@@ -113,8 +117,11 @@ const Map = ({ children }) => {
       { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
+      { id: 'osMapsOutdoor', title: t('mapOSMapsOutdoor'), uri: styleOSMaps('Outdoor_3857', osMapsKey, year) },
+      { id: 'osMapsRoad', title: t('mapOSMapsRoad'), uri: styleOSMaps('Road_3857', osMapsKey, year) },
+
     ], defaultMapLayer);
-  }, [t, locationIqKey, mapTilerKey, defaultMapLayer]);
+  }, [t, locationIqKey, mapTilerKey, osMapsKey, defaultMapLayer]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);

@@ -266,6 +266,8 @@
     "mapLocationIqStreets": "LocationIQ Ulice",
     "mapLocationIqEarth": "LocationIQ Zemlja",
     "mapLocationIqHybrid": "LocationIQ Hibrid",
+    "mapOSMapsOutdoor": "Ordnance Survey Outdoor",
+    "mapOSMapsRoad": "Ordnance Survey Road",
     "mapShapePolygon": "Višeugao",
     "mapShapeCircle": "Krug",
     "mapShapePolyline": "Višelinijski",

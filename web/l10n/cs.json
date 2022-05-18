@@ -266,6 +266,8 @@
     "mapLocationIqStreets": "LocationIQ Streets",
     "mapLocationIqEarth": "LocationIQ Earth",
     "mapLocationIqHybrid": "LocationIQ Hybridní",
+    "mapOSMapsOutdoor": "Ordnance Survey Outdoor",
+    "mapOSMapsRoad": "Ordnance Survey Road",
     "mapShapePolygon": "Mnohoúhelník",
     "mapShapeCircle": "Kruh",
     "mapShapePolyline": "Křivka",

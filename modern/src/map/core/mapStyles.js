@@ -53,3 +53,5 @@ export const styleMapbox = (style) => `mapbox://styles/mapbox/${style}`;
 export const styleMapTiler = (style, key) => `https://api.maptiler.com/maps/${style}/style.json?key=${key}`;
 
 export const styleLocationIq = (style, key) => `https://tiles.locationiq.com/v3/${style}/vector.json?key=${key}`;
+
+export const styleOSMaps = (style, key, year) => styleCustom(`https://api.os.uk/maps/raster/v1/zxy/${style}/{z}/{x}/{y}.png?key=${key}`, `<img src="https://raw.githubusercontent.com/OrdnanceSurvey/os-api-branding/master/img/os-logo-maps.png"> <br> Contains OS data &copy; Crown copyright and database rights ${year}`,);

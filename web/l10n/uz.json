@@ -266,6 +266,8 @@
     "mapLocationIqStreets": "LocationIQ Streets",
     "mapLocationIqEarth": "LocationIQ Earth",
     "mapLocationIqHybrid": "LocationIQ Hybrid",
+    "mapOSMapsOutdoor": "Ordnance Survey Outdoor",
+    "mapOSMapsRoad": "Ordnance Survey Road",
     "mapShapePolygon": "Кўпбурчак",
     "mapShapeCircle": "Айлана",
     "mapShapePolyline": "Чизиқ",

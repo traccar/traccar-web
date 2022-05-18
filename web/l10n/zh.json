@@ -266,6 +266,8 @@
     "mapLocationIqStreets": "LocationIQ Streets",
     "mapLocationIqEarth": "LocationIQ Earth",
     "mapLocationIqHybrid": "LocationIQ Hybrid",
+    "mapOSMapsOutdoor": "Ordnance Survey Outdoor",
+    "mapOSMapsRoad": "Ordnance Survey Road",
     "mapShapePolygon": "多边形",
     "mapShapeCircle": "圆形",
     "mapShapePolyline": "折线",

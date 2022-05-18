@@ -266,6 +266,8 @@
     "mapLocationIqStreets": "LocationIQ Streets",
     "mapLocationIqEarth": "LocationIQ Earth",
     "mapLocationIqHybrid": "LocationIQ Hybrid",
+    "mapOSMapsOutdoor": "Ordnance Survey Outdoor",
+    "mapOSMapsRoad": "Ordnance Survey Road",
     "mapShapePolygon": "მრავალკუთხედი",
     "mapShapeCircle": "წრე",
     "mapShapePolyline": "ტეხილი ხაზები",
