@@ -9,10 +9,12 @@ import * as serviceWorker from './serviceWorker';
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
 
+const base = window.location.href.indexOf('modern') >= 0 ? '/modern' : null;
+
 ReactDOM.render((
   <Provider store={store}>
     <LocalizationProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={base}>
         <App />
       </BrowserRouter>
     </LocalizationProvider>

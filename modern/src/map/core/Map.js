@@ -45,14 +45,14 @@ const updateReadyValue = (value) => {
 const initMap = async () => {
   if (ready) return;
   if (!map.hasImage('background')) {
-    const background = await loadImage('/images/background.svg');
+    const background = await loadImage('images/background.svg');
     map.addImage('background', await prepareIcon(background), {
       pixelRatio: window.devicePixelRatio,
     });
     await Promise.all(deviceCategories.map(async (category) => {
       const results = [];
       ['positive', 'negative', 'neutral'].forEach((color) => {
-        results.push(loadImage(`/images/icon/${category}.svg`).then((icon) => {
+        results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
           map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.colors[color]), {
             pixelRatio: window.devicePixelRatio,
           });
