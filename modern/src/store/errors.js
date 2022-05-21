@@ -9,7 +9,7 @@ const { reducer, actions } = createSlice({
     push(state, action) {
       state.errors.push(action.payload);
     },
-    pop(state, _) {
+    pop(state) {
       if (state.errors.length) {
         state.errors.shift();
       }
