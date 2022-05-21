@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,7 +46,7 @@ const AccumulatorsPage = () => {
     }
   }, [deviceId, position]);
 
-  const handleSave = async () => {
+  const handleSave = useCatch(async () => {
     const response = await fetch(`/api/devices/${deviceId}/accumulators`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -54,8 +55,10 @@ const AccumulatorsPage = () => {
 
     if (response.ok) {
       history.goBack();
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['sharedDeviceAccumulators']}>

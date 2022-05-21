@@ -12,6 +12,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
+import { useCatch } from '../reactHelper';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -39,7 +40,7 @@ const TripReportPage = () => {
   const [columns, setColumns] = usePersistedState('tripColumns', ['startTime', 'endTime', 'distance', 'averageSpeed']);
   const [items, setItems] = useState([]);
 
-  const handleSubmit = async (deviceId, from, to, mail, headers) => {
+  const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
       deviceId, from, to, mail,
     });
@@ -53,8 +54,10 @@ const TripReportPage = () => {
           window.location.assign(window.URL.createObjectURL(await response.blob()));
         }
       }
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   const formatValue = (item, key) => {
     switch (key) {

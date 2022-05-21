@@ -28,6 +28,8 @@ const CommandsView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/commands');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

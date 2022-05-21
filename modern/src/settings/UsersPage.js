@@ -27,6 +27,8 @@ const UsersView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/users');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

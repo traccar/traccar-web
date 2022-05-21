@@ -164,6 +164,8 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
     const response = await fetch('/api/devices');
     if (response.ok) {
       dispatch(devicesActions.refresh(await response.json()));
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

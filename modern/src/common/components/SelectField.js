@@ -25,6 +25,8 @@ const SelectField = ({
       const response = await fetch(endpoint);
       if (response.ok) {
         setItems(await response.json());
+      } else {
+        throw Error(await response.text());
       }
     }
   }, []);

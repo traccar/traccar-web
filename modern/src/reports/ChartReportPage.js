@@ -11,6 +11,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles(() => ({
   chart: {
@@ -35,7 +36,7 @@ const ChartReportPage = () => {
     return result;
   })();
 
-  const handleSubmit = async (deviceId, from, to, mail, headers) => {
+  const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
       deviceId, from, to, mail,
     });
@@ -48,8 +49,10 @@ const ChartReportPage = () => {
         fixTime: formatDate(position.fixTime, 'HH:mm:ss'),
       }));
       setItems(formattedPositions);
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>

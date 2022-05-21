@@ -9,6 +9,7 @@ import ReportsMenu from './components/ReportsMenu';
 import ReportFilter from './components/ReportFilter';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
+import { useCatch } from '../reactHelper';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -30,13 +31,15 @@ const StatisticsPage = () => {
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
   const [items, setItems] = useState([]);
 
-  const handleSubmit = async (_, from, to) => {
+  const handleSubmit = useCatch(async (_, from, to) => {
     const query = new URLSearchParams({ from, to });
     const response = await fetch(`/api/statistics?${query.toString()}`, { Accept: 'application/json' });
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>

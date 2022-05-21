@@ -18,6 +18,7 @@ import PositionsMap from '../map/PositionsMap';
 import { formatTime } from '../common/util/formatter';
 import ReportFilter from '../reports/components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -121,7 +122,7 @@ const ReplayPage = () => {
     }
   }, [index, positions]);
 
-  const handleSubmit = async (deviceId, from, to, _, headers) => {
+  const handleSubmit = useCatch(async (deviceId, from, to, _, headers) => {
     setSelectedDeviceId(deviceId);
     const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/positions?${query.toString()}`, { headers });
@@ -129,8 +130,10 @@ const ReplayPage = () => {
       setIndex(0);
       setPositions(await response.json());
       setExpanded(false);
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <div className={classes.root}>

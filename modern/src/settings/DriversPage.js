@@ -26,6 +26,8 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/drivers');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

@@ -50,6 +50,7 @@ import PreferencesPage from './settings/PreferencesPage';
 import BottomMenu from './common/components/BottomMenu';
 import AccumulatorsPage from './settings/AccumulatorsPage';
 import CommandSendPage from './settings/CommandSendPage';
+import ErrorHandler from './common/components/ErrorHandler';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -86,6 +87,8 @@ const App = () => {
         if (items.length > 0) {
           dispatch(devicesActions.select(items[0].id));
         }
+      } else {
+        throw Error(await response.text());
       }
       history.push('/');
     } else if (query.get('eventId')) {
@@ -158,6 +161,7 @@ const App = () => {
           )}
         </Route>
       </Switch>
+      <ErrorHandler />
     </ThemeProvider>
   ));
 };

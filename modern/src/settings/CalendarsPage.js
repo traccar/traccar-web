@@ -26,6 +26,8 @@ const CalendarsView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/calendars');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

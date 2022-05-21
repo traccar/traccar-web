@@ -26,6 +26,8 @@ const GroupsView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/groups');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

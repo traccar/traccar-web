@@ -28,6 +28,8 @@ const ComputedAttributeView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/attributes/computed');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

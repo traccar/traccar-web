@@ -37,6 +37,8 @@ const EventPage = () => {
       const response = await fetch(`/api/events/${id}`);
       if (response.ok) {
         setEvent(await response.json());
+      } else {
+        throw Error(await response.text());
       }
     }
   }, [id]);
@@ -49,6 +51,8 @@ const EventPage = () => {
         if (positions.length > 0) {
           setPosition(positions[0]);
         }
+      } else {
+        throw Error(await response.text());
       }
     }
   }, [event]);

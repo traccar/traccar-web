@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 
-import { useEffectAsync } from '../../reactHelper';
+import { useCatch, useEffectAsync } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import PageLayout from '../../common/components/PageLayout';
 
@@ -36,13 +36,15 @@ const EditItemView = ({
       const response = await fetch(`/api/${endpoint}/${id}`);
       if (response.ok) {
         setItem(await response.json());
+      } else {
+        throw Error(await response.text());
       }
     } else {
       setItem(defaultItem || {});
     }
   }, [id]);
 
-  const handleSave = async () => {
+  const handleSave = useCatch(async () => {
     let url = `/api/${endpoint}`;
     if (id) {
       url += `/${id}`;
@@ -59,8 +61,10 @@ const EditItemView = ({
         onItemSaved(await response.json());
       }
       history.goBack();
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <PageLayout menu={menu} breadcrumbs={breadcrumbs}>

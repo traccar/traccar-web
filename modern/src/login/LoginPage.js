@@ -50,15 +50,19 @@ const LoginPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch('/api/session', {
-      method: 'POST',
-      body: new URLSearchParams(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`),
-    });
-    if (response.ok) {
-      const user = await response.json();
-      dispatch(sessionActions.updateUser(user));
-      history.push('/');
-    } else {
+    try {
+      const response = await fetch('/api/session', {
+        method: 'POST',
+        body: new URLSearchParams(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`),
+      });
+      if (response.ok) {
+        const user = await response.json();
+        dispatch(sessionActions.updateUser(user));
+        history.push('/');
+      } else {
+        throw Error(await response.text());
+      }
+    } catch (error) {
       setFailed(true);
       setPassword('');
     }
@@ -153,7 +157,6 @@ const LoginPage = () => {
           </Grid>
         )}
         <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           open={!!announcement && !announcementShown}
           message={announcement}
           action={(

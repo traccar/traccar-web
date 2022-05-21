@@ -28,6 +28,8 @@ const NotificationsView = ({ updateTimestamp, onMenuClick }) => {
     const response = await fetch('/api/notifications');
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, [updateTimestamp]);
 

@@ -41,6 +41,8 @@ const PositionPage = () => {
         if (positions.length > 0) {
           setItem(positions[0]);
         }
+      } else {
+        throw Error(await response.text());
       }
     } else {
       setItem({});

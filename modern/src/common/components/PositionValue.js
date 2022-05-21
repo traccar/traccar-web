@@ -7,6 +7,7 @@ import {
 import { useAttributePreference, usePreference } from '../util/preferences';
 import { useTranslation } from './LocalizationProvider';
 import { useAdministrator } from '../util/permissions';
+import { useCatch } from '../../reactHelper';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
@@ -26,7 +27,7 @@ const PositionValue = ({ position, property, attribute }) => {
     setAddress(position.address);
   }, [position]);
 
-  const showAddress = async () => {
+  const showAddress = useCatch(async () => {
     const query = new URLSearchParams({
       latitude: position.latitude,
       longitude: position.longitude,
@@ -34,8 +35,10 @@ const PositionValue = ({ position, property, attribute }) => {
     const response = await fetch(`/api/server/geocode?${query.toString()}`);
     if (response.ok) {
       setAddress(await response.text());
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   const formatValue = () => {
     switch (key) {

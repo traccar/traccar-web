@@ -9,6 +9,7 @@ import BaseCommandView from './components/BaseCommandView';
 import SelectField from '../common/components/SelectField';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,12 +37,14 @@ const CommandSendPage = () => {
   const [savedId, setSavedId] = useState(0);
   const [item, setItem] = useState({});
 
-  const handleSend = async () => {
+  const handleSend = useCatch(async () => {
     let command;
     if (savedId) {
       const response = await fetch(`/api/commands/${savedId}`);
       if (response.ok) {
         command = await response.json();
+      } else {
+        throw Error(await response.text());
       }
     } else {
       command = item;
@@ -57,8 +60,10 @@ const CommandSendPage = () => {
 
     if (response.ok) {
       history.goBack();
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   const validate = () => savedId || (item && item.type);
 

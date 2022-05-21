@@ -23,6 +23,8 @@ const LinkField = ({
     const response = await fetch(endpointAll);
     if (response.ok) {
       setItems(await response.json());
+    } else {
+      throw Error(await response.text());
     }
   }, []);
 
@@ -31,6 +33,8 @@ const LinkField = ({
     if (response.ok) {
       const data = await response.json();
       setLinked(data.map((it) => it.id));
+    } else {
+      throw Error(await response.text());
     }
   }, []);
 

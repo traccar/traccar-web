@@ -7,6 +7,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -33,7 +34,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCatch(async () => {
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -41,13 +42,14 @@ const RegisterPage = () => {
     });
     if (response.ok) {
       setSnackbarOpen(true);
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <LoginLayout>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
         onClose={() => history.push('/login')}
         autoHideDuration={snackBarDurationShortMs}

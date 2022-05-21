@@ -15,6 +15,7 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,7 +45,7 @@ const ServerPage = () => {
   const original = useSelector((state) => state.session.server);
   const [item, setItem] = useState({ ...original });
 
-  const handleSave = async () => {
+  const handleSave = useCatch(async () => {
     const response = await fetch('/api/server', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -54,8 +55,10 @@ const ServerPage = () => {
     if (response.ok) {
       dispatch(sessionActions.updateServer(await response.json()));
       history.goBack();
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsServer']}>

@@ -8,6 +8,7 @@ import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useQuery from '../common/util/useQuery';
 import { snackBarDurationShortMs } from '../common/util/duration';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -36,7 +37,7 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
     let response;
     if (!token) {
@@ -52,13 +53,14 @@ const ResetPasswordPage = () => {
     }
     if (response.ok) {
       setSnackbarOpen(true);
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <LoginLayout>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
         onClose={() => history.push('/login')}
         autoHideDuration={snackBarDurationShortMs}

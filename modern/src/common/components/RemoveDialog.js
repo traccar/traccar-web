@@ -5,18 +5,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { useTranslation } from './LocalizationProvider';
+import { useCatch } from '../../reactHelper';
 
 const RemoveDialog = ({
   open, endpoint, itemId, onResult,
 }) => {
   const t = useTranslation();
 
-  const handleRemove = async () => {
+  const handleRemove = useCatch(async () => {
     const response = await fetch(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
     if (response.ok) {
       onResult(true);
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   return (
     <Dialog

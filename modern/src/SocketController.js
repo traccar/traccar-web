@@ -49,6 +49,8 @@ const SocketController = () => {
     const response = await fetch('/api/server');
     if (response.ok) {
       dispatch(sessionActions.updateServer(await response.json()));
+    } else {
+      throw Error(await response.text());
     }
   }, []);
 
@@ -57,6 +59,8 @@ const SocketController = () => {
       const response = await fetch('/api/devices');
       if (response.ok) {
         dispatch(devicesActions.refresh(await response.json()));
+      } else {
+        throw Error(await response.text());
       }
       connectSocket();
       return () => {
@@ -88,10 +92,6 @@ const SocketController = () => {
       {notifications.map((notification) => (
         <Snackbar
           key={notification.id}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
           open={notification.show}
           message={notification.message}
           autoHideDuration={snackBarDurationLongMs}
