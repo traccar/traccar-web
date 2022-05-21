@@ -8,12 +8,13 @@ import { SwitcherControl } from '../switcher/switcher';
 import deviceCategories from '../../common/util/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
 import {
-  styleCarto, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
+  styleCarto, styleCustom, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
 import { useAttributePreference } from '../../common/util/preferences';
 import palette from '../../common/theme/palette';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
+import { useSelector } from 'react-redux';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -96,6 +97,7 @@ const Map = ({ children }) => {
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey', 'pk.0f147952a41c555a5b70614039fd148b');
+  const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
@@ -113,8 +115,9 @@ const Map = ({ children }) => {
       { id: 'mapboxSatellite', title: t('mapMapboxSatellite'), uri: styleMapbox('satellite-v9') },
       { id: 'mapTilerBasic', title: t('mapMapTilerBasic'), uri: styleMapTiler('basic', mapTilerKey) },
       { id: 'mapTilerHybrid', title: t('mapMapTilerHybrid'), uri: styleMapTiler('hybrid', mapTilerKey) },
+      { id: 'custom', title: t('mapCustom'), uri: styleCustom(customMapUrl) },
     ], defaultMapLayer);
-  }, [t, locationIqKey, mapTilerKey, defaultMapLayer]);
+  }, [t, locationIqKey, mapTilerKey, customMapUrl, defaultMapLayer]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);
