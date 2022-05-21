@@ -88,7 +88,7 @@ const CommandSendPage = () => {
               variant="filled"
             />
             {!savedId && (
-            <BaseCommandView item={item} setItem={setItem} />
+              <BaseCommandView item={item} setItem={setItem} />
             )}
           </AccordionDetails>
         </Accordion>

@@ -34,19 +34,39 @@ const BaseCommandView = ({ item, setItem }) => {
         label={t('sharedType')}
         variant="filled"
       />
-      {attributes.map((attribute) => (
-        <TextField
-          margin="normal"
-          value={item.attributes[attribute.key]}
-          onChange={(e) => {
-            const updateItem = { ...item, attributes: { ...item.attributes } };
-            updateItem.attributes[attribute.key] = e.target.value;
-            setItem(updateItem);
-          }}
-          label={attribute.name}
-          variant="filled"
-        />
-      ))}
+      {attributes.map(({ key, name, type }) => {
+        if (type === 'boolean') {
+          return (
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={item.attributes[key]}
+                  onChange={(e) => {
+                    const updateItem = { ...item, attributes: { ...item.attributes } };
+                    updateItem.attributes[key] = e.target.checked;
+                    setItem(updateItem);
+                  }}
+                />
+              )}
+              label={name}
+            />
+          );
+        }
+        return (
+          <TextField
+            margin="normal"
+            type={type === 'number' ? 'number' : 'text'}
+            value={item.attributes[key]}
+            onChange={(e) => {
+              const updateItem = { ...item, attributes: { ...item.attributes } };
+              updateItem.attributes[key] = type === 'number' ? Number(e.target.value) : e.target.value;
+              setItem(updateItem);
+            }}
+            label={name}
+            variant="filled"
+          />
+        );
+      })}
       <FormControlLabel
         control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
         label={t('commandSendSms')}
