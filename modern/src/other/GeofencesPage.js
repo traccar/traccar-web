@@ -12,6 +12,7 @@ import CurrentLocationMap from '../map/CurrentLocationMap';
 import GeofenceEditMap from '../map/GeofenceEditMap';
 import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import dimensions from '../common/theme/dimensions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: 'relative',
     [theme.breakpoints.up('sm')]: {
-      width: 350,
+      width: dimensions.drawerWidthTablet,
     },
     [theme.breakpoints.down('xs')]: {
-      height: 250,
+      height: dimensions.drawerHeightPhone,
     },
   },
   drawerHeader: {

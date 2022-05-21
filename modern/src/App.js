@@ -57,7 +57,7 @@ const useStyles = makeStyles(() => ({
     overflow: 'auto',
   },
   menu: {
-    zIndex: 4,
+    zIndex: 1204,
   },
 }));
 
