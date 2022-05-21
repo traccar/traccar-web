@@ -4,6 +4,7 @@ import maplibregl from 'maplibre-gl';
 import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
+import { useSelector } from 'react-redux';
 import { SwitcherControl } from '../switcher/switcher';
 import deviceCategories from '../../common/util/deviceCategories';
 import { prepareIcon, loadImage } from './mapUtil';
@@ -14,7 +15,6 @@ import { useAttributePreference } from '../../common/util/preferences';
 import palette from '../../common/theme/palette';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
-import { useSelector } from 'react-redux';
 
 const element = document.createElement('div');
 element.style.width = '100%';
