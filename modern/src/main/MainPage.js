@@ -121,8 +121,8 @@ const MainPage = () => {
   const t = useTranslation();
 
   const deviceReadonly = useDeviceReadonly();
-  const isTablet = useMediaQuery(theme.breakpoints.down('sm'));
-  const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
+  const phone = useMediaQuery(theme.breakpoints.down('xs'));
 
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
@@ -135,7 +135,7 @@ const MainPage = () => {
     setCollapsed(!collapsed);
   };
 
-  useEffect(() => setCollapsed(isTablet), [isTablet]);
+  useEffect(() => setCollapsed(!desktop), [desktop]);
 
   return (
     <div className={classes.root}>
@@ -149,10 +149,10 @@ const MainPage = () => {
         <PoiMap />
       </Map>
       <MapCurrentLocation />
-      {!isTablet && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
+      {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
       <Button
         variant="contained"
-        color={isPhone ? 'secondary' : 'primary'}
+        color={phone ? 'secondary' : 'primary'}
         classes={{ containedPrimary: classes.sidebarToggleBg }}
         className={classes.sidebarToggle}
         onClick={handleClose}
@@ -164,7 +164,7 @@ const MainPage = () => {
       <Paper square elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
         <Paper square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
-            {isTablet && (
+            {!desktop && (
               <IconButton onClick={handleClose}>
                 <ArrowBackIcon />
               </IconButton>
@@ -181,7 +181,7 @@ const MainPage = () => {
             <IconButton onClick={() => history.push('/settings/device')} disabled={deviceReadonly}>
               <AddIcon />
             </IconButton>
-            {!isTablet && (
+            {desktop && (
               <IconButton onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
@@ -192,7 +192,7 @@ const MainPage = () => {
           <DevicesList filter={searchKeyword} />
         </div>
       </Paper>
-      {!isPhone && !isTablet && (
+      {desktop && (
         <div className={classes.bottomMenu}>
           <BottomMenu />
         </div>
