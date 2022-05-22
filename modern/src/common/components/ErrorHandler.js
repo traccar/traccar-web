@@ -14,6 +14,8 @@ const ErrorHandler = () => {
   return (
     <Snackbar open={!!error}>
       <Alert
+        elevation={6}
+        variant="filled"
         onClose={() => dispatch(errorsActions.pop())}
         severity="error"
       >
