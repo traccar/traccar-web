@@ -26,7 +26,7 @@ const CollectionActions = ({
 
   const handleRemoveResult = (removed) => {
     setRemoving(false);
-    if (removed && setTimestamp) {
+    if (removed) {
       setTimestamp(Date.now());
     }
   };
