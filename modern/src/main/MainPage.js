@@ -174,7 +174,6 @@ const MainPage = () => {
               name="searchKeyword"
               value={searchKeyword}
               autoComplete="searchKeyword"
-              autoFocus
               onChange={(event) => setSearchKeyword(event.target.value)}
               placeholder={t('sharedSearchDevices')}
               variant="filled"
