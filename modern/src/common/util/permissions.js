@@ -26,10 +26,3 @@ export const useDeviceReadonly = () => useSelector((state) => {
   const userDeviceReadonly = state.session.user?.deviceReadonly;
   return !admin && (serverReadonly || userReadonly || serverDeviceReadonly || userDeviceReadonly);
 });
-
-export const useEditable = () => useSelector((state) => {
-  const admin = state.session.user?.administrator;
-  const serverReadonly = state.session.server?.readonly;
-  const userReadonly = state.session.user?.readonly;
-  return admin || (!serverReadonly && !userReadonly);
-});

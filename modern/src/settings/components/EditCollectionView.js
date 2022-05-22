@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import dimensions from '../../common/theme/dimensions';
-import { useEditable } from '../../common/util/permissions';
+import { useReadonly } from '../../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -29,7 +29,7 @@ const EditCollectionView = ({
   const history = useHistory();
   const t = useTranslation();
 
-  const editable = useEditable();
+  const readonly = useReadonly();
 
   const [selectedId, setSelectedId] = useState(null);
   const [selectedAnchorEl, setSelectedAnchorEl] = useState(null);
@@ -70,7 +70,7 @@ const EditCollectionView = ({
   return (
     <>
       <Content updateTimestamp={updateTimestamp} onMenuClick={menuShow} filter={filter} />
-      {editable && !disableAdd && (
+      {!readonly && !disableAdd && (
         <Fab size="medium" color="primary" className={classes.fab} onClick={handleAdd}>
           <AddIcon />
         </Fab>
