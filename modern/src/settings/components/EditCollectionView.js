@@ -60,9 +60,11 @@ const EditCollectionView = ({
     menuHide();
   };
 
-  const handleRemoveResult = () => {
+  const handleRemoveResult = (removed) => {
     setRemoveDialogShown(false);
-    setUpdateTimestamp(Date.now());
+    if (removed) {
+      setUpdateTimestamp(Date.now());
+    }
   };
 
   const Content = content;
