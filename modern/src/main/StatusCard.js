@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   makeStyles, Card, CardContent, Typography, CardActions, CardHeader, IconButton, Avatar, Table, TableBody, TableRow, TableCell, TableContainer,
@@ -19,6 +19,8 @@ import dimensions from '../common/theme/dimensions';
 import { useDeviceReadonly, useReadonly } from '../common/util/permissions';
 import usePersistedState from '../common/util/usePersistedState';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { devicesActions } from '../store';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -64,6 +66,7 @@ const StatusRow = ({ name, content }) => {
 const StatusCard = ({ deviceId, onClose }) => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const readonly = useReadonly();
@@ -75,7 +78,19 @@ const StatusCard = ({ deviceId, onClose }) => {
   const positionAttributes = usePositionAttributes(t);
   const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
-  const [removeDialogShown, setRemoveDialogShown] = useState(false);
+  const [removing, setRemoving] = useState(false);
+
+  const handleRemove = useCatch(async (removed) => {
+    if (removed) {
+      const response = await fetch('/api/devices');
+      if (response.ok) {
+        dispatch(devicesActions.refresh(await response.json()));
+      } else {
+        throw Error(await response.text());
+      }
+    }
+    setRemoving(false);
+  });
 
   return (
     <>
@@ -131,17 +146,17 @@ const StatusCard = ({ deviceId, onClose }) => {
             <IconButton onClick={() => history.push(`/settings/device/${deviceId}`)} disabled={deviceReadonly}>
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => setRemoveDialogShown(true)} disabled={deviceReadonly} className={classes.negative}>
+            <IconButton onClick={() => setRemoving(true)} disabled={deviceReadonly} className={classes.negative}>
               <DeleteIcon />
             </IconButton>
           </CardActions>
         </Card>
       )}
       <RemoveDialog
-        open={removeDialogShown}
+        open={removing}
         endpoint="devices"
         itemId={deviceId}
-        onResult={() => setRemoveDialogShown(false)}
+        onResult={(removed) => handleRemove(removed)}
       />
     </>
   );

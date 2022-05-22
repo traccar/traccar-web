@@ -21,7 +21,6 @@ import FlashOffIcon from '@material-ui/icons/FlashOff';
 import ErrorIcon from '@material-ui/icons/Error';
 
 import { devicesActions } from '../store';
-import EditCollectionView from '../settings/components/EditCollectionView';
 import { useEffectAsync } from '../reactHelper';
 import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
@@ -139,7 +138,7 @@ const DeviceRow = ({ data, index, style }) => {
   );
 };
 
-const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
+const DevicesList = ({ filter }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
@@ -167,7 +166,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
     } else {
       throw Error(await response.text());
     }
-  }, [updateTimestamp]);
+  }, []);
 
   return (
     <AutoSizer className={classes.list}>
@@ -177,7 +176,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
             width={width}
             height={height}
             itemCount={filteredItems.length}
-            itemData={{ items: filteredItems, onMenuClick }}
+            itemData={{ items: filteredItems }}
             itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}
@@ -189,9 +188,5 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
     </AutoSizer>
   );
 };
-
-const DevicesList = ({ filter }) => (
-  <EditCollectionView content={DeviceView} editPath="/settings/device" endpoint="devices" disableAdd filter={filter} />
-);
 
 export default DevicesList;
