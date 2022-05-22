@@ -8,10 +8,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import SelectField from '../common/components/SelectField';
+import LinkField from '../common/components/LinkField';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useGroupAttributes from '../common/attributes/useGroupAttributes';
+import { prefixString } from '../common/util/stringUtils';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -88,6 +90,80 @@ const GroupPage = () => {
               />
             </AccordionDetails>
           </Accordion>
+          {item.id && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedConnections')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/geofences"
+                  endpointLinked={`/api/geofences?groupId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="groupId"
+                  keyLink="geofenceId"
+                  label={t('sharedGeofences')}
+                  variant="filled"
+                />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/notifications"
+                  endpointLinked={`/api/notifications?groupId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="groupId"
+                  keyLink="notificationId"
+                  titleGetter={(it) => t(prefixString('event', it.type))}
+                  label={t('sharedNotifications')}
+                  variant="filled"
+                />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/drivers"
+                  endpointLinked={`/api/drivers?groupId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="groupId"
+                  keyLink="driverId"
+                  label={t('sharedDrivers')}
+                  variant="filled"
+                />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/attributes/computed"
+                  endpointLinked={`/api/attributes/computed?groupId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="groupId"
+                  keyLink="attributeId"
+                  titleGetter={(it) => it.description}
+                  label={t('sharedComputedAttributes')}
+                  variant="filled"
+                />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/commands"
+                  endpointLinked={`/api/commands?groupId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="groupId"
+                  keyLink="commandId"
+                  titleGetter={(it) => it.description}
+                  label={t('sharedSavedCommands')}
+                  variant="filled"
+                />
+                <LinkField
+                  margin="normal"
+                  endpointAll="/api/maintenance"
+                  endpointLinked={`/api/maintenance?groupId=${item.id}`}
+                  baseId={item.id}
+                  keyBase="groupId"
+                  keyLink="maintenanceId"
+                  label={t('sharedMaintenance')}
+                  variant="filled"
+                />
+              </AccordionDetails>
+            </Accordion>
+          )}
         </>
       )}
     </EditItemView>
