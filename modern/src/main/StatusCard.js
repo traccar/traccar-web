@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-  makeStyles, Button, Card, CardContent, Typography, CardActions, CardHeader, IconButton, Avatar, Table, TableBody, TableRow, TableCell, TableContainer,
+  makeStyles, Card, CardContent, Typography, CardActions, CardHeader, IconButton, Avatar, Table, TableBody, TableRow, TableCell, TableContainer,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 import ReplayIcon from '@material-ui/icons/Replay';
 import PublishIcon from '@material-ui/icons/Publish';
 import EditIcon from '@material-ui/icons/Edit';
@@ -39,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
   cell: {
     borderBottom: 'none',
+  },
+  actions: {
+    justifyContent: 'space-between',
   },
 }));
 
@@ -113,10 +117,10 @@ const StatusCard = ({ deviceId, onClose }) => {
               </TableContainer>
             </CardContent>
           )}
-          <CardActions disableSpacing>
-            <Button onClick={() => history.push(`/position/${position.id}`)} disabled={!position} color="secondary">
-              {t('sharedInfoTitle')}
-            </Button>
+          <CardActions classes={{ root: classes.actions }} disableSpacing>
+            <IconButton onClick={() => history.push(`/position/${position.id}`)} disabled={!position} color="secondary">
+              <PostAddIcon />
+            </IconButton>
             <IconButton onClick={() => history.push('/replay')} disabled={!position}>
               <ReplayIcon />
             </IconButton>
