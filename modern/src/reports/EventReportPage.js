@@ -115,7 +115,7 @@ const EventReportPage = () => {
               multiple
             >
               {typesArray.map(([key, string]) => (
-                <MenuItem value={key}>{t(string)}</MenuItem>
+                <MenuItem key={key} value={key}>{t(string)}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -130,8 +130,8 @@ const EventReportPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
+            {items.map((item, index) => (
+              <TableRow key={index}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}

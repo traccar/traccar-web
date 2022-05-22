@@ -84,8 +84,8 @@ const StopReportPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
+            {items.map((item, index) => (
+              <TableRow key={index}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}
