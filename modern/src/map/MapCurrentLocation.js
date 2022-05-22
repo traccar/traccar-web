@@ -2,7 +2,7 @@ import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
 import { map } from './core/Map';
 
-const CurrentLocationMap = () => {
+const MapCurrentLocation = () => {
   useEffect(() => {
     const control = new maplibregl.GeolocateControl({
       positionOptions: {
@@ -18,4 +18,4 @@ const CurrentLocationMap = () => {
   return null;
 };
 
-export default CurrentLocationMap;
+export default MapCurrentLocation;

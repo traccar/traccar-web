@@ -9,7 +9,7 @@ import ContainerDimensions from 'react-container-dimensions';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import Map from '../map/core/Map';
-import PositionsMap from '../map/PositionsMap';
+import MapPositions from '../map/MapPositions';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -70,7 +70,7 @@ const EventPage = () => {
       <div className={classes.mapContainer}>
         <ContainerDimensions>
           <Map>
-            {position && <PositionsMap positions={[position]} />}
+            {position && <MapPositions positions={[position]} />}
           </Map>
         </ContainerDimensions>
       </div>

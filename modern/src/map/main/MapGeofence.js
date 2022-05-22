@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from '../core/Map';
 import { geofenceToFeature } from '../core/mapUtil';
 
-const GeofenceMap = () => {
+const MapGeofence = () => {
   const id = 'geofences';
 
   const geofences = useSelector((state) => state.geofences.items);
@@ -81,4 +81,4 @@ const GeofenceMap = () => {
   return null;
 };
 
-export default GeofenceMap;
+export default MapGeofence;

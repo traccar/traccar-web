@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { devicesActions } from '../../store';
-import PositionsMap from '../PositionsMap';
+import MapPositions from '../MapPositions';
 
-const CurrentPositionsMap = () => {
+const MapCurrentPositions = () => {
   const dispatch = useDispatch();
 
   const onClick = useCallback((_, deviceId) => {
@@ -12,7 +12,7 @@ const CurrentPositionsMap = () => {
   }, [dispatch]);
 
   const positions = useSelector((state) => state.positions.items);
-  return (<PositionsMap positions={Object.values(positions)} onClick={onClick} />);
+  return (<MapPositions positions={Object.values(positions)} onClick={onClick} />);
 };
 
-export default CurrentPositionsMap;
+export default MapCurrentPositions;

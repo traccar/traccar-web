@@ -6,7 +6,7 @@ import { map } from '../core/Map';
 import { usePrevious } from '../../reactHelper';
 import usePersistedState from '../../common/util/usePersistedState';
 
-const SelectedDeviceMap = () => {
+const MapSelectedDevice = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const previousDeviceId = usePrevious(selectedDeviceId);
 
@@ -27,4 +27,4 @@ const SelectedDeviceMap = () => {
   return null;
 };
 
-export default SelectedDeviceMap;
+export default MapSelectedDevice;

@@ -14,20 +14,20 @@ import ListIcon from '@material-ui/icons/ViewList';
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
 import Map from '../map/core/Map';
-import SelectedDeviceMap from '../map/main/SelectedDeviceMap';
-import AccuracyMap from '../map/main/AccuracyMap';
-import GeofenceMap from '../map/main/GeofenceMap';
-import CurrentPositionsMap from '../map/main/CurrentPositionsMap';
-import CurrentLocationMap from '../map/CurrentLocationMap';
+import MapSelectedDevice from '../map/main/MapSelectedDevice';
+import MapAccuracy from '../map/main/MapAccuracy';
+import MapGeofence from '../map/main/MapGeofence';
+import MapCurrentPositions from '../map/main/MapCurrentPositions';
+import MapCurrentLocation from '../map/MapCurrentLocation';
 import BottomMenu from '../common/components/BottomMenu';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PoiMap from '../map/main/PoiMap';
 import MapPadding from '../map/MapPadding';
 import StatusCard from './StatusCard';
 import { devicesActions } from '../store';
-import DefaultCameraMap from '../map/main/DefaultCameraMap';
+import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import usePersistedState from '../common/util/usePersistedState';
-import LiveRoutesMap from '../map/main/LiveRoutesMap';
+import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import { useDeviceReadonly } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
@@ -140,15 +140,15 @@ const MainPage = () => {
   return (
     <div className={classes.root}>
       <Map>
-        <CurrentLocationMap />
-        <GeofenceMap />
-        <AccuracyMap />
-        {mapLiveRoutes && <LiveRoutesMap />}
-        <CurrentPositionsMap />
-        <DefaultCameraMap />
-        <SelectedDeviceMap />
+        <MapGeofence />
+        <MapAccuracy />
+        {mapLiveRoutes && <MapLiveRoutes />}
+        <MapCurrentPositions />
+        <MapDefaultCamera />
+        <MapSelectedDevice />
         <PoiMap />
       </Map>
+      <MapCurrentLocation />
       {!isTablet && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
       <Button
         variant="contained"

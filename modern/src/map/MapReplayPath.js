@@ -2,7 +2,7 @@ import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
 import { map } from './core/Map';
 
-const ReplayPathMap = ({ positions }) => {
+const MapReplayPath = ({ positions }) => {
   const id = 'replay';
 
   useEffect(() => {
@@ -62,4 +62,4 @@ const ReplayPathMap = ({ positions }) => {
   return null;
 };
 
-export default ReplayPathMap;
+export default MapReplayPath;

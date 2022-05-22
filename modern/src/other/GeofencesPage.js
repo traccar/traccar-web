@@ -8,8 +8,8 @@ import ContainerDimensions from 'react-container-dimensions';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory } from 'react-router-dom';
 import Map from '../map/core/Map';
-import CurrentLocationMap from '../map/CurrentLocationMap';
-import GeofenceEditMap from '../map/GeofenceEditMap';
+import MapCurrentLocation from '../map/MapCurrentLocation';
+import MapGeofenceEdit from '../map/MapGeofenceEdit';
 import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import dimensions from '../common/theme/dimensions';
@@ -79,8 +79,8 @@ const GeofencesPage = () => {
         <div className={classes.mapContainer}>
           <ContainerDimensions>
             <Map>
-              <CurrentLocationMap />
-              <GeofenceEditMap />
+              <MapCurrentLocation />
+              <MapGeofenceEdit />
             </Map>
           </ContainerDimensions>
         </div>

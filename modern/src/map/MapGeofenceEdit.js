@@ -34,7 +34,7 @@ const draw = new MapboxDraw({
   }],
 });
 
-const GeofenceEditMap = () => {
+const MapGeofenceEdit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -138,4 +138,4 @@ const GeofenceEditMap = () => {
   return null;
 };
 
-export default GeofenceEditMap;
+export default MapGeofenceEdit;

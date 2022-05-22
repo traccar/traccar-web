@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { usePreference } from '../../common/util/preferences';
 import { map } from '../core/Map';
 
-const DefaultCameraMap = () => {
+const MapDefaultCamera = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.positions.items);
 
@@ -49,4 +49,4 @@ const DefaultCameraMap = () => {
   return null;
 };
 
-export default DefaultCameraMap;
+export default MapDefaultCamera;

@@ -5,7 +5,7 @@ import { map } from './core/Map';
 import { getStatusColor } from '../common/util/formatter';
 import usePersistedState from '../common/util/usePersistedState';
 
-const PositionsMap = ({ positions, onClick }) => {
+const MapPositions = ({ positions, onClick }) => {
   const id = 'positions';
   const clusters = `${id}-clusters`;
 
@@ -139,4 +139,4 @@ const PositionsMap = ({ positions, onClick }) => {
   return null;
 };
 
-export default PositionsMap;
+export default MapPositions;

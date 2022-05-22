@@ -4,7 +4,7 @@ import circle from '@turf/circle';
 
 import { map } from '../core/Map';
 
-const AccuracyMap = () => {
+const MapAccuracy = () => {
   const id = 'accuracy';
 
   const positions = useSelector((state) => ({
@@ -52,4 +52,4 @@ const AccuracyMap = () => {
   return null;
 };
 
-export default AccuracyMap;
+export default MapAccuracy;

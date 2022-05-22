@@ -13,8 +13,8 @@ import FastRewindIcon from '@material-ui/icons/FastRewind';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Map from '../map/core/Map';
-import ReplayPathMap from '../map/ReplayPathMap';
-import PositionsMap from '../map/PositionsMap';
+import MapReplayPath from '../map/MapReplayPath';
+import MapPositions from '../map/MapPositions';
 import { formatTime } from '../common/util/formatter';
 import ReportFilter from '../reports/components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -138,9 +138,9 @@ const ReplayPage = () => {
   return (
     <div className={classes.root}>
       <Map>
-        <ReplayPathMap positions={positions} />
+        <MapReplayPath positions={positions} />
         {index < positions.length && (
-          <PositionsMap positions={[positions[index]]} onClick={onClick} />
+          <MapPositions positions={[positions[index]]} onClick={onClick} />
         )}
       </Map>
       <div className={classes.sidebar}>

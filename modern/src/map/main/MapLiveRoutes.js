@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from '../core/Map';
 import { usePrevious } from '../../reactHelper';
 
-const LiveRoutesMap = () => {
+const MapLiveRoutes = () => {
   const id = 'liveRoute';
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -77,4 +77,4 @@ const LiveRoutesMap = () => {
   return null;
 };
 
-export default LiveRoutesMap;
+export default MapLiveRoutes;
