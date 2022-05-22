@@ -95,14 +95,14 @@ const SummaryReportPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              {columns.map((key) => (<TableCell>{t(columnsMap.get(key))}</TableCell>))}
+              {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
                 {columns.map((key) => (
-                  <TableCell>
+                  <TableCell key={key}>
                     {formatValue(item, key)}
                   </TableCell>
                 ))}

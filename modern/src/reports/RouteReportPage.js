@@ -52,14 +52,14 @@ const RouteReportPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              {columns.map((key) => (<TableCell>{positionAttributes[key].name}</TableCell>))}
+              {columns.map((key) => (<TableCell key={key}>{positionAttributes[key].name}</TableCell>))}
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
                 {columns.map((key) => (
-                  <TableCell>
+                  <TableCell key={key}>
                     <PositionValue
                       position={item}
                       property={item.hasOwnProperty(key) ? key : null}

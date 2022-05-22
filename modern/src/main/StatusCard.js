@@ -102,6 +102,7 @@ const StatusCard = ({ deviceId, onClose }) => {
                   <TableBody>
                     {positionItems.map((key) => (
                       <StatusRow
+                        key={key}
                         name={positionAttributes[key].name}
                         content={(
                           <PositionValue
