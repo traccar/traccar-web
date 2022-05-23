@@ -94,6 +94,7 @@ const EventReportPage = () => {
         return item[key];
     }
   };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <ReportFilter handleSubmit={handleSubmit}>

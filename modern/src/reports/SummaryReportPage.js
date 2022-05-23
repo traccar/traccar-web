@@ -76,9 +76,9 @@ const SummaryReportPage = () => {
         return item[key];
     }
   };
-  const generateKey = (item) => {
-      return `${ item.deviceId }_${Date.parse(item.startTime)}`;
-  }
+
+  const generateKey = (item) => (`${item.deviceId}_${Date.parse(item.startTime)}`);
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <ReportFilter handleSubmit={handleSubmit}>

@@ -70,6 +70,7 @@ const StopReportPage = () => {
         return item[key];
     }
   };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
       <ReportFilter handleSubmit={handleSubmit}>
