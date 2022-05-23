@@ -127,7 +127,7 @@ const StatusCard = ({ deviceId, onClose }) => {
               <TableContainer>
                 <Table size="small" classes={{ root: classes.table }}>
                   <TableBody>
-                    {positionItems.map((key) => (
+                    {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
                       <StatusRow
                         key={key}
                         name={positionAttributes[key].name}
