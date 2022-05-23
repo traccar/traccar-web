@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
-import DescriptionIcon from '@material-ui/icons/Description';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MapIcon from '@material-ui/icons/Map';
-import PersonIcon from '@material-ui/icons/Person';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import DescriptionIcon from '@mui/icons-material/Description';
+import SettingsIcon from '@mui/icons-material/Settings';
+import MapIcon from '@mui/icons-material/Map';
+import PersonIcon from '@mui/icons-material/Person';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { useReadonly } from '../util/permissions';
 
 const BottomMenu = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -41,26 +41,26 @@ const BottomMenu = () => {
 
   const handleAccount = () => {
     setAnchorEl(null);
-    history.push(`/settings/user/${userId}`);
+    navigate(`/settings/user/${userId}`);
   };
 
   const handleLogout = async () => {
     setAnchorEl(null);
     await fetch('/api/session', { method: 'DELETE' });
-    history.push('/login');
+    navigate('/login');
     dispatch(sessionActions.updateUser(null));
   };
 
   const handleSelection = (event, value) => {
     switch (value) {
       case 0:
-        history.push('/');
+        navigate('/');
         break;
       case 1:
-        history.push('/reports/route');
+        navigate('/reports/route');
         break;
       case 2:
-        history.push('/settings/preferences');
+        navigate('/settings/preferences');
         break;
       case 3:
         if (readonly) {

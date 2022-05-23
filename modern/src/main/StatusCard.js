@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
-  makeStyles, Card, CardContent, Typography, CardActions, CardHeader, IconButton, Avatar, Table, TableBody, TableRow, TableCell, TableContainer,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import ReplayIcon from '@material-ui/icons/Replay';
-import PublishIcon from '@material-ui/icons/Publish';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  CardHeader,
+  IconButton,
+  Avatar,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableContainer,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import ReplayIcon from '@mui/icons-material/Replay';
+import PublishIcon from '@mui/icons-material/Publish';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatStatus } from '../common/util/formatter';
@@ -19,6 +31,8 @@ import dimensions from '../common/theme/dimensions';
 import { useDeviceReadonly, useReadonly } from '../common/util/permissions';
 import usePersistedState from '../common/util/usePersistedState';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { devicesActions } from '../store';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -63,7 +77,8 @@ const StatusRow = ({ name, content }) => {
 
 const StatusCard = ({ deviceId, onClose }) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const readonly = useReadonly();
@@ -75,7 +90,19 @@ const StatusCard = ({ deviceId, onClose }) => {
   const positionAttributes = usePositionAttributes(t);
   const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
-  const [removeDialogShown, setRemoveDialogShown] = useState(false);
+  const [removing, setRemoving] = useState(false);
+
+  const handleRemove = useCatch(async (removed) => {
+    if (removed) {
+      const response = await fetch('/api/devices');
+      if (response.ok) {
+        dispatch(devicesActions.refresh(await response.json()));
+      } else {
+        throw Error(await response.text());
+      }
+    }
+    setRemoving(false);
+  });
 
   return (
     <>
@@ -119,29 +146,46 @@ const StatusCard = ({ deviceId, onClose }) => {
             </CardContent>
           )}
           <CardActions classes={{ root: classes.actions }} disableSpacing>
-            <IconButton onClick={() => history.push(`/position/${position.id}`)} disabled={!position} color="secondary">
+            <IconButton
+              color="secondary"
+              onClick={() => navigate(`/position/${position.id}`)}
+              disabled={!position}
+            >
               <PostAddIcon />
             </IconButton>
-            <IconButton onClick={() => history.push('/replay')} disabled={!position}>
+            <IconButton
+              onClick={() => navigate('/replay')}
+              disabled={!position}
+            >
               <ReplayIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/settings/command-send/${deviceId}`)} disabled={readonly}>
+            <IconButton
+              onClick={() => navigate(`/settings/command-send/${deviceId}`)}
+              disabled={readonly}
+            >
               <PublishIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/settings/device/${deviceId}`)} disabled={deviceReadonly}>
+            <IconButton
+              onClick={() => navigate(`/settings/device/${deviceId}`)}
+              disabled={deviceReadonly}
+            >
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => setRemoveDialogShown(true)} disabled={deviceReadonly} className={classes.negative}>
+            <IconButton
+              onClick={() => setRemoving(true)}
+              disabled={deviceReadonly}
+              className={classes.negative}
+            >
               <DeleteIcon />
             </IconButton>
           </CardActions>
         </Card>
       )}
       <RemoveDialog
-        open={removeDialogShown}
+        open={removing}
         endpoint="devices"
         itemId={deviceId}
-        onResult={() => setRemoveDialogShown(false)}
+        onResult={(removed) => handleRemove(removed)}
       />
     </>
   );

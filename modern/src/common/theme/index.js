@@ -1,12 +1,12 @@
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 import palette from './palette';
-import overrides from './overrides';
 import dimensions from './dimensions';
+import components from './components';
 
 const theme = createTheme({
   palette,
-  overrides,
   dimensions,
+  components,
 });
 
 export default theme;

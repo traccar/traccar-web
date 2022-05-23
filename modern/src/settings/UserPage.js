@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, InputAdornment, IconButton, FilledInput,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CachedIcon from '@material-ui/icons/Cached';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControlLabel,
+  Checkbox,
+  InputAdornment,
+  IconButton,
+  OutlinedInput,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CachedIcon from '@mui/icons-material/Cached';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import EditItemView from './components/EditItemView';
@@ -74,21 +87,18 @@ const UserPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
                 value={item.email || ''}
                 onChange={(event) => setItem({ ...item, email: event.target.value })}
                 label={t('userEmail')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
                 type="password"
                 onChange={(event) => setItem({ ...item, password: event.target.value })}
                 label={t('userPassword')}
-                variant="filled"
               />
             </AccordionDetails>
           </Accordion>
@@ -104,7 +114,6 @@ const UserPage = () => {
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
@@ -112,7 +121,6 @@ const UserPage = () => {
                 value={item.latitude || 0}
                 onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
                 label={t('positionLatitude')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
@@ -120,7 +128,6 @@ const UserPage = () => {
                 value={item.longitude || 0}
                 onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
                 label={t('positionLongitude')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
@@ -128,11 +135,11 @@ const UserPage = () => {
                 value={item.zoom || 0}
                 onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
                 label={t('serverZoom')}
-                variant="filled"
               />
-              <FormControl variant="filled" margin="normal" fullWidth>
+              <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                 <Select
+                  label={t('settingsCoordinateFormat')}
                   value={item.coordinateFormat || 'dd'}
                   onChange={(event) => setItem({ ...item, coordinateFormat: event.target.value })}
                 >
@@ -141,9 +148,10 @@ const UserPage = () => {
                   <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="filled" margin="normal" fullWidth>
+              <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                 <Select
+                  label={t('settingsSpeedUnit')}
                   value={(item.attributes && item.attributes.speedUnit) || 'kn'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: e.target.value } })}
                 >
@@ -152,9 +160,10 @@ const UserPage = () => {
                   <MenuItem value="mph">{t('sharedMph')}</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="filled" margin="normal" fullWidth>
+              <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                 <Select
+                  label={t('settingsDistanceUnit')}
                   value={(item.attributes && item.attributes.distanceUnit) || 'km'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: e.target.value } })}
                 >
@@ -163,9 +172,10 @@ const UserPage = () => {
                   <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl variant="filled" margin="normal" fullWidth>
+              <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                 <Select
+                  label={t('settingsVolumeUnit')}
                   value={(item.attributes && item.attributes.volumeUnit) || 'ltr'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: e.target.value } })}
                 >
@@ -183,14 +193,12 @@ const UserPage = () => {
                 keyGetter={(it) => it}
                 titleGetter={(it) => it}
                 label={t('sharedTimezone')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
                 value={item.poiLayer || ''}
                 onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
                 label={t('mapPoiLayer')}
-                variant="filled"
               />
               <FormControlLabel
                 control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
@@ -205,18 +213,19 @@ const UserPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
-              <FormControl variant="filled" margin="normal">
+              <FormControl margin="normal">
                 <InputLabel>{t('userToken')}</InputLabel>
-                <FilledInput
+                <OutlinedInput
                   type="text"
                   value={item.token || ''}
                   onChange={(e) => setItem({ ...item, token: e.target.value })}
                   endAdornment={(
                     <InputAdornment position="end">
-                      <IconButton onClick={() => {
-                        const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
-                        setItem({ ...item, token });
-                      }}
+                      <IconButton
+                        onClick={() => {
+                          const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+                          setItem({ ...item, token });
+                        }}
                       >
                         <CachedIcon />
                       </IconButton>
@@ -226,7 +235,6 @@ const UserPage = () => {
               </FormControl>
               <TextField
                 margin="normal"
-                variant="filled"
                 label={t('userExpirationTime')}
                 type="date"
                 value={(item.expirationTime && item.expirationTime.format(moment.HTML5_FMT.DATE)) || '2999-01-01'}
@@ -239,7 +247,6 @@ const UserPage = () => {
                 value={item.deviceLimit || 0}
                 onChange={(e) => setItem({ ...item, deviceLimit: Number(e.target.value) })}
                 label={t('userDeviceLimit')}
-                variant="filled"
                 disabled={!admin}
               />
               <TextField
@@ -248,7 +255,6 @@ const UserPage = () => {
                 value={item.userLimit || 0}
                 onChange={(e) => setItem({ ...item, userLimit: Number(e.target.value) })}
                 label={t('userUserLimit')}
-                variant="filled"
                 disabled={!admin}
               />
               <FormControlLabel
@@ -313,7 +319,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="deviceId"
                   label={t('deviceTitle')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -323,7 +328,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="groupId"
                   label={t('settingsGroups')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -333,7 +337,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="geofenceId"
                   label={t('sharedGeofences')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -344,7 +347,6 @@ const UserPage = () => {
                   keyLink="notificationId"
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -354,7 +356,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="calendarId"
                   label={t('sharedCalendars')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -364,7 +365,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="managedUserId"
                   label={t('settingsUsers')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -375,7 +375,6 @@ const UserPage = () => {
                   keyLink="attributeId"
                   titleGetter={(it) => it.description}
                   label={t('sharedComputedAttributes')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -385,7 +384,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="driverId"
                   label={t('sharedDrivers')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -396,7 +394,6 @@ const UserPage = () => {
                   keyLink="commandId"
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -406,7 +403,6 @@ const UserPage = () => {
                   keyBase="userId"
                   keyLink="maintenanceId"
                   label={t('sharedMaintenance')}
-                  variant="filled"
                 />
               </AccordionDetails>
             </Accordion>

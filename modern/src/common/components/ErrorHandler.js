@@ -1,5 +1,4 @@
-import { Snackbar } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Snackbar, Alert } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
@@ -15,7 +14,6 @@ const ErrorHandler = () => {
     <Snackbar open={!!error}>
       <Alert
         elevation={6}
-        variant="filled"
         onClose={() => dispatch(errorsActions.pop())}
         severity="error"
       >

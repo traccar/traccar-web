@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, TableRow, TableBody, TableCell,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
@@ -81,9 +81,9 @@ const SummaryReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <ReportFilter handleSubmit={handleSubmit}>
         <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('sharedType')}</InputLabel>
-            <Select value={daily} onChange={(e) => setDaily(e.target.value)}>
+            <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>
               <MenuItem value={false}>{t('reportSummary')}</MenuItem>
               <MenuItem value>{t('reportDaily')}</MenuItem>
             </Select>

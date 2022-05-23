@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody, makeStyles, IconButton,
-} from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
-import EditCollectionView from './components/EditCollectionView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
+import CollectionFab from './components/CollectionFab';
+import CollectionActions from './components/CollectionActions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -16,10 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DriversView = ({ updateTimestamp, onMenuClick }) => {
+const DriversPage = () => {
   const classes = useStyles();
   const t = useTranslation();
 
+  const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
 
   useEffectAsync(async () => {
@@ -29,40 +31,35 @@ const DriversView = ({ updateTimestamp, onMenuClick }) => {
     } else {
       throw Error(await response.text());
     }
-  }, [updateTimestamp]);
+  }, [timestamp]);
 
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.columnAction} />
-            <TableCell>{t('sharedName')}</TableCell>
-            <TableCell>{t('deviceIdentifier')}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell className={classes.columnAction} padding="none">
-                <IconButton size="small" onClick={(event) => onMenuClick(event.currentTarget, item.id)}>
-                  <MoreVertIcon />
-                </IconButton>
-              </TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.uniqueId}</TableCell>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedDrivers']}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.columnAction} />
+              <TableCell>{t('sharedName')}</TableCell>
+              <TableCell>{t('deviceIdentifier')}</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions itemId={item.id} editPath="/settings/driver" endpoint="drivers" setTimestamp={setTimestamp} />
+                </TableCell>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.uniqueId}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <CollectionFab editPath="/settings/driver" />
+    </PageLayout>
   );
 };
-
-const DriversPage = () => (
-  <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedDrivers']}>
-    <EditCollectionView content={DriversView} editPath="/settings/driver" endpoint="drivers" />
-  </PageLayout>
-);
 
 export default DriversPage;

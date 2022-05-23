@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 
 import {
-  Button, Checkbox, FilledInput, FormControl, FormControlLabel, Grid, IconButton, InputAdornment, InputLabel, makeStyles,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
+  Button,
+  Checkbox,
+  OutlinedInput,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
@@ -164,9 +173,9 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
           );
         }
         return (
-          <FormControl variant="filled" margin="normal" key={key}>
+          <FormControl margin="normal" key={key}>
             <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
-            <FilledInput
+            <OutlinedInput
               type={type === 'number' ? 'number' : 'text'}
               value={getDisplayValue(value, subtype)}
               onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
@@ -182,7 +191,6 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
         );
       })}
       <Button
-        size="large"
         variant="outlined"
         color="primary"
         onClick={() => setAddDialogShown(true)}

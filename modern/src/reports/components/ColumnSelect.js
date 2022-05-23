@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   FormControl, InputLabel, MenuItem, Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useFilterStyles } from './ReportFilter';
 
@@ -13,9 +13,10 @@ const ColumnSelect = ({
 
   return (
     <div className={classes.item}>
-      <FormControl variant="filled" fullWidth>
+      <FormControl fullWidth>
         <InputLabel>{t('sharedColumns')}</InputLabel>
         <Select
+          label={t('sharedColumns')}
           value={columns}
           onChange={(e) => setColumns(e.target.value)}
           renderValue={(it) => it.length}

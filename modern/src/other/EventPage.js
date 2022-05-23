@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 import {
-  makeStyles, Typography, AppBar, Toolbar, IconButton,
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useHistory, useParams } from 'react-router-dom';
-import ContainerDimensions from 'react-container-dimensions';
+  Typography, AppBar, Toolbar, IconButton,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import Map from '../map/core/Map';
@@ -24,7 +24,7 @@ const useStyles = makeStyles(() => ({
 
 const EventPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const { id } = useParams();
@@ -61,18 +61,16 @@ const EventPage = () => {
     <div className={classes.root}>
       <AppBar color="inherit" position="static">
         <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
+          <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6">{t('positionEvent')}</Typography>
         </Toolbar>
       </AppBar>
       <div className={classes.mapContainer}>
-        <ContainerDimensions>
-          <Map>
-            {position && <MapPositions positions={[position]} />}
-          </Map>
-        </ContainerDimensions>
+        <Map>
+          {position && <MapPositions positions={[position]} />}
+        </Map>
       </div>
     </div>
   );

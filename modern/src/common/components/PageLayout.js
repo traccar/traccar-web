@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import {
-  AppBar, Breadcrumbs, Divider, Drawer, Hidden, IconButton, makeStyles, Toolbar, Typography, useMediaQuery, useTheme,
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import MenuIcon from '@material-ui/icons/Menu';
-import { useHistory } from 'react-router-dom';
+  AppBar,
+  Breadcrumbs,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,13 +66,13 @@ const PageTitle = ({ breadcrumbs }) => {
 
 const PageLayout = ({ menu, breadcrumbs, children }) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
   return (
     <>
-      <Hidden smDown>
+      <Hidden mdDown>
         <div className={classes.desktopRoot}>
           <Drawer
             variant="permanent"
@@ -71,7 +81,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           >
             <div className={classes.toolbar}>
               <Toolbar>
-                <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
+                <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
                   <ArrowBackIcon />
                 </IconButton>
                 <PageTitle breadcrumbs={breadcrumbs} />

@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, Button, FormControl,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Container,
+  Button,
+  FormControl,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import BaseCommandView from './components/BaseCommandView';
 import SelectField from '../common/components/SelectField';
@@ -28,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CommandSendPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
   const t = useTranslation();
 
@@ -59,7 +66,7 @@ const CommandSendPage = () => {
     });
 
     if (response.ok) {
-      history.goBack();
+      navigate(-1);
     } else {
       throw Error(await response.text());
     }
@@ -85,7 +92,6 @@ const CommandSendPage = () => {
               endpoint={`/api/commands/send?deviceId=${deviceId}`}
               titleGetter={(it) => it.description}
               label={t('sharedSavedCommand')}
-              variant="filled"
             />
             {!savedId && (
               <BaseCommandView item={item} setItem={setItem} />
@@ -98,7 +104,7 @@ const CommandSendPage = () => {
               type="button"
               color="primary"
               variant="outlined"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
             >
               {t('sharedCancel')}
             </Button>

@@ -1,12 +1,11 @@
 import {
   FormControl, InputLabel, MenuItem, Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
 const LinkField = ({
   margin,
-  variant,
   label,
   endpointAll,
   endpointLinked,
@@ -69,9 +68,10 @@ const LinkField = ({
 
   if (items && linked) {
     return (
-      <FormControl margin={margin} variant={variant}>
+      <FormControl margin={margin} fullWidth>
         <InputLabel>{label}</InputLabel>
         <Select
+          label={label}
           multiple
           value={linked}
           onChange={onChange}

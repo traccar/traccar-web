@@ -1,27 +1,26 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { IconButton, Tooltip } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
+import makeStyles from '@mui/styles/makeStyles';
+import { IconButton, Tooltip } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListItemText from '@mui/material/ListItemText';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import BatteryFullIcon from '@material-ui/icons/BatteryFull';
-import BatteryChargingFullIcon from '@material-ui/icons/BatteryChargingFull';
-import Battery60Icon from '@material-ui/icons/Battery60';
-import BatteryCharging60Icon from '@material-ui/icons/BatteryCharging60';
-import Battery20Icon from '@material-ui/icons/Battery20';
-import BatteryCharging20Icon from '@material-ui/icons/BatteryCharging20';
-import FlashOnIcon from '@material-ui/icons/FlashOn';
-import FlashOffIcon from '@material-ui/icons/FlashOff';
-import ErrorIcon from '@material-ui/icons/Error';
+import BatteryFullIcon from '@mui/icons-material/BatteryFull';
+import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
+import Battery60Icon from '@mui/icons-material/Battery60';
+import BatteryCharging60Icon from '@mui/icons-material/BatteryCharging60';
+import Battery20Icon from '@mui/icons-material/Battery20';
+import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
+import FlashOnIcon from '@mui/icons-material/FlashOn';
+import FlashOffIcon from '@mui/icons-material/FlashOff';
+import ErrorIcon from '@mui/icons-material/Error';
 
 import { devicesActions } from '../store';
-import EditCollectionView from '../settings/components/EditCollectionView';
 import { useEffectAsync } from '../reactHelper';
 import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
@@ -139,7 +138,7 @@ const DeviceRow = ({ data, index, style }) => {
   );
 };
 
-const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
+const DevicesList = ({ filter }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
@@ -167,7 +166,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
     } else {
       throw Error(await response.text());
     }
-  }, [updateTimestamp]);
+  }, []);
 
   return (
     <AutoSizer className={classes.list}>
@@ -177,7 +176,7 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
             width={width}
             height={height}
             itemCount={filteredItems.length}
-            itemData={{ items: filteredItems, onMenuClick }}
+            itemData={{ items: filteredItems }}
             itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}
@@ -189,9 +188,5 @@ const DeviceView = ({ updateTimestamp, onMenuClick, filter }) => {
     </AutoSizer>
   );
 };
-
-const DevicesList = ({ filter }) => (
-  <EditCollectionView content={DeviceView} editPath="/settings/device" endpoint="devices" disableAdd filter={filter} />
-);
 
 export default DevicesList;

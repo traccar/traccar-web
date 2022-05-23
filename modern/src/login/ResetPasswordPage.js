@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Grid, Button, TextField, Typography, Link, makeStyles, Snackbar,
-} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+  Grid, Button, TextField, Typography, Link, Snackbar,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useQuery from '../common/util/useQuery';
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ResetPasswordPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
   const query = useQuery();
 
@@ -62,7 +63,7 @@ const ResetPasswordPage = () => {
     <LoginLayout>
       <Snackbar
         open={snackbarOpen}
-        onClose={() => history.push('/login')}
+        onClose={() => navigate('/login')}
         autoHideDuration={snackBarDurationShortMs}
         message={!token ? t('loginResetSuccess') : t('loginUpdateSuccess')}
       />
@@ -70,7 +71,7 @@ const ResetPasswordPage = () => {
         <Grid container item>
           <Grid item>
             <Typography className={classes.link} color="primary">
-              <Link onClick={() => history.push('/login')}>
+              <Link onClick={() => navigate('/login')}>
                 <ArrowBackIcon />
               </Link>
             </Typography>
@@ -93,7 +94,6 @@ const ResetPasswordPage = () => {
                 value={email}
                 autoComplete="email"
                 onChange={(event) => setEmail(event.target.value)}
-                variant="filled"
               />
             </Grid>
           )
@@ -108,7 +108,6 @@ const ResetPasswordPage = () => {
                 type="password"
                 autoComplete="current-password"
                 onChange={(event) => setPassword(event.target.value)}
-                variant="filled"
               />
             </Grid>
           )}

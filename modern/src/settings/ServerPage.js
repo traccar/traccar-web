@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Button, FormControl, Container, Checkbox, FormControlLabel, InputLabel, Select, MenuItem,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useHistory } from 'react-router-dom';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Button,
+  FormControl,
+  Container,
+  Checkbox,
+  FormControlLabel,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
 import EditAttributesView from './components/EditAttributesView';
@@ -35,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ServerPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -54,7 +66,7 @@ const ServerPage = () => {
 
     if (response.ok) {
       dispatch(sessionActions.updateServer(await response.json()));
-      history.goBack();
+      navigate(-1);
     } else {
       throw Error(await response.text());
     }
@@ -77,7 +89,6 @@ const ServerPage = () => {
                   value={item.mapUrl || ''}
                   onChange={(event) => setItem({ ...item, mapUrl: event.target.value })}
                   label={t('mapCustomLabel')}
-                  variant="filled"
                 />
                 <TextField
                   margin="normal"
@@ -85,7 +96,6 @@ const ServerPage = () => {
                   value={item.latitude || 0}
                   onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
                   label={t('positionLatitude')}
-                  variant="filled"
                 />
                 <TextField
                   margin="normal"
@@ -93,7 +103,6 @@ const ServerPage = () => {
                   value={item.longitude || 0}
                   onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
                   label={t('positionLongitude')}
-                  variant="filled"
                 />
                 <TextField
                   margin="normal"
@@ -101,11 +110,11 @@ const ServerPage = () => {
                   value={item.zoom || 0}
                   onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
                   label={t('serverZoom')}
-                  variant="filled"
                 />
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                   <Select
+                    label={t('settingsCoordinateFormat')}
                     value={item.coordinateFormat || 'dd'}
                     onChange={(event) => setItem({ ...item, coordinateFormat: event.target.value })}
                   >
@@ -114,9 +123,10 @@ const ServerPage = () => {
                     <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                   <Select
+                    label={t('settingsSpeedUnit')}
                     value={item.attributes.speedUnit || 'kn'}
                     onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: e.target.value } })}
                   >
@@ -125,9 +135,10 @@ const ServerPage = () => {
                     <MenuItem value="mph">{t('sharedMph')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                   <Select
+                    label={t('settingsDistanceUnit')}
                     value={item.attributes.distanceUnit || 'km'}
                     onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: e.target.value } })}
                   >
@@ -136,9 +147,10 @@ const ServerPage = () => {
                     <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                   <Select
+                    label={t('settingsVolumeUnit')}
                     value={item.attributes.volumeUnit || 'ltr'}
                     onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: e.target.value } })}
                   >
@@ -156,21 +168,18 @@ const ServerPage = () => {
                   keyGetter={(it) => it}
                   titleGetter={(it) => it}
                   label={t('sharedTimezone')}
-                  variant="filled"
                 />
                 <TextField
                   margin="normal"
                   value={item.poiLayer || ''}
                   onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
                   label={t('mapPoiLayer')}
-                  variant="filled"
                 />
                 <TextField
                   margin="normal"
                   value={item.announcement || ''}
                   onChange={(event) => setItem({ ...item, announcement: event.target.value })}
                   label={t('serverAnnouncement')}
-                  variant="filled"
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
@@ -229,7 +238,7 @@ const ServerPage = () => {
         )}
         <FormControl fullWidth margin="normal">
           <div className={classes.buttons}>
-            <Button type="button" color="primary" variant="outlined" onClick={() => history.goBack()}>
+            <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
               {t('sharedCancel')}
             </Button>
             <Button type="button" color="primary" variant="contained" onClick={handleSave}>

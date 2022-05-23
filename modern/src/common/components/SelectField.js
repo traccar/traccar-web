@@ -1,12 +1,11 @@
 import {
   FormControl, InputLabel, MenuItem, Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
 const SelectField = ({
   margin,
-  variant,
   label,
   multiple,
   value,
@@ -33,9 +32,10 @@ const SelectField = ({
 
   if (items) {
     return (
-      <FormControl margin={margin} variant={variant}>
+      <FormControl margin={margin} fullWidth>
         <InputLabel>{label}</InputLabel>
         <Select
+          label={label}
           multiple={multiple}
           value={value}
           onChange={onChange}

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+  Accordion, AccordionSummary, AccordionDetails, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -46,14 +47,12 @@ const DriverPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-                variant="filled"
               />
               <TextField
                 margin="normal"
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
-                variant="filled"
               />
             </AccordionDetails>
           </Accordion>

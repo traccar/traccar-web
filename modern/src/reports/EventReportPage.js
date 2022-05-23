@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, TableRow, TableCell, TableBody,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useSelector } from 'react-redux';
 import { formatDate } from '../common/util/formatter';
 import ReportFilter, { useFilterStyles } from './components/ReportFilter';
@@ -99,9 +99,10 @@ const EventReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <ReportFilter handleSubmit={handleSubmit}>
         <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('reportEventTypes')}</InputLabel>
             <Select
+              label={t('reportEventTypes')}
               value={eventTypes}
               onChange={(event, child) => {
                 let values = event.target.value;

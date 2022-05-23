@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Grid, Button, TextField, Typography, Link, makeStyles, Snackbar,
-} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+  Grid, Button, TextField, Typography, Link, Snackbar,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const [name, setName] = useState('');
@@ -51,7 +52,7 @@ const RegisterPage = () => {
     <LoginLayout>
       <Snackbar
         open={snackbarOpen}
-        onClose={() => history.push('/login')}
+        onClose={() => navigate('/login')}
         autoHideDuration={snackBarDurationShortMs}
         message={t('loginCreated')}
       />
@@ -59,7 +60,7 @@ const RegisterPage = () => {
         <Grid container item>
           <Grid item>
             <Typography className={classes.link} color="primary">
-              <Link onClick={() => history.push('/login')}>
+              <Link onClick={() => navigate('/login')}>
                 <ArrowBackIcon />
               </Link>
             </Typography>
@@ -80,7 +81,6 @@ const RegisterPage = () => {
             autoComplete="name"
             autoFocus
             onChange={(event) => setName(event.target.value)}
-            variant="filled"
           />
         </Grid>
         <Grid item>
@@ -93,7 +93,6 @@ const RegisterPage = () => {
             value={email}
             autoComplete="email"
             onChange={(event) => setEmail(event.target.value)}
-            variant="filled"
           />
         </Grid>
         <Grid item>
@@ -106,7 +105,6 @@ const RegisterPage = () => {
             type="password"
             autoComplete="current-password"
             onChange={(event) => setPassword(event.target.value)}
-            variant="filled"
           />
         </Grid>
         <Grid item>

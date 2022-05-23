@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-    - run: npm install
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+    - run: npm install --force
       working-directory: modern
     - run: npm run lint
       working-directory: modern

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, makeStyles,
-} from '@material-ui/core';
+  FormControl, InputLabel, Select, MenuItem,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import {
   CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
@@ -58,9 +59,9 @@ const ChartReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly>
         <div className={filterClasses.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
-            <Select value={type} onChange={(e) => setType(e.target.value)}>
+            <Select label={t('reportChartType')} value={type} onChange={(e) => setType(e.target.value)}>
               {Object.keys(positionAttributes).filter((key) => positionAttributes[key].type === 'number').map((key) => (
                 <MenuItem key={key} value={key}>{positionAttributes[key].name}</MenuItem>
               ))}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from '@material-ui/core';
+import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,

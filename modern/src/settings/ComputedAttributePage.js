@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, MenuItem, Select, TextField,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -64,11 +73,11 @@ const ComputedAttributePage = () => {
               value={item.description || ''}
               onChange={(event) => setItem({ ...item, description: event.target.value })}
               label={t('sharedDescription')}
-              variant="filled"
             />
-            <FormControl variant="filled" margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth>
               <InputLabel>{t('sharedAttribute')}</InputLabel>
               <Select
+                label={t('sharedAttribute')}
                 value={item.attribute || ''}
                 onChange={handleChange}
               >
@@ -84,16 +93,15 @@ const ComputedAttributePage = () => {
               label={t('sharedExpression')}
               multiline
               rows={4}
-              variant="filled"
             />
             <FormControl
-              variant="filled"
               margin="normal"
               fullWidth
               disabled={key in positionAttributes}
             >
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
+                label={t('sharedType')}
                 value={item.type || ''}
                 onChange={(event) => setItem({ ...item, type: event.target.value })}
               >

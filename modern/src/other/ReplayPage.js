@@ -2,15 +2,16 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import {
-  Grid, IconButton, makeStyles, Paper, Slider, Toolbar, Tooltip, Typography,
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SettingsIcon from '@material-ui/icons/Settings';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import FastForwardIcon from '@material-ui/icons/FastForward';
-import FastRewindIcon from '@material-ui/icons/FastRewind';
-import { useHistory } from 'react-router-dom';
+  Grid, IconButton, Paper, Slider, Toolbar, Tooltip, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Map from '../map/core/Map';
 import MapReplayPath from '../map/MapReplayPath';
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: '100%',
       margin: 0,
     },
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       margin: theme.spacing(1),
     },
     [theme.breakpoints.up('md')]: {
@@ -78,7 +79,7 @@ const TimeLabel = ({ children, open, value }) => (
 const ReplayPage = () => {
   const t = useTranslation();
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const timerRef = useRef();
 
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
@@ -100,8 +101,8 @@ const ReplayPage = () => {
   });
 
   const onClick = useCallback((positionId) => {
-    history.push(`/position/${positionId}`);
-  }, [history]);
+    navigate(`/position/${positionId}`);
+  }, [navigate]);
 
   useEffect(() => {
     if (playing && positions.length > 0) {
@@ -146,7 +147,7 @@ const ReplayPage = () => {
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
           <Toolbar>
-            <IconButton onClick={() => history.push('/')}>
+            <IconButton onClick={() => navigate('/')}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>

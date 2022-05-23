@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+  Accordion, AccordionSummary, AccordionDetails, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import SelectField from '../common/components/SelectField';
@@ -55,7 +56,6 @@ const GroupPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-                variant="filled"
               />
             </AccordionDetails>
           </Accordion>
@@ -72,7 +72,6 @@ const GroupPage = () => {
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
-                variant="filled"
               />
             </AccordionDetails>
           </Accordion>
@@ -106,7 +105,6 @@ const GroupPage = () => {
                   keyBase="groupId"
                   keyLink="geofenceId"
                   label={t('sharedGeofences')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -117,7 +115,6 @@ const GroupPage = () => {
                   keyLink="notificationId"
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -127,7 +124,6 @@ const GroupPage = () => {
                   keyBase="groupId"
                   keyLink="driverId"
                   label={t('sharedDrivers')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -138,7 +134,6 @@ const GroupPage = () => {
                   keyLink="attributeId"
                   titleGetter={(it) => it.description}
                   label={t('sharedComputedAttributes')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -149,7 +144,6 @@ const GroupPage = () => {
                   keyLink="commandId"
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
-                  variant="filled"
                 />
                 <LinkField
                   margin="normal"
@@ -159,7 +153,6 @@ const GroupPage = () => {
                   keyBase="groupId"
                   keyLink="maintenanceId"
                   label={t('sharedMaintenance')}
-                  variant="filled"
                 />
               </AccordionDetails>
             </Accordion>

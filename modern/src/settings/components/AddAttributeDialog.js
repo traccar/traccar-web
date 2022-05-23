@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
   Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField,
-} from '@material-ui/core';
+  Autocomplete,
+} from '@mui/material';
 
-import { Autocomplete, createFilterOptions } from '@material-ui/lab';
+import { createFilterOptions } from '@mui/material/useAutocomplete';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const AddAttributeDialog = ({ open, onResult, definitions }) => {
@@ -47,17 +48,17 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           renderOption={(option) => option.name}
           freeSolo
           renderInput={(params) => (
-            <TextField {...params} label={t('sharedAttribute')} variant="filled" margin="normal" />
+            <TextField {...params} label={t('sharedAttribute')} margin="normal" />
           )}
         />
         <FormControl
-          variant="filled"
           margin="normal"
           fullWidth
           disabled={key in definitions}
         >
           <InputLabel>{t('sharedType')}</InputLabel>
           <Select
+            label={t('sharedType')}
             value={type}
             onChange={(e) => setType(e.target.value)}
           >

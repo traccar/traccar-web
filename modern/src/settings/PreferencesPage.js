@@ -1,8 +1,19 @@
 import React from 'react';
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Container,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
@@ -42,9 +53,13 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <FormControl variant="filled" fullWidth>
+            <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+              <Select
+                label={t('loginLanguage')}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
             </FormControl>
@@ -57,9 +72,10 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <FormControl variant="filled" fullWidth>
+            <FormControl fullWidth>
               <InputLabel>{t('sharedAttributes')}</InputLabel>
               <Select
+                label={t('sharedAttributes')}
                 value={positionItems}
                 onChange={(e) => setPositionItems(e.target.value)}
                 renderValue={(it) => it.length}

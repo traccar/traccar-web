@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   TextField, FormControlLabel, Checkbox,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import SelectField from '../../common/components/SelectField';
 import { prefixString } from '../../common/util/stringUtils';
@@ -32,7 +32,6 @@ const BaseCommandView = ({ item, setItem }) => {
         keyGetter={(it) => it.type}
         titleGetter={(it) => t(prefixString('command', it.type))}
         label={t('sharedType')}
-        variant="filled"
       />
       {attributes.map(({ key, name, type }) => {
         if (type === 'boolean') {
@@ -63,7 +62,6 @@ const BaseCommandView = ({ item, setItem }) => {
               setItem(updateItem);
             }}
             label={name}
-            variant="filled"
           />
         );
       })}

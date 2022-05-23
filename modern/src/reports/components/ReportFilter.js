@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, makeStyles,
-} from '@material-ui/core';
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -89,9 +90,9 @@ const ReportFilter = ({
     <div className={classes.filter}>
       {!ignoreDevice && (
         <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('reportDevice')}</InputLabel>
-            <Select value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
+            <Select label={t('reportDevice')} value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
               {Object.values(devices).map((device) => (
                 <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
               ))}
@@ -100,9 +101,9 @@ const ReportFilter = ({
         </div>
       )}
       <div className={classes.item}>
-        <FormControl variant="filled" fullWidth>
+        <FormControl fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
-          <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+          <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
             <MenuItem value="today">{t('reportToday')}</MenuItem>
             <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
             <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
@@ -116,7 +117,6 @@ const ReportFilter = ({
       {period === 'custom' && (
         <div className={classes.item}>
           <TextField
-            variant="filled"
             label={t('reportFrom')}
             type="datetime-local"
             value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
@@ -128,7 +128,6 @@ const ReportFilter = ({
       {period === 'custom' && (
         <div className={classes.item}>
           <TextField
-            variant="filled"
             label={t('reportTo')}
             type="datetime-local"
             value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}

@@ -1,5 +1,5 @@
+/* eslint-disable import/no-relative-packages */
 import React, { createContext, useContext, useMemo } from 'react';
-import usePersistedState from '../util/usePersistedState';
 
 import af from '../../../../web/l10n/af.json';
 import ar from '../../../../web/l10n/ar.json';
@@ -55,6 +55,7 @@ import uz from '../../../../web/l10n/uz.json';
 import vi from '../../../../web/l10n/vi.json';
 import zh from '../../../../web/l10n/zh.json';
 import zhTW from '../../../../web/l10n/zh_TW.json';
+import usePersistedState from '../util/usePersistedState';
 
 const languages = {
   af: { data: af, name: 'Afrikaans' },
@@ -143,8 +144,10 @@ const LocalizationContext = createContext({
 export const LocalizationProvider = ({ children }) => {
   const [language, setLanguage] = usePersistedState('language', getDefaultLanguage());
 
+  const value = useMemo(() => ({ languages, language, setLanguage }), [languages, language, setLanguage]);
+
   return (
-    <LocalizationContext.Provider value={{ languages, language, setLanguage }}>
+    <LocalizationContext.Provider value={value}>
       {children}
     </LocalizationContext.Provider>
   );

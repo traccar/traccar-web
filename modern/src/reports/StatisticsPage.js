@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
-} from '@material-ui/core';
+} from '@mui/material';
 import { formatDate } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
