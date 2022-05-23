@@ -94,7 +94,6 @@ const EventReportPage = () => {
         return item[key];
     }
   };
-
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <ReportFilter handleSubmit={handleSubmit}>
@@ -131,8 +130,8 @@ const EventReportPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item, index) => (
-              <TableRow key={index}>
+            {items.map((item) => (
+              <TableRow key={item.id}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}

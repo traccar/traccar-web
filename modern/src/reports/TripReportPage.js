@@ -79,7 +79,6 @@ const TripReportPage = () => {
         return item[key];
     }
   };
-
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportTrips']}>
       <ReportFilter handleSubmit={handleSubmit}>
@@ -93,8 +92,8 @@ const TripReportPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item, index) => (
-              <TableRow key={index}>
+            {items.map((item) => (
+              <TableRow key={item.startPositionId}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}

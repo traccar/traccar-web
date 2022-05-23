@@ -70,7 +70,6 @@ const StopReportPage = () => {
         return item[key];
     }
   };
-
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
       <ReportFilter handleSubmit={handleSubmit}>
@@ -84,8 +83,8 @@ const StopReportPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((item, index) => (
-              <TableRow key={index}>
+            {items.map((item) => (
+              <TableRow key={item.positionId}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}

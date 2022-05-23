@@ -40,7 +40,7 @@ const StatisticsPage = () => {
       throw Error(await response.text());
     }
   });
-
+console.log(items);
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice>
