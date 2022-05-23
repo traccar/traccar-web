@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
 import {
-  AppBar, Breadcrumbs, Divider, Drawer, Hidden, IconButton, makeStyles, Toolbar, Typography, useMediaQuery, useTheme,
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import MenuIcon from '@material-ui/icons/Menu';
+  AppBar,
+  Breadcrumbs,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
 
@@ -62,7 +72,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
 
   return (
     <>
-      <Hidden smDown>
+      <Hidden mdDown>
         <div className={classes.desktopRoot}>
           <Drawer
             variant="permanent"
@@ -71,7 +81,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           >
             <div className={classes.toolbar}>
               <Toolbar>
-                <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
+                <IconButton size="large" color="inherit" edge="start" onClick={() => navigate('/')}>
                   <ArrowBackIcon />
                 </IconButton>
                 <PageTitle breadcrumbs={breadcrumbs} />
@@ -96,7 +106,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           </Drawer>
           <AppBar position="static" color="inherit">
             <Toolbar>
-              <IconButton color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
+              <IconButton size="large" color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
                 <MenuIcon />
               </IconButton>
               <PageTitle breadcrumbs={breadcrumbs} />

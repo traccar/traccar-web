@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-  Divider, makeStyles, Typography, IconButton, useMediaQuery,
-} from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+  Divider, Typography, IconButton, useMediaQuery,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { useTheme } from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import Map from '../map/core/Map';
 import MapCurrentLocation from '../map/MapCurrentLocation';
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'row',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column-reverse',
     },
   },
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: dimensions.drawerWidthTablet,
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       height: dimensions.drawerHeightPhone,
     },
   },
@@ -54,7 +55,7 @@ const GeofencesPage = () => {
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
+  const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <div className={classes.root}>
@@ -65,7 +66,7 @@ const GeofencesPage = () => {
           classes={{ paper: classes.drawerPaper }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton onClick={() => navigate(-1)}>
+            <IconButton size="large" onClick={() => navigate(-1)}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>

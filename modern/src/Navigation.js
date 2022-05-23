@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress } from '@mui/material';
 import MainPage from './main/MainPage';
 import RouteReportPage from './reports/RouteReportPage';
 import ServerPage from './settings/ServerPage';

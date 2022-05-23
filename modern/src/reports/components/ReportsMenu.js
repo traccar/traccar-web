@@ -1,14 +1,14 @@
 import React from 'react';
 import {
   Divider, List, ListItem, ListItemIcon, ListItemText,
-} from '@material-ui/core';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import BarChartIcon from '@material-ui/icons/BarChart';
+} from '@mui/material';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator } from '../../common/util/permissions';

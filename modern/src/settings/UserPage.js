@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, InputAdornment, IconButton, FilledInput,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CachedIcon from '@material-ui/icons/Cached';
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControlLabel,
+  Checkbox,
+  InputAdornment,
+  IconButton,
+  FilledInput,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CachedIcon from '@mui/icons-material/Cached';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import EditItemView from './components/EditItemView';
@@ -213,10 +226,12 @@ const UserPage = () => {
                   onChange={(e) => setItem({ ...item, token: e.target.value })}
                   endAdornment={(
                     <InputAdornment position="end">
-                      <IconButton onClick={() => {
-                        const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
-                        setItem({ ...item, token });
-                      }}
+                      <IconButton
+                        size="large"
+                        onClick={() => {
+                          const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
+                          setItem({ ...item, token });
+                        }}
                       >
                         <CachedIcon />
                       </IconButton>

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  makeStyles, Paper, Toolbar, TextField, IconButton, Button,
-} from '@material-ui/core';
+  Paper, Toolbar, TextField, IconButton, Button,
+} from '@mui/material';
 
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ListIcon from '@material-ui/icons/ViewList';
+import makeStyles from '@mui/styles/makeStyles';
+
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ListIcon from '@mui/icons-material/ViewList';
 
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.dimensions.bottomBarHeight,
     transition: 'transform .5s ease',
     backgroundColor: 'white',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: '100%',
       margin: 0,
     },
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   sidebarCollapsed: {
     transform: `translateX(-${theme.dimensions.drawerWidthDesktop})`,
     marginLeft: 0,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       transform: 'translateX(-100vw)',
     },
   },
@@ -75,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
       left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
       bottom: theme.spacing(3),
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       left: '50%',
       bottom: theme.spacing(3) + theme.dimensions.bottomBarHeight,
     },
@@ -87,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(3),
     borderRadius: '0px',
     minWidth: 0,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       left: 0,
     },
   },
@@ -122,7 +124,7 @@ const MainPage = () => {
 
   const deviceReadonly = useDeviceReadonly();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
-  const phone = useMediaQuery(theme.breakpoints.down('xs'));
+  const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
@@ -165,7 +167,7 @@ const MainPage = () => {
         <Paper square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {!desktop && (
-              <IconButton onClick={handleClose}>
+              <IconButton size="large" onClick={handleClose}>
                 <ArrowBackIcon />
               </IconButton>
             )}
@@ -178,11 +180,15 @@ const MainPage = () => {
               placeholder={t('sharedSearchDevices')}
               variant="filled"
             />
-            <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
+            <IconButton
+              size="large"
+              onClick={() => navigate('/settings/device')}
+              disabled={deviceReadonly}
+            >
               <AddIcon />
             </IconButton>
             {desktop && (
-              <IconButton onClick={handleClose}>
+              <IconButton size="large" onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             )}

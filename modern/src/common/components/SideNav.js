@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import {
   List, ListItem, ListItemText, ListItemIcon, Divider, ListSubheader,
-} from '@material-ui/core';
+} from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
 const SideNav = ({ routes }) => {

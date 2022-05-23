@@ -1,7 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { makeStyles, LinearProgress, useMediaQuery } from '@material-ui/core';
+import { LinearProgress, useMediaQuery } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import theme from './common/theme';
 import BottomMenu from './common/components/BottomMenu';
 

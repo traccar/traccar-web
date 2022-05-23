@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, TableRow, TableCell, TableBody,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useSelector } from 'react-redux';
 import { formatDate } from '../common/util/formatter';
 import ReportFilter, { useFilterStyles } from './components/ReportFilter';

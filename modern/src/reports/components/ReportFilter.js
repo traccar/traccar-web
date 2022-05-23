@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, makeStyles,
-} from '@material-ui/core';
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';

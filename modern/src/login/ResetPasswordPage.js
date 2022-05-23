@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Grid, Button, TextField, Typography, Link, makeStyles, Snackbar,
-} from '@material-ui/core';
+  Grid, Button, TextField, Typography, Link, Snackbar,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useQuery from '../common/util/useQuery';

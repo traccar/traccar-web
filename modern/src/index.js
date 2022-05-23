@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
@@ -19,15 +19,17 @@ ReactDOM.render(
   (
     <Provider store={store}>
       <LocalizationProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <BrowserRouter basename={base}>
-            <SocketController />
-            <CachingController />
-            <Navigation />
-          </BrowserRouter>
-          <ErrorHandler />
-        </ThemeProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <BrowserRouter basename={base}>
+              <SocketController />
+              <CachingController />
+              <Navigation />
+            </BrowserRouter>
+            <ErrorHandler />
+          </ThemeProvider>
+        </StyledEngineProvider>
       </LocalizationProvider>
     </Provider>
   ), document.getElementById('root'),

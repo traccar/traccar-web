@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
-import DescriptionIcon from '@material-ui/icons/Description';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MapIcon from '@material-ui/icons/Map';
-import PersonIcon from '@material-ui/icons/Person';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import DescriptionIcon from '@mui/icons-material/Description';
+import SettingsIcon from '@mui/icons-material/Settings';
+import MapIcon from '@mui/icons-material/Map';
+import PersonIcon from '@mui/icons-material/Person';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';

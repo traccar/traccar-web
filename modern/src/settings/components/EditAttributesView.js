@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 
 import {
-  Button, Checkbox, FilledInput, FormControl, FormControlLabel, Grid, IconButton, InputAdornment, InputLabel, makeStyles,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
+  Button,
+  Checkbox,
+  FilledInput,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
@@ -157,7 +166,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
                 )}
                 label={getAttributeName(key, subtype)}
               />
-              <IconButton className={classes.removeButton} onClick={() => deleteAttribute(key)}>
+              <IconButton size="large" className={classes.removeButton} onClick={() => deleteAttribute(key)}>
                 <CloseIcon />
               </IconButton>
             </Grid>
@@ -172,7 +181,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
               onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
               endAdornment={(
                 <InputAdornment position="end">
-                  <IconButton onClick={() => deleteAttribute(key)}>
+                  <IconButton size="large" onClick={() => deleteAttribute(key)}>
                     <CloseIcon />
                   </IconButton>
                 </InputAdornment>

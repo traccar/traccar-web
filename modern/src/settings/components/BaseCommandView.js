@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   TextField, FormControlLabel, Checkbox,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import SelectField from '../../common/components/SelectField';
 import { prefixString } from '../../common/util/stringUtils';

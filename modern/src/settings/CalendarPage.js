@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import {
-  Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+  Accordion, AccordionSummary, AccordionDetails, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DropzoneArea } from 'material-ui-dropzone';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';

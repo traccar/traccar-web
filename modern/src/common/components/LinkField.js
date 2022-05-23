@@ -1,6 +1,6 @@
 import {
   FormControl, InputLabel, MenuItem, Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 

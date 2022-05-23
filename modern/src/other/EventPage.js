@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
 import {
-  makeStyles, Typography, AppBar, Toolbar, IconButton,
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+  Typography, AppBar, Toolbar, IconButton,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -60,7 +61,7 @@ const EventPage = () => {
     <div className={classes.root}>
       <AppBar color="inherit" position="static">
         <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
+          <IconButton size="large" color="inherit" edge="start" onClick={() => navigate('/')}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6">{t('positionEvent')}</Typography>

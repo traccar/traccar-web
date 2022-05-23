@@ -2,14 +2,15 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import {
-  Grid, IconButton, makeStyles, Paper, Slider, Toolbar, Tooltip, Typography,
-} from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SettingsIcon from '@material-ui/icons/Settings';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import FastForwardIcon from '@material-ui/icons/FastForward';
-import FastRewindIcon from '@material-ui/icons/FastRewind';
+  Grid, IconButton, Paper, Slider, Toolbar, Tooltip, Typography,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Map from '../map/core/Map';
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: '100%',
       margin: 0,
     },
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       margin: theme.spacing(1),
     },
     [theme.breakpoints.up('md')]: {
@@ -146,13 +147,13 @@ const ReplayPage = () => {
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
           <Toolbar>
-            <IconButton onClick={() => navigate('/')}>
+            <IconButton size="large" onClick={() => navigate('/')}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
             {!expanded && (
               <Grid item>
-                <IconButton onClick={() => setExpanded(true)}>
+                <IconButton size="large" onClick={() => setExpanded(true)}>
                   <SettingsIcon />
                 </IconButton>
               </Grid>
@@ -176,13 +177,21 @@ const ReplayPage = () => {
               />
               <div className={classes.controls}>
                 {`${index + 1}/${positions.length}`}
-                <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing}>
+                <IconButton
+                  size="large"
+                  onClick={() => setIndex((index) => index - 1)}
+                  disabled={playing}
+                >
                   <FastRewindIcon />
                 </IconButton>
-                <IconButton onClick={() => setPlaying(!playing)}>
+                <IconButton onClick={() => setPlaying(!playing)} size="large">
                   {playing ? <PauseIcon /> : <PlayArrowIcon /> }
                 </IconButton>
-                <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing}>
+                <IconButton
+                  size="large"
+                  onClick={() => setIndex((index) => index + 1)}
+                  disabled={playing}
+                >
                   <FastForwardIcon />
                 </IconButton>
                 {formatTime(positions[index].fixTime)}

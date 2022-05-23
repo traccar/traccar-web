@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, makeStyles,
-} from '@material-ui/core';
+  FormControl, InputLabel, Select, MenuItem,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import {
   CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';

@@ -2,14 +2,26 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  makeStyles, Card, CardContent, Typography, CardActions, CardHeader, IconButton, Avatar, Table, TableBody, TableRow, TableCell, TableContainer,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import ReplayIcon from '@material-ui/icons/Replay';
-import PublishIcon from '@material-ui/icons/Publish';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  CardHeader,
+  IconButton,
+  Avatar,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableContainer,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import ReplayIcon from '@mui/icons-material/Replay';
+import PublishIcon from '@mui/icons-material/Publish';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatStatus } from '../common/util/formatter';
@@ -103,7 +115,7 @@ const StatusCard = ({ deviceId, onClose }) => {
               </Avatar>
             )}
             action={(
-              <IconButton onClick={onClose}>
+              <IconButton size="large" onClick={onClose}>
                 <CloseIcon />
               </IconButton>
             )}
@@ -134,19 +146,41 @@ const StatusCard = ({ deviceId, onClose }) => {
             </CardContent>
           )}
           <CardActions classes={{ root: classes.actions }} disableSpacing>
-            <IconButton onClick={() => navigate(`/position/${position.id}`)} disabled={!position} color="secondary">
+            <IconButton
+              color="secondary"
+              size="large"
+              onClick={() => navigate(`/position/${position.id}`)}
+              disabled={!position}
+            >
               <PostAddIcon />
             </IconButton>
-            <IconButton onClick={() => navigate('/replay')} disabled={!position}>
+            <IconButton
+              size="large"
+              onClick={() => navigate('/replay')}
+              disabled={!position}
+            >
               <ReplayIcon />
             </IconButton>
-            <IconButton onClick={() => navigate(`/settings/command-send/${deviceId}`)} disabled={readonly}>
+            <IconButton
+              size="large"
+              onClick={() => navigate(`/settings/command-send/${deviceId}`)}
+              disabled={readonly}
+            >
               <PublishIcon />
             </IconButton>
-            <IconButton onClick={() => navigate(`/settings/device/${deviceId}`)} disabled={deviceReadonly}>
+            <IconButton
+              size="large"
+              onClick={() => navigate(`/settings/device/${deviceId}`)}
+              disabled={deviceReadonly}
+            >
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => setRemoving(true)} disabled={deviceReadonly} className={classes.negative}>
+            <IconButton
+              size="large"
+              onClick={() => setRemoving(true)}
+              disabled={deviceReadonly}
+              className={classes.negative}
+            >
               <DeleteIcon />
             </IconButton>
           </CardActions>

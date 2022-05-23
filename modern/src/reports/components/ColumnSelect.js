@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   FormControl, InputLabel, MenuItem, Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useFilterStyles } from './ReportFilter';
 

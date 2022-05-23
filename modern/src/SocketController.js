@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-import { Snackbar } from '@material-ui/core';
+import { Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { positionsActions, devicesActions, sessionActions } from './store';

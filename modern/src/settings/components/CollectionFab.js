@@ -1,6 +1,7 @@
 import React from 'react';
-import { Fab, makeStyles } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import { Fab } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useReadonly } from '../../common/util/permissions';
 import dimensions from '../../common/theme/dimensions';
@@ -10,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'fixed',
     bottom: theme.spacing(2),
     right: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       bottom: dimensions.bottomBarHeight + theme.spacing(2),
     },
   },

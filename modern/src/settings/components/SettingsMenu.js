@@ -1,17 +1,17 @@
 import React from 'react';
 import {
   Divider, List, ListItem, ListItemIcon, ListItemText,
-} from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/Settings';
-import CreateIcon from '@material-ui/icons/Create';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import FolderIcon from '@material-ui/icons/Folder';
-import PersonIcon from '@material-ui/icons/Person';
-import StorageIcon from '@material-ui/icons/Storage';
-import BuildIcon from '@material-ui/icons/Build';
-import PeopleIcon from '@material-ui/icons/People';
-import TodayIcon from '@material-ui/icons/Today';
-import PublishIcon from '@material-ui/icons/Publish';
+} from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import CreateIcon from '@mui/icons-material/Create';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import FolderIcon from '@mui/icons-material/Folder';
+import PersonIcon from '@mui/icons-material/Person';
+import StorageIcon from '@mui/icons-material/Storage';
+import BuildIcon from '@mui/icons-material/Build';
+import PeopleIcon from '@mui/icons-material/People';
+import TodayIcon from '@mui/icons-material/Today';
+import PublishIcon from '@mui/icons-material/Publish';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';

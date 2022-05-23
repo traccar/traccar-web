@@ -1,6 +1,7 @@
 import React from 'react';
-import { useMediaQuery, makeStyles, Paper } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { useMediaQuery, Paper } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { useTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.main,
     paddingBottom: theme.spacing(5),
     width: theme.dimensions.sidebarWidth,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       width: theme.dimensions.sidebarWidthTablet,
     },
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       width: '0px',
     },
   },
@@ -54,12 +55,11 @@ const LoginLayout = ({ children }) => {
     <>
       <main className={classes.root}>
         <div className={classes.sidebar}>
-          {!useMediaQuery(theme.breakpoints.down('md'))
-            && (
+          {!useMediaQuery(theme.breakpoints.down('lg')) && (
             <svg height="64" width="240">
               <use xlinkHref="/logo.svg#img" />
             </svg>
-            )}
+          )}
         </div>
         <Paper className={classes.paper}>
           <form className={classes.form}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   formatDistance, formatHours, formatDate, formatVolume,
 } from '../common/util/formatter';

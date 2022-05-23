@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import {
-  Grid, useMediaQuery, makeStyles, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import CachedIcon from '@material-ui/icons/Cached';
-import { useTheme } from '@material-ui/core/styles';
+  Grid,
+  useMediaQuery,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  Button,
+  TextField,
+  Link,
+  Snackbar,
+  IconButton,
+  Tooltip,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import CloseIcon from '@mui/icons-material/Close';
+import CachedIcon from '@mui/icons-material/Cached';
+import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { sessionActions } from '../store';
@@ -77,12 +89,15 @@ const LoginPage = () => {
   return (
     <LoginLayout>
       <Tooltip title="Switch to Legacy App" className={classes.legacy}>
-        <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
+        <IconButton
+          size="large"
+          onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}
+        >
           <CachedIcon />
         </IconButton>
       </Tooltip>
       <Grid container direction="column" spacing={2}>
-        {useMediaQuery(theme.breakpoints.down('md'))
+        {useMediaQuery(theme.breakpoints.down('lg'))
           && (
             <Grid item className={classes.logoContainer}>
               <svg height="64" width="240">
