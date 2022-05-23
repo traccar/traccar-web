@@ -94,7 +94,7 @@ const TripReportPage = () => {
           </TableHead>
           <TableBody>
             {items.map((item) => (
-              <TableRow key={item.id}>
+              <TableRow key={item.startPositionId}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}

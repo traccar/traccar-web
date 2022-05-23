@@ -100,7 +100,7 @@ const SummaryReportPage = () => {
           </TableHead>
           <TableBody>
             {items.map((item) => (
-              <TableRow key={item.id}>
+              <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}

@@ -116,7 +116,7 @@ const EventReportPage = () => {
               multiple
             >
               {typesArray.map(([key, string]) => (
-                <MenuItem value={key}>{t(string)}</MenuItem>
+                <MenuItem key={key} value={key}>{t(string)}</MenuItem>
               ))}
             </Select>
           </FormControl>
