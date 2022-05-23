@@ -77,6 +77,7 @@ const ComputedAttributePage = () => {
             <FormControl margin="normal" fullWidth>
               <InputLabel>{t('sharedAttribute')}</InputLabel>
               <Select
+                label={t('sharedAttribute')}
                 value={item.attribute || ''}
                 onChange={handleChange}
               >
@@ -100,6 +101,7 @@ const ComputedAttributePage = () => {
             >
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
+                label={t('sharedType')}
                 value={item.type || ''}
                 onChange={(event) => setItem({ ...item, type: event.target.value })}
               >

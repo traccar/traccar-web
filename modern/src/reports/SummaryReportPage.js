@@ -83,7 +83,7 @@ const SummaryReportPage = () => {
         <div className={classes.item}>
           <FormControl fullWidth>
             <InputLabel>{t('sharedType')}</InputLabel>
-            <Select value={daily} onChange={(e) => setDaily(e.target.value)}>
+            <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>
               <MenuItem value={false}>{t('reportSummary')}</MenuItem>
               <MenuItem value>{t('reportDaily')}</MenuItem>
             </Select>

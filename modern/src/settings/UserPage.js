@@ -139,6 +139,7 @@ const UserPage = () => {
               <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                 <Select
+                  label={t('settingsCoordinateFormat')}
                   value={item.coordinateFormat || 'dd'}
                   onChange={(event) => setItem({ ...item, coordinateFormat: event.target.value })}
                 >
@@ -150,6 +151,7 @@ const UserPage = () => {
               <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                 <Select
+                  label={t('settingsSpeedUnit')}
                   value={(item.attributes && item.attributes.speedUnit) || 'kn'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: e.target.value } })}
                 >
@@ -161,6 +163,7 @@ const UserPage = () => {
               <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                 <Select
+                  label={t('settingsDistanceUnit')}
                   value={(item.attributes && item.attributes.distanceUnit) || 'km'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: e.target.value } })}
                 >
@@ -172,6 +175,7 @@ const UserPage = () => {
               <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                 <Select
+                  label={t('settingsVolumeUnit')}
                   value={(item.attributes && item.attributes.volumeUnit) || 'ltr'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: e.target.value } })}
                 >

@@ -55,7 +55,11 @@ const PreferencesPage = () => {
           <AccordionDetails className={classes.details}>
             <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+              <Select
+                label={t('loginLanguage')}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
             </FormControl>
@@ -71,6 +75,7 @@ const PreferencesPage = () => {
             <FormControl fullWidth>
               <InputLabel>{t('sharedAttributes')}</InputLabel>
               <Select
+                label={t('sharedAttributes')}
                 value={positionItems}
                 onChange={(e) => setPositionItems(e.target.value)}
                 renderValue={(it) => it.length}

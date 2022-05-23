@@ -92,7 +92,7 @@ const ReportFilter = ({
         <div className={classes.item}>
           <FormControl fullWidth>
             <InputLabel>{t('reportDevice')}</InputLabel>
-            <Select value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
+            <Select label={t('reportDevice')} value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
               {Object.values(devices).map((device) => (
                 <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
               ))}
@@ -103,7 +103,7 @@ const ReportFilter = ({
       <div className={classes.item}>
         <FormControl fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
-          <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
+          <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
             <MenuItem value="today">{t('reportToday')}</MenuItem>
             <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
             <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>

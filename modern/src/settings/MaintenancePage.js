@@ -133,6 +133,7 @@ const MaintenancePage = () => {
               <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('sharedType')}</InputLabel>
                 <Select
+                  label={t('sharedType')}
                   value={item.type || ''}
                   onChange={onMaintenanceTypeChange}
                 >

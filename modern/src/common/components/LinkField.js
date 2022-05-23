@@ -69,9 +69,10 @@ const LinkField = ({
 
   if (items && linked) {
     return (
-      <FormControl margin={margin} variant={variant}>
+      <FormControl margin={margin} fullWidth>
         <InputLabel>{label}</InputLabel>
         <Select
+          label={label}
           multiple
           value={linked}
           onChange={onChange}

@@ -153,7 +153,7 @@ const LoginPage = () => {
           <Grid item xs>
             <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+              <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
             </FormControl>

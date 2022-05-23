@@ -102,6 +102,7 @@ const EventReportPage = () => {
           <FormControl fullWidth>
             <InputLabel>{t('reportEventTypes')}</InputLabel>
             <Select
+              label={t('reportEventTypes')}
               value={eventTypes}
               onChange={(event, child) => {
                 let values = event.target.value;
