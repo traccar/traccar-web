@@ -6,7 +6,6 @@ import { useEffectAsync } from '../../reactHelper';
 
 const SelectField = ({
   margin,
-  variant,
   label,
   multiple,
   value,

@@ -6,7 +6,6 @@ import { useEffectAsync } from '../../reactHelper';
 
 const LinkField = ({
   margin,
-  variant,
   label,
   endpointAll,
   endpointLinked,
