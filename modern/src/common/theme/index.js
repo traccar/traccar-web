@@ -1,10 +1,10 @@
-import { createTheme, adaptV4Theme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 import palette from './palette';
 import dimensions from './dimensions';
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme({
   palette,
   dimensions,
-}));
+});
 
 export default theme;
