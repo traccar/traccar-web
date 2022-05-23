@@ -81,7 +81,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           >
             <div className={classes.toolbar}>
               <Toolbar>
-                <IconButton size="large" color="inherit" edge="start" onClick={() => navigate('/')}>
+                <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
                   <ArrowBackIcon />
                 </IconButton>
                 <PageTitle breadcrumbs={breadcrumbs} />
@@ -106,7 +106,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           </Drawer>
           <AppBar position="static" color="inherit">
             <Toolbar>
-              <IconButton size="large" color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
+              <IconButton color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
                 <MenuIcon />
               </IconButton>
               <PageTitle breadcrumbs={breadcrumbs} />

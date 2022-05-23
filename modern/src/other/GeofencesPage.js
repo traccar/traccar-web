@@ -66,7 +66,7 @@ const GeofencesPage = () => {
           classes={{ paper: classes.drawerPaper }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton size="large" onClick={() => navigate(-1)}>
+            <IconButton onClick={() => navigate(-1)}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>

@@ -8,7 +8,6 @@ const Navbar = ({ setOpenDrawer, title }) => (
   <AppBar position="sticky" color="inherit">
     <Toolbar>
       <IconButton
-        size="large"
         color="inherit"
         edge="start"
         onClick={() => setOpenDrawer(true)}

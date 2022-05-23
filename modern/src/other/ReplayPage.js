@@ -147,13 +147,13 @@ const ReplayPage = () => {
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
           <Toolbar>
-            <IconButton size="large" onClick={() => navigate('/')}>
+            <IconButton onClick={() => navigate('/')}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
             {!expanded && (
               <Grid item>
-                <IconButton size="large" onClick={() => setExpanded(true)}>
+                <IconButton onClick={() => setExpanded(true)}>
                   <SettingsIcon />
                 </IconButton>
               </Grid>
@@ -177,21 +177,13 @@ const ReplayPage = () => {
               />
               <div className={classes.controls}>
                 {`${index + 1}/${positions.length}`}
-                <IconButton
-                  size="large"
-                  onClick={() => setIndex((index) => index - 1)}
-                  disabled={playing}
-                >
+                <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing}>
                   <FastRewindIcon />
                 </IconButton>
-                <IconButton onClick={() => setPlaying(!playing)} size="large">
+                <IconButton onClick={() => setPlaying(!playing)}>
                   {playing ? <PauseIcon /> : <PlayArrowIcon /> }
                 </IconButton>
-                <IconButton
-                  size="large"
-                  onClick={() => setIndex((index) => index + 1)}
-                  disabled={playing}
-                >
+                <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing}>
                   <FastForwardIcon />
                 </IconButton>
                 {formatTime(positions[index].fixTime)}

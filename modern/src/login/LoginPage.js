@@ -89,10 +89,7 @@ const LoginPage = () => {
   return (
     <LoginLayout>
       <Tooltip title="Switch to Legacy App" className={classes.legacy}>
-        <IconButton
-          size="large"
-          onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}
-        >
+        <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
           <CachedIcon />
         </IconButton>
       </Tooltip>

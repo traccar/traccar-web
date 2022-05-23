@@ -61,7 +61,7 @@ const EventPage = () => {
     <div className={classes.root}>
       <AppBar color="inherit" position="static">
         <Toolbar>
-          <IconButton size="large" color="inherit" edge="start" onClick={() => navigate('/')}>
+          <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6">{t('positionEvent')}</Typography>

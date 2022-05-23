@@ -115,7 +115,7 @@ const StatusCard = ({ deviceId, onClose }) => {
               </Avatar>
             )}
             action={(
-              <IconButton size="large" onClick={onClose}>
+              <IconButton onClick={onClose}>
                 <CloseIcon />
               </IconButton>
             )}
@@ -148,35 +148,30 @@ const StatusCard = ({ deviceId, onClose }) => {
           <CardActions classes={{ root: classes.actions }} disableSpacing>
             <IconButton
               color="secondary"
-              size="large"
               onClick={() => navigate(`/position/${position.id}`)}
               disabled={!position}
             >
               <PostAddIcon />
             </IconButton>
             <IconButton
-              size="large"
               onClick={() => navigate('/replay')}
               disabled={!position}
             >
               <ReplayIcon />
             </IconButton>
             <IconButton
-              size="large"
               onClick={() => navigate(`/settings/command-send/${deviceId}`)}
               disabled={readonly}
             >
               <PublishIcon />
             </IconButton>
             <IconButton
-              size="large"
               onClick={() => navigate(`/settings/device/${deviceId}`)}
               disabled={deviceReadonly}
             >
               <EditIcon />
             </IconButton>
             <IconButton
-              size="large"
               onClick={() => setRemoving(true)}
               disabled={deviceReadonly}
               className={classes.negative}

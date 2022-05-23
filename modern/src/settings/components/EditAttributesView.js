@@ -166,7 +166,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
                 )}
                 label={getAttributeName(key, subtype)}
               />
-              <IconButton size="large" className={classes.removeButton} onClick={() => deleteAttribute(key)}>
+              <IconButton className={classes.removeButton} onClick={() => deleteAttribute(key)}>
                 <CloseIcon />
               </IconButton>
             </Grid>
@@ -181,7 +181,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
               onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
               endAdornment={(
                 <InputAdornment position="end">
-                  <IconButton size="large" onClick={() => deleteAttribute(key)}>
+                  <IconButton onClick={() => deleteAttribute(key)}>
                     <CloseIcon />
                   </IconButton>
                 </InputAdornment>
@@ -191,7 +191,6 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
         );
       })}
       <Button
-        size="large"
         variant="outlined"
         color="primary"
         onClick={() => setAddDialogShown(true)}

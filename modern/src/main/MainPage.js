@@ -167,7 +167,7 @@ const MainPage = () => {
         <Paper square elevation={3}>
           <Toolbar className={classes.toolbar} disableGutters>
             {!desktop && (
-              <IconButton size="large" onClick={handleClose}>
+              <IconButton onClick={handleClose}>
                 <ArrowBackIcon />
               </IconButton>
             )}
@@ -179,15 +179,11 @@ const MainPage = () => {
               onChange={(event) => setSearchKeyword(event.target.value)}
               placeholder={t('sharedSearchDevices')}
             />
-            <IconButton
-              size="large"
-              onClick={() => navigate('/settings/device')}
-              disabled={deviceReadonly}
-            >
+            <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
               <AddIcon />
             </IconButton>
             {desktop && (
-              <IconButton size="large" onClick={handleClose}>
+              <IconButton onClick={handleClose}>
                 <CloseIcon />
               </IconButton>
             )}
