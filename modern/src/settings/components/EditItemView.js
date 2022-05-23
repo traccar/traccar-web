@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const EditItemView = ({
   children, endpoint, item, setItem, defaultItem, validate, onItemSaved, menu, breadcrumbs,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
   const t = useTranslation();
 
@@ -60,7 +60,7 @@ const EditItemView = ({
       if (onItemSaved) {
         onItemSaved(await response.json());
       }
-      history.goBack();
+      navigate(-1);
     } else {
       throw Error(await response.text());
     }
@@ -76,7 +76,7 @@ const EditItemView = ({
               type="button"
               color="primary"
               variant="outlined"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
             >
               {t('sharedCancel')}
             </Button>

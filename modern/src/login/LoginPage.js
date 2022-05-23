@@ -6,7 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import CachedIcon from '@material-ui/icons/Cached';
 import { useTheme } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const theme = useTheme();
   const t = useTranslation();
 
@@ -58,7 +58,7 @@ const LoginPage = () => {
       if (response.ok) {
         const user = await response.json();
         dispatch(sessionActions.updateUser(user));
-        history.push('/');
+        navigate('/');
       } else {
         throw Error(await response.text());
       }
@@ -136,7 +136,7 @@ const LoginPage = () => {
         </Grid>
         <Grid item container spacing={2}>
           <Grid item>
-            <Button onClick={() => history.push('/register')} disabled={!registrationEnabled} color="secondary">
+            <Button onClick={() => navigate('/register')} disabled={!registrationEnabled} color="secondary">
               {t('loginRegister')}
             </Button>
           </Grid>
@@ -152,7 +152,7 @@ const LoginPage = () => {
         {emailEnabled && (
           <Grid item container justifyContent="flex-end">
             <Grid item>
-              <Link onClick={() => history.push('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
+              <Link onClick={() => navigate('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
             </Grid>
           </Grid>
         )}

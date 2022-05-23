@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MenuIcon from '@material-ui/icons/Menu';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +56,7 @@ const PageTitle = ({ breadcrumbs }) => {
 
 const PageLayout = ({ menu, breadcrumbs, children }) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -71,7 +71,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           >
             <div className={classes.toolbar}>
               <Toolbar>
-                <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
+                <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
                   <ArrowBackIcon />
                 </IconButton>
                 <PageTitle breadcrumbs={breadcrumbs} />

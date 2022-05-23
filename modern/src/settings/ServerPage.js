@@ -5,7 +5,7 @@ import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Button, FormControl, Container, Checkbox, FormControlLabel, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
 import EditAttributesView from './components/EditAttributesView';
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ServerPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -54,7 +54,7 @@ const ServerPage = () => {
 
     if (response.ok) {
       dispatch(sessionActions.updateServer(await response.json()));
-      history.goBack();
+      navigate(-1);
     } else {
       throw Error(await response.text());
     }
@@ -229,7 +229,7 @@ const ServerPage = () => {
         )}
         <FormControl fullWidth margin="normal">
           <div className={classes.buttons}>
-            <Button type="button" color="primary" variant="outlined" onClick={() => history.goBack()}>
+            <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
               {t('sharedCancel')}
             </Button>
             <Button type="button" color="primary" variant="contained" onClick={handleSave}>

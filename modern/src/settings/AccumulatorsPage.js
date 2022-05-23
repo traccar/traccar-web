@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, TextField, FormControl, Button,
 } from '@material-ui/core';
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AccumulatorsPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
   const t = useTranslation();
 
@@ -54,7 +54,7 @@ const AccumulatorsPage = () => {
     });
 
     if (response.ok) {
-      history.goBack();
+      navigate(-1);
     } else {
       throw Error(await response.text());
     }
@@ -95,7 +95,7 @@ const AccumulatorsPage = () => {
                 type="button"
                 color="primary"
                 variant="outlined"
-                onClick={() => history.goBack()}
+                onClick={() => navigate(-1)}
               >
                 {t('sharedCancel')}
               </Button>

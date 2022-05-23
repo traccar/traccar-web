@@ -5,7 +5,7 @@ import {
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Map from '../map/core/Map';
 import MapCurrentLocation from '../map/MapCurrentLocation';
 import MapGeofenceEdit from '../map/MapGeofenceEdit';
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const GeofencesPage = () => {
   const theme = useTheme();
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const isPhone = useMediaQuery(theme.breakpoints.down('xs'));
@@ -65,7 +65,7 @@ const GeofencesPage = () => {
           classes={{ paper: classes.drawerPaper }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton onClick={() => history.goBack()}>
+            <IconButton onClick={() => navigate(-1)}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>

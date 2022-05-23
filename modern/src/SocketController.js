@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Snackbar } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
@@ -11,7 +11,7 @@ import { snackBarDurationLongMs } from './common/util/duration';
 
 const SocketController = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const authenticated = useSelector((state) => !!state.session.user);
@@ -74,7 +74,7 @@ const SocketController = () => {
     if (response.ok) {
       dispatch(sessionActions.updateUser(await response.json()));
     } else {
-      history.push('/login');
+      navigate('/login');
     }
     return null;
   }, [authenticated]);

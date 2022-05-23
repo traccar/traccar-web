@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Grid, Button, TextField, Typography, Link, makeStyles, Snackbar,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const [name, setName] = useState('');
@@ -51,7 +51,7 @@ const RegisterPage = () => {
     <LoginLayout>
       <Snackbar
         open={snackbarOpen}
-        onClose={() => history.push('/login')}
+        onClose={() => navigate('/login')}
         autoHideDuration={snackBarDurationShortMs}
         message={t('loginCreated')}
       />
@@ -59,7 +59,7 @@ const RegisterPage = () => {
         <Grid container item>
           <Grid item>
             <Typography className={classes.link} color="primary">
-              <Link onClick={() => history.push('/login')}>
+              <Link onClick={() => navigate('/login')}>
                 <ArrowBackIcon />
               </Link>
             </Typography>

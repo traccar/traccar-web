@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography, Container, Button, FormControl,
 } from '@material-ui/core';
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CommandSendPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
   const t = useTranslation();
 
@@ -59,7 +59,7 @@ const CommandSendPage = () => {
     });
 
     if (response.ok) {
-      history.goBack();
+      navigate(-1);
     } else {
       throw Error(await response.text());
     }
@@ -98,7 +98,7 @@ const CommandSendPage = () => {
               type="button"
               color="primary"
               variant="outlined"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
             >
               {t('sharedCancel')}
             </Button>

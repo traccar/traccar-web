@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   makeStyles, Paper, Toolbar, TextField, IconButton, Button,
 } from '@material-ui/core';
@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
   const t = useTranslation();
@@ -178,7 +178,7 @@ const MainPage = () => {
               placeholder={t('sharedSearchDevices')}
               variant="filled"
             />
-            <IconButton onClick={() => history.push('/settings/device')} disabled={deviceReadonly}>
+            <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
               <AddIcon />
             </IconButton>
             {desktop && (

@@ -10,7 +10,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import FastRewindIcon from '@material-ui/icons/FastRewind';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Map from '../map/core/Map';
 import MapReplayPath from '../map/MapReplayPath';
@@ -78,7 +78,7 @@ const TimeLabel = ({ children, open, value }) => (
 const ReplayPage = () => {
   const t = useTranslation();
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const timerRef = useRef();
 
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
@@ -100,8 +100,8 @@ const ReplayPage = () => {
   });
 
   const onClick = useCallback((positionId) => {
-    history.push(`/position/${positionId}`);
-  }, [history]);
+    navigate(`/position/${positionId}`);
+  }, [navigate]);
 
   useEffect(() => {
     if (playing && positions.length > 0) {
@@ -146,7 +146,7 @@ const ReplayPage = () => {
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
           <Toolbar>
-            <IconButton onClick={() => history.push('/')}>
+            <IconButton onClick={() => navigate('/')}>
               <ArrowBackIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   makeStyles, Card, CardContent, Typography, CardActions, CardHeader, IconButton, Avatar, Table, TableBody, TableRow, TableCell, TableContainer,
 } from '@material-ui/core';
@@ -65,7 +65,7 @@ const StatusRow = ({ name, content }) => {
 
 const StatusCard = ({ deviceId, onClose }) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -134,16 +134,16 @@ const StatusCard = ({ deviceId, onClose }) => {
             </CardContent>
           )}
           <CardActions classes={{ root: classes.actions }} disableSpacing>
-            <IconButton onClick={() => history.push(`/position/${position.id}`)} disabled={!position} color="secondary">
+            <IconButton onClick={() => navigate(`/position/${position.id}`)} disabled={!position} color="secondary">
               <PostAddIcon />
             </IconButton>
-            <IconButton onClick={() => history.push('/replay')} disabled={!position}>
+            <IconButton onClick={() => navigate('/replay')} disabled={!position}>
               <ReplayIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/settings/command-send/${deviceId}`)} disabled={readonly}>
+            <IconButton onClick={() => navigate(`/settings/command-send/${deviceId}`)} disabled={readonly}>
               <PublishIcon />
             </IconButton>
-            <IconButton onClick={() => history.push(`/settings/device/${deviceId}`)} disabled={deviceReadonly}>
+            <IconButton onClick={() => navigate(`/settings/device/${deviceId}`)} disabled={deviceReadonly}>
               <EditIcon />
             </IconButton>
             <IconButton onClick={() => setRemoving(true)} disabled={deviceReadonly} className={classes.negative}>

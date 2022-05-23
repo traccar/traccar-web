@@ -4,7 +4,7 @@ import {
   makeStyles, Typography, AppBar, Toolbar, IconButton,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import Map from '../map/core/Map';
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
 
 const EventPage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const { id } = useParams();
@@ -60,7 +60,7 @@ const EventPage = () => {
     <div className={classes.root}>
       <AppBar color="inherit" position="static">
         <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={() => history.push('/')}>
+          <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h6">{t('positionEvent')}</Typography>

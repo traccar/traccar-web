@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const CollectionActions = ({
   itemId, editPath, endpoint, setTimestamp,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [removing, setRemoving] = useState(false);
 
   const handleEdit = () => {
-    history.push(`${editPath}/${itemId}`);
+    navigate(`${editPath}/${itemId}`);
     setMenuAnchorEl(null);
   };
 

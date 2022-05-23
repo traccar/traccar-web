@@ -5,7 +5,7 @@ import theme from '@mapbox/mapbox-gl-draw/src/lib/theme';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { map } from './core/Map';
 import { geofenceToFeature, geometryToArea } from './core/mapUtil';
 import { errorsActions, geofencesActions } from '../store';
@@ -36,7 +36,7 @@ const draw = new MapboxDraw({
 
 const MapGeofenceEdit = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const geofences = useSelector((state) => state.geofences.items);
 
@@ -69,7 +69,7 @@ const MapGeofenceEdit = () => {
         });
         if (response.ok) {
           const item = await response.json();
-          history.push(`/settings/geofence/${item.id}`);
+          navigate(`/settings/geofence/${item.id}`);
         } else {
           throw Error(await response.text());
         }
@@ -80,7 +80,7 @@ const MapGeofenceEdit = () => {
 
     map.on('draw.create', listener);
     return () => map.off('draw.create', listener);
-  }, [dispatch, history]);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     const listener = async (event) => {
