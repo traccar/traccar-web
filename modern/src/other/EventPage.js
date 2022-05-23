@@ -5,7 +5,6 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory, useParams } from 'react-router-dom';
-import ContainerDimensions from 'react-container-dimensions';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import Map from '../map/core/Map';
@@ -68,11 +67,9 @@ const EventPage = () => {
         </Toolbar>
       </AppBar>
       <div className={classes.mapContainer}>
-        <ContainerDimensions>
-          <Map>
-            {position && <MapPositions positions={[position]} />}
-          </Map>
-        </ContainerDimensions>
+        <Map>
+          {position && <MapPositions positions={[position]} />}
+        </Map>
       </div>
     </div>
   );

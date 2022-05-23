@@ -4,7 +4,6 @@ import {
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import ContainerDimensions from 'react-container-dimensions';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useHistory } from 'react-router-dom';
 import Map from '../map/core/Map';
@@ -77,12 +76,10 @@ const GeofencesPage = () => {
           <GeofencesList />
         </Drawer>
         <div className={classes.mapContainer}>
-          <ContainerDimensions>
-            <Map>
-              <MapCurrentLocation />
-              <MapGeofenceEdit />
-            </Map>
-          </ContainerDimensions>
+          <Map>
+            <MapCurrentLocation />
+            <MapGeofenceEdit />
+          </Map>
         </div>
       </div>
     </div>
