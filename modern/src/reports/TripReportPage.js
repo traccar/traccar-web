@@ -79,6 +79,7 @@ const TripReportPage = () => {
         return item[key];
     }
   };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportTrips']}>
       <ReportFilter handleSubmit={handleSubmit}>

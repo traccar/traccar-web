@@ -77,8 +77,6 @@ const SummaryReportPage = () => {
     }
   };
 
-  const generateKey = (item) => (`${item.deviceId}_${Date.parse(item.startTime)}`);
-
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <ReportFilter handleSubmit={handleSubmit}>
@@ -102,7 +100,7 @@ const SummaryReportPage = () => {
           </TableHead>
           <TableBody>
             {items.map((item) => (
-              <TableRow key={generateKey(item)}>
+              <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
                 {columns.map((key) => (
                   <TableCell key={key}>
                     {formatValue(item, key)}
