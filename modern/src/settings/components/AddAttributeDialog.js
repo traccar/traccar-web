@@ -52,7 +52,6 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           )}
         />
         <FormControl
-         
           margin="normal"
           fullWidth
           disabled={key in definitions}

@@ -61,7 +61,6 @@ const NotificationPage = () => {
               keyGetter={(it) => it.type}
               titleGetter={(it) => t(prefixString('event', it.type))}
               label={t('sharedType')}
-             
             />
             <SelectField
               multiple
@@ -72,7 +71,6 @@ const NotificationPage = () => {
               keyGetter={(it) => it.type}
               titleGetter={(it) => t(prefixString('notificator', it.type))}
               label={t('notificationNotificators')}
-             
             />
             {(!item.type || item.type === 'alarm') && (
             <SelectField
@@ -83,7 +81,6 @@ const NotificationPage = () => {
               data={alarms}
               keyGetter={(it) => it.key}
               label={t('sharedAlarms')}
-             
             />
             )}
             <FormControlLabel

@@ -178,7 +178,6 @@ const MainPage = () => {
               autoComplete="searchKeyword"
               onChange={(event) => setSearchKeyword(event.target.value)}
               placeholder={t('sharedSearchDevices')}
-             
             />
             <IconButton
               size="large"

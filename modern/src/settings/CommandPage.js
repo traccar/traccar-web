@@ -45,7 +45,6 @@ const CommandPage = () => {
               value={item.description || ''}
               onChange={(event) => setItem({ ...item, description: event.target.value })}
               label={t('sharedDescription')}
-             
             />
             <BaseCommandView item={item} setItem={setItem} />
           </AccordionDetails>

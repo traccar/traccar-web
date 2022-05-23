@@ -61,7 +61,6 @@ const CalendarPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-               
               />
               <DropzoneArea
                 filesLimit={1}

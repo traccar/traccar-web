@@ -56,7 +56,6 @@ const GroupPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-               
               />
             </AccordionDetails>
           </Accordion>
@@ -73,7 +72,6 @@ const GroupPage = () => {
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
-               
               />
             </AccordionDetails>
           </Accordion>
@@ -107,7 +105,6 @@ const GroupPage = () => {
                   keyBase="groupId"
                   keyLink="geofenceId"
                   label={t('sharedGeofences')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -118,7 +115,6 @@ const GroupPage = () => {
                   keyLink="notificationId"
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -128,7 +124,6 @@ const GroupPage = () => {
                   keyBase="groupId"
                   keyLink="driverId"
                   label={t('sharedDrivers')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -139,7 +134,6 @@ const GroupPage = () => {
                   keyLink="attributeId"
                   titleGetter={(it) => it.description}
                   label={t('sharedComputedAttributes')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -150,7 +144,6 @@ const GroupPage = () => {
                   keyLink="commandId"
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -160,7 +153,6 @@ const GroupPage = () => {
                   keyBase="groupId"
                   keyLink="maintenanceId"
                   label={t('sharedMaintenance')}
-                 
                 />
               </AccordionDetails>
             </Accordion>

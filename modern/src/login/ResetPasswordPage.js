@@ -94,7 +94,6 @@ const ResetPasswordPage = () => {
                 value={email}
                 autoComplete="email"
                 onChange={(event) => setEmail(event.target.value)}
-               
               />
             </Grid>
           )
@@ -109,7 +108,6 @@ const ResetPasswordPage = () => {
                 type="password"
                 autoComplete="current-password"
                 onChange={(event) => setPassword(event.target.value)}
-               
               />
             </Grid>
           )}

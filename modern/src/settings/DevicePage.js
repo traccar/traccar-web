@@ -65,14 +65,12 @@ const DevicePage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-               
               />
               <TextField
                 margin="normal"
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
-               
               />
             </AccordionDetails>
           </Accordion>
@@ -89,28 +87,24 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
-               
               />
               <TextField
                 margin="normal"
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
-               
               />
               <TextField
                 margin="normal"
                 value={item.model || ''}
                 onChange={(event) => setItem({ ...item, model: event.target.value })}
                 label={t('deviceModel')}
-               
               />
               <TextField
                 margin="normal"
                 value={item.contact || ''}
                 onChange={(event) => setItem({ ...item, contact: event.target.value })}
                 label={t('deviceContact')}
-               
               />
               <SelectField
                 margin="normal"
@@ -122,7 +116,6 @@ const DevicePage = () => {
                   name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
                 }))}
                 label={t('deviceCategory')}
-               
               />
               {admin && (
                 <FormControlLabel
@@ -162,7 +155,6 @@ const DevicePage = () => {
                   keyBase="deviceId"
                   keyLink="geofenceId"
                   label={t('sharedGeofences')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -173,7 +165,6 @@ const DevicePage = () => {
                   keyLink="notificationId"
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -183,7 +174,6 @@ const DevicePage = () => {
                   keyBase="deviceId"
                   keyLink="driverId"
                   label={t('sharedDrivers')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -194,7 +184,6 @@ const DevicePage = () => {
                   keyLink="attributeId"
                   titleGetter={(it) => it.description}
                   label={t('sharedComputedAttributes')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -205,7 +194,6 @@ const DevicePage = () => {
                   keyLink="commandId"
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
-                 
                 />
                 <LinkField
                   margin="normal"
@@ -215,7 +203,6 @@ const DevicePage = () => {
                   keyBase="deviceId"
                   keyLink="maintenanceId"
                   label={t('sharedMaintenance')}
-                 
                 />
               </AccordionDetails>
             </Accordion>

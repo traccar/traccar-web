@@ -81,7 +81,6 @@ const RegisterPage = () => {
             autoComplete="name"
             autoFocus
             onChange={(event) => setName(event.target.value)}
-           
           />
         </Grid>
         <Grid item>
@@ -94,7 +93,6 @@ const RegisterPage = () => {
             value={email}
             autoComplete="email"
             onChange={(event) => setEmail(event.target.value)}
-           
           />
         </Grid>
         <Grid item>
@@ -107,7 +105,6 @@ const RegisterPage = () => {
             type="password"
             autoComplete="current-password"
             onChange={(event) => setPassword(event.target.value)}
-           
           />
         </Grid>
         <Grid item>

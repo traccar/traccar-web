@@ -118,7 +118,6 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             onKeyUp={handleSpecialKey}
             helperText={failed && 'Invalid username or password'}
-           
           />
         </Grid>
         <Grid item>
@@ -134,7 +133,6 @@ const LoginPage = () => {
             autoFocus={!!email}
             onChange={(e) => setPassword(e.target.value)}
             onKeyUp={handleSpecialKey}
-           
           />
         </Grid>
         <Grid item>

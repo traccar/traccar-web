@@ -117,7 +117,6 @@ const ReportFilter = ({
       {period === 'custom' && (
         <div className={classes.item}>
           <TextField
-           
             label={t('reportFrom')}
             type="datetime-local"
             value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
@@ -129,7 +128,6 @@ const ReportFilter = ({
       {period === 'custom' && (
         <div className={classes.item}>
           <TextField
-           
             label={t('reportTo')}
             type="datetime-local"
             value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}

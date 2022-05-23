@@ -47,14 +47,12 @@ const DriverPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-               
               />
               <TextField
                 margin="normal"
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
-               
               />
             </AccordionDetails>
           </Accordion>

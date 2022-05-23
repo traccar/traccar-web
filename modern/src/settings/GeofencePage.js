@@ -51,7 +51,6 @@ const GeofencePage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-               
               />
             </AccordionDetails>
           </Accordion>

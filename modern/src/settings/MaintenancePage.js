@@ -129,7 +129,6 @@ const MaintenancePage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-               
               />
               <FormControl margin="normal" fullWidth>
                 <InputLabel>{t('sharedType')}</InputLabel>
@@ -148,7 +147,6 @@ const MaintenancePage = () => {
                 value={rawToValue(item.start) || ''}
                 onChange={(event) => setItem({ ...item, start: valueToRaw(event.target.value) })}
                 label={t('maintenanceStart')}
-               
                 InputProps={{
                   endAdornment: <InputAdornment position="start">{labels.start}</InputAdornment>,
                 }}
@@ -159,7 +157,6 @@ const MaintenancePage = () => {
                 value={rawToValue(item.period) || ''}
                 onChange={(event) => setItem({ ...item, period: valueToRaw(event.target.value) })}
                 label={t('maintenancePeriod')}
-               
                 InputProps={{
                   endAdornment: <InputAdornment position="start">{labels.period}</InputAdornment>,
                 }}
