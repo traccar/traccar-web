@@ -53,7 +53,7 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <FormControl variant="filled" fullWidth>
+            <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
@@ -68,7 +68,7 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <FormControl variant="filled" fullWidth>
+            <FormControl fullWidth>
               <InputLabel>{t('sharedAttributes')}</InputLabel>
               <Select
                 value={positionItems}

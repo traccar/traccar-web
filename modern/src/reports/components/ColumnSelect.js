@@ -13,7 +13,7 @@ const ColumnSelect = ({
 
   return (
     <div className={classes.item}>
-      <FormControl variant="filled" fullWidth>
+      <FormControl fullWidth>
         <InputLabel>{t('sharedColumns')}</InputLabel>
         <Select
           value={columns}

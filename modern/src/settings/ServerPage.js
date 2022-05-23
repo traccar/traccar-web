@@ -89,7 +89,7 @@ const ServerPage = () => {
                   value={item.mapUrl || ''}
                   onChange={(event) => setItem({ ...item, mapUrl: event.target.value })}
                   label={t('mapCustomLabel')}
-                  variant="filled"
+                 
                 />
                 <TextField
                   margin="normal"
@@ -97,7 +97,7 @@ const ServerPage = () => {
                   value={item.latitude || 0}
                   onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
                   label={t('positionLatitude')}
-                  variant="filled"
+                 
                 />
                 <TextField
                   margin="normal"
@@ -105,7 +105,7 @@ const ServerPage = () => {
                   value={item.longitude || 0}
                   onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
                   label={t('positionLongitude')}
-                  variant="filled"
+                 
                 />
                 <TextField
                   margin="normal"
@@ -113,9 +113,9 @@ const ServerPage = () => {
                   value={item.zoom || 0}
                   onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
                   label={t('serverZoom')}
-                  variant="filled"
+                 
                 />
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                   <Select
                     value={item.coordinateFormat || 'dd'}
@@ -126,7 +126,7 @@ const ServerPage = () => {
                     <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                   <Select
                     value={item.attributes.speedUnit || 'kn'}
@@ -137,7 +137,7 @@ const ServerPage = () => {
                     <MenuItem value="mph">{t('sharedMph')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                   <Select
                     value={item.attributes.distanceUnit || 'km'}
@@ -148,7 +148,7 @@ const ServerPage = () => {
                     <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl variant="filled" margin="normal" fullWidth>
+                <FormControl margin="normal" fullWidth>
                   <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                   <Select
                     value={item.attributes.volumeUnit || 'ltr'}
@@ -168,21 +168,21 @@ const ServerPage = () => {
                   keyGetter={(it) => it}
                   titleGetter={(it) => it}
                   label={t('sharedTimezone')}
-                  variant="filled"
+                 
                 />
                 <TextField
                   margin="normal"
                   value={item.poiLayer || ''}
                   onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
                   label={t('mapPoiLayer')}
-                  variant="filled"
+                 
                 />
                 <TextField
                   margin="normal"
                   value={item.announcement || ''}
                   onChange={(event) => setItem({ ...item, announcement: event.target.value })}
                   label={t('serverAnnouncement')}
-                  variant="filled"
+                 
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}

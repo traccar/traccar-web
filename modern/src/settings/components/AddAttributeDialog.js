@@ -48,11 +48,11 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           renderOption={(option) => option.name}
           freeSolo
           renderInput={(params) => (
-            <TextField {...params} label={t('sharedAttribute')} variant="filled" margin="normal" />
+            <TextField {...params} label={t('sharedAttribute')} margin="normal" />
           )}
         />
         <FormControl
-          variant="filled"
+         
           margin="normal"
           fullWidth
           disabled={key in definitions}

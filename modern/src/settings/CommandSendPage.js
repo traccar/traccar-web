@@ -92,7 +92,7 @@ const CommandSendPage = () => {
               endpoint={`/api/commands/send?deviceId=${deviceId}`}
               titleGetter={(it) => it.description}
               label={t('sharedSavedCommand')}
-              variant="filled"
+             
             />
             {!savedId && (
               <BaseCommandView item={item} setItem={setItem} />

@@ -32,7 +32,7 @@ const BaseCommandView = ({ item, setItem }) => {
         keyGetter={(it) => it.type}
         titleGetter={(it) => t(prefixString('command', it.type))}
         label={t('sharedType')}
-        variant="filled"
+       
       />
       {attributes.map(({ key, name, type }) => {
         if (type === 'boolean') {
@@ -63,7 +63,7 @@ const BaseCommandView = ({ item, setItem }) => {
               setItem(updateItem);
             }}
             label={name}
-            variant="filled"
+           
           />
         );
       })}

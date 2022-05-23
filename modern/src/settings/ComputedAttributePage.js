@@ -73,9 +73,9 @@ const ComputedAttributePage = () => {
               value={item.description || ''}
               onChange={(event) => setItem({ ...item, description: event.target.value })}
               label={t('sharedDescription')}
-              variant="filled"
+             
             />
-            <FormControl variant="filled" margin="normal" fullWidth>
+            <FormControl margin="normal" fullWidth>
               <InputLabel>{t('sharedAttribute')}</InputLabel>
               <Select
                 value={item.attribute || ''}
@@ -93,10 +93,10 @@ const ComputedAttributePage = () => {
               label={t('sharedExpression')}
               multiline
               rows={4}
-              variant="filled"
+             
             />
             <FormControl
-              variant="filled"
+             
               margin="normal"
               fullWidth
               disabled={key in positionAttributes}

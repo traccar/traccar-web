@@ -85,7 +85,7 @@ const AccumulatorsPage = () => {
                 value={item.hours}
                 onChange={(event) => setItem({ ...item, hours: Number(event.target.value) })}
                 label={t('positionHours')}
-                variant="filled"
+               
               />
               <TextField
                 margin="normal"
@@ -93,7 +93,7 @@ const AccumulatorsPage = () => {
                 value={item.totalDistance}
                 onChange={(event) => setItem({ ...item, totalDistance: Number(event.target.value) })}
                 label={t('deviceTotalDistance')}
-                variant="filled"
+               
               />
             </AccordionDetails>
           </Accordion>

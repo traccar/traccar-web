@@ -118,7 +118,7 @@ const LoginPage = () => {
             onChange={(e) => setEmail(e.target.value)}
             onKeyUp={handleSpecialKey}
             helperText={failed && 'Invalid username or password'}
-            variant="filled"
+           
           />
         </Grid>
         <Grid item>
@@ -134,7 +134,7 @@ const LoginPage = () => {
             autoFocus={!!email}
             onChange={(e) => setPassword(e.target.value)}
             onKeyUp={handleSpecialKey}
-            variant="filled"
+           
           />
         </Grid>
         <Grid item>
@@ -156,7 +156,7 @@ const LoginPage = () => {
             </Button>
           </Grid>
           <Grid item xs>
-            <FormControl variant="filled" fullWidth>
+            <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}

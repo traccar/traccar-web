@@ -81,7 +81,7 @@ const SummaryReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <ReportFilter handleSubmit={handleSubmit}>
         <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('sharedType')}</InputLabel>
             <Select value={daily} onChange={(e) => setDaily(e.target.value)}>
               <MenuItem value={false}>{t('reportSummary')}</MenuItem>

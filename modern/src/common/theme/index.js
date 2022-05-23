@@ -5,7 +5,7 @@ import dimensions from './dimensions';
 
 const theme = createTheme(adaptV4Theme({
   palette,
-  overrides,
+  //overrides,
   dimensions,
 }));
 

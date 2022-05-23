@@ -65,14 +65,14 @@ const DevicePage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
-                variant="filled"
+               
               />
               <TextField
                 margin="normal"
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
-                variant="filled"
+               
               />
             </AccordionDetails>
           </Accordion>
@@ -89,28 +89,28 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
-                variant="filled"
+               
               />
               <TextField
                 margin="normal"
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
-                variant="filled"
+               
               />
               <TextField
                 margin="normal"
                 value={item.model || ''}
                 onChange={(event) => setItem({ ...item, model: event.target.value })}
                 label={t('deviceModel')}
-                variant="filled"
+               
               />
               <TextField
                 margin="normal"
                 value={item.contact || ''}
                 onChange={(event) => setItem({ ...item, contact: event.target.value })}
                 label={t('deviceContact')}
-                variant="filled"
+               
               />
               <SelectField
                 margin="normal"
@@ -122,7 +122,7 @@ const DevicePage = () => {
                   name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
                 }))}
                 label={t('deviceCategory')}
-                variant="filled"
+               
               />
               {admin && (
                 <FormControlLabel
@@ -162,7 +162,7 @@ const DevicePage = () => {
                   keyBase="deviceId"
                   keyLink="geofenceId"
                   label={t('sharedGeofences')}
-                  variant="filled"
+                 
                 />
                 <LinkField
                   margin="normal"
@@ -173,7 +173,7 @@ const DevicePage = () => {
                   keyLink="notificationId"
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
-                  variant="filled"
+                 
                 />
                 <LinkField
                   margin="normal"
@@ -183,7 +183,7 @@ const DevicePage = () => {
                   keyBase="deviceId"
                   keyLink="driverId"
                   label={t('sharedDrivers')}
-                  variant="filled"
+                 
                 />
                 <LinkField
                   margin="normal"
@@ -194,7 +194,7 @@ const DevicePage = () => {
                   keyLink="attributeId"
                   titleGetter={(it) => it.description}
                   label={t('sharedComputedAttributes')}
-                  variant="filled"
+                 
                 />
                 <LinkField
                   margin="normal"
@@ -205,7 +205,7 @@ const DevicePage = () => {
                   keyLink="commandId"
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
-                  variant="filled"
+                 
                 />
                 <LinkField
                   margin="normal"
@@ -215,7 +215,7 @@ const DevicePage = () => {
                   keyBase="deviceId"
                   keyLink="maintenanceId"
                   label={t('sharedMaintenance')}
-                  variant="filled"
+                 
                 />
               </AccordionDetails>
             </Accordion>

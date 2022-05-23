@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
   Button,
   Checkbox,
-  FilledInput,
+  OutlinedInput,
   FormControl,
   FormControlLabel,
   Grid,
@@ -173,9 +173,9 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
           );
         }
         return (
-          <FormControl variant="filled" margin="normal" key={key}>
+          <FormControl margin="normal" key={key}>
             <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
-            <FilledInput
+            <OutlinedInput
               type={type === 'number' ? 'number' : 'text'}
               value={getDisplayValue(value, subtype)}
               onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}

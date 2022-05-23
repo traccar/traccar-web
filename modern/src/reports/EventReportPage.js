@@ -99,7 +99,7 @@ const EventReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <ReportFilter handleSubmit={handleSubmit}>
         <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('reportEventTypes')}</InputLabel>
             <Select
               value={eventTypes}

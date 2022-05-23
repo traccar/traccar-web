@@ -90,7 +90,7 @@ const ReportFilter = ({
     <div className={classes.filter}>
       {!ignoreDevice && (
         <div className={classes.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('reportDevice')}</InputLabel>
             <Select value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
               {Object.values(devices).map((device) => (
@@ -101,7 +101,7 @@ const ReportFilter = ({
         </div>
       )}
       <div className={classes.item}>
-        <FormControl variant="filled" fullWidth>
+        <FormControl fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
           <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
             <MenuItem value="today">{t('reportToday')}</MenuItem>
@@ -117,7 +117,7 @@ const ReportFilter = ({
       {period === 'custom' && (
         <div className={classes.item}>
           <TextField
-            variant="filled"
+           
             label={t('reportFrom')}
             type="datetime-local"
             value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
@@ -129,7 +129,7 @@ const ReportFilter = ({
       {period === 'custom' && (
         <div className={classes.item}>
           <TextField
-            variant="filled"
+           
             label={t('reportTo')}
             type="datetime-local"
             value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}

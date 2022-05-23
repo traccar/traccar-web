@@ -59,7 +59,7 @@ const ChartReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly>
         <div className={filterClasses.item}>
-          <FormControl variant="filled" fullWidth>
+          <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select value={type} onChange={(e) => setType(e.target.value)}>
               {Object.keys(positionAttributes).filter((key) => positionAttributes[key].type === 'number').map((key) => (
