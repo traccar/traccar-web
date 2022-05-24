@@ -60,6 +60,9 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translateX(-100vw)',
     },
   },
+  toolbarContainer: {
+    zIndex: 4,
+  },
   toolbar: {
     display: 'flex',
     padding: theme.spacing(0, 1),
@@ -164,7 +167,7 @@ const MainPage = () => {
         <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
       </Button>
       <Paper square elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
-        <Paper square elevation={3}>
+        <Paper square elevation={3} className={classes.toolbarContainer}>
           <Toolbar className={classes.toolbar} disableGutters>
             {!desktop && (
               <IconButton onClick={handleClose}>
