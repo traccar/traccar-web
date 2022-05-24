@@ -12,7 +12,7 @@ export const useFilterStyles = makeStyles((theme) => ({
   filter: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: theme.spacing(1),
+    gap: theme.spacing(2),
     padding: theme.spacing(3, 2, 2),
   },
   item: {
