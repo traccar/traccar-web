@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
 const SelectField = ({
-  margin,
   label,
   multiple,
   value,
@@ -32,7 +31,7 @@ const SelectField = ({
 
   if (items) {
     return (
-      <FormControl margin={margin} fullWidth>
+      <FormControl>
         <InputLabel>{label}</InputLabel>
         <Select
           label={label}

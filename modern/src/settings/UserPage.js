@@ -32,10 +32,14 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useManager } from '../common/util/permissions';
 import { prefixString } from '../common/util/stringUtils';
+import { FormGroup } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -83,19 +87,16 @@ const UserPage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
-                margin="normal"
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
               />
               <TextField
-                margin="normal"
                 value={item.email || ''}
                 onChange={(event) => setItem({ ...item, email: event.target.value })}
                 label={t('userEmail')}
               />
               <TextField
-                margin="normal"
                 type="password"
                 onChange={(event) => setItem({ ...item, password: event.target.value })}
                 label={t('userPassword')}
@@ -110,33 +111,29 @@ const UserPage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
-                margin="normal"
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
               />
               <TextField
-                margin="normal"
                 type="number"
                 value={item.latitude || 0}
                 onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
                 label={t('positionLatitude')}
               />
               <TextField
-                margin="normal"
                 type="number"
                 value={item.longitude || 0}
                 onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
                 label={t('positionLongitude')}
               />
               <TextField
-                margin="normal"
                 type="number"
                 value={item.zoom || 0}
                 onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
                 label={t('serverZoom')}
               />
-              <FormControl margin="normal" fullWidth>
+              <FormControl fullWidth>
                 <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                 <Select
                   label={t('settingsCoordinateFormat')}
@@ -148,7 +145,7 @@ const UserPage = () => {
                   <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl margin="normal" fullWidth>
+              <FormControl fullWidth>
                 <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                 <Select
                   label={t('settingsSpeedUnit')}
@@ -160,7 +157,7 @@ const UserPage = () => {
                   <MenuItem value="mph">{t('sharedMph')}</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl margin="normal" fullWidth>
+              <FormControl fullWidth>
                 <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                 <Select
                   label={t('settingsDistanceUnit')}
@@ -172,7 +169,7 @@ const UserPage = () => {
                   <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl margin="normal" fullWidth>
+              <FormControl fullWidth>
                 <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                 <Select
                   label={t('settingsVolumeUnit')}
@@ -185,7 +182,6 @@ const UserPage = () => {
                 </Select>
               </FormControl>
               <SelectField
-                margin="normal"
                 value={(item.attributes && item.attributes.timezone) || ''}
                 emptyValue=""
                 onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
@@ -195,15 +191,16 @@ const UserPage = () => {
                 label={t('sharedTimezone')}
               />
               <TextField
-                margin="normal"
                 value={item.poiLayer || ''}
                 onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
                 label={t('mapPoiLayer')}
               />
-              <FormControlLabel
-                control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
-                label={t('settingsTwelveHourFormat')}
-              />
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
+                  label={t('settingsTwelveHourFormat')}
+                />
+              </FormGroup>
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -213,7 +210,7 @@ const UserPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
-              <FormControl margin="normal">
+              <FormControl>
                 <InputLabel>{t('userToken')}</InputLabel>
                 <OutlinedInput
                   type="text"
@@ -222,19 +219,19 @@ const UserPage = () => {
                   endAdornment={(
                     <InputAdornment position="end">
                       <IconButton
+                        size="small"
                         onClick={() => {
                           const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
                           setItem({ ...item, token });
                         }}
                       >
-                        <CachedIcon />
+                        <CachedIcon fontSize="small" />
                       </IconButton>
                     </InputAdornment>
                   )}
                 />
               </FormControl>
               <TextField
-                margin="normal"
                 label={t('userExpirationTime')}
                 type="date"
                 value={(item.expirationTime && item.expirationTime.format(moment.HTML5_FMT.DATE)) || '2999-01-01'}
@@ -242,7 +239,6 @@ const UserPage = () => {
                 disabled={!manager}
               />
               <TextField
-                margin="normal"
                 type="number"
                 value={item.deviceLimit || 0}
                 onChange={(e) => setItem({ ...item, deviceLimit: Number(e.target.value) })}
@@ -250,43 +246,44 @@ const UserPage = () => {
                 disabled={!admin}
               />
               <TextField
-                margin="normal"
                 type="number"
                 value={item.userLimit || 0}
                 onChange={(e) => setItem({ ...item, userLimit: Number(e.target.value) })}
                 label={t('userUserLimit')}
                 disabled={!admin}
               />
-              <FormControlLabel
-                control={<Checkbox checked={item.disabled} onChange={(e) => setItem({ ...item, disabled: e.target.checked })} />}
-                label={t('sharedDisabled')}
-                disabled={!manager}
-              />
-              <FormControlLabel
-                control={<Checkbox checked={item.administrator} onChange={(e) => setItem({ ...item, administrator: e.target.checked })} />}
-                label={t('userAdmin')}
-                disabled={!admin}
-              />
-              <FormControlLabel
-                control={<Checkbox checked={item.readonly} onChange={(e) => setItem({ ...item, readonly: e.target.checked })} />}
-                label={t('serverReadonly')}
-                disabled={!manager}
-              />
-              <FormControlLabel
-                control={<Checkbox checked={item.deviceReadonly} onChange={(e) => setItem({ ...item, deviceReadonly: e.target.checked })} />}
-                label={t('userDeviceReadonly')}
-                disabled={!manager}
-              />
-              <FormControlLabel
-                control={<Checkbox checked={item.limitCommands} onChange={(e) => setItem({ ...item, limitCommands: e.target.checked })} />}
-                label={t('userLimitCommands')}
-                disabled={!manager}
-              />
-              <FormControlLabel
-                control={<Checkbox checked={item.disableReports} onChange={(e) => setItem({ ...item, disableReports: e.target.checked })} />}
-                label={t('userDisableReports')}
-                disabled={!manager}
-              />
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox checked={item.disabled} onChange={(e) => setItem({ ...item, disabled: e.target.checked })} />}
+                  label={t('sharedDisabled')}
+                  disabled={!manager}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.administrator} onChange={(e) => setItem({ ...item, administrator: e.target.checked })} />}
+                  label={t('userAdmin')}
+                  disabled={!admin}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.readonly} onChange={(e) => setItem({ ...item, readonly: e.target.checked })} />}
+                  label={t('serverReadonly')}
+                  disabled={!manager}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.deviceReadonly} onChange={(e) => setItem({ ...item, deviceReadonly: e.target.checked })} />}
+                  label={t('userDeviceReadonly')}
+                  disabled={!manager}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.limitCommands} onChange={(e) => setItem({ ...item, limitCommands: e.target.checked })} />}
+                  label={t('userLimitCommands')}
+                  disabled={!manager}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.disableReports} onChange={(e) => setItem({ ...item, disableReports: e.target.checked })} />}
+                  label={t('userDisableReports')}
+                  disabled={!manager}
+                />
+              </FormGroup>
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -312,7 +309,6 @@ const UserPage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/devices?all=true"
                   endpointLinked={`/api/devices?userId=${item.id}`}
                   baseId={item.id}
@@ -321,7 +317,6 @@ const UserPage = () => {
                   label={t('deviceTitle')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/groups?all=true"
                   endpointLinked={`/api/groups?userId=${item.id}`}
                   baseId={item.id}
@@ -330,7 +325,6 @@ const UserPage = () => {
                   label={t('settingsGroups')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/geofences?all=true"
                   endpointLinked={`/api/geofences?userId=${item.id}`}
                   baseId={item.id}
@@ -339,7 +333,6 @@ const UserPage = () => {
                   label={t('sharedGeofences')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/notifications?all=true"
                   endpointLinked={`/api/notifications?userId=${item.id}`}
                   baseId={item.id}
@@ -349,7 +342,6 @@ const UserPage = () => {
                   label={t('sharedNotifications')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/calendars?all=true"
                   endpointLinked={`/api/calendars?userId=${item.id}`}
                   baseId={item.id}
@@ -358,7 +350,6 @@ const UserPage = () => {
                   label={t('sharedCalendars')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/users?all=true"
                   endpointLinked={`/api/users?userId=${item.id}`}
                   baseId={item.id}
@@ -367,7 +358,6 @@ const UserPage = () => {
                   label={t('settingsUsers')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/attributes/computed?all=true"
                   endpointLinked={`/api/attributes/computed?userId=${item.id}`}
                   baseId={item.id}
@@ -377,7 +367,6 @@ const UserPage = () => {
                   label={t('sharedComputedAttributes')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/drivers?all=true"
                   endpointLinked={`/api/drivers?userId=${item.id}`}
                   baseId={item.id}
@@ -386,7 +375,6 @@ const UserPage = () => {
                   label={t('sharedDrivers')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/commands?all=true"
                   endpointLinked={`/api/commands?userId=${item.id}`}
                   baseId={item.id}
@@ -396,7 +384,6 @@ const UserPage = () => {
                   label={t('sharedSavedCommands')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/maintenance?all=true"
                   endpointLinked={`/api/maintenance?userId=${item.id}`}
                   baseId={item.id}

@@ -9,9 +9,12 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import BaseCommandView from './components/BaseCommandView';
 import SettingsMenu from './components/SettingsMenu';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -41,7 +44,6 @@ const CommandPage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <TextField
-              margin="normal"
               value={item.description || ''}
               onChange={(event) => setItem({ ...item, description: event.target.value })}
               label={t('sharedDescription')}

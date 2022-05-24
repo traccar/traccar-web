@@ -15,10 +15,14 @@ import EditItemView from './components/EditItemView';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
+import { FormGroup } from '@material-ui/core';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -53,7 +57,6 @@ const NotificationPage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <SelectField
-              margin="normal"
               value={item.type}
               emptyValue={null}
               onChange={(e) => setItem({ ...item, type: e.target.value })}
@@ -64,7 +67,6 @@ const NotificationPage = () => {
             />
             <SelectField
               multiple
-              margin="normal"
               value={item.notificators ? item.notificators.split(/[, ]+/) : []}
               onChange={(e) => setItem({ ...item, notificators: e.target.value.join() })}
               endpoint="/api/notifications/notificators"
@@ -73,25 +75,26 @@ const NotificationPage = () => {
               label={t('notificationNotificators')}
             />
             {(!item.type || item.type === 'alarm') && (
-            <SelectField
-              multiple
-              margin="normal"
-              value={item.attributes && item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
-              onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, alarms: e.target.value.join() } })}
-              data={alarms}
-              keyGetter={(it) => it.key}
-              label={t('sharedAlarms')}
-            />
+              <SelectField
+                multiple
+                value={item.attributes && item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
+                onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, alarms: e.target.value.join() } })}
+                data={alarms}
+                keyGetter={(it) => it.key}
+                label={t('sharedAlarms')}
+              />
             )}
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.always}
-                  onChange={(event) => setItem({ ...item, always: event.target.checked })}
-                />
-                )}
-              label={t('notificationAlways')}
-            />
+            <FormGroup>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={item.always}
+                    onChange={(event) => setItem({ ...item, always: event.target.checked })}
+                  />
+                  )}
+                label={t('notificationAlways')}
+              />
+            </FormGroup>
           </AccordionDetails>
         </Accordion>
       )}

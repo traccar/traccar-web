@@ -8,7 +8,6 @@ import {
   Typography,
   Container,
   TextField,
-  FormControl,
   Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
@@ -23,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   buttons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
@@ -30,7 +31,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -80,14 +84,12 @@ const AccumulatorsPage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
-                margin="normal"
                 type="number"
                 value={item.hours}
                 onChange={(event) => setItem({ ...item, hours: Number(event.target.value) })}
                 label={t('positionHours')}
               />
               <TextField
-                margin="normal"
                 type="number"
                 value={item.totalDistance}
                 onChange={(event) => setItem({ ...item, totalDistance: Number(event.target.value) })}
@@ -95,26 +97,24 @@ const AccumulatorsPage = () => {
               />
             </AccordionDetails>
           </Accordion>
-          <FormControl fullWidth margin="normal">
-            <div className={classes.buttons}>
-              <Button
-                type="button"
-                color="primary"
-                variant="outlined"
-                onClick={() => navigate(-1)}
-              >
-                {t('sharedCancel')}
-              </Button>
-              <Button
-                type="button"
-                color="primary"
-                variant="contained"
-                onClick={handleSave}
-              >
-                {t('sharedSave')}
-              </Button>
-            </div>
-          </FormControl>
+          <div className={classes.buttons}>
+            <Button
+              type="button"
+              color="primary"
+              variant="outlined"
+              onClick={() => navigate(-1)}
+            >
+              {t('sharedCancel')}
+            </Button>
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={handleSave}
+            >
+              {t('sharedSave')}
+            </Button>
+          </div>
         </Container>
       )}
     </PageLayout>

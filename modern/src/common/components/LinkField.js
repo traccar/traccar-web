@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
 const LinkField = ({
-  margin,
   label,
   endpointAll,
   endpointLinked,
@@ -68,7 +67,7 @@ const LinkField = ({
 
   if (items && linked) {
     return (
-      <FormControl margin={margin} fullWidth>
+      <FormControl>
         <InputLabel>{label}</InputLabel>
         <Select
           label={label}

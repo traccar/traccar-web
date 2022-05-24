@@ -7,7 +7,6 @@ import {
   Typography,
   Container,
   Button,
-  FormControl,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -23,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   buttons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
@@ -30,7 +31,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -85,7 +89,6 @@ const CommandSendPage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <SelectField
-              margin="normal"
               value={savedId}
               emptyTitle={t('sharedNew')}
               onChange={(e) => setSavedId(e.target.value)}
@@ -98,27 +101,25 @@ const CommandSendPage = () => {
             )}
           </AccordionDetails>
         </Accordion>
-        <FormControl fullWidth margin="normal">
-          <div className={classes.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              variant="outlined"
-              onClick={() => navigate(-1)}
-            >
-              {t('sharedCancel')}
-            </Button>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={handleSend}
-              disabled={!validate()}
-            >
-              {t('commandSend')}
-            </Button>
-          </div>
-        </FormControl>
+        <div className={classes.buttons}>
+          <Button
+            type="button"
+            color="primary"
+            variant="outlined"
+            onClick={() => navigate(-1)}
+          >
+            {t('sharedCancel')}
+          </Button>
+          <Button
+            type="button"
+            color="primary"
+            variant="contained"
+            onClick={handleSend}
+            disabled={!validate()}
+          >
+            {t('commandSend')}
+          </Button>
+        </div>
       </Container>
     </PageLayout>
   );

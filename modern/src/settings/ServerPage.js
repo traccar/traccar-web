@@ -28,12 +28,15 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useCatch } from '../reactHelper';
+import { FormGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
   },
   buttons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
@@ -41,7 +44,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -85,33 +91,29 @@ const ServerPage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <TextField
-                  margin="normal"
                   value={item.mapUrl || ''}
                   onChange={(event) => setItem({ ...item, mapUrl: event.target.value })}
                   label={t('mapCustomLabel')}
                 />
                 <TextField
-                  margin="normal"
                   type="number"
                   value={item.latitude || 0}
                   onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
                   label={t('positionLatitude')}
                 />
                 <TextField
-                  margin="normal"
                   type="number"
                   value={item.longitude || 0}
                   onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
                   label={t('positionLongitude')}
                 />
                 <TextField
-                  margin="normal"
                   type="number"
                   value={item.zoom || 0}
                   onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
                   label={t('serverZoom')}
                 />
-                <FormControl margin="normal" fullWidth>
+                <FormControl fullWidth>
                   <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                   <Select
                     label={t('settingsCoordinateFormat')}
@@ -123,7 +125,7 @@ const ServerPage = () => {
                     <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl margin="normal" fullWidth>
+                <FormControl fullWidth>
                   <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                   <Select
                     label={t('settingsSpeedUnit')}
@@ -135,7 +137,7 @@ const ServerPage = () => {
                     <MenuItem value="mph">{t('sharedMph')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl margin="normal" fullWidth>
+                <FormControl fullWidth>
                   <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                   <Select
                     label={t('settingsDistanceUnit')}
@@ -147,7 +149,7 @@ const ServerPage = () => {
                     <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl margin="normal" fullWidth>
+                <FormControl fullWidth>
                   <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                   <Select
                     label={t('settingsVolumeUnit')}
@@ -160,7 +162,6 @@ const ServerPage = () => {
                   </Select>
                 </FormControl>
                 <SelectField
-                  margin="normal"
                   value={item.attributes.timezone || ''}
                   emptyValue=""
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
@@ -170,25 +171,25 @@ const ServerPage = () => {
                   label={t('sharedTimezone')}
                 />
                 <TextField
-                  margin="normal"
                   value={item.poiLayer || ''}
                   onChange={(event) => setItem({ ...item, poiLayer: event.target.value })}
                   label={t('mapPoiLayer')}
                 />
                 <TextField
-                  margin="normal"
                   value={item.announcement || ''}
                   onChange={(event) => setItem({ ...item, announcement: event.target.value })}
                   label={t('serverAnnouncement')}
                 />
-                <FormControlLabel
-                  control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
-                  label={t('settingsTwelveHourFormat')}
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={item.forceSettings} onChange={(event) => setItem({ ...item, forceSettings: event.target.checked })} />}
-                  label={t('serverForceSettings')}
-                />
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
+                    label={t('settingsTwelveHourFormat')}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={item.forceSettings} onChange={(event) => setItem({ ...item, forceSettings: event.target.checked })} />}
+                    label={t('serverForceSettings')}
+                  />
+                </FormGroup>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -198,26 +199,28 @@ const ServerPage = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
-                <FormControlLabel
-                  control={<Checkbox checked={item.registration} onChange={(event) => setItem({ ...item, registration: event.target.checked })} />}
-                  label={t('serverRegistration')}
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={item.readonly} onChange={(event) => setItem({ ...item, readonly: event.target.checked })} />}
-                  label={t('serverReadonly')}
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={item.deviceReadonly} onChange={(event) => setItem({ ...item, deviceReadonly: event.target.checked })} />}
-                  label={t('userDeviceReadonly')}
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={item.limitCommands} onChange={(event) => setItem({ ...item, limitCommands: event.target.checked })} />}
-                  label={t('userLimitCommands')}
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={item.disableReports} onChange={(event) => setItem({ ...item, disableReports: event.target.checked })} />}
-                  label={t('userDisableReports')}
-                />
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox checked={item.registration} onChange={(event) => setItem({ ...item, registration: event.target.checked })} />}
+                    label={t('serverRegistration')}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={item.readonly} onChange={(event) => setItem({ ...item, readonly: event.target.checked })} />}
+                    label={t('serverReadonly')}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={item.deviceReadonly} onChange={(event) => setItem({ ...item, deviceReadonly: event.target.checked })} />}
+                    label={t('userDeviceReadonly')}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={item.limitCommands} onChange={(event) => setItem({ ...item, limitCommands: event.target.checked })} />}
+                    label={t('userLimitCommands')}
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={item.disableReports} onChange={(event) => setItem({ ...item, disableReports: event.target.checked })} />}
+                    label={t('userDisableReports')}
+                  />
+                </FormGroup>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -236,16 +239,14 @@ const ServerPage = () => {
             </Accordion>
           </>
         )}
-        <FormControl fullWidth margin="normal">
-          <div className={classes.buttons}>
-            <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
-              {t('sharedCancel')}
-            </Button>
-            <Button type="button" color="primary" variant="contained" onClick={handleSave}>
-              {t('sharedSave')}
-            </Button>
-          </div>
-        </FormControl>
+        <div className={classes.buttons}>
+          <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
+            {t('sharedCancel')}
+          </Button>
+          <Button type="button" color="primary" variant="contained" onClick={handleSave}>
+            {t('sharedSave')}
+          </Button>
+        </div>
       </Container>
     </PageLayout>
   );

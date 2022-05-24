@@ -25,7 +25,6 @@ const BaseCommandView = ({ item, setItem }) => {
   return (
     <>
       <SelectField
-        margin="normal"
         value={item.type || ''}
         onChange={(e) => setItem({ ...item, type: e.target.value, attributes: {} })}
         endpoint="/api/commands/types"
@@ -53,7 +52,6 @@ const BaseCommandView = ({ item, setItem }) => {
         }
         return (
           <TextField
-            margin="normal"
             type={type === 'number' ? 'number' : 'text'}
             value={item.attributes[key]}
             onChange={(e) => {

@@ -24,7 +24,6 @@ import {
 const useStyles = makeStyles((theme) => ({
   addButton: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(1),
   },
   removeButton: {
     marginRight: theme.spacing(1.5),
@@ -166,23 +165,24 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
                 )}
                 label={getAttributeName(key, subtype)}
               />
-              <IconButton className={classes.removeButton} onClick={() => deleteAttribute(key)}>
-                <CloseIcon />
+              <IconButton size="small" className={classes.removeButton} onClick={() => deleteAttribute(key)}>
+                <CloseIcon fontSize="small" />
               </IconButton>
             </Grid>
           );
         }
         return (
-          <FormControl margin="normal" key={key}>
+          <FormControl key={key}>
             <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
             <OutlinedInput
+              label={getAttributeName(key, subtype)}
               type={type === 'number' ? 'number' : 'text'}
               value={getDisplayValue(value, subtype)}
               onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
               endAdornment={(
                 <InputAdornment position="end">
-                  <IconButton onClick={() => deleteAttribute(key)}>
-                    <CloseIcon />
+                  <IconButton size="small" onClick={() => deleteAttribute(key)}>
+                    <CloseIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
               )}

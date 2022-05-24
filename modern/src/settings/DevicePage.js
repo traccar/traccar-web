@@ -23,9 +23,12 @@ import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -61,13 +64,11 @@ const DevicePage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
-                margin="normal"
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
               />
               <TextField
-                margin="normal"
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
@@ -82,32 +83,27 @@ const DevicePage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
-                margin="normal"
                 value={item.groupId || 0}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
               />
               <TextField
-                margin="normal"
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
               />
               <TextField
-                margin="normal"
                 value={item.model || ''}
                 onChange={(event) => setItem({ ...item, model: event.target.value })}
                 label={t('deviceModel')}
               />
               <TextField
-                margin="normal"
                 value={item.contact || ''}
                 onChange={(event) => setItem({ ...item, contact: event.target.value })}
                 label={t('deviceContact')}
               />
               <SelectField
-                margin="normal"
                 value={item.category || 'default'}
                 emptyValue={null}
                 onChange={(event) => setItem({ ...item, category: event.target.value })}
@@ -148,7 +144,6 @@ const DevicePage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/geofences"
                   endpointLinked={`/api/geofences?deviceId=${item.id}`}
                   baseId={item.id}
@@ -157,7 +152,6 @@ const DevicePage = () => {
                   label={t('sharedGeofences')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/notifications"
                   endpointLinked={`/api/notifications?deviceId=${item.id}`}
                   baseId={item.id}
@@ -167,7 +161,6 @@ const DevicePage = () => {
                   label={t('sharedNotifications')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/drivers"
                   endpointLinked={`/api/drivers?deviceId=${item.id}`}
                   baseId={item.id}
@@ -176,7 +169,6 @@ const DevicePage = () => {
                   label={t('sharedDrivers')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/attributes/computed"
                   endpointLinked={`/api/attributes/computed?deviceId=${item.id}`}
                   baseId={item.id}
@@ -186,7 +178,6 @@ const DevicePage = () => {
                   label={t('sharedComputedAttributes')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/commands"
                   endpointLinked={`/api/commands?deviceId=${item.id}`}
                   baseId={item.id}
@@ -196,7 +187,6 @@ const DevicePage = () => {
                   label={t('sharedSavedCommands')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/maintenance"
                   endpointLinked={`/api/maintenance?deviceId=${item.id}`}
                   baseId={item.id}

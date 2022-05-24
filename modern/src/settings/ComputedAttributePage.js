@@ -17,9 +17,12 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import SettingsMenu from './components/SettingsMenu';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -69,12 +72,11 @@ const ComputedAttributePage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <TextField
-              margin="normal"
               value={item.description || ''}
               onChange={(event) => setItem({ ...item, description: event.target.value })}
               label={t('sharedDescription')}
             />
-            <FormControl margin="normal" fullWidth>
+            <FormControl>
               <InputLabel>{t('sharedAttribute')}</InputLabel>
               <Select
                 label={t('sharedAttribute')}
@@ -87,7 +89,6 @@ const ComputedAttributePage = () => {
               </Select>
             </FormControl>
             <TextField
-              margin="normal"
               value={item.expression || ''}
               onChange={(event) => setItem({ ...item, expression: event.target.value })}
               label={t('sharedExpression')}
@@ -95,7 +96,6 @@ const ComputedAttributePage = () => {
               rows={4}
             />
             <FormControl
-              margin="normal"
               fullWidth
               disabled={key in positionAttributes}
             >

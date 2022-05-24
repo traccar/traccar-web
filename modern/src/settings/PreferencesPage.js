@@ -19,13 +19,17 @@ import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { FormGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
   },
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -53,7 +57,7 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <FormControl fullWidth>
+            <FormControl>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select
                 label={t('loginLanguage')}
@@ -72,7 +76,7 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <FormControl fullWidth>
+            <FormControl>
               <InputLabel>{t('sharedAttributes')}</InputLabel>
               <Select
                 label={t('sharedAttributes')}
@@ -86,18 +90,20 @@ const PreferencesPage = () => {
                 ))}
               </Select>
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox checked={mapLiveRoutes} onChange={(event) => setMapLiveRoutes(event.target.checked)} />}
-              label={t('mapLiveRoutes')}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={mapFollow} onChange={(event) => setMapFollow(event.target.checked)} />}
-              label={t('deviceFollow')}
-            />
-            <FormControlLabel
-              control={<Checkbox checked={mapCluster} onChange={(event) => setMapCluster(event.target.checked)} />}
-              label={t('mapClustering')}
-            />
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox checked={mapLiveRoutes} onChange={(event) => setMapLiveRoutes(event.target.checked)} />}
+                label={t('mapLiveRoutes')}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={mapFollow} onChange={(event) => setMapFollow(event.target.checked)} />}
+                label={t('deviceFollow')}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={mapCluster} onChange={(event) => setMapCluster(event.target.checked)} />}
+                label={t('mapClustering')}
+              />
+            </FormGroup>
           </AccordionDetails>
         </Accordion>
       </Container>

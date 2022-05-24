@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
 
 import { useCatch, useEffectAsync } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -14,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   buttons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     display: 'flex',
     justifyContent: 'space-evenly',
     '& > *': {
@@ -70,27 +71,25 @@ const EditItemView = ({
     <PageLayout menu={menu} breadcrumbs={breadcrumbs}>
       <Container maxWidth="xs" className={classes.container}>
         {children}
-        <FormControl fullWidth margin="normal">
-          <div className={classes.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              variant="outlined"
-              onClick={() => navigate(-1)}
-            >
-              {t('sharedCancel')}
-            </Button>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={handleSave}
-              disabled={!validate()}
-            >
-              {t('sharedSave')}
-            </Button>
-          </div>
-        </FormControl>
+        <div className={classes.buttons}>
+          <Button
+            type="button"
+            color="primary"
+            variant="outlined"
+            onClick={() => navigate(-1)}
+          >
+            {t('sharedCancel')}
+          </Button>
+          <Button
+            type="button"
+            color="primary"
+            variant="contained"
+            onClick={handleSave}
+            disabled={!validate()}
+          >
+            {t('sharedSave')}
+          </Button>
+        </div>
       </Container>
     </PageLayout>
   );

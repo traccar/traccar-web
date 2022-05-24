@@ -16,9 +16,12 @@ import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttri
 import useGroupAttributes from '../common/attributes/useGroupAttributes';
 import { prefixString } from '../common/util/stringUtils';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   details: {
+    display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
   },
 }));
 
@@ -52,7 +55,6 @@ const GroupPage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
-                margin="normal"
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
@@ -67,7 +69,6 @@ const GroupPage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
-                margin="normal"
                 value={item.groupId || 0}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
@@ -98,7 +99,6 @@ const GroupPage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/geofences"
                   endpointLinked={`/api/geofences?groupId=${item.id}`}
                   baseId={item.id}
@@ -107,7 +107,6 @@ const GroupPage = () => {
                   label={t('sharedGeofences')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/notifications"
                   endpointLinked={`/api/notifications?groupId=${item.id}`}
                   baseId={item.id}
@@ -117,7 +116,6 @@ const GroupPage = () => {
                   label={t('sharedNotifications')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/drivers"
                   endpointLinked={`/api/drivers?groupId=${item.id}`}
                   baseId={item.id}
@@ -126,7 +124,6 @@ const GroupPage = () => {
                   label={t('sharedDrivers')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/attributes/computed"
                   endpointLinked={`/api/attributes/computed?groupId=${item.id}`}
                   baseId={item.id}
@@ -136,7 +133,6 @@ const GroupPage = () => {
                   label={t('sharedComputedAttributes')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/commands"
                   endpointLinked={`/api/commands?groupId=${item.id}`}
                   baseId={item.id}
@@ -146,7 +142,6 @@ const GroupPage = () => {
                   label={t('sharedSavedCommands')}
                 />
                 <LinkField
-                  margin="normal"
                   endpointAll="/api/maintenance"
                   endpointLinked={`/api/maintenance?groupId=${item.id}`}
                   baseId={item.id}
