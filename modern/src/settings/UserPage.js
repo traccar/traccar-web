@@ -15,6 +15,7 @@ import {
   InputAdornment,
   IconButton,
   OutlinedInput,
+  FormGroup,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -32,7 +33,6 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useManager } from '../common/util/permissions';
 import { prefixString } from '../common/util/stringUtils';
-import { FormGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   details: {

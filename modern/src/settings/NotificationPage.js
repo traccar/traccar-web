@@ -7,6 +7,7 @@ import {
   Typography,
   FormControlLabel,
   Checkbox,
+  FormGroup,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -15,7 +16,6 @@ import EditItemView from './components/EditItemView';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
-import { FormGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   details: {

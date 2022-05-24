@@ -11,6 +11,7 @@ import {
   MenuItem,
   Checkbox,
   FormControlLabel,
+  FormGroup,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -19,7 +20,6 @@ import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
-import { FormGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {

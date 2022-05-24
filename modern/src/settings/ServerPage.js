@@ -14,6 +14,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormGroup,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -28,7 +29,6 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useCatch } from '../reactHelper';
-import { FormGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
