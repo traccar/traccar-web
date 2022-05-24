@@ -1,5 +1,6 @@
-import { amber, grey, green, indigo, red } from '@mui/material/colors';
-import { common } from '@mui/material/colors';
+import {
+  amber, grey, green, indigo, red, common,
+} from '@mui/material/colors';
 
 export default {
   background: {
