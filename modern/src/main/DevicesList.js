@@ -75,12 +75,11 @@ const DeviceRow = ({ data, index, style }) => {
   const position = useSelector((state) => state.positions.items[item.id]);
 
   const secondaryText = () => {
-    const status = formatStatus(item.status, t);
-    if (item.lastUpdate) {
-      const lastUpdate = moment(item.lastUpdate).fromNow();
-      return `${status} ${lastUpdate}`;
+    if (item.status === 'online' || !item.lastUpdate) {
+      return formatStatus(item.status, t);
+    } else {
+      return moment(item.lastUpdate).fromNow();
     }
-    return status;
   };
 
   return (
