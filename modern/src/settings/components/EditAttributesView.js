@@ -22,9 +22,6 @@ import {
 } from '../../common/util/converter';
 
 const useStyles = makeStyles((theme) => ({
-  addButton: {
-    marginTop: theme.spacing(2),
-  },
   removeButton: {
     marginRight: theme.spacing(1.5),
   },
@@ -195,7 +192,6 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
         color="primary"
         onClick={() => setAddDialogShown(true)}
         startIcon={<AddIcon />}
-        className={classes.addButton}
       >
         {t('sharedAdd')}
       </Button>

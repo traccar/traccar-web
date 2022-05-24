@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
 import {
-  Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField,
-  Autocomplete,
+  Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField, Autocomplete,
 } from '@mui/material';
 
 import { createFilterOptions } from '@mui/material/useAutocomplete';
+import { makeStyles } from '@mui/styles';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
+const useStyles = makeStyles((theme) => ({
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(3),
+  },
+}));
+
 const AddAttributeDialog = ({ open, onResult, definitions }) => {
+  const classes = useStyles();
   const t = useTranslation();
 
   const filter = createFilterOptions({
@@ -25,7 +36,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
 
   return (
     <Dialog open={open} fullWidth maxWidth="xs">
-      <DialogContent>
+      <DialogContent className={classes.details}>
         <Autocomplete
           onChange={(_, option) => {
             setKey(option && typeof option === 'object' ? option.key : option);
@@ -45,14 +56,17 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           }}
           options={options}
           getOptionLabel={(option) => (option && typeof option === 'object' ? option.name : option)}
-          renderOption={(option) => option.name}
-          freeSolo
-          renderInput={(params) => (
-            <TextField {...params} label={t('sharedAttribute')} margin="normal" />
+          renderOption={(props, option) => (
+            <li {...props}>
+              {option.name}
+            </li>
           )}
+          renderInput={(params) => (
+            <TextField {...params} label={t('sharedAttribute')} />
+          )}
+          freeSolo
         />
         <FormControl
-          margin="normal"
           fullWidth
           disabled={key in definitions}
         >
