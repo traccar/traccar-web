@@ -113,7 +113,7 @@ const ServerPage = () => {
                   onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
                   label={t('serverZoom')}
                 />
-                <FormControl fullWidth>
+                <FormControl>
                   <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                   <Select
                     label={t('settingsCoordinateFormat')}
@@ -125,7 +125,7 @@ const ServerPage = () => {
                     <MenuItem value="dms">{t('sharedDegreesMinutesSeconds')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl fullWidth>
+                <FormControl>
                   <InputLabel>{t('settingsSpeedUnit')}</InputLabel>
                   <Select
                     label={t('settingsSpeedUnit')}
@@ -137,7 +137,7 @@ const ServerPage = () => {
                     <MenuItem value="mph">{t('sharedMph')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl fullWidth>
+                <FormControl>
                   <InputLabel>{t('settingsDistanceUnit')}</InputLabel>
                   <Select
                     label={t('settingsDistanceUnit')}
@@ -149,7 +149,7 @@ const ServerPage = () => {
                     <MenuItem value="nmi">{t('sharedNmi')}</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl fullWidth>
+                <FormControl>
                   <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                   <Select
                     label={t('settingsVolumeUnit')}

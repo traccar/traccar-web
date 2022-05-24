@@ -95,10 +95,7 @@ const ComputedAttributePage = () => {
               multiline
               rows={4}
             />
-            <FormControl
-              fullWidth
-              disabled={key in positionAttributes}
-            >
+            <FormControl disabled={key in positionAttributes}>
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
                 label={t('sharedType')}
