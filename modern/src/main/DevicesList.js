@@ -77,9 +77,8 @@ const DeviceRow = ({ data, index, style }) => {
   const secondaryText = () => {
     if (item.status === 'online' || !item.lastUpdate) {
       return formatStatus(item.status, t);
-    } else {
-      return moment(item.lastUpdate).fromNow();
     }
+    return moment(item.lastUpdate).fromNow();
   };
 
   return (
