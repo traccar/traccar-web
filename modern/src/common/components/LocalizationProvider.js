@@ -1,5 +1,9 @@
 /* eslint-disable import/no-relative-packages */
-import React, { createContext, useContext, useMemo } from 'react';
+import React, {
+  createContext, useContext, useEffect, useMemo,
+} from 'react';
+import moment from 'moment';
+import 'moment/min/locales.min';
 
 import af from '../../../../web/l10n/af.json';
 import ar from '../../../../web/l10n/ar.json';
@@ -145,6 +149,16 @@ export const LocalizationProvider = ({ children }) => {
   const [language, setLanguage] = usePersistedState('language', getDefaultLanguage());
 
   const value = useMemo(() => ({ languages, language, setLanguage }), [languages, language, setLanguage]);
+
+  useEffect(() => {
+    let selected;
+    if (language.length > 2) {
+      selected = `${language.slice(0, 2)}-${language.slice(-2).toLowerCase()}`;
+    } else {
+      selected = language;
+    }
+    moment.locale([selected, 'en']);
+  }, [language]);
 
   return (
     <LocalizationContext.Provider value={value}>

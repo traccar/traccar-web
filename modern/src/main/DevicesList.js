@@ -6,7 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -20,6 +19,7 @@ import FlashOnIcon from '@mui/icons-material/FlashOn';
 import FlashOffIcon from '@mui/icons-material/FlashOff';
 import ErrorIcon from '@mui/icons-material/Error';
 
+import moment from 'moment';
 import { devicesActions } from '../store';
 import { useEffectAsync } from '../reactHelper';
 import {
@@ -63,9 +63,6 @@ const useStyles = makeStyles((theme) => ({
   neutral: {
     color: theme.palette.colors.neutral,
   },
-  indicators: {
-    lineHeight: 1,
-  },
 }));
 
 const DeviceRow = ({ data, index, style }) => {
@@ -77,6 +74,15 @@ const DeviceRow = ({ data, index, style }) => {
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
 
+  const secondaryText = () => {
+    const status = formatStatus(item.status, t);
+    if (item.lastUpdate) {
+      const lastUpdate = moment(item.lastUpdate).fromNow();
+      return `${status} ${lastUpdate}`;
+    }
+    return status;
+  };
+
   return (
     <div style={style}>
       <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item.id))}>
@@ -87,52 +93,52 @@ const DeviceRow = ({ data, index, style }) => {
         </ListItemAvatar>
         <ListItemText
           primary={item.name}
-          secondary={formatStatus(item.status, t)}
+          primaryTypographyProps={{ noWrap: true }}
+          secondary={secondaryText()}
+          secondaryTypographyProps={{ noWrap: true }}
           classes={{ secondary: classes[getStatusColor(item.status)] }}
         />
-        <ListItemSecondaryAction className={classes.indicators}>
-          {position && (
-            <>
-              {position.attributes.hasOwnProperty('alarm') && (
-                <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
-                  <IconButton size="small">
-                    <ErrorIcon fontSize="small" className={classes.negative} />
-                  </IconButton>
-                </Tooltip>
-              )}
-              {position.attributes.hasOwnProperty('ignition') && (
-                <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
-                  <IconButton size="small">
-                    {position.attributes.ignition ? (
-                      <FlashOnIcon fontSize="small" className={classes.positive} />
-                    ) : (
-                      <FlashOffIcon fontSize="small" className={classes.neutral} />
-                    )}
-                  </IconButton>
-                </Tooltip>
-              )}
-              {position.attributes.hasOwnProperty('batteryLevel') && (
-                <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
-                  <IconButton size="small">
-                    {position.attributes.batteryLevel > 70 ? (
-                      position.attributes.charge
-                        ? (<BatteryChargingFullIcon fontSize="small" className={classes.positive} />)
-                        : (<BatteryFullIcon fontSize="small" className={classes.positive} />)
-                    ) : position.attributes.batteryLevel > 30 ? (
-                      position.attributes.charge
-                        ? (<BatteryCharging60Icon fontSize="small" className={classes.medium} />)
-                        : (<Battery60Icon fontSize="small" className={classes.medium} />)
-                    ) : (
-                      position.attributes.charge
-                        ? (<BatteryCharging20Icon fontSize="small" className={classes.negative} />)
-                        : (<Battery20Icon fontSize="small" className={classes.negative} />)
-                    )}
-                  </IconButton>
-                </Tooltip>
-              )}
-            </>
-          )}
-        </ListItemSecondaryAction>
+        {position && (
+          <>
+            {position.attributes.hasOwnProperty('alarm') && (
+              <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
+                <IconButton size="small">
+                  <ErrorIcon fontSize="small" className={classes.negative} />
+                </IconButton>
+              </Tooltip>
+            )}
+            {position.attributes.hasOwnProperty('ignition') && (
+              <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
+                <IconButton size="small">
+                  {position.attributes.ignition ? (
+                    <FlashOnIcon fontSize="small" className={classes.positive} />
+                  ) : (
+                    <FlashOffIcon fontSize="small" className={classes.neutral} />
+                  )}
+                </IconButton>
+              </Tooltip>
+            )}
+            {position.attributes.hasOwnProperty('batteryLevel') && (
+              <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
+                <IconButton size="small">
+                  {position.attributes.batteryLevel > 70 ? (
+                    position.attributes.charge
+                      ? (<BatteryChargingFullIcon fontSize="small" className={classes.positive} />)
+                      : (<BatteryFullIcon fontSize="small" className={classes.positive} />)
+                  ) : position.attributes.batteryLevel > 30 ? (
+                    position.attributes.charge
+                      ? (<BatteryCharging60Icon fontSize="small" className={classes.medium} />)
+                      : (<Battery60Icon fontSize="small" className={classes.medium} />)
+                  ) : (
+                    position.attributes.charge
+                      ? (<BatteryCharging20Icon fontSize="small" className={classes.negative} />)
+                      : (<Battery20Icon fontSize="small" className={classes.negative} />)
+                  )}
+                </IconButton>
+              </Tooltip>
+            )}
+          </>
+        )}
       </ListItem>
     </div>
   );
