@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Grid, Button, TextField, Typography, Link, Snackbar,
+  Button, TextField, Typography, Snackbar, IconButton,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
@@ -12,17 +12,20 @@ import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   title: {
     fontSize: theme.spacing(3),
     fontWeight: 500,
-    marginLeft: theme.spacing(2),
+    marginLeft: theme.spacing(1),
     textTransform: 'uppercase',
-  },
-  link: {
-    fontSize: theme.spacing(3),
-    fontWeight: 500,
-    marginTop: theme.spacing(0.5),
-    cursor: 'pointer',
   },
 }));
 
@@ -61,68 +64,52 @@ const ResetPasswordPage = () => {
 
   return (
     <LoginLayout>
+      <div className={classes.container}>
+        <div className={classes.header}>
+          <IconButton color="primary" onClick={() => navigate('/login')}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography className={classes.title} color="primary">
+            {t('loginReset')}
+          </Typography>
+        </div>
+        {!token ? (
+          <TextField
+            required
+            type="email"
+            label={t('userEmail')}
+            name="email"
+            value={email}
+            autoComplete="email"
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        ) : (
+          <TextField
+            required
+            label={t('userPassword')}
+            name="password"
+            value={password}
+            type="password"
+            autoComplete="current-password"
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        )}
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleSubmit}
+          disabled={!/(.+)@(.+)\.(.{2,})/.test(email) && !password}
+          fullWidth
+        >
+          {t('loginReset')}
+        </Button>
+      </div>
       <Snackbar
         open={snackbarOpen}
         onClose={() => navigate('/login')}
         autoHideDuration={snackBarDurationShortMs}
         message={!token ? t('loginResetSuccess') : t('loginUpdateSuccess')}
       />
-      <Grid container direction="column" spacing={2}>
-        <Grid container item>
-          <Grid item>
-            <Typography className={classes.link} color="primary">
-              <Link onClick={() => navigate('/login')}>
-                <ArrowBackIcon />
-              </Link>
-            </Typography>
-          </Grid>
-          <Grid item xs>
-            <Typography className={classes.title} color="primary">
-              {t('loginReset')}
-            </Typography>
-          </Grid>
-        </Grid>
-        {!token
-          ? (
-            <Grid item>
-              <TextField
-                required
-                fullWidth
-                type="email"
-                label={t('userEmail')}
-                name="email"
-                value={email}
-                autoComplete="email"
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </Grid>
-          )
-          : (
-            <Grid item>
-              <TextField
-                required
-                fullWidth
-                label={t('userPassword')}
-                name="password"
-                value={password}
-                type="password"
-                autoComplete="current-password"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </Grid>
-          )}
-        <Grid item>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleSubmit}
-            disabled={!/(.+)@(.+)\.(.{2,})/.test(email) && !password}
-            fullWidth
-          >
-            {t('loginReset')}
-          </Button>
-        </Grid>
-      </Grid>
     </LoginLayout>
   );
 };

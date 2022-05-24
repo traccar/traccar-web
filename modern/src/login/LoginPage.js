@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Grid,
   useMediaQuery,
   InputLabel,
   Select,
@@ -26,16 +25,29 @@ import usePersistedState from '../common/util/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   legacy: {
-    position: 'absolute',
+    position: 'fixed',
     top: theme.spacing(1),
     right: theme.spacing(1),
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
   },
   logoContainer: {
     textAlign: 'center',
     color: theme.palette.primary.main,
   },
+  extraContainer: {
+    display: 'flex',
+    gap: theme.spacing(2),
+  },
+  registerButton: {
+    minWidth: 'unset',
+  },
   resetPassword: {
     cursor: 'pointer',
+    textAlign: 'right',
   },
 }));
 
@@ -93,89 +105,82 @@ const LoginPage = () => {
           <CachedIcon />
         </IconButton>
       </Tooltip>
-      <Grid container direction="column" spacing={2}>
-        {useMediaQuery(theme.breakpoints.down('lg'))
-          && (
-            <Grid item className={classes.logoContainer}>
-              <svg height="64" width="240">
-                <use xlinkHref="/logo.svg#img" />
-              </svg>
-            </Grid>
-          )}
-        <Grid item>
-          <TextField
-            required
-            fullWidth
-            error={failed}
-            label={t('userEmail')}
-            name="email"
-            value={email}
-            autoComplete="email"
-            autoFocus={!email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyUp={handleSpecialKey}
-            helperText={failed && 'Invalid username or password'}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            required
-            fullWidth
-            error={failed}
-            label={t('userPassword')}
-            name="password"
-            value={password}
-            type="password"
-            autoComplete="current-password"
-            autoFocus={!!email}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyUp={handleSpecialKey}
-          />
-        </Grid>
-        <Grid item>
-          <Button
-            onClick={handleSubmit}
-            onKeyUp={handleSpecialKey}
-            variant="contained"
-            color="secondary"
-            disabled={!email || !password}
-            fullWidth
-          >
-            {t('loginLogin')}
-          </Button>
-        </Grid>
-        <Grid item container spacing={2}>
-          <Grid item>
-            <Button onClick={() => navigate('/register')} disabled={!registrationEnabled} color="secondary">
-              {t('loginRegister')}
-            </Button>
-          </Grid>
-          <Grid item xs>
-            <FormControl fullWidth>
-              <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        {emailEnabled && (
-          <Grid item container justifyContent="flex-end">
-            <Grid item>
-              <Link onClick={() => navigate('/reset-password')} className={classes.resetPassword} underline="none">{t('loginReset')}</Link>
-            </Grid>
-          </Grid>
+      <div className={classes.container}>
+        {useMediaQuery(theme.breakpoints.down('lg')) && (
+          <div className={classes.logoContainer}>
+            <svg height="64" width="240">
+              <use xlinkHref="/logo.svg#img" />
+            </svg>
+          </div>
         )}
-        <Snackbar
-          open={!!announcement && !announcementShown}
-          message={announcement}
-          action={(
-            <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          )}
+        <TextField
+          required
+          error={failed}
+          label={t('userEmail')}
+          name="email"
+          value={email}
+          autoComplete="email"
+          autoFocus={!email}
+          onChange={(e) => setEmail(e.target.value)}
+          onKeyUp={handleSpecialKey}
+          helperText={failed && 'Invalid username or password'}
         />
-      </Grid>
+        <TextField
+          required
+          error={failed}
+          label={t('userPassword')}
+          name="password"
+          value={password}
+          type="password"
+          autoComplete="current-password"
+          autoFocus={!!email}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyUp={handleSpecialKey}
+        />
+        <Button
+          onClick={handleSubmit}
+          onKeyUp={handleSpecialKey}
+          variant="contained"
+          color="secondary"
+          disabled={!email || !password}
+        >
+          {t('loginLogin')}
+        </Button>
+        <div className={classes.extraContainer}>
+          <Button
+            className={classes.registerButton}
+            onClick={() => navigate('/register')}
+            disabled={!registrationEnabled}
+            color="secondary"
+          >
+            {t('loginRegister')}
+          </Button>
+          <FormControl fullWidth>
+            <InputLabel>{t('loginLanguage')}</InputLabel>
+            <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
+              {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
+            </Select>
+          </FormControl>
+        </div>
+        {emailEnabled && (
+          <Link
+            onClick={() => navigate('/reset-password')}
+            className={classes.resetPassword}
+            underline="none"
+          >
+            {t('loginReset')}
+          </Link>
+        )}
+      </div>
+      <Snackbar
+        open={!!announcement && !announcementShown}
+        message={announcement}
+        action={(
+          <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        )}
+      />
     </LoginLayout>
   );
 };

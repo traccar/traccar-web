@@ -63,7 +63,7 @@ const LoginLayout = ({ children }) => {
         </div>
         <Paper className={classes.paper}>
           <form className={classes.form}>
-            { children }
+            {children}
           </form>
         </Paper>
       </main>
