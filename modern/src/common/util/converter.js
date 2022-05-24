@@ -66,7 +66,7 @@ const volumeConverter = (unit) => {
   }
 };
 
-export const volumeUnitString = (value, unit, t) => {
+export const volumeUnitString = (unit, t) => {
   switch (unit) {
     case 'impGal':
       return t('sharedGallonAbbreviation');
