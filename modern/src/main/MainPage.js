@@ -76,13 +76,13 @@ const useStyles = makeStyles((theme) => ({
   statusCard: {
     position: 'fixed',
     zIndex: 5,
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
       bottom: theme.spacing(3),
     },
     [theme.breakpoints.down('md')]: {
       left: '50%',
-      bottom: theme.spacing(3) + theme.dimensions.bottomBarHeight,
+      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
     },
     transform: 'translateX(-50%)',
   },
