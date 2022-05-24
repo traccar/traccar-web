@@ -11,6 +11,6 @@ npm run build
 cd modern
 
 rm -r ../web/modern
-npm install --force
+npm install
 npm run build_release
 mv build ../web/modern
