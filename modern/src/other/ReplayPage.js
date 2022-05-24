@@ -129,8 +129,13 @@ const ReplayPage = () => {
     const response = await fetch(`/api/positions?${query.toString()}`, { headers });
     if (response.ok) {
       setIndex(0);
-      setPositions(await response.json());
-      setExpanded(false);
+      const positions = await response.json();
+      setPositions(positions);
+      if (positions.length) {
+        setExpanded(false);
+      } else {
+        throw Error(t('sharedNoData'));
+      }
     } else {
       throw Error(await response.text());
     }

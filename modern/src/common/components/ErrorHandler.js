@@ -16,6 +16,7 @@ const ErrorHandler = () => {
         elevation={6}
         onClose={() => dispatch(errorsActions.pop())}
         severity="error"
+        variant="filled"
       >
         {error || previousError}
       </Alert>
