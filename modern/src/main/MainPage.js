@@ -172,6 +172,7 @@ const MainPage = () => {
               </IconButton>
             )}
             <TextField
+              fullWidth
               name="searchKeyword"
               value={searchKeyword}
               autoComplete="searchKeyword"
