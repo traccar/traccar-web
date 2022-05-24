@@ -1,16 +1,22 @@
+import { amber, grey, green, indigo, red } from '@mui/material/colors';
+import { common } from '@mui/material/colors';
+
 export default {
+  background: {
+    default: grey[50],
+  },
   primary: {
-    main: '#1a237e',
+    main: indigo[900],
   },
   secondary: {
-    main: '#4caf50',
-    contrastText: '#ffffff',
+    main: green[500],
+    contrastText: common.white,
   },
   colors: {
-    white: '#ffffff',
-    positive: '#4caf50',
-    medium: '#ffa000',
-    negative: '#f44336',
-    neutral: '#9e9e9e',
+    white: common.white,
+    positive: green[500],
+    medium: amber[700],
+    negative: red[500],
+    neutral: grey[500],
   },
 };

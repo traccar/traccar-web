@@ -1,4 +1,13 @@
+import { grey } from '@mui/material/colors';
+
 export default {
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: {
+        backgroundColor: grey[50],
+      },
+    },
+  },
   MuiButton: {
     styleOverrides: {
       sizeMedium: {
