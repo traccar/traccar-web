@@ -9,6 +9,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import RouteIcon from '@mui/icons-material/Route';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator } from '../../common/util/permissions';
@@ -66,6 +67,11 @@ const ReportsMenu = () => {
           link="/reports/chart"
           icon={<TrendingUpIcon />}
           selected={location.pathname === '/reports/chart'}
+        />
+        <MenuItem
+          title={t('reportReplay')}
+          link="/replay"
+          icon={<RouteIcon />}
         />
       </List>
       {admin && (
