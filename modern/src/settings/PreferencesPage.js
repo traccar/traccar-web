@@ -82,7 +82,6 @@ const PreferencesPage = () => {
                 label={t('sharedAttributes')}
                 value={positionItems}
                 onChange={(e) => setPositionItems(e.target.value)}
-                renderValue={(it) => it.length}
                 multiple
               >
                 {Object.keys(positionAttributes).map((key) => (
