@@ -12,7 +12,7 @@ import CollectionActions from './components/CollectionActions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
-    width: theme.spacing(1),
+    width: '1%',
     padding: theme.spacing(0, 1),
   },
 }));
