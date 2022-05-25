@@ -19,7 +19,6 @@ const ColumnSelect = ({
           label={t('sharedColumns')}
           value={columns}
           onChange={(e) => setColumns(e.target.value)}
-          renderValue={(it) => it.length}
           multiple
         >
           {columnsArray

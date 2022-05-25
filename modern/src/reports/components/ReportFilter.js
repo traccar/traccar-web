@@ -10,12 +10,13 @@ import dimensions from '../../common/theme/dimensions';
 
 export const useFilterStyles = makeStyles((theme) => ({
   filter: {
-    display: 'flex',
+    display: 'inline-flex',
     flexWrap: 'wrap',
     gap: theme.spacing(2),
     padding: theme.spacing(3, 2, 2),
   },
   item: {
+    minWidth: 0,
     flex: `1 1 ${dimensions.filterFormWidth}`,
   },
   buttons: {
