@@ -12,8 +12,8 @@ import CollectionActions from './components/CollectionActions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
-    width: theme.spacing(1),
-    padding: theme.spacing(0, 1),
+    width: '1%',
+    paddingRight: theme.spacing(1),
   },
 }));
 
@@ -39,19 +39,19 @@ const DriversPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.columnAction} />
               <TableCell>{t('sharedName')}</TableCell>
               <TableCell>{t('deviceIdentifier')}</TableCell>
+              <TableCell className={classes.columnAction} />
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.uniqueId}</TableCell>
                 <TableCell className={classes.columnAction} padding="none">
                   <CollectionActions itemId={item.id} editPath="/settings/driver" endpoint="drivers" setTimestamp={setTimestamp} />
                 </TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.uniqueId}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -13,8 +13,8 @@ import CollectionActions from './components/CollectionActions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
-    width: theme.spacing(1),
-    padding: theme.spacing(0, 1),
+    width: '1%',
+    paddingRight: theme.spacing(1),
   },
 }));
 
@@ -41,25 +41,25 @@ const ComputedAttributesPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              {administrator && <TableCell className={classes.columnAction} />}
               <TableCell>{t('sharedDescription')}</TableCell>
               <TableCell>{t('sharedAttribute')}</TableCell>
               <TableCell>{t('sharedExpression')}</TableCell>
               <TableCell>{t('sharedType')}</TableCell>
+              {administrator && <TableCell className={classes.columnAction} />}
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{item.attribute}</TableCell>
+                <TableCell>{item.expression}</TableCell>
+                <TableCell>{item.type}</TableCell>
                 {administrator && (
                   <TableCell className={classes.columnAction} padding="none">
                     <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" setTimestamp={setTimestamp} />
                   </TableCell>
                 )}
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.attribute}</TableCell>
-                <TableCell>{item.expression}</TableCell>
-                <TableCell>{item.type}</TableCell>
               </TableRow>
             ))}
           </TableBody>

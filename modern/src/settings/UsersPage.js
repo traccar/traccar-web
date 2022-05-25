@@ -13,8 +13,8 @@ import CollectionActions from './components/CollectionActions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
-    width: theme.spacing(1),
-    padding: theme.spacing(0, 1),
+    width: '1%',
+    paddingRight: theme.spacing(1),
   },
 }));
 
@@ -40,23 +40,23 @@ const UsersPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.columnAction} />
               <TableCell>{t('sharedName')}</TableCell>
               <TableCell>{t('userEmail')}</TableCell>
               <TableCell>{t('userAdmin')}</TableCell>
               <TableCell>{t('sharedDisabled')}</TableCell>
+              <TableCell className={classes.columnAction} />
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
               <TableRow key={item.id}>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/user" endpoint="users" setTimestamp={setTimestamp} />
-                </TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
                 <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions itemId={item.id} editPath="/settings/user" endpoint="users" setTimestamp={setTimestamp} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
