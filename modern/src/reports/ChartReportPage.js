@@ -13,6 +13,8 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
+import { useAttributePreference } from '../common/util/preferences';
+import { distanceFromMeters, speedFromKnots, volumeFromLiters } from '../common/util/converter';
 
 const useStyles = makeStyles(() => ({
   chart: {
@@ -28,14 +30,17 @@ const ChartReportPage = () => {
 
   const positionAttributes = usePositionAttributes(t);
 
+  const distanceUnit = useAttributePreference('distanceUnit');
+  const speedUnit = useAttributePreference('speedUnit');
+  const volumeUnit = useAttributePreference('volumeUnit');
+
   const [items, setItems] = useState([]);
   const [type, setType] = useState('speed');
 
-  const dataRange = (() => {
-    const values = items.map((it) => it[type]);
-    const result = Math.max(...values) - Math.min(...values);
-    return result;
-  })();
+  const values = items.map((it) => it[type]);
+  const minValue = Math.min(...values);
+  const maxValue = Math.max(...values);
+  const valueRange = maxValue - minValue;
 
   const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
@@ -44,11 +49,32 @@ const ChartReportPage = () => {
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
     if (response.ok) {
       const positions = await response.json();
-      const formattedPositions = positions.map((position) => ({
-        ...position,
-        ...position.attributes,
-        fixTime: formatDate(position.fixTime, 'HH:mm:ss'),
-      }));
+      const formattedPositions = positions.map((position) => {
+        const data = { ...position, ...position.attributes };
+        const formatted = {};
+        formatted.fixTime = formatDate(position.fixTime, 'HH:mm:ss');
+        Object.keys(data).forEach((key) => {
+          const value = data[key];
+          if (typeof value === 'number') {
+            const definition = positionAttributes[key] || {};
+            switch (definition.dataType) {
+              case 'speed':
+                formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
+                break;
+              case 'distance':
+                formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);
+                break;
+              case 'volume':
+                formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
+                break;
+              default:
+                formatted[key] = value;
+                break;
+            }
+          }
+        });
+        return formatted;
+      });
       setItems(formattedPositions);
     } else {
       throw Error(await response.text());
@@ -79,10 +105,10 @@ const ChartReportPage = () => {
               }}
             >
               <XAxis dataKey="fixTime" />
-              <YAxis type="number" domain={[`dataMin - ${dataRange / 5}`, `dataMax + ${dataRange / 5}`]} />
+              <YAxis type="number" domain={[minValue - valueRange / 5, maxValue + valueRange / 5]} />
               <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip formatter={(value, name) => [value, positionAttributes[name].name]} />
-              <Line type="natural" dataKey={type} />
+              <Tooltip formatter={(value, key) => [value, positionAttributes[key].name]} />
+              <Line type="monotone" dataKey={type} />
             </LineChart>
           </ResponsiveContainer>
         </div>

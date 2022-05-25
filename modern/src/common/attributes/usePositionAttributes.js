@@ -16,6 +16,7 @@ export default (t) => useMemo(() => ({
   speed: {
     name: t('positionSpeed'),
     type: 'number',
+    dataType: 'speed',
   },
   course: {
     name: t('positionCourse'),
@@ -28,6 +29,7 @@ export default (t) => useMemo(() => ({
   accuracy: {
     name: t('positionAccuracy'),
     type: 'number',
+    dataType: 'distance',
   },
   valid: {
     name: t('positionValid'),
