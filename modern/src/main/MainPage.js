@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   sidebar: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'absolute',
+    position: 'fixed',
     left: 0,
     top: 0,
     zIndex: 3,
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     transform: 'translateX(-50%)',
   },
   sidebarToggle: {
-    position: 'absolute',
+    position: 'fixed',
     left: theme.spacing(1.5),
     top: theme.spacing(3),
     borderRadius: '0px',

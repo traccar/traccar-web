@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   sidebar: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'absolute',
+    position: 'fixed',
     zIndex: 3,
     left: 0,
     top: 0,

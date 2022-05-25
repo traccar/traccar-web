@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   attribution: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: theme.spacing(1),
     right: theme.spacing(1.5),
     fontSize: 'x-small',
