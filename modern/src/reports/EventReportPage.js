@@ -112,7 +112,6 @@ const EventReportPage = () => {
                 }
                 setEventTypes(values);
               }}
-              renderValue={(it) => (it.length > 1 ? it.length : it.length > 0 ? t(typesMap.get(it[0])) : it)}
               multiple
             >
               {typesArray.map(([key, string]) => (
