@@ -33,7 +33,6 @@ const typesArray = [
   ['textMessage', 'eventTextMessage'],
   ['driverChanged', 'eventDriverChanged'],
 ];
-const typesMap = new Map(typesArray);
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
