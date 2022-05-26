@@ -5,6 +5,7 @@ const { reducer, actions } = createSlice({
   initialState: {
     server: null,
     user: null,
+    socket: null,
   },
   reducers: {
     updateServer(state, action) {
@@ -12,6 +13,9 @@ const { reducer, actions } = createSlice({
     },
     updateUser(state, action) {
       state.user = action.payload;
+    },
+    updateSocket(state, action) {
+      state.socket = action.payload;
     },
   },
 });

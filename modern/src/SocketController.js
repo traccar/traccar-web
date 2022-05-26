@@ -33,8 +33,23 @@ const SocketController = () => {
     const socket = new WebSocket(`${protocol}//${window.location.host}/api/socket`);
     socketRef.current = socket;
 
-    socket.onerror = () => {
-      setTimeout(() => connectSocket(), 60 * 1000);
+    socket.onopen = () => {
+      dispatch(sessionActions.updateSocket(true));
+    };
+
+    socket.onclose = async () => {
+      dispatch(sessionActions.updateSocket(false));
+      const devicesResponse = await fetch('/api/devices');
+      if (devicesResponse.ok) {
+        dispatch(devicesActions.update(await devicesResponse.json()));
+      }
+      const positionsResponse = await fetch('/api/positions', {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (positionsResponse.ok) {
+        dispatch(positionsActions.update(await positionsResponse.json()));
+      }
+      setTimeout(() => connectSocket(), 60000);
     };
 
     socket.onmessage = (event) => {

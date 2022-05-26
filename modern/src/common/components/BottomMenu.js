@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography,
+  Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography, Badge,
 } from '@mui/material';
 
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -23,6 +23,7 @@ const BottomMenu = () => {
 
   const readonly = useReadonly();
   const userId = useSelector((state) => state.session.user?.id);
+  const socket = useSelector((state) => state.session.socket);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -77,7 +78,14 @@ const BottomMenu = () => {
   return (
     <Paper square elevation={3}>
       <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
-        <BottomNavigationAction label={t('mapTitle')} icon={<MapIcon />} />
+        <BottomNavigationAction
+          label={t('mapTitle')}
+          icon={(
+            <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
+              <MapIcon />
+            </Badge>
+          )}
+        />
         <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} />
         <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} />
         {readonly
