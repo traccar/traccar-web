@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
+  'web.reportColor': {
+    name: t('attributeWebReportColor'),
+    type: 'string',
+    subtype: 'color',
+  },
   devicePassword: {
     name: t('attributeDevicePassword'),
     type: 'string',

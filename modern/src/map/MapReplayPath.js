@@ -1,9 +1,24 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { map } from './core/Map';
 
 const MapReplayPath = ({ positions }) => {
   const id = 'replay';
+
+  const reportColor = useSelector((state) => {
+    const position = positions.find(() => true);
+    if (position) {
+      const attributes = state.devices.items[position.deviceId]?.attributes;
+      if (attributes) {
+        const color = attributes['web.reportColor'];
+        if (color) {
+          return color;
+        }
+      }
+    }
+    return '#3bb2d0';
+  });
 
   useEffect(() => {
     map.addSource(id, {
@@ -25,7 +40,7 @@ const MapReplayPath = ({ positions }) => {
         'line-cap': 'round',
       },
       paint: {
-        'line-color': '#3bb2d0',
+        'line-color': ['get', 'color'],
         'line-width': 2,
       },
     });
@@ -48,6 +63,9 @@ const MapReplayPath = ({ positions }) => {
         type: 'LineString',
         coordinates,
       },
+      properties: {
+        color: reportColor,
+      },
     });
     if (coordinates.length) {
       const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
@@ -57,7 +75,7 @@ const MapReplayPath = ({ positions }) => {
         },
       });
     }
-  }, [positions]);
+  }, [positions, reportColor]);
 
   return null;
 };
