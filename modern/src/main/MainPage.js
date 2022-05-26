@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Paper, Toolbar, TextField, IconButton, Button,
@@ -19,7 +19,6 @@ import Map from '../map/core/Map';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
 import MapAccuracy from '../map/main/MapAccuracy';
 import MapGeofence from '../map/main/MapGeofence';
-import MapCurrentPositions from '../map/main/MapCurrentPositions';
 import MapCurrentLocation from '../map/MapCurrentLocation';
 import BottomMenu from '../common/components/BottomMenu';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -31,6 +30,7 @@ import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import usePersistedState from '../common/util/usePersistedState';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import { useDeviceReadonly } from '../common/util/permissions';
+import MapPositions from '../map/MapPositions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -132,6 +132,7 @@ const MainPage = () => {
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+  const positions = useSelector((state) => Object.values(state.positions.items));
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [collapsed, setCollapsed] = useState(false);
@@ -142,13 +143,17 @@ const MainPage = () => {
 
   useEffect(() => setCollapsed(!desktop), [desktop]);
 
+  const onClick = useCallback((_, deviceId) => {
+    dispatch(devicesActions.select(deviceId));
+  }, [dispatch]);
+
   return (
     <div className={classes.root}>
       <Map>
         <MapGeofence />
         <MapAccuracy />
         {mapLiveRoutes && <MapLiveRoutes />}
-        <MapCurrentPositions />
+        <MapPositions positions={positions} onClick={onClick} />
         <MapDefaultCamera />
         <MapSelectedDevice />
         <PoiMap />
