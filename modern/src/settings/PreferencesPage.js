@@ -15,11 +15,13 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
+import { useLocalization, useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
 import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { prefixString, unprefixString } from '../common/util/stringUtils';
+import SelectField from '../common/components/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,6 +48,14 @@ const PreferencesPage = () => {
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
+
+  const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
+    key: unprefixString('alarm', it),
+    name: t(it),
+  }));
+
+  const [soundEvents, setSoundEvents] = usePersistedState('soundEvents', []);
+  const [soundAlarms, setSoundAlarms] = usePersistedState('soundAlarms', ['sos']);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
@@ -103,6 +113,32 @@ const PreferencesPage = () => {
                 label={t('mapClustering')}
               />
             </FormGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">
+              {t('sharedSound')}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.details}>
+            <SelectField
+              multiple
+              value={soundEvents}
+              onChange={(e) => setSoundEvents(e.target.value)}
+              endpoint="/api/notifications/types"
+              keyGetter={(it) => it.type}
+              titleGetter={(it) => t(prefixString('event', it.type))}
+              label={t('reportEventTypes')}
+            />
+            <SelectField
+              multiple
+              value={soundAlarms}
+              onChange={(e) => setSoundAlarms(e.target.value)}
+              data={alarms}
+              keyGetter={(it) => it.key}
+              label={t('sharedAlarms')}
+            />
           </AccordionDetails>
         </Accordion>
       </Container>

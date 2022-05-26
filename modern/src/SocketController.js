@@ -8,6 +8,9 @@ import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './common/components/LocalizationProvider';
 import { prefixString } from './common/util/stringUtils';
 import { snackBarDurationLongMs } from './common/util/duration';
+import usePersistedState from './common/util/usePersistedState';
+
+import alarm from '../public/alarm.mp3';
 
 const SocketController = () => {
   const dispatch = useDispatch();
@@ -21,6 +24,9 @@ const SocketController = () => {
 
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
+
+  const [soundEvents] = usePersistedState('soundEvents', []);
+  const [soundAlarms] = usePersistedState('soundAlarms', ['sos']);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -86,6 +92,14 @@ const SocketController = () => {
       show: true,
     })));
   }, [events, devices, t]);
+
+  useEffect(() => {
+    events.forEach((event) => {
+      if (soundEvents.includes(event.type) || (event.type === 'alarm' && soundAlarms.includes(event.attributes.alarm))) {
+        new Audio(alarm).play();
+      }
+    });
+  }, [events, soundEvents, soundAlarms]);
 
   return (
     <>
