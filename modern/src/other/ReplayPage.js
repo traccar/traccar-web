@@ -14,7 +14,7 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Map from '../map/core/Map';
-import MapReplayPath from '../map/MapReplayPath';
+import MapRoutePath from '../map/MapRoutePath';
 import MapPositions from '../map/MapPositions';
 import { formatTime } from '../common/util/formatter';
 import ReportFilter from '../reports/components/ReportFilter';
@@ -144,7 +144,7 @@ const ReplayPage = () => {
   return (
     <div className={classes.root}>
       <Map>
-        <MapReplayPath positions={positions} />
+        <MapRoutePath positions={positions} />
         {index < positions.length && (
           <MapPositions positions={[positions[index]]} onClick={onClick} />
         )}

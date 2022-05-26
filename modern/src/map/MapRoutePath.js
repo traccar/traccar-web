@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/Map';
 
-const MapReplayPath = ({ positions }) => {
+const MapRoutePath = ({ positions }) => {
   const id = 'replay';
 
   const reportColor = useSelector((state) => {
@@ -80,4 +80,4 @@ const MapReplayPath = ({ positions }) => {
   return null;
 };
 
-export default MapReplayPath;
+export default MapRoutePath;
