@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     alignItems: 'stretch',
-    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -81,7 +80,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           >
             <div className={classes.toolbar}>
               <Toolbar>
-                <IconButton color="inherit" edge="start" onClick={() => navigate('/')}>
+                <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
                   <ArrowBackIcon />
                 </IconButton>
                 <PageTitle breadcrumbs={breadcrumbs} />
@@ -106,7 +105,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           </Drawer>
           <AppBar position="static" color="inherit">
             <Toolbar>
-              <IconButton color="inherit" edge="start" onClick={() => setOpenDrawer(true)}>
+              <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => setOpenDrawer(true)}>
                 <MenuIcon />
               </IconButton>
               <PageTitle breadcrumbs={breadcrumbs} />

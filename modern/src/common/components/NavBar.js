@@ -10,6 +10,7 @@ const Navbar = ({ setOpenDrawer, title }) => (
       <IconButton
         color="inherit"
         edge="start"
+        sx={{ mr: 2 }}
         onClick={() => setOpenDrawer(true)}
       >
         <MenuIcon />

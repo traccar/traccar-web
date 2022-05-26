@@ -175,7 +175,7 @@ const MainPage = () => {
         <Paper square elevation={3} className={classes.toolbarContainer}>
           <Toolbar className={classes.toolbar} disableGutters>
             {!desktop && (
-              <IconButton onClick={handleClose}>
+              <IconButton edge="start" sx={{ mr: 2 }} onClick={handleClose}>
                 <ArrowBackIcon />
               </IconButton>
             )}
