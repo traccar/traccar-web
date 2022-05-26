@@ -105,7 +105,7 @@ const ChartReportPage = () => {
               }}
             >
               <XAxis dataKey="fixTime" />
-              <YAxis type="number" domain={[minValue - valueRange / 5, maxValue + valueRange / 5]} />
+              <YAxis type="number" tickFormatter={(value) => value.toFixed(2)} domain={[minValue - valueRange / 5, maxValue + valueRange / 5]} />
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip formatter={(value, key) => [value, positionAttributes[key].name]} />
               <Line type="monotone" dataKey={type} />
