@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'auto',
   },
 }));
 
