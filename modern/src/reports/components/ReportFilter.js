@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, useMediaQuery,
 } from '@mui/material';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import dimensions from '../../common/theme/dimensions';
+import { useTheme } from '@mui/styles';
 
 export const useFilterStyles = makeStyles((theme) => ({
   filter: {
@@ -32,8 +34,11 @@ export const useFilterStyles = makeStyles((theme) => ({
 const ReportFilter = ({
   children, handleSubmit, showOnly, ignoreDevice,
 }) => {
+  const theme = useTheme();
   const classes = useFilterStyles();
   const t = useTranslation();
+
+  const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
   const devices = useSelector((state) => state.devices.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -42,6 +47,8 @@ const ReportFilter = ({
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
+
+  const [collapsed, setCollapsed] = useState(false);
 
   const handleClick = (mail, json) => {
     let selectedFrom;
@@ -85,59 +92,67 @@ const ReportFilter = ({
       mail,
       { Accept: accept },
     );
+
+    if (phone) {
+      setCollapsed(true);
+    }
   };
 
   return (
     <div className={classes.filter}>
-      {!ignoreDevice && (
-        <div className={classes.item}>
-          <FormControl fullWidth>
-            <InputLabel>{t('reportDevice')}</InputLabel>
-            <Select label={t('reportDevice')} value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
-              {Object.values(devices).map((device) => (
-                <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
+      {!collapsed && (
+        <>
+          {!ignoreDevice && (
+            <div className={classes.item}>
+              <FormControl fullWidth>
+                <InputLabel>{t('reportDevice')}</InputLabel>
+                <Select label={t('reportDevice')} value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
+                  {Object.values(devices).map((device) => (
+                    <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+          )}
+          <div className={classes.item}>
+            <FormControl fullWidth>
+              <InputLabel>{t('reportPeriod')}</InputLabel>
+              <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
+                <MenuItem value="today">{t('reportToday')}</MenuItem>
+                <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
+                <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
+                <MenuItem value="previousWeek">{t('reportPreviousWeek')}</MenuItem>
+                <MenuItem value="thisMonth">{t('reportThisMonth')}</MenuItem>
+                <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
+                <MenuItem value="custom">{t('reportCustom')}</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          {period === 'custom' && (
+            <>
+              <div className={classes.item}>
+                <TextField
+                  label={t('reportFrom')}
+                  type="datetime-local"
+                  value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+                  onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+                  fullWidth
+                />
+              </div>
+              <div className={classes.item}>
+                <TextField
+                  label={t('reportTo')}
+                  type="datetime-local"
+                  value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+                  onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+                  fullWidth
+                />
+              </div>
+            </>
+          )}
+          {children}
+        </>
       )}
-      <div className={classes.item}>
-        <FormControl fullWidth>
-          <InputLabel>{t('reportPeriod')}</InputLabel>
-          <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
-            <MenuItem value="today">{t('reportToday')}</MenuItem>
-            <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
-            <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
-            <MenuItem value="previousWeek">{t('reportPreviousWeek')}</MenuItem>
-            <MenuItem value="thisMonth">{t('reportThisMonth')}</MenuItem>
-            <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
-            <MenuItem value="custom">{t('reportCustom')}</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      {period === 'custom' && (
-        <div className={classes.item}>
-          <TextField
-            label={t('reportFrom')}
-            type="datetime-local"
-            value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-            onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-            fullWidth
-          />
-        </div>
-      )}
-      {period === 'custom' && (
-        <div className={classes.item}>
-          <TextField
-            label={t('reportTo')}
-            type="datetime-local"
-            value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
-            onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
-            fullWidth
-          />
-        </div>
-      )}
-      {children}
       <div className={classes.buttons}>
         <Button
           onClick={() => handleClick(false, true)}
@@ -148,27 +163,39 @@ const ReportFilter = ({
         >
           {t('reportShow')}
         </Button>
-        {!showOnly && (
+        {collapsed && (
           <Button
-            onClick={() => handleClick(false, false)}
+            onClick={() => setCollapsed(false)}
             variant="outlined"
             color="secondary"
             className={classes.button}
             disabled={!ignoreDevice && !deviceId}
+            startIcon={<OpenInFullIcon />}
           >
-            {t('reportExport')}
+            {t('reportConfigure')}
           </Button>
         )}
-        {!showOnly && (
-          <Button
-            onClick={() => handleClick(true, false)}
-            variant="outlined"
-            color="secondary"
-            className={classes.button}
-            disabled={!ignoreDevice && !deviceId}
-          >
-            <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
-          </Button>
+        {!showOnly && !collapsed && (
+          <>
+            <Button
+              onClick={() => handleClick(false, false)}
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              disabled={!ignoreDevice && !deviceId}
+            >
+              {t('reportExport')}
+            </Button>
+            <Button
+              onClick={() => handleClick(true, false)}
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              disabled={!ignoreDevice && !deviceId}
+            >
+              <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
+            </Button>
+          </>
         )}
       </div>
     </div>
