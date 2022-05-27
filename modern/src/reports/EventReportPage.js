@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, TableRow, TableCell, TableBody,
+  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { makeStyles } from '@mui/styles';
 import { formatDate } from '../common/util/formatter';
 import ReportFilter, { useFilterStyles } from './components/ReportFilter';
 import { prefixString } from '../common/util/stringUtils';
@@ -43,8 +44,19 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
+const useStyles = makeStyles(() => ({
+  header: {
+    position: 'sticky',
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+}));
+
 const EventReportPage = () => {
-  const classes = useFilterStyles();
+  const classes = useStyles();
+  const filterClasses = useFilterStyles();
   const t = useTranslation();
 
   const geofences = useSelector((state) => state.geofences.items);
@@ -96,51 +108,51 @@ const EventReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
-      <ReportFilter handleSubmit={handleSubmit}>
-        <div className={classes.item}>
-          <FormControl fullWidth>
-            <InputLabel>{t('reportEventTypes')}</InputLabel>
-            <Select
-              label={t('reportEventTypes')}
-              value={eventTypes}
-              onChange={(event, child) => {
-                let values = event.target.value;
-                const clicked = child.props.value;
-                if (values.includes('allEvents') && values.length > 1) {
-                  values = [clicked];
-                }
-                setEventTypes(values);
-              }}
-              multiple
-            >
-              {typesArray.map(([key, string]) => (
-                <MenuItem key={key} value={key}>{t(string)}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
-      </ReportFilter>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                {columns.map((key) => (
-                  <TableCell key={key}>
-                    {formatValue(item, key)}
-                  </TableCell>
+      <div className={classes.header}>
+        <ReportFilter handleSubmit={handleSubmit}>
+          <div className={filterClasses.item}>
+            <FormControl fullWidth>
+              <InputLabel>{t('reportEventTypes')}</InputLabel>
+              <Select
+                label={t('reportEventTypes')}
+                value={eventTypes}
+                onChange={(event, child) => {
+                  let values = event.target.value;
+                  const clicked = child.props.value;
+                  if (values.includes('allEvents') && values.length > 1) {
+                    values = [clicked];
+                  }
+                  setEventTypes(values);
+                }}
+                multiple
+              >
+                {typesArray.map(([key, string]) => (
+                  <MenuItem key={key} value={key}>{t(string)}</MenuItem>
                 ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </Select>
+            </FormControl>
+          </div>
+          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+        </ReportFilter>
+      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              {columns.map((key) => (
+                <TableCell key={key}>
+                  {formatValue(item, key)}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </PageLayout>
   );
 };

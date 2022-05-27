@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
@@ -48,32 +48,30 @@ const NotificationsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedNotifications']}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('notificationType')}</TableCell>
-              <TableCell>{t('notificationAlways')}</TableCell>
-              <TableCell>{t('sharedAlarms')}</TableCell>
-              <TableCell>{t('notificationNotificators')}</TableCell>
-              <TableCell className={classes.columnAction} />
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t('notificationType')}</TableCell>
+            <TableCell>{t('notificationAlways')}</TableCell>
+            <TableCell>{t('sharedAlarms')}</TableCell>
+            <TableCell>{t('notificationNotificators')}</TableCell>
+            <TableCell className={classes.columnAction} />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{t(prefixString('event', item.type))}</TableCell>
+              <TableCell>{formatBoolean(item.always, t)}</TableCell>
+              <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
+              <TableCell>{formatList('notificator', item.notificators)}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" setTimestamp={setTimestamp} />
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{t(prefixString('event', item.type))}</TableCell>
-                <TableCell>{formatBoolean(item.always, t)}</TableCell>
-                <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
-                <TableCell>{formatList('notificator', item.notificators)}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" setTimestamp={setTimestamp} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
       <CollectionFab editPath="/settings/notification" />
     </PageLayout>
   );

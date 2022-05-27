@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
@@ -36,32 +36,30 @@ const UsersPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('sharedName')}</TableCell>
-              <TableCell>{t('userEmail')}</TableCell>
-              <TableCell>{t('userAdmin')}</TableCell>
-              <TableCell>{t('sharedDisabled')}</TableCell>
-              <TableCell className={classes.columnAction} />
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t('sharedName')}</TableCell>
+            <TableCell>{t('userEmail')}</TableCell>
+            <TableCell>{t('userAdmin')}</TableCell>
+            <TableCell>{t('sharedDisabled')}</TableCell>
+            <TableCell className={classes.columnAction} />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.email}</TableCell>
+              <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
+              <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions itemId={item.id} editPath="/settings/user" endpoint="users" setTimestamp={setTimestamp} />
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
-                <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/user" endpoint="users" setTimestamp={setTimestamp} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
       <CollectionFab editPath="/settings/user" />
     </PageLayout>
   );

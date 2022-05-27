@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
@@ -58,32 +58,30 @@ const MaintenacesPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedMaintenance']}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('sharedName')}</TableCell>
-              <TableCell>{t('sharedType')}</TableCell>
-              <TableCell>{t('maintenanceStart')}</TableCell>
-              <TableCell>{t('maintenancePeriod')}</TableCell>
-              <TableCell className={classes.columnAction} />
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t('sharedName')}</TableCell>
+            <TableCell>{t('sharedType')}</TableCell>
+            <TableCell>{t('maintenanceStart')}</TableCell>
+            <TableCell>{t('maintenancePeriod')}</TableCell>
+            <TableCell className={classes.columnAction} />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.type}</TableCell>
+              <TableCell>{convertAttribute(item.type, item.start)}</TableCell>
+              <TableCell>{convertAttribute(item.type, item.period)}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" setTimestamp={setTimestamp} />
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.type}</TableCell>
-                <TableCell>{convertAttribute(item.type, item.start)}</TableCell>
-                <TableCell>{convertAttribute(item.type, item.period)}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" setTimestamp={setTimestamp} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
       <CollectionFab editPath="/settings/maintenance" />
     </PageLayout>
   );

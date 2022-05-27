@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
@@ -37,30 +37,28 @@ const CommandsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedSavedCommands']}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('sharedDescription')}</TableCell>
-              <TableCell>{t('sharedType')}</TableCell>
-              <TableCell>{t('commandSendSms')}</TableCell>
-              <TableCell className={classes.columnAction} />
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t('sharedDescription')}</TableCell>
+            <TableCell>{t('sharedType')}</TableCell>
+            <TableCell>{t('commandSendSms')}</TableCell>
+            <TableCell className={classes.columnAction} />
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>{t(prefixString('command', item.type))}</TableCell>
+              <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions itemId={item.id} editPath="/settings/command" endpoint="commands" setTimestamp={setTimestamp} />
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{t(prefixString('command', item.type))}</TableCell>
-                <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/command" endpoint="commands" setTimestamp={setTimestamp} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
       <CollectionFab editPath="/settings/command" />
     </PageLayout>
   );

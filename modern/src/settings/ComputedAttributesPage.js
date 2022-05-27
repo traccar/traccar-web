@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TableContainer, Table, TableRow, TableCell, TableHead, TableBody,
+  Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
@@ -37,34 +37,32 @@ const ComputedAttributesPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t('sharedDescription')}</TableCell>
-              <TableCell>{t('sharedAttribute')}</TableCell>
-              <TableCell>{t('sharedExpression')}</TableCell>
-              <TableCell>{t('sharedType')}</TableCell>
-              {administrator && <TableCell className={classes.columnAction} />}
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t('sharedDescription')}</TableCell>
+            <TableCell>{t('sharedAttribute')}</TableCell>
+            <TableCell>{t('sharedExpression')}</TableCell>
+            <TableCell>{t('sharedType')}</TableCell>
+            {administrator && <TableCell className={classes.columnAction} />}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>{item.attribute}</TableCell>
+              <TableCell>{item.expression}</TableCell>
+              <TableCell>{item.type}</TableCell>
+              {administrator && (
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" setTimestamp={setTimestamp} />
+                </TableCell>
+              )}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.attribute}</TableCell>
-                <TableCell>{item.expression}</TableCell>
-                <TableCell>{item.type}</TableCell>
-                {administrator && (
-                  <TableCell className={classes.columnAction} padding="none">
-                    <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" setTimestamp={setTimestamp} />
-                  </TableCell>
-                )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
       <CollectionFab editPath="/settings/attribute" />
     </PageLayout>
   );

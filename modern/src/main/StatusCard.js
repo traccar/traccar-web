@@ -13,7 +13,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  TableContainer,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -124,25 +123,23 @@ const StatusCard = ({ deviceId, onClose }) => {
           />
           {position && (
             <CardContent>
-              <TableContainer>
-                <Table size="small" classes={{ root: classes.table }}>
-                  <TableBody>
-                    {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
-                      <StatusRow
-                        key={key}
-                        name={positionAttributes[key].name}
-                        content={(
-                          <PositionValue
-                            position={position}
-                            property={position.hasOwnProperty(key) ? key : null}
-                            attribute={position.hasOwnProperty(key) ? null : key}
-                          />
-                        )}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Table size="small" classes={{ root: classes.table }}>
+                <TableBody>
+                  {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                    <StatusRow
+                      key={key}
+                      name={positionAttributes[key].name}
+                      content={(
+                        <PositionValue
+                          position={position}
+                          property={position.hasOwnProperty(key) ? key : null}
+                          attribute={position.hasOwnProperty(key) ? null : key}
+                        />
+                      )}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
             </CardContent>
           )}
           <CardActions classes={{ root: classes.actions }} disableSpacing>

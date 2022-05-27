@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -12,7 +13,18 @@ import ColumnSelect from './components/ColumnSelect';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
 
+const useStyles = makeStyles(() => ({
+  header: {
+    position: 'sticky',
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+}));
+
 const RouteReportPage = () => {
+  const classes = useStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
@@ -41,37 +53,37 @@ const RouteReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
-      <ReportFilter handleSubmit={handleSubmit}>
-        <ColumnSelect
-          columns={columns}
-          setColumns={setColumns}
-          columnsObject={positionAttributes}
-        />
-      </ReportFilter>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((key) => (<TableCell key={key}>{positionAttributes[key].name}</TableCell>))}
+      <div className={classes.header}>
+        <ReportFilter handleSubmit={handleSubmit}>
+          <ColumnSelect
+            columns={columns}
+            setColumns={setColumns}
+            columnsObject={positionAttributes}
+          />
+        </ReportFilter>
+      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((key) => (<TableCell key={key}>{positionAttributes[key].name}</TableCell>))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              {columns.map((key) => (
+                <TableCell key={key}>
+                  <PositionValue
+                    position={item}
+                    property={item.hasOwnProperty(key) ? key : null}
+                    attribute={item.hasOwnProperty(key) ? null : key}
+                  />
+                </TableCell>
+              ))}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.id}>
-                {columns.map((key) => (
-                  <TableCell key={key}>
-                    <PositionValue
-                      position={item}
-                      property={item.hasOwnProperty(key) ? key : null}
-                      attribute={item.hasOwnProperty(key) ? null : key}
-                    />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
     </PageLayout>
   );
 };

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, TableRow, TableBody, TableCell,
+  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
@@ -26,8 +27,19 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
+const useStyles = makeStyles(() => ({
+  header: {
+    position: 'sticky',
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+}));
+
 const SummaryReportPage = () => {
-  const classes = useFilterStyles();
+  const classes = useStyles();
+  const filterClasses = useFilterStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -79,38 +91,38 @@ const SummaryReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
-      <ReportFilter handleSubmit={handleSubmit}>
-        <div className={classes.item}>
-          <FormControl fullWidth>
-            <InputLabel>{t('sharedType')}</InputLabel>
-            <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>
-              <MenuItem value={false}>{t('reportSummary')}</MenuItem>
-              <MenuItem value>{t('reportDaily')}</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
-      </ReportFilter>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+      <div className={classes.header}>
+        <ReportFilter handleSubmit={handleSubmit}>
+          <div className={filterClasses.item}>
+            <FormControl fullWidth>
+              <InputLabel>{t('sharedType')}</InputLabel>
+              <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>
+                <MenuItem value={false}>{t('reportSummary')}</MenuItem>
+                <MenuItem value>{t('reportDaily')}</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+        </ReportFilter>
+      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
+              {columns.map((key) => (
+                <TableCell key={key}>
+                  {formatValue(item, key)}
+                </TableCell>
+              ))}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
-                {columns.map((key) => (
-                  <TableCell key={key}>
-                    {formatValue(item, key)}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
     </PageLayout>
   );
 };

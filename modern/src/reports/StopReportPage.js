@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import {
   formatDistance, formatHours, formatDate, formatVolume,
 } from '../common/util/formatter';
@@ -25,7 +26,18 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
+const useStyles = makeStyles(() => ({
+  header: {
+    position: 'sticky',
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+}));
+
 const StopReportPage = () => {
+  const classes = useStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -73,29 +85,29 @@ const StopReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
-      <ReportFilter handleSubmit={handleSubmit}>
-        <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
-      </ReportFilter>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+      <div className={classes.header}>
+        <ReportFilter handleSubmit={handleSubmit}>
+          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+        </ReportFilter>
+      </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {items.map((item) => (
+            <TableRow key={item.positionId}>
+              {columns.map((key) => (
+                <TableCell key={key}>
+                  {formatValue(item, key)}
+                </TableCell>
+              ))}
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {items.map((item) => (
-              <TableRow key={item.positionId}>
-                {columns.map((key) => (
-                  <TableCell key={key}>
-                    {formatValue(item, key)}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          ))}
+        </TableBody>
+      </Table>
     </PageLayout>
   );
 };
