@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
     display: 'flex',
     flexDirection: 'column',
+    overflowY: 'auto',
   },
 }));
 
@@ -53,7 +54,7 @@ const PageTitle = ({ breadcrumbs }) => {
 
   if (desktop) {
     return (
-      <Typography variant="h6" noWrap>{t(breadcrumbs.at(0))}</Typography>
+      <Typography variant="h6" noWrap>{t(breadcrumbs[0])}</Typography>
     );
   }
   return (
@@ -61,7 +62,7 @@ const PageTitle = ({ breadcrumbs }) => {
       {breadcrumbs.slice(0, -1).map((breadcrumb) => (
         <Typography variant="h6" color="inherit" key={breadcrumb}>{t(breadcrumb)}</Typography>
       ))}
-      <Typography variant="h6" color="textPrimary">{t(breadcrumbs.at(-1))}</Typography>
+      <Typography variant="h6" color="textPrimary">{t(breadcrumbs[breadcrumbs.length - 1])}</Typography>
     </Breadcrumbs>
   );
 };
