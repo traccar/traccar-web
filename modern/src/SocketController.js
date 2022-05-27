@@ -37,7 +37,7 @@ const SocketController = () => {
       dispatch(sessionActions.updateSocket(true));
     };
 
-    socket.onclose = async () => {
+    socket.onerror = async () => {
       dispatch(sessionActions.updateSocket(false));
       const devicesResponse = await fetch('/api/devices');
       if (devicesResponse.ok) {
