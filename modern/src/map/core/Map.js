@@ -6,15 +6,13 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { SwitcherControl } from '../switcher/switcher';
-import deviceCategories from '../../common/util/deviceCategories';
-import { prepareIcon, loadImage } from './mapUtil';
 import {
   styleCarto, styleCustom, styleLocationIq, styleMapbox, styleMapTiler, styleOsm,
 } from './mapStyles';
 import { useAttributePreference } from '../../common/util/preferences';
-import palette from '../../common/theme/palette';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
+import { mapImages } from './preloadImages';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -45,21 +43,11 @@ const updateReadyValue = (value) => {
 const initMap = async () => {
   if (ready) return;
   if (!map.hasImage('background')) {
-    const background = await loadImage('images/background.svg');
-    map.addImage('background', await prepareIcon(background), {
-      pixelRatio: window.devicePixelRatio,
-    });
-    await Promise.all(deviceCategories.map(async (category) => {
-      const results = [];
-      ['positive', 'negative', 'neutral'].forEach((color) => {
-        results.push(loadImage(`images/icon/${category}.svg`).then((icon) => {
-          map.addImage(`${category}-${color}`, prepareIcon(background, icon, palette.colors[color]), {
-            pixelRatio: window.devicePixelRatio,
-          });
-        }));
+    Object.entries(mapImages).forEach(([key, value]) => {
+      map.addImage(key, value, {
+        pixelRatio: window.devicePixelRatio,
       });
-      await Promise.all(results);
-    }));
+    });
   }
   updateReadyValue(true);
 };
