@@ -32,6 +32,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { devicesActions } from '../store';
 import { useCatch } from '../reactHelper';
+import { mapIcons } from '../map/core/preloadImages';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -110,7 +111,7 @@ const StatusCard = ({ deviceId, onClose }) => {
           <CardHeader
             avatar={(
               <Avatar>
-                <img className={classes.icon} src={`images/icon/${device.category || 'default'}.svg`} alt="" />
+                <img className={classes.icon} src={mapIcons[device.category || 'default']} alt="" />
               </Avatar>
             )}
             action={(

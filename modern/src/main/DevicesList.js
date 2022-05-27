@@ -18,7 +18,6 @@ import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import FlashOffIcon from '@mui/icons-material/FlashOff';
 import ErrorIcon from '@mui/icons-material/Error';
-
 import moment from 'moment';
 import { devicesActions } from '../store';
 import { useEffectAsync } from '../reactHelper';
@@ -26,6 +25,7 @@ import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import { mapIcons } from '../map/core/preloadImages';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -86,7 +86,7 @@ const DeviceRow = ({ data, index, style }) => {
       <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item.id))}>
         <ListItemAvatar>
           <Avatar>
-            <img className={classes.icon} src={`images/icon/${item.category || 'default'}.svg`} alt="" />
+            <img className={classes.icon} src={mapIcons[item.category || 'default']} alt="" />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
