@@ -33,7 +33,10 @@ const useStyles = makeStyles((theme) => ({
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
   },
-  toolbar: theme.mixins.toolbar,
+  desktopToolbar: theme.mixins.toolbar,
+  mobileToolbar: {
+    zIndex: 1,
+  },
   content: {
     flexGrow: 1,
     alignItems: 'stretch',
@@ -103,7 +106,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           >
             {menu}
           </Drawer>
-          <AppBar position="static" color="inherit">
+          <AppBar className={classes.mobileToolbar} position="static" color="inherit">
             <Toolbar>
               <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => setOpenDrawer(true)}>
                 <MenuIcon />
