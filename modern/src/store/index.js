@@ -8,6 +8,7 @@ import { geofencesReducer as geofences } from './geofences';
 import { groupsReducer as groups } from './groups';
 import { driversReducer as drivers } from './drivers';
 import { maintenancesReducer as maintenances } from './maintenances';
+import throttleMiddleware from './throttleMiddleware';
 
 const reducer = combineReducers({
   errors,
@@ -29,4 +30,7 @@ export { groupsActions } from './groups';
 export { driversActions } from './drivers';
 export { maintenancesActions } from './maintenances';
 
-export default configureStore({ reducer });
+export default configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(throttleMiddleware),
+});
