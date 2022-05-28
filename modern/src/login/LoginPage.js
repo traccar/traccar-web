@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
 import {
-  useMediaQuery,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControl,
-  Button,
-  TextField,
-  Link,
-  Snackbar,
-  IconButton,
-  Tooltip,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,6 +12,7 @@ import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
+import logoSvg from '../resources/images/logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   legacy: {
@@ -109,7 +100,7 @@ const LoginPage = () => {
         {useMediaQuery(theme.breakpoints.down('lg')) && (
           <div className={classes.logoContainer}>
             <svg height="64" width="240">
-              <use xlinkHref="/logo.svg#img" />
+              <use xlinkHref={`${logoSvg}#img`} />
             </svg>
           </div>
         )}

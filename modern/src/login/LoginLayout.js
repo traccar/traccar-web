@@ -2,6 +2,7 @@ import React from 'react';
 import { useMediaQuery, Paper } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTheme } from '@mui/material/styles';
+import logoSvg from '../resources/images/logo.svg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +58,7 @@ const LoginLayout = ({ children }) => {
         <div className={classes.sidebar}>
           {!useMediaQuery(theme.breakpoints.down('lg')) && (
             <svg height="64" width="240">
-              <use xlinkHref="/logo.svg#img" />
+              <use xlinkHref={`${logoSvg}#img`} />
             </svg>
           )}
         </div>
