@@ -3,16 +3,16 @@ import {
   FormControl, InputLabel, MenuItem, Select,
 } from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useFilterStyles } from './ReportFilter';
+import useReportStyles from '../common/useReportStyles';
 
 const ColumnSelect = ({
   columns, setColumns, columnsArray, columnsObject,
 }) => {
-  const classes = useFilterStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   return (
-    <div className={classes.item}>
+    <div className={classes.filterItem}>
       <FormControl fullWidth>
         <InputLabel>{t('sharedColumns')}</InputLabel>
         <Select

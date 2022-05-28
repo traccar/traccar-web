@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import {
   CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
-import ReportFilter, { useFilterStyles } from './components/ReportFilter';
+import ReportFilter from './components/ReportFilter';
 import { formatDate } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -15,17 +14,10 @@ import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
 import { distanceFromMeters, speedFromKnots, volumeFromLiters } from '../common/util/converter';
-
-const useStyles = makeStyles(() => ({
-  chart: {
-    flexGrow: 1,
-    overflow: 'hidden',
-  },
-}));
+import useReportStyles from './common/useReportStyles';
 
 const ChartReportPage = () => {
-  const classes = useStyles();
-  const filterClasses = useFilterStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
@@ -84,7 +76,7 @@ const ChartReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly>
-        <div className={filterClasses.item}>
+        <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select label={t('reportChartType')} value={type} onChange={(e) => setType(e.target.value)}>

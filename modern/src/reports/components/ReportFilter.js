@@ -2,37 +2,15 @@ import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import dimensions from '../../common/theme/dimensions';
-
-export const useFilterStyles = makeStyles((theme) => ({
-  filter: {
-    display: 'inline-flex',
-    flexWrap: 'wrap',
-    gap: theme.spacing(2),
-    padding: theme.spacing(3, 2, 2),
-  },
-  item: {
-    minWidth: 0,
-    flex: `1 1 ${dimensions.filterFormWidth}`,
-  },
-  buttons: {
-    display: 'flex',
-    gap: theme.spacing(1),
-    flex: `1 1 ${dimensions.filterFormWidth}`,
-  },
-  button: {
-    flexGrow: 1,
-  },
-}));
+import useReportStyles from '../common/useReportStyles';
 
 const ReportFilter = ({
   children, handleSubmit, showOnly, ignoreDevice,
 }) => {
-  const classes = useFilterStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);
@@ -90,7 +68,7 @@ const ReportFilter = ({
   return (
     <div className={classes.filter}>
       {!ignoreDevice && (
-        <div className={classes.item}>
+        <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportDevice')}</InputLabel>
             <Select label={t('reportDevice')} value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
@@ -101,7 +79,7 @@ const ReportFilter = ({
           </FormControl>
         </div>
       )}
-      <div className={classes.item}>
+      <div className={classes.filterItem}>
         <FormControl fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
           <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
@@ -116,7 +94,7 @@ const ReportFilter = ({
         </FormControl>
       </div>
       {period === 'custom' && (
-        <div className={classes.item}>
+        <div className={classes.filterItem}>
           <TextField
             label={t('reportFrom')}
             type="datetime-local"
@@ -127,7 +105,7 @@ const ReportFilter = ({
         </div>
       )}
       {period === 'custom' && (
-        <div className={classes.item}>
+        <div className={classes.filterItem}>
           <TextField
             label={t('reportTo')}
             type="datetime-local"
@@ -138,12 +116,12 @@ const ReportFilter = ({
         </div>
       )}
       {children}
-      <div className={classes.buttons}>
+      <div className={classes.filterButtons}>
         <Button
           onClick={() => handleClick(false, true)}
           variant="outlined"
           color="secondary"
-          className={classes.button}
+          className={classes.filterButton}
           disabled={!ignoreDevice && !deviceId}
         >
           {t('reportShow')}
@@ -153,7 +131,7 @@ const ReportFilter = ({
             onClick={() => handleClick(false, false)}
             variant="outlined"
             color="secondary"
-            className={classes.button}
+            className={classes.filterButton}
             disabled={!ignoreDevice && !deviceId}
           >
             {t('reportExport')}
@@ -164,7 +142,7 @@ const ReportFilter = ({
             onClick={() => handleClick(true, false)}
             variant="outlined"
             color="secondary"
-            className={classes.button}
+            className={classes.filterButton}
             disabled={!ignoreDevice && !deviceId}
           >
             <Typography variant="button" noWrap>{t('reportEmail')}</Typography>

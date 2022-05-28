@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import {
   formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
 } from '../common/util/formatter';
-import ReportFilter, { useFilterStyles } from './components/ReportFilter';
+import ReportFilter from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -14,6 +13,7 @@ import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
+import useReportStyles from './common/useReportStyles';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
@@ -27,19 +27,8 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
-const useStyles = makeStyles(() => ({
-  header: {
-    position: 'sticky',
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-}));
-
 const SummaryReportPage = () => {
-  const classes = useStyles();
-  const filterClasses = useFilterStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -93,7 +82,7 @@ const SummaryReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <div className={classes.header}>
         <ReportFilter handleSubmit={handleSubmit}>
-          <div className={filterClasses.item}>
+          <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>

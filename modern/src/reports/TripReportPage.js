@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import {
   formatDistance, formatSpeed, formatHours, formatDate, formatVolume,
 } from '../common/util/formatter';
@@ -14,6 +13,7 @@ import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
 import { useCatch } from '../reactHelper';
+import useReportStyles from './common/useReportStyles';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -31,18 +31,8 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
-const useStyles = makeStyles(() => ({
-  header: {
-    position: 'sticky',
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-}));
-
 const TripReportPage = () => {
-  const classes = useStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');

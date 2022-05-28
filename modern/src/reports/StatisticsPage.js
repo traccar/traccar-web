@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { formatDate } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -11,6 +10,7 @@ import ReportFilter from './components/ReportFilter';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
+import useReportStyles from './common/useReportStyles';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -26,18 +26,8 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
-const useStyles = makeStyles(() => ({
-  header: {
-    position: 'sticky',
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-}));
-
 const StatisticsPage = () => {
-  const classes = useStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);

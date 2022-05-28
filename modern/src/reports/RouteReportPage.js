@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import ReportFilter from './components/ReportFilter';
@@ -17,35 +16,10 @@ import { useCatch } from '../reactHelper';
 import Map from '../map/core/Map';
 import MapRoutePath from '../map/MapRoutePath';
 import MapPositions from '../map/MapPositions';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  containerMap: {
-    flexBasis: '40%',
-    flexShrink: 0,
-  },
-  containerMain: {
-    overflow: 'auto',
-  },
-  header: {
-    position: 'sticky',
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-  columnAction: {
-    width: '1%',
-    paddingLeft: theme.spacing(1),
-  },
-}));
+import useReportStyles from './common/useReportStyles';
 
 const RouteReportPage = () => {
-  const classes = useStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);

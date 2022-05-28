@@ -3,9 +3,8 @@ import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@mui/styles';
 import { formatDate } from '../common/util/formatter';
-import ReportFilter, { useFilterStyles } from './components/ReportFilter';
+import ReportFilter from './components/ReportFilter';
 import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -13,6 +12,7 @@ import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
+import useReportStyles from './common/useReportStyles';
 
 const typesArray = [
   ['allEvents', 'eventAll'],
@@ -44,19 +44,8 @@ const columnsArray = [
 ];
 const columnsMap = new Map(columnsArray);
 
-const useStyles = makeStyles(() => ({
-  header: {
-    position: 'sticky',
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-}));
-
 const EventReportPage = () => {
-  const classes = useStyles();
-  const filterClasses = useFilterStyles();
+  const classes = useReportStyles();
   const t = useTranslation();
 
   const geofences = useSelector((state) => state.geofences.items);
@@ -110,7 +99,7 @@ const EventReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <div className={classes.header}>
         <ReportFilter handleSubmit={handleSubmit}>
-          <div className={filterClasses.item}>
+          <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('reportEventTypes')}</InputLabel>
               <Select
