@@ -123,7 +123,7 @@ const ReplayPage = () => {
     }
   }, [index, positions]);
 
-  const handleSubmit = useCatch(async (deviceId, from, to, _, headers) => {
+  const handleSubmit = useCatch(async ({ deviceId, from, to, headers }) => {
     setSelectedDeviceId(deviceId);
     const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/positions?${query.toString()}`, { headers });

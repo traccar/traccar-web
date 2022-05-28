@@ -33,7 +33,7 @@ const StatisticsPage = () => {
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
   const [items, setItems] = useState([]);
 
-  const handleSubmit = useCatch(async (_, from, to) => {
+  const handleSubmit = useCatch(async ({ from, to }) => {
     const query = new URLSearchParams({ from, to });
     const response = await fetch(`/api/statistics?${query.toString()}`, { Accept: 'application/json' });
     if (response.ok) {

@@ -68,10 +68,8 @@ const TripReportPage = () => {
     }
   }, [selectedItem]);
 
-  const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({
-      deviceId, from, to, mail,
-    });
+  const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
+    const query = new URLSearchParams({ deviceId, from, to, mail });
     const response = await fetch(`/api/reports/trips?${query.toString()}`, { headers });
     if (response.ok) {
       const contentType = response.headers.get('content-type');

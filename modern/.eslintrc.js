@@ -16,6 +16,12 @@ module.exports = {
     'no-nested-ternary': [0],
     'operator-linebreak': [0],
     'import/no-unresolved': [0],
+    'object-curly-newline': [1, {
+      ObjectExpression: { minProperties: 8, multiline: true, consistent: true },
+      ObjectPattern: { minProperties: 8, multiline: true, consistent: true },
+      ImportDeclaration: { minProperties: 4, multiline: true, consistent: true },
+      ExportDeclaration: { minProperties: 4, multiline: true, consistent: true },
+    }],
     'react/jsx-filename-extension': [1, { extensions: ['.js'] }],
     'react/function-component-definition': [1, { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
     'react/prop-types': [0],

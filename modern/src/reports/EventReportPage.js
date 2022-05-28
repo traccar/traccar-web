@@ -54,10 +54,8 @@ const EventReportPage = () => {
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [items, setItems] = useState([]);
 
-  const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({
-      deviceId, from, to, mail,
-    });
+  const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
+    const query = new URLSearchParams({ deviceId, from, to, mail });
     eventTypes.forEach((it) => query.append('type', it));
     const response = await fetch(`/api/reports/events?${query.toString()}`, { headers });
     if (response.ok) {

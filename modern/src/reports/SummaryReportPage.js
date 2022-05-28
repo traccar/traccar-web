@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
@@ -16,6 +17,7 @@ import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 
 const columnsArray = [
+  ['deviceId', 'sharedDevice'],
   ['startTime', 'reportStartDate'],
   ['distance', 'sharedDistance'],
   ['startOdometer', 'reportStartOdometer'],
@@ -31,18 +33,20 @@ const SummaryReportPage = () => {
   const classes = useReportStyles();
   const t = useTranslation();
 
+  const devices = useSelector((state) => state.devices.items);
+
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
 
-  const [columns, setColumns] = usePersistedState('summaryColumns', ['startTime', 'startOdometer', 'distance', 'averageSpeed']);
+  const [columns, setColumns] = usePersistedState('summaryColumns', ['deviceId', 'startTime', 'distance', 'averageSpeed']);
   const [daily, setDaily] = useState(false);
   const [items, setItems] = useState([]);
 
-  const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({
-      deviceId, from, to, daily, mail,
-    });
+  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, mail, headers }) => {
+    const query = new URLSearchParams({ from, to, daily, mail });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
     const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers });
     if (response.ok) {
       const contentType = response.headers.get('content-type');
@@ -60,6 +64,8 @@ const SummaryReportPage = () => {
 
   const formatValue = (item, key) => {
     switch (key) {
+      case 'deviceId':
+        return devices[item[key]].name;
       case 'startTime':
         return item[key] ? formatDate(item[key], 'YYYY-MM-DD') : null;
       case 'startOdometer':
@@ -81,7 +87,7 @@ const SummaryReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit}>
+        <ReportFilter handleSubmit={handleSubmit} multiDevice>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>

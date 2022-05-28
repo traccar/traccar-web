@@ -7,19 +7,22 @@ import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 
-const ReportFilter = ({
-  children, handleSubmit, showOnly, ignoreDevice,
-}) => {
+const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDevice }) => {
   const classes = useReportStyles();
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);
+  const groups = useSelector((state) => state.groups.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [deviceId, setDeviceId] = useState(selectedDeviceId);
+  const [deviceIds, setDeviceIds] = useState(selectedDeviceId ? [selectedDeviceId] : []);
+  const [groupIds, setGroupIds] = useState([]);
   const [period, setPeriod] = useState('today');
   const [from, setFrom] = useState(moment().subtract(1, 'hour'));
   const [to, setTo] = useState(moment());
+
+  const disabled = !ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length;
 
   const handleClick = (mail, json) => {
     let selectedFrom;
@@ -56,13 +59,15 @@ const ReportFilter = ({
     }
 
     const accept = json ? 'application/json' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    handleSubmit(
+    handleSubmit({
       deviceId,
-      selectedFrom.toISOString(),
-      selectedTo.toISOString(),
+      deviceIds,
+      groupIds,
+      from: selectedFrom.toISOString(),
+      to: selectedTo.toISOString(),
       mail,
-      { Accept: accept },
-    );
+      headers: { Accept: accept },
+    });
   };
 
   return (
@@ -70,10 +75,32 @@ const ReportFilter = ({
       {!ignoreDevice && (
         <div className={classes.filterItem}>
           <FormControl fullWidth>
-            <InputLabel>{t('reportDevice')}</InputLabel>
-            <Select label={t('reportDevice')} value={deviceId || ''} onChange={(e) => setDeviceId(e.target.value)}>
+            <InputLabel>{t(multiDevice ? 'deviceTitle' : 'reportDevice')}</InputLabel>
+            <Select
+              label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
+              value={multiDevice ? deviceIds : deviceId || ''}
+              onChange={(e) => (multiDevice ? setDeviceIds(e.target.value) : setDeviceId(e.target.value))}
+              multiple={multiDevice}
+            >
               {Object.values(devices).map((device) => (
                 <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      )}
+      {multiDevice && (
+        <div className={classes.filterItem}>
+          <FormControl fullWidth>
+            <InputLabel>{t('settingsGroups')}</InputLabel>
+            <Select
+              label={t('settingsGroups')}
+              value={groupIds}
+              onChange={(e) => setGroupIds(e.target.value)}
+              multiple
+            >
+              {Object.values(groups).map((group) => (
+                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -122,7 +149,7 @@ const ReportFilter = ({
           variant="outlined"
           color="secondary"
           className={classes.filterButton}
-          disabled={!ignoreDevice && !deviceId}
+          disabled={disabled}
         >
           {t('reportShow')}
         </Button>
@@ -132,7 +159,7 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             className={classes.filterButton}
-            disabled={!ignoreDevice && !deviceId}
+            disabled={disabled}
           >
             {t('reportExport')}
           </Button>
@@ -143,7 +170,7 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             className={classes.filterButton}
-            disabled={!ignoreDevice && !deviceId}
+            disabled={disabled}
           >
             <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
           </Button>
