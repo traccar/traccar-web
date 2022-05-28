@@ -69,10 +69,10 @@ const MapRoutePath = ({ positions }) => {
     });
     if (coordinates.length) {
       const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
+      const canvas = map.getCanvas();
       map.fitBounds(bounds, {
-        padding: {
-          top: 50, bottom: 250, left: 25, right: 25,
-        },
+        padding: Math.min(canvas.width, canvas.height) * 0.1,
+        duration: 0,
       });
     }
   }, [positions, reportColor]);
