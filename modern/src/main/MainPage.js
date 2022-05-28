@@ -129,6 +129,8 @@ const MainPage = () => {
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
   const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const [mapMapOnSelect] = usePersistedState('mapOnSelect', false);
+
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -142,6 +144,12 @@ const MainPage = () => {
   };
 
   useEffect(() => setCollapsed(!desktop), [desktop]);
+
+  useEffect(() => {
+    if (!desktop && mapMapOnSelect && selectedDeviceId) {
+      setCollapsed(true);
+    }
+  }, [desktop, mapMapOnSelect, selectedDeviceId]);
 
   const onClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.select(deviceId));

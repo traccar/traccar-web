@@ -48,6 +48,7 @@ const PreferencesPage = () => {
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
+  const [mapMapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', false);
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
     key: unprefixString('alarm', it),
@@ -101,16 +102,20 @@ const PreferencesPage = () => {
             </FormControl>
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox checked={mapLiveRoutes} onChange={(event) => setMapLiveRoutes(event.target.checked)} />}
+                control={<Checkbox checked={mapLiveRoutes} onChange={(e) => setMapLiveRoutes(e.target.checked)} />}
                 label={t('mapLiveRoutes')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapFollow} onChange={(event) => setMapFollow(event.target.checked)} />}
+                control={<Checkbox checked={mapFollow} onChange={(e) => setMapFollow(e.target.checked)} />}
                 label={t('deviceFollow')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapCluster} onChange={(event) => setMapCluster(event.target.checked)} />}
+                control={<Checkbox checked={mapCluster} onChange={(endpoint) => setMapCluster(e.target.checked)} />}
                 label={t('mapClustering')}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={mapMapOnSelect} onChange={(e) => setMapOnSelect(e.target.checked)} />}
+                label={t('mapOnSelect')}
               />
             </FormGroup>
           </AccordionDetails>

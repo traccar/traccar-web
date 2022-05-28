@@ -279,6 +279,7 @@
     "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "mapClustering": "Markers Clustering",
+    "mapOnSelect": "Show Map on Selection",
     "stateTitle": "State",
     "stateName": "Attribute",
     "stateValue": "Value",
