@@ -110,7 +110,7 @@ const PreferencesPage = () => {
                 label={t('deviceFollow')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapCluster} onChange={(endpoint) => setMapCluster(e.target.checked)} />}
+                control={<Checkbox checked={mapCluster} onChange={(e) => setMapCluster(e.target.checked)} />}
                 label={t('mapClustering')}
               />
               <FormControlLabel
