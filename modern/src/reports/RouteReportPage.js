@@ -28,10 +28,8 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
-    const query = new URLSearchParams({
-      deviceId, from, to, mail,
-    });
+  const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
+    const query = new URLSearchParams({ deviceId, from, to, mail });
     const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
     if (response.ok) {
       const contentType = response.headers.get('content-type');
