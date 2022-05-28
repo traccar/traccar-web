@@ -10,7 +10,7 @@ import { prefixString } from './common/util/stringUtils';
 import { snackBarDurationLongMs } from './common/util/duration';
 import usePersistedState from './common/util/usePersistedState';
 
-import alarm from '../public/alarm.mp3';
+import alarm from './resources/alarm.mp3';
 
 const SocketController = () => {
   const dispatch = useDispatch();
