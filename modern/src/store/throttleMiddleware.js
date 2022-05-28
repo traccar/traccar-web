@@ -1,4 +1,4 @@
-import { batch } from "react-redux";
+import { batch } from 'react-redux';
 
 const threshold = 3;
 const interval = 1500;
@@ -7,9 +7,8 @@ export default () => (next) => {
   const buffer = [];
   let throttle = false;
   let counter = 0;
-  
+
   setInterval(() => {
-    console.log('batch');
     if (throttle) {
       if (buffer.length < threshold) {
         throttle = false;
@@ -24,16 +23,14 @@ export default () => (next) => {
   }, interval);
 
   return (action) => {
-    console.log(action);
     if (action.type === 'devices/update' || action.type === 'positions/update') {
       if (throttle) {
         buffer.push(action);
-      } else {
-        counter += 1;
-        return next(action);
+        return null;
       }
-    } else {
+      counter += 1;
       return next(action);
     }
+    return next(action);
   };
 };
