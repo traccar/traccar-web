@@ -1,6 +1,11 @@
 import { grey } from '@mui/material/colors';
 
 export default {
+  MuiUseMediaQuery: {
+    defaultProps: {
+      noSsr: true,
+    },
+  },
   MuiOutlinedInput: {
     styleOverrides: {
       root: {
