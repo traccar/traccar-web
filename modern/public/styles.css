@@ -17,15 +17,3 @@ canvas {
   flex-direction: column;
   height: 100%;
 }
-
-.maplibregl-popup-content {
-  padding: 10px !important;
-}
-
-.mapboxgl-ctrl {
-  margin: 10px;
-}
-
-.maplibregl-popup {
-  max-width: 330px !important;
-}
