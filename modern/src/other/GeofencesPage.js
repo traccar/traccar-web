@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-import Map from '../map/core/Map';
+import MapView from '../map/core/MapView';
 import MapCurrentLocation from '../map/MapCurrentLocation';
 import MapGeofenceEdit from '../map/MapGeofenceEdit';
 import GeofencesList from './GeofencesList';
@@ -77,10 +77,10 @@ const GeofencesPage = () => {
           <GeofencesList />
         </Drawer>
         <div className={classes.mapContainer}>
-          <Map>
+          <MapView>
             <MapCurrentLocation />
             <MapGeofenceEdit />
-          </Map>
+          </MapView>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { kml } from '@tmcw/togeojson';
 
-import { map } from '../core/Map';
+import { map } from '../core/MapView';
 import { useEffectAsync } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
 

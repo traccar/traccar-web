@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { map } from './core/Map';
+import { map } from './core/MapView';
 import { getStatusColor } from '../common/util/formatter';
 import usePersistedState from '../common/util/usePersistedState';
 
-const MapPositions = ({ positions, onClick }) => {
+const MapPositions = ({ positions, onClick, showStatus }) => {
   const id = 'positions';
   const clusters = `${id}-clusters`;
 
@@ -20,7 +20,7 @@ const MapPositions = ({ positions, onClick }) => {
       deviceId: position.deviceId,
       name: device.name,
       category: device.category || 'default',
-      color: getStatusColor(device.status),
+      color: showStatus ? getStatusColor(device.status) : 'neutral',
     };
   };
 

@@ -13,7 +13,7 @@ import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
-import Map from '../map/core/Map';
+import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapPositions from '../map/MapPositions';
 import useReportStyles from './common/useReportStyles';
@@ -52,10 +52,10 @@ const RouteReportPage = () => {
       <div className={classes.container}>
         {selectedItem && (
           <div className={classes.containerMap}>
-            <Map>
+            <MapView>
               <MapRoutePath positions={items} />
               <MapPositions positions={[selectedItem]} />
-            </Map>
+            </MapView>
           </div>
         )}
         <div className={classes.containerMain}>

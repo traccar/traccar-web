@@ -13,7 +13,7 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Map from '../map/core/Map';
+import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapPositions from '../map/MapPositions';
 import { formatTime } from '../common/util/formatter';
@@ -143,12 +143,12 @@ const ReplayPage = () => {
 
   return (
     <div className={classes.root}>
-      <Map>
+      <MapView>
         <MapRoutePath positions={positions} />
         {index < positions.length && (
           <MapPositions positions={[positions[index]]} onClick={onClick} />
         )}
-      </Map>
+      </MapView>
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
           <Toolbar>

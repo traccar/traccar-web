@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { map } from './core/Map';
+import { map } from './core/MapView';
 import { geofenceToFeature, geometryToArea } from './core/mapUtil';
 import { errorsActions, geofencesActions } from '../store';
 import { useCatchCallback } from '../reactHelper';

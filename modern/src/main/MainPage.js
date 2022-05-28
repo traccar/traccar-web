@@ -15,7 +15,7 @@ import ListIcon from '@mui/icons-material/ViewList';
 
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
-import Map from '../map/core/Map';
+import MapView from '../map/core/MapView';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
 import MapAccuracy from '../map/main/MapAccuracy';
 import MapGeofence from '../map/main/MapGeofence';
@@ -149,15 +149,15 @@ const MainPage = () => {
 
   return (
     <div className={classes.root}>
-      <Map>
+      <MapView>
         <MapGeofence />
         <MapAccuracy />
         {mapLiveRoutes && <MapLiveRoutes />}
-        <MapPositions positions={positions} onClick={onClick} />
+        <MapPositions positions={positions} onClick={onClick} showStatus />
         <MapDefaultCamera />
         <MapSelectedDevice />
         <PoiMap />
-      </Map>
+      </MapView>
       <MapCurrentLocation />
       {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
       <Button

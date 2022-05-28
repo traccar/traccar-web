@@ -8,7 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import Map from '../map/core/Map';
+import MapView from '../map/core/MapView';
 import MapPositions from '../map/MapPositions';
 
 const useStyles = makeStyles(() => ({
@@ -68,9 +68,9 @@ const EventPage = () => {
         </Toolbar>
       </AppBar>
       <div className={classes.mapContainer}>
-        <Map>
+        <MapView>
           {position && <MapPositions positions={[position]} />}
-        </Map>
+        </MapView>
       </div>
     </div>
   );

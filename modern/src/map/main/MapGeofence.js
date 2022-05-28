@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { map } from '../core/Map';
+import { map } from '../core/MapView';
 import { geofenceToFeature } from '../core/mapUtil';
 
 const MapGeofence = () => {

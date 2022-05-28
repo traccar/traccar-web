@@ -75,7 +75,7 @@ const switcher = new SwitcherControl(
 
 map.addControl(switcher);
 
-const Map = ({ children }) => {
+const MapView = ({ children }) => {
   const containerEl = useRef(null);
   const t = useTranslation();
 
@@ -131,4 +131,4 @@ const Map = ({ children }) => {
   );
 };
 
-export default Map;
+export default MapView;

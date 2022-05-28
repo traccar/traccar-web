@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { map } from '../core/Map';
+import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 
 const MapLiveRoutes = () => {

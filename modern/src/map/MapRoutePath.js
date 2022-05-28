@@ -1,7 +1,7 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { map } from './core/Map';
+import { map } from './core/MapView';
 
 const MapRoutePath = ({ positions }) => {
   const id = 'replay';

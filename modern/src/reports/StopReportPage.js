@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import {
+  IconButton,
   Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import {
   formatDistance, formatHours, formatDate, formatVolume,
 } from '../common/util/formatter';
@@ -14,6 +17,9 @@ import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
+import MapPositions from '../map/MapPositions';
+import MapView from '../map/core/MapView';
+import MapCamera from '../map/MapCamera';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -35,6 +41,7 @@ const StopReportPage = () => {
 
   const [columns, setColumns] = usePersistedState('stopColumns', ['startTime', 'endTime', 'startOdometer', 'address']);
   const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
@@ -75,29 +82,58 @@ const StopReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
-      <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit}>
-          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
-        </ReportFilter>
-      </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.positionId}>
-              {columns.map((key) => (
-                <TableCell key={key}>
-                  {formatValue(item, key)}
-                </TableCell>
+      <div className={classes.container}>
+        {selectedItem && (
+          <div className={classes.containerMap}>
+            <MapView>
+              <MapPositions positions={[{
+                deviceId: selectedItem.deviceId,
+                latitude: selectedItem.latitude,
+                longitude: selectedItem.longitude,
+              }]}
+              />
+            </MapView>
+            <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />
+          </div>
+        )}
+        <div className={classes.containerMain}>
+          <div className={classes.header}>
+            <ReportFilter handleSubmit={handleSubmit}>
+              <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+            </ReportFilter>
+          </div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.columnAction} />
+                {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((item) => (
+                <TableRow key={item.positionId}>
+                  <TableCell className={classes.columnAction} padding="none">
+                    {selectedItem === item ? (
+                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
+                        <GpsFixedIcon fontSize="small" />
+                      </IconButton>
+                    ) : (
+                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                        <LocationSearchingIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                  {columns.map((key) => (
+                    <TableCell key={key}>
+                      {formatValue(item, key)}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     </PageLayout>
   );
 };
