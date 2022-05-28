@@ -15,7 +15,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAdministrator, useReadonly } from '../../common/util/permissions';
+import { useAdministrator, useManager, useReadonly } from '../../common/util/permissions';
 
 const MenuItem = ({
   title, link, icon, selected,
@@ -32,6 +32,7 @@ const SettingsMenu = () => {
 
   const readonly = useReadonly();
   const admin = useAdministrator();
+  const manager = useManager();
   const userId = useSelector((state) => state.session.user?.id);
 
   return (
@@ -102,16 +103,18 @@ const SettingsMenu = () => {
           </>
         )}
       </List>
-      {admin && (
+      {manager && (
         <>
           <Divider />
           <List>
-            <MenuItem
-              title={t('settingsServer')}
-              link="/settings/server"
-              icon={<StorageIcon />}
-              selected={location.pathname === '/settings/server'}
-            />
+            {admin && (
+              <MenuItem
+                title={t('settingsServer')}
+                link="/settings/server"
+                icon={<StorageIcon />}
+                selected={location.pathname === '/settings/server'}
+              />
+            )}
             <MenuItem
               title={t('settingsUsers')}
               link="/settings/users"
