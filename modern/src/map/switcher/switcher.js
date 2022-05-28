@@ -43,6 +43,7 @@ export class SwitcherControl {
 
     if (this.currentStyle !== selectedStyle) {
       this.onSelectStyle(selectedStyleElement);
+      this.currentStyle = selectedStyle;
     }
   }
 

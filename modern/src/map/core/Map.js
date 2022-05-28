@@ -21,8 +21,6 @@ element.style.boxSizing = 'initial';
 
 export const map = new maplibregl.Map({
   container: element,
-  center: [0, 0],
-  zoom: 9,
 });
 
 let ready = false;
