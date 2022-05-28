@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Table, TableBody, TableCell, TableHead, TableRow,
+  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import {
   formatDistance, formatSpeed, formatHours, formatDate, formatVolume,
 } from '../common/util/formatter';
@@ -12,8 +14,10 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
-import { useCatch } from '../reactHelper';
+import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
+import MapView from '../map/core/MapView';
+import MapRoutePath from '../map/MapRoutePath';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -41,6 +45,28 @@ const TripReportPage = () => {
 
   const [columns, setColumns] = usePersistedState('tripColumns', ['startTime', 'endTime', 'distance', 'averageSpeed']);
   const [items, setItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [route, setRoute] = useState(null);
+
+  useEffectAsync(async () => {
+    if (selectedItem) {
+      const query = new URLSearchParams({
+        deviceId: selectedItem.deviceId,
+        from: selectedItem.startTime,
+        to: selectedItem.endTime,
+      });
+      const response = await fetch(`/api/reports/route?${query.toString()}`, {
+        Accept: 'application/json',
+      });
+      if (response.ok) {
+        setRoute(await response.json());
+      } else {
+        throw Error(await response.text());
+      }
+    } else {
+      setRoute(null);
+    }
+  }, [selectedItem]);
 
   const handleSubmit = useCatch(async (deviceId, from, to, mail, headers) => {
     const query = new URLSearchParams({
@@ -84,29 +110,52 @@ const TripReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportTrips']}>
-      <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit}>
-          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
-        </ReportFilter>
-      </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item) => (
-            <TableRow key={item.startPositionId}>
-              {columns.map((key) => (
-                <TableCell key={key}>
-                  {formatValue(item, key)}
-                </TableCell>
+      <div className={classes.container}>
+        {selectedItem && (
+          <div className={classes.containerMap}>
+            <MapView>
+              {route && <MapRoutePath positions={route} />}
+            </MapView>
+          </div>
+        )}
+        <div className={classes.containerMain}>
+          <div className={classes.header}>
+            <ReportFilter handleSubmit={handleSubmit}>
+              <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+            </ReportFilter>
+          </div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.columnAction} />
+                {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items.map((item) => (
+                <TableRow key={item.startPositionId}>
+                  <TableCell className={classes.columnAction} padding="none">
+                    {selectedItem === item ? (
+                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
+                        <GpsFixedIcon fontSize="small" />
+                      </IconButton>
+                    ) : (
+                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                        <LocationSearchingIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                  {columns.map((key) => (
+                    <TableCell key={key}>
+                      {formatValue(item, key)}
+                    </TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            </TableBody>
+          </Table>
+        </div>
+      </div>
     </PageLayout>
   );
 };
