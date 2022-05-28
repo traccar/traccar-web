@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material';
-import * as serviceWorker from './serviceWorker';
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
 import ErrorHandler from './common/components/ErrorHandler';
@@ -37,5 +36,3 @@ ReactDOM.render(
     </Provider>
   ), document.getElementById('root'),
 );
-
-serviceWorker.register();
