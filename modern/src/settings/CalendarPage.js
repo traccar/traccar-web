@@ -5,11 +5,12 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DropzoneArea } from 'material-ui-dropzone';
+import { DropzoneArea } from 'react-mui-dropzone';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
+import components from '../common/theme/components';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -67,6 +68,7 @@ const CalendarPage = () => {
               <DropzoneArea
                 filesLimit={1}
                 onChange={handleFiles}
+                alertSnackbarProps={components.MuiSnackbar.defaultProps}
               />
             </AccordionDetails>
           </Accordion>
