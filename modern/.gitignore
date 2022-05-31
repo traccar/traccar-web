@@ -1,5 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# development
+.parcel-cache
+dist
+
 # dependencies
 /node_modules
 
