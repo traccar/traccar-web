@@ -14,7 +14,6 @@
     "@tmcw/togeojson": "^4.5.0",
     "@turf/circle": "^6.5.0",
     "@turf/turf": "^6.5.0",
-    "dotenv": "^16.0.1",
     "mapbox-gl": "^1.13.2",
     "maplibre-gl": "^2.1.9",
     "moment": "^2.29.3",
