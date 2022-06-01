@@ -87,6 +87,8 @@ const PositionValue = ({ position, property, attribute }) => {
         return address;
       }
       return (<Link href="#" onClick={showAddress}>{t('sharedShowAddress')}</Link>);
+    case 'network':
+      return (<Link component={RouterLink} to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
     default:
       return formatValue(value);
   }
