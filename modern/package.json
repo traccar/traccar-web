@@ -14,6 +14,7 @@
     "@tmcw/togeojson": "^4.5.0",
     "@turf/circle": "^6.5.0",
     "@turf/turf": "^6.5.0",
+    "dotenv": "^16.0.1",
     "mapbox-gl": "^1.13.2",
     "maplibre-gl": "^2.1.9",
     "moment": "^2.29.3",
@@ -27,14 +28,16 @@
     "react-window": "^1.8.6",
     "recharts": "^2.1.10",
     "redux": "^4.2.0",
+    "rimraf": "^3.0.2",
     "typeface-roboto": "1.1.13",
     "wellknown": "^0.5.0"
   },
   "scripts": {
-    "prestart": "rimraf .parcel-cache/* dist/*",
-    "start": "parcel index.html --lazy",
-    "build": "parcel build index.html",
-    "build_release": "parcel build --public-url /modern index.html",
+    "start": "parcel index.html --lazy --no-cache",
+    "prebuild": "rimraf dist/* .parcel-cache/* && npm run lint",
+    "build": "parcel build index.html --no-cache",
+    "prebuild_release": "rimraf dist/* .parcel-cache/* && npm run lint",
+    "build_release": "parcel build --no-cache --public-url /modern index.html",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js ."
   },
@@ -59,7 +62,6 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "parcel": "^2.6.0",
-    "process": "^0.11.10",
-    "rimraf": "^3.0.2"
+    "process": "^0.11.10"
   }
 }
