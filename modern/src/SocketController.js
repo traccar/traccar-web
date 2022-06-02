@@ -11,7 +11,6 @@ import { prefixString } from './common/util/stringUtils';
 import { snackBarDurationLongMs } from './common/util/duration';
 import usePersistedState from './common/util/usePersistedState';
 
-
 const SocketController = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
