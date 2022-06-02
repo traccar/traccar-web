@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import alarm from 'url:./resources/alarm.mp3';
 
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
@@ -10,7 +11,6 @@ import { prefixString } from './common/util/stringUtils';
 import { snackBarDurationLongMs } from './common/util/duration';
 import usePersistedState from './common/util/usePersistedState';
 
-import alarm from 'url:./resources/alarm.mp3';
 
 const SocketController = () => {
   const dispatch = useDispatch();
