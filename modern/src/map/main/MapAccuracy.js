@@ -2,14 +2,19 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import circle from '@turf/circle';
 
+import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 
 const MapAccuracy = () => {
   const id = 'accuracy';
 
+  const theme = useTheme();
+
   const positions = useSelector((state) => ({
     type: 'FeatureCollection',
-    features: Object.values(state.positions.items).filter((position) => position.accuracy > 0).map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
+    features: Object.values(state.positions.items)
+      .filter((position) => position.accuracy > 0)
+      .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
   }));
 
   useEffect(() => {
@@ -29,8 +34,8 @@ const MapAccuracy = () => {
         ['==', '$type', 'Polygon'],
       ],
       paint: {
-        'fill-color': '#3bb2d0',
-        'fill-outline-color': '#3bb2d0',
+        'fill-color': theme.palette.colors.geometry,
+        'fill-outline-color': theme.palette.colors.geometry,
         'fill-opacity': 0.25,
       },
     });

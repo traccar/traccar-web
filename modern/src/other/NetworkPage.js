@@ -8,9 +8,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
-import { prefixString } from '../common/util/stringUtils';
-import { useTranslation } from '../common/components/LocalizationProvider';
-import PositionValue from '../common/components/PositionValue';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,21 +19,23 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
   },
 }));
 
-const PositionPage = () => {
+const NetworkPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const t = useTranslation();
 
-  const { id } = useParams();
+  const { positionId } = useParams();
 
-  const [item, setItem] = useState();
+  const [item, setItem] = useState({});
 
   useEffectAsync(async () => {
-    if (id) {
-      const response = await fetch(`/api/positions?id=${id}`);
+    if (positionId) {
+      const response = await fetch(`/api/positions?id=${positionId}`);
       if (response.ok) {
         const positions = await response.json();
         if (positions.length > 0) {
@@ -46,7 +45,7 @@ const PositionPage = () => {
         throw Error(await response.text());
       }
     }
-  }, [id]);
+  }, [positionId]);
 
   const deviceName = useSelector((state) => {
     if (item) {
@@ -76,24 +75,39 @@ const PositionPage = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>{t('stateName')}</TableCell>
-                  <TableCell>{t('sharedName')}</TableCell>
-                  <TableCell>{t('stateValue')}</TableCell>
+                  <TableCell>MCC</TableCell>
+                  <TableCell>MNC</TableCell>
+                  <TableCell>LAC</TableCell>
+                  <TableCell>CID</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
-                  <TableRow key={property}>
-                    <TableCell>{property}</TableCell>
-                    <TableCell><strong>{t(prefixString('position', property))}</strong></TableCell>
-                    <TableCell><PositionValue position={item} property={property} /></TableCell>
+                {(item.network?.cellTowers || []).map((cell) => (
+                  <TableRow key={cell.cellId}>
+                    <TableCell>{cell.mobileCountryCode}</TableCell>
+                    <TableCell>{cell.mobileNetworkCode}</TableCell>
+                    <TableCell>{cell.locationAreaCode}</TableCell>
+                    <TableCell>{cell.cellId}</TableCell>
                   </TableRow>
                 ))}
-                {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
-                  <TableRow key={attribute}>
-                    <TableCell>{attribute}</TableCell>
-                    <TableCell><strong>{t(prefixString('position', attribute)) || t(prefixString('device', attribute))}</strong></TableCell>
-                    <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
+              </TableBody>
+            </Table>
+          </Paper>
+        </Container>
+        <Container maxWidth="sm">
+          <Paper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>MAC</TableCell>
+                  <TableCell>RSSI</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(item.network?.wifiAccessPoints || []).map((wifi) => (
+                  <TableRow key={wifi.macAddress}>
+                    <TableCell>{wifi.macAddress}</TableCell>
+                    <TableCell>{wifi.signalStrength}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -105,4 +119,4 @@ const PositionPage = () => {
   );
 };
 
-export default PositionPage;
+export default NetworkPage;

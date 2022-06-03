@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/styles';
 import maplibregl from 'maplibre-gl';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -5,6 +6,8 @@ import { map } from './core/MapView';
 
 const MapRoutePath = ({ positions }) => {
   const id = 'replay';
+
+  const theme = useTheme();
 
   const reportColor = useSelector((state) => {
     const position = positions.find(() => true);
@@ -17,7 +20,7 @@ const MapRoutePath = ({ positions }) => {
         }
       }
     }
-    return '#3bb2d0';
+    return theme.palette.colors.geometry;
   });
 
   useEffect(() => {

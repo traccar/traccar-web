@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { kml } from '@tmcw/togeojson';
 
+import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 import { useEffectAsync } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
 
 const PoiMap = () => {
   const id = 'poi';
+
+  const theme = useTheme();
 
   const poiLayer = usePreference('poiLayer');
 
@@ -32,7 +35,7 @@ const PoiMap = () => {
         type: 'circle',
         paint: {
           'circle-radius': 5,
-          'circle-color': '#3bb2d0',
+          'circle-color': theme.palette.colors.geometry,
         },
       });
       map.addLayer({

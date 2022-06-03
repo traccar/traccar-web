@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 
 const MapLiveRoutes = () => {
   const id = 'liveRoute';
+
+  const theme = useTheme();
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const currentDeviceId = usePrevious(selectedDeviceId);
@@ -34,7 +37,7 @@ const MapLiveRoutes = () => {
         'line-cap': 'round',
       },
       paint: {
-        'line-color': '#3bb2d0',
+        'line-color': theme.palette.colors.geometry,
         'line-width': 2,
       },
     });
