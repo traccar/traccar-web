@@ -1,6 +1,7 @@
 import palette from '../../common/theme/palette';
 import { loadImage, prepareIcon } from './mapUtil';
 
+import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
 import animalSvg from '../../resources/images/icon/animal.svg';
 import bicycleSvg from '../../resources/images/icon/bicycle.svg';
@@ -53,6 +54,7 @@ export const mapImages = {};
 export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
+  mapImages.direction = await prepareIcon(await loadImage(directionSvg));
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
     ['positive', 'negative', 'neutral'].forEach((color) => {

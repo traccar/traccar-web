@@ -31,6 +31,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import { useDeviceReadonly } from '../common/util/permissions';
 import MapPositions from '../map/MapPositions';
+import MapDirection from '../map/MapDirection';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -135,6 +136,7 @@ const MainPage = () => {
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => Object.values(state.positions.items));
+  const selectedPosition = positions.find((position) => selectedDeviceId && position.deviceId === selectedDeviceId);
 
   const [searchKeyword, setSearchKeyword] = useState('');
   const [collapsed, setCollapsed] = useState(false);
@@ -162,6 +164,9 @@ const MainPage = () => {
         <MapAccuracy />
         {mapLiveRoutes && <MapLiveRoutes />}
         <MapPositions positions={positions} onClick={onClick} showStatus />
+        {selectedPosition && selectedPosition.course && (
+          <MapDirection position={selectedPosition} />
+        )}
         <MapDefaultCamera />
         <MapSelectedDevice />
         <PoiMap />

@@ -101,8 +101,6 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
     map.on('click', clusters, onClusterClick);
 
     return () => {
-      Array.from(map.getContainer().getElementsByClassName('maplibregl-popup')).forEach((el) => el.remove());
-
       map.off('mouseenter', id, onMouseEnter);
       map.off('mouseleave', id, onMouseLeave);
       map.off('mouseenter', clusters, onMouseEnter);
