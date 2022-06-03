@@ -19,5 +19,6 @@ export default {
     medium: amber[700],
     negative: red[500],
     neutral: grey[500],
+    geometry: '#3bb2d0',
   },
 };

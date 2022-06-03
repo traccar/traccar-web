@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
+import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 import { geofenceToFeature } from '../core/mapUtil';
 
 const MapGeofence = () => {
   const id = 'geofences';
+
+  const theme = useTheme();
 
   const geofences = useSelector((state) => state.geofences.items);
 
@@ -26,8 +29,8 @@ const MapGeofence = () => {
         ['==', '$type', 'Polygon'],
       ],
       paint: {
-        'fill-color': '#3bb2d0',
-        'fill-outline-color': '#3bb2d0',
+        'fill-color': theme.palette.colors.geometry,
+        'fill-outline-color': theme.palette.colors.geometry,
         'fill-opacity': 0.1,
       },
     });
@@ -36,7 +39,7 @@ const MapGeofence = () => {
       id: 'geofences-line',
       type: 'line',
       paint: {
-        'line-color': '#3bb2d0',
+        'line-color': theme.palette.colors.geometry,
         'line-width': 2,
       },
     });

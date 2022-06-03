@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebarToggleBg: {
     backgroundColor: 'white',
-    color: '#777777',
+    color: 'rgba(0, 0, 0, 0.6)',
     '&:hover': {
       backgroundColor: 'white',
     },
