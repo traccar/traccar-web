@@ -406,6 +406,8 @@
     "notificatorSms": "SMS",
     "notificatorFirebase": "Firebase",
     "notificatorTraccar": "Traccar",
+    "notificatorTelegram": "Telegram",
+    "notificatorPushover": "Pushover",
     "reportReplay": "Replay",
     "reportRoute": "Route",
     "reportEvents": "Events",
