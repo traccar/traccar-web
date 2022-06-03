@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Divider, Typography, IconButton, useMediaQuery,
+  Divider, Typography, IconButton, useMediaQuery, Toolbar,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTheme } from '@mui/material/styles';
@@ -38,12 +38,6 @@ const useStyles = makeStyles((theme) => ({
       height: dimensions.drawerHeightPhone,
     },
   },
-  drawerHeader: {
-    ...theme.mixins.toolbar,
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-  },
   mapContainer: {
     flexGrow: 1,
   },
@@ -65,14 +59,12 @@ const GeofencesPage = () => {
           variant="permanent"
           classes={{ paper: classes.drawerPaper }}
         >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={() => navigate(-1)}>
+          <Toolbar>
+            <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
               <ArrowBackIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              {t('sharedGeofences')}
-            </Typography>
-          </div>
+            <Typography variant="h6">{t('sharedGeofences')}</Typography>
+          </Toolbar>
           <Divider />
           <GeofencesList />
         </Drawer>
