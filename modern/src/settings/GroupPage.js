@@ -15,6 +15,7 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useGroupAttributes from '../common/attributes/useGroupAttributes';
 import { prefixString } from '../common/util/stringUtils';
+import useFeatures from '../common/util/useFeatures';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -31,6 +32,8 @@ const GroupPage = () => {
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const groupAttributes = useGroupAttributes(t);
+
+  const features = useFeatures();
 
   const [item, setItem] = useState();
 
@@ -115,23 +118,27 @@ const GroupPage = () => {
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
                 />
-                <LinkField
-                  endpointAll="/api/drivers"
-                  endpointLinked={`/api/drivers?groupId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="groupId"
-                  keyLink="driverId"
-                  label={t('sharedDrivers')}
-                />
-                <LinkField
-                  endpointAll="/api/attributes/computed"
-                  endpointLinked={`/api/attributes/computed?groupId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="groupId"
-                  keyLink="attributeId"
-                  titleGetter={(it) => it.description}
-                  label={t('sharedComputedAttributes')}
-                />
+                {!features.disableDrivers && (
+                  <LinkField
+                    endpointAll="/api/drivers"
+                    endpointLinked={`/api/drivers?groupId=${item.id}`}
+                    baseId={item.id}
+                    keyBase="groupId"
+                    keyLink="driverId"
+                    label={t('sharedDrivers')}
+                  />
+                )}
+                {!features.disableComputedAttributes && (
+                  <LinkField
+                    endpointAll="/api/attributes/computed"
+                    endpointLinked={`/api/attributes/computed?groupId=${item.id}`}
+                    baseId={item.id}
+                    keyBase="groupId"
+                    keyLink="attributeId"
+                    titleGetter={(it) => it.description}
+                    label={t('sharedComputedAttributes')}
+                  />
+                )}
                 <LinkField
                   endpointAll="/api/commands"
                   endpointLinked={`/api/commands?groupId=${item.id}`}
@@ -141,14 +148,16 @@ const GroupPage = () => {
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
                 />
-                <LinkField
-                  endpointAll="/api/maintenance"
-                  endpointLinked={`/api/maintenance?groupId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="groupId"
-                  keyLink="maintenanceId"
-                  label={t('sharedMaintenance')}
-                />
+                {!features.disableMaintenance && (
+                  <LinkField
+                    endpointAll="/api/maintenance"
+                    endpointLinked={`/api/maintenance?groupId=${item.id}`}
+                    baseId={item.id}
+                    keyBase="groupId"
+                    keyLink="maintenanceId"
+                    label={t('sharedMaintenance')}
+                  />
+                )}
               </AccordionDetails>
             </Accordion>
           )}

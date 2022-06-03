@@ -5,18 +5,6 @@ export default (t) => useMemo(() => ({
     name: t('attributeNotificationTokens'),
     type: 'string',
   },
-  /* 'web.liveRouteLength': {
-    name: t('attributeWebLiveRouteLength'),
-    type: 'number',
-  },
-  'web.selectZoom': {
-    name: t('attributeWebSelectZoom'),
-    type: 'number',
-  },
-  'web.maxZoom': {
-    name: t('attributeWebMaxZoom'),
-    type: 'number',
-  },
   'ui.disableEvents': {
     name: t('attributeUiDisableEvents'),
     type: 'boolean',
@@ -40,6 +28,18 @@ export default (t) => useMemo(() => ({
   'ui.disableMaintenance': {
     name: t('attributeUiDisableMaintenance'),
     type: 'boolean',
+  },
+  /* 'web.liveRouteLength': {
+    name: t('attributeWebLiveRouteLength'),
+    type: 'number',
+  },
+  'web.selectZoom': {
+    name: t('attributeWebSelectZoom'),
+    type: 'number',
+  },
+  'web.maxZoom': {
+    name: t('attributeWebMaxZoom'),
+    type: 'number',
   },
   'ui.hidePositionAttributes': {
     name: t('attributeUiHidePositionAttributes'),

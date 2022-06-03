@@ -16,6 +16,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator, useManager, useReadonly } from '../../common/util/permissions';
+import useFeatures from '../../common/util/useFeatures';
 
 const MenuItem = ({
   title, link, icon, selected,
@@ -34,6 +35,8 @@ const SettingsMenu = () => {
   const admin = useAdministrator();
   const manager = useManager();
   const userId = useSelector((state) => state.session.user?.id);
+
+  const features = useFeatures();
 
   return (
     <>
@@ -70,30 +73,38 @@ const SettingsMenu = () => {
               icon={<FolderIcon />}
               selected={location.pathname.startsWith('/settings/group')}
             />
-            <MenuItem
-              title={t('sharedDrivers')}
-              link="/settings/drivers"
-              icon={<PersonIcon />}
-              selected={location.pathname.startsWith('/settings/driver')}
-            />
-            <MenuItem
-              title={t('sharedCalendars')}
-              link="/settings/calendars"
-              icon={<TodayIcon />}
-              selected={location.pathname.startsWith('/settings/calendar')}
-            />
-            <MenuItem
-              title={t('sharedComputedAttributes')}
-              link="/settings/attributes"
-              icon={<StorageIcon />}
-              selected={location.pathname.startsWith('/settings/attribute')}
-            />
-            <MenuItem
-              title={t('sharedMaintenance')}
-              link="/settings/maintenances"
-              icon={<BuildIcon />}
-              selected={location.pathname.startsWith('/settings/maintenance')}
-            />
+            {!features.disableDrivers && (
+              <MenuItem
+                title={t('sharedDrivers')}
+                link="/settings/drivers"
+                icon={<PersonIcon />}
+                selected={location.pathname.startsWith('/settings/driver')}
+              />
+            )}
+            {!features.disableCalendars && (
+              <MenuItem
+                title={t('sharedCalendars')}
+                link="/settings/calendars"
+                icon={<TodayIcon />}
+                selected={location.pathname.startsWith('/settings/calendar')}
+              />
+            )}
+            {!features.disableComputedAttributes && (
+              <MenuItem
+                title={t('sharedComputedAttributes')}
+                link="/settings/attributes"
+                icon={<StorageIcon />}
+                selected={location.pathname.startsWith('/settings/attribute')}
+              />
+            )}
+            {!features.disableMaintenance && (
+              <MenuItem
+                title={t('sharedMaintenance')}
+                link="/settings/maintenances"
+                icon={<BuildIcon />}
+                selected={location.pathname.startsWith('/settings/maintenance')}
+              />
+            )}
             <MenuItem
               title={t('sharedSavedCommands')}
               link="/settings/commands"

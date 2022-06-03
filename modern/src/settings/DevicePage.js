@@ -22,6 +22,7 @@ import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
+import useFeatures from '../common/util/useFeatures';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -40,6 +41,8 @@ const DevicePage = () => {
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
+
+  const features = useFeatures();
 
   const [item, setItem] = useState();
 
@@ -160,23 +163,27 @@ const DevicePage = () => {
                   titleGetter={(it) => t(prefixString('event', it.type))}
                   label={t('sharedNotifications')}
                 />
-                <LinkField
-                  endpointAll="/api/drivers"
-                  endpointLinked={`/api/drivers?deviceId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="deviceId"
-                  keyLink="driverId"
-                  label={t('sharedDrivers')}
-                />
-                <LinkField
-                  endpointAll="/api/attributes/computed"
-                  endpointLinked={`/api/attributes/computed?deviceId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="deviceId"
-                  keyLink="attributeId"
-                  titleGetter={(it) => it.description}
-                  label={t('sharedComputedAttributes')}
-                />
+                {!features.disableDrivers && (
+                  <LinkField
+                    endpointAll="/api/drivers"
+                    endpointLinked={`/api/drivers?deviceId=${item.id}`}
+                    baseId={item.id}
+                    keyBase="deviceId"
+                    keyLink="driverId"
+                    label={t('sharedDrivers')}
+                  />
+                )}
+                {!features.disableComputedAttributes && (
+                  <LinkField
+                    endpointAll="/api/attributes/computed"
+                    endpointLinked={`/api/attributes/computed?deviceId=${item.id}`}
+                    baseId={item.id}
+                    keyBase="deviceId"
+                    keyLink="attributeId"
+                    titleGetter={(it) => it.description}
+                    label={t('sharedComputedAttributes')}
+                  />
+                )}
                 <LinkField
                   endpointAll="/api/commands"
                   endpointLinked={`/api/commands?deviceId=${item.id}`}
@@ -186,14 +193,16 @@ const DevicePage = () => {
                   titleGetter={(it) => it.description}
                   label={t('sharedSavedCommands')}
                 />
-                <LinkField
-                  endpointAll="/api/maintenance"
-                  endpointLinked={`/api/maintenance?deviceId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="deviceId"
-                  keyLink="maintenanceId"
-                  label={t('sharedMaintenance')}
-                />
+                {!features.disableMaintenance && (
+                  <LinkField
+                    endpointAll="/api/maintenance"
+                    endpointLinked={`/api/maintenance?deviceId=${item.id}`}
+                    baseId={item.id}
+                    keyBase="deviceId"
+                    keyLink="maintenanceId"
+                    label={t('sharedMaintenance')}
+                  />
+                )}
               </AccordionDetails>
             </Accordion>
           )}
