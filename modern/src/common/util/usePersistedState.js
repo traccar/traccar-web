@@ -11,7 +11,11 @@ export default (key, defaultValue) => {
   });
 
   useEffect(() => {
-    savePersistedState(key, value);
+    if (value !== defaultValue) {
+      savePersistedState(key, value);
+    } else {
+      window.localStorage.removeItem(key);
+    }
   }, [key, value]);
 
   return [value, setValue];

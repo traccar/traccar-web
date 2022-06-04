@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback, useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Paper, Toolbar, IconButton, Button, OutlinedInput, InputAdornment,
+  Paper, Toolbar, IconButton, Button, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox,
 } from '@mui/material';
-
-import makeStyles from '@mui/styles/makeStyles';
-
+import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,8 +13,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ListIcon from '@mui/icons-material/ViewList';
 import TuneIcon from '@mui/icons-material/Tune';
-
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import DevicesList from './DevicesList';
 import MapView from '../map/core/MapView';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
@@ -118,6 +118,13 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 4,
     width: theme.dimensions.drawerWidthDesktop,
   },
+  filterPanel: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(2),
+    gap: theme.spacing(2),
+    width: theme.dimensions.drawerWidthTablet,
+  },
 }));
 
 const MainPage = () => {
@@ -136,10 +143,23 @@ const MainPage = () => {
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const positions = useSelector((state) => Object.values(state.positions.items));
-  const selectedPosition = positions.find((position) => selectedDeviceId && position.deviceId === selectedDeviceId);
+  const positions = useSelector((state) => state.positions.items);
+  const [filteredPositions, setFilteredPositions] = useState([]);
+  const selectedPosition = filteredPositions.find((position) => selectedDeviceId && position.deviceId === selectedDeviceId);
 
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const groups = useSelector((state) => state.groups.items);
+  const devices = useSelector((state) => state.devices.items);
+  const [filteredDevices, setFilteredDevices] = useState([]);
+
+  const [filterKeyword, setFilterKeyword] = useState('');
+  const [filterStatuses, setFilterStatuses] = useState([]);
+  const [filterGroups, setFilterGroups] = useState([]);
+  const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
+  const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
+
+  const filterRef = useRef();
+  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
+
   const [collapsed, setCollapsed] = useState(false);
 
   const handleClose = () => {
@@ -158,13 +178,31 @@ const MainPage = () => {
     dispatch(devicesActions.select(deviceId));
   }, [dispatch]);
 
+  useEffect(() => {
+    const filtered = Object.values(devices)
+      .filter((device) => !filterStatuses.length || filterStatuses.includes(device.status))
+      .filter((device) => !filterGroups.length || filterGroups.includes(device.groupId))
+      .filter((device) => `${device.name} ${device.uniqueId}`.toLowerCase().includes(filterKeyword.toLowerCase()));
+    if (filterSort === 'lastUpdate') {
+      filtered.sort((device1, device2) => {
+        const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
+        const time2 = device2.lastUpdate ? moment(device2.lastUpdate).valueOf() : 0;
+        return time2 - time1;
+      });
+    }
+    setFilteredDevices(filtered);
+    setFilteredPositions(filterMap
+      ? filtered.map((device) => positions[device.id]).filter(Boolean)
+      : Object.values(positions));
+  }, [devices, positions, filterKeyword, filterStatuses, filterGroups, filterSort, filterMap]);
+
   return (
     <div className={classes.root}>
       <MapView>
         <MapGeofence />
         <MapAccuracy />
         {mapLiveRoutes && <MapLiveRoutes />}
-        <MapPositions positions={positions} onClick={onClick} showStatus />
+        <MapPositions positions={filteredPositions} onClick={onClick} showStatus />
         {selectedPosition && selectedPosition.course && (
           <MapDirection position={selectedPosition} />
         )}
@@ -194,12 +232,13 @@ const MainPage = () => {
               </IconButton>
             )}
             <OutlinedInput
+              ref={filterRef}
               placeholder={t('sharedSearchDevices')}
-              value={searchKeyword}
-              onChange={(event) => setSearchKeyword(event.target.value)}
+              value={filterKeyword}
+              onChange={(event) => setFilterKeyword(event.target.value)}
               endAdornment={(
                 <InputAdornment position="end">
-                  <IconButton size="small" onClick={() => {}}>
+                  <IconButton size="small" onClick={() => setFilterAnchorEl(filterRef.current)}>
                     <TuneIcon fontSize="small" />
                   </IconButton>
                 </InputAdornment>
@@ -207,6 +246,60 @@ const MainPage = () => {
               size="small"
               fullWidth
             />
+            <Popover
+              open={!!filterAnchorEl}
+              anchorEl={filterAnchorEl}
+              onClose={() => setFilterAnchorEl(null)}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+            >
+              <div className={classes.filterPanel}>
+                <FormControl>
+                  <InputLabel>{t('deviceStatus')}</InputLabel>
+                  <Select
+                    label={t('deviceStatus')}
+                    value={filterStatuses}
+                    onChange={(e) => setFilterStatuses(e.target.value)}
+                    multiple
+                  >
+                    <MenuItem value="online">{t('deviceStatusOnline')}</MenuItem>
+                    <MenuItem value="offline">{t('deviceStatusOffline')}</MenuItem>
+                    <MenuItem value="unknown">{t('deviceStatusUnknown')}</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <InputLabel>{t('settingsGroups')}</InputLabel>
+                  <Select
+                    label={t('settingsGroups')}
+                    value={filterGroups}
+                    onChange={(e) => setFilterGroups(e.target.value)}
+                    multiple
+                  >
+                    {Object.values(groups).map((group) => (<MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>))}
+                  </Select>
+                </FormControl>
+                <FormControl>
+                  <InputLabel>{t('sharedSortBy')}</InputLabel>
+                  <Select
+                    label={t('sharedSortBy')}
+                    value={filterSort}
+                    onChange={(e) => setFilterSort(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem value="">{'\u00a0'}</MenuItem>
+                    <MenuItem value="lastUpdate">{t('deviceLastUpdate')}</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox checked={filterMap} onChange={(e) => setFilterMap(e.target.checked)} />}
+                    label={t('sharedFilterMap')}
+                  />
+                </FormGroup>
+              </div>
+            </Popover>
             <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
               <AddIcon />
             </IconButton>
@@ -218,7 +311,7 @@ const MainPage = () => {
           </Toolbar>
         </Paper>
         <div className={classes.deviceList}>
-          <DevicesList filter={searchKeyword} />
+          <DevicesList devices={filteredDevices} />
         </div>
       </Paper>
       {desktop && (

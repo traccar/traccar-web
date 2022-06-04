@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import { IconButton, Tooltip } from '@mui/material';
@@ -142,22 +142,10 @@ const DeviceRow = ({ data, index, style }) => {
   );
 };
 
-const DevicesList = ({ filter }) => {
+const DevicesList = ({ devices }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const listInnerEl = useRef(null);
-
-  const items = useSelector((state) => state.devices.items);
-  const [filteredItems, setFilteredItems] = useState(null);
-
-  useEffect(() => {
-    const array = Object.values(items);
-    setFilteredItems(
-      filter.trim().length > 0
-        ? array.filter((item) => `${item.name} ${item.uniqueId}`.toLowerCase().includes(filter?.toLowerCase()))
-        : array,
-    );
-  }, [filter, items]);
 
   if (listInnerEl.current) {
     listInnerEl.current.className = classes.listInner;
@@ -179,8 +167,8 @@ const DevicesList = ({ filter }) => {
           <FixedSizeList
             width={width}
             height={height}
-            itemCount={filteredItems.length}
-            itemData={{ items: filteredItems }}
+            itemCount={devices.length}
+            itemData={{ items: devices }}
             itemSize={72}
             overscanCount={10}
             innerRef={listInnerEl}
