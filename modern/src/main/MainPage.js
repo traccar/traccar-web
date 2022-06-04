@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Paper, Toolbar, IconButton, Button, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox,
+  Paper, Toolbar, IconButton, Button, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
@@ -239,7 +239,9 @@ const MainPage = () => {
               endAdornment={(
                 <InputAdornment position="end">
                   <IconButton size="small" onClick={() => setFilterAnchorEl(filterRef.current)}>
-                    <TuneIcon fontSize="small" />
+                    <Badge color="info" variant="dot" invisible={!filterStatuses.length && !filterGroups.length}>
+                      <TuneIcon fontSize="small" />
+                    </Badge>
                   </IconButton>
                 </InputAdornment>
               )}
