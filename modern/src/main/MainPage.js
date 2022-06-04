@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Paper, Toolbar, TextField, IconButton, Button,
+  Paper, Toolbar, IconButton, Button, OutlinedInput, InputAdornment,
 } from '@mui/material';
 
 import makeStyles from '@mui/styles/makeStyles';
@@ -12,6 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ListIcon from '@mui/icons-material/ViewList';
+import TuneIcon from '@mui/icons-material/Tune';
 
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
@@ -192,13 +193,19 @@ const MainPage = () => {
                 <ArrowBackIcon />
               </IconButton>
             )}
-            <TextField
-              fullWidth
-              name="searchKeyword"
-              value={searchKeyword}
-              autoComplete="searchKeyword"
-              onChange={(event) => setSearchKeyword(event.target.value)}
+            <OutlinedInput
               placeholder={t('sharedSearchDevices')}
+              value={searchKeyword}
+              onChange={(event) => setSearchKeyword(event.target.value)}
+              endAdornment={(
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={() => {}}>
+                    <TuneIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              )}
+              size="small"
+              fullWidth
             />
             <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
               <AddIcon />
