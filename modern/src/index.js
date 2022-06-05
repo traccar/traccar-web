@@ -12,6 +12,7 @@ import SocketController from './SocketController';
 import theme from './common/theme';
 import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 preloadImages();
 
@@ -36,3 +37,5 @@ ReactDOM.render(
     </Provider>
   ), document.getElementById('root'),
 );
+
+serviceWorkerRegistration.register();
