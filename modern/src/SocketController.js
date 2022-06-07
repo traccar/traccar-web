@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './common/components/LocalizationProvider';
-import { prefixString } from './common/util/stringUtils';
 import { snackBarDurationLongMs } from './common/util/duration';
 import usePersistedState from './common/util/usePersistedState';
 
@@ -103,7 +102,7 @@ const SocketController = () => {
   useEffect(() => {
     setNotifications(events.map((event) => ({
       id: event.id,
-      message: `${devices[event.deviceId]?.name}: ${t(prefixString('event', event.type))}`,
+      message: event.attributes.message,
       show: true,
     })));
   }, [events, devices, t]);
