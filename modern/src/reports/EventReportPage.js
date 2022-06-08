@@ -3,7 +3,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { formatDate } from '../common/util/formatter';
+import { formatTime } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -75,7 +75,7 @@ const EventReportPage = () => {
   const formatValue = (item, key) => {
     switch (key) {
       case 'eventTime':
-        return formatDate(item[key]);
+        return formatTime(item[key]);
       case 'type':
         return t(prefixString('event', item[key]));
       case 'geofenceId':

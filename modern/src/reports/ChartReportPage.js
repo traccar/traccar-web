@@ -6,7 +6,7 @@ import {
   CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import ReportFilter from './components/ReportFilter';
-import { formatDate } from '../common/util/formatter';
+import { formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -42,7 +42,7 @@ const ChartReportPage = () => {
       const formattedPositions = positions.map((position) => {
         const data = { ...position, ...position.attributes };
         const formatted = {};
-        formatted.fixTime = formatDate(position.fixTime, 'HH:mm:ss');
+        formatted.fixTime = formatTime(position.fixTime, 'HH:mm:ss');
         Object.keys(data).forEach((key) => {
           const value = data[key];
           if (typeof value === 'number') {

@@ -4,7 +4,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
 import {
-  formatDistance, formatHours, formatDate, formatSpeed, formatVolume,
+  formatDistance, formatHours, formatSpeed, formatVolume, formatTime,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
@@ -67,7 +67,7 @@ const SummaryReportPage = () => {
       case 'deviceId':
         return devices[item[key]].name;
       case 'startTime':
-        return item[key] ? formatDate(item[key], 'YYYY-MM-DD') : null;
+        return item[key] ? formatTime(item[key], 'YYYY-MM-DD') : null;
       case 'startOdometer':
       case 'endOdometer':
       case 'distance':

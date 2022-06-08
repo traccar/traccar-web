@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
-import { formatDate } from '../common/util/formatter';
+import { formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -61,7 +61,7 @@ const StatisticsPage = () => {
             <TableRow key={item.id}>
               {columns.map((key) => (
                 <TableCell key={key}>
-                  {key === 'captureTime' ? formatDate(item[key]) : item[key]}
+                  {key === 'captureTime' ? formatTime(item[key], 'YYYY-MM-DD') : item[key]}
                 </TableCell>
               ))}
             </TableRow>

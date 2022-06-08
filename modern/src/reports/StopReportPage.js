@@ -6,7 +6,7 @@ import {
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import {
-  formatDistance, formatHours, formatDate, formatVolume,
+  formatDistance, formatHours, formatVolume, formatTime,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
@@ -64,7 +64,7 @@ const StopReportPage = () => {
     switch (key) {
       case 'startTime':
       case 'endTime':
-        return formatDate(item[key]);
+        return formatTime(item[key], 'YYYY-MM-DD HH:mm');
       case 'startOdometer':
         return formatDistance(item[key], distanceUnit, t);
       case 'duration':
