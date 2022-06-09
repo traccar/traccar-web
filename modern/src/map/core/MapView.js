@@ -52,9 +52,7 @@ const initMap = async () => {
   updateReadyValue(true);
 };
 
-map.addControl(new maplibregl.NavigationControl({
-  showCompass: false,
-}));
+map.addControl(new maplibregl.NavigationControl());
 
 const switcher = new SwitcherControl(
   () => updateReadyValue(false),
