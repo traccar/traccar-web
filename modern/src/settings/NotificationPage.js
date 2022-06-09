@@ -74,7 +74,7 @@ const NotificationPage = () => {
               titleGetter={(it) => t(prefixString('notificator', it.type))}
               label={t('notificationNotificators')}
             />
-            {(!item.type || item.type === 'alarm') && (
+            {item.type === 'alarm' && (
               <SelectField
                 multiple
                 value={item.attributes && item.attributes.alarms ? item.attributes.alarms.split(/[, ]+/) : []}
