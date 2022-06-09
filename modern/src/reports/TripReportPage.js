@@ -56,7 +56,9 @@ const TripReportPage = () => {
         to: selectedItem.endTime,
       });
       const response = await fetch(`/api/reports/route?${query.toString()}`, {
-        Accept: 'application/json',
+        headers: {
+          Accept: 'application/json',
+        },
       });
       if (response.ok) {
         setRoute(await response.json());
