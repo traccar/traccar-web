@@ -17,7 +17,11 @@ export const formatAlarm = (value, t) => (value ? t(prefixString('alarm', value)
 
 export const formatCourse = (value) => {
   const courseValues = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-  return courseValues[Math.floor(value / 45)];
+  let normalizedValue = value % 360;
+  if (normalizedValue < 0) {
+    normalizedValue += 360;
+  }
+  return courseValues[Math.floor(normalizedValue / 45)];
 };
 
 export const formatDistance = (value, unit, t) => `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
