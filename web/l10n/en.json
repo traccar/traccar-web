@@ -251,6 +251,7 @@
     "serverForceSettings": "Force Settings",
     "serverAnnouncement": "Announcement",
     "mapTitle": "Map",
+    "mapActive": "Active Maps",
     "mapLayer": "Map Layer",
     "mapCustom": "Custom (XYZ)",
     "mapCustomArcgis": "Custom (ArcGIS)",

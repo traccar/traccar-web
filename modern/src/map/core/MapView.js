@@ -52,7 +52,7 @@ map.addControl(new maplibregl.NavigationControl());
 
 const switcher = new SwitcherControl(
   () => updateReadyValue(false),
-  (layerId) => savePersistedState('mapLayer', layerId),
+  (styleId) => savePersistedState('selectedMapStyle', styleId),
   () => {
     map.once('styledata', () => {
       const waiting = () => {
@@ -75,7 +75,8 @@ const MapView = ({ children }) => {
   const [mapReady, setMapReady] = useState(false);
 
   const mapStyles = useMapStyles();
-  const [defaultMapLayer] = usePersistedState('mapLayer', 'locationIqStreets');
+  const [activeMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
+  const [defaultMapStyle] = usePersistedState('selectedMapStyle', 'locationIqStreets');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
 
   useEffect(() => {
@@ -83,9 +84,9 @@ const MapView = ({ children }) => {
   }, [mapboxAccessToken]);
 
   useEffect(() => {
-    const filteredStyles = mapStyles.filter((style) => style.available);
-    switcher.updateStyles(filteredStyles, defaultMapLayer);
-  }, [mapStyles, defaultMapLayer]);
+    const filteredStyles = mapStyles.filter((style) => style.available && activeMapStyles.includes(style.id));
+    switcher.updateStyles(filteredStyles, defaultMapStyle);
+  }, [mapStyles, defaultMapStyle]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);

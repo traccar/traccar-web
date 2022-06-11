@@ -24,7 +24,7 @@ export class SwitcherControl {
       }
     }
     if (!selectedStyle) {
-      this.styles[0].id;
+      selectedStyle = this.styles[0].id;
     }
 
     while (this.mapStyleContainer.firstChild) {

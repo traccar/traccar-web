@@ -22,6 +22,7 @@ import SettingsMenu from './components/SettingsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
+import useMapStyles from '../map/core/useMapStyles';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -41,6 +42,9 @@ const PreferencesPage = () => {
 
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
+
+  const mapStyles = useMapStyles();
+  const [activeMapStyles, setActiveMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
 
   const positionAttributes = usePositionAttributes(t);
   const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
@@ -87,6 +91,19 @@ const PreferencesPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
+            <FormControl>
+              <InputLabel>{t('mapActive')}</InputLabel>
+              <Select
+                label={t('mapActive')}
+                value={activeMapStyles}
+                onChange={(e) => setActiveMapStyles(e.target.value)}
+                multiple
+              >
+                {mapStyles.map((style) => (
+                  <MenuItem key={style.id} value={style.id}>{style.title}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl>
               <InputLabel>{t('sharedAttributes')}</InputLabel>
               <Select
