@@ -13,8 +13,10 @@ export class SwitcherControl {
     return 'top-right';
   }
 
-  updateStyles(updatedStyles, selectedStyle) {
+  updateStyles(updatedStyles, defaultStyle) {
     this.styles = updatedStyles;
+
+    const selectedStyle = this.currentStyle || defaultStyle;
 
     while (this.mapStyleContainer.firstChild) {
       this.mapStyleContainer.removeChild(this.mapStyleContainer.firstChild);
@@ -64,6 +66,8 @@ export class SwitcherControl {
       elements[0].classList.remove('active');
     }
     target.classList.add('active');
+
+    this.currentStyle = target.dataset.id;
 
     this.onAfterSwitch();
   }

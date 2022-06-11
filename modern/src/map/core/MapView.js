@@ -74,17 +74,17 @@ const MapView = ({ children }) => {
 
   const [mapReady, setMapReady] = useState(false);
 
+  const mapStyles = useMapStyles();
   const [defaultMapLayer] = usePersistedState('mapLayer', 'locationIqStreets');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
-
-  const mapStyles = useMapStyles();
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;
   }, [mapboxAccessToken]);
 
   useEffect(() => {
-    switcher.updateStyles(mapStyles, defaultMapLayer);
+    const filteredStyles = mapStyles.filter((style) => style.available);
+    switcher.updateStyles(filteredStyles, defaultMapLayer);
   }, [mapStyles, defaultMapLayer]);
 
   useEffect(() => {
