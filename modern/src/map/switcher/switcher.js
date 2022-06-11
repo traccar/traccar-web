@@ -16,7 +16,16 @@ export class SwitcherControl {
   updateStyles(updatedStyles, defaultStyle) {
     this.styles = updatedStyles;
 
-    const selectedStyle = this.currentStyle || defaultStyle;
+    let selectedStyle = null;
+    for (const style of this.styles) {
+      if (style.id === (this.currentStyle || defaultStyle)) {
+        selectedStyle = style.id;
+        break;
+      }
+    }
+    if (!selectedStyle) {
+      this.styles[0].id;
+    }
 
     while (this.mapStyleContainer.firstChild) {
       this.mapStyleContainer.removeChild(this.mapStyleContainer.firstChild);
