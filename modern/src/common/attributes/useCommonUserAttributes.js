@@ -13,6 +13,10 @@ export default (t) => useMemo(() => ({
     name: t('mapMapTilerKey'),
     type: 'string',
   },
+  bingMapsKey: {
+    name: t('mapBingKey'),
+    type: 'string',
+  },
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',

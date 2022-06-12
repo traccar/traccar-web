@@ -2,55 +2,50 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
 
-const styleCustom = (url, attribution) => ({
+const styleCustom = (urls, attribution) => ({
   version: 8,
   sources: {
-    osm: {
+    custom: {
       type: 'raster',
-      tiles: [url],
+      tiles: urls,
       attribution,
       tileSize: 256,
     },
   },
   glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
   layers: [{
-    id: 'osm',
+    id: 'custom',
     type: 'raster',
-    source: 'osm',
+    source: 'custom',
   }],
 });
 
 const styleOsm = () => styleCustom(
-  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  [
+    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  ],
   '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 );
 
-const styleCarto = () => ({
-  version: 8,
-  sources: {
-    'raster-tiles': {
-      type: 'raster',
-      tiles: [
-        'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-        'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-        'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-        'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-      ],
-      tileSize: 256,
-      attribution: '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
-    },
-  },
-  glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
-  layers: [
-    {
-      id: 'simple-tiles',
-      type: 'raster',
-      source: 'raster-tiles',
-      minzoom: 0,
-      maxzoom: 22,
-    },
+const styleCarto = () => styleCustom(
+  [
+    'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+    'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+    'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
+    'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
   ],
-});
+  '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
+);
+
+const styleBingMaps = (url) => styleCustom(
+  [
+    url.replace('{subdomain}', 't0'),
+    url.replace('{subdomain}', 't1'),
+    url.replace('{subdomain}', 't2'),
+    url.replace('{subdomain}', 't3'),
+  ],
+  '© Microsoft Corporation',
+);
 
 const styleMapbox = (style) => `mapbox://styles/mapbox/${style}`;
 
@@ -64,6 +59,7 @@ export default () => {
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey');
+  const bingMapsKey = useAttributePreference('bingMapsKey');
   const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
 
   return [
@@ -133,6 +129,27 @@ export default () => {
       uri: styleMapTiler('hybrid', mapTilerKey),
       available: !!mapTilerKey,
       attribute: 'mapTilerKey',
+    },
+    {
+      id: 'bingRoad',
+      title: t('mapBingRoad'),
+      uri: styleBingMaps('http://ak.dynamic.{subdomain}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=G,L&shading=hill&og=1885&n=z'),
+      available: !!bingMapsKey,
+      attribute: 'bingMapsKey',
+    },
+    {
+      id: 'bingAerial',
+      title: t('mapBingAerial'),
+      uri: styleBingMaps('http://ecn.{subdomain}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=12327'),
+      available: !!bingMapsKey,
+      attribute: 'bingMapsKey',
+    },
+    {
+      id: 'bingHybrid',
+      title: t('mapBingHybrid'),
+      uri: styleBingMaps('http://ak.dynamic.{subdomain}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z'),
+      available: !!bingMapsKey,
+      attribute: 'bingMapsKey',
     },
     {
       id: 'custom',
