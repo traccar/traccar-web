@@ -287,6 +287,8 @@
     "mapLocationIqEarth": "LocationIQ Earth",
     "mapLocationIqHybrid": "LocationIQ Hybrid",
     "mapLocationIqKey": "LocationIQ Access Token",
+    "mapTomTomBasic": "TomTom Basic",
+    "mapTomTomKey": "TomTom API Key",
     "mapShapePolygon": "Polygon",
     "mapShapeCircle": "Circle",
     "mapShapePolyline": "Polyline",

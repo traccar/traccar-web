@@ -8,6 +8,10 @@ const sourceCustom = (urls) => ({
   tileSize: 256,
 });
 
+const sourceOpenWeather = (style, key) => sourceCustom([
+  `https://tile.openweathermap.org/map/${style}/{z}/{x}/{y}.png?appid=${key}`,
+]);
+
 export default () => {
   const t = useTranslation();
 
@@ -24,35 +28,35 @@ export default () => {
     {
       id: 'openWeatherClouds',
       title: t('mapOpenWeatherClouds'),
-      source: sourceCustom([`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${openWeatherKey}`]),
+      source: sourceOpenWeather('clouds_new', 'openWeatherKey'),
       available: !!openWeatherKey,
       attribute: 'openWeatherKey',
     },
     {
       id: 'openWeatherPrecipitation',
       title: t('mapOpenWeatherPrecipitation'),
-      source: sourceCustom([`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${openWeatherKey}`]),
+      source: sourceOpenWeather('precipitation_new', 'openWeatherKey'),
       available: !!openWeatherKey,
       attribute: 'openWeatherKey',
     },
     {
       id: 'openWeatherPressure',
       title: t('mapOpenWeatherPressure'),
-      source: sourceCustom([`https://tile.openweathermap.org/map/pressure_new/{z}/{x}/{y}.png?appid=${openWeatherKey}`]),
+      source: sourceOpenWeather('pressure_new', 'openWeatherKey'),
       available: !!openWeatherKey,
       attribute: 'openWeatherKey',
     },
     {
       id: 'openWeatherWind',
       title: t('mapOpenWeatherWind'),
-      source: sourceCustom([`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=${openWeatherKey}`]),
+      source: sourceOpenWeather('wind_new', 'openWeatherKey'),
       available: !!openWeatherKey,
       attribute: 'openWeatherKey',
     },
     {
       id: 'openWeatherTemperature',
       title: t('mapOpenWeatherTemperature'),
-      source: sourceCustom([`https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${openWeatherKey}`]),
+      source: sourceOpenWeather('temp_new', 'openWeatherKey'),
       available: !!openWeatherKey,
       attribute: 'openWeatherKey',
     },

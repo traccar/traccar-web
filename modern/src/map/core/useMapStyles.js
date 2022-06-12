@@ -60,6 +60,7 @@ export default () => {
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey');
   const bingMapsKey = useAttributePreference('bingMapsKey');
+  const tomTomKey = useAttributePreference('tomTomKey');
   const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
 
   return [
@@ -150,6 +151,13 @@ export default () => {
       uri: styleBingMaps('http://ak.dynamic.{subdomain}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z'),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
+    },
+    {
+      id: 'tomTomBasic',
+      title: t('mapTomTomBasic'),
+      uri: `https://api.tomtom.com/map/1/style/20.0.0-8/basic_main.json?key=${tomTomKey}`,
+      available: !!tomTomKey,
+      attribute: 'tomTomKey',
     },
     {
       id: 'custom',
