@@ -23,7 +23,6 @@ const styleCustom = (urls, attribution) => ({
 export default () => {
   const t = useTranslation();
 
-  const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey');
   const bingMapsKey = useAttributePreference('bingMapsKey');
@@ -69,27 +68,6 @@ export default () => {
         '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
       ),
       available: true,
-    },
-    {
-      id: 'mapboxStreets',
-      title: t('mapMapboxStreets'),
-      style: 'mapbox://styles/mapbox/streets-v11',
-      available: !!mapboxAccessToken,
-      attribute: 'mapboxAccessToken',
-    },
-    {
-      id: 'mapboxOutdoors',
-      title: t('mapMapboxOutdoors'),
-      style: 'mapbox://styles/mapbox/outdoors-v11',
-      available: !!mapboxAccessToken,
-      attribute: 'mapboxAccessToken',
-    },
-    {
-      id: 'mapboxSatellite',
-      title: t('mapMapboxSatellite'),
-      style: 'mapbox://styles/mapbox/satellite-v9',
-      available: !!mapboxAccessToken,
-      attribute: 'mapboxAccessToken',
     },
     {
       id: 'mapTilerBasic',
