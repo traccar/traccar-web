@@ -21,6 +21,10 @@ export default (t) => useMemo(() => ({
     name: t('mapOpenWeatherKey'),
     type: 'string',
   },
+  tomTomKey: {
+    name: t('mapTomTomKey'),
+    type: 'string',
+  },
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',
