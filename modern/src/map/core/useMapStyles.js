@@ -165,6 +165,14 @@ export default () => {
       attribute: 'hereKey',
     },
     {
+      id: 'autoNavi',
+      title: t('mapAutoNavi'),
+      style: styleCustom(
+        [1, 2, 3, 4].map((i) => `https://webrd0${i}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}`),
+      ),
+      available: true,
+    },
+    {
       id: 'custom',
       title: t('mapCustom'),
       style: styleCustom(customMapUrl),
