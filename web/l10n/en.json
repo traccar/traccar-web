@@ -288,6 +288,8 @@
     "mapLocationIqHybrid": "LocationIQ Hybrid",
     "mapLocationIqKey": "LocationIQ Access Token",
     "mapTomTomBasic": "TomTom Basic",
+    "mapTomTomFlow": "TomTom Traffic Flow",
+    "mapTomTomIncidents": "TomTom Traffic Incidents",
     "mapTomTomKey": "TomTom API Key",
     "mapShapePolygon": "Polygon",
     "mapShapeCircle": "Circle",

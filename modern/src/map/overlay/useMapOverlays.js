@@ -16,6 +16,7 @@ export default () => {
   const t = useTranslation();
 
   const openWeatherKey = useAttributePreference('openWeatherKey');
+  const tomTomKey = useAttributePreference('tomTomKey');
   const customMapOverlay = useSelector((state) => state.session.server?.overlayUrl);
 
   return [
@@ -59,6 +60,20 @@ export default () => {
       source: sourceOpenWeather('temp_new', 'openWeatherKey'),
       available: !!openWeatherKey,
       attribute: 'openWeatherKey',
+    },
+    {
+      id: 'tomTomFlow',
+      title: t('mapTomTomFlow'),
+      source: sourceCustom([`https://api.tomtom.com/traffic/map/4/tile/flow/absolute/{z}/{x}/{y}.png?key=${tomTomKey}`]),
+      available: !!tomTomKey,
+      attribute: 'tomTomKey',
+    },
+    {
+      id: 'tomTomIncidents',
+      title: t('mapTomTomIncidents'),
+      source: sourceCustom([`https://api.tomtom.com/traffic/map/4/tile/incidents/s3/{z}/{x}/{y}.png?key=${tomTomKey}`]),
+      available: !!tomTomKey,
+      attribute: 'tomTomKey',
     },
     {
       id: 'custom',
