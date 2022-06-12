@@ -1,6 +1,18 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
+  locationIqKey: {
+    name: t('mapLocationIqKey'),
+    type: 'string',
+  },
+  mapboxAccessToken: {
+    name: t('mapMapboxKey'),
+    type: 'string',
+  },
+  mapTilerKey: {
+    name: t('mapMapTilerKey'),
+    type: 'string',
+  },
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',

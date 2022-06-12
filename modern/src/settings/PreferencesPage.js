@@ -1,17 +1,8 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-  Container,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
+  Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -38,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 const PreferencesPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const t = useTranslation();
+
+  const userId = useSelector((state) => state.session.user.id);
 
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
@@ -96,11 +90,21 @@ const PreferencesPage = () => {
               <Select
                 label={t('mapActive')}
                 value={activeMapStyles}
-                onChange={(e) => setActiveMapStyles(e.target.value)}
+                onChange={(e, child) => {
+                  const clicked = mapStyles.find((s) => s.id === child.props.value);
+                  if (clicked.available) {
+                    setActiveMapStyles(e.target.value);
+                  } else if (clicked.id !== 'custom') {
+                    const query = new URLSearchParams({ attribute: clicked.attribute });
+                    navigate(`/settings/user/${userId}?${query.toString()}`);
+                  }
+                }}
                 multiple
               >
                 {mapStyles.map((style) => (
-                  <MenuItem key={style.id} value={style.id}>{style.title}</MenuItem>
+                  <MenuItem key={style.id} value={style.id}>
+                    <Typography component="span" color={style.available ? 'textPrimary' : 'error'}>{style.title}</Typography>
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>

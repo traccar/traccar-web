@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-
+import React, { useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionSummary,
@@ -16,6 +14,7 @@ import {
   IconButton,
   OutlinedInput,
   FormGroup,
+  TextField,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -33,6 +32,7 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useManager } from '../common/util/permissions';
 import { prefixString } from '../common/util/stringUtils';
+import useQuery from '../common/util/useQuery';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -58,6 +58,21 @@ const UserPage = () => {
 
   const [item, setItem] = useState();
 
+  const query = useQuery();
+  const [queryHandled, setQueryHandled] = useState(false);
+  const attribute = query.get('attribute');
+
+  useEffect(() => {
+    if (!queryHandled && item && attribute) {
+      if (!item.attributes.hasOwnProperty('attribute')) {
+        const updatedAttributes = { ...item.attributes };
+        updatedAttributes[attribute] = '';
+        setItem({ ...item, attributes: updatedAttributes });
+      }
+      setQueryHandled(true);
+    }
+  }, [item, queryHandled, setQueryHandled, attribute]);
+
   const onItemSaved = (result) => {
     if (result.id === currentUserId) {
       dispatch(sessionActions.updateUser(result));
@@ -79,7 +94,7 @@ const UserPage = () => {
     >
       {item && (
         <>
-          <Accordion defaultExpanded>
+          <Accordion defaultExpanded={!attribute}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">
                 {t('sharedRequired')}
@@ -286,7 +301,7 @@ const UserPage = () => {
               </FormGroup>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion defaultExpanded={!!attribute}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">
                 {t('sharedAttributes')}
@@ -297,6 +312,7 @@ const UserPage = () => {
                 attributes={item.attributes}
                 setAttributes={(attributes) => setItem({ ...item, attributes })}
                 definitions={{ ...commonUserAttributes, ...userAttributes }}
+                focusAttribute={attribute}
               />
             </AccordionDetails>
           </Accordion>

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
+const EditAttributesView = ({ attributes, setAttributes, definitions, focusAttribute }) => {
   const classes = useStyles();
   const t = useTranslation();
 
@@ -176,6 +176,7 @@ const EditAttributesView = ({ attributes, setAttributes, definitions }) => {
               type={type === 'number' ? 'number' : 'text'}
               value={getDisplayValue(value, subtype)}
               onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
+              autoFocus={focusAttribute === key}
               endAdornment={(
                 <InputAdornment position="end">
                   <IconButton size="small" onClick={() => deleteAttribute(key)}>
