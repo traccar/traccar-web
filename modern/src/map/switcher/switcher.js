@@ -38,7 +38,7 @@ export class SwitcherControl {
       styleElement.type = 'button';
       styleElement.innerText = style.title;
       styleElement.dataset.id = style.id;
-      styleElement.dataset.uri = JSON.stringify(style.uri);
+      styleElement.dataset.style = JSON.stringify(style.style);
       styleElement.addEventListener('click', (event) => {
         const { target } = event;
         if (!target.classList.contains('active')) {
@@ -61,7 +61,7 @@ export class SwitcherControl {
   onSelectStyle(target) {
     this.onBeforeSwitch();
 
-    this.map.setStyle(JSON.parse(target.dataset.uri), {
+    this.map.setStyle(JSON.parse(target.dataset.style), {
       diff: false,
     });
 

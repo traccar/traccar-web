@@ -17,6 +17,7 @@ export default () => {
 
   const openWeatherKey = useAttributePreference('openWeatherKey');
   const tomTomKey = useAttributePreference('tomTomKey');
+  const hereKey = useAttributePreference('hereKey');
   const customMapOverlay = useSelector((state) => state.session.server?.overlayUrl);
 
   return [
@@ -74,6 +75,15 @@ export default () => {
       source: sourceCustom([`https://api.tomtom.com/traffic/map/4/tile/incidents/s3/{z}/{x}/{y}.png?key=${tomTomKey}`]),
       available: !!tomTomKey,
       attribute: 'tomTomKey',
+    },
+    {
+      id: 'hereFlow',
+      title: t('mapHereFlow'),
+      source: sourceCustom(
+        [1, 2, 3, 4].map((i) => `https://${i}.traffic.maps.ls.hereapi.com/maptile/2.1/flowtile/newest/normal.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
+      ),
+      available: !!hereKey,
+      attribute: 'hereKey',
     },
     {
       id: 'custom',

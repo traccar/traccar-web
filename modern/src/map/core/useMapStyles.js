@@ -20,39 +20,6 @@ const styleCustom = (urls, attribution) => ({
   }],
 });
 
-const styleOsm = () => styleCustom(
-  [
-    'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-  ],
-  '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-);
-
-const styleCarto = () => styleCustom(
-  [
-    'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-    'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-    'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-    'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png',
-  ],
-  '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
-);
-
-const styleBingMaps = (url) => styleCustom(
-  [
-    url.replace('{subdomain}', 't0'),
-    url.replace('{subdomain}', 't1'),
-    url.replace('{subdomain}', 't2'),
-    url.replace('{subdomain}', 't3'),
-  ],
-  '© Microsoft Corporation',
-);
-
-const styleMapbox = (style) => `mapbox://styles/mapbox/${style}`;
-
-const styleMapTiler = (style, key) => `https://api.maptiler.com/maps/${style}/style.json?key=${key}`;
-
-const styleLocationIq = (style, key) => `https://tiles.locationiq.com/v3/${style}/vector.json?key=${key}`;
-
 export default () => {
   const t = useTranslation();
 
@@ -61,108 +28,146 @@ export default () => {
   const locationIqKey = useAttributePreference('locationIqKey');
   const bingMapsKey = useAttributePreference('bingMapsKey');
   const tomTomKey = useAttributePreference('tomTomKey');
+  const hereKey = useAttributePreference('hereKey');
   const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
 
   return [
     {
       id: 'locationIqStreets',
       title: t('mapLocationIqStreets'),
-      uri: styleLocationIq('streets', locationIqKey || 'pk.0f147952a41c555a5b70614039fd148b'),
+      style: `https://tiles.locationiq.com/v3/streets/vector.json?key=${locationIqKey || 'pk.0f147952a41c555a5b70614039fd148b'}`,
       available: true,
     },
     {
       id: 'locationIqEarth',
       title: t('mapLocationIqEarth'),
-      uri: styleLocationIq('earth', locationIqKey),
+      style: `https://tiles.locationiq.com/v3/earth/vector.json?key=${locationIqKey}`,
       available: !!locationIqKey,
       attribute: 'locationIqKey',
     },
     {
       id: 'locationIqHybrid',
       title: t('mapLocationIqHybrid'),
-      uri: styleLocationIq('hybrid', locationIqKey),
+      style: `https://tiles.locationiq.com/v3/hybrid/vector.json?key=${locationIqKey}`,
       available: !!locationIqKey,
       attribute: 'locationIqKey',
     },
     {
       id: 'osm',
       title: t('mapOsm'),
-      uri: styleOsm(),
+      style: styleCustom(
+        ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+        '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      ),
       available: true,
     },
     {
       id: 'carto',
       title: t('mapCarto'),
-      uri: styleCarto(),
+      style: styleCustom(
+        ['a', 'b', 'c', 'd'].map((i) => `https://${i}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png`),
+        '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
+      ),
       available: true,
     },
     {
       id: 'mapboxStreets',
       title: t('mapMapboxStreets'),
-      uri: styleMapbox('streets-v11'),
+      style: 'mapbox://styles/mapbox/streets-v11',
       available: !!mapboxAccessToken,
       attribute: 'mapboxAccessToken',
     },
     {
       id: 'mapboxOutdoors',
       title: t('mapMapboxOutdoors'),
-      uri: styleMapbox('outdoors-v11'),
+      style: 'mapbox://styles/mapbox/outdoors-v11',
       available: !!mapboxAccessToken,
       attribute: 'mapboxAccessToken',
     },
     {
       id: 'mapboxSatellite',
       title: t('mapMapboxSatellite'),
-      uri: styleMapbox('satellite-v9'),
+      style: 'mapbox://styles/mapbox/satellite-v9',
       available: !!mapboxAccessToken,
       attribute: 'mapboxAccessToken',
     },
     {
       id: 'mapTilerBasic',
       title: t('mapMapTilerBasic'),
-      uri: styleMapTiler('basic', mapTilerKey),
+      style: `https://api.maptiler.com/maps/basic/style.json?key=${mapTilerKey}`,
       available: !!mapTilerKey,
       attribute: 'mapTilerKey',
     },
     {
       id: 'mapTilerHybrid',
       title: t('mapMapTilerHybrid'),
-      uri: styleMapTiler('hybrid', mapTilerKey),
+      style: `https://api.maptiler.com/maps/hybrid/style.json?key=${mapTilerKey}`,
       available: !!mapTilerKey,
       attribute: 'mapTilerKey',
     },
     {
       id: 'bingRoad',
       title: t('mapBingRoad'),
-      uri: styleBingMaps('http://ak.dynamic.{subdomain}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=G,L&shading=hill&og=1885&n=z'),
+      style: styleCustom(
+        [0, 1, 2, 3].map((i) => `http://ak.dynamic.t${i}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=G,L&shading=hill&og=1885&n=z`),
+      ),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
     },
     {
       id: 'bingAerial',
       title: t('mapBingAerial'),
-      uri: styleBingMaps('http://ecn.{subdomain}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=12327'),
+      style: styleCustom(
+        [0, 1, 2, 3].map((i) => `http://ecn.t${i}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=12327`),
+      ),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
     },
     {
       id: 'bingHybrid',
       title: t('mapBingHybrid'),
-      uri: styleBingMaps('http://ak.dynamic.{subdomain}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z'),
+      style: styleCustom(
+        [0, 1, 2, 3].map((i) => `http://ak.dynamic.t${i}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z`),
+      ),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
     },
     {
       id: 'tomTomBasic',
       title: t('mapTomTomBasic'),
-      uri: `https://api.tomtom.com/map/1/style/20.0.0-8/basic_main.json?key=${tomTomKey}`,
+      style: `https://api.tomtom.com/map/1/style/20.0.0-8/basic_main.json?key=${tomTomKey}`,
       available: !!tomTomKey,
       attribute: 'tomTomKey',
     },
     {
+      id: 'hereBasic',
+      title: t('mapHereBasic'),
+      style: `https://assets.vector.hereapi.com/styles/berlin/base/mapbox/tilezen?apikey=${hereKey}`,
+      available: !!hereKey,
+      attribute: 'hereKey',
+    },
+    {
+      id: 'hereHybrid',
+      title: t('mapHereHybrid'),
+      style: styleCustom(
+        [1, 2, 3, 4].map((i) => `https://${i}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
+      ),
+      available: !!hereKey,
+      attribute: 'hereKey',
+    },
+    {
+      id: 'hereSatellite',
+      title: t('mapHereSatellite'),
+      style: styleCustom(
+        [1, 2, 3, 4].map((i) => `https://${i}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
+      ),
+      available: !!hereKey,
+      attribute: 'hereKey',
+    },
+    {
       id: 'custom',
       title: t('mapCustom'),
-      uri: styleCustom(customMapUrl),
+      style: styleCustom(customMapUrl),
       available: !!customMapUrl,
     },
   ];

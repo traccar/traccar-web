@@ -25,6 +25,10 @@ export default (t) => useMemo(() => ({
     name: t('mapTomTomKey'),
     type: 'string',
   },
+  hereKey: {
+    name: t('mapHereKey'),
+    type: 'string',
+  },
   notificationTokens: {
     name: t('attributeNotificationTokens'),
     type: 'string',
