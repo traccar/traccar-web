@@ -96,6 +96,11 @@ const ServerPage = () => {
                   label={t('mapCustomLabel')}
                 />
                 <TextField
+                  value={item.overlayUrl || ''}
+                  onChange={(event) => setItem({ ...item, overlayUrl: event.target.value })}
+                  label={t('mapOverlayCustom')}
+                />
+                <TextField
                   type="number"
                   value={item.latitude || 0}
                   onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}

@@ -14,6 +14,7 @@ import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import useMapStyles from '../map/core/useMapStyles';
+import useMapOverlays from '../map/overlay/useMapOverlays';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,6 +40,9 @@ const PreferencesPage = () => {
 
   const mapStyles = useMapStyles();
   const [activeMapStyles, setActiveMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
+
+  const mapOverlays = useMapOverlays();
+  const [selectedMapOverlay, setSelectedMapOverlay] = usePersistedState('selectedMapOverlay');
 
   const positionAttributes = usePositionAttributes(t);
   const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
@@ -104,6 +108,29 @@ const PreferencesPage = () => {
                 {mapStyles.map((style) => (
                   <MenuItem key={style.id} value={style.id}>
                     <Typography component="span" color={style.available ? 'textPrimary' : 'error'}>{style.title}</Typography>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>{t('mapOverlay')}</InputLabel>
+              <Select
+                label={t('mapOverlay')}
+                value={selectedMapOverlay}
+                onChange={(e) => {
+                  const clicked = mapOverlays.find((o) => o.id === e.target.value);
+                  if (!clicked || clicked.available) {
+                    setSelectedMapOverlay(e.target.value);
+                  } else if (clicked.id !== 'custom') {
+                    const query = new URLSearchParams({ attribute: clicked.attribute });
+                    navigate(`/settings/user/${userId}?${query.toString()}`);
+                  }
+                }}
+              >
+                <MenuItem value="">{'\u00a0'}</MenuItem>
+                {mapOverlays.map((overlay) => (
+                  <MenuItem key={overlay.id} value={overlay.id}>
+                    <Typography component="span" color={overlay.available ? 'textPrimary' : 'error'}>{overlay.title}</Typography>
                   </MenuItem>
                 ))}
               </Select>

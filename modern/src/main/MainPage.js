@@ -33,6 +33,7 @@ import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import { useDeviceReadonly } from '../common/util/permissions';
 import MapPositions from '../map/MapPositions';
 import MapDirection from '../map/MapDirection';
+import MapOverlay from '../map/overlay/MapOverlay';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -199,6 +200,7 @@ const MainPage = () => {
   return (
     <div className={classes.root}>
       <MapView>
+        <MapOverlay />
         <MapGeofence />
         <MapAccuracy />
         {mapLiveRoutes && <MapLiveRoutes />}
