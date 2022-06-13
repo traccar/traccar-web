@@ -13,6 +13,7 @@ import { useLocalization, useTranslation } from '../common/components/Localizati
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
 import logoSvg from '../resources/images/logo.svg';
+import { nativePostMessage } from '../common/components/NativeInterface';
 
 const useStyles = makeStyles((theme) => ({
   legacy: {
@@ -73,6 +74,7 @@ const LoginPage = () => {
       if (response.ok) {
         const user = await response.json();
         dispatch(sessionActions.updateUser(user));
+        nativePostMessage('login');
         navigate('/');
       } else {
         throw Error(await response.text());

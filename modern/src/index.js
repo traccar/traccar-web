@@ -13,6 +13,7 @@ import theme from './common/theme';
 import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import NativeInterface from './common/components/NativeInterface';
 
 preloadImages();
 
@@ -31,6 +32,7 @@ ReactDOM.render(
               <Navigation />
             </BrowserRouter>
             <ErrorHandler />
+            <NativeInterface />
           </ThemeProvider>
         </StyledEngineProvider>
       </LocalizationProvider>
