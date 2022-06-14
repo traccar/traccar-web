@@ -66,15 +66,6 @@ const SocketController = () => {
   };
 
   useEffectAsync(async () => {
-    const response = await fetch('/api/server');
-    if (response.ok) {
-      dispatch(sessionActions.updateServer(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
-  }, []);
-
-  useEffectAsync(async () => {
     if (authenticated) {
       const response = await fetch('/api/devices');
       if (response.ok) {

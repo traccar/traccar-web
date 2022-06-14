@@ -14,6 +14,7 @@ import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import NativeInterface from './common/components/NativeInterface';
+import ServerProvider from './ServerProvider';
 
 preloadImages();
 
@@ -26,11 +27,13 @@ ReactDOM.render(
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <BrowserRouter basename={base}>
-              <SocketController />
-              <CachingController />
-              <Navigation />
-            </BrowserRouter>
+            <ServerProvider>
+              <BrowserRouter basename={base}>
+                <SocketController />
+                <CachingController />
+                <Navigation />
+              </BrowserRouter>
+            </ServerProvider>
             <ErrorHandler />
             <NativeInterface />
           </ThemeProvider>

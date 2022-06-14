@@ -21,7 +21,7 @@ const App = () => {
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  const initialized = useSelector((state) => !!state.session.server && !!state.session.user);
+  const initialized = useSelector((state) => !!state.session.user);
 
   if (!initialized) {
     return (<LinearProgress />);
