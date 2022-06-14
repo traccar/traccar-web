@@ -88,7 +88,10 @@ const PositionValue = ({ position, property, attribute }) => {
       }
       return (<Link href="#" onClick={showAddress}>{t('sharedShowAddress')}</Link>);
     case 'network':
-      return (<Link component={RouterLink} to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
+      if (value) {
+        return (<Link component={RouterLink} to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
+      }
+      return '';
     default:
       return formatValue(value);
   }
