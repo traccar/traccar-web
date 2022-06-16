@@ -182,13 +182,13 @@ const ReplayPage = () => {
               />
               <div className={classes.controls}>
                 {`${index + 1}/${positions.length}`}
-                <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing}>
+                <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing || index <= 0}>
                   <FastRewindIcon />
                 </IconButton>
-                <IconButton onClick={() => setPlaying(!playing)}>
+                <IconButton onClick={() => setPlaying(!playing)} disabled={index >= positions.length - 1}>
                   {playing ? <PauseIcon /> : <PlayArrowIcon /> }
                 </IconButton>
-                <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing}>
+                <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing || index >= positions.length - 1}>
                   <FastForwardIcon />
                 </IconButton>
                 {formatTime(positions[index].fixTime)}
