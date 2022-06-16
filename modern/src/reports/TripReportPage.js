@@ -18,6 +18,7 @@ import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
+import AddressValue from '../common/components/AddressValue';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -103,6 +104,10 @@ const TripReportPage = () => {
         return formatHours(item[key]);
       case 'spentFuel':
         return formatVolume(item[key], volumeUnit, t);
+      case 'startAddress':
+        return (<AddressValue latitude={item.startLat} longitude={item.startLon} originalAddress={item[key]} />);
+      case 'endAddress':
+        return (<AddressValue latitude={item.endLat} longitude={item.endLon} originalAddress={item[key]} />);
       default:
         return item[key];
     }

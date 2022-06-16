@@ -20,6 +20,7 @@ import useReportStyles from './common/useReportStyles';
 import MapPositions from '../map/MapPositions';
 import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
+import AddressValue from '../common/components/AddressValue';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -73,6 +74,8 @@ const StopReportPage = () => {
         return formatHours(item[key]);
       case 'spentFuel':
         return formatVolume(item[key], volumeUnit, t);
+      case 'address':
+        return (<AddressValue latitude={item.latitude} longitude={item.longitude} originalAddress={item[key]} />);
       default:
         return item[key];
     }

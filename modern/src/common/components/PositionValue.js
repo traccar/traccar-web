@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -7,7 +7,7 @@ import {
 import { useAttributePreference, usePreference } from '../util/preferences';
 import { useTranslation } from './LocalizationProvider';
 import { useAdministrator } from '../util/permissions';
-import { useCatch } from '../../reactHelper';
+import AddressValue from './AddressValue';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
@@ -20,25 +20,6 @@ const PositionValue = ({ position, property, attribute }) => {
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');
-
-  const [address, setAddress] = useState();
-
-  useEffect(() => {
-    setAddress(position.address);
-  }, [position]);
-
-  const showAddress = useCatch(async () => {
-    const query = new URLSearchParams({
-      latitude: position.latitude,
-      longitude: position.longitude,
-    });
-    const response = await fetch(`/api/server/geocode?${query.toString()}`);
-    if (response.ok) {
-      setAddress(await response.text());
-    } else {
-      throw Error(await response.text());
-    }
-  });
 
   const formatValue = () => {
     switch (key) {
@@ -83,10 +64,7 @@ const PositionValue = ({ position, property, attribute }) => {
         </>
       );
     case 'address':
-      if (address) {
-        return address;
-      }
-      return (<Link href="#" onClick={showAddress}>{t('sharedShowAddress')}</Link>);
+      return (<AddressValue latitude={position.latitude} longitude={position.longitude} originalAddress={value} />);
     case 'network':
       if (value) {
         return (<Link component={RouterLink} to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
