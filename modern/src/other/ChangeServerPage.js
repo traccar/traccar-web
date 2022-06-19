@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import { makeStyles } from '@mui/styles';
-import { Autocomplete, Button, Container, TextField } from '@mui/material';
+import {
+  Autocomplete, Button, Container, TextField,
+} from '@mui/material';
 import { useTranslation } from '../common/components/LocalizationProvider';
 
 const currentServer = `${window.location.protocol}//${window.location.host}`;

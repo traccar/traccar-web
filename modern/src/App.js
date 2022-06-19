@@ -25,20 +25,21 @@ const App = () => {
 
   const initialized = useSelector((state) => !!state.session.user);
 
-  if (!initialized) {
-    return (<LinearProgress />);
-  }
   return (
     <>
       <SocketController />
       <CachingController />
-      <div className={classes.page}>
-        <Outlet />
-      </div>
-      {!desktop && (
-        <div className={classes.menu}>
-          <BottomMenu />
-        </div>
+      {!initialized ? (<LinearProgress />) : (
+        <>
+          <div className={classes.page}>
+            <Outlet />
+          </div>
+          {!desktop && (
+            <div className={classes.menu}>
+              <BottomMenu />
+            </div>
+          )}
+        </>
       )}
     </>
   );
