@@ -7,8 +7,6 @@ import { CssBaseline, ThemeProvider, StyledEngineProvider } from '@mui/material'
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
 import ErrorHandler from './common/components/ErrorHandler';
-import CachingController from './CachingController';
-import SocketController from './SocketController';
 import theme from './common/theme';
 import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
@@ -29,8 +27,6 @@ ReactDOM.render(
             <CssBaseline />
             <ServerProvider>
               <BrowserRouter basename={base}>
-                <SocketController />
-                <CachingController />
                 <Navigation />
               </BrowserRouter>
             </ServerProvider>

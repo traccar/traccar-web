@@ -5,6 +5,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import CachedIcon from '@mui/icons-material/Cached';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,7 @@ import logoSvg from '../resources/images/logo.svg';
 import { nativePostMessage } from '../common/components/NativeInterface';
 
 const useStyles = makeStyles((theme) => ({
-  legacy: {
+  options: {
     position: 'fixed',
     top: theme.spacing(1),
     right: theme.spacing(1),
@@ -93,11 +94,20 @@ const LoginPage = () => {
 
   return (
     <LoginLayout>
-      <Tooltip title="Switch to Legacy App" className={classes.legacy}>
-        <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
-          <CachedIcon />
-        </IconButton>
-      </Tooltip>
+      <div className={classes.options}>
+        <Tooltip title="Switch to Legacy App">
+          <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
+            <CachedIcon />
+          </IconButton>
+        </Tooltip>
+        {(window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface)) && (
+          <Tooltip title={t('settingsServer')}>
+            <IconButton onClick={() => navigate('/change-server')}>
+              <LockOpenIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+      </div>
       <div className={classes.container}>
         {useMediaQuery(theme.breakpoints.down('lg')) && (
           <div className={classes.logoContainer}>

@@ -5,6 +5,8 @@ import { LinearProgress, useMediaQuery } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import theme from './common/theme';
 import BottomMenu from './common/components/BottomMenu';
+import SocketController from './SocketController';
+import CachingController from './CachingController';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -28,6 +30,8 @@ const App = () => {
   }
   return (
     <>
+      <SocketController />
+      <CachingController />
       <div className={classes.page}>
         <Outlet />
       </div>

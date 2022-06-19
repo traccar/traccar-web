@@ -44,6 +44,7 @@ import PreferencesPage from './settings/PreferencesPage';
 import AccumulatorsPage from './settings/AccumulatorsPage';
 import CommandSendPage from './settings/CommandSendPage';
 import App from './App';
+import ChangeServerPage from './other/ChangeServerPage';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -86,6 +87,7 @@ const Navigation = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/change-server" element={<ChangeServerPage />} />
       <Route path="/" element={<App />}>
         <Route index element={<MainPage />} />
 
