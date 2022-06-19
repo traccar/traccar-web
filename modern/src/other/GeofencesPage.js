@@ -13,6 +13,7 @@ import MapGeofenceEdit from '../map/MapGeofenceEdit';
 import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import dimensions from '../common/theme/dimensions';
+import MapGeocoder from '../map/geocoder/MapGeocoder';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,9 +71,10 @@ const GeofencesPage = () => {
         </Drawer>
         <div className={classes.mapContainer}>
           <MapView>
-            <MapCurrentLocation />
             <MapGeofenceEdit />
           </MapView>
+          <MapCurrentLocation />
+          <MapGeocoder />
         </div>
       </div>
     </div>
