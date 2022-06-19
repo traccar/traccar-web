@@ -1,0 +1,223 @@
+/* Basics */
+.maplibregl-ctrl-geocoder,
+.maplibregl-ctrl-geocoder *,
+.maplibregl-ctrl-geocoder *:after,
+.maplibregl-ctrl-geocoder *:before {
+  box-sizing: border-box;
+}
+
+.maplibregl-ctrl-geocoder {
+  font-size: 15px;
+  line-height: 20px;
+  font-family: "Open Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  position: relative;
+  background-color: #fff;
+  width: 100%;
+  min-width: 240px;
+  max-width: 360px;
+  z-index: 1;
+  border-radius: 4px;
+  transition: width 0.25s, min-width 0.25s;
+}
+
+.maplibregl-ctrl-geocoder--input {
+  font: inherit;
+  width: 100%;
+  border: 0;
+  background-color: transparent;
+  margin: 0;
+  height: 29px;
+  color: #404040; /* fallback */
+  color: rgba(0, 0, 0, 0.75);
+  padding: 6px 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.maplibregl-ctrl-geocoder--input:focus {
+  color: #404040; /* fallback */
+  color: rgba(0, 0, 0, 0.75);
+  outline: 0;
+  box-shadow: none;
+  outline: thin dotted;
+}
+
+.maplibregl-ctrl-geocoder .maplibregl-ctrl-geocoder--pin-right > * {
+  z-index: 2;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  display: none;
+}
+
+.maplibregl-ctrl-geocoder,
+.maplibregl-ctrl-geocoder .suggestions {
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+}
+
+/* Collapsed */
+.maplibregl-ctrl-geocoder.maplibregl-ctrl-geocoder--collapsed {
+  width: 29px;
+  min-width: 29px;
+  transition: width 0.25s, min-width 0.25s;
+}
+
+/* Suggestions */
+.maplibregl-ctrl-geocoder .suggestions {
+  background-color: #fff;
+  border-radius: 4px;
+  left: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  top: 110%; /* fallback */
+  top: calc(100% + 6px);
+  z-index: 1000;
+  overflow: hidden;
+  font-size: 13px;
+}
+
+.maplibregl-ctrl-bottom-left .suggestions,
+.maplibregl-ctrl-bottom-right .suggestions {
+  top: auto;
+  bottom: 100%;
+}
+
+.maplibregl-ctrl-geocoder .suggestions > li > a {
+  cursor: default;
+  display: block;
+  padding: 6px 12px;
+  color: #404040;
+}
+
+.maplibregl-ctrl-geocoder .suggestions > .active > a,
+.maplibregl-ctrl-geocoder .suggestions > li > a:hover {
+  color: #404040;
+  background-color: #f3f3f3;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.maplibregl-ctrl-geocoder--suggestion {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.maplibre-ctrl-geocoder--suggestion-icon {
+  min-width: 30px;
+  min-height: 24px;
+  max-width: 30px;
+  max-height: 24px;
+  padding-right: 12px;
+}
+
+.maplibregl-ctrl-geocoder--suggestion-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.maplibregl-ctrl-geocoder--suggestion-match {
+  font-weight: bold;
+}
+
+.maplibregl-ctrl-geocoder--suggestion-title,
+.maplibregl-ctrl-geocoder--suggestion-address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.maplibregl-ctrl-geocoder--result {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.maplibre-ctrl-geocoder--result-icon {
+  min-width: 30px;
+  min-height: 24px;
+  max-width: 30px;
+  max-height: 24px;
+  padding-right: 12px;
+}
+
+.maplibregl-ctrl-geocoder--result-title {
+  font-weight: bold;
+}
+
+.maplibregl-ctrl-geocoder--result-title,
+.maplibregl-ctrl-geocoder--result-address {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Icons */
+.maplibregl-ctrl-geocoder--icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.maplibregl-ctrl-geocoder--icon-search {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 23px;
+  height: 23px;
+}
+
+.maplibregl-ctrl-geocoder--button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  line-height: 1;
+}
+
+.maplibregl-ctrl-geocoder--icon-close {
+  width: 20px;
+  height: 20px;
+}
+
+.maplibregl-ctrl-geocoder--icon-loading {
+  width: 20px;
+  height: 20px;
+  -moz-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  -webkit-animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  animation: rotate 0.8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+/* Animation */
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.maplibre-gl-geocoder--error {
+  color: #909090;
+  padding: 6px 12px;
+  font-size: 16px;
+  text-align: center;
+}
