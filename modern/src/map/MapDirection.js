@@ -20,6 +20,7 @@ const MapDirection = ({ position }) => {
       layout: {
         'icon-image': 'direction',
         'icon-rotate': ['get', 'rotation'],
+        'icon-rotation-alignment': 'map',
       },
     });
 
