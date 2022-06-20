@@ -1,9 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-
+import { Container, Button, Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, TextField } from '@mui/material';
 import { useCatch, useEffectAsync } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import PageLayout from '../../common/components/PageLayout';
@@ -20,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       flexBasis: '33%',
     },
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 
@@ -70,13 +72,29 @@ const EditItemView = ({
   return (
     <PageLayout menu={menu} breadcrumbs={breadcrumbs}>
       <Container maxWidth="xs" className={classes.container}>
-        {children}
+        {item ? children : (
+          <Accordion defaultExpanded>
+            <AccordionSummary>
+              <Typography variant="subtitle1">
+                <Skeleton width="10em" />
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {[...Array(3)].map(() => (
+                <Skeleton width="100%">
+                  <TextField />
+                </Skeleton>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+        )}
         <div className={classes.buttons}>
           <Button
             type="button"
             color="primary"
             variant="outlined"
             onClick={() => navigate(-1)}
+            disabled={!item}
           >
             {t('sharedCancel')}
           </Button>
@@ -85,7 +103,7 @@ const EditItemView = ({
             color="primary"
             variant="contained"
             onClick={handleSave}
-            disabled={!validate()}
+            disabled={!item || !validate()}
           >
             {t('sharedSave')}
           </Button>
