@@ -11,6 +11,7 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
+import TableShimmer from '../common/components/TableShimmer';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -25,13 +26,19 @@ const NotificationsPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
-    const response = await fetch('/api/notifications');
-    if (response.ok) {
-      setItems(await response.json());
-    } else {
-      throw Error(await response.text());
+    setLoading(true);
+    try {
+      const response = await fetch('/api/notifications');
+      if (response.ok) {
+        setItems(await response.json());
+      } else {
+        throw Error(await response.text());
+      }
+    } finally {
+      setLoading(false);
     }
   }, [timestamp]);
 
@@ -59,7 +66,7 @@ const NotificationsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {!loading ? items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{t(prefixString('event', item.type))}</TableCell>
               <TableCell>{formatBoolean(item.always, t)}</TableCell>
@@ -69,7 +76,7 @@ const NotificationsPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          ))}
+          )) : (<TableShimmer columns={5} />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/notification" />

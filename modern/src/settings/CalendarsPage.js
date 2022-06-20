@@ -9,6 +9,7 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
+import TableShimmer from '../common/components/TableShimmer';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -23,13 +24,19 @@ const CalendarsPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
-    const response = await fetch('/api/calendars');
-    if (response.ok) {
-      setItems(await response.json());
-    } else {
-      throw Error(await response.text());
+    setLoading(true);
+    try {
+      const response = await fetch('/api/calendars');
+      if (response.ok) {
+        setItems(await response.json());
+      } else {
+        throw Error(await response.text());
+      }
+    } finally {
+      setLoading(false);
     }
   }, [timestamp]);
 
@@ -43,14 +50,14 @@ const CalendarsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {!loading ? items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions itemId={item.id} editPath="/settings/calendar" endpoint="calendars" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          ))}
+          )) : (<TableShimmer columns={2} />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/calendar" />
