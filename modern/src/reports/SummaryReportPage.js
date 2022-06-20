@@ -15,6 +15,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
+import TableShimmer from '../common/components/TableShimmer';
 
 const columnsArray = [
   ['deviceId', 'sharedDevice'],
@@ -42,23 +43,29 @@ const SummaryReportPage = () => {
   const [columns, setColumns] = usePersistedState('summaryColumns', ['deviceId', 'startTime', 'distance', 'averageSpeed']);
   const [daily, setDaily] = useState(false);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, mail, headers }) => {
-    const query = new URLSearchParams({ from, to, daily, mail });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers });
-    if (response.ok) {
-      const contentType = response.headers.get('content-type');
-      if (contentType) {
-        if (contentType === 'application/json') {
-          setItems(await response.json());
-        } else {
-          window.location.assign(window.URL.createObjectURL(await response.blob()));
+    setLoading(true);
+    try {
+      const query = new URLSearchParams({ from, to, daily, mail });
+      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+      groupIds.forEach((groupId) => query.append('groupId', groupId));
+      const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers });
+      if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType) {
+          if (contentType === 'application/json') {
+            setItems(await response.json());
+          } else {
+            window.location.assign(window.URL.createObjectURL(await response.blob()));
+          }
         }
+      } else {
+        throw Error(await response.text());
       }
-    } else {
-      throw Error(await response.text());
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -107,7 +114,7 @@ const SummaryReportPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {!loading ? items.map((item) => (
             <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
               {columns.map((key) => (
                 <TableCell key={key}>
@@ -115,7 +122,7 @@ const SummaryReportPage = () => {
                 </TableCell>
               ))}
             </TableRow>
-          ))}
+          )) : (<TableShimmer columns={columns.length} />)}
         </TableBody>
       </Table>
     </PageLayout>

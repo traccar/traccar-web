@@ -19,6 +19,7 @@ import useReportStyles from './common/useReportStyles';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import AddressValue from '../common/components/AddressValue';
+import TableShimmer from '../common/components/TableShimmer';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -46,6 +47,7 @@ const TripReportPage = () => {
 
   const [columns, setColumns] = usePersistedState('tripColumns', ['startTime', 'endTime', 'distance', 'averageSpeed']);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [route, setRoute] = useState(null);
 
@@ -72,19 +74,24 @@ const TripReportPage = () => {
   }, [selectedItem]);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
-    const response = await fetch(`/api/reports/trips?${query.toString()}`, { headers });
-    if (response.ok) {
-      const contentType = response.headers.get('content-type');
-      if (contentType) {
-        if (contentType === 'application/json') {
-          setItems(await response.json());
-        } else {
-          window.location.assign(window.URL.createObjectURL(await response.blob()));
+    setLoading(true);
+    try {
+      const query = new URLSearchParams({ deviceId, from, to, mail });
+      const response = await fetch(`/api/reports/trips?${query.toString()}`, { headers });
+      if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType) {
+          if (contentType === 'application/json') {
+            setItems(await response.json());
+          } else {
+            window.location.assign(window.URL.createObjectURL(await response.blob()));
+          }
         }
+      } else {
+        throw Error(await response.text());
       }
-    } else {
-      throw Error(await response.text());
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -137,7 +144,7 @@ const TripReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((item) => (
+              {!loading ? items.map((item) => (
                 <TableRow key={item.startPositionId}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
@@ -156,7 +163,7 @@ const TripReportPage = () => {
                     </TableCell>
                   ))}
                 </TableRow>
-              ))}
+              )) : (<TableShimmer columns={columns.length + 1} startAction />)}
             </TableBody>
           </Table>
         </div>

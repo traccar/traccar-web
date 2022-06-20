@@ -86,7 +86,7 @@ const MaintenacesPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={5} />)}
+          )) : (<TableShimmer columns={5} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/maintenance" />

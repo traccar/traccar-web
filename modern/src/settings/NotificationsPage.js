@@ -76,7 +76,7 @@ const NotificationsPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={5} />)}
+          )) : (<TableShimmer columns={5} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/notification" />

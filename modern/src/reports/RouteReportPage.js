@@ -17,6 +17,7 @@ import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapPositions from '../map/MapPositions';
 import useReportStyles from './common/useReportStyles';
+import TableShimmer from '../common/components/TableShimmer';
 
 const RouteReportPage = () => {
   const classes = useReportStyles();
@@ -26,22 +27,28 @@ const RouteReportPage = () => {
 
   const [columns, setColumns] = usePersistedState('routeColumns', ['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
-    const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
-    if (response.ok) {
-      const contentType = response.headers.get('content-type');
-      if (contentType) {
-        if (contentType === 'application/json') {
-          setItems(await response.json());
-        } else {
-          window.location.assign(window.URL.createObjectURL(await response.blob()));
+    setLoading(true);
+    try {
+      const query = new URLSearchParams({ deviceId, from, to, mail });
+      const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
+      if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType) {
+          if (contentType === 'application/json') {
+            setItems(await response.json());
+          } else {
+            window.location.assign(window.URL.createObjectURL(await response.blob()));
+          }
         }
+      } else {
+        throw Error(await response.text());
       }
-    } else {
-      throw Error(await response.text());
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -74,7 +81,7 @@ const RouteReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((item) => (
+              {!loading ? items.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
@@ -97,7 +104,7 @@ const RouteReportPage = () => {
                     </TableCell>
                   ))}
                 </TableRow>
-              ))}
+              )) : (<TableShimmer columns={columns.length + 1} startAction />)}
             </TableBody>
           </Table>
         </div>

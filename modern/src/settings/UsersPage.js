@@ -64,7 +64,7 @@ const UsersPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/user" endpoint="users" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={5} />)}
+          )) : (<TableShimmer columns={5} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/user" />

@@ -11,6 +11,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
+import TableShimmer from '../common/components/TableShimmer';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -32,14 +33,20 @@ const StatisticsPage = () => {
 
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCatch(async ({ from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    const response = await fetch(`/api/statistics?${query.toString()}`, { Accept: 'application/json' });
-    if (response.ok) {
-      setItems(await response.json());
-    } else {
-      throw Error(await response.text());
+    setLoading(true);
+    try {
+      const query = new URLSearchParams({ from, to });
+      const response = await fetch(`/api/statistics?${query.toString()}`, { Accept: 'application/json' });
+      if (response.ok) {
+        setItems(await response.json());
+      } else {
+        throw Error(await response.text());
+      }
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -57,7 +64,7 @@ const StatisticsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {!loading ? items.map((item) => (
             <TableRow key={item.id}>
               {columns.map((key) => (
                 <TableCell key={key}>
@@ -65,7 +72,7 @@ const StatisticsPage = () => {
                 </TableCell>
               ))}
             </TableRow>
-          ))}
+          )) : (<TableShimmer columns={columns.length} />)}
         </TableBody>
       </Table>
     </PageLayout>

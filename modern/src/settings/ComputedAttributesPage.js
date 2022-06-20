@@ -67,7 +67,7 @@ const ComputedAttributesPage = () => {
                 </TableCell>
               )}
             </TableRow>
-          )) : (<TableShimmer columns={administrator ? 5 : 4} />)}
+          )) : (<TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/attribute" />

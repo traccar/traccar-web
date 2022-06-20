@@ -57,7 +57,7 @@ const GroupsPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/group" endpoint="groups" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={2} />)}
+          )) : (<TableShimmer columns={2} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/group" />

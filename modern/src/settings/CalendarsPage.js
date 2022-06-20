@@ -57,7 +57,7 @@ const CalendarsPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/calendar" endpoint="calendars" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={2} />)}
+          )) : (<TableShimmer columns={2} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/calendar" />

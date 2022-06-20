@@ -63,7 +63,7 @@ const CommandsPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/command" endpoint="commands" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={4} />)}
+          )) : (<TableShimmer columns={4} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/command" />

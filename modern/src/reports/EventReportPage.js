@@ -13,6 +13,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
+import TableShimmer from '../common/components/TableShimmer';
 
 const typesArray = [
   ['allEvents', 'eventAll'],
@@ -53,22 +54,28 @@ const EventReportPage = () => {
   const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'alarm']);
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
-    eventTypes.forEach((it) => query.append('type', it));
-    const response = await fetch(`/api/reports/events?${query.toString()}`, { headers });
-    if (response.ok) {
-      const contentType = response.headers.get('content-type');
-      if (contentType) {
-        if (contentType === 'application/json') {
-          setItems(await response.json());
-        } else {
-          window.location.assign(window.URL.createObjectURL(await response.blob()));
+    setLoading(true);
+    try {
+      const query = new URLSearchParams({ deviceId, from, to, mail });
+      eventTypes.forEach((it) => query.append('type', it));
+      const response = await fetch(`/api/reports/events?${query.toString()}`, { headers });
+      if (response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType) {
+          if (contentType === 'application/json') {
+            setItems(await response.json());
+          } else {
+            window.location.assign(window.URL.createObjectURL(await response.blob()));
+          }
         }
+      } else {
+        throw Error(await response.text());
       }
-    } else {
-      throw Error(await response.text());
+    } finally {
+      setLoading(false);
     }
   });
 
@@ -129,7 +136,7 @@ const EventReportPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
+          {!loading ? items.map((item) => (
             <TableRow key={item.id}>
               {columns.map((key) => (
                 <TableCell key={key}>
@@ -137,7 +144,7 @@ const EventReportPage = () => {
                 </TableCell>
               ))}
             </TableRow>
-          ))}
+          )) : (<TableShimmer columns={columns.length} />)}
         </TableBody>
       </Table>
     </PageLayout>

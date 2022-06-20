@@ -59,7 +59,7 @@ const DriversPage = () => {
                 <CollectionActions itemId={item.id} editPath="/settings/driver" endpoint="drivers" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={3} />)}
+          )) : (<TableShimmer columns={3} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/driver" />
