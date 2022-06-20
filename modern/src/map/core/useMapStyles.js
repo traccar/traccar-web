@@ -153,7 +153,7 @@ export default () => {
     {
       id: 'custom',
       title: t('mapCustom'),
-      style: styleCustom(customMapUrl),
+      style: styleCustom([customMapUrl]),
       available: !!customMapUrl,
     },
   ];
