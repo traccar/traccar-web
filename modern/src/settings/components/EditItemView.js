@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
-import { Container, Button, Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, TextField } from '@mui/material';
+import {
+  Container, Button, Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, TextField,
+} from '@mui/material';
 import { useCatch, useEffectAsync } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import PageLayout from '../../common/components/PageLayout';
