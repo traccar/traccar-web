@@ -28,6 +28,7 @@ export default () => {
   const bingMapsKey = useAttributePreference('bingMapsKey');
   const tomTomKey = useAttributePreference('tomTomKey');
   const hereKey = useAttributePreference('hereKey');
+  const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
 
   return [
@@ -149,6 +150,33 @@ export default () => {
         [1, 2, 3, 4].map((i) => `https://webrd0${i}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}`),
       ),
       available: true,
+    },
+    {
+      id: 'mapboxStreets',
+      title: t('mapMapboxStreets'),
+      style: styleCustom(
+        [`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
+      ),
+      available: !!mapboxAccessToken,
+      attribute: 'mapboxAccessToken',
+    },
+    {
+      id: 'mapboxOutdoors',
+      title: t('mapMapboxOutdoors'),
+      style: styleCustom(
+        [`https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
+      ),
+      available: !!mapboxAccessToken,
+      attribute: 'mapboxAccessToken',
+    },
+    {
+      id: 'mapboxSatelliteStreet',
+      title: t('mapMapboxSatellite'),
+      style: styleCustom(
+        [`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
+      ),
+      available: !!mapboxAccessToken,
+      attribute: 'mapboxAccessToken',
     },
     {
       id: 'custom',
