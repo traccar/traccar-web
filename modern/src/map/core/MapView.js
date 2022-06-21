@@ -81,7 +81,9 @@ const MapView = ({ children }) => {
   const maxZoom = useAttributePreference('web.maxZoom');
 
   useEffect(() => {
-    map.setMaxZoom(maxZoom);
+    if (maxZoom) {
+      map.setMaxZoom(maxZoom);
+    }
   }, [maxZoom]);
 
   useEffect(() => {
