@@ -57,6 +57,42 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiDisableMaintenance'),
     type: 'boolean',
   },
+  'ui.disableLocationIq': {
+    name: t('attributeUiDisableLocationIq'),
+    type: 'boolean',
+  },
+  'ui.disableOsm': {
+    name: t('attributeUiDisabledOsm'),
+    type: 'boolean',
+  },
+  'ui.disableCarto': {
+    name: t('attributeUiDisabledCarto'),
+    type: 'boolean',
+  },
+  'ui.disableMaptiler': {
+    name: t('attributeUiDisabledMaptiler'),
+    type: 'boolean',
+  },
+  'ui.disableBing': {
+    name: t('attributeUiDisabledBing'),
+    type: 'boolean',
+  },
+  'ui.disableTomtom': {
+    name: t('attributeUiDisabledTomtom'),
+    type: 'boolean',
+  },
+  'ui.disableHere': {
+    name: t('attributeUiDisabledHere'),
+    type: 'boolean',
+  },
+  'ui.disableAutoNavi': {
+    name: t('attributeUiDisabledautoNavi'),
+    type: 'boolean',
+  },
+  'ui.disableMapbox': {
+    name: t('attributeUiDisabledMapbox'),
+    type: 'boolean',
+  },
   /* 'web.liveRouteLength': {
     name: t('attributeWebLiveRouteLength'),
     type: 'number',
