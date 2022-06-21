@@ -57,6 +57,9 @@ const ChartReportPage = () => {
               case 'volume':
                 formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
                 break;
+              case 'hours':
+                formatted[key] = (value / 1000).toFixed(2);
+                break;
               default:
                 formatted[key] = value;
                 break;

@@ -16,6 +16,8 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
+import { useAttributePreference } from '../common/util/preferences';
+import { distanceFromMeters, distanceToMeters, distanceUnitString } from '../common/util/converter';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,6 +44,8 @@ const AccumulatorsPage = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const t = useTranslation();
+
+  const distanceUnit = useAttributePreference('distanceUnit');
 
   const { deviceId } = useParams();
   const position = useSelector((state) => state.positions.items[deviceId]);
@@ -85,15 +89,15 @@ const AccumulatorsPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 type="number"
-                value={item.hours}
-                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) })}
+                value={item.hours / 1000}
+                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) * 1000 })}
                 label={t('positionHours')}
               />
               <TextField
                 type="number"
-                value={item.totalDistance}
-                onChange={(event) => setItem({ ...item, totalDistance: Number(event.target.value) })}
-                label={t('deviceTotalDistance')}
+                value={distanceFromMeters(item.totalDistance, distanceUnit)}
+                onChange={(event) => setItem({ ...item, totalDistance: distanceToMeters(Number(event.target.value), distanceUnit) })}
+                label={`${t('deviceTotalDistance')} (${distanceUnitString(distanceUnit, t)})`}
               />
             </AccordionDetails>
           </Accordion>

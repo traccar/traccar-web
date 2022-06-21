@@ -43,6 +43,8 @@ const PositionValue = ({ position, property, attribute }) => {
       case 'distance':
       case 'totalDistance':
         return formatDistance(value, distanceUnit, t);
+      case 'hours':
+        return formatNumber(value / 1000);
       default:
         if (typeof value === 'number') {
           return formatNumber(value);
