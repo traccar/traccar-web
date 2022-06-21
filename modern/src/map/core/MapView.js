@@ -78,6 +78,13 @@ const MapView = ({ children }) => {
   const [activeMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
   const [defaultMapStyle] = usePersistedState('selectedMapStyle', 'locationIqStreets');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
+  const maxZoom = useAttributePreference('web.maxZoom');
+
+  useEffect(() => {
+    if (maxZoom) {
+      map.setMaxZoom(maxZoom);
+    }
+  }, [maxZoom]);
 
   useEffect(() => {
     maplibregl.accessToken = mapboxAccessToken;

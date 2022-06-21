@@ -64,12 +64,12 @@ export default (t) => useMemo(() => ({
   'web.selectZoom': {
     name: t('attributeWebSelectZoom'),
     type: 'number',
-  },
+  }, */
   'web.maxZoom': {
     name: t('attributeWebMaxZoom'),
     type: 'number',
   },
-  'ui.hidePositionAttributes': {
+  /* 'ui.hidePositionAttributes': {
     name: t('attributeUiHidePositionAttributes'),
     type: 'string',
   }, */
