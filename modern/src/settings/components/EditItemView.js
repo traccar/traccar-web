@@ -37,17 +37,20 @@ const EditItemView = ({
   const { id } = useParams();
 
   useEffectAsync(async () => {
-    if (id) {
-      const response = await fetch(`/api/${endpoint}/${id}`);
-      if (response.ok) {
-        setItem(await response.json());
+    console.log(item);
+    if (!item) {
+      if (id) {
+        const response = await fetch(`/api/${endpoint}/${id}`);
+        if (response.ok) {
+          setItem(await response.json());
+        } else {
+          throw Error(await response.text());
+        }
       } else {
-        throw Error(await response.text());
+        setItem(defaultItem || {});
       }
-    } else {
-      setItem(defaultItem || {});
     }
-  }, [id]);
+  }, [id, item, defaultItem]);
 
   const handleSave = useCatch(async () => {
     let url = `/api/${endpoint}`;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Accordion,
   AccordionSummary,
@@ -51,12 +52,13 @@ const UserPage = () => {
   const admin = useAdministrator();
   const manager = useManager();
 
-  const currentUserId = useSelector((state) => state.session.user.id);
+  const currentUser = useSelector((state) => state.session.user);
 
   const commonUserAttributes = useCommonUserAttributes(t);
   const userAttributes = useUserAttributes(t);
 
-  const [item, setItem] = useState();
+  const { id } = useParams();
+  const [item, setItem] = useState(id === currentUser.id.toString() ? currentUser : null);
 
   const query = useQuery();
   const [queryHandled, setQueryHandled] = useState(false);
@@ -74,7 +76,7 @@ const UserPage = () => {
   }, [item, queryHandled, setQueryHandled, attribute]);
 
   const onItemSaved = (result) => {
-    if (result.id === currentUserId) {
+    if (result.id === currentUser.id) {
       dispatch(sessionActions.updateUser(result));
     }
   };
