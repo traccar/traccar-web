@@ -37,7 +37,6 @@ const EditItemView = ({
   const { id } = useParams();
 
   useEffectAsync(async () => {
-    console.log(item);
     if (!item) {
       if (id) {
         const response = await fetch(`/api/${endpoint}/${id}`);

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Divider, List, ListItem, ListItemIcon, ListItemText,
+  Divider, List, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CreateIcon from '@mui/icons-material/Create';
@@ -21,10 +21,10 @@ import useFeatures from '../../common/util/useFeatures';
 const MenuItem = ({
   title, link, icon, selected,
 }) => (
-  <ListItem button key={link} component={Link} to={link} selected={selected}>
+  <ListItemButton key={link} component={Link} to={link} selected={selected}>
     <ListItemIcon>{icon}</ListItemIcon>
     <ListItemText primary={title} />
-  </ListItem>
+  </ListItemButton>
 );
 
 const SettingsMenu = () => {

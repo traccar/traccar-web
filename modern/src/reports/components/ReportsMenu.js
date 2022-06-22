@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Divider, List, ListItem, ListItemIcon, ListItemText,
+  Divider, List, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
@@ -17,10 +17,10 @@ import { useAdministrator } from '../../common/util/permissions';
 const MenuItem = ({
   title, link, icon, selected,
 }) => (
-  <ListItem button key={link} component={Link} to={link} selected={selected}>
+  <ListItemButton button key={link} component={Link} to={link} selected={selected}>
     <ListItemIcon>{icon}</ListItemIcon>
     <ListItemText primary={title} />
-  </ListItem>
+  </ListItemButton>
 );
 
 const ReportsMenu = () => {

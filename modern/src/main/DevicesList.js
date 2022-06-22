@@ -1,12 +1,9 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
-import { IconButton, Tooltip } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
+import {
+  IconButton, Tooltip, Avatar, List, ListItemAvatar, ListItemText, ListItemButton,
+} from '@mui/material';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
@@ -26,6 +23,7 @@ import {
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIcons } from '../map/core/preloadImages';
+import { useAdministrator } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -70,6 +68,8 @@ const DeviceRow = ({ data, index, style }) => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
+  const admin = useAdministrator();
+
   const { items } = data;
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
@@ -83,7 +83,12 @@ const DeviceRow = ({ data, index, style }) => {
 
   return (
     <div style={style}>
-      <ListItem button key={item.id} className={classes.listItem} onClick={() => dispatch(devicesActions.select(item.id))}>
+      <ListItemButton
+        key={item.id}
+        className={classes.listItem}
+        onClick={() => dispatch(devicesActions.select(item.id))}
+        disabled={!admin && item.disabled}
+      >
         <ListItemAvatar>
           <Avatar>
             <img className={classes.icon} src={mapIcons[item.category || 'default']} alt="" />
@@ -137,7 +142,7 @@ const DeviceRow = ({ data, index, style }) => {
             )}
           </>
         )}
-      </ListItem>
+      </ListItemButton>
     </div>
   );
 };

@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import {
+  Divider, List, ListItemButton, ListItemText,
+} from '@mui/material';
 
 import { devicesActions, geofencesActions } from '../store';
 import CollectionActions from '../settings/components/CollectionActions';
@@ -41,10 +40,10 @@ const GeofencesList = () => {
     <List className={classes.list}>
       {Object.values(items).map((item, index, list) => (
         <Fragment key={item.id}>
-          <ListItem button key={item.id} onClick={() => dispatch(devicesActions.select(item.id))}>
+          <ListItemButton button key={item.id} onClick={() => dispatch(devicesActions.select(item.id))}>
             <ListItemText primary={item.name} />
             <CollectionActions itemId={item.id} editPath="/settings/geofence" endpoint="geofences" setTimestamp={refreshGeofences} />
-          </ListItem>
+          </ListItemButton>
           {index < list.length - 1 ? <Divider /> : null}
         </Fragment>
       ))}

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import {
-  List, ListItem, ListItemText, ListItemIcon, Divider, ListSubheader,
+  List, ListItemText, ListItemIcon, Divider, ListSubheader, ListItemButton,
 } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -15,17 +15,16 @@ const SideNav = ({ routes }) => {
           <ListSubheader>{route.subheader}</ListSubheader>
         </Fragment>
       ) : (
-        <ListItem
+        <ListItemButton
           disableRipple
           component={Link}
           key={route.href}
-          button
           to={route.href}
           selected={location.pathname.match(route.match || route.href) !== null}
         >
           <ListItemIcon>{route.icon}</ListItemIcon>
           <ListItemText primary={route.name} />
-        </ListItem>
+        </ListItemButton>
       )))}
     </List>
   );
