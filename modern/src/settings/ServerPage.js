@@ -28,7 +28,7 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
-import useCommonServerAttributes from '../common/attributes/useCommonServerAttributes';
+import useServerAttributes from '../common/attributes/useServerAttributes ';
 import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +59,7 @@ const ServerPage = () => {
   const t = useTranslation();
 
   const commonUserAttributes = useCommonUserAttributes(t);
-  const commonServerAttributes = useCommonServerAttributes(t);
+  const commonServerAttributes = useServerAttributes(t);
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
 
   const original = useSelector((state) => state.session.server);
