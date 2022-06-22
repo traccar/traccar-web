@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 import makeStyles from '@mui/styles/makeStyles';
-import { useEffectAsync } from '../reactHelper';
+import { useCatch, useEffectAsync } from '../reactHelper';
 import { formatBoolean } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -11,6 +14,8 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
+import { useAdministrator } from '../common/util/permissions';
+import { sessionActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -21,11 +26,32 @@ const useStyles = makeStyles((theme) => ({
 
 const UsersPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const t = useTranslation();
+
+  const admin = useAdministrator();
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const handleLogin = useCatch(async (userId) => {
+    const response = await fetch(`/api/session/${userId}`);
+    if (response.ok) {
+      const user = await response.json();
+      dispatch(sessionActions.updateUser(user));
+      navigate('/');
+    } else {
+      throw Error(await response.text());
+    }
+  });
+
+  const loginAction = {
+    title: t('loginLogin'),
+    icon: (<LoginIcon fontSize="small" />),
+    handler: handleLogin,
+  };
 
   useEffectAsync(async () => {
     setLoading(true);
@@ -61,7 +87,14 @@ const UsersPage = () => {
               <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
               <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/user" endpoint="users" setTimestamp={setTimestamp} />
+                {admin}
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/user"
+                  endpoint="users"
+                  setTimestamp={setTimestamp}
+                  customAction={admin ? loginAction : null}
+                />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={5} endAction />)}

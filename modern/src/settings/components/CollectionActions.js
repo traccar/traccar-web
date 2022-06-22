@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp,
+  itemId, editPath, endpoint, setTimestamp, customAction,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -39,6 +39,11 @@ const CollectionActions = ({
     setMenuAnchorEl(null);
   };
 
+  const handleCustom = () => {
+    customAction.handler(itemId);
+    setMenuAnchorEl(null);
+  };
+
   const handleRemoveResult = (removed) => {
     setRemoving(false);
     if (removed) {
@@ -54,12 +59,20 @@ const CollectionActions = ({
             <MoreVertIcon fontSize="small" />
           </IconButton>
           <Menu open={!!menuAnchorEl} anchorEl={menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
+            {customAction && (
+              <MenuItem onClick={handleCustom}>{customAction.title}</MenuItem>
+            )}
             <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
             <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
           </Menu>
         </>
       ) : (
         <div className={classes.row}>
+          {customAction && (
+            <IconButton size="small" onClick={handleCustom}>
+              {customAction.icon}
+            </IconButton>
+          )}
           <IconButton size="small" onClick={handleEdit}>
             <EditIcon fontSize="small" />
           </IconButton>
