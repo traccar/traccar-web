@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
-  disableStyles: {
-    name: t('attributeUiDisableStylesAttributes'),
+  disableMapLayers: {
+    name: t('attributeUiDisableMapLayers'),
     type: 'string',
   },
 }), [t]);

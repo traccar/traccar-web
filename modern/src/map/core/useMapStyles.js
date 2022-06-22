@@ -30,7 +30,7 @@ export default () => {
   const hereKey = useAttributePreference('hereKey');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
-  const disabledStyles = new Set((useSelector((state) => state.session.server.attributes?.disableStyles) || '').split(',') || []);
+  const disabledStyles = new Set((useSelector((state) => state.session.server.attributes?.disableMapLayers) || '').split(',') || []);
   const activeStyles = [];
 
   const Styles = {
