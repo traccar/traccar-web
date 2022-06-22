@@ -33,28 +33,28 @@ export default () => {
   const disabledStyles = new Set((useSelector((state) => state.session.server.attributes?.disableMapLayers) || '').split(',') || []);
   const activeStyles = [];
 
-  const Styles = {
-    locationIqStreets: {
+  const Styles = [
+    {
       id: 'locationIqStreets',
       title: t('mapLocationIqStreets'),
       style: `https://tiles.locationiq.com/v3/streets/vector.json?key=${locationIqKey || 'pk.0f147952a41c555a5b70614039fd148b'}`,
       available: true,
     },
-    locationIqEarth: {
+    {
       id: 'locationIqEarth',
       title: t('mapLocationIqEarth'),
       style: `https://tiles.locationiq.com/v3/earth/vector.json?key=${locationIqKey}`,
       available: !!locationIqKey,
       attribute: 'locationIqKey',
     },
-    locationIqHybrid: {
+    {
       id: 'locationIqHybrid',
       title: t('mapLocationIqHybrid'),
       style: `https://tiles.locationiq.com/v3/hybrid/vector.json?key=${locationIqKey}`,
       available: !!locationIqKey,
       attribute: 'locationIqKey',
     },
-    osm: {
+    {
       id: 'osm',
       title: t('mapOsm'),
       style: styleCustom(
@@ -63,7 +63,7 @@ export default () => {
       ),
       available: true,
     },
-    carto: {
+    {
       id: 'carto',
       title: t('mapCarto'),
       style: styleCustom(
@@ -72,21 +72,21 @@ export default () => {
       ),
       available: true,
     },
-    mapTilerBasic: {
+    {
       id: 'mapTilerBasic',
       title: t('mapMapTilerBasic'),
       style: `https://api.maptiler.com/maps/basic/style.json?key=${mapTilerKey}`,
       available: !!mapTilerKey,
       attribute: 'mapTilerKey',
     },
-    mapTilerHybrid: {
+    {
       id: 'mapTilerHybrid',
       title: t('mapMapTilerHybrid'),
       style: `https://api.maptiler.com/maps/hybrid/style.json?key=${mapTilerKey}`,
       available: !!mapTilerKey,
       attribute: 'mapTilerKey',
     },
-    bingRoad: {
+    {
       id: 'bingRoad',
       title: t('mapBingRoad'),
       style: styleCustom(
@@ -95,7 +95,7 @@ export default () => {
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
     },
-    bingAerial: {
+    {
       id: 'bingAerial',
       title: t('mapBingAerial'),
       style: styleCustom(
@@ -104,7 +104,7 @@ export default () => {
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
     },
-    bingHybrid: {
+    {
       id: 'bingHybrid',
       title: t('mapBingHybrid'),
       style: styleCustom(
@@ -113,21 +113,21 @@ export default () => {
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
     },
-    tomTomBasic: {
+    {
       id: 'tomTomBasic',
       title: t('mapTomTomBasic'),
       style: `https://api.tomtom.com/map/1/style/20.0.0-8/basic_main.json?key=${tomTomKey}`,
       available: !!tomTomKey,
       attribute: 'tomTomKey',
     },
-    hereBasic: {
+    {
       id: 'hereBasic',
       title: t('mapHereBasic'),
       style: `https://assets.vector.hereapi.com/styles/berlin/base/mapbox/tilezen?apikey=${hereKey}`,
       available: !!hereKey,
       attribute: 'hereKey',
     },
-    hereHybrid: {
+    {
       id: 'hereHybrid',
       title: t('mapHereHybrid'),
       style: styleCustom(
@@ -136,7 +136,7 @@ export default () => {
       available: !!hereKey,
       attribute: 'hereKey',
     },
-    hereSatellite: {
+    {
       id: 'hereSatellite',
       title: t('mapHereSatellite'),
       style: styleCustom(
@@ -145,7 +145,7 @@ export default () => {
       available: !!hereKey,
       attribute: 'hereKey',
     },
-    autoNavi: {
+    {
       id: 'autoNavi',
       title: t('mapAutoNavi'),
       style: styleCustom(
@@ -153,7 +153,7 @@ export default () => {
       ),
       available: true,
     },
-    mapboxStreets: {
+    {
       id: 'mapboxStreets',
       title: t('mapMapboxStreets'),
       style: styleCustom(
@@ -162,7 +162,7 @@ export default () => {
       available: !!mapboxAccessToken,
       attribute: 'mapboxAccessToken',
     },
-    mapboxOutdoors: {
+    {
       id: 'mapboxOutdoors',
       title: t('mapMapboxOutdoors'),
       style: styleCustom(
@@ -171,7 +171,7 @@ export default () => {
       available: !!mapboxAccessToken,
       attribute: 'mapboxAccessToken',
     },
-    mapboxSatellite: {
+    {
       id: 'mapboxSatellite',
       title: t('mapMapboxSatellite'),
       style: styleCustom(
@@ -180,18 +180,18 @@ export default () => {
       available: !!mapboxAccessToken,
       attribute: 'mapboxAccessToken',
     },
-    custom: {
+    {
       id: 'custom',
       title: t('mapCustom'),
       style: styleCustom([customMapUrl]),
       available: !!customMapUrl,
     },
-  };
+  ];
 
-  Object.keys(Styles).forEach((key) => {
-    if (!disabledStyles.has(key)) {
-      activeStyles.push(Styles[key]);
+  for (let i = 0; i < Styles.length; i += 1) {
+    if (!disabledStyles.has(Styles[i].id)) {
+      activeStyles.push(Styles[i]);
     }
-  });
+  }
   return activeStyles;
 };
