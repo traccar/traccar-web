@@ -92,7 +92,7 @@ const BottomMenu = () => {
           ? (<BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} />)
           : (<BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />)}
       </BottomNavigation>
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={handleAccount}>
           <Typography color="textPrimary">{t('settingsUser')}</Typography>
         </MenuItem>

@@ -13,14 +13,16 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import ReplayIcon from '@mui/icons-material/Replay';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
 
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatStatus } from '../common/util/formatter';
@@ -90,6 +92,8 @@ const StatusCard = ({ deviceId, onClose }) => {
   const positionAttributes = usePositionAttributes(t);
   const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const [removing, setRemoving] = useState(false);
 
   const handleRemove = useCatch(async (removed) => {
@@ -146,10 +150,10 @@ const StatusCard = ({ deviceId, onClose }) => {
           <CardActions classes={{ root: classes.actions }} disableSpacing>
             <IconButton
               color="secondary"
-              onClick={() => navigate(`/position/${position.id}`)}
+              onClick={(e) => setAnchorEl(e.currentTarget)}
               disabled={!position}
             >
-              <PostAddIcon />
+              <InfoIcon />
             </IconButton>
             <IconButton
               onClick={() => navigate('/replay')}
@@ -179,6 +183,12 @@ const StatusCard = ({ deviceId, onClose }) => {
           </CardActions>
         </Card>
       )}
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+        <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
+        <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
+        <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
+        <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}`}>{t('linkStreetView')}</MenuItem>
+      </Menu>
       <RemoveDialog
         open={removing}
         endpoint="devices"
