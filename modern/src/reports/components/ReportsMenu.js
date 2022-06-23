@@ -17,7 +17,7 @@ import { useAdministrator } from '../../common/util/permissions';
 const MenuItem = ({
   title, link, icon, selected,
 }) => (
-  <ListItemButton button key={link} component={Link} to={link} selected={selected}>
+  <ListItemButton key={link} component={Link} to={link} selected={selected}>
     <ListItemIcon>{icon}</ListItemIcon>
     <ListItemText primary={title} />
   </ListItemButton>
