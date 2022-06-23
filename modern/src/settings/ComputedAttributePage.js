@@ -9,6 +9,8 @@ import {
   MenuItem,
   Select,
   TextField,
+  createFilterOptions,
+  Autocomplete,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -33,7 +35,6 @@ const ComputedAttributePage = () => {
   const positionAttributes = usePositionAttributes(t);
 
   const [item, setItem] = useState();
-  const [key, setKey] = useState();
 
   const options = Object.entries(positionAttributes).map(([key, value]) => ({
     key,
@@ -41,16 +42,9 @@ const ComputedAttributePage = () => {
     type: value.type,
   }));
 
-  const handleChange = (event) => {
-    const newValue = event.target.value;
-    setKey(newValue);
-    const positionAttribute = positionAttributes[newValue];
-    if (positionAttribute && positionAttribute.type) {
-      setItem({ ...item, attribute: newValue, type: positionAttribute.type });
-    } else {
-      setItem({ ...item, attribute: newValue });
-    }
-  };
+  const filter = createFilterOptions({
+    stringify: (option) => option.name,
+  });
 
   const validate = () => item && item.description && item.expression;
 
@@ -76,18 +70,37 @@ const ComputedAttributePage = () => {
               onChange={(event) => setItem({ ...item, description: event.target.value })}
               label={t('sharedDescription')}
             />
-            <FormControl>
-              <InputLabel>{t('sharedAttribute')}</InputLabel>
-              <Select
-                label={t('sharedAttribute')}
-                value={item.attribute || ''}
-                onChange={handleChange}
-              >
-                {options.map((option) => (
-                  <MenuItem key={option.key} value={option.key}>{option.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              onChange={(_, option) => {
+                const attribute = option ? option.key || option : null;
+                if (option && option.type) {
+                  setItem({ ...item, attribute, type: option.type });
+                } else {
+                  setItem({ ...item, attribute });
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+                if (params.inputValue) {
+                  filtered.push({
+                    key: params.inputValue,
+                    name: params.inputValue,
+                  });
+                }
+                return filtered;
+              }}
+              options={options}
+              getOptionLabel={(option) => option.name || option}
+              renderOption={(props, option) => (
+                <li {...props}>
+                  {option.name}
+                </li>
+              )}
+              renderInput={(params) => (
+                <TextField {...params} label={t('sharedAttribute')} />
+              )}
+              freeSolo
+            />
             <TextField
               value={item.expression || ''}
               onChange={(event) => setItem({ ...item, expression: event.target.value })}
@@ -95,7 +108,7 @@ const ComputedAttributePage = () => {
               multiline
               rows={4}
             />
-            <FormControl disabled={key in positionAttributes}>
+            <FormControl disabled={item.attribute in positionAttributes}>
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
                 label={t('sharedType')}
