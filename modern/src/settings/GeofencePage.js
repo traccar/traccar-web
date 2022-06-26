@@ -11,6 +11,7 @@ import EditAttributesView from './components/EditAttributesView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
 import SettingsMenu from './components/SettingsMenu';
+import SelectField from '../common/components/SelectField';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -53,6 +54,26 @@ const GeofencePage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
+              />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
+                {t('sharedExtra')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <TextField
+                value={item.description || ''}
+                onChange={(event) => setItem({ ...item, description: event.target.value })}
+                label={t('sharedDescription')}
+              />
+              <SelectField
+                value={item.calendarId || 0}
+                onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
+                endpoint="/api/calendars"
+                label={t('sharedCalendar')}
               />
             </AccordionDetails>
           </Accordion>
