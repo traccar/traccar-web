@@ -15,6 +15,7 @@ const draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
     polygon: true,
+    line_string: true,
     trash: true,
   },
   userProperties: true,
