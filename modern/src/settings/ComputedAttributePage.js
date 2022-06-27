@@ -36,7 +36,7 @@ const ComputedAttributePage = () => {
 
   const [item, setItem] = useState();
 
-  const options = Object.entries(positionAttributes).map(([key, value]) => ({
+  const options = Object.entries(positionAttributes).filter(([, value]) => !value.property).map(([key, value]) => ({
     key,
     name: value.name,
     type: value.type,
@@ -71,6 +71,7 @@ const ComputedAttributePage = () => {
               label={t('sharedDescription')}
             />
             <Autocomplete
+              value={options.find((option) => option.key === item.attribute) || item.attribute}
               onChange={(_, option) => {
                 const attribute = option ? option.key || option : null;
                 if (option && option.type) {

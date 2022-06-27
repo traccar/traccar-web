@@ -4,56 +4,69 @@ export default (t) => useMemo(() => ({
   id: {
     name: t('deviceIdentifier'),
     type: 'number',
+    property: true,
   },
   latitude: {
     name: t('positionLatitude'),
     type: 'number',
+    property: true,
   },
   longitude: {
     name: t('positionLongitude'),
     type: 'number',
+    property: true,
   },
   speed: {
     name: t('positionSpeed'),
     type: 'number',
     dataType: 'speed',
+    property: true,
   },
   course: {
     name: t('positionCourse'),
     type: 'number',
+    property: true,
   },
   altitude: {
     name: t('positionAltitude'),
     type: 'number',
+    property: true,
   },
   accuracy: {
     name: t('positionAccuracy'),
     type: 'number',
     dataType: 'distance',
+    property: true,
   },
   valid: {
     name: t('positionValid'),
     type: 'boolean',
+    property: true,
   },
   protocol: {
     name: t('positionProtocol'),
     type: 'string',
+    property: true,
   },
   address: {
     name: t('positionAddress'),
     type: 'string',
+    property: true,
   },
   deviceTime: {
     name: t('positionDeviceTime'),
     type: 'string',
+    property: true,
   },
   fixTime: {
     name: t('positionFixTime'),
     type: 'string',
+    property: true,
   },
   serverTime: {
     name: t('positionServerTime'),
     type: 'string',
+    property: true,
   },
   raw: {
     name: t('positionRaw'),
