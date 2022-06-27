@@ -1,12 +1,13 @@
 import React from 'react';
 import { Skeleton, TableCell, TableRow } from '@mui/material';
 
-const TableShimmer = ({ columns, startAction, endAction }) => [...Array(3)].map(() => (
-  <TableRow>
-    {[...Array(columns)].map((_, i) => {
-      const action = (startAction && i === 0) || (endAction && i === columns - 1);
+/* eslint-disable react/no-array-index-key */
+const TableShimmer = ({ columns, startAction, endAction }) => [...Array(3)].map((_, i) => (
+  <TableRow key={i}>
+    {[...Array(columns)].map((_, j) => {
+      const action = (startAction && j === 0) || (endAction && j === columns - 1);
       return (
-        <TableCell padding={action ? 'none' : 'normal'}>
+        <TableCell key={j} padding={action ? 'none' : 'normal'}>
           {!action && <Skeleton />}
         </TableCell>
       );
