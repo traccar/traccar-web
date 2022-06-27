@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Divider, Typography, IconButton, useMediaQuery, Toolbar,
@@ -62,6 +62,8 @@ const GeofencesPage = () => {
 
   const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const [selectedGeofenceId, setSelectedGeofenceId] = useState();
+
   const handleFile = (event) => {
     const files = Array.from(event.target.files);
     const [file] = files;
@@ -117,11 +119,11 @@ const GeofencesPage = () => {
             </label>
           </Toolbar>
           <Divider />
-          <GeofencesList />
+          <GeofencesList onGeofenceSelected={setSelectedGeofenceId} />
         </Drawer>
         <div className={classes.mapContainer}>
           <MapView>
-            <MapGeofenceEdit />
+            <MapGeofenceEdit selectedGeofenceId={selectedGeofenceId} />
           </MapView>
           <MapCurrentLocation />
           <MapGeocoder />

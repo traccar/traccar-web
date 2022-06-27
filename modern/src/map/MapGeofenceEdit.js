@@ -1,5 +1,6 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
+import maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import theme from '@mapbox/mapbox-gl-draw/src/lib/theme';
 import { useEffect } from 'react';
@@ -35,7 +36,7 @@ const draw = new MapboxDraw({
   }],
 });
 
-const MapGeofenceEdit = () => {
+const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -135,6 +136,22 @@ const MapGeofenceEdit = () => {
       draw.add(geofenceToFeature(geofence));
     });
   }, [geofences]);
+
+  useEffect(() => {
+    if (selectedGeofenceId) {
+      const feature = draw.get(selectedGeofenceId);
+      let { coordinates } = feature.geometry;
+      if (Array.isArray(coordinates[0][0])) {
+        [coordinates] = coordinates;
+      }
+      const bounds = coordinates.reduce(
+        (bounds, coordinate) => bounds.extend(coordinate),
+        new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
+      );
+      const canvas = map.getCanvas();
+      map.fitBounds(bounds, { padding: Math.min(canvas.width, canvas.height) * 0.1 });
+    }
+  }, [selectedGeofenceId]);
 
   return null;
 };
