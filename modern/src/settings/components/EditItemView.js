@@ -84,8 +84,8 @@ const EditItemView = ({
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {[...Array(3)].map(() => (
-                <Skeleton width="100%">
+              {[...Array(3)].map((_, i) => (
+                <Skeleton key={-i} width="100%">
                   <TextField />
                 </Skeleton>
               ))}
