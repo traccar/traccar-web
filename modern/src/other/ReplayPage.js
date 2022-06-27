@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import {
-  Grid, IconButton, Paper, Slider, Toolbar, Tooltip, Typography,
+  IconButton, Paper, Slider, Toolbar, Tooltip, Typography,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -157,11 +157,9 @@ const ReplayPage = () => {
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
             {!expanded && (
-              <Grid item>
-                <IconButton onClick={() => setExpanded(true)}>
-                  <SettingsIcon />
-                </IconButton>
-              </Grid>
+              <IconButton edge="end" onClick={() => setExpanded(true)}>
+                <SettingsIcon />
+              </IconButton>
             )}
           </Toolbar>
         </Paper>
