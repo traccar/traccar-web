@@ -87,7 +87,6 @@ const UsersPage = () => {
               <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
               <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                {admin}
                 <CollectionActions
                   itemId={item.id}
                   editPath="/settings/user"
