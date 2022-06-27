@@ -59,7 +59,7 @@
     "sharedDevice": "Device",
     "sharedTest": "Test",
     "sharedTestNotification": "Send Test Notification",
-    "sharedTestChannels": "Test Channels",
+    "sharedTestNotificators": "Test Channels",
     "sharedTestExpression": "Test Expression",
     "sharedCalendar": "Calendar",
     "sharedCalendars": "Calendars",

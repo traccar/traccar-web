@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   Checkbox,
   FormGroup,
+  Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,6 +17,7 @@ import EditItemView from './components/EditItemView';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -36,6 +38,19 @@ const NotificationPage = () => {
     key: unprefixString('alarm', it),
     name: t(it),
   }));
+
+  const testNotificators = useCatch(async () => {
+    await Promise.all(item.notificators.split(/[, ]+/).map(async (notificator) => {
+      const response = await fetch(`/api/notifications/test/${notificator}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item),
+      });
+      if (!response.ok) {
+        throw Error(await response.text());
+      }
+    }));
+  });
 
   const validate = () => item && item.type && item.notificators;
 
@@ -66,15 +81,6 @@ const NotificationPage = () => {
                 titleGetter={(it) => t(prefixString('event', it.type))}
                 label={t('sharedType')}
               />
-              <SelectField
-                multiple
-                value={item.notificators ? item.notificators.split(/[, ]+/) : []}
-                onChange={(e) => setItem({ ...item, notificators: e.target.value.join() })}
-                endpoint="/api/notifications/notificators"
-                keyGetter={(it) => it.type}
-                titleGetter={(it) => t(prefixString('notificator', it.type))}
-                label={t('notificationNotificators')}
-              />
               {item.type === 'alarm' && (
                 <SelectField
                   multiple
@@ -85,6 +91,23 @@ const NotificationPage = () => {
                   label={t('sharedAlarms')}
                 />
               )}
+              <SelectField
+                multiple
+                value={item.notificators ? item.notificators.split(/[, ]+/) : []}
+                onChange={(e) => setItem({ ...item, notificators: e.target.value.join() })}
+                endpoint="/api/notifications/notificators"
+                keyGetter={(it) => it.type}
+                titleGetter={(it) => t(prefixString('notificator', it.type))}
+                label={t('notificationNotificators')}
+              />
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={testNotificators}
+                disabled={!item.notificators}
+              >
+                {t('sharedTestNotificators')}
+              </Button>
               <FormGroup>
                 <FormControlLabel
                   control={(
