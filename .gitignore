@@ -9,7 +9,6 @@ web/modern
 web/lib
 sencha-error-*
 node_modules
-package-lock.json
 
 .*.swp
 *~
