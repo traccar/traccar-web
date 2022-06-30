@@ -60,7 +60,7 @@ const MapLiveRoutes = () => {
         setRoute([position]);
       }
     } else if (position) {
-      const last = route.findLast(() => true);
+      const last = route.at(-1);
       if (!last || (last.latitude !== position.latitude && last.longitude !== position.longitude)) {
         setRoute([...route.slice(-9), position]);
       }
