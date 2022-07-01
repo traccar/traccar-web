@@ -4,9 +4,13 @@
 
 Traccar is open source server for various GPS tracking devices. This repository contains web interface for the Traccar platform. For back-end checkout [main Traccar repository](https://github.com/tananaev/traccar).
 
-## New version
+## Modern web app
 
-A new version of the web app is under development alongside original web app. It will be available under Apache open source license. It uses React, Material UI and other modern web frameworks. Check [modern](https://github.com/traccar/traccar-web/tree/master/modern) folder for more details.
+New web app for Traccar. It uses modern technologies like React, Material UI etc. For more information on how to build it please check the [modern app documentation](https://www.traccar.org/build-web-app/).
+
+## Legacy web app
+
+Old web app for Traccar. It uses Sencha Ext JS framework. For more information on how to build it please check [the legacy app documentation](https://www.traccar.org/build-extjs/).
 
 ## Team
 
@@ -15,17 +19,6 @@ A new version of the web app is under development alongside original web app. It
 
 ## License
 
-    GNU General Public License, Version 3
+Modern app uses Apache License, Version 2.0 license.
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program. If not, see <http://www.gnu.org/licenses/>.
+Legacy app uses The GNU General Public License v3.0 license.
