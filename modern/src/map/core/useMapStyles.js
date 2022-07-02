@@ -30,8 +30,10 @@ export default () => {
   const hereKey = useAttributePreference('hereKey');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
+  const disabledStyles = new Set((useSelector((state) => state.session.server.attributes?.disableMapLayers) || '').split(',') || []);
+  const activeStyles = [];
 
-  return [
+  const Styles = [
     {
       id: 'locationIqStreets',
       title: t('mapLocationIqStreets'),
@@ -170,7 +172,7 @@ export default () => {
       attribute: 'mapboxAccessToken',
     },
     {
-      id: 'mapboxSatelliteStreet',
+      id: 'mapboxSatellite',
       title: t('mapMapboxSatellite'),
       style: styleCustom(
         [`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
@@ -185,4 +187,11 @@ export default () => {
       available: !!customMapUrl,
     },
   ];
+
+  for (let i = 0; i < Styles.length; i += 1) {
+    if (!disabledStyles.has(Styles[i].id)) {
+      activeStyles.push(Styles[i]);
+    }
+  }
+  return activeStyles;
 };

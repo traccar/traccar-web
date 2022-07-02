@@ -28,6 +28,7 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
+import useServerAttributes from '../common/attributes/useServerAttributes ';
 import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +59,7 @@ const ServerPage = () => {
   const t = useTranslation();
 
   const commonUserAttributes = useCommonUserAttributes(t);
+  const commonServerAttributes = useServerAttributes(t);
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
 
   const original = useSelector((state) => state.session.server);
@@ -238,7 +240,7 @@ const ServerPage = () => {
                 <EditAttributesView
                   attributes={item.attributes}
                   setAttributes={(attributes) => setItem({ ...item, attributes })}
-                  definitions={{ ...commonUserAttributes, ...commonDeviceAttributes }}
+                  definitions={{ ...commonUserAttributes, ...commonDeviceAttributes, ...commonServerAttributes }}
                 />
               </AccordionDetails>
             </Accordion>

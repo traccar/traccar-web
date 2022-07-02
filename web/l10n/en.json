@@ -120,6 +120,7 @@
     "attributeUiDisableComputedAttributes": "UI: Disable Computed Attributes",
     "attributeUiDisableCalendars": "UI: Disable Calendars",
     "attributeUiDisableMaintenance": "UI: Disable Maintenance",
+    "attributeUiDisableMapLayers": "UI: Disable Map Layers",
     "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
     "attributeNotificationTokens": "Notification Tokens",
     "errorTitle": "Error",
