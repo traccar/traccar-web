@@ -35,6 +35,7 @@ import MapPositions from '../map/MapPositions';
 import MapDirection from '../map/MapDirection';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -213,6 +214,7 @@ const MainPage = () => {
         <MapSelectedDevice />
         <PoiMap />
       </MapView>
+      <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
       {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}

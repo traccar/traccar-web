@@ -17,6 +17,7 @@ element.style.boxSizing = 'initial';
 
 export const map = new maplibregl.Map({
   container: element,
+  attributionControl: false,
 });
 
 let ready = false;
