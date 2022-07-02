@@ -36,24 +36,26 @@ const NativeInterface = () => {
       setToken(null);
 
       const tokens = user.attributes.notificationTokens?.split(',') || [];
-      const updatedUser = {
-        ...user,
-        attributes: {
-          ...user.attributes,
-          notificationTokens: [...tokens.slice(-2), token].join(','),
-        },
-      };
+      if (!tokens.includes(token)) {
+        const updatedUser = {
+          ...user,
+          attributes: {
+            ...user.attributes,
+            notificationTokens: [...tokens.slice(-2), token].join(','),
+          },
+        };
 
-      const response = await fetch(`/api/users/${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedUser),
-      });
+        const response = await fetch(`/api/users/${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedUser),
+        });
 
-      if (response.ok) {
-        dispatch(sessionActions.updateUser(await response.json()));
-      } else {
-        throw Error(await response.text());
+        if (response.ok) {
+          dispatch(sessionActions.updateUser(await response.json()));
+        } else {
+          throw Error(await response.text());
+        }
       }
     }
   }, [user, token, setToken]);
