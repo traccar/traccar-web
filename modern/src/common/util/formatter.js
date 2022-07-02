@@ -16,7 +16,7 @@ export const formatStatus = (value, t) => t(prefixString('deviceStatus', value))
 export const formatAlarm = (value, t) => (value ? t(prefixString('alarm', value)) : '');
 
 export const formatCourse = (value) => {
-  const courseValues = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  const courseValues = ['\u2191', '\u2197', '\u2192', '\u2198', '\u2193', '\u2199', '\u2190', '\u2196'];
   let normalizedValue = value % 360;
   if (normalizedValue < 0) {
     normalizedValue += 360;
