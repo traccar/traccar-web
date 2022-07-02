@@ -69,8 +69,4 @@ export default (t) => useMemo(() => ({
     name: t('attributeWebMaxZoom'),
     type: 'number',
   },
-  /* 'ui.hidePositionAttributes': {
-    name: t('attributeUiHidePositionAttributes'),
-    type: 'string',
-  }, */
 }), [t]);

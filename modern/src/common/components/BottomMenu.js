@@ -22,7 +22,7 @@ const BottomMenu = () => {
   const t = useTranslation();
 
   const readonly = useReadonly();
-  const userId = useSelector((state) => state.session.user?.id);
+  const userId = useSelector((state) => state.session.user.id);
   const socket = useSelector((state) => state.session.socket);
 
   const [anchorEl, setAnchorEl] = useState(null);

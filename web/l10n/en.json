@@ -121,6 +121,7 @@
     "attributeUiDisableCalendars": "UI: Disable Calendars",
     "attributeUiDisableMaintenance": "UI: Disable Maintenance",
     "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
+    "attributeUiDisableLoginLanguage": "UI: Disable Login Language",
     "attributeNotificationTokens": "Notification Tokens",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",

@@ -34,7 +34,7 @@ const SettingsMenu = () => {
   const readonly = useReadonly();
   const admin = useAdministrator();
   const manager = useManager();
-  const userId = useSelector((state) => state.session.user?.id);
+  const userId = useSelector((state) => state.session.user.id);
 
   const features = useFeatures();
 

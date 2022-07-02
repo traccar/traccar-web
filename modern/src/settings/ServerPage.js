@@ -29,6 +29,7 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useCatch } from '../reactHelper';
+import useServerAttributes from '../common/attributes/useServerAttributes';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -59,6 +60,7 @@ const ServerPage = () => {
 
   const commonUserAttributes = useCommonUserAttributes(t);
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
+  const serverAttributes = useServerAttributes(t);
 
   const original = useSelector((state) => state.session.server);
   const [item, setItem] = useState({ ...original });
@@ -238,7 +240,7 @@ const ServerPage = () => {
                 <EditAttributesView
                   attributes={item.attributes}
                   setAttributes={(attributes) => setItem({ ...item, attributes })}
-                  definitions={{ ...commonUserAttributes, ...commonDeviceAttributes }}
+                  definitions={{ ...commonUserAttributes, ...commonDeviceAttributes, ...serverAttributes }}
                 />
               </AccordionDetails>
             </Accordion>

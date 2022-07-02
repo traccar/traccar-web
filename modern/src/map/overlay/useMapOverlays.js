@@ -18,7 +18,7 @@ export default () => {
   const openWeatherKey = useAttributePreference('openWeatherKey');
   const tomTomKey = useAttributePreference('tomTomKey');
   const hereKey = useAttributePreference('hereKey');
-  const customMapOverlay = useSelector((state) => state.session.server?.overlayUrl);
+  const customMapOverlay = useSelector((state) => state.session.server.overlayUrl);
 
   return [
     {

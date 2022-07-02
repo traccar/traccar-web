@@ -29,7 +29,7 @@ export default () => {
   const tomTomKey = useAttributePreference('tomTomKey');
   const hereKey = useAttributePreference('hereKey');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
-  const customMapUrl = useSelector((state) => state.session.server?.mapUrl);
+  const customMapUrl = useSelector((state) => state.session.server.mapUrl);
 
   return [
     {

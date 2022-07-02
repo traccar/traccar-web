@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
   resetPassword: {
     cursor: 'pointer',
-    textAlign: 'right',
+    textAlign: 'center',
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -59,11 +60,12 @@ const LoginPage = () => {
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
 
-  const registrationEnabled = useSelector((state) => state.session.server?.registration);
-  const emailEnabled = useSelector((state) => state.session.server?.emailEnabled);
+  const registrationEnabled = useSelector((state) => state.session.server.registration);
+  const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
+  const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
-  const announcement = useSelector((state) => state.session.server?.announcement);
+  const announcement = useSelector((state) => state.session.server.announcement);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -158,18 +160,21 @@ const LoginPage = () => {
           >
             {t('loginRegister')}
           </Button>
-          <FormControl fullWidth>
-            <InputLabel>{t('loginLanguage')}</InputLabel>
-            <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-              {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
-            </Select>
-          </FormControl>
+          {languageEnabled && (
+            <FormControl fullWidth>
+              <InputLabel>{t('loginLanguage')}</InputLabel>
+              <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
+                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
+              </Select>
+            </FormControl>
+          )}
         </div>
         {emailEnabled && (
           <Link
             onClick={() => navigate('/reset-password')}
             className={classes.resetPassword}
             underline="none"
+            variant="caption"
           >
             {t('loginReset')}
           </Link>
