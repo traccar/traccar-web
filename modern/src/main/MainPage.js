@@ -38,6 +38,7 @@ import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapNotification from '../map/notification/MapNotification';
 import EventsDrawer from './EventsDrawer';
+import useFeatures from '../common/util/useFeatures';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -143,6 +144,8 @@ const MainPage = () => {
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
   const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const features = useFeatures();
+
   const [mapMapOnSelect] = usePersistedState('mapOnSelect', false);
 
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
@@ -223,7 +226,7 @@ const MainPage = () => {
       <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
-      <MapNotification enabled={eventsAvailable} onClick={eventHandler} />
+      {!features.disableEvents && <MapNotification enabled={eventsAvailable} onClick={eventHandler} />}
       {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
       <Button
         variant="contained"
@@ -334,7 +337,7 @@ const MainPage = () => {
           <BottomMenu />
         </div>
       )}
-      <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
+      {!features.disableEvents && <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />}
       {selectedDeviceId && (
         <div className={classes.statusCard}>
           <StatusCard
