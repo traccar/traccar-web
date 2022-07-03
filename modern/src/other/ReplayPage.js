@@ -168,7 +168,6 @@ const ReplayPage = () => {
                 marks={positions.map((_, index) => ({ value: index }))}
                 value={index}
                 onChange={(_, index) => setIndex(index)}
-                valueLabelDisplay="off"
               />
               <div className={classes.controls}>
                 {`${index + 1}/${positions.length}`}
