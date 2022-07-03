@@ -67,12 +67,14 @@ const SettingsMenu = () => {
               icon={<CreateIcon />}
               selected={location.pathname.startsWith('/settings/geofence')}
             />
-            <MenuItem
-              title={t('settingsGroups')}
-              link="/settings/groups"
-              icon={<FolderIcon />}
-              selected={location.pathname.startsWith('/settings/group')}
-            />
+            {!features.disableGroups && (
+              <MenuItem
+                title={t('settingsGroups')}
+                link="/settings/groups"
+                icon={<FolderIcon />}
+                selected={location.pathname.startsWith('/settings/group')}
+              />
+            )}
             {!features.disableDrivers && (
               <MenuItem
                 title={t('sharedDrivers')}
