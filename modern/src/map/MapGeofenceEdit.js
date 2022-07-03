@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 import { geofenceToFeature, geometryToArea } from './core/mapUtil';
 import { errorsActions, geofencesActions } from '../store';
@@ -37,6 +38,7 @@ const draw = new MapboxDraw({
 });
 
 const MapGeofenceEdit = ({ selectedGeofenceId }) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -133,7 +135,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   useEffect(() => {
     draw.deleteAll();
     Object.values(geofences).forEach((geofence) => {
-      draw.add(geofenceToFeature(geofence));
+      draw.add(geofenceToFeature(theme, geofence));
     });
   }, [geofences]);
 

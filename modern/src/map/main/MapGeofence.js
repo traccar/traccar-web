@@ -29,8 +29,8 @@ const MapGeofence = () => {
         ['==', '$type', 'Polygon'],
       ],
       paint: {
-        'fill-color': theme.palette.colors.geometry,
-        'fill-outline-color': theme.palette.colors.geometry,
+        'fill-color': ['get', 'color'],
+        'fill-outline-color': ['get', 'color'],
         'fill-opacity': 0.1,
       },
     });
@@ -39,7 +39,7 @@ const MapGeofence = () => {
       id: 'geofences-line',
       type: 'line',
       paint: {
-        'line-color': theme.palette.colors.geometry,
+        'line-color': ['get', 'color'],
         'line-width': 2,
       },
     });
@@ -77,7 +77,7 @@ const MapGeofence = () => {
   useEffect(() => {
     map.getSource(id).setData({
       type: 'FeatureCollection',
-      features: Object.values(geofences).map(geofenceToFeature),
+      features: Object.values(geofences).map((geofence) => geofenceToFeature(theme, geofence)),
     });
   }, [geofences]);
 
