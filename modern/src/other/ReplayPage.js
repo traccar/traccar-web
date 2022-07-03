@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useRef, useCallback,
 } from 'react';
 import {
-  IconButton, Paper, Slider, Toolbar, Tooltip, Typography,
+  IconButton, Paper, Slider, Toolbar, Typography,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -69,12 +69,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const TimeLabel = ({ children, open, value }) => (
-  <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-    {children}
-  </Tooltip>
-);
 
 const ReplayPage = () => {
   const t = useTranslation();
@@ -174,9 +168,7 @@ const ReplayPage = () => {
                 marks={positions.map((_, index) => ({ value: index }))}
                 value={index}
                 onChange={(_, index) => setIndex(index)}
-                valueLabelDisplay="auto"
-                valueLabelFormat={(i) => (i < positions.length ? formatTime(positions[i]) : '')}
-                ValueLabelComponent={TimeLabel}
+                valueLabelDisplay="off"
               />
               <div className={classes.controls}>
                 {`${index + 1}/${positions.length}`}
