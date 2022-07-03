@@ -62,6 +62,14 @@ export default () => {
       available: true,
     },
     {
+      id: 'openTopoMap',
+      title: t('mapOpenTopoMap'),
+      style: styleCustom(
+        ['a', 'b', 'c'].map((i) => `https://${i}.tile.opentopomap.org/{z}/{x}/{y}.png`),
+      ),
+      available: true,
+    },
+    {
       id: 'carto',
       title: t('mapCarto'),
       style: styleCustom(
