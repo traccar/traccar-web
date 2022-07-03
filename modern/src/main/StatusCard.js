@@ -6,9 +6,7 @@ import {
   CardContent,
   Typography,
   CardActions,
-  CardHeader,
   IconButton,
-  Avatar,
   Table,
   TableBody,
   TableRow,
@@ -25,7 +23,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { formatStatus } from '../common/util/formatter';
 import RemoveDialog from '../common/components/RemoveDialog';
 import PositionValue from '../common/components/PositionValue';
 import dimensions from '../common/theme/dimensions';
@@ -34,11 +31,20 @@ import usePersistedState from '../common/util/usePersistedState';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { devicesActions } from '../store';
 import { useCatch } from '../reactHelper';
-import { mapIcons } from '../map/core/preloadImages';
 
 const useStyles = makeStyles((theme) => ({
   card: {
     width: dimensions.popupMaxWidth,
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: theme.spacing(1, 1, 1, 2),
+  },
+  content: {
+    paddingTop: 0,
+    paddingBottom: theme.spacing(1),
   },
   negative: {
     color: theme.palette.colors.negative,
@@ -50,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     '& .MuiTableCell-sizeSmall': {
-      paddingLeft: theme.spacing(0.5),
-      paddingRight: theme.spacing(0.5),
+      paddingLeft: 0,
+      paddingRight: 0,
     },
   },
   cell: {
@@ -112,22 +118,16 @@ const StatusCard = ({ deviceId, onClose }) => {
     <>
       {device && (
         <Card elevation={3} className={classes.card}>
-          <CardHeader
-            avatar={(
-              <Avatar>
-                <img className={classes.icon} src={mapIcons[device.category || 'default']} alt="" />
-              </Avatar>
-            )}
-            action={(
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            )}
-            title={device.name}
-            subheader={formatStatus(device.status, t)}
-          />
+          <div className={classes.header}>
+            <Typography variant="body2" color="textSecondary">
+              {device.name}
+            </Typography>
+            <IconButton size="small" onClick={onClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </div>
           {position && (
-            <CardContent>
+            <CardContent className={classes.content}>
               <Table size="small" classes={{ root: classes.table }}>
                 <TableBody>
                   {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
