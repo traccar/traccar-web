@@ -36,6 +36,7 @@ import MapDirection from '../map/MapDirection';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
+import MapNotification from '../map/notification/MapNotification';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -217,6 +218,7 @@ const MainPage = () => {
       <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
+      <MapNotification />
       {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
       <Button
         variant="contained"

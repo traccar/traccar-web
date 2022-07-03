@@ -1,5 +1,4 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
-import '../switcher/switcher.css';
 import maplibregl from 'maplibre-gl';
 import React, {
   useRef, useLayoutEffect, useEffect, useState,

@@ -1,3 +1,5 @@
+import './switcher.css';
+
 export class SwitcherControl {
 
   constructor(onBeforeSwitch, onSwitch, onAfterSwitch) {
