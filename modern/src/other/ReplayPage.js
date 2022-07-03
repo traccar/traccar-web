@@ -6,7 +6,8 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SettingsIcon from '@mui/icons-material/Settings';
+import TuneIcon from '@mui/icons-material/Tune';
+import DownloadIcon from '@mui/icons-material/Download';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import FastForwardIcon from '@mui/icons-material/FastForward';
@@ -81,6 +82,8 @@ const ReplayPage = () => {
   const [positions, setPositions] = useState([]);
   const [index, setIndex] = useState(0);
   const [selectedDeviceId, setSelectedDeviceId] = useState(defaultDeviceId);
+  const [from, setFrom] = useState();
+  const [to, setTo] = useState();
   const [expanded, setExpanded] = useState(true);
   const [playing, setPlaying] = useState(false);
 
@@ -119,6 +122,8 @@ const ReplayPage = () => {
 
   const handleSubmit = useCatch(async ({ deviceId, from, to, headers }) => {
     setSelectedDeviceId(deviceId);
+    setFrom(from);
+    setTo(to);
     const query = new URLSearchParams({ deviceId, from, to });
     const response = await fetch(`/api/positions?${query.toString()}`, { headers });
     if (response.ok) {
@@ -130,6 +135,16 @@ const ReplayPage = () => {
       } else {
         throw Error(t('sharedNoData'));
       }
+    } else {
+      throw Error(await response.text());
+    }
+  });
+
+  const handleDownload = useCatch(async () => {
+    const query = new URLSearchParams({ deviceId: selectedDeviceId, from, to });
+    const response = await fetch(`/api/positions/kml?${query.toString()}`);
+    if (response.ok) {
+      window.location.assign(window.URL.createObjectURL(await response.blob()));
     } else {
       throw Error(await response.text());
     }
@@ -151,9 +166,14 @@ const ReplayPage = () => {
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
             {!expanded && (
-              <IconButton edge="end" onClick={() => setExpanded(true)}>
-                <SettingsIcon />
-              </IconButton>
+              <>
+                <IconButton onClick={handleDownload}>
+                  <DownloadIcon />
+                </IconButton>
+                <IconButton edge="end" onClick={() => setExpanded(true)}>
+                  <TuneIcon />
+                </IconButton>
+              </>
             )}
           </Toolbar>
         </Paper>
