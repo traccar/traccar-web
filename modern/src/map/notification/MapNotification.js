@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { map } from '../core/MapView';
 import './notification.css';
+
+const statusClass = (status) => `maplibregl-ctrl-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`;
 
 class NotificationControl {
   constructor(eventHandler) {
@@ -8,14 +10,14 @@ class NotificationControl {
   }
 
   onAdd() {
-    const button = document.createElement('button');
-    button.className = 'maplibregl-ctrl-icon maplibre-ctrl-notification';
-    button.type = 'button';
-    button.onclick = this.eventHandler;
+    this.button = document.createElement('button');
+    this.button.className = statusClass('off');
+    this.button.type = 'button';
+    this.button.onclick = () => this.eventHandler(this);
 
     this.container = document.createElement('div');
     this.container.className = 'maplibregl-ctrl-group maplibregl-ctrl';
-    this.container.appendChild(button);
+    this.container.appendChild(this.button);
 
     return this.container;
   }
@@ -23,14 +25,23 @@ class NotificationControl {
   onRemove() {
     this.container.parentNode.removeChild(this.container);
   }
+
+  setEnabled(enabled) {
+    this.button.className = statusClass(enabled ? 'on' : 'off');
+  }
 }
 
-const MapNotification = () => {
+const MapNotification = ({ enabled, onClick }) => {
+  const control = useMemo(() => new NotificationControl(onClick), [onClick]);
+
   useEffect(() => {
-    const control = new NotificationControl(() => {});
     map.addControl(control);
     return () => map.removeControl(control);
-  }, []);
+  }, [onClick]);
+
+  useEffect(() => {
+    control.setEnabled(enabled);
+  }, [enabled]);
 
   return null;
 };

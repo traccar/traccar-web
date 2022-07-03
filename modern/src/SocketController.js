@@ -10,6 +10,7 @@ import { snackBarDurationLongMs } from './common/util/duration';
 import usePersistedState from './common/util/usePersistedState';
 
 import alarm from './resources/alarm.mp3';
+import { eventsActions } from './store/events';
 
 const SocketController = () => {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const SocketController = () => {
         dispatch(positionsActions.update(data.positions));
       }
       if (data.events) {
+        dispatch(eventsActions.add(data.events));
         setEvents(data.events);
       }
     };

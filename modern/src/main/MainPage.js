@@ -37,6 +37,7 @@ import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapNotification from '../map/notification/MapNotification';
+import EventsDrawer from './EventsDrawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -164,17 +165,21 @@ const MainPage = () => {
   const filterRef = useRef();
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [devicesOpen, setDevicesOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false);
+
+  const eventHandler = useCallback(() => setEventsOpen(true), [setEventsOpen]);
+  const eventsAvailable = useSelector((state) => !!state.events.items.length);
 
   const handleClose = () => {
-    setCollapsed(!collapsed);
+    setDevicesOpen(!devicesOpen);
   };
 
-  useEffect(() => setCollapsed(!desktop), [desktop]);
+  useEffect(() => setDevicesOpen(desktop), [desktop]);
 
   useEffect(() => {
     if (!desktop && mapMapOnSelect && selectedDeviceId) {
-      setCollapsed(true);
+      setDevicesOpen(false);
     }
   }, [desktop, mapMapOnSelect, selectedDeviceId]);
 
@@ -218,7 +223,7 @@ const MainPage = () => {
       <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
-      <MapNotification />
+      <MapNotification enabled={eventsAvailable} onClick={eventHandler} />
       {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
       <Button
         variant="contained"
@@ -231,7 +236,7 @@ const MainPage = () => {
         <ListIcon />
         <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
       </Button>
-      <Paper square elevation={3} className={`${classes.sidebar} ${collapsed && classes.sidebarCollapsed}`}>
+      <Paper square elevation={3} className={`${classes.sidebar} ${!devicesOpen && classes.sidebarCollapsed}`}>
         <Paper square elevation={3} className={classes.toolbarContainer}>
           <Toolbar className={classes.toolbar} disableGutters>
             {!desktop && (
@@ -329,6 +334,7 @@ const MainPage = () => {
           <BottomMenu />
         </div>
       )}
+      <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
       {selectedDeviceId && (
         <div className={classes.statusCard}>
           <StatusCard
