@@ -160,6 +160,12 @@ export default () => {
       available: true,
     },
     {
+      id: 'ordnanceSurvey',
+      title: t('mapOrdnanceSurvey'),
+      style: 'https://api.os.uk/maps/vector/v1/vts/resources/styles?key=EAZ8p83u72FTGiLjLC2MsTAl1ko6XQHC',
+      available: true,
+    },
+    {
       id: 'mapboxStreets',
       title: t('mapMapboxStreets'),
       style: styleCustom(
