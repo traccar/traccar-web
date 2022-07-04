@@ -96,6 +96,7 @@
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",
     "attributeWebReportColor": "Web: Report Color",
     "attributeDevicePassword": "Device Password",
+    "attributeDeviceImage": "Device Image",
     "attributeDeviceInactivityStart": "Device Inactivity Start",
     "attributeDeviceInactivityPeriod": "Device Inactivity Period",
     "attributeProcessingCopyAttributes": "Processing: Copy Attributes",

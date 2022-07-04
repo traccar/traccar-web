@@ -13,6 +13,7 @@ import {
   TableCell,
   Menu,
   MenuItem,
+  CardMedia,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -95,6 +96,8 @@ const StatusCard = ({ deviceId, onClose }) => {
   const device = useSelector((state) => state.devices.items[deviceId]);
   const position = useSelector((state) => state.positions.items[deviceId]);
 
+  const deviceImage = device?.attributes?.deviceImage;
+
   const positionAttributes = usePositionAttributes(t);
   const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
@@ -118,6 +121,13 @@ const StatusCard = ({ deviceId, onClose }) => {
     <>
       {device && (
         <Card elevation={3} className={classes.card}>
+          {deviceImage && (
+            <CardMedia
+              component="img"
+              height={dimensions.popupImageHeight}
+              image={`/api/media/${device.uniqueId}/${deviceImage}`}
+            />
+          )}
           <div className={classes.header}>
             <Typography variant="body2" color="textSecondary">
               {device.name}
