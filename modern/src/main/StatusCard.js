@@ -26,7 +26,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import RemoveDialog from '../common/components/RemoveDialog';
 import PositionValue from '../common/components/PositionValue';
-import dimensions from '../common/theme/dimensions';
 import { useDeviceReadonly, useReadonly } from '../common/util/permissions';
 import usePersistedState from '../common/util/usePersistedState';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -35,16 +34,26 @@ import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: dimensions.popupMaxWidth,
+    width: theme.dimensions.popupMaxWidth,
+  },
+  media: {
+    height: theme.dimensions.popupImageHeight,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
+  },
+  mediaButton: {
+    color: theme.palette.colors.white,
+    mixBlendMode: 'difference',
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: theme.spacing(1, 1, 1, 2),
+    padding: theme.spacing(1, 1, 0, 2),
   },
   content: {
-    paddingTop: 0,
+    paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
   },
   negative: {
@@ -121,21 +130,25 @@ const StatusCard = ({ deviceId, onClose }) => {
     <>
       {device && (
         <Card elevation={3} className={classes.card}>
-          {deviceImage && (
+          {deviceImage ? (
             <CardMedia
-              component="img"
-              height={dimensions.popupImageHeight}
+              className={classes.media}
               image={`/api/media/${device.uniqueId}/${deviceImage}`}
-            />
+            >
+              <IconButton size="small" onClick={onClose}>
+                <CloseIcon fontSize="small" className={classes.mediaButton} />
+              </IconButton>
+            </CardMedia>
+          ) : (
+            <div className={classes.header}>
+              <Typography variant="body2" color="textSecondary">
+                {device.name}
+              </Typography>
+              <IconButton size="small" onClick={onClose}>
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </div>
           )}
-          <div className={classes.header}>
-            <Typography variant="body2" color="textSecondary">
-              {device.name}
-            </Typography>
-            <IconButton size="small" onClick={onClose}>
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </div>
           {position && (
             <CardContent className={classes.content}>
               <Table size="small" classes={{ root: classes.table }}>

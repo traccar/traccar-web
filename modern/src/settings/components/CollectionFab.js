@@ -4,7 +4,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { useReadonly } from '../../common/util/permissions';
-import dimensions from '../../common/theme/dimensions';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -12,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
     [theme.breakpoints.down('md')]: {
-      bottom: dimensions.bottomBarHeight + theme.spacing(2),
+      bottom: theme.dimensions.bottomBarHeight + theme.spacing(2),
     },
   },
 }));

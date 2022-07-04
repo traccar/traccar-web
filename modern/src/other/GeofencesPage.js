@@ -14,7 +14,6 @@ import MapCurrentLocation from '../map/MapCurrentLocation';
 import MapGeofenceEdit from '../map/MapGeofenceEdit';
 import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import dimensions from '../common/theme/dimensions';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import { errorsActions } from '../store';
 
@@ -36,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: 'relative',
     [theme.breakpoints.up('sm')]: {
-      width: dimensions.drawerWidthTablet,
+      width: theme.dimensions.drawerWidthTablet,
     },
     [theme.breakpoints.down('sm')]: {
-      height: dimensions.drawerHeightPhone,
+      height: theme.dimensions.drawerHeightPhone,
     },
   },
   mapContainer: {
