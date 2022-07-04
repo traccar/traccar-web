@@ -140,15 +140,10 @@ const ReplayPage = () => {
     }
   });
 
-  const handleDownload = useCatch(async () => {
+  const handleDownload = () => {
     const query = new URLSearchParams({ deviceId: selectedDeviceId, from, to });
-    const response = await fetch(`/api/positions/kml?${query.toString()}`);
-    if (response.ok) {
-      window.location.assign(window.URL.createObjectURL(await response.blob()));
-    } else {
-      throw Error(await response.text());
-    }
-  });
+    window.location.assign(`/api/positions/kml?${query.toString()}`);
+  };
 
   return (
     <div className={classes.root}>
