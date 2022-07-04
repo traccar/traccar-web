@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { DropzoneArea } from 'react-mui-dropzone';
 import EditItemView from './components/EditItemView';
 import EditAttributesView from './components/EditAttributesView';
 import SelectField from '../common/components/SelectField';
@@ -23,6 +24,8 @@ import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useFeatures from '../common/util/useFeatures';
+import components from '../common/theme/components';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -45,6 +48,20 @@ const DevicePage = () => {
   const features = useFeatures();
 
   const [item, setItem] = useState();
+
+  const handleFiles = useCatch(async (files) => {
+    if (files.length > 0) {
+      const response = await fetch(`/api/devices/${item.id}/image`, {
+        method: 'POST',
+        body: files[0],
+      });
+      if (response.ok) {
+        setItem({ ...item, attributes: { ...item.attributes, deviceImage: await response.text() } });
+      } else {
+        throw Error(await response.text());
+      }
+    }
+  });
 
   const validate = () => item && item.name && item.uniqueId;
 
@@ -124,6 +141,23 @@ const DevicePage = () => {
               )}
             </AccordionDetails>
           </Accordion>
+          {item.id && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('attributeDeviceImage')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <DropzoneArea
+                  acceptedFiles={['image/*']}
+                  filesLimit={1}
+                  onChange={handleFiles}
+                  alertSnackbarProps={components.MuiSnackbar.defaultProps}
+                />
+              </AccordionDetails>
+            </Accordion>
+          )}
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">
