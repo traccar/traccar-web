@@ -20,6 +20,7 @@ import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
+import MapMarkers from '../map/MapMarkers';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -50,6 +51,19 @@ const TripReportPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [route, setRoute] = useState(null);
+
+  const createMarkers = () => ([
+    {
+      latitude: selectedItem.startLat,
+      longitude: selectedItem.startLon,
+      color: 'negative',
+    },
+    {
+      latitude: selectedItem.endLat,
+      longitude: selectedItem.endLon,
+      color: 'positive',
+    },
+  ]);
 
   useEffectAsync(async () => {
     if (selectedItem) {
@@ -126,7 +140,12 @@ const TripReportPage = () => {
         {selectedItem && (
           <div className={classes.containerMap}>
             <MapView>
-              {route && <MapRoutePath positions={route} />}
+              {route && (
+                <>
+                  <MapRoutePath positions={route} />
+                  <MapMarkers markers={createMarkers()} />
+                </>
+              )}
             </MapView>
           </div>
         )}
