@@ -65,14 +65,14 @@ const PositionValue = ({ position, property, attribute }) => {
         <>
           {formatValue(value)}
           &nbsp;&nbsp;
-          {admin && (<Link component={RouterLink} to={`/settings/accumulators/${position.deviceId}`}>&#9881;</Link>)}
+          {admin && (<Link component={RouterLink} underline="none" to={`/settings/accumulators/${position.deviceId}`}>&#9881;</Link>)}
         </>
       );
     case 'address':
       return (<AddressValue latitude={position.latitude} longitude={position.longitude} originalAddress={value} />);
     case 'network':
       if (value) {
-        return (<Link component={RouterLink} to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
+        return (<Link component={RouterLink} underline="none" to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
       }
       return '';
     default:
