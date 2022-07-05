@@ -54,6 +54,30 @@ export const distanceFromMeters = (value, unit) => value * distanceConverter(uni
 
 export const distanceToMeters = (value, unit) => value / distanceConverter(unit);
 
+const altitudeConverter = (unit) => {
+  switch (unit) {
+    case 'ft':
+      return 3.28084;
+    case 'm':
+    default:
+      return 1;
+  }
+};
+
+export const altitudeUnitString = (unit, t) => {
+  switch (unit) {
+    case 'ft':
+      return t('sharedFeet');
+    case 'm':
+    default:
+      return t('sharedMeters');
+  }
+};
+
+export const altitudeFromMeters = (value, unit) => value * altitudeConverter(unit);
+
+export const altitudeToMeters = (value, unit) => value / altitudeConverter(unit);
+
 const volumeConverter = (unit) => {
   switch (unit) {
     case 'impGal':

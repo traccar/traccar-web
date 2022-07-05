@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import {
-  formatAlarm, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
+  formatAlarm, formatAltitude, formatBoolean, formatCoordinate, formatCourse, formatDistance, formatNumber, formatPercentage, formatSpeed, formatTime,
 } from '../util/formatter';
 import { useAttributePreference, usePreference } from '../util/preferences';
 import { useTranslation } from './LocalizationProvider';
@@ -18,6 +18,7 @@ const PositionValue = ({ position, property, attribute }) => {
   const value = property ? position[property] : position.attributes[attribute];
 
   const distanceUnit = useAttributePreference('distanceUnit');
+  const altitudeUnit = useAttributePreference('altitudeUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');
 
@@ -35,6 +36,8 @@ const PositionValue = ({ position, property, attribute }) => {
         return formatSpeed(value, speedUnit, t);
       case 'course':
         return formatCourse(value);
+      case 'altitude':
+        return formatAltitude(value, altitudeUnit, t);
       case 'batteryLevel':
         return formatPercentage(value);
       case 'alarm':

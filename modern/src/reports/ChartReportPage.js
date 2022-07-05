@@ -13,7 +13,9 @@ import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
-import { distanceFromMeters, speedFromKnots, volumeFromLiters } from '../common/util/converter';
+import {
+  altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
+} from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
 
 const ChartReportPage = () => {
@@ -23,6 +25,7 @@ const ChartReportPage = () => {
   const positionAttributes = usePositionAttributes(t);
 
   const distanceUnit = useAttributePreference('distanceUnit');
+  const altitudeUnit = useAttributePreference('altitudeUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
 
@@ -50,6 +53,9 @@ const ChartReportPage = () => {
             switch (definition.dataType) {
               case 'speed':
                 formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
+                break;
+              case 'altitude':
+                formatted[key] = altitudeFromMeters(value, altitudeUnit).toFixed(2);
                 break;
               case 'distance':
                 formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);

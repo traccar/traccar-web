@@ -1,6 +1,13 @@
 import moment from 'moment';
 import {
-  distanceFromMeters, distanceUnitString, speedFromKnots, speedUnitString, volumeFromLiters, volumeUnitString,
+  altitudeFromMeters,
+  altitudeUnitString,
+  distanceFromMeters,
+  distanceUnitString,
+  speedFromKnots,
+  speedUnitString,
+  volumeFromLiters,
+  volumeUnitString,
 } from './converter';
 import { prefixString } from './stringUtils';
 
@@ -25,6 +32,8 @@ export const formatCourse = (value) => {
 };
 
 export const formatDistance = (value, unit, t) => `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
+
+export const formatAltitude = (value, unit, t) => `${altitudeFromMeters(value, unit).toFixed(2)} ${altitudeUnitString(unit, t)}`;
 
 export const formatSpeed = (value, unit, t) => `${speedFromKnots(value, unit).toFixed(2)} ${speedUnitString(unit, t)}`;
 

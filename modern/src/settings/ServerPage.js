@@ -157,6 +157,17 @@ const ServerPage = () => {
                   </Select>
                 </FormControl>
                 <FormControl>
+                  <InputLabel>{t('settingsAltitudeUnit')}</InputLabel>
+                  <Select
+                    label={t('settingsAltitudeUnit')}
+                    value={item.attributes.altitudeUnit || 'm'}
+                    onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, altitudeUnit: e.target.value } })}
+                  >
+                    <MenuItem value="m">{t('sharedMeters')}</MenuItem>
+                    <MenuItem value="ft">{t('sharedFeet')}</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl>
                   <InputLabel>{t('settingsVolumeUnit')}</InputLabel>
                   <Select
                     label={t('settingsVolumeUnit')}
