@@ -57,7 +57,7 @@ export default () => {
       title: t('mapOsm'),
       style: styleCustom(
         ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-        '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        '© <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       ),
       available: true,
     },
@@ -74,7 +74,7 @@ export default () => {
       title: t('mapCarto'),
       style: styleCustom(
         ['a', 'b', 'c', 'd'].map((i) => `https://${i}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png`),
-        '© <a target="_top" rel="noopener" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
+        '© <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
       ),
       available: true,
     },
@@ -96,7 +96,7 @@ export default () => {
       id: 'bingRoad',
       title: t('mapBingRoad'),
       style: styleCustom(
-        [0, 1, 2, 3].map((i) => `http://ak.dynamic.t${i}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=G,L&shading=hill&og=1885&n=z`),
+        [0, 1, 2, 3].map((i) => `https://t${i}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=G,L&shading=hill&og=1885&n=z`),
       ),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
@@ -105,7 +105,7 @@ export default () => {
       id: 'bingAerial',
       title: t('mapBingAerial'),
       style: styleCustom(
-        [0, 1, 2, 3].map((i) => `http://ecn.t${i}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=12327`),
+        [0, 1, 2, 3].map((i) => `https://ecn.t${i}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=12327`),
       ),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
@@ -114,7 +114,7 @@ export default () => {
       id: 'bingHybrid',
       title: t('mapBingHybrid'),
       style: styleCustom(
-        [0, 1, 2, 3].map((i) => `http://ak.dynamic.t${i}.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z`),
+        [0, 1, 2, 3].map((i) => `https://t${i}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z`),
       ),
       available: !!bingMapsKey,
       attribute: 'bingMapsKey',
