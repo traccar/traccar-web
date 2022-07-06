@@ -20,7 +20,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
       deviceId: position.deviceId,
       name: device.name,
       category: device.category || 'default',
-      color: showStatus ? getStatusColor(device.status) : 'neutral',
+      color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
     };
   };
 
