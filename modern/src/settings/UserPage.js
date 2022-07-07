@@ -190,7 +190,7 @@ const UserPage = () => {
                 <InputLabel>{t('settingsAltitudeUnit')}</InputLabel>
                 <Select
                   label={t('settingsAltitudeUnit')}
-                  value={item.attributes.altitudeUnit || 'm'}
+                  value={(item.attributes && item.attributes.altitudeUnit) || 'm'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, altitudeUnit: e.target.value } })}
                 >
                   <MenuItem value="m">{t('sharedMeters')}</MenuItem>
