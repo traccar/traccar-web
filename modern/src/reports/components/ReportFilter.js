@@ -24,7 +24,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
 
   const disabled = !ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length;
 
-  const handleClick = (mail, json) => {
+  const handleClick = (type) => {
     let selectedFrom;
     let selectedTo;
     switch (period) {
@@ -58,15 +58,13 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
         break;
     }
 
-    const accept = json ? 'application/json' : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     handleSubmit({
       deviceId,
       deviceIds,
       groupIds,
       from: selectedFrom.toISOString(),
       to: selectedTo.toISOString(),
-      mail,
-      headers: { Accept: accept },
+      type,
     });
   };
 
@@ -145,7 +143,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
       {children}
       <div className={classes.filterButtons}>
         <Button
-          onClick={() => handleClick(false, true)}
+          onClick={() => handleClick('json')}
           variant="outlined"
           color="secondary"
           className={classes.filterButton}
@@ -155,7 +153,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
         </Button>
         {!showOnly && (
           <Button
-            onClick={() => handleClick(false, false)}
+            onClick={() => handleClick('export')}
             variant="outlined"
             color="secondary"
             className={classes.filterButton}
@@ -166,7 +164,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
         )}
         {!showOnly && (
           <Button
-            onClick={() => handleClick(true, false)}
+            onClick={() => handleClick('mail')}
             variant="outlined"
             color="secondary"
             className={classes.filterButton}

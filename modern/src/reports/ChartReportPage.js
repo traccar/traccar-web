@@ -37,9 +37,11 @@ const ChartReportPage = () => {
   const maxValue = Math.max(...values);
   const valueRange = maxValue - minValue;
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
-    const query = new URLSearchParams({ deviceId, from, to, mail });
-    const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
+  const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
+    const query = new URLSearchParams({ deviceId, from, to });
+    const response = await fetch(`/api/reports/route?${query.toString()}`, {
+      headers: { Accept: 'application/json' },
+    });
     if (response.ok) {
       const positions = await response.json();
       const formattedPositions = positions.map((position) => {

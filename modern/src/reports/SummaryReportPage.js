@@ -45,27 +45,31 @@ const SummaryReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, mail, headers }) => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ from, to, daily, mail });
-      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-      groupIds.forEach((groupId) => query.append('groupId', groupId));
-      const response = await fetch(`/api/reports/summary?${query.toString()}`, { headers });
-      if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType) {
-          if (contentType === 'application/json') {
-            setItems(await response.json());
-          } else {
-            window.location.assign(window.URL.createObjectURL(await response.blob()));
-          }
-        }
-      } else {
+  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
+    const query = new URLSearchParams({ from, to, daily });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
+    if (type === 'export') {
+      window.location.assign(`/api/reports/summary/xlsx?${query.toString()}`);
+    } else if (type === 'mail') {
+      const response = await fetch(`/api/reports/summary/mail?${query.toString()}`);
+      if (!response.ok) {
         throw Error(await response.text());
       }
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/reports/summary?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (response.ok) {
+          setItems(await response.json());
+        } else {
+          throw Error(await response.text());
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   });
 

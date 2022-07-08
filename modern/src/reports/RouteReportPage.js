@@ -30,25 +30,29 @@ const RouteReportPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ deviceId, from, to, mail });
-      const response = await fetch(`/api/reports/route?${query.toString()}`, { headers });
-      if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType) {
-          if (contentType === 'application/json') {
-            setItems(await response.json());
-          } else {
-            window.location.assign(window.URL.createObjectURL(await response.blob()));
-          }
-        }
-      } else {
+  const handleSubmit = useCatch(async ({ deviceId, from, to, type }) => {
+    const query = new URLSearchParams({ deviceId, from, to });
+    if (type === 'export') {
+      window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
+    } else if (type === 'mail') {
+      const response = await fetch(`/api/reports/route/mail?${query.toString()}`);
+      if (!response.ok) {
         throw Error(await response.text());
       }
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/reports/route?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (response.ok) {
+          setItems(await response.json());
+        } else {
+          throw Error(await response.text());
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   });
 

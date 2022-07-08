@@ -56,26 +56,30 @@ const EventReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to, mail, headers }) => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ deviceId, from, to, mail });
-      eventTypes.forEach((it) => query.append('type', it));
-      const response = await fetch(`/api/reports/events?${query.toString()}`, { headers });
-      if (response.ok) {
-        const contentType = response.headers.get('content-type');
-        if (contentType) {
-          if (contentType === 'application/json') {
-            setItems(await response.json());
-          } else {
-            window.location.assign(window.URL.createObjectURL(await response.blob()));
-          }
-        }
-      } else {
+  const handleSubmit = useCatch(async ({ deviceId, from, to, type }) => {
+    const query = new URLSearchParams({ deviceId, from, to });
+    eventTypes.forEach((it) => query.append('type', it));
+    if (type === 'export') {
+      window.location.assign(`/api/reports/events/xlsx?${query.toString()}`);
+    } else if (type === 'mail') {
+      const response = await fetch(`/api/reports/events/mail?${query.toString()}`);
+      if (!response.ok) {
         throw Error(await response.text());
       }
-    } finally {
-      setLoading(false);
+    } else {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/reports/events?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        if (response.ok) {
+          setItems(await response.json());
+        } else {
+          throw Error(await response.text());
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   });
 
