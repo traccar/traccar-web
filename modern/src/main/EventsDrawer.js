@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Button, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, Typography,
+  Drawer, IconButton, List, ListItem, ListItemText, Toolbar, Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,7 +12,11 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: theme.dimensions.eventsDrawerWidth,
   },
-  header: {
+  toolbar: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+  },
+  title: {
     flexGrow: 1,
   },
 }));
@@ -30,13 +34,13 @@ const EventsDrawer = ({ open, onClose }) => {
       open={open}
       onClose={onClose}
     >
-      <Toolbar>
-        <Typography variant="h6" className={classes.header}>
+      <Toolbar className={classes.toolbar} disableGutters>
+        <Typography variant="h6" className={classes.title}>
           {t('reportEvents')}
         </Typography>
-        <Button color="inherit" onClick={() => dispatch(eventsActions.deleteAll())}>
-          {t('reportClear')}
-        </Button>
+        <IconButton size="small" color="inherit" onClick={() => dispatch(eventsActions.deleteAll())}>
+          <DeleteIcon fontSize="small" />
+        </IconButton>
       </Toolbar>
       <List className={classes.drawer} dense>
         {events.map((event) => (
