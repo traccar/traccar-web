@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
     [theme.breakpoints.down('md')]: {
-      bottom: theme.dimensions.bottomBarHeight + theme.spacing(2),
+      bottom: `calc(${theme.dimensions.bottomBarHeight}px + ${theme.spacing(2)})`,
     },
   },
 }));
