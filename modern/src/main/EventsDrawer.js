@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Drawer, IconButton, List, ListItem, ListItemText, Toolbar, Typography,
+  Button, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -34,9 +34,9 @@ const EventsDrawer = ({ open, onClose }) => {
         <Typography variant="h6" className={classes.header}>
           {t('reportEvents')}
         </Typography>
-        <IconButton color="inherit" edge="end" onClick={() => dispatch(eventsActions.deleteAll())}>
-          <DeleteIcon />
-        </IconButton>
+        <Button color="inherit" onClick={() => dispatch(eventsActions.deleteAll())}>
+          {t('reportClear')}
+        </Button>
       </Toolbar>
       <List className={classes.drawer} dense>
         {events.map((event) => (
