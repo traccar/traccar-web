@@ -41,6 +41,7 @@
         'az': { name: 'Azərbaycanca', code: 'en' },
         'bg': { name: 'Български', code: 'bg' },
         'bn': { name: 'বাংলা', code: 'en' },
+        'ca': { name: 'Català', code: 'en' },
         'cs': { name: 'Čeština', code: 'cs' },
         'de': { name: 'Deutsch', code: 'de' },
         'da': { name: 'Dansk', code: 'da' },

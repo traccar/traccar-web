@@ -10,6 +10,7 @@ import ar from '../../resources/l10n/ar.json';
 import az from '../../resources/l10n/az.json';
 import bg from '../../resources/l10n/bg.json';
 import bn from '../../resources/l10n/bn.json';
+import ca from '../../resources/l10n/ca.json';
 import cs from '../../resources/l10n/cs.json';
 import da from '../../resources/l10n/da.json';
 import de from '../../resources/l10n/de.json';
@@ -67,6 +68,7 @@ const languages = {
   az: { data: az, name: 'Azərbaycanca' },
   bg: { data: bg, name: 'Български' },
   bn: { data: bn, name: 'বাংলা' },
+  ca: { data: ca, name: 'Català' },
   cs: { data: cs, name: 'Čeština' },
   de: { data: de, name: 'Deutsch' },
   da: { data: da, name: 'Dansk' },
