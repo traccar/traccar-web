@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import {
@@ -155,6 +155,15 @@ const DevicesList = ({ devices }) => {
   if (listInnerEl.current) {
     listInnerEl.current.className = classes.listInner;
   }
+
+  const [, setTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 60000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffectAsync(async () => {
     const response = await fetch('/api/devices');
