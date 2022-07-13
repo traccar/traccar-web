@@ -23,12 +23,6 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'locationIqStreets',
         name: Strings.mapLocationIqStreets
     }, {
-        key: 'locationIqEarth',
-        name: Strings.mapLocationIqEarth
-    }, {
-        key: 'locationIqHybrid',
-        name: Strings.mapLocationIqHybrid
-    }, {
         key: 'osm',
         name: Strings.mapOsm
     }, {

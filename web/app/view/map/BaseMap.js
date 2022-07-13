@@ -130,24 +130,6 @@ Ext.define('Traccar.view.map.BaseMap', {
                     source: new ol.source.OSM({})
                 }),
                 new ol.layer.Tile({
-                    title: Strings.mapLocationIqHybrid,
-                    type: 'base',
-                    visible: type === 'locationIqHybrid',
-                    source: new ol.source.XYZ({
-                        url: 'https://{a-c}-tiles.locationiq.com/v3/hybrid/r/{z}/{x}/{y}.jpg?key=' + locationIqKey,
-                        attributions: '&copy; <a href="https://locationiq.com/">LocationIQ</a>'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapLocationIqEarth,
-                    type: 'base',
-                    visible: type === 'locationIqEarth',
-                    source: new ol.source.XYZ({
-                        url: 'https://{a-c}-tiles.locationiq.com/v3/earth/r/{z}/{x}/{y}.jpg?key=' + locationIqKey,
-                        attributions: '&copy; <a href="https://locationiq.com/">LocationIQ</a>'
-                    })
-                }),
-                new ol.layer.Tile({
                     title: Strings.mapLocationIqStreets,
                     type: 'base',
                     visible: type === 'locationIqStreets' || type === 'wikimedia' || !type,

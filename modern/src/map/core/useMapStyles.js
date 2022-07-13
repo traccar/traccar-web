@@ -39,20 +39,6 @@ export default () => {
       available: true,
     },
     {
-      id: 'locationIqEarth',
-      title: t('mapLocationIqEarth'),
-      style: `https://tiles.locationiq.com/v3/earth/vector.json?key=${locationIqKey}`,
-      available: !!locationIqKey,
-      attribute: 'locationIqKey',
-    },
-    {
-      id: 'locationIqHybrid',
-      title: t('mapLocationIqHybrid'),
-      style: `https://tiles.locationiq.com/v3/hybrid/vector.json?key=${locationIqKey}`,
-      available: !!locationIqKey,
-      attribute: 'locationIqKey',
-    },
-    {
       id: 'osm',
       title: t('mapOsm'),
       style: styleCustom(

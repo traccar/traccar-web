@@ -298,8 +298,6 @@
     "mapMapTilerHybrid": "MapTiler Hybrid",
     "mapMapTilerKey": "MapTiler API Key",
     "mapLocationIqStreets": "LocationIQ Streets",
-    "mapLocationIqEarth": "LocationIQ Earth",
-    "mapLocationIqHybrid": "LocationIQ Hybrid",
     "mapLocationIqKey": "LocationIQ Access Token",
     "mapTomTomBasic": "TomTom Basic",
     "mapTomTomFlow": "TomTom Traffic Flow",
