@@ -17,7 +17,7 @@ jobs:
     - name: Update translations
       env:
         TRANSIFEX_TOKEN: ${{ secrets.TRANSIFEX_TOKEN }}
-      run: ./tools/translate.sh -t "$TRANSIFEX_TOKEN"
+      run: ./tools/translate.py -t "$TRANSIFEX_TOKEN"
     - name: Commit changes
       run: |
         git config --global user.name 'Traccar Bot'
