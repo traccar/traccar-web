@@ -15,7 +15,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { prefixString } from '../common/util/stringUtils';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from './components/EditAttributesView';
+import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useAttributePreference } from '../common/util/preferences';
 import {
   speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
@@ -164,20 +164,11 @@ const MaintenancePage = () => {
               />
             </AccordionDetails>
           </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedAttributes')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.details}>
-              <EditAttributesView
-                attributes={item.attributes}
-                setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={{}}
-              />
-            </AccordionDetails>
-          </Accordion>
+          <EditAttributesAccordion
+            attributes={item.attributes}
+            setAttributes={(attributes) => setItem({ ...item, attributes })}
+            definitions={{}}
+          />
         </>
       )}
     </EditItemView>

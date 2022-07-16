@@ -16,6 +16,7 @@ const get = (server, user, key) => {
 export default () => useSelector((state) => {
   const { server, user } = state.session;
 
+  const disableAttributes = get(server, user, 'ui.disableAttributes');
   const disableVehicleFetures = get(server, user, 'ui.disableVehicleFetures');
   const disableDrivers = disableVehicleFetures || get(server, user, 'ui.disableDrivers');
   const disableMaintenance = disableVehicleFetures || get(server, user, 'ui.disableMaintenance');
@@ -25,6 +26,7 @@ export default () => useSelector((state) => {
   const disableCalendars = get(server, user, 'ui.disableCalendars');
 
   return {
+    disableAttributes,
     disableDrivers,
     disableMaintenance,
     disableGroups,

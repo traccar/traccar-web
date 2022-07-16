@@ -13,7 +13,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DropzoneArea } from 'react-mui-dropzone';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from './components/EditAttributesView';
+import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
 import deviceCategories from '../common/util/deviceCategories';
 import LinkField from '../common/components/LinkField';
@@ -158,20 +158,11 @@ const DevicePage = () => {
               </AccordionDetails>
             </Accordion>
           )}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedAttributes')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.details}>
-              <EditAttributesView
-                attributes={item.attributes}
-                setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={{ ...commonDeviceAttributes, ...deviceAttributes }}
-              />
-            </AccordionDetails>
-          </Accordion>
+          <EditAttributesAccordion
+            attributes={item.attributes}
+            setAttributes={(attributes) => setItem({ ...item, attributes })}
+            definitions={{ ...commonDeviceAttributes, ...deviceAttributes }}
+          />
           {item.id && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>

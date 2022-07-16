@@ -23,7 +23,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from './components/EditAttributesView';
+import EditAttributesAccordion from './components/EditAttributesAccordion';
 import LinkField from '../common/components/LinkField';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useUserAttributes from '../common/attributes/useUserAttributes';
@@ -314,21 +314,12 @@ const UserPage = () => {
               </FormGroup>
             </AccordionDetails>
           </Accordion>
-          <Accordion defaultExpanded={!!attribute}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedAttributes')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.details}>
-              <EditAttributesView
-                attributes={item.attributes}
-                setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={{ ...commonUserAttributes, ...userAttributes }}
-                focusAttribute={attribute}
-              />
-            </AccordionDetails>
-          </Accordion>
+          <EditAttributesAccordion
+            attributes={item.attributes}
+            setAttributes={(attributes) => setItem({ ...item, attributes })}
+            definitions={{ ...commonUserAttributes, ...userAttributes }}
+            focusAttribute={attribute}
+          />
           {item.id && manager && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -21,7 +21,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { sessionActions } from '../store';
-import EditAttributesView from './components/EditAttributesView';
+import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SelectField from '../common/components/SelectField';
 import PageLayout from '../common/components/PageLayout';
@@ -241,20 +241,11 @@ const ServerPage = () => {
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">
-                  {t('sharedAttributes')}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails className={classes.details}>
-                <EditAttributesView
-                  attributes={item.attributes}
-                  setAttributes={(attributes) => setItem({ ...item, attributes })}
-                  definitions={{ ...commonUserAttributes, ...commonDeviceAttributes, ...serverAttributes }}
-                />
-              </AccordionDetails>
-            </Accordion>
+            <EditAttributesAccordion
+              attributes={item.attributes}
+              setAttributes={(attributes) => setItem({ ...item, attributes })}
+              definitions={{ ...commonUserAttributes, ...commonDeviceAttributes, ...serverAttributes }}
+            />
           </>
         )}
         <div className={classes.buttons}>

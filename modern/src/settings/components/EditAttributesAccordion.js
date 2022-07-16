@@ -10,26 +10,40 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Accordion,
+  AccordionSummary,
+  Typography,
+  AccordionDetails,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
 import {
   distanceFromMeters, distanceToMeters, distanceUnitString, speedFromKnots, speedToKnots, speedUnitString, volumeFromLiters, volumeToLiters, volumeUnitString,
 } from '../../common/util/converter';
+import useFeatures from '../../common/util/useFeatures';
 
 const useStyles = makeStyles((theme) => ({
   removeButton: {
     marginRight: theme.spacing(1.5),
   },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+  },
 }));
 
-const EditAttributesView = ({ attributes, setAttributes, definitions, focusAttribute }) => {
+const EditAttributesAccordion = ({ attributes, setAttributes, definitions, focusAttribute }) => {
   const classes = useStyles();
   const t = useTranslation();
+
+  const features = useFeatures();
 
   const speedUnit = useAttributePreference('speedUnit');
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -145,64 +159,71 @@ const EditAttributesView = ({ attributes, setAttributes, definitions, focusAttri
     }
   };
 
-  return (
-    <>
-      {convertToList(attributes).map(({
-        key, value, type, subtype,
-      }) => {
-        if (type === 'boolean') {
+  return features.disableAttributes ? '' : (
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="subtitle1">
+          {t('sharedAttributes')}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails className={classes.details}>
+        {convertToList(attributes).map(({
+          key, value, type, subtype,
+        }) => {
+          if (type === 'boolean') {
+            return (
+              <Grid container direction="row" justifyContent="space-between" key={key}>
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={value}
+                      onChange={(e) => updateAttribute(key, e.target.checked)}
+                    />
+                  )}
+                  label={getAttributeName(key, subtype)}
+                />
+                <IconButton size="small" className={classes.removeButton} onClick={() => deleteAttribute(key)}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </Grid>
+            );
+          }
           return (
-            <Grid container direction="row" justifyContent="space-between" key={key}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={value}
-                    onChange={(e) => updateAttribute(key, e.target.checked)}
-                  />
-                )}
+            <FormControl key={key}>
+              <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
+              <OutlinedInput
                 label={getAttributeName(key, subtype)}
+                type={type === 'number' ? 'number' : 'text'}
+                value={getDisplayValue(value, subtype)}
+                onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
+                autoFocus={focusAttribute === key}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton size="small" onClick={() => deleteAttribute(key)}>
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </InputAdornment>
+                )}
               />
-              <IconButton size="small" className={classes.removeButton} onClick={() => deleteAttribute(key)}>
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </Grid>
+            </FormControl>
           );
-        }
-        return (
-          <FormControl key={key}>
-            <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
-            <OutlinedInput
-              label={getAttributeName(key, subtype)}
-              type={type === 'number' ? 'number' : 'text'}
-              value={getDisplayValue(value, subtype)}
-              onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
-              autoFocus={focusAttribute === key}
-              endAdornment={(
-                <InputAdornment position="end">
-                  <IconButton size="small" onClick={() => deleteAttribute(key)}>
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </InputAdornment>
-              )}
-            />
-          </FormControl>
-        );
-      })}
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={() => setAddDialogShown(true)}
-        startIcon={<AddIcon />}
-      >
-        {t('sharedAdd')}
-      </Button>
-      <AddAttributeDialog
-        open={addDialogShown}
-        onResult={handleAddResult}
-        definitions={definitions}
-      />
-    </>
+        })}
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setAddDialogShown(true)}
+          startIcon={<AddIcon />}
+        >
+          {t('sharedAdd')}
+        </Button>
+        <AddAttributeDialog
+          open={addDialogShown}
+          onResult={handleAddResult}
+          definitions={definitions}
+        />
+      </AccordionDetails>
+    </Accordion>
   );
 };
 
-export default EditAttributesView;
+export default EditAttributesAccordion;

@@ -7,7 +7,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
-import EditAttributesView from './components/EditAttributesView';
+import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
 import SettingsMenu from './components/SettingsMenu';
@@ -77,20 +77,11 @@ const GeofencePage = () => {
               />
             </AccordionDetails>
           </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedAttributes')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.details}>
-              <EditAttributesView
-                attributes={item.attributes}
-                setAttributes={(attributes) => setItem({ ...item, attributes })}
-                definitions={geofenceAttributes}
-              />
-            </AccordionDetails>
-          </Accordion>
+          <EditAttributesAccordion
+            attributes={item.attributes}
+            setAttributes={(attributes) => setItem({ ...item, attributes })}
+            definitions={geofenceAttributes}
+          />
         </>
       )}
     </EditItemView>
