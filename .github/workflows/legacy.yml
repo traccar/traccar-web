@@ -1,4 +1,4 @@
-name: New App Lint
+name: Legacy App Lint
 
 on:
   push:
@@ -16,8 +16,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         cache: npm
-        cache-dependency-path: modern/package-lock.json
-    - run: npm ci
-      working-directory: modern
+        cache-dependency-path: package-lock.json
+    - run: npm ci --ignore-scripts
     - run: npm run lint
-      working-directory: modern
