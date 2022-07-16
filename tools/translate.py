@@ -1,7 +1,5 @@
 #!/usr/local/bin/python3
 
-# pip3 install --upgrade transifex-python
-
 import os
 import optparse
 import requests

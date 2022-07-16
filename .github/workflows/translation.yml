@@ -1,0 +1,30 @@
+name: Update Translations
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - run: pip install transifex-python
+    - name: Update translations
+      env:
+        TRANSIFEX_TOKEN: ${{ secrets.TRANSIFEX_TOKEN }}
+      run: ./tools/translate.sh -t "$TRANSIFEX_TOKEN"
+    - name: Commit changes
+      run: |
+        git config --global user.name 'Traccar Bot'
+        git config --global user.email 'support@traccar.org'
+        git commit -am "Update localization files"
+        git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+        git push
