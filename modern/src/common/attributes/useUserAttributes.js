@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
+  telegramChatId: {
+    name: t('attributeTelegramChatId'),
+    type: 'string',
+  },
   'mail.smtp.host': {
     name: t('attributeMailSmtpHost'),
     type: 'string',
