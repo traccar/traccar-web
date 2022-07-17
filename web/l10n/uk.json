@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Веб: Довжина онлайн маршруту",
     "attributeWebSelectZoom": "Веб: Збільшення при виборі",
     "attributeWebMaxZoom": "Веб: Максимальне збільшення",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Пошта: SMTP хост",
     "attributeMailSmtpPort": "Пошта: SMTP порт",
     "attributeMailSmtpStarttlsEnable": "Пошта: увімкнути SMTP STARTTLS",

@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Ιστός: Μήκος Ζωντανής Διαδρομής",
     "attributeWebSelectZoom": "Ιστός: Επιλογή μεγέθυνσης",
     "attributeWebMaxZoom": "Διαδίκτυο: Μέγιστη Μεγέθυνση",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Αλληλογραφία: Εξυπηρετητής SMTP",
     "attributeMailSmtpPort": "Αλληλογραφία: Θύρα SMTP",
     "attributeMailSmtpStarttlsEnable": "Αλληλογραφία: Ενεργοποίηση SMTP STARTLLS",

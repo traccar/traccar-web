@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "वेब: प्रत्यक्ष मार्ग लम्बाई",
     "attributeWebSelectZoom": "Web: Zoom On Select",
     "attributeWebMaxZoom": "Web: Maximum Zoom",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Mail: SMTP Host",
     "attributeMailSmtpPort": "Mail: SMTP Port",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS Enable",

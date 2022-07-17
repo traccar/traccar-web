@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: ცოცხალი მარშრუტის სიგრძე",
     "attributeWebSelectZoom": "Web: მასშტაბის არჩევა",
     "attributeWebMaxZoom": "Web: მაქსიმალური ზუმი",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Mail: SMTP ჰოსტი",
     "attributeMailSmtpPort": "Mail: SMTP პორტი",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS ჩართვა",

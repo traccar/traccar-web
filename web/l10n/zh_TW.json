@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "網頁：即時路長",
     "attributeWebSelectZoom": "網頁：選擇縮放等級",
     "attributeWebMaxZoom": "Web: Maximum Zoom",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "電子郵件：SMTP 主機",
     "attributeMailSmtpPort": "電子郵件：SMTP 埠口",
     "attributeMailSmtpStarttlsEnable": "電子郵件：啟用 SMTP STARTTLS",

@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: Aktuální délka trasy",
     "attributeWebSelectZoom": "Web: Přiblížit při výběru",
     "attributeWebMaxZoom": "Web: Maximální přiblížení",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Mail: SMTP server",
     "attributeMailSmtpPort": "Mail: SMTP port",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS povolit",

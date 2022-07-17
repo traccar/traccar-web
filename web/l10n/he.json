@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "ממשק : אורך מסלול זמן אמת",
     "attributeWebSelectZoom": "אתר : בחר הפעלת זום",
     "attributeWebMaxZoom": "אתר :  זום מקסימלי",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "כתובת שרת דואר SMTP",
     "attributeMailSmtpPort": "שרת דואר: פורט גישה ",
     "attributeMailSmtpStarttlsEnable": "אפשר מייל מאובטח באמצעות TLS",

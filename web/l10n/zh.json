@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "页面：活动路径长度",
     "attributeWebSelectZoom": "页面：放大所选择的",
     "attributeWebMaxZoom": "放大至最大",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "邮件：SMTP主机",
     "attributeMailSmtpPort": "邮件：SMTP端口",
     "attributeMailSmtpStarttlsEnable": "邮件：SMTP STARTTLS开启",

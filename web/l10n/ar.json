@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "الويب: طول العرض المباشر للمسار",
     "attributeWebSelectZoom": "الويب: التقريب عند التحديد",
     "attributeWebMaxZoom": "ويب: التكبير الأقصى",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "البريد: مستضيف الـ SMTP",
     "attributeMailSmtpPort": "البريد: منفذ الـ SMTP",
     "attributeMailSmtpStarttlsEnable": "البريد:  تمكين SMTP SSL",

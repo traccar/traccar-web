@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: Tiesioginio maršruto ilgis",
     "attributeWebSelectZoom": "Web: Išdidinti pažymėjus",
     "attributeWebMaxZoom": "Web: Maximalus išdidinimas",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Mail: SMTP adresas",
     "attributeMailSmtpPort": "Mail: SMTP prievadas",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS įjungtas",

@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: Élő útvonal hossz",
     "attributeWebSelectZoom": "Web: közelítés a kiválasztáson",
     "attributeWebMaxZoom": "Web: Maximális Zoom",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "SMTP kiszolgáló",
     "attributeMailSmtpPort": "SMTP port",
     "attributeMailSmtpStarttlsEnable": "SMTP STARTTLS engedélyezése",

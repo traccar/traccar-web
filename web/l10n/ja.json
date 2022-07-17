@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: リアルタイム経路長",
     "attributeWebSelectZoom": "Web: 選択時にズーム",
     "attributeWebMaxZoom": "Web: 最大化",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "メール: SMTP ホスト",
     "attributeMailSmtpPort": "メール: SMTP ポート",
     "attributeMailSmtpStarttlsEnable": "メール: SMTP STARTTLS 有効",

@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: Live-reitin pituus",
     "attributeWebSelectZoom": "Web: Lähennys valittaessa",
     "attributeWebMaxZoom": "Web: Suurin lähennys",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Email: SMTP-isäntäpalvelin",
     "attributeMailSmtpPort": "Email: SMTP-portti",
     "attributeMailSmtpStarttlsEnable": "Email: SMTP STARTTLS:n aktivointi",

@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "වෙබ්: සජීවී මාර්ග දිග",
     "attributeWebSelectZoom": "වෙබ්: විශාලනය කරන්න තෝරන්න",
     "attributeWebMaxZoom": "වියමන: උපරිම විශාලනය",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "තැපෑල: ස.තැ.මා.කේ. සත්කාරකය",
     "attributeMailSmtpPort": "තැපෑල: ස.තැ.මා.කේ. කෙවෙනිය",
     "attributeMailSmtpStarttlsEnable": "තැපෑල: SMTP STARTTLS සබල කරන්න",

@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "வலை : வாகன துரித பயண விபரம் ",
     "attributeWebSelectZoom": "வலை: பெரிதாக்கு தேர்வு",
     "attributeWebMaxZoom": "வலை: அதிகபட்ச பெரிதாக்கு",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "அஞ்சல்: SMTP புரவலன்",
     "attributeMailSmtpPort": "அஞ்சல்: SMTP போர்ட்",
     "attributeMailSmtpStarttlsEnable": "அஞ்சல்: SMTP STARTTLS இயக்கு",

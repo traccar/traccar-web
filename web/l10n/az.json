@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Veb: Onlayn marşrutun uzunluğu",
     "attributeWebSelectZoom": "Veb: Seçim zamanı böyütmə",
     "attributeWebMaxZoom": "Veb: Maksimum böyütmə",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Poçt: SMTP Hostu",
     "attributeMailSmtpPort": "Poçt: SMTP Portu",
     "attributeMailSmtpStarttlsEnable": "Poçt: SMTP STARTTLS-i aktiv etmək",

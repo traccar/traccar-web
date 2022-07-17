@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: Dužina rute",
     "attributeWebSelectZoom": "Web:Zumiraj izabrano",
     "attributeWebMaxZoom": "Web: Maksimalno uvećanje",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Mail: SMTP host",
     "attributeMailSmtpPort": "Mail: SMTP port",
     "attributeMailSmtpStarttlsEnable": "Mail: SMTP STARTTLS Enable",

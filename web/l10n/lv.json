@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Web: Reāllaika Ceļa Garums",
     "attributeWebSelectZoom": "Web: Palielināt Iezīmēto",
     "attributeWebMaxZoom": "Web: Maksimālais zooms",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "E-pasts: SMTP adrese ",
     "attributeMailSmtpPort": "E-pasts: SMTP Ports",
     "attributeMailSmtpStarttlsEnable": "E-pasts: Ieslēgt SMTP STARTTLS",

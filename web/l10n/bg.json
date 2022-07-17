@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "Дължина на дирята",
     "attributeWebSelectZoom": "Приближи избраното",
     "attributeWebMaxZoom": "Максимално приближение",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "Поща: SMTP хост",
     "attributeMailSmtpPort": "Поща: SMTP порт",
     "attributeMailSmtpStarttlsEnable": "Поща: SMTP STARTTLS активирай",

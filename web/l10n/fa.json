@@ -106,6 +106,7 @@
     "attributeWebLiveRouteLength": "وب : طول جاده آنلاین",
     "attributeWebSelectZoom": "وب : زوم با انتخاب",
     "attributeWebMaxZoom": "بیشترین زوم",
+    "attributeTelegramChatId": "Telegram Chat ID",
     "attributeMailSmtpHost": "ایمیل : هاست SMTP",
     "attributeMailSmtpPort": "ایمیل : پورت SMTP",
     "attributeMailSmtpStarttlsEnable": "ایمیل : SMTP STARTTLS فعال",
