@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Accordion,
   AccordionSummary,
@@ -16,10 +16,12 @@ import {
   OutlinedInput,
   FormGroup,
   TextField,
+  Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CachedIcon from '@mui/icons-material/Cached';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import EditItemView from './components/EditItemView';
@@ -34,6 +36,7 @@ import useCommonUserAttributes from '../common/attributes/useCommonUserAttribute
 import { useAdministrator, useManager } from '../common/util/permissions';
 import { prefixString } from '../common/util/stringUtils';
 import useQuery from '../common/util/useQuery';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -46,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -59,6 +63,24 @@ const UserPage = () => {
 
   const { id } = useParams();
   const [item, setItem] = useState(id === currentUser.id.toString() ? currentUser : null);
+
+  const [deleteEmail, setDeleteEmail] = useState();
+  const [deleteFailed, setDeleteFailed] = useState(false);
+
+  const handleDelete = useCatch(async () => {
+    if (deleteEmail === currentUser.email) {
+      setDeleteFailed(false);
+      const response = await fetch(`/api/users/${currentUser.id}`, { method: 'DELETE' });
+      if (response.ok) {
+        navigate('/login');
+        dispatch(sessionActions.updateUser(null));
+      } else {
+        throw Error(await response.text());
+      }
+    } else {
+      setDeleteFailed(true);
+    }
+  });
 
   const query = useQuery();
   const [queryHandled, setQueryHandled] = useState(false);
@@ -320,7 +342,32 @@ const UserPage = () => {
             definitions={{ ...commonUserAttributes, ...userAttributes }}
             focusAttribute={attribute}
           />
-          {item.id && manager && (
+          {item.id === currentUser.id && (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1" color="error">
+                  {t('userDeleteAccount')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <TextField
+                  value={deleteEmail}
+                  onChange={(event) => setDeleteEmail(event.target.value)}
+                  label={t('userEmail')}
+                  error={deleteFailed}
+                />
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDelete}
+                  startIcon={<DeleteForeverIcon />}
+                >
+                  {t('userDeleteAccount')}
+                </Button>
+              </AccordionDetails>
+            </Accordion>
+          )}
+          {item.id && item.id !== currentUser.id && manager && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">

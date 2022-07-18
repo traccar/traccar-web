@@ -145,6 +145,7 @@
     "userLimitCommands": "Limit Commands",
     "userDisableReports": "Disable Reports",
     "userToken": "Token",
+    "userDeleteAccount": "Delete Account",
     "loginTitle": "Login",
     "loginLanguage": "Language",
     "loginReset": "Reset Password",
