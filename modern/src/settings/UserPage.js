@@ -33,7 +33,7 @@ import { sessionActions } from '../store';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
-import { useAdministrator, useManager } from '../common/util/permissions';
+import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
 import { prefixString } from '../common/util/stringUtils';
 import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
@@ -55,6 +55,7 @@ const UserPage = () => {
 
   const admin = useAdministrator();
   const manager = useManager();
+  const fixedEmail = useRestriction('fixedEmail');
 
   const currentUser = useSelector((state) => state.session.user);
 
@@ -134,6 +135,7 @@ const UserPage = () => {
                 value={item.email || ''}
                 onChange={(event) => setItem({ ...item, email: event.target.value })}
                 label={t('userEmail')}
+                disabled={fixedEmail}
               />
               <TextField
                 type="password"
@@ -331,6 +333,11 @@ const UserPage = () => {
                 <FormControlLabel
                   control={<Checkbox checked={item.disableReports} onChange={(e) => setItem({ ...item, disableReports: e.target.checked })} />}
                   label={t('userDisableReports')}
+                  disabled={!manager}
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={item.fixedEmail} onChange={(e) => setItem({ ...item, fixedEmail: e.target.checked })} />}
+                  label={t('userFixedEmail')}
                   disabled={!manager}
                 />
               </FormGroup>

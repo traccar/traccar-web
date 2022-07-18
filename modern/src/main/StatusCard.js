@@ -26,7 +26,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import RemoveDialog from '../common/components/RemoveDialog';
 import PositionValue from '../common/components/PositionValue';
-import { useDeviceReadonly, useReadonly } from '../common/util/permissions';
+import { useDeviceReadonly, useRestriction } from '../common/util/permissions';
 import usePersistedState from '../common/util/usePersistedState';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { devicesActions } from '../store';
@@ -99,7 +99,7 @@ const StatusCard = ({ deviceId, onClose }) => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
-  const readonly = useReadonly();
+  const readonly = useRestriction('readonly');
   const deviceReadonly = useDeviceReadonly();
 
   const device = useSelector((state) => state.devices.items[deviceId]);

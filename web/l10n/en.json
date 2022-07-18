@@ -144,6 +144,7 @@
     "userDeviceReadonly": "Device Readonly",
     "userLimitCommands": "Limit Commands",
     "userDisableReports": "Disable Reports",
+    "userFixedEmail": "No Email Change",
     "userToken": "Token",
     "userDeleteAccount": "Delete Account",
     "loginTitle": "Login",

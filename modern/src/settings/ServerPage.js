@@ -238,6 +238,10 @@ const ServerPage = () => {
                     control={<Checkbox checked={item.disableReports} onChange={(event) => setItem({ ...item, disableReports: event.target.checked })} />}
                     label={t('userDisableReports')}
                   />
+                  <FormControlLabel
+                    control={<Checkbox checked={item.fixedEmail} onChange={(e) => setItem({ ...item, fixedEmail: e.target.checked })} />}
+                    label={t('userFixedEmail')}
+                  />
                 </FormGroup>
               </AccordionDetails>
             </Accordion>

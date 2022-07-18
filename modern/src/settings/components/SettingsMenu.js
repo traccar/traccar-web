@@ -15,7 +15,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAdministrator, useManager, useReadonly } from '../../common/util/permissions';
+import { useAdministrator, useManager, useRestriction } from '../../common/util/permissions';
 import useFeatures from '../../common/util/useFeatures';
 
 const MenuItem = ({
@@ -31,7 +31,7 @@ const SettingsMenu = () => {
   const t = useTranslation();
   const location = useLocation();
 
-  const readonly = useReadonly();
+  const readonly = useRestriction('readonly');
   const admin = useAdministrator();
   const manager = useManager();
   const userId = useSelector((state) => state.session.user.id);

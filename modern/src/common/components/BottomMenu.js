@@ -13,7 +13,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
-import { useReadonly } from '../util/permissions';
+import { useRestriction } from '../util/permissions';
 
 const BottomMenu = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const BottomMenu = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
-  const readonly = useReadonly();
+  const readonly = useRestriction('readonly');
   const userId = useSelector((state) => state.session.user.id);
   const socket = useSelector((state) => state.session.socket);
 

@@ -3,7 +3,7 @@ import { Fab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
-import { useReadonly } from '../../common/util/permissions';
+import { useRestriction } from '../../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -20,7 +20,7 @@ const CollectionFab = ({ editPath, disabled }) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const readonly = useReadonly();
+  const readonly = useRestriction('readonly');
 
   if (!readonly && !disabled) {
     return (
