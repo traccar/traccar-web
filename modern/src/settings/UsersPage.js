@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 const UsersPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const t = useTranslation();
 
   const admin = useAdministrator();
@@ -41,7 +39,7 @@ const UsersPage = () => {
     if (response.ok) {
       const user = await response.json();
       dispatch(sessionActions.updateUser(user));
-      navigate('/');
+      window.location.replace('/');
     } else {
       throw Error(await response.text());
     }
