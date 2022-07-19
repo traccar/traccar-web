@@ -259,6 +259,7 @@
     "positionObdOdometer": "OBD Odometer",
     "positionDriverUniqueId": "Driver Unique Id",
     "positionImage": "Image",
+    "positionVideo": "Video",
     "positionAudio": "Audio",
     "serverTitle": "Server Settings",
     "serverZoom": "Zoom",

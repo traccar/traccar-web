@@ -340,4 +340,16 @@ export default (t) => useMemo(() => ({
     name: t('attributeColor'),
     type: 'string',
   },
+  image: {
+    name: t('positionImage'),
+    type: 'string',
+  },
+  video: {
+    name: t('positionVideo'),
+    type: 'string',
+  },
+  audio: {
+    name: t('positionAudio'),
+    type: 'string',
+  },
 }), [t]);

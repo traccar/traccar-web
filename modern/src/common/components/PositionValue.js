@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -13,6 +14,8 @@ const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
 
   const admin = useAdministrator();
+
+  const device = useSelector((state) => state.devices.items[position.deviceId]);
 
   const key = property || attribute;
   const value = property ? position[property] : position.attributes[attribute];
@@ -59,6 +62,10 @@ const PositionValue = ({ position, property, attribute }) => {
   };
 
   switch (key) {
+    case 'image':
+    case 'video':
+    case 'audio':
+      return (<Link href={`/api/media/${device.uniqueId}/${value}`} target="_blank">{value}</Link>);
     case 'totalDistance':
     case 'hours':
       return (
