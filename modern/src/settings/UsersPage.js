@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
@@ -14,7 +13,6 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAdministrator } from '../common/util/permissions';
-import { sessionActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -25,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 const UsersPage = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const t = useTranslation();
 
   const admin = useAdministrator();
@@ -37,8 +34,6 @@ const UsersPage = () => {
   const handleLogin = useCatch(async (userId) => {
     const response = await fetch(`/api/session/${userId}`);
     if (response.ok) {
-      const user = await response.json();
-      dispatch(sessionActions.updateUser(user));
       window.location.replace('/');
     } else {
       throw Error(await response.text());
