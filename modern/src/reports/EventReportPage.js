@@ -11,30 +11,9 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatch } from '../reactHelper';
+import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
-
-const typesArray = [
-  ['allEvents', 'eventAll'],
-  ['deviceOnline', 'eventDeviceOnline'],
-  ['deviceUnknown', 'eventDeviceUnknown'],
-  ['deviceOffline', 'eventDeviceOffline'],
-  ['deviceInactive', 'eventDeviceInactive'],
-  ['deviceMoving', 'eventDeviceMoving'],
-  ['deviceStopped', 'eventDeviceStopped'],
-  ['deviceOverspeed', 'eventDeviceOverspeed'],
-  ['deviceFuelDrop', 'eventDeviceFuelDrop'],
-  ['commandResult', 'eventCommandResult'],
-  ['geofenceEnter', 'eventGeofenceEnter'],
-  ['geofenceExit', 'eventGeofenceExit'],
-  ['alarm', 'eventAlarm'],
-  ['ignitionOn', 'eventIgnitionOn'],
-  ['ignitionOff', 'eventIgnitionOff'],
-  ['maintenance', 'eventMaintenance'],
-  ['textMessage', 'eventTextMessage'],
-  ['driverChanged', 'eventDriverChanged'],
-];
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -51,10 +30,22 @@ const EventReportPage = () => {
 
   const geofences = useSelector((state) => state.geofences.items);
 
+  const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
+
   const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'alarm']);
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffectAsync(async () => {
+    const response = await fetch('/api/notifications/types');
+    if (response.ok) {
+      const types = await response.json();
+      setAllEventTypes([...allEventTypes, ...types.map((it) => [it.type, prefixString('event', it.type)])]);
+    } else {
+      throw Error(await response.text());
+    }
+  }, []);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to, type }) => {
     const query = new URLSearchParams({ deviceId, from, to });
@@ -124,7 +115,7 @@ const EventReportPage = () => {
                 }}
                 multiple
               >
-                {typesArray.map(([key, string]) => (
+                {allEventTypes.map(([key, string]) => (
                   <MenuItem key={key} value={key}>{t(string)}</MenuItem>
                 ))}
               </Select>
