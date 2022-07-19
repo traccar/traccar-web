@@ -111,7 +111,7 @@ const UserPage = () => {
       endpoint="users"
       item={item}
       setItem={setItem}
-      defaultItem={{ deviceLimit: -1 }}
+      defaultItem={admin ? { deviceLimit: -1 } : {}}
       validate={validate}
       onItemSaved={onItemSaved}
       menu={<SettingsMenu />}
