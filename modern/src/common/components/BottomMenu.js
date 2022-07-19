@@ -22,6 +22,7 @@ const BottomMenu = () => {
   const t = useTranslation();
 
   const readonly = useRestriction('readonly');
+  const disableReports = useRestriction('disableReports');
   const userId = useSelector((state) => state.session.user.id);
   const socket = useSelector((state) => state.session.socket);
 
@@ -29,13 +30,13 @@ const BottomMenu = () => {
 
   const currentSelection = () => {
     if (location.pathname === `/settings/user/${userId}`) {
-      return 3;
+      return 'account';
     } if (location.pathname.startsWith('/settings')) {
-      return 2;
+      return 'settings';
     } if (location.pathname.startsWith('/reports')) {
-      return 1;
+      return 'reports';
     } if (location.pathname === '/') {
-      return 0;
+      return 'map';
     }
     return null;
   };
@@ -54,21 +55,20 @@ const BottomMenu = () => {
 
   const handleSelection = (event, value) => {
     switch (value) {
-      case 0:
+      case 'map':
         navigate('/');
         break;
-      case 1:
+      case 'reports':
         navigate('/reports/route');
         break;
-      case 2:
+      case 'settings':
         navigate('/settings/preferences');
         break;
-      case 3:
-        if (readonly) {
-          handleLogout();
-        } else {
-          setAnchorEl(event.currentTarget);
-        }
+      case 'account':
+        setAnchorEl(event.currentTarget);
+        break;
+      case 'logout':
+        handleLogout();
         break;
       default:
         break;
@@ -85,12 +85,17 @@ const BottomMenu = () => {
               <MapIcon />
             </Badge>
           )}
+          value="map"
         />
-        <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} />
-        <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} />
-        {readonly
-          ? (<BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} />)
-          : (<BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} />)}
+        {!disableReports && (
+          <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} value="reports" />
+        )}
+        <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} value="settings" />
+        {readonly ? (
+          <BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} value="logout" />
+        ) : (
+          <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} value="account" />
+        )}
       </BottomNavigation>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={handleAccount}>
