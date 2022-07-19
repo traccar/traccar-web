@@ -399,6 +399,7 @@
     "eventMaintenance": "Maintenance required",
     "eventTextMessage": "Text message received",
     "eventDriverChanged": "Driver changed",
+    "eventMedia": "Media",
     "eventsScrollToLast": "Scroll To Last",
     "alarmGeneral": "General",
     "alarmSos": "SOS",
