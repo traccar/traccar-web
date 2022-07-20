@@ -146,8 +146,9 @@ const MainPage = () => {
 
   const features = useFeatures();
 
-  const [mapMapOnSelect] = usePersistedState('mapOnSelect', false);
+  const [mapOnSelect] = usePersistedState('mapOnSelect', false);
 
+  const [mapGeofences] = usePersistedState('mapGeofences', true);
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -181,10 +182,10 @@ const MainPage = () => {
   useEffect(() => setDevicesOpen(desktop), [desktop]);
 
   useEffect(() => {
-    if (!desktop && mapMapOnSelect && selectedDeviceId) {
+    if (!desktop && mapOnSelect && selectedDeviceId) {
       setDevicesOpen(false);
     }
-  }, [desktop, mapMapOnSelect, selectedDeviceId]);
+  }, [desktop, mapOnSelect, selectedDeviceId]);
 
   const onClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.select(deviceId));
@@ -212,7 +213,7 @@ const MainPage = () => {
     <div className={classes.root}>
       <MapView>
         <MapOverlay />
-        <MapGeofence />
+        {mapGeofences && <MapGeofence />}
         <MapAccuracy />
         {mapLiveRoutes && <MapLiveRoutes />}
         <MapPositions positions={filteredPositions} onClick={onClick} showStatus />

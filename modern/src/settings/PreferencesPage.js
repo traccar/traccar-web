@@ -47,10 +47,11 @@ const PreferencesPage = () => {
   const positionAttributes = usePositionAttributes(t);
   const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
+  const [mapGeofences, setMapGeofences] = usePersistedState('mapGeofences', true);
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
-  const [mapMapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', false);
+  const [mapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', false);
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
     key: unprefixString('alarm', it),
@@ -150,6 +151,10 @@ const PreferencesPage = () => {
             </FormControl>
             <FormGroup>
               <FormControlLabel
+                control={<Checkbox checked={mapGeofences} onChange={(e) => setMapGeofences(e.target.checked)} />}
+                label={t('sharedGeofences')}
+              />
+              <FormControlLabel
                 control={<Checkbox checked={mapLiveRoutes} onChange={(e) => setMapLiveRoutes(e.target.checked)} />}
                 label={t('mapLiveRoutes')}
               />
@@ -162,7 +167,7 @@ const PreferencesPage = () => {
                 label={t('mapClustering')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapMapOnSelect} onChange={(e) => setMapOnSelect(e.target.checked)} />}
+                control={<Checkbox checked={mapOnSelect} onChange={(e) => setMapOnSelect(e.target.checked)} />}
                 label={t('mapOnSelect')}
               />
             </FormGroup>
