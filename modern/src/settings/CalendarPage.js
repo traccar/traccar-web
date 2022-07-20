@@ -10,7 +10,6 @@ import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
-import components from '../common/theme/components';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -69,7 +68,6 @@ const CalendarPage = () => {
                 dropzoneText={t('sharedDropzoneText')}
                 filesLimit={1}
                 onChange={handleFiles}
-                alertSnackbarProps={components.MuiSnackbar.defaultProps}
                 showAlerts={false}
               />
             </AccordionDetails>
