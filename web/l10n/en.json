@@ -93,6 +93,14 @@
     "sharedLocation": "Location",
     "sharedImport": "Import",
     "sharedColumns": "Columns",
+    "sharedDropzoneText": "Drag and drop a file here or click",
+    "sharedSuccessfullyAdded": "successfully added",
+    "sharedRemoved": "removed",
+    "sharedMaxFileLimit": "Maximum allowed number of files exceeded.",
+    "sharedOnly": "Only",
+    "sharedAllowed": "allowed",
+    "sharedDropRejectFile": "was rejected. File type not supported. File is too big. Size limit is",
+    "sharedMegabytes": "megabytes",
     "attributeSpeedLimit": "Speed Limit",
     "attributePolylineDistance": "Polyline Distance",
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",
@@ -517,6 +525,5 @@
     "categoryVan": "Van",
     "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
-    "maintenancePeriod": "Period",
-    "dropzoneText": "Drag and drop a file here or click"
+    "maintenancePeriod": "Period"
 }
