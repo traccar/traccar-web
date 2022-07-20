@@ -98,7 +98,7 @@
     "attributeReportIgnoreOdometer": "Relatório: Ignorar Odômetro",
     "attributeWebReportColor": "Web: Cor do Relatório",
     "attributeDevicePassword": "Senha do Dispositivo",
-    "attributeDeviceImage": "Device Image",
+    "attributeDeviceImage": "Imagem",
     "attributeDeviceInactivityStart": "Início de inatividade do dispositivo",
     "attributeDeviceInactivityPeriod": "Período de inatividade do dispositivo",
     "attributeProcessingCopyAttributes": "Processamento: Copiar Atributos",
@@ -513,5 +513,6 @@
     "categoryVan": "Van",
     "categoryScooter": "Patinete Elétrico",
     "maintenanceStart": "Começar",
-    "maintenancePeriod": "Período"
+    "maintenancePeriod": "Período",
+    "dropzoneText": "Click ou arraste uma imagem para adicionar"
 }

@@ -151,6 +151,7 @@ const DevicePage = () => {
               <AccordionDetails className={classes.details}>
                 <DropzoneArea
                   acceptedFiles={['image/*']}
+                  dropzoneText={t('dropzoneText')}
                   filesLimit={1}
                   onChange={handleFiles}
                   alertSnackbarProps={components.MuiSnackbar.defaultProps}
