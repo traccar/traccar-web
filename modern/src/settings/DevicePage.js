@@ -155,10 +155,7 @@ const DevicePage = () => {
                   filesLimit={1}
                   onChange={handleFiles}
                   alertSnackbarProps={components.MuiSnackbar.defaultProps}
-                  getFileLimitExceedMessage={(filesLimit) => `${t('sharedMaxFileLimit')} ${t('sharedOnly')} ${filesLimit} ${t('sharedAllowed')}`}
-                  getFileAddedMessage={(fileName) => `${t('sharedFile')} ${fileName} ${t('sharedSuccessfullyAdded')}`}
-                  getFileRemovedMessage={(fileName) => `${t('sharedFile')} ${fileName} ${t('sharedRemoved')}`}
-                  getDropRejectMessage={(file) => `${t('sharedFile')} ${file.name} ${t('sharedDropRejectFile')} ${file.size} ${t('sharedMegabytes')}`}
+                  showAlerts={false}
                 />
               </AccordionDetails>
             </Accordion>
