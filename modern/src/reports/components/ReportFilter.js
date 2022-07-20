@@ -123,7 +123,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
           <TextField
             label={t('reportFrom')}
             type="datetime-local"
-            value={from.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+            value={from.locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
             onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
             fullWidth
           />
@@ -134,7 +134,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
           <TextField
             label={t('reportTo')}
             type="datetime-local"
-            value={to.format(moment.HTML5_FMT.DATETIME_LOCAL)}
+            value={to.locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
             onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
             fullWidth
           />
