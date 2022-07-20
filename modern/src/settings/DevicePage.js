@@ -150,6 +150,7 @@ const DevicePage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <DropzoneArea
+                  dropzoneText={t('dropzoneText')}
                   acceptedFiles={['image/*']}
                   filesLimit={1}
                   onChange={handleFiles}

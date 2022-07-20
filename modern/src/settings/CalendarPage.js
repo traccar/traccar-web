@@ -66,6 +66,7 @@ const CalendarPage = () => {
                 label={t('sharedName')}
               />
               <DropzoneArea
+                dropzoneText={t('dropzoneText')}
                 filesLimit={1}
                 onChange={handleFiles}
                 alertSnackbarProps={components.MuiSnackbar.defaultProps}
