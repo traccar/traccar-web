@@ -41,6 +41,12 @@ export const formatVolume = (value, unit, t) => `${volumeFromLiters(value, unit)
 
 export const formatHours = (value) => moment.duration(value).humanize();
 
+export const formatNumericHours = (value, t) => {
+  const hours = Math.floor(value / 3600000);
+  const minutes = Math.floor((value % 3600000) / 60000);
+  return `${hours} ${t('sharedHourAbbreviation')} ${minutes} ${t('sharedMinuteAbbreviation')}`;
+};
+
 export const formatCoordinate = (key, value, unit) => {
   let hemisphere;
   let degrees;
