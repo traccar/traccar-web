@@ -24,7 +24,6 @@ import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useFeatures from '../common/util/useFeatures';
-import components from '../common/theme/components';
 import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
@@ -150,10 +149,11 @@ const DevicePage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <DropzoneArea
+                  dropzoneText={t('sharedDropzoneText')}
                   acceptedFiles={['image/*']}
                   filesLimit={1}
                   onChange={handleFiles}
-                  alertSnackbarProps={components.MuiSnackbar.defaultProps}
+                  showAlerts={false}
                 />
               </AccordionDetails>
             </Accordion>

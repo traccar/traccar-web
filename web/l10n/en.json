@@ -93,6 +93,7 @@
     "sharedLocation": "Location",
     "sharedImport": "Import",
     "sharedColumns": "Columns",
+    "sharedDropzoneText": "Drag and drop a file here or click",
     "attributeSpeedLimit": "Speed Limit",
     "attributePolylineDistance": "Polyline Distance",
     "attributeReportIgnoreOdometer": "Report: Ignore Odometer",
