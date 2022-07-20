@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import { getStatusColor } from '../common/util/formatter';
 import usePersistedState from '../common/util/usePersistedState';
+import { mapIconKey } from './core/preloadImages';
 
 const MapPositions = ({ positions, onClick, showStatus }) => {
   const id = 'positions';
@@ -19,7 +20,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
       id: position.id,
       deviceId: position.deviceId,
       name: device.name,
-      category: device.category || 'default',
+      category: mapIconKey(device.category),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
     };
   };

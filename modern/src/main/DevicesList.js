@@ -22,7 +22,7 @@ import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { mapIcons } from '../map/core/preloadImages';
+import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
@@ -91,7 +91,7 @@ const DeviceRow = ({ data, index, style }) => {
       >
         <ListItemAvatar>
           <Avatar>
-            <img className={classes.icon} src={mapIcons[item.category || 'default']} alt="" />
+            <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
           </Avatar>
         </ListItemAvatar>
         <ListItemText

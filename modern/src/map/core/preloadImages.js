@@ -49,6 +49,8 @@ export const mapIcons = {
   van: vanSvg,
 };
 
+export const mapIconKey = (category) => (mapIcons.hasOwnProperty(category) ? category : 'default');
+
 export const mapImages = {};
 
 export default async () => {
