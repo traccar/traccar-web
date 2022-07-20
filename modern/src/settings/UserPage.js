@@ -266,6 +266,7 @@ const UserPage = () => {
                 <InputLabel>{t('userToken')}</InputLabel>
                 <OutlinedInput
                   type="text"
+                  label={t('userToken')}
                   value={item.token || ''}
                   onChange={(e) => setItem({ ...item, token: e.target.value })}
                   endAdornment={(
