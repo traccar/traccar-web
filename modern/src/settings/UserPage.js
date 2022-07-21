@@ -350,7 +350,7 @@ const UserPage = () => {
             definitions={{ ...commonUserAttributes, ...userAttributes }}
             focusAttribute={attribute}
           />
-          {item.id === currentUser.id && (
+          {item.id === currentUser.id && !manager && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1" color="error">
@@ -375,7 +375,7 @@ const UserPage = () => {
               </AccordionDetails>
             </Accordion>
           )}
-          {item.id && item.id !== currentUser.id && manager && (
+          {item.id && manager && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">
