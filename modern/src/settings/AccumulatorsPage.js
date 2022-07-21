@@ -89,8 +89,8 @@ const AccumulatorsPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 type="number"
-                value={item.hours / 1000}
-                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) * 1000 })}
+                value={item.hours / 3600000}
+                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) * 3600000 })}
                 label={t('positionHours')}
               />
               <TextField
