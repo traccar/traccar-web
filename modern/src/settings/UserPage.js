@@ -345,6 +345,7 @@ const UserPage = () => {
             </AccordionDetails>
           </Accordion>
           <EditAttributesAccordion
+            attribute={attribute}
             attributes={item.attributes}
             setAttributes={(attributes) => setItem({ ...item, attributes })}
             definitions={{ ...commonUserAttributes, ...userAttributes }}

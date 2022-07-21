@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditAttributesAccordion = ({ attributes, setAttributes, definitions, focusAttribute }) => {
+const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definitions, focusAttribute }) => {
   const classes = useStyles();
   const t = useTranslation();
 
@@ -160,7 +160,7 @@ const EditAttributesAccordion = ({ attributes, setAttributes, definitions, focus
   };
 
   return features.disableAttributes ? '' : (
-    <Accordion>
+    <Accordion defaultExpanded={!!attribute}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="subtitle1">
           {t('sharedAttributes')}
