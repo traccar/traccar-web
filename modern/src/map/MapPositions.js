@@ -5,6 +5,7 @@ import { map } from './core/MapView';
 import { getStatusColor } from '../common/util/formatter';
 import usePersistedState from '../common/util/usePersistedState';
 import { mapIconKey } from './core/preloadImages';
+import { findFonts } from './core/mapUtil';
 
 const MapPositions = ({ positions, onClick, showStatus }) => {
   const id = 'positions';
@@ -73,7 +74,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
         'text-allow-overlap': true,
         'text-anchor': 'bottom',
         'text-offset': [0, -2],
-        'text-font': ['Roboto Regular'],
+        'text-font': findFonts(map),
         'text-size': 12,
       },
       paint: {
@@ -89,7 +90,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
       layout: {
         'icon-image': 'background',
         'text-field': '{point_count_abbreviated}',
-        'text-font': ['Roboto Regular'],
+        'text-font': findFonts(map),
         'text-size': 14,
       },
     });
