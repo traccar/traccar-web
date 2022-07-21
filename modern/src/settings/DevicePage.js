@@ -17,7 +17,6 @@ import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
 import deviceCategories from '../common/util/deviceCategories';
 import LinkField from '../common/components/LinkField';
-import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import { useAdministrator } from '../common/util/permissions';
@@ -25,6 +24,7 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useFeatures from '../common/util/useFeatures';
 import { useCatch } from '../reactHelper';
+import { formatNotificationTitle } from '../common/util/formatter';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -185,7 +185,7 @@ const DevicePage = () => {
                   baseId={item.id}
                   keyBase="deviceId"
                   keyLink="notificationId"
-                  titleGetter={(it) => t(prefixString('event', it.type))}
+                  titleGetter={(it) => formatNotificationTitle(t, it)}
                   label={t('sharedNotifications')}
                 />
                 {!features.disableDrivers && (

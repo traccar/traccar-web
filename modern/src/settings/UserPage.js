@@ -34,9 +34,9 @@ import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
-import { prefixString } from '../common/util/stringUtils';
 import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
+import { formatNotificationTitle } from '../common/util/formatter';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -413,7 +413,7 @@ const UserPage = () => {
                   baseId={item.id}
                   keyBase="userId"
                   keyLink="notificationId"
-                  titleGetter={(it) => `${t(prefixString('event', it.type))} (${it.id})`}
+                  titleGetter={(it) => formatNotificationTitle(t, it, true)}
                   label={t('sharedNotifications')}
                 />
                 <LinkField

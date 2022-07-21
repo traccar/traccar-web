@@ -14,8 +14,8 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useGroupAttributes from '../common/attributes/useGroupAttributes';
-import { prefixString } from '../common/util/stringUtils';
 import useFeatures from '../common/util/useFeatures';
+import { formatNotificationTitle } from '../common/util/formatter';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -106,7 +106,7 @@ const GroupPage = () => {
                   baseId={item.id}
                   keyBase="groupId"
                   keyLink="notificationId"
-                  titleGetter={(it) => t(prefixString('event', it.type))}
+                  titleGetter={(it) => formatNotificationTitle(t, it)}
                   label={t('sharedNotifications')}
                 />
                 {!features.disableDrivers && (
