@@ -413,7 +413,7 @@ const UserPage = () => {
                   baseId={item.id}
                   keyBase="userId"
                   keyLink="notificationId"
-                  titleGetter={(it) => t(prefixString('event', it.type))}
+                  titleGetter={(it) => `${t(prefixString('event', it.type))} (${it.id})`}
                   label={t('sharedNotifications')}
                 />
                 <LinkField
