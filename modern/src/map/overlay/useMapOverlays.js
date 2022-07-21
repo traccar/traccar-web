@@ -24,7 +24,7 @@ export default () => {
     {
       id: 'openSeaMap',
       title: t('mapOpenSeaMap'),
-      source: sourceCustom(['http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png']),
+      source: sourceCustom(['https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png']),
       available: true,
     },
     {
