@@ -40,6 +40,15 @@ const PoiMap = () => {
       });
       map.addLayer({
         source: id,
+        id: 'poi-line',
+        type: 'line',
+        paint: {
+          'line-color': theme.palette.colors.geometry,
+          'line-width': 2,
+        },
+      });
+      map.addLayer({
+        source: id,
         id: 'poi-title',
         type: 'symbol',
         layout: {
@@ -57,6 +66,9 @@ const PoiMap = () => {
       return () => {
         if (map.getLayer('poi-point')) {
           map.removeLayer('poi-point');
+        }
+        if (map.getLayer('poi-line')) {
+          map.removeLayer('poi-line');
         }
         if (map.getLayer('poi-title')) {
           map.removeLayer('poi-title');
