@@ -5,7 +5,7 @@ import {
 import LoginIcon from '@mui/icons-material/Login';
 import makeStyles from '@mui/styles/makeStyles';
 import { useCatch, useEffectAsync } from '../reactHelper';
-import { formatBoolean } from '../common/util/formatter';
+import { formatBoolean, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
@@ -69,6 +69,7 @@ const UsersPage = () => {
             <TableCell>{t('userEmail')}</TableCell>
             <TableCell>{t('userAdmin')}</TableCell>
             <TableCell>{t('sharedDisabled')}</TableCell>
+            <TableCell>{t('userExpirationTime')}</TableCell>
             <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
@@ -79,6 +80,7 @@ const UsersPage = () => {
               <TableCell>{item.email}</TableCell>
               <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
               <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
+              <TableCell>{formatTime(item.expirationTime, 'YYYY-MM-DD')}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}

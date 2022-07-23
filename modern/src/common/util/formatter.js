@@ -17,7 +17,7 @@ export const formatNumber = (value, precision = 1) => Number(value.toFixed(preci
 
 export const formatPercentage = (value) => `${value}%`;
 
-export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => moment(value).format(format);
+export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => (value ? moment(value).format(format) : '');
 
 export const formatStatus = (value, t) => t(prefixString('deviceStatus', value));
 export const formatAlarm = (value, t) => (value ? t(prefixString('alarm', value)) : '');

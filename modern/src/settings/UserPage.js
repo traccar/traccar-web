@@ -287,7 +287,7 @@ const UserPage = () => {
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
-                value={(item.expirationTime && moment(item.expirationTime).format(moment.HTML5_FMT.DATE)) || '2999-01-01'}
+                value={(item.expirationTime && moment(item.expirationTime).locale('en').format(moment.HTML5_FMT.DATE)) || '2099-01-01'}
                 onChange={(e) => setItem({ ...item, expirationTime: moment(e.target.value, moment.HTML5_FMT.DATE).format() })}
                 disabled={!manager}
               />

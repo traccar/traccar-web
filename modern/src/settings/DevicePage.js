@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-
+import moment from 'moment';
 import {
   Accordion,
   AccordionSummary,
@@ -8,6 +7,7 @@ import {
   Typography,
   FormControlLabel,
   Checkbox,
+  TextField,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -132,12 +132,18 @@ const DevicePage = () => {
                 }))}
                 label={t('deviceCategory')}
               />
-              {admin && (
-                <FormControlLabel
-                  control={<Checkbox checked={item.disabled} onChange={(event) => setItem({ ...item, disabled: event.target.checked })} />}
-                  label={t('sharedDisabled')}
-                />
-              )}
+              <TextField
+                label={t('userExpirationTime')}
+                type="date"
+                value={(item.expirationTime && moment(item.expirationTime).locale('en').format(moment.HTML5_FMT.DATE)) || '2099-01-01'}
+                onChange={(e) => setItem({ ...item, expirationTime: moment(e.target.value, moment.HTML5_FMT.DATE).format() })}
+                disabled={!admin}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={item.disabled} onChange={(event) => setItem({ ...item, disabled: event.target.checked })} />}
+                label={t('sharedDisabled')}
+                disabled={!admin}
+              />
             </AccordionDetails>
           </Accordion>
           {item.id && (
