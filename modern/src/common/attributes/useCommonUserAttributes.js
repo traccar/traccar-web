@@ -65,14 +65,14 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiDisableMaintenance'),
     type: 'boolean',
   },
-  /* 'web.liveRouteLength': {
+  'web.liveRouteLength': {
     name: t('attributeWebLiveRouteLength'),
     type: 'number',
   },
   'web.selectZoom': {
     name: t('attributeWebSelectZoom'),
     type: 'number',
-  }, */
+  },
   'web.maxZoom': {
     name: t('attributeWebMaxZoom'),
     type: 'number',
