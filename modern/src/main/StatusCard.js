@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Draggable from 'react-draggable';
 import {
   Card,
   CardContent,
@@ -155,82 +156,94 @@ const StatusCard = ({ deviceId, onClose }) => {
   return (
     <>
       {device && (
-        <Card elevation={3} className={classes.card}>
-          {deviceImage ? (
-            <CardMedia
-              className={classes.media}
-              image={`/api/media/${device.uniqueId}/${deviceImage}`}
-            >
-              <IconButton size="small" onClick={onClose}>
-                <CloseIcon fontSize="small" className={classes.mediaButton} />
+        <Draggable
+          handle={`.${classes.header}`}
+        >
+          <Card elevation={3} className={classes.card}>
+            {deviceImage ? (
+              <CardMedia
+                className={classes.media}
+                image={`/api/media/${device.uniqueId}/${deviceImage}`}
+              >
+                <IconButton
+                  size="small"
+                  onClick={onClose}
+                  onTouchStart={onClose}
+                >
+                  <CloseIcon fontSize="small" className={classes.mediaButton} />
+                </IconButton>
+              </CardMedia>
+            ) : (
+              <div className={classes.header}>
+                <Typography variant="body2" color="textSecondary">
+                  {device.name}
+                </Typography>
+                <IconButton
+                  size="small"
+                  onClick={onClose}
+                  onTouchStart={onClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </div>
+            )}
+            {position && (
+              <CardContent className={classes.content}>
+                <Table size="small" classes={{ root: classes.table }}>
+                  <TableBody>
+                    {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                      <StatusRow
+                        key={key}
+                        name={positionAttributes[key].name}
+                        content={(
+                          <PositionValue
+                            position={position}
+                            property={position.hasOwnProperty(key) ? key : null}
+                            attribute={position.hasOwnProperty(key) ? null : key}
+                          />
+                        )}
+                      />
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            )}
+            <CardActions classes={{ root: classes.actions }} disableSpacing>
+              <IconButton
+                color="secondary"
+                onClick={(e) => setAnchorEl(e.currentTarget)}
+                disabled={!position}
+              >
+                <PendingIcon />
               </IconButton>
-            </CardMedia>
-          ) : (
-            <div className={classes.header}>
-              <Typography variant="body2" color="textSecondary">
-                {device.name}
-              </Typography>
-              <IconButton size="small" onClick={onClose}>
-                <CloseIcon fontSize="small" />
+              <IconButton
+                onClick={() => navigate('/replay')}
+                disabled={!position}
+              >
+                <ReplayIcon />
               </IconButton>
-            </div>
-          )}
-          {position && (
-            <CardContent className={classes.content}>
-              <Table size="small" classes={{ root: classes.table }}>
-                <TableBody>
-                  {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
-                    <StatusRow
-                      key={key}
-                      name={positionAttributes[key].name}
-                      content={(
-                        <PositionValue
-                          position={position}
-                          property={position.hasOwnProperty(key) ? key : null}
-                          attribute={position.hasOwnProperty(key) ? null : key}
-                        />
-                      )}
-                    />
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          )}
-          <CardActions classes={{ root: classes.actions }} disableSpacing>
-            <IconButton
-              color="secondary"
-              onClick={(e) => setAnchorEl(e.currentTarget)}
-              disabled={!position}
-            >
-              <PendingIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => navigate('/replay')}
-              disabled={!position}
-            >
-              <ReplayIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => navigate(`/settings/command-send/${deviceId}`)}
-              disabled={readonly}
-            >
-              <PublishIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => navigate(`/settings/device/${deviceId}`)}
-              disabled={deviceReadonly}
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              onClick={() => setRemoving(true)}
-              disabled={deviceReadonly}
-              className={classes.negative}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </CardActions>
-        </Card>
+              <IconButton
+                onClick={() => navigate(`/settings/command-send/${deviceId}`)}
+                disabled={readonly}
+              >
+                <PublishIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => navigate(`/settings/device/${deviceId}`)}
+                disabled={deviceReadonly}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => setRemoving(true)}
+                disabled={deviceReadonly}
+                className={classes.negative}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </CardActions>
+          </Card>
+        </Draggable>
       )}
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
