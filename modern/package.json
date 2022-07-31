@@ -46,7 +46,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build_release": "PUBLIC_URL=/modern/ react-scripts build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js ."
   },

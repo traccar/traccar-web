@@ -11,5 +11,4 @@ cd modern
 
 rm -rf ../web/modern
 npm ci
-npm run build_release
-mv build ../web/modern
+npm run build
