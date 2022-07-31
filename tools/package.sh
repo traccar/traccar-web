@@ -9,6 +9,6 @@ npm run build
 
 cd modern
 
-rm -rf ../web/modern
+rm -rf build
 npm ci
 npm run build

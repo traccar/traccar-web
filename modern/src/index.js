@@ -16,8 +16,6 @@ import ServerProvider from './ServerProvider';
 
 preloadImages();
 
-const base = window.location.href.indexOf('modern') >= 0 ? '/modern' : '/';
-
 ReactDOM.render(
   (
     <Provider store={store}>
@@ -26,7 +24,7 @@ ReactDOM.render(
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <ServerProvider>
-              <BrowserRouter basename={base}>
+              <BrowserRouter>
                 <Navigation />
               </BrowserRouter>
             </ServerProvider>
