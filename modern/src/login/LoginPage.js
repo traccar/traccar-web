@@ -4,7 +4,6 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
-import CachedIcon from '@mui/icons-material/Cached';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
@@ -97,11 +96,6 @@ const LoginPage = () => {
   return (
     <LoginLayout>
       <div className={classes.options}>
-        <Tooltip title="Switch to Legacy App">
-          <IconButton onClick={() => window.localStorage.setItem('legacyApp', true) || window.location.replace('/')}>
-            <CachedIcon />
-          </IconButton>
-        </Tooltip>
         {(window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface)) && (
           <Tooltip title={t('settingsServer')}>
             <IconButton onClick={() => navigate('/change-server')}>
