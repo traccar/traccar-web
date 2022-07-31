@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody,
+  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { formatTime } from '../common/util/formatter';
+import { formatSpeed, formatTime } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -14,13 +14,14 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
+import { useAttributePreference } from '../common/util/preferences';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
   ['type', 'sharedType'],
   ['geofenceId', 'sharedGeofence'],
   ['maintenanceId', 'sharedMaintenance'],
-  ['alarm', 'positionAlarm'],
+  ['attributes', 'commandData'],
 ];
 const columnsMap = new Map(columnsArray);
 
@@ -28,11 +29,14 @@ const EventReportPage = () => {
   const classes = useReportStyles();
   const t = useTranslation();
 
+  const devices = useSelector((state) => state.devices.items);
   const geofences = useSelector((state) => state.geofences.items);
+
+  const speedUnit = useAttributePreference('speedUnit');
 
   const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
 
-  const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'alarm']);
+  const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'attributes']);
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -88,8 +92,21 @@ const EventReportPage = () => {
         return null;
       case 'maintenanceId':
         return item[key] > 0 ? item[key] > 0 : null;
-      case 'alarm':
-        return item.attributes[key] ? t(prefixString('alarm', item.attributes[key])) : null;
+      case 'attributes':
+        switch (item.type) {
+          case 'alarm':
+            return t(prefixString('alarm', item.attributes.alarm));
+          case 'deviceOverspeed':
+            return formatSpeed(item.attributes.speed, speedUnit, t);
+          case 'driverChanged':
+            return item.attributes.driverUniqueId;
+          case 'media':
+            return (<Link href={`/api/media/${devices[item.deviceId]?.uniqueId}/${item.attributes.file}`} target="_blank">{item.attributes.file}</Link>);
+          case 'commandResult':
+            return item.attributes.result;
+          default:
+            return '';
+        }
       default:
         return item[key];
     }
