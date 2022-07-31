@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { formatNotificationTitle, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { eventsActions } from '../store';
 
@@ -26,7 +27,16 @@ const EventsDrawer = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
+  const devices = useSelector((state) => state.devices.items);
+
   const events = useSelector((state) => state.events.items);
+
+  const formatType = (event) => formatNotificationTitle(t, {
+    type: event.type,
+    attributes: {
+      alarms: event.attributes.alarm,
+    },
+  });
 
   return (
     <Drawer
@@ -45,7 +55,7 @@ const EventsDrawer = ({ open, onClose }) => {
       <List className={classes.drawer} dense>
         {events.map((event) => (
           <ListItem key={event.id}>
-            <ListItemText primary={event.attributes.message} />
+            <ListItemText primary={`${devices[event.deviceId]?.name} • ${formatType(event)}`} secondary={formatTime(event.eventTime)} />
             <IconButton size="small" onClick={() => dispatch(eventsActions.delete(event))}>
               <DeleteIcon fontSize="small" className={classes.negative} />
             </IconButton>
