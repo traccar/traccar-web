@@ -29,7 +29,14 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
 
+  const onMapClick = useCallback((event) => {
+    if (!event.defaultPrevented) {
+      onClick();
+    }
+  }, [onClick]);
+
   const onMarkerClick = useCallback((event) => {
+    event.preventDefault();
     const feature = event.features[0];
     if (onClick) {
       onClick(feature.properties.id, feature.properties.deviceId);
@@ -37,6 +44,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
   }, [onClick]);
 
   const onClusterClick = useCallback((event) => {
+    event.preventDefault();
     const features = map.queryRenderedFeatures(event.point, {
       layers: [clusters],
     });
@@ -101,6 +109,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
     map.on('mouseleave', clusters, onMouseLeave);
     map.on('click', id, onMarkerClick);
     map.on('click', clusters, onClusterClick);
+    map.on('click', onMapClick);
 
     return () => {
       map.off('mouseenter', id, onMouseEnter);
@@ -109,6 +118,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
       map.off('mouseleave', clusters, onMouseLeave);
       map.off('click', id, onMarkerClick);
       map.off('click', clusters, onClusterClick);
+      map.off('click', onMapClick);
 
       if (map.getLayer(id)) {
         map.removeLayer(id);

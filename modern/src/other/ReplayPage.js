@@ -98,7 +98,9 @@ const ReplayPage = () => {
   });
 
   const onClick = useCallback((positionId) => {
-    navigate(`/position/${positionId}`);
+    if (positionId) {
+      navigate(`/position/${positionId}`);
+    }
   }, [navigate]);
 
   useEffect(() => {
