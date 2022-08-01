@@ -6,6 +6,7 @@ const sourceCustom = (urls) => ({
   type: 'raster',
   tiles: urls,
   tileSize: 256,
+  maxzoom: 18,
 });
 
 const sourceOpenWeather = (style, key) => sourceCustom([
