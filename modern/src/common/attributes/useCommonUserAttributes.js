@@ -77,4 +77,8 @@ export default (t) => useMemo(() => ({
     name: t('attributeWebMaxZoom'),
     type: 'number',
   },
+  iconScale: {
+    name: t('sharedIconScale'),
+    type: 'number',
+  },
 }), [t]);

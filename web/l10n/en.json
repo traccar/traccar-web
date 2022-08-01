@@ -31,6 +31,7 @@
     "sharedName": "Name",
     "sharedDescription": "Description",
     "sharedSearch": "Search",
+    "sharedIconScale": "Icon Scale",
     "sharedGeofence": "Geofence",
     "sharedGeofences": "Geofences",
     "sharedCreateGeofence": "Create Geofence",

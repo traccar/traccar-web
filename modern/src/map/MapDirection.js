@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
+import { useAttributePreference } from '../common/util/preferences';
 
 import { map } from './core/MapView';
 
 const MapDirection = ({ position }) => {
   const id = 'directions';
+
+  const iconScale = useAttributePreference('iconScale', 1);
 
   useEffect(() => {
     map.addSource(id, {
@@ -19,6 +22,7 @@ const MapDirection = ({ position }) => {
       source: id,
       layout: {
         'icon-image': 'direction',
+        'icon-size': iconScale,
         'icon-rotate': ['get', 'rotation'],
         'icon-rotation-alignment': 'map',
       },
