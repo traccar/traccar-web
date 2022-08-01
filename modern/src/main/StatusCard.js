@@ -21,7 +21,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import PublishIcon from '@mui/icons-material/Publish';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import InfoIcon from '@mui/icons-material/Info';
+import PendingIcon from '@mui/icons-material/Pending';
 
 import { useTranslation } from '../common/components/LocalizationProvider';
 import RemoveDialog from '../common/components/RemoveDialog';
@@ -176,7 +176,7 @@ const StatusCard = ({ deviceId, onClose }) => {
               onClick={(e) => setAnchorEl(e.currentTarget)}
               disabled={!position}
             >
-              <InfoIcon />
+              <PendingIcon />
             </IconButton>
             <IconButton
               onClick={() => navigate('/replay')}
