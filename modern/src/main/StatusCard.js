@@ -212,35 +212,30 @@ const StatusCard = ({ deviceId, onClose }) => {
               <IconButton
                 color="secondary"
                 onClick={(e) => setAnchorEl(e.currentTarget)}
-                onTouchStart={(e) => setAnchorEl(e.currentTarget)}
                 disabled={!position}
               >
                 <PendingIcon />
               </IconButton>
               <IconButton
                 onClick={() => navigate('/replay')}
-                onTouchStart={() => navigate('/replay')}
                 disabled={!position}
               >
                 <ReplayIcon />
               </IconButton>
               <IconButton
                 onClick={() => navigate(`/settings/command-send/${deviceId}`)}
-                onTouchStart={() => navigate(`/settings/command-send/${deviceId}`)}
                 disabled={readonly}
               >
                 <PublishIcon />
               </IconButton>
               <IconButton
                 onClick={() => navigate(`/settings/device/${deviceId}`)}
-                onTouchStart={() => navigate(`/settings/device/${deviceId}`)}
                 disabled={deviceReadonly}
               >
                 <EditIcon />
               </IconButton>
               <IconButton
                 onClick={() => setRemoving(true)}
-                onTouchStart={() => setRemoving(true)}
                 disabled={deviceReadonly}
                 className={classes.negative}
               >
