@@ -15,10 +15,6 @@ export class SwitcherControl {
     return 'top-right';
   }
 
-  getStyle(id) {
-    return this.styles.find((it) => it.id === id);
-  }
-
   updateStyles(updatedStyles, defaultStyle) {
     this.styles = updatedStyles;
 
@@ -67,7 +63,7 @@ export class SwitcherControl {
   onSelectStyle(target) {
     this.onBeforeSwitch();
 
-    const style = this.getStyle(target.dataset.id);
+    const style = this.styles.find((it) => it.id === target.dataset.id);
     this.map.setStyle(style.style, { diff: false });
     this.map.setTransformRequest(style.transformRequest);
 
