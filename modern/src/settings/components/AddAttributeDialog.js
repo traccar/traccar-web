@@ -68,7 +68,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
         />
         <FormControl
           fullWidth
-          disabled={key in definitions}
+          disabled={!(key in definitions)}
         >
           <InputLabel>{t('sharedType')}</InputLabel>
           <Select
