@@ -10,8 +10,8 @@ const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => ({
       tiles,
       attribution,
       tileSize: 256,
-      minzoom: minZoom,
-      maxzoom: maxZoom,
+      minzoom: minZoom || 0,
+      maxzoom: maxZoom || 20,
     },
   },
   glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
@@ -161,6 +161,9 @@ export default () => {
       id: 'ordnanceSurvey',
       title: t('mapOrdnanceSurvey'),
       style: 'https://api.os.uk/maps/vector/v1/vts/resources/styles?key=EAZ8p83u72FTGiLjLC2MsTAl1ko6XQHC',
+      transformRequest: (url) => ({
+        url: `${url}&srs=3857`,
+      }),
       available: true,
     },
     {
