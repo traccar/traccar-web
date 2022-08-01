@@ -2,25 +2,29 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
 
-const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => ({
-  version: 8,
-  sources: {
-    custom: {
-      type: 'raster',
-      tiles,
-      attribution,
-      tileSize: 256,
-      minzoom: minZoom || 0,
-      maxzoom: maxZoom || 20,
-    },
-  },
-  glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
-  layers: [{
-    id: 'custom',
+const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
+  const source = {
     type: 'raster',
-    source: 'custom',
-  }],
-});
+    tiles,
+    attribution,
+    tileSize: 256,
+    minzoom: minZoom,
+    maxzoom: maxZoom,
+  };
+  Object.keys(source).forEach((key) => source[key] === undefined && delete source[key]);
+  return {
+    version: 8,
+    sources: {
+      custom: source,
+    },
+    glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
+    layers: [{
+      id: 'custom',
+      type: 'raster',
+      source: 'custom',
+    }],
+  };
+};
 
 export default () => {
   const t = useTranslation();
