@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-
+import { useDispatch } from 'react-redux';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography,
+  Accordion, AccordionSummary, AccordionDetails, Typography, TextField,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -12,6 +11,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
 import SettingsMenu from './components/SettingsMenu';
 import SelectField from '../common/components/SelectField';
+import { geofencesActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -24,11 +24,16 @@ const useStyles = makeStyles((theme) => ({
 
 const GeofencePage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const geofenceAttributes = useGeofenceAttributes(t);
 
   const [item, setItem] = useState();
+
+  const onItemSaved = (result) => {
+    dispatch(geofencesActions.update([result]));
+  };
 
   const validate = () => item && item.name;
 
@@ -38,6 +43,7 @@ const GeofencePage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
+      onItemSaved={onItemSaved}
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedGeofence']}
     >
