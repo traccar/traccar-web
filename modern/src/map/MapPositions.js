@@ -1,6 +1,5 @@
-import { useCallback, useEffect } from 'react';
+import { useId, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import { map } from './core/MapView';
 import { getStatusColor } from '../common/util/formatter';
 import usePersistedState from '../common/util/usePersistedState';
@@ -9,7 +8,7 @@ import { findFonts } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
 
 const MapPositions = ({ positions, onClick, showStatus }) => {
-  const id = 'positions';
+  const id = useId();
   const clusters = `${id}-clusters`;
 
   const devices = useSelector((state) => state.devices.items);

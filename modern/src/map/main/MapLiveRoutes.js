@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-
+import { useId, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
@@ -7,7 +6,7 @@ import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
 
 const MapLiveRoutes = () => {
-  const id = 'liveRoute';
+  const id = useId();
 
   const theme = useTheme();
 

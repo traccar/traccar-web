@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
+import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 import { findFonts, geofenceToFeature } from '../core/mapUtil';
 
 const MapGeofence = () => {
-  const id = 'geofences';
+  const id = useId();
 
   const theme = useTheme();
 

@@ -1,11 +1,11 @@
 import { useTheme } from '@mui/styles';
 import maplibregl from 'maplibre-gl';
-import { useEffect } from 'react';
+import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 
 const MapRoutePath = ({ positions }) => {
-  const id = 'replay';
+  const id = useId();
 
   const theme = useTheme();
 

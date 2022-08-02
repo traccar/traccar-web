@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
-
+import { useId, useEffect } from 'react';
 import { map } from './core/MapView';
 
 const MapMarkers = ({ markers }) => {
-  const id = 'markers';
+  const id = useId();
 
   useEffect(() => {
     map.addSource(id, {

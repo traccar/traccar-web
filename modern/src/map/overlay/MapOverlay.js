@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useId, useEffect } from 'react';
 import usePersistedState from '../../common/util/usePersistedState';
 import { map } from '../core/MapView';
 import useMapOverlays from './useMapOverlays';
 
 const MapOverlay = () => {
-  const id = 'overlay';
+  const id = useId();
 
   const mapOverlays = useMapOverlays();
   const [selectedMapOverlay] = usePersistedState('selectedMapOverlay');

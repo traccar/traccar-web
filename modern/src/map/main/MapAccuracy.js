@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
+import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import circle from '@turf/circle';
-
 import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 
 const MapAccuracy = () => {
-  const id = 'accuracy';
+  const id = useId();
 
   const theme = useTheme();
 
