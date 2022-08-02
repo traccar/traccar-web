@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
@@ -26,13 +27,16 @@ const RouteReportPage = () => {
 
   const positionAttributes = usePositionAttributes(t);
 
+  const devices = useSelector((state) => state.devices.items);
+
   const [columns, setColumns] = usePersistedState('routeColumns', ['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to, type }) => {
-    const query = new URLSearchParams({ deviceId, from, to });
+  const handleSubmit = useCatch(async ({ deviceIds, from, to, type }) => {
+    const query = new URLSearchParams({ from, to });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     if (type === 'export') {
       window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
     } else if (type === 'mail') {
@@ -63,7 +67,9 @@ const RouteReportPage = () => {
         {selectedItem && (
           <div className={classes.containerMap}>
             <MapView>
-              <MapRoutePath positions={items} />
+              {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => (
+                <MapRoutePath key={deviceId} positions={items.filter((position) => position.deviceId === deviceId)} />
+              ))}
               <MapPositions positions={[selectedItem]} />
             </MapView>
             <MapCamera positions={items} />
@@ -71,7 +77,7 @@ const RouteReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit}>
+            <ReportFilter handleSubmit={handleSubmit} multiDevice>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}
@@ -83,6 +89,7 @@ const RouteReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
+                <TableCell>{t('sharedDevice')}</TableCell>
                 {columns.map((key) => (<TableCell key={key}>{positionAttributes[key].name}</TableCell>))}
               </TableRow>
             </TableHead>
@@ -100,6 +107,7 @@ const RouteReportPage = () => {
                       </IconButton>
                     )}
                   </TableCell>
+                  <TableCell>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
                     <TableCell key={key}>
                       <PositionValue

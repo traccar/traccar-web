@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 
-const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDevice }) => {
+const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDevice, includeGroups }) => {
   const classes = useReportStyles();
   const t = useTranslation();
 
@@ -87,7 +87,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
           </FormControl>
         </div>
       )}
-      {multiDevice && (
+      {includeGroups && (
         <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('settingsGroups')}</InputLabel>

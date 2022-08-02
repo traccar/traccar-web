@@ -18,7 +18,6 @@ import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 
 const columnsArray = [
-  ['deviceId', 'sharedDevice'],
   ['startTime', 'reportStartDate'],
   ['distance', 'sharedDistance'],
   ['startOdometer', 'reportStartOdometer'],
@@ -40,7 +39,7 @@ const SummaryReportPage = () => {
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
 
-  const [columns, setColumns] = usePersistedState('summaryColumns', ['deviceId', 'startTime', 'distance', 'averageSpeed']);
+  const [columns, setColumns] = usePersistedState('summaryColumns', ['startTime', 'distance', 'averageSpeed']);
   const [daily, setDaily] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -98,7 +97,7 @@ const SummaryReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} multiDevice>
+        <ReportFilter handleSubmit={handleSubmit} multiDevice includeGroups>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>
@@ -114,12 +113,14 @@ const SummaryReportPage = () => {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>{t('sharedDevice')}</TableCell>
             {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
           </TableRow>
         </TableHead>
         <TableBody>
           {!loading ? items.map((item) => (
             <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
+              <TableCell>{devices[item.deviceId].name}</TableCell>
               {columns.map((key) => (
                 <TableCell key={key}>
                   {formatValue(item, key)}
