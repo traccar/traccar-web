@@ -79,7 +79,7 @@ const PoiMap = () => {
         }
       };
     }
-    return null;
+    return () => {};
   }, [data]);
 
   return null;
