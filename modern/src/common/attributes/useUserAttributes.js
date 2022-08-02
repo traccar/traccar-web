@@ -5,6 +5,14 @@ export default (t) => useMemo(() => ({
     name: t('attributeTelegramChatId'),
     type: 'string',
   },
+  pushoverUserKey: {
+    name: t('attributePushoverUserKey'),
+    type: 'string',
+  },
+  pushoverDeviceNames: {
+    name: t('attributePushoverDeviceNames'),
+    type: 'string',
+  },
   'mail.smtp.host': {
     name: t('attributeMailSmtpHost'),
     type: 'string',
