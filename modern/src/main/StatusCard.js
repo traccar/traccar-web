@@ -157,7 +157,7 @@ const StatusCard = ({ deviceId, onClose }) => {
     <>
       {device && (
         <Draggable
-          handle={`.${classes.header}`}
+          handle={deviceImage ? `.${classes.media}` : `.${classes.header}`}
         >
           <Card elevation={3} className={classes.card}>
             {deviceImage ? (
