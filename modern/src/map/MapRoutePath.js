@@ -1,5 +1,4 @@
 import { useTheme } from '@mui/styles';
-import maplibregl from 'maplibre-gl';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
@@ -70,14 +69,6 @@ const MapRoutePath = ({ positions }) => {
         color: reportColor,
       },
     });
-    if (coordinates.length) {
-      const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[1]));
-      const canvas = map.getCanvas();
-      map.fitBounds(bounds, {
-        padding: Math.min(canvas.width, canvas.height) * 0.1,
-        duration: 0,
-      });
-    }
   }, [positions, reportColor]);
 
   return null;

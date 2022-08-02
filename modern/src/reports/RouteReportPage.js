@@ -18,6 +18,7 @@ import MapRoutePath from '../map/MapRoutePath';
 import MapPositions from '../map/MapPositions';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
+import MapCamera from '../map/MapCamera';
 
 const RouteReportPage = () => {
   const classes = useReportStyles();
@@ -65,6 +66,7 @@ const RouteReportPage = () => {
               <MapRoutePath positions={items} />
               <MapPositions positions={[selectedItem]} />
             </MapView>
+            <MapCamera positions={items} />
           </div>
         )}
         <div className={classes.containerMain}>
