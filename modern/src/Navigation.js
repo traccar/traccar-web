@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Route, Routes, useLocation, useNavigate,
+} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LinearProgress } from '@mui/material';
 import MainPage from './main/MainPage';
