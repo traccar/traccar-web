@@ -87,9 +87,6 @@ Ext.define('Traccar.model.User', {
         name: 'poiLayer',
         type: 'string'
     }, {
-        name: 'token',
-        type: 'string'
-    }, {
         name: 'attributes'
     }],
 

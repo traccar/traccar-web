@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup,
+  Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, InputAdornment, IconButton, OutlinedInput,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CachedIcon from '@mui/icons-material/Cached';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useLocalization, useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
 import usePersistedState from '../common/util/usePersistedState';
 import PageLayout from '../common/components/PageLayout';
@@ -15,6 +17,7 @@ import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import useMapStyles from '../map/core/useMapStyles';
 import useMapOverlays from '../map/overlay/useMapOverlays';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     gap: theme.spacing(2),
     paddingBottom: theme.spacing(3),
+  },
+  tokenActions: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 
@@ -37,6 +44,8 @@ const PreferencesPage = () => {
 
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
+
+  const [token, setToken] = useState();
 
   const mapStyles = useMapStyles();
   const [activeMapStyles, setActiveMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
@@ -52,6 +61,18 @@ const PreferencesPage = () => {
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
   const [mapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', false);
+
+  const generateToken = useCatch(async () => {
+    const response = await fetch('/api/session/token', {
+      method: 'POST',
+      body: new URLSearchParams(),
+    });
+    if (response.ok) {
+      setToken(await response.text());
+    } else {
+      throw Error(await response.text());
+    }
+  });
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
     key: unprefixString('alarm', it),
@@ -80,6 +101,29 @@ const PreferencesPage = () => {
               >
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>{t('userToken')}</InputLabel>
+              <OutlinedInput
+                multiline
+                rows={6}
+                readOnly
+                type="text"
+                label={t('userToken')}
+                value={token || ''}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <div className={classes.tokenActions}>
+                      <IconButton size="small" onClick={generateToken} disabled={!!token}>
+                        <CachedIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" onClick={() => navigator.clipboard.writeText(token)} disabled={!token}>
+                        <ContentCopyIcon fontSize="small" />
+                      </IconButton>
+                    </div>
+                  </InputAdornment>
+                )}
+              />
             </FormControl>
           </AccordionDetails>
         </Accordion>

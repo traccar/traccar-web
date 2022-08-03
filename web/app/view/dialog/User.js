@@ -172,17 +172,6 @@ Ext.define('Traccar.view.dialog.User', {
                 fieldLabel: Strings.userUserLimit,
                 disabled: true,
                 reference: 'userLimitField'
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'token',
-                reference: 'tokenField',
-                fieldLabel: Strings.userToken,
-                triggers: {
-                    generate: {
-                        cls: 'iconCls: x-fa fa-refresh',
-                        handler: 'generateToken'
-                    }
-                }
             }]
         }]
     },

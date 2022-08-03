@@ -11,16 +11,12 @@ import {
   MenuItem,
   FormControlLabel,
   Checkbox,
-  InputAdornment,
-  IconButton,
-  OutlinedInput,
   FormGroup,
   TextField,
   Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CachedIcon from '@mui/icons-material/Cached';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -263,28 +259,7 @@ const UserPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
-              <FormControl>
-                <InputLabel>{t('userToken')}</InputLabel>
-                <OutlinedInput
-                  type="text"
-                  label={t('userToken')}
-                  value={item.token || ''}
-                  onChange={(e) => setItem({ ...item, token: e.target.value })}
-                  endAdornment={(
-                    <InputAdornment position="end">
-                      <IconButton
-                        size="small"
-                        onClick={() => {
-                          const token = [...Array(30)].map(() => Math.random().toString(36)[2]).join('');
-                          setItem({ ...item, token });
-                        }}
-                      >
-                        <CachedIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  )}
-                />
-              </FormControl>
+              token
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
