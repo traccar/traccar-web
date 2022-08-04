@@ -6,6 +6,14 @@ export default (t) => useMemo(() => ({
     type: 'number',
     subtype: 'speed',
   },
+  fuelDropThreshold: {
+    name: t('attributeFuelDropThreshold'),
+    type: 'number',
+  },
+  fuelIncreaseThreshold: {
+    name: t('attributeFuelIncreaseThreshold'),
+    type: 'number',
+  },
   'report.ignoreOdometer': {
     name: t('attributeReportIgnoreOdometer'),
     type: 'boolean',
