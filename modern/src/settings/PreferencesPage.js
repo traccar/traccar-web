@@ -114,10 +114,10 @@ const PreferencesPage = () => {
                 endAdornment={(
                   <InputAdornment position="end">
                     <div className={classes.tokenActions}>
-                      <IconButton size="small" onClick={generateToken} disabled={!!token}>
+                      <IconButton size="small" edge="end" onClick={generateToken} disabled={!!token}>
                         <CachedIcon fontSize="small" />
                       </IconButton>
-                      <IconButton size="small" onClick={() => navigator.clipboard.writeText(token)} disabled={!token}>
+                      <IconButton size="small" edge="end" onClick={() => navigator.clipboard.writeText(token)} disabled={!token}>
                         <ContentCopyIcon fontSize="small" />
                       </IconButton>
                     </div>

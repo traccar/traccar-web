@@ -199,7 +199,7 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
                 autoFocus={focusAttribute === key}
                 endAdornment={(
                   <InputAdornment position="end">
-                    <IconButton size="small" onClick={() => deleteAttribute(key)}>
+                    <IconButton size="small" edge="end" onClick={() => deleteAttribute(key)}>
                       <CloseIcon fontSize="small" />
                     </IconButton>
                   </InputAdornment>
