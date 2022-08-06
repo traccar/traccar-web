@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { makeStyles } from '@mui/styles';
-import image from '../resources/images/logo.svg';
+import { ReactComponent as Logo } from '../resources/images/logo.svg';
 
 const useStyles = makeStyles(() => ({
   image: {
@@ -9,34 +9,13 @@ const useStyles = makeStyles(() => ({
     maxHeight: '120px',
     width: 'auto',
     height: 'auto',
-    visibility: 'hidden',
   },
 }));
 
 const LogoImage = ({ color }) => {
   const classes = useStyles();
 
-  const element = useRef(null);
-
-  return (
-    <object
-      type="image/svg+xml"
-      data={image}
-      aria-label="logo"
-      className={classes.image}
-      ref={element}
-      onLoad={() => {
-        const imageDocument = element.current.contentDocument;
-        imageDocument.querySelectorAll('svg').forEach((element) => {
-          const style = imageDocument.createElement('style');
-          style.appendChild(imageDocument.createTextNode(`g { color: ${color}; }`));
-          element.insertAdjacentElement('afterbegin', style);
-          element.innerHTML += '';
-        });
-        element.current.style.visibility = 'visible';
-      }}
-    />
-  );
+  return (<Logo className={classes.image} style={{ color }} />);
 };
 
 export default LogoImage;
