@@ -12,8 +12,8 @@ import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
-import logoSvg from '../resources/images/logo.svg';
 import { nativePostMessage } from '../common/components/NativeInterface';
+import LogoImage from './LogoImage';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -25,10 +25,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-  },
-  logoContainer: {
-    textAlign: 'center',
-    color: theme.palette.primary.main,
   },
   extraContainer: {
     display: 'flex',
@@ -105,13 +101,7 @@ const LoginPage = () => {
         )}
       </div>
       <div className={classes.container}>
-        {useMediaQuery(theme.breakpoints.down('lg')) && (
-          <div className={classes.logoContainer}>
-            <svg height="64" width="240">
-              <use xlinkHref={`${logoSvg}#img`} />
-            </svg>
-          </div>
-        )}
+        {useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.primary.main} />}
         <TextField
           required
           error={failed}
