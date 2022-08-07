@@ -127,7 +127,7 @@ const SummaryReportPage = () => {
                 </TableCell>
               ))}
             </TableRow>
-          )) : (<TableShimmer columns={columns.length} />)}
+          )) : (<TableShimmer columns={columns.length + 1} />)}
         </TableBody>
       </Table>
     </PageLayout>
