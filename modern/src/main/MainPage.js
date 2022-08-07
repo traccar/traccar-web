@@ -255,7 +255,7 @@ const MainPage = () => {
               onChange={(event) => setFilterKeyword(event.target.value)}
               endAdornment={(
                 <InputAdornment position="end">
-                  <IconButton size="small" onClick={() => setFilterAnchorEl(filterRef.current)}>
+                  <IconButton size="small" edge="end" onClick={() => setFilterAnchorEl(filterRef.current)}>
                     <Badge color="info" variant="dot" invisible={!filterStatuses.length && !filterGroups.length}>
                       <TuneIcon fontSize="small" />
                     </Badge>
