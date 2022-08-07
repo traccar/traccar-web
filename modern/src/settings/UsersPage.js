@@ -91,7 +91,7 @@ const UsersPage = () => {
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={5} endAction />)}
+          )) : (<TableShimmer columns={6} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/user" />
