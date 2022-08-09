@@ -149,10 +149,10 @@ const TripReportPage = () => {
                 <>
                   <MapRoutePath positions={route} />
                   <MapMarkers markers={createMarkers()} />
+                  <MapCamera positions={route} />
                 </>
               )}
             </MapView>
-            <MapCamera positions={route} />
           </div>
         )}
         <div className={classes.containerMain}>
