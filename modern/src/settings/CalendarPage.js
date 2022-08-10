@@ -15,7 +15,7 @@ import { prefixString } from '../common/util/stringUtils';
 
 const formatTime = (time) => {
   const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `TZID=${tzid}:${time.format('YYYYMMDDTHHmmss')}`;
+  return `TZID=${tzid}:${time.locale('en').format('YYYYMMDDTHHmmss')}`;
 };
 
 const parseRule = (rule) => {
