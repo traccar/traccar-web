@@ -2,9 +2,15 @@ name: Modern App Lint
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+    paths:
+      - modern/**
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+    paths:
+      - modern/**
 
 jobs:
   build:
