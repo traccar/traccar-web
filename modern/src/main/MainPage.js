@@ -195,7 +195,10 @@ const MainPage = () => {
     const filtered = Object.values(devices)
       .filter((device) => !filterStatuses.length || filterStatuses.includes(device.status))
       .filter((device) => !filterGroups.length || filterGroups.includes(device.groupId))
-      .filter((device) => `${device.name} ${device.uniqueId}`.toLowerCase().includes(filterKeyword.toLowerCase()));
+      .filter((device) => {
+        const keyword = filterKeyword.toLowerCase();
+        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(keyword));
+      });
     if (filterSort === 'lastUpdate') {
       filtered.sort((device1, device2) => {
         const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
