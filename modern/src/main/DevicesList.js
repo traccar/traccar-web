@@ -24,6 +24,7 @@ import {
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
+import usePersistedState from '../common/util/usePersistedState';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -74,11 +75,22 @@ const DeviceRow = ({ data, index, style }) => {
   const item = items[index];
   const position = useSelector((state) => state.positions.items[item.id]);
 
+  const [devicePrimary] = usePersistedState('devicePrimary', 'name');
+  const [deviceSecondary] = usePersistedState('deviceSecondary', '');
+
   const secondaryText = () => {
+    let status;
     if (item.status === 'online' || !item.lastUpdate) {
-      return formatStatus(item.status, t);
+      status = formatStatus(item.status, t);
+    } else {
+      status = moment(item.lastUpdate).fromNow();
     }
-    return moment(item.lastUpdate).fromNow();
+    return (
+      <>
+        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        <span className={classes[getStatusColor(item.status)]}>{status}</span>
+      </>
+    );
   };
 
   return (
@@ -95,11 +107,10 @@ const DeviceRow = ({ data, index, style }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={item.name}
+          primary={item[devicePrimary]}
           primaryTypographyProps={{ noWrap: true }}
           secondary={secondaryText()}
           secondaryTypographyProps={{ noWrap: true }}
-          classes={{ secondary: classes[getStatusColor(item.status)] }}
         />
         {position && (
           <>

@@ -19,6 +19,14 @@ import useMapStyles from '../map/core/useMapStyles';
 import useMapOverlays from '../map/overlay/useMapOverlays';
 import { useCatch } from '../reactHelper';
 
+const deviceFields = [
+  { id: 'name', name: 'sharedName' },
+  { id: 'uniqueId', name: 'deviceIdentifier' },
+  { id: 'phone', name: 'sharedPhone' },
+  { id: 'model', name: 'deviceModel' },
+  { id: 'contact', name: 'deviceContact' },
+];
+
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
@@ -80,6 +88,9 @@ const PreferencesPage = () => {
     key: unprefixString('alarm', it),
     name: t(it),
   }));
+
+  const [devicePrimary, setDevicePrimary] = usePersistedState('devicePrimary', 'name');
+  const [deviceSecondary, setDeviceSecondary] = usePersistedState('deviceSecondary', '');
 
   const [soundEvents, setSoundEvents] = usePersistedState('soundEvents', []);
   const [soundAlarms, setSoundAlarms] = usePersistedState('soundAlarms', ['sos']);
@@ -227,6 +238,30 @@ const PreferencesPage = () => {
                 label={t('mapOnSelect')}
               />
             </FormGroup>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">
+              {t('deviceTitle')}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.details}>
+            <SelectField
+              emptyValue={null}
+              value={devicePrimary}
+              onChange={(e) => setDevicePrimary(e.target.value)}
+              data={deviceFields}
+              titleGetter={(it) => t(it.name)}
+              label={t('sharedPrimary')}
+            />
+            <SelectField
+              value={deviceSecondary}
+              onChange={(e) => setDeviceSecondary(e.target.value)}
+              data={deviceFields}
+              titleGetter={(it) => t(it.name)}
+              label={t('sharedSecondary')}
+            />
           </AccordionDetails>
         </Accordion>
         <Accordion>
