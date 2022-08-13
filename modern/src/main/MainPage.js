@@ -231,7 +231,7 @@ const MainPage = () => {
       <MapView>
         <MapOverlay />
         {mapGeofences && <MapGeofence />}
-        <MapAccuracy />
+        <MapAccuracy positions={filteredPositions} />
         {mapLiveRoutes && <MapLiveRoutes />}
         <MapPositions positions={filteredPositions} onClick={onClick} showStatus />
         {selectedPosition && selectedPosition.course && (

@@ -1,20 +1,12 @@
 import { useId, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import circle from '@turf/circle';
 import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 
-const MapAccuracy = () => {
+const MapAccuracy = ({ positions }) => {
   const id = useId();
 
   const theme = useTheme();
-
-  const positions = useSelector((state) => ({
-    type: 'FeatureCollection',
-    features: Object.values(state.positions.items)
-      .filter((position) => position.accuracy > 0)
-      .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
-  }));
 
   useEffect(() => {
     map.addSource(id, {
@@ -50,7 +42,13 @@ const MapAccuracy = () => {
   }, []);
 
   useEffect(() => {
-    map.getSource(id).setData(positions);
+    const data = {
+      type: 'FeatureCollection',
+      features: positions
+        .filter((position) => position.accuracy > 0)
+        .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
+    };
+    map.getSource(id).setData(data);
   }, [positions]);
 
   return null;
