@@ -199,6 +199,20 @@ const MainPage = () => {
         const keyword = filterKeyword.toLowerCase();
         return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(keyword));
       });
+    switch (filterSort) {
+      case 'name':
+        filtered.sort((device1, device2) => device1.name.localeCompare(device2.name));
+        break;
+      case 'lastUpdate':
+        filtered.sort((device1, device2) => {
+          const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
+          const time2 = device2.lastUpdate ? moment(device2.lastUpdate).valueOf() : 0;
+          return time2 - time1;
+        });
+        break;
+      default:
+        break;
+    }
     if (filterSort === 'lastUpdate') {
       filtered.sort((device1, device2) => {
         const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
@@ -311,6 +325,7 @@ const MainPage = () => {
                     displayEmpty
                   >
                     <MenuItem value="">{'\u00a0'}</MenuItem>
+                    <MenuItem value="name">{t('sharedName')}</MenuItem>
                     <MenuItem value="lastUpdate">{t('deviceLastUpdate')}</MenuItem>
                   </Select>
                 </FormControl>
