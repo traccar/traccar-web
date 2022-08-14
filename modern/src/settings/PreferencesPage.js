@@ -256,6 +256,7 @@ const PreferencesPage = () => {
               label={t('sharedPrimary')}
             />
             <SelectField
+              emptyValue=""
               value={deviceSecondary}
               onChange={(e) => setDeviceSecondary(e.target.value)}
               data={deviceFields}
