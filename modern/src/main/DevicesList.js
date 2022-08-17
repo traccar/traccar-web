@@ -12,8 +12,6 @@ import Battery60Icon from '@mui/icons-material/Battery60';
 import BatteryCharging60Icon from '@mui/icons-material/BatteryCharging60';
 import Battery20Icon from '@mui/icons-material/Battery20';
 import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
-import FlashOnIcon from '@mui/icons-material/FlashOn';
-import FlashOffIcon from '@mui/icons-material/FlashOff';
 import ErrorIcon from '@mui/icons-material/Error';
 import moment from 'moment';
 import { devicesActions } from '../store';
@@ -25,6 +23,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import usePersistedState from '../common/util/usePersistedState';
+import { ReactComponent as EngineIcon } from '../resources/images/data/engine.svg';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -125,9 +124,9 @@ const DeviceRow = ({ data, index, style }) => {
               <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
                 <IconButton size="small">
                   {position.attributes.ignition ? (
-                    <FlashOnIcon fontSize="small" className={classes.positive} />
+                    <EngineIcon width={20} height={20} className={classes.positive} />
                   ) : (
-                    <FlashOffIcon fontSize="small" className={classes.neutral} />
+                    <EngineIcon width={20} height={20} className={classes.neutral} />
                   )}
                 </IconButton>
               </Tooltip>
