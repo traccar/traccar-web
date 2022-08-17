@@ -23,13 +23,13 @@ const BottomMenu = () => {
 
   const readonly = useRestriction('readonly');
   const disableReports = useRestriction('disableReports');
-  const userId = useSelector((state) => state.session.user.id);
+  const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const currentSelection = () => {
-    if (location.pathname === `/settings/user/${userId}`) {
+    if (location.pathname === `/settings/user/${user.id}`) {
       return 'account';
     } if (location.pathname.startsWith('/settings')) {
       return 'settings';
@@ -43,11 +43,32 @@ const BottomMenu = () => {
 
   const handleAccount = () => {
     setAnchorEl(null);
-    navigate(`/settings/user/${userId}`);
+    navigate(`/settings/user/${user.id}`);
   };
 
   const handleLogout = async () => {
     setAnchorEl(null);
+
+    const notificationToken = window.localStorage.getItem('notificationToken');
+    if (notificationToken) {
+      window.localStorage.removeItem('notificationToken');
+      const tokens = user.attributes.notificationTokens?.split(',') || [];
+      if (tokens.includes(notificationToken)) {
+        const updatedUser = {
+          ...user,
+          attributes: {
+            ...user.attributes,
+            notificationTokens: tokens.filter((it) => it !== notificationToken).join(','),
+          },
+        };
+        await fetch(`/api/users/${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedUser),
+        });
+      }
+    }
+
     await fetch('/api/session', { method: 'DELETE' });
     navigate('/login');
     dispatch(sessionActions.updateUser(null));

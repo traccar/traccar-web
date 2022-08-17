@@ -33,6 +33,7 @@ const NativeInterface = () => {
 
   useEffectAsync(async () => {
     if (user && token) {
+      window.localStorage.setItem('notificationToken', token);
       setToken(null);
 
       const tokens = user.attributes.notificationTokens?.split(',') || [];
