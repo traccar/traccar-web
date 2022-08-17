@@ -19,7 +19,7 @@ import DevicesList from './DevicesList';
 import MapView from '../map/core/MapView';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
 import MapAccuracy from '../map/main/MapAccuracy';
-import MapGeofence from '../map/main/MapGeofence';
+import MapGeofence from '../map/MapGeofence';
 import MapCurrentLocation from '../map/MapCurrentLocation';
 import BottomMenu from '../common/components/BottomMenu';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -148,7 +148,6 @@ const MainPage = () => {
 
   const [mapOnSelect] = usePersistedState('mapOnSelect', false);
 
-  const [mapGeofences] = usePersistedState('mapGeofences', true);
   const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -230,7 +229,7 @@ const MainPage = () => {
     <div className={classes.root}>
       <MapView>
         <MapOverlay />
-        {mapGeofences && <MapGeofence />}
+        <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
         {mapLiveRoutes && <MapLiveRoutes />}
         <MapPositions positions={filteredPositions} onClick={onClick} showStatus />

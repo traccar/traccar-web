@@ -22,6 +22,7 @@ import ReportFilter from '../reports/components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatch } from '../reactHelper';
 import MapCamera from '../map/MapCamera';
+import MapGeofence from '../map/MapGeofence';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -151,6 +152,7 @@ const ReplayPage = () => {
   return (
     <div className={classes.root}>
       <MapView>
+        <MapGeofence />
         <MapRoutePath positions={positions} />
         {index < positions.length && (
           <MapPositions positions={[positions[index]]} onClick={onClick} />

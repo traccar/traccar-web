@@ -22,6 +22,7 @@ import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
 import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
+import MapGeofence from '../map/MapGeofence';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -98,6 +99,7 @@ const StopReportPage = () => {
         {selectedItem && (
           <div className={classes.containerMap}>
             <MapView>
+              <MapGeofence />
               <MapPositions positions={[{
                 deviceId: selectedItem.deviceId,
                 latitude: selectedItem.latitude,

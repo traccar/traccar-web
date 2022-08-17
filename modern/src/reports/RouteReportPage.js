@@ -20,6 +20,7 @@ import MapPositions from '../map/MapPositions';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
+import MapGeofence from '../map/MapGeofence';
 
 const RouteReportPage = () => {
   const classes = useReportStyles();
@@ -67,6 +68,7 @@ const RouteReportPage = () => {
         {selectedItem && (
           <div className={classes.containerMap}>
             <MapView>
+              <MapGeofence />
               {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => (
                 <MapRoutePath key={deviceId} positions={items.filter((position) => position.deviceId === deviceId)} />
               ))}

@@ -22,6 +22,7 @@ import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapMarkers from '../map/MapMarkers';
 import MapCamera from '../map/MapCamera';
+import MapGeofence from '../map/MapGeofence';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -145,6 +146,7 @@ const TripReportPage = () => {
         {selectedItem && (
           <div className={classes.containerMap}>
             <MapView>
+              <MapGeofence />
               {route && (
                 <>
                   <MapRoutePath positions={route} />
