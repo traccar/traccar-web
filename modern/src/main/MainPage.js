@@ -178,6 +178,8 @@ const MainPage = () => {
     setDevicesOpen(!devicesOpen);
   };
 
+  const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
+
   useEffect(() => setDevicesOpen(desktop), [desktop]);
 
   useEffect(() => {
@@ -299,9 +301,9 @@ const MainPage = () => {
                     onChange={(e) => setFilterStatuses(e.target.value)}
                     multiple
                   >
-                    <MenuItem value="online">{t('deviceStatusOnline')}</MenuItem>
-                    <MenuItem value="offline">{t('deviceStatusOffline')}</MenuItem>
-                    <MenuItem value="unknown">{t('deviceStatusUnknown')}</MenuItem>
+                    <MenuItem value="online">{`${t('deviceStatusOnline')} (${deviceStatusCount('online')})`}</MenuItem>
+                    <MenuItem value="offline">{`${t('deviceStatusOffline')} (${deviceStatusCount('offline')})`}</MenuItem>
+                    <MenuItem value="unknown">{`${t('deviceStatusUnknown')} (${deviceStatusCount('unknown')})`}</MenuItem>
                   </Select>
                 </FormControl>
                 <FormControl>
