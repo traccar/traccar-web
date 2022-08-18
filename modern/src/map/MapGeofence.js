@@ -80,11 +80,13 @@ const MapGeofence = () => {
   }, [mapGeofences]);
 
   useEffect(() => {
-    map.getSource(id).setData({
-      type: 'FeatureCollection',
-      features: Object.values(geofences).map((geofence) => geofenceToFeature(theme, geofence)),
-    });
-  }, [geofences]);
+    if (mapGeofences) {
+      map.getSource(id).setData({
+        type: 'FeatureCollection',
+        features: Object.values(geofences).map((geofence) => geofenceToFeature(theme, geofence)),
+      });
+    }
+  }, [mapGeofences, geofences]);
 
   return null;
 };
