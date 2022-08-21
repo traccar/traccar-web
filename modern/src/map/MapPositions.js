@@ -7,9 +7,10 @@ import { mapIconKey } from './core/preloadImages';
 import { findFonts } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
 
-const MapPositions = ({ positions, onClick, showStatus }) => {
+const MapPositions = ({ positions, onClick, showStatus, selectedPosition }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
+  const direction = `${id}-direction`;
 
   const devices = useSelector((state) => state.devices.items);
 
@@ -76,7 +77,7 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
       id,
       type: 'symbol',
       source: id,
-      filter: ['!', ['has', 'point_count']],
+      filter: ['!has', 'point_count'],
       layout: {
         'icon-image': '{category}-{color}',
         'icon-size': iconScale,
@@ -106,6 +107,21 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
         'text-size': 14,
       },
     });
+    if (selectedPosition && selectedPosition.course) {
+      map.addLayer({
+        id: direction,
+        type: 'symbol',
+        source: id,
+        filter: ['all', ['!has', 'point_count'], ['==', 'id', selectedPosition.id]],
+        layout: {
+          'icon-image': 'direction',
+          'icon-size': iconScale,
+          'icon-allow-overlap': true,
+          'icon-rotate': ['get', 'rotation'],
+          'icon-rotation-alignment': 'map',
+        },
+      });
+    }
 
     map.on('mouseenter', id, onMouseEnter);
     map.on('mouseleave', id, onMouseLeave);
@@ -130,11 +146,14 @@ const MapPositions = ({ positions, onClick, showStatus }) => {
       if (map.getLayer(clusters)) {
         map.removeLayer(clusters);
       }
+      if (map.getLayer(direction)) {
+        map.removeLayer(direction);
+      }
       if (map.getSource(id)) {
         map.removeSource(id);
       }
     };
-  }, [mapCluster, clusters, onMarkerClick, onClusterClick]);
+  }, [selectedPosition, mapCluster, clusters, direction, onMarkerClick, onClusterClick]);
 
   useEffect(() => {
     map.getSource(id).setData({

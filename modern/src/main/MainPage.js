@@ -32,7 +32,6 @@ import usePersistedState from '../common/util/usePersistedState';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import { useDeviceReadonly } from '../common/util/permissions';
 import MapPositions from '../map/MapPositions';
-import MapDirection from '../map/MapDirection';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
@@ -234,10 +233,7 @@ const MainPage = () => {
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
         {mapLiveRoutes && <MapLiveRoutes />}
-        <MapPositions positions={filteredPositions} onClick={onClick} showStatus />
-        {selectedPosition && selectedPosition.course && (
-          <MapDirection position={selectedPosition} />
-        )}
+        <MapPositions positions={filteredPositions} onClick={onClick} selectedPosition={selectedPosition} showStatus />
         <MapDefaultCamera />
         <MapSelectedDevice />
         <PoiMap />
