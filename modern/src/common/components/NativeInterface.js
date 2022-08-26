@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffectAsync } from '../../reactHelper';
 import { sessionActions } from '../../store';
 
+export const nativeEnvironment = window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface);
+
 export const nativePostMessage = (message) => {
   if (window.webkit && window.webkit.messageHandlers.appInterface) {
     window.webkit.messageHandlers.appInterface.postMessage(message);

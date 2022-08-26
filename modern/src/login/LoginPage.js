@@ -12,7 +12,7 @@ import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
-import { nativePostMessage } from '../common/components/NativeInterface';
+import { nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +92,7 @@ const LoginPage = () => {
   return (
     <LoginLayout>
       <div className={classes.options}>
-        {(window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface)) && (
+        {nativeEnvironment && (
           <Tooltip title={t('settingsServer')}>
             <IconButton onClick={() => navigate('/change-server')}>
               <LockOpenIcon />
