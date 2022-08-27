@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import {
   useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip,
 } from '@mui/material';
@@ -12,8 +13,9 @@ import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
-import { nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
+import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -62,7 +64,26 @@ const LoginPage = () => {
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
 
-  const handleSubmit = async (event) => {
+  const generateLoginToken = async () => {
+    if (nativeEnvironment) {
+      let token = '';
+      try {
+        const expiration = moment().add(6, 'months').toISOString();
+        const response = await fetch('/api/session/token', {
+          method: 'POST',
+          body: new URLSearchParams(`expiration=${expiration}`),
+        });
+        if (response.ok) {
+          token = await response.text();
+        }
+      } catch (error) {
+        token = '';
+      }
+      nativePostMessage(`login|${token}`);
+    }
+  };
+
+  const handlePasswordLogin = async (event) => {
     event.preventDefault();
     try {
       const response = await fetch('/api/session', {
@@ -71,8 +92,8 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const user = await response.json();
+        generateLoginToken();
         dispatch(sessionActions.updateUser(user));
-        nativePostMessage('login');
         navigate('/');
       } else {
         throw Error(await response.text());
@@ -83,11 +104,30 @@ const LoginPage = () => {
     }
   };
 
+  const handleTokenLogin = useCatch(async (token) => {
+    const response = await fetch(`/api/session?token=${encodeURIComponent(token)}`);
+    if (response.ok) {
+      const user = await response.json();
+      dispatch(sessionActions.updateUser(user));
+      navigate('/');
+    } else {
+      throw Error(await response.text());
+    }
+  });
+
   const handleSpecialKey = (e) => {
     if (e.keyCode === 13 && email && password) {
-      handleSubmit(e);
+      handlePasswordLogin(e);
     }
   };
+
+  useEffect(() => nativePostMessage('authentication'), []);
+
+  useEffect(() => {
+    const listener = (token) => handleTokenLogin(token);
+    handleLoginTokenListeners.add(listener);
+    return () => handleLoginTokenListeners.delete(listener);
+  }, []);
 
   return (
     <LoginLayout>
@@ -127,7 +167,7 @@ const LoginPage = () => {
           onKeyUp={handleSpecialKey}
         />
         <Button
-          onClick={handleSubmit}
+          onClick={handlePasswordLogin}
           onKeyUp={handleSpecialKey}
           variant="contained"
           color="secondary"

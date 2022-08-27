@@ -14,37 +14,40 @@ export const nativePostMessage = (message) => {
   }
 };
 
-const listeners = new Set();
+export const handleLoginTokenListeners = new Set();
+window.handleLoginToken = (token) => {
+  handleLoginTokenListeners.forEach((listener) => listener(token));
+};
+
+const updateNotificationTokenListeners = new Set();
 window.updateNotificationToken = (token) => {
-  listeners.forEach((listener) => listener(token));
+  updateNotificationTokenListeners.forEach((listener) => listener(token));
 };
 
 const NativeInterface = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.session.user);
-  const [token, setToken] = useState(null);
+  const [notificationToken, setNotificationToken] = useState(null);
 
   useEffect(() => {
-    const listener = (token) => setToken(token);
-    listeners.add(listener);
-    return () => {
-      listeners.delete(listener);
-    };
-  }, [setToken]);
+    const listener = (token) => setNotificationToken(token);
+    updateNotificationTokenListeners.add(listener);
+    return () => updateNotificationTokenListeners.delete(listener);
+  }, [setNotificationToken]);
 
   useEffectAsync(async () => {
-    if (user && token) {
-      window.localStorage.setItem('notificationToken', token);
-      setToken(null);
+    if (user && notificationToken) {
+      window.localStorage.setItem('notificationToken', notificationToken);
+      setNotificationToken(null);
 
       const tokens = user.attributes.notificationTokens?.split(',') || [];
-      if (!tokens.includes(token)) {
+      if (!tokens.includes(notificationToken)) {
         const updatedUser = {
           ...user,
           attributes: {
             ...user.attributes,
-            notificationTokens: [...tokens.slice(-2), token].join(','),
+            notificationTokens: [...tokens.slice(-2), notificationToken].join(','),
           },
         };
 
@@ -61,7 +64,7 @@ const NativeInterface = () => {
         }
       }
     }
-  }, [user, token, setToken]);
+  }, [user, notificationToken, setNotificationToken]);
 
   return null;
 };

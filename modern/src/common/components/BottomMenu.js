@@ -14,6 +14,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
+import { nativePostMessage } from './NativeInterface';
 
 const BottomMenu = () => {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ const BottomMenu = () => {
     }
 
     await fetch('/api/session', { method: 'DELETE' });
+    nativePostMessage('logout');
     navigate('/login');
     dispatch(sessionActions.updateUser(null));
   };
