@@ -12,6 +12,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
+import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -26,6 +27,7 @@ const CommandsPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
@@ -44,6 +46,7 @@ const CommandsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedSavedCommands']}>
+      <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table>
         <TableHead>
           <TableRow>
@@ -54,7 +57,7 @@ const CommandsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
+          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.description}</TableCell>
               <TableCell>{t(prefixString('command', item.type))}</TableCell>

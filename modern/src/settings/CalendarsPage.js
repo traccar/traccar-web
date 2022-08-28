@@ -10,6 +10,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
+import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -24,6 +25,7 @@ const CalendarsPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
@@ -42,6 +44,7 @@ const CalendarsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedCalendars']}>
+      <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table>
         <TableHead>
           <TableRow>
@@ -50,7 +53,7 @@ const CalendarsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
+          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell className={classes.columnAction} padding="none">

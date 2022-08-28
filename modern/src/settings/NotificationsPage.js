@@ -12,6 +12,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
+import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -26,6 +27,7 @@ const NotificationsPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
@@ -55,6 +57,7 @@ const NotificationsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedNotifications']}>
+      <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table>
         <TableHead>
           <TableRow>
@@ -66,7 +69,7 @@ const NotificationsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
+          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{t(prefixString('event', item.type))}</TableCell>
               <TableCell>{formatBoolean(item.always, t)}</TableCell>

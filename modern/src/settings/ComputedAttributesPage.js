@@ -11,6 +11,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
+import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -25,6 +26,7 @@ const ComputedAttributesPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
   const administrator = useAdministrator();
 
@@ -44,6 +46,7 @@ const ComputedAttributesPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
+      <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table>
         <TableHead>
           <TableRow>
@@ -55,7 +58,7 @@ const ComputedAttributesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
+          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.description}</TableCell>
               <TableCell>{item.attribute}</TableCell>

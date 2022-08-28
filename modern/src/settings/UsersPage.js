@@ -13,6 +13,7 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAdministrator } from '../common/util/permissions';
+import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -29,6 +30,7 @@ const UsersPage = () => {
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = useCatch(async (userId) => {
@@ -62,6 +64,7 @@ const UsersPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
+      <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table>
         <TableHead>
           <TableRow>
@@ -74,7 +77,7 @@ const UsersPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
+          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.email}</TableCell>
