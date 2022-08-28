@@ -310,7 +310,9 @@ const MainPage = () => {
                     onChange={(e) => setFilterGroups(e.target.value)}
                     multiple
                   >
-                    {Object.values(groups).map((group) => (<MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>))}
+                    {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
+                      <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
                 <FormControl>

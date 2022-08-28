@@ -80,7 +80,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
               onChange={(e) => (multiDevice ? setDeviceIds(e.target.value) : setDeviceId(e.target.value))}
               multiple={multiDevice}
             >
-              {Object.values(devices).map((device) => (
+              {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
                 <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
               ))}
             </Select>
@@ -97,7 +97,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
               onChange={(e) => setGroupIds(e.target.value)}
               multiple
             >
-              {Object.values(groups).map((group) => (
+              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
                 <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
               ))}
             </Select>
