@@ -25,6 +25,7 @@ const deviceFields = [
   { id: 'phone', name: 'sharedPhone' },
   { id: 'model', name: 'deviceModel' },
   { id: 'contact', name: 'deviceContact' },
+  { id: 'geofenceIds', name: 'sharedGeofences' },
 ];
 
 const useStyles = makeStyles((theme) => ({
