@@ -16,6 +16,7 @@ const officialServers = [
   'https://demo4.traccar.org',
   'https://server.traccar.org',
   'http://localhost:8082',
+  'http://localhost:3000',
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -38,8 +39,10 @@ const ChangeServerPage = () => {
   const t = useTranslation();
 
   const [url, setUrl] = useState(currentServer);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = () => {
+    setLoading(true);
     if (window.webkit && window.webkit.messageHandlers.appInterface) {
       window.webkit.messageHandlers.appInterface.postMessage(`server|${url}`);
     } else if (window.appInterface) {
@@ -60,7 +63,7 @@ const ChangeServerPage = () => {
         value={url}
         onChange={(_, value) => setUrl(value)}
       />
-      <Button variant="outlined" color="secondary" onClick={handleSubmit}>{t('sharedSave')}</Button>
+      <Button variant="outlined" color="secondary" onClick={handleSubmit} disabled={loading}>{t('sharedSave')}</Button>
     </Container>
   );
 };
