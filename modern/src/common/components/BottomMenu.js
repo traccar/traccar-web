@@ -59,7 +59,7 @@ const BottomMenu = () => {
           ...user,
           attributes: {
             ...user.attributes,
-            notificationTokens: tokens.filter((it) => it !== notificationToken).join(','),
+            notificationTokens: tokens.length > 1 ? tokens.filter((it) => it !== notificationToken).join(',') : undefined,
           },
         };
         await fetch(`/api/users/${user.id}`, {
