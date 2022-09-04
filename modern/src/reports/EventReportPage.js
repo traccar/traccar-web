@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link,
+  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton,
 } from '@mui/material';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
 import { formatSpeed, formatTime } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
@@ -15,6 +17,10 @@ import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAttributePreference } from '../common/util/preferences';
+import MapView from '../map/core/MapView';
+import MapGeofence from '../map/MapGeofence';
+import MapPositions from '../map/MapPositions';
+import MapCamera from '../map/MapCamera';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -40,6 +46,24 @@ const EventReportPage = () => {
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [position, setPosition] = useState(null);
+
+  useEffectAsync(async () => {
+    if (selectedItem) {
+      const response = await fetch(`/api/positions?id=${selectedItem.positionId}`);
+      if (response.ok) {
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setPosition(positions[0]);
+        }
+      } else {
+        throw Error(await response.text());
+      }
+    } else {
+      setPosition(null);
+    }
+  }, [selectedItem]);
 
   useEffectAsync(async () => {
     const response = await fetch('/api/notifications/types');
@@ -114,51 +138,76 @@ const EventReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
-      <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit}>
-          <div className={classes.filterItem}>
-            <FormControl fullWidth>
-              <InputLabel>{t('reportEventTypes')}</InputLabel>
-              <Select
-                label={t('reportEventTypes')}
-                value={eventTypes}
-                onChange={(event, child) => {
-                  let values = event.target.value;
-                  const clicked = child.props.value;
-                  if (values.includes('allEvents') && values.length > 1) {
-                    values = [clicked];
-                  }
-                  setEventTypes(values);
-                }}
-                multiple
-              >
-                {allEventTypes.map(([key, string]) => (
-                  <MenuItem key={key} value={key}>{t(string)}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+      <div className={classes.container}>
+        {selectedItem && (
+          <div className={classes.containerMap}>
+            <MapView>
+              <MapGeofence />
+              {position && <MapPositions positions={[position]} />}
+            </MapView>
+            {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
           </div>
-          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
-        </ReportFilter>
+        )}
+        <div className={classes.containerMain}>
+          <div className={classes.header}>
+            <ReportFilter handleSubmit={handleSubmit}>
+              <div className={classes.filterItem}>
+                <FormControl fullWidth>
+                  <InputLabel>{t('reportEventTypes')}</InputLabel>
+                  <Select
+                    label={t('reportEventTypes')}
+                    value={eventTypes}
+                    onChange={(event, child) => {
+                      let values = event.target.value;
+                      const clicked = child.props.value;
+                      if (values.includes('allEvents') && values.length > 1) {
+                        values = [clicked];
+                      }
+                      setEventTypes(values);
+                    }}
+                    multiple
+                  >
+                    {allEventTypes.map(([key, string]) => (
+                      <MenuItem key={key} value={key}>{t(string)}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+            </ReportFilter>
+          </div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.columnAction} />
+                {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!loading ? items.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className={classes.columnAction} padding="none">
+                    {item.positionId ? selectedItem === item ? (
+                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
+                        <GpsFixedIcon fontSize="small" />
+                      </IconButton>
+                    ) : (
+                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                        <LocationSearchingIcon fontSize="small" />
+                      </IconButton>
+                    ) : ''}
+                  </TableCell>
+                  {columns.map((key) => (
+                    <TableCell key={key}>
+                      {formatValue(item, key)}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              )) : (<TableShimmer columns={columns.length + 1} />)}
+            </TableBody>
+          </Table>
+        </div>
       </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {!loading ? items.map((item) => (
-            <TableRow key={item.id}>
-              {columns.map((key) => (
-                <TableCell key={key}>
-                  {formatValue(item, key)}
-                </TableCell>
-              ))}
-            </TableRow>
-          )) : (<TableShimmer columns={columns.length} />)}
-        </TableBody>
-      </Table>
     </PageLayout>
   );
 };
