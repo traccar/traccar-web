@@ -73,7 +73,7 @@ const ComputedAttributesPage = () => {
           )) : (<TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />)}
         </TableBody>
       </Table>
-      <CollectionFab editPath="/settings/attribute" />
+      <CollectionFab editPath="/settings/attribute" disabled={!administrator} />
     </PageLayout>
   );
 };
