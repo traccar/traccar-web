@@ -16,6 +16,7 @@ import SelectField from '../common/components/SelectField';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
+import { useRestriction } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,6 +48,8 @@ const CommandSendPage = () => {
 
   const [savedId, setSavedId] = useState(0);
   const [item, setItem] = useState({});
+
+  const limitCommands = useRestriction('limitCommands');
 
   const handleSend = useCatch(async () => {
     let command;
@@ -90,13 +93,14 @@ const CommandSendPage = () => {
           <AccordionDetails className={classes.details}>
             <SelectField
               value={savedId}
+              emptyValue={limitCommands ? null : 0}
               emptyTitle={t('sharedNew')}
               onChange={(e) => setSavedId(e.target.value)}
               endpoint={`/api/commands/send?deviceId=${deviceId}`}
               titleGetter={(it) => it.description}
               label={t('sharedSavedCommand')}
             />
-            {!savedId && (
+            {!limitCommands && !savedId && (
               <BaseCommandView item={item} setItem={setItem} />
             )}
           </AccordionDetails>
