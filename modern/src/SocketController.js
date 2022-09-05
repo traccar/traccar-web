@@ -13,6 +13,8 @@ import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
 
+const logoutCode = 4000;
+
 const SocketController = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,19 +42,21 @@ const SocketController = () => {
       dispatch(sessionActions.updateSocket(true));
     };
 
-    socket.onclose = async () => {
+    socket.onclose = async (event) => {
       dispatch(sessionActions.updateSocket(false));
-      const devicesResponse = await fetch('/api/devices');
-      if (devicesResponse.ok) {
-        dispatch(devicesActions.update(await devicesResponse.json()));
+      if (event.code !== logoutCode) {
+        const devicesResponse = await fetch('/api/devices');
+        if (devicesResponse.ok) {
+          dispatch(devicesActions.update(await devicesResponse.json()));
+        }
+        const positionsResponse = await fetch('/api/positions', {
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (positionsResponse.ok) {
+          dispatch(positionsActions.update(await positionsResponse.json()));
+        }
+        setTimeout(() => connectSocket(), 60000);
       }
-      const positionsResponse = await fetch('/api/positions', {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      if (positionsResponse.ok) {
-        dispatch(positionsActions.update(await positionsResponse.json()));
-      }
-      setTimeout(() => connectSocket(), 60000);
     };
 
     socket.onmessage = (event) => {
@@ -84,7 +88,7 @@ const SocketController = () => {
       return () => {
         const socket = socketRef.current;
         if (socket) {
-          socket.close();
+          socket.close(logoutCode);
         }
       };
     }
