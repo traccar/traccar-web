@@ -259,7 +259,6 @@ const UserPage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
-              token
               <TextField
                 label={t('userExpirationTime')}
                 type="date"

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -54,7 +55,8 @@ const PreferencesPage = () => {
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(null);
+  const [tokenExpiration, setTokenExpiration] = useState(moment().add(1, 'week').locale('en').format(moment.HTML5_FMT.DATE));
 
   const mapStyles = useMapStyles();
   const [activeMapStyles, setActiveMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
@@ -74,9 +76,10 @@ const PreferencesPage = () => {
   const filter = createFilterOptions();
 
   const generateToken = useCatch(async () => {
+    const expiration = moment(tokenExpiration, moment.HTML5_FMT.DATE).toISOString();
     const response = await fetch('/api/session/token', {
       method: 'POST',
-      body: new URLSearchParams(),
+      body: new URLSearchParams(`expiration=${expiration}`),
     });
     if (response.ok) {
       setToken(await response.text());
@@ -116,14 +119,30 @@ const PreferencesPage = () => {
                 {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
               </Select>
             </FormControl>
+          </AccordionDetails>
+        </Accordion>
+        <Accordion defaultExpanded>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">
+              {t('userToken')}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.details}>
+            <TextField
+              label={t('userExpirationTime')}
+              type="date"
+              value={tokenExpiration}
+              onChange={(e) => {
+                setTokenExpiration(e.target.value);
+                setToken(null);
+              }}
+            />
             <FormControl>
-              <InputLabel>{t('userToken')}</InputLabel>
               <OutlinedInput
                 multiline
                 rows={6}
                 readOnly
                 type="text"
-                label={t('userToken')}
                 value={token || ''}
                 endAdornment={(
                   <InputAdornment position="end">
