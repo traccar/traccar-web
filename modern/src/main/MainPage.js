@@ -191,10 +191,20 @@ const MainPage = () => {
     dispatch(devicesActions.select(deviceId));
   }, [dispatch]);
 
+  const deviceGroups = (device) => {
+    const groupIds = [];
+    let { groupId } = device;
+    while (groupId) {
+      groupIds.push(groupId);
+      groupId = groups[groupId].groupId;
+    }
+    return groupIds;
+  };
+
   useEffect(() => {
     const filtered = Object.values(devices)
       .filter((device) => !filterStatuses.length || filterStatuses.includes(device.status))
-      .filter((device) => !filterGroups.length || filterGroups.includes(device.groupId))
+      .filter((device) => !filterGroups.length || deviceGroups(device).some((id) => filterGroups.includes(id)))
       .filter((device) => {
         const keyword = filterKeyword.toLowerCase();
         return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(keyword));
