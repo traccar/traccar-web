@@ -82,7 +82,10 @@ const DeviceRow = ({ data, index, style }) => {
   const formatProperty = (key) => {
     if (key === 'geofenceIds') {
       const geofenceIds = item[key] || [];
-      return geofenceIds.map((id) => geofences[id].name).join(', ');
+      return geofenceIds
+        .filter((id) => geofences.hasOwnProperty(id))
+        .map((id) => geofences[id].name)
+        .join(', ');
     }
     return item[key];
   };
