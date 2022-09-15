@@ -13,27 +13,30 @@ import preloadImages from './map/core/preloadImages';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import NativeInterface from './common/components/NativeInterface';
 import ServerProvider from './ServerProvider';
+import ErrorBoundary from './ErrorBoundary';
 
 preloadImages();
 
 const root = createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <LocalizationProvider>
-      <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <ServerProvider>
-            <BrowserRouter>
-              <Navigation />
-            </BrowserRouter>
-          </ServerProvider>
-          <ErrorHandler />
-          <NativeInterface />
-        </ThemeProvider>
-      </StyledEngineProvider>
-    </LocalizationProvider>
-  </Provider>,
+  <ErrorBoundary>
+    <Provider store={store}>
+      <LocalizationProvider>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ServerProvider>
+              <BrowserRouter>
+                <Navigation />
+              </BrowserRouter>
+            </ServerProvider>
+            <ErrorHandler />
+            <NativeInterface />
+          </ThemeProvider>
+        </StyledEngineProvider>
+      </LocalizationProvider>
+    </Provider>
+  </ErrorBoundary>,
 );
 
 serviceWorkerRegistration.register();
