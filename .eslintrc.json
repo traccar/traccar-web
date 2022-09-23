@@ -12,6 +12,7 @@
         "proj4": false
     },
     "rules": {
+        "no-unsed-var": "off",
         "strict": "off",
         "max-lines": ["error", 1000],
         "max-len": ["error", 180],

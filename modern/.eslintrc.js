@@ -9,6 +9,8 @@ module.exports = {
   ignorePatterns: ['service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js'],
   rules: {
     'max-len': [0],
+    'no-unused-vars': [0],
+    'linebreak-style': [0],
     'no-shadow': [0],
     'no-return-assign': [0],
     'no-param-reassign': [0],
