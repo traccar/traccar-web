@@ -78,6 +78,8 @@
     "sharedPermissions": "Leidimai",
     "sharedConnections": "Susijungimai",
     "sharedExtra": "Extra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Tekstas",
     "sharedTypeNumber": "Skaičius",
     "sharedTypeBoolean": "Loginis",

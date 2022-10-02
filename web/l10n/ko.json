@@ -78,6 +78,8 @@
     "sharedPermissions": "권한",
     "sharedConnections": "Connections",
     "sharedExtra": "특별한 것",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "String",
     "sharedTypeNumber": "Number",
     "sharedTypeBoolean": "Boolean",

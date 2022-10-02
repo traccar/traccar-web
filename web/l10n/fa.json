@@ -78,6 +78,8 @@
     "sharedPermissions": "دسترسیها",
     "sharedConnections": "Connections",
     "sharedExtra": "بیشتر",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "رشته",
     "sharedTypeNumber": "شماره",
     "sharedTypeBoolean": "بولی",

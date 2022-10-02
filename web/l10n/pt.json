@@ -78,6 +78,8 @@
     "sharedPermissions": "Permissões",
     "sharedConnections": "Conexões",
     "sharedExtra": "Extra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Corda",
     "sharedTypeNumber": "Número",
     "sharedTypeBoolean": "Boleano",

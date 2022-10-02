@@ -78,6 +78,8 @@
     "sharedPermissions": "Permisiuni",
     "sharedConnections": "Connections",
     "sharedExtra": "Suplimentar",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "caracter",
     "sharedTypeNumber": "numar",
     "sharedTypeBoolean": "boolean",

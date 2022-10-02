@@ -78,6 +78,8 @@
     "sharedPermissions": "අවසර",
     "sharedConnections": "සම්බන්ධතා",
     "sharedExtra": "අමතර",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "නූල්",
     "sharedTypeNumber": "අංකය",
     "sharedTypeBoolean": "බූලියන්",

@@ -78,6 +78,8 @@
     "sharedPermissions": "Kewenangan",
     "sharedConnections": "Connections",
     "sharedExtra": "Ekstra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "String",
     "sharedTypeNumber": "Nomor",
     "sharedTypeBoolean": "Pilihan",

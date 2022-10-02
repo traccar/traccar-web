@@ -78,6 +78,8 @@
     "sharedPermissions": "പെർമിഷനുകൾ",
     "sharedConnections": "Connections",
     "sharedExtra": "എക്സ്ട്രാ ",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "സ്ട്രിംഗ്",
     "sharedTypeNumber": "നമ്പർ ",
     "sharedTypeBoolean": "ബൂളിയാൻ ",

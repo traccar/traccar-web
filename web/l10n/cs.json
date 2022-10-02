@@ -78,6 +78,8 @@
     "sharedPermissions": "Oprávnění",
     "sharedConnections": "Připojení",
     "sharedExtra": "Volitelné",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Řetězec",
     "sharedTypeNumber": "Číslo",
     "sharedTypeBoolean": "Logická hodnota",

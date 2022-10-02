@@ -78,6 +78,8 @@
     "sharedPermissions": "Разрешения",
     "sharedConnections": "Соединения",
     "sharedExtra": "Экстра",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Строка",
     "sharedTypeNumber": "Число",
     "sharedTypeBoolean": "Логическое значение",

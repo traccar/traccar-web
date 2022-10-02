@@ -78,6 +78,8 @@
     "sharedPermissions": "İzinlər",
     "sharedConnections": "Connections",
     "sharedExtra": "Əlavə",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Sətir",
     "sharedTypeNumber": "Rəqəm",
     "sharedTypeBoolean": "Məntiqi dəyəri",

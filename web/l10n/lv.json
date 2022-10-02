@@ -78,6 +78,8 @@
     "sharedPermissions": "Atļaujas",
     "sharedConnections": "Savienojumi",
     "sharedExtra": "Ekstra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Teksts",
     "sharedTypeNumber": "Skaitlis",
     "sharedTypeBoolean": "Boolean",

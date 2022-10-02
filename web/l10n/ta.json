@@ -78,6 +78,8 @@
     "sharedPermissions": "அனுமதிகள்",
     "sharedConnections": "Connections",
     "sharedExtra": "கூடுதல்",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "சரம்",
     "sharedTypeNumber": "எண் ",
     "sharedTypeBoolean": "பூலியன்",

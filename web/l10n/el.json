@@ -78,6 +78,8 @@
     "sharedPermissions": "Άδειες",
     "sharedConnections": "Συνδέσεις",
     "sharedExtra": "Επιπλέον",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Αλφαριθμητικό",
     "sharedTypeNumber": "Αριθμός",
     "sharedTypeBoolean": "Αληθές/Ψευδές",

@@ -78,6 +78,8 @@
     "sharedPermissions": "Rechten",
     "sharedConnections": "Connecties",
     "sharedExtra": "Extra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Tekst",
     "sharedTypeNumber": "Getal",
     "sharedTypeBoolean": "Boolean",

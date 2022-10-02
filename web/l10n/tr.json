@@ -78,6 +78,8 @@
     "sharedPermissions": "Yetkiler",
     "sharedConnections": "Connections",
     "sharedExtra": "Ekstra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Akış",
     "sharedTypeNumber": "Sayı",
     "sharedTypeBoolean": "Evet - Hayır",

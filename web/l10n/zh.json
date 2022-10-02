@@ -78,6 +78,8 @@
     "sharedPermissions": "权限",
     "sharedConnections": "链接",
     "sharedExtra": "附加",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "字符串",
     "sharedTypeNumber": "数字",
     "sharedTypeBoolean": "布尔",

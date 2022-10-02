@@ -78,6 +78,8 @@
     "sharedPermissions": "Tilgang",
     "sharedConnections": "Connections",
     "sharedExtra": "Ekstra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Streng",
     "sharedTypeNumber": "Nummer",
     "sharedTypeBoolean": "Boolsk",

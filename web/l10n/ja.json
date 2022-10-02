@@ -78,6 +78,8 @@
     "sharedPermissions": "アクセス許可",
     "sharedConnections": "Connections",
     "sharedExtra": "拡張",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "文字列",
     "sharedTypeNumber": "数値",
     "sharedTypeBoolean": "論理値",

@@ -78,6 +78,8 @@
     "sharedPermissions": "უფლებები",
     "sharedConnections": "კავშირები",
     "sharedExtra": "დამატებითი",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "სტრიქონი",
     "sharedTypeNumber": "ნომერი",
     "sharedTypeBoolean": "ლოგიკური",

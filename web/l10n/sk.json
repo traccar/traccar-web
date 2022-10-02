@@ -78,6 +78,8 @@
     "sharedPermissions": "Povolenia",
     "sharedConnections": "Connections",
     "sharedExtra": "Extra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Reťazec",
     "sharedTypeNumber": "Číslo",
     "sharedTypeBoolean": "Binárna hodnota",

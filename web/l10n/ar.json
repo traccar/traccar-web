@@ -78,6 +78,8 @@
     "sharedPermissions": "الصلاحيات",
     "sharedConnections": "الاتصالات",
     "sharedExtra": "إضافي",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "نص",
     "sharedTypeNumber": "رقم",
     "sharedTypeBoolean": "منطقية",

@@ -78,6 +78,8 @@
     "sharedPermissions": "অনুমতিসমূহ",
     "sharedConnections": "Connections",
     "sharedExtra": "অতিরিক্ত",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "স্ট্রিং",
     "sharedTypeNumber": "নম্বর",
     "sharedTypeBoolean": "Boolean",

@@ -78,6 +78,8 @@
     "sharedPermissions": "Зөвшөөрөл",
     "sharedConnections": "Холболт",
     "sharedExtra": "Нэмэлт",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Бутархай утга",
     "sharedTypeNumber": "Тоон утга",
     "sharedTypeBoolean": "Логик утга",

@@ -78,6 +78,8 @@
     "sharedPermissions": "Дозволи",
     "sharedConnections": "Connections",
     "sharedExtra": "Екстра",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "Строка",
     "sharedTypeNumber": "Число",
     "sharedTypeBoolean": "Логічне значення",

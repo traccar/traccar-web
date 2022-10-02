@@ -78,6 +78,8 @@
     "sharedPermissions": "הרשאות",
     "sharedConnections": "Connections",
     "sharedExtra": "תוספת",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "מחרוזת",
     "sharedTypeNumber": "מספר",
     "sharedTypeBoolean": "בוליאני",

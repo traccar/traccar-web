@@ -78,6 +78,8 @@
     "sharedPermissions": "Dozvole",
     "sharedConnections": "Veze",
     "sharedExtra": "Extra",
+    "sharedPrimary": "Primary",
+    "sharedSecondary": "Secondary",
     "sharedTypeString": "String",
     "sharedTypeNumber": "Broj",
     "sharedTypeBoolean": "Boolean",
