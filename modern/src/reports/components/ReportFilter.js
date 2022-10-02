@@ -1,28 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
+import { reportsActions } from '../../store';
 
 const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDevice, includeGroups }) => {
   const classes = useReportStyles();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);
   const groups = useSelector((state) => state.groups.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
-  const [deviceId, setDeviceId] = useState(selectedDeviceId);
-  const [deviceIds, setDeviceIds] = useState(selectedDeviceId ? [selectedDeviceId] : []);
-  const [groupIds, setGroupIds] = useState([]);
-  const [period, setPeriod] = useState('today');
-  const [from, setFrom] = useState(moment().subtract(1, 'hour'));
-  const [to, setTo] = useState(moment());
+  const deviceId = useSelector((state) => state.reports.deviceId || selectedDeviceId);
+  const deviceIds = useSelector((state) => (
+    state.reports.deviceIds.length
+      ? state.reports.deviceIds : state.reports.deviceId
+        ? [state.reports.deviceId] : selectedDeviceId
+          ? [selectedDeviceId] : []
+  ));
+  const groupIds = useSelector((state) => state.reports.groupIds);
+  const period = useSelector((state) => state.reports.period);
+  const from = useSelector((state) => state.reports.from);
+  const to = useSelector((state) => state.reports.to);
 
-  const disabled = !ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length;
+  const disabled = !ignoreDevice && !selectedDeviceId && !deviceId && !deviceIds.length && !groupIds.length;
 
   const handleClick = (type) => {
     let selectedFrom;
@@ -53,8 +60,8 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
         selectedTo = moment().subtract(1, 'month').endOf('month');
         break;
       default:
-        selectedFrom = from;
-        selectedTo = to;
+        selectedFrom = moment(from, moment.HTML5_FMT.DATETIME_LOCAL);
+        selectedTo = moment(to, moment.HTML5_FMT.DATETIME_LOCAL);
         break;
     }
 
@@ -77,7 +84,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
             <Select
               label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
               value={multiDevice ? deviceIds : deviceId || ''}
-              onChange={(e) => (multiDevice ? setDeviceIds(e.target.value) : setDeviceId(e.target.value))}
+              onChange={(e) => dispatch(multiDevice ? reportsActions.updateDeviceIds(e.target.value) : reportsActions.updateDeviceId(e.target.value))}
               multiple={multiDevice}
             >
               {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
@@ -94,7 +101,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
             <Select
               label={t('settingsGroups')}
               value={groupIds}
-              onChange={(e) => setGroupIds(e.target.value)}
+              onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
               multiple
             >
               {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
@@ -107,7 +114,7 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
       <div className={classes.filterItem}>
         <FormControl fullWidth>
           <InputLabel>{t('reportPeriod')}</InputLabel>
-          <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
+          <Select label={t('reportPeriod')} value={period} onChange={(e) => dispatch(reportsActions.updatePeriod(e.target.value))}>
             <MenuItem value="today">{t('reportToday')}</MenuItem>
             <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
             <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
@@ -123,8 +130,8 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
           <TextField
             label={t('reportFrom')}
             type="datetime-local"
-            value={from.locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
-            onChange={(e) => setFrom(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+            value={from}
+            onChange={(e) => dispatch(reportsActions.updateFrom(e.target.value))}
             fullWidth
           />
         </div>
@@ -134,8 +141,8 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
           <TextField
             label={t('reportTo')}
             type="datetime-local"
-            value={to.locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
-            onChange={(e) => setTo(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL))}
+            value={to}
+            onChange={(e) => dispatch(reportsActions.updateTo(e.target.value))}
             fullWidth
           />
         </div>

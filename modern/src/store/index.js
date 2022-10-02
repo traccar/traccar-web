@@ -9,6 +9,7 @@ import { geofencesReducer as geofences } from './geofences';
 import { groupsReducer as groups } from './groups';
 import { driversReducer as drivers } from './drivers';
 import { maintenancesReducer as maintenances } from './maintenances';
+import { reportsReducer as reports } from './reports';
 import throttleMiddleware from './throttleMiddleware';
 
 const reducer = combineReducers({
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   groups,
   drivers,
   maintenances,
+  reports,
 });
 
 export { errorsActions } from './errors';
@@ -32,6 +34,7 @@ export { geofencesActions } from './geofences';
 export { groupsActions } from './groups';
 export { driversActions } from './drivers';
 export { maintenancesActions } from './maintenances';
+export { reportsActions } from './reports';
 
 export default configureStore({
   reducer,
