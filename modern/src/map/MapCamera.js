@@ -9,7 +9,7 @@ const MapCamera = ({
     if (positions) {
       const coordinates = positions.map((item) => [item.longitude, item.latitude]);
       if (coordinates.length) {
-        const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[1]));
+        const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
         const canvas = map.getCanvas();
         map.fitBounds(bounds, {
           padding: Math.min(canvas.width, canvas.height) * 0.1,
