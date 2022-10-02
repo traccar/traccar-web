@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import { makeStyles } from '@mui/styles';
 import {
-  Autocomplete, Button, Container, TextField,
+  Autocomplete, Container, createFilterOptions, TextField,
 } from '@mui/material';
 import { useTranslation } from '../common/components/LocalizationProvider';
 
@@ -38,11 +38,9 @@ const ChangeServerPage = () => {
   const classes = useStyles();
   const t = useTranslation();
 
-  const [url, setUrl] = useState(currentServer);
-  const [loading, setLoading] = useState(false);
+  const filter = createFilterOptions();
 
-  const handleSubmit = () => {
-    setLoading(true);
+  const handleSubmit = (url) => {
     if (window.webkit && window.webkit.messageHandlers.appInterface) {
       window.webkit.messageHandlers.appInterface.postMessage(`server|${url}`);
     } else if (window.appInterface) {
@@ -60,10 +58,16 @@ const ChangeServerPage = () => {
         className={classes.field}
         options={officialServers}
         renderInput={(params) => <TextField {...params} label={t('settingsServer')} />}
-        value={url}
-        onChange={(_, value) => setUrl(value)}
+        value={currentServer}
+        onChange={(_, value) => handleSubmit(value)}
+        filterOptions={(options, params) => {
+          const filtered = filter(options, params);
+          if (params.inputValue && !filtered.includes(params.inputValue)) {
+            filtered.push(params.inputValue);
+          }
+          return filtered;
+        }}
       />
-      <Button variant="outlined" color="secondary" onClick={handleSubmit} disabled={loading}>{t('sharedSave')}</Button>
     </Container>
   );
 };
