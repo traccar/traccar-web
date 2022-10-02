@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 
 import {
@@ -16,6 +17,8 @@ import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttri
 import useGroupAttributes from '../common/attributes/useGroupAttributes';
 import useFeatures from '../common/util/useFeatures';
 import { formatNotificationTitle } from '../common/util/formatter';
+import { useCatch } from '../reactHelper';
+import { groupsActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -28,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GroupPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
@@ -37,6 +41,15 @@ const GroupPage = () => {
 
   const [item, setItem] = useState();
 
+  const onItemSaved = useCatch(async () => {
+    const response = await fetch('/api/groups');
+    if (response.ok) {
+      dispatch(groupsActions.update(await response.json()));
+    } else {
+      throw Error(await response.text());
+    }
+  });
+
   const validate = () => item && item.name;
 
   return (
@@ -45,6 +58,7 @@ const GroupPage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
+      onItemSaved={onItemSaved}
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'groupDialog']}
     >
