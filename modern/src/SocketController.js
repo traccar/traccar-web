@@ -45,15 +45,19 @@ const SocketController = () => {
     socket.onclose = async (event) => {
       dispatch(sessionActions.updateSocket(false));
       if (event.code !== logoutCode) {
-        const devicesResponse = await fetch('/api/devices');
-        if (devicesResponse.ok) {
-          dispatch(devicesActions.update(await devicesResponse.json()));
-        }
-        const positionsResponse = await fetch('/api/positions', {
-          headers: { 'Content-Type': 'application/json' },
-        });
-        if (positionsResponse.ok) {
-          dispatch(positionsActions.update(await positionsResponse.json()));
+        try {
+          const devicesResponse = await fetch('/api/devices');
+          if (devicesResponse.ok) {
+            dispatch(devicesActions.update(await devicesResponse.json()));
+          }
+          const positionsResponse = await fetch('/api/positions', {
+            headers: { 'Content-Type': 'application/json' },
+          });
+          if (positionsResponse.ok) {
+            dispatch(positionsActions.update(await positionsResponse.json()));
+          }
+        } catch (error) {
+          // ignore errors
         }
         setTimeout(() => connectSocket(), 60000);
       }
