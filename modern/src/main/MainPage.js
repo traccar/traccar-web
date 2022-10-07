@@ -196,7 +196,7 @@ const MainPage = () => {
     let { groupId } = device;
     while (groupId) {
       groupIds.push(groupId);
-      groupId = groups[groupId].groupId;
+      groupId = groups[groupId]?.groupId || 0;
     }
     return groupIds;
   };
