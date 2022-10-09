@@ -308,7 +308,7 @@
     "mapCarto": "Carto Basemaps",
     "mapOsm": "OpenStreetMap",
     "mapOpenTopoMap": "OpenTopoMap",
-    "mapBingKey": "Bing Maps Key",
+    "mapBingKey": "Bing Maps API Key",
     "mapBingRoad": "Bing Maps Road",
     "mapBingAerial": "Bing Maps Aerial",
     "mapBingHybrid": "Bing Maps Hybrid",
