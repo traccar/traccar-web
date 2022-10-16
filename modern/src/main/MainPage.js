@@ -25,7 +25,7 @@ import BottomMenu from '../common/components/BottomMenu';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PoiMap from '../map/main/PoiMap';
 import MapPadding from '../map/MapPadding';
-import StatusCard from './StatusCard';
+import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
 import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import usePersistedState from '../common/util/usePersistedState';
@@ -370,6 +370,7 @@ const MainPage = () => {
         <div className={classes.statusCard}>
           <StatusCard
             deviceId={selectedDeviceId}
+            position={positions[selectedDeviceId]}
             onClose={() => dispatch(devicesActions.select(null))}
           />
         </div>

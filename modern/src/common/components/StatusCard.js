@@ -24,14 +24,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PendingIcon from '@mui/icons-material/Pending';
 
-import { useTranslation } from '../common/components/LocalizationProvider';
-import RemoveDialog from '../common/components/RemoveDialog';
-import PositionValue from '../common/components/PositionValue';
-import { useDeviceReadonly, useRestriction } from '../common/util/permissions';
-import usePersistedState from '../common/util/usePersistedState';
-import usePositionAttributes from '../common/attributes/usePositionAttributes';
-import { devicesActions } from '../store';
-import { useCatch, useCatchCallback } from '../reactHelper';
+import { useTranslation } from './LocalizationProvider';
+import RemoveDialog from './RemoveDialog';
+import PositionValue from './PositionValue';
+import { useDeviceReadonly, useRestriction } from '../util/permissions';
+import usePersistedState from '../util/usePersistedState';
+import usePositionAttributes from '../attributes/usePositionAttributes';
+import { devicesActions } from '../../store';
+import { useCatch, useCatchCallback } from '../../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -94,7 +94,7 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, onClose }) => {
+const StatusCard = ({ deviceId, position, onClose }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -104,7 +104,6 @@ const StatusCard = ({ deviceId, onClose }) => {
   const deviceReadonly = useDeviceReadonly();
 
   const device = useSelector((state) => state.devices.items[deviceId]);
-  const position = useSelector((state) => state.positions.items[deviceId]);
 
   const deviceImage = device?.attributes?.deviceImage;
 
