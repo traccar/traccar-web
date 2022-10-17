@@ -94,7 +94,7 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, position, onClose }) => {
+const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -217,25 +217,25 @@ const StatusCard = ({ deviceId, position, onClose }) => {
               </IconButton>
               <IconButton
                 onClick={() => navigate('/replay')}
-                disabled={!position}
+                disabled={disableActions || !position}
               >
                 <ReplayIcon />
               </IconButton>
               <IconButton
                 onClick={() => navigate(`/settings/command-send/${deviceId}`)}
-                disabled={readonly}
+                disabled={disableActions || readonly}
               >
                 <PublishIcon />
               </IconButton>
               <IconButton
                 onClick={() => navigate(`/settings/device/${deviceId}`)}
-                disabled={deviceReadonly}
+                disabled={disableActions || deviceReadonly}
               >
                 <EditIcon />
               </IconButton>
               <IconButton
                 onClick={() => setRemoving(true)}
-                disabled={deviceReadonly}
+                disabled={disableActions || deviceReadonly}
                 className={classes.negative}
               >
                 <DeleteIcon />

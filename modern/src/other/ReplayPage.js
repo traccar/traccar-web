@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useRef, useCallback,
+  useState, useEffect, useRef,
 } from 'react';
 import {
   IconButton, Paper, Slider, Toolbar, Typography,
@@ -23,6 +23,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatch } from '../reactHelper';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
+import StatusCard from '../common/components/StatusCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,6 +72,18 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
     },
   },
+  statusCard: {
+    position: 'fixed',
+    zIndex: 5,
+    left: '50%',
+    [theme.breakpoints.up('md')]: {
+      bottom: theme.spacing(3),
+    },
+    [theme.breakpoints.down('md')]: {
+      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+    },
+    transform: 'translateX(-50%)',
+  },
 }));
 
 const ReplayPage = () => {
@@ -84,6 +97,7 @@ const ReplayPage = () => {
   const [positions, setPositions] = useState([]);
   const [index, setIndex] = useState(0);
   const [selectedDeviceId, setSelectedDeviceId] = useState(defaultDeviceId);
+  const [showCard, setShowCard] = useState(false);
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
   const [expanded, setExpanded] = useState(true);
@@ -98,12 +112,6 @@ const ReplayPage = () => {
     }
     return null;
   });
-
-  const onClick = useCallback((positionId) => {
-    if (positionId) {
-      navigate(`/position/${positionId}`);
-    }
-  }, [navigate]);
 
   useEffect(() => {
     if (playing && positions.length > 0) {
@@ -155,7 +163,10 @@ const ReplayPage = () => {
         <MapGeofence />
         <MapRoutePath positions={positions} />
         {index < positions.length && (
-          <MapPositions positions={[positions[index]]} onClick={onClick} />
+          <MapPositions
+            positions={[positions[index]]}
+            onClick={() => setShowCard(true)}
+          />
         )}
       </MapView>
       <MapCamera positions={positions} />
@@ -209,6 +220,16 @@ const ReplayPage = () => {
           )}
         </Paper>
       </div>
+      {showCard && index < positions.length && (
+        <div className={classes.statusCard}>
+          <StatusCard
+            deviceId={selectedDeviceId}
+            position={positions[index]}
+            onClose={() => setShowCard(false)}
+            disableActions
+          />
+        </div>
+      )}
     </div>
   );
 };
