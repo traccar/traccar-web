@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useRef,
+  useState, useEffect, useRef, useCallback,
 } from 'react';
 import {
   IconButton, Paper, Slider, Toolbar, Typography,
@@ -132,6 +132,10 @@ const ReplayPage = () => {
     }
   }, [index, positions]);
 
+  const onMapClick = useCallback((positionId) => {
+    setShowCard(!!positionId);
+  }, [setShowCard]);
+
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
     setSelectedDeviceId(deviceId);
     setFrom(from);
@@ -165,7 +169,7 @@ const ReplayPage = () => {
         {index < positions.length && (
           <MapPositions
             positions={[positions[index]]}
-            onClick={(positionId) => setShowCard(!!positionId)}
+            onClick={onMapClick}
           />
         )}
       </MapView>
