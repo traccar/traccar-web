@@ -35,7 +35,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition }) => {
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
 
   const onMapClick = useCallback((event) => {
-    if (!event.defaultPrevented) {
+    if (!event.defaultPrevented && onClick) {
       onClick();
     }
   }, [onClick]);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
@@ -16,6 +16,7 @@ import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
+import MapRoutePoints from '../map/MapRoutePoints';
 import MapPositions from '../map/MapPositions';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
@@ -34,6 +35,10 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const onMapPointClick = useCallback((positionId) => {
+    setSelectedItem(items.find((it) => it.id === positionId));
+  }, [items, setSelectedItem]);
 
   const handleSubmit = useCatch(async ({ deviceIds, from, to, type }) => {
     const query = new URLSearchParams({ from, to });
@@ -69,9 +74,15 @@ const RouteReportPage = () => {
           <div className={classes.containerMap}>
             <MapView>
               <MapGeofence />
-              {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => (
-                <MapRoutePath key={deviceId} positions={items.filter((position) => position.deviceId === deviceId)} />
-              ))}
+              {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
+                const positions = items.filter((position) => position.deviceId === deviceId);
+                return (
+                  <Fragment key={deviceId}>
+                    <MapRoutePath positions={positions} />
+                    <MapRoutePoints positions={positions} onClick={onMapPointClick} />
+                  </Fragment>
+                );
+              })}
               <MapPositions positions={[selectedItem]} />
             </MapView>
             <MapCamera positions={items} />
