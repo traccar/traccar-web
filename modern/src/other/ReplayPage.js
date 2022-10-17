@@ -165,7 +165,7 @@ const ReplayPage = () => {
         {index < positions.length && (
           <MapPositions
             positions={[positions[index]]}
-            onClick={() => setShowCard(true)}
+            onClick={(positionId) => setShowCard(!!positionId)}
           />
         )}
       </MapView>
