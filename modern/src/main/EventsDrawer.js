@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
-  Drawer, IconButton, List, ListItem, ListItemText, Toolbar, Typography,
+  Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar, Typography,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EventsDrawer = ({ open, onClose }) => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -54,12 +56,16 @@ const EventsDrawer = ({ open, onClose }) => {
       </Toolbar>
       <List className={classes.drawer} dense>
         {events.map((event) => (
-          <ListItem key={event.id}>
+          <ListItemButton
+            key={event.id}
+            onClick={() => navigate(`/event/${event.id}`)}
+            disabled={!event.id}
+          >
             <ListItemText primary={`${devices[event.deviceId]?.name} • ${formatType(event)}`} secondary={formatTime(event.eventTime)} />
             <IconButton size="small" onClick={() => dispatch(eventsActions.delete(event))}>
               <DeleteIcon fontSize="small" className={classes.negative} />
             </IconButton>
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     </Drawer>
