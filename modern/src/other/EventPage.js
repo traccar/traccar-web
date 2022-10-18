@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {
   Typography, AppBar, Toolbar, IconButton,
@@ -12,15 +12,31 @@ import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
 import MapPositions from '../map/MapPositions';
 import MapGeofence from '../map/MapGeofence';
+import StatusCard from '../common/components/StatusCard';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
+  toolbar: {
+    zIndex: 1,
+  },
   mapContainer: {
     flexGrow: 1,
+  },
+  statusCard: {
+    position: 'fixed',
+    zIndex: 5,
+    left: '50%',
+    [theme.breakpoints.up('md')]: {
+      bottom: theme.spacing(3),
+    },
+    [theme.breakpoints.down('md')]: {
+      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+    },
+    transform: 'translateX(-50%)',
   },
 }));
 
@@ -33,6 +49,11 @@ const EventPage = () => {
 
   const [event, setEvent] = useState();
   const [position, setPosition] = useState();
+  const [showCard, setShowCard] = useState(false);
+
+  const onMarkerClick = useCallback((positionId) => {
+    setShowCard(!!positionId);
+  }, [setShowCard]);
 
   useEffectAsync(async () => {
     if (id) {
@@ -61,7 +82,7 @@ const EventPage = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar color="inherit" position="static">
+      <AppBar color="inherit" position="static" className={classes.toolbar}>
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
             <ArrowBackIcon />
@@ -72,9 +93,19 @@ const EventPage = () => {
       <div className={classes.mapContainer}>
         <MapView>
           <MapGeofence />
-          {position && <MapPositions positions={[position]} />}
+          {position && <MapPositions positions={[position]} onClick={onMarkerClick} />}
         </MapView>
         {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
+        {position && showCard && (
+          <div className={classes.statusCard}>
+            <StatusCard
+              deviceId={position.deviceId}
+              position={position}
+              onClose={() => setShowCard(false)}
+              disableActions
+            />
+          </div>
+        )}
       </div>
     </div>
   );
