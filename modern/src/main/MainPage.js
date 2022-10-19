@@ -80,19 +80,6 @@ const useStyles = makeStyles((theme) => ({
   deviceList: {
     flex: 1,
   },
-  statusCard: {
-    position: 'fixed',
-    zIndex: 5,
-    [theme.breakpoints.up('md')]: {
-      left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
-      bottom: theme.spacing(3),
-    },
-    [theme.breakpoints.down('md')]: {
-      left: '50%',
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
-    },
-    transform: 'translateX(-50%)',
-  },
   sidebarToggle: {
     position: 'fixed',
     left: theme.spacing(1.5),
@@ -367,13 +354,12 @@ const MainPage = () => {
       )}
       {!features.disableEvents && <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />}
       {selectedDeviceId && (
-        <div className={classes.statusCard}>
-          <StatusCard
-            deviceId={selectedDeviceId}
-            position={positions[selectedDeviceId]}
-            onClose={() => dispatch(devicesActions.select(null))}
-          />
-        </div>
+        <StatusCard
+          deviceId={selectedDeviceId}
+          position={positions[selectedDeviceId]}
+          onClose={() => dispatch(devicesActions.select(null))}
+          desktopPadding={theme.dimensions.drawerWidthDesktop}
+        />
       )}
     </div>
   );

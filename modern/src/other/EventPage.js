@@ -14,7 +14,7 @@ import MapPositions from '../map/MapPositions';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -25,18 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
   mapContainer: {
     flexGrow: 1,
-  },
-  statusCard: {
-    position: 'fixed',
-    zIndex: 5,
-    left: '50%',
-    [theme.breakpoints.up('md')]: {
-      bottom: theme.spacing(3),
-    },
-    [theme.breakpoints.down('md')]: {
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
-    },
-    transform: 'translateX(-50%)',
   },
 }));
 
@@ -97,14 +85,12 @@ const EventPage = () => {
         </MapView>
         {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
         {position && showCard && (
-          <div className={classes.statusCard}>
-            <StatusCard
-              deviceId={position.deviceId}
-              position={position}
-              onClose={() => setShowCard(false)}
-              disableActions
-            />
-          </div>
+          <StatusCard
+            deviceId={position.deviceId}
+            position={position}
+            onClose={() => setShowCard(false)}
+            disableActions
+          />
         )}
       </div>
     </div>

@@ -73,18 +73,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
     },
   },
-  statusCard: {
-    position: 'fixed',
-    zIndex: 5,
-    left: '50%',
-    [theme.breakpoints.up('md')]: {
-      bottom: theme.spacing(3),
-    },
-    [theme.breakpoints.down('md')]: {
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
-    },
-    transform: 'translateX(-50%)',
-  },
 }));
 
 const ReplayPage = () => {
@@ -228,14 +216,12 @@ const ReplayPage = () => {
         </Paper>
       </div>
       {showCard && index < positions.length && (
-        <div className={classes.statusCard}>
-          <StatusCard
-            deviceId={selectedDeviceId}
-            position={positions[index]}
-            onClose={() => setShowCard(false)}
-            disableActions
-          />
-        </div>
+        <StatusCard
+          deviceId={selectedDeviceId}
+          position={positions[index]}
+          onClose={() => setShowCard(false)}
+          disableActions
+        />
       )}
     </div>
   );

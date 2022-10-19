@@ -77,6 +77,20 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     justifyContent: 'space-between',
   },
+  root: ({ desktopPadding }) => ({
+    position: 'fixed',
+    zIndex: 5,
+    left: '50%',
+    [theme.breakpoints.up('md')]: {
+      left: `calc(50% + ${desktopPadding} / 2)`,
+      bottom: theme.spacing(3),
+    },
+    [theme.breakpoints.down('md')]: {
+      left: '50%',
+      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+    },
+    transform: 'translateX(-50%)',
+  }),
 }));
 
 const StatusRow = ({ name, content }) => {
@@ -94,8 +108,8 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
-  const classes = useStyles();
+const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
+  const classes = useStyles({ desktopPadding });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -153,7 +167,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
   }, [navigate]);
 
   return (
-    <>
+    <div className={classes.root}>
       {device && (
         <Draggable
           handle={`.${classes.media}, .${classes.header}`}
@@ -259,7 +273,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
         itemId={deviceId}
         onResult={(removed) => handleRemove(removed)}
       />
-    </>
+    </div>
   );
 };
 
