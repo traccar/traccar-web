@@ -1,6 +1,4 @@
-import {
-  FormControl, InputLabel, MenuItem, Select, Skeleton,
-} from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
@@ -34,8 +32,7 @@ const LinkField = ({
     if (active) {
       const response = await fetch(endpointLinked);
       if (response.ok) {
-        const data = await response.json();
-        setLinked(data.map((it) => it.id));
+        setLinked(await response.json());
       } else {
         throw Error(await response.text());
       }
@@ -49,9 +46,9 @@ const LinkField = ({
     return body;
   };
 
-  const onChange = async (event) => {
-    const oldValue = linked;
-    const newValue = event.target.value;
+  const onChange = async (value) => {
+    const oldValue = linked.map((it) => keyGetter(it));
+    const newValue = value.map((it) => keyGetter(it));
     if (!newValue.find((it) => it < 0)) {
       const results = [];
       newValue.filter((it) => !oldValue.includes(it)).forEach((added) => {
@@ -69,36 +66,27 @@ const LinkField = ({
         }));
       });
       await Promise.all(results);
-      setLinked(newValue);
+      setLinked(value);
     }
   };
 
   return (
-    <FormControl>
-      <InputLabel>{label}</InputLabel>
-      <Select
-        label={label}
-        open={open}
-        onOpen={() => {
-          setActive(true);
-          setOpen(true);
-        }}
-        onClose={() => setOpen(false)}
-        value={linked || []}
-        onChange={onChange}
-        multiple
-      >
-        {items && linked
-          ? items.map((item) => (
-            <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
-          ))
-          : [...Array(3)].map((_, i) => (
-            <MenuItem key={-i - 1} value={-i - 1}>
-              <Skeleton variant="text" width={`${Math.floor(Math.random() * 30 + 30)}%`} />
-            </MenuItem>
-          ))}
-      </Select>
-    </FormControl>
+    <Autocomplete
+      loading={active && !items}
+      isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
+      options={items || []}
+      getOptionLabel={(item) => titleGetter(item)}
+      renderInput={(params) => <TextField {...params} label={label} />}
+      value={(items && linked) || []}
+      onChange={(_, value) => onChange(value)}
+      open={open}
+      onOpen={() => {
+        setOpen(true);
+        setActive(true);
+      }}
+      onClose={() => setOpen(false)}
+      multiple
+    />
   );
 };
 
