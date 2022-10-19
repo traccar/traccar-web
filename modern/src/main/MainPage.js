@@ -14,7 +14,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ListIcon from '@mui/icons-material/ViewList';
 import TuneIcon from '@mui/icons-material/Tune';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import DevicesList from './DevicesList';
 import MapView from '../map/core/MapView';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
@@ -38,6 +37,7 @@ import MapScale from '../map/MapScale';
 import MapNotification from '../map/notification/MapNotification';
 import EventsDrawer from './EventsDrawer';
 import useFeatures from '../common/util/useFeatures';
+import useFilter from './useFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -145,9 +145,11 @@ const MainPage = () => {
   const devices = useSelector((state) => state.devices.items);
   const [filteredDevices, setFilteredDevices] = useState([]);
 
-  const [filterKeyword, setFilterKeyword] = useState('');
-  const [filterStatuses, setFilterStatuses] = useState([]);
-  const [filterGroups, setFilterGroups] = useState([]);
+  const [filter, setFilter] = useState({
+    keyword: '',
+    statuses: [],
+    groups: [],
+  });
   const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
   const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
 
@@ -159,10 +161,6 @@ const MainPage = () => {
 
   const eventHandler = useCallback(() => setEventsOpen(true), [setEventsOpen]);
   const eventsAvailable = useSelector((state) => !!state.events.items.length);
-
-  const handleClose = () => {
-    setDevicesOpen(!devicesOpen);
-  };
 
   const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
 
@@ -178,50 +176,7 @@ const MainPage = () => {
     dispatch(devicesActions.select(deviceId));
   }, [dispatch]);
 
-  const deviceGroups = (device) => {
-    const groupIds = [];
-    let { groupId } = device;
-    while (groupId) {
-      groupIds.push(groupId);
-      groupId = groups[groupId]?.groupId || 0;
-    }
-    return groupIds;
-  };
-
-  useEffect(() => {
-    const filtered = Object.values(devices)
-      .filter((device) => !filterStatuses.length || filterStatuses.includes(device.status))
-      .filter((device) => !filterGroups.length || deviceGroups(device).some((id) => filterGroups.includes(id)))
-      .filter((device) => {
-        const keyword = filterKeyword.toLowerCase();
-        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(keyword));
-      });
-    switch (filterSort) {
-      case 'name':
-        filtered.sort((device1, device2) => device1.name.localeCompare(device2.name));
-        break;
-      case 'lastUpdate':
-        filtered.sort((device1, device2) => {
-          const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
-          const time2 = device2.lastUpdate ? moment(device2.lastUpdate).valueOf() : 0;
-          return time2 - time1;
-        });
-        break;
-      default:
-        break;
-    }
-    if (filterSort === 'lastUpdate') {
-      filtered.sort((device1, device2) => {
-        const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
-        const time2 = device2.lastUpdate ? moment(device2.lastUpdate).valueOf() : 0;
-        return time2 - time1;
-      });
-    }
-    setFilteredDevices(filtered);
-    setFilteredPositions(filterMap
-      ? filtered.map((device) => positions[device.id]).filter(Boolean)
-      : Object.values(positions));
-  }, [devices, positions, filterKeyword, filterStatuses, filterGroups, filterSort, filterMap]);
+  useFilter(filter, filterSort, filterMap, groups, devices, positions, setFilteredDevices, setFilteredPositions);
 
   return (
     <div className={classes.root}>
@@ -245,7 +200,7 @@ const MainPage = () => {
         color={phone ? 'secondary' : 'primary'}
         classes={{ containedPrimary: classes.sidebarToggleBg }}
         className={classes.sidebarToggle}
-        onClick={handleClose}
+        onClick={() => setDevicesOpen(!devicesOpen)}
         disableElevation
       >
         <ListIcon />
@@ -255,19 +210,19 @@ const MainPage = () => {
         <Paper square elevation={3} className={classes.toolbarContainer}>
           <Toolbar className={classes.toolbar} disableGutters>
             {!desktop && (
-              <IconButton edge="start" sx={{ mr: 2 }} onClick={handleClose}>
+              <IconButton edge="start" sx={{ mr: 2 }} onClick={() => setDevicesOpen(!devicesOpen)}>
                 <ArrowBackIcon />
               </IconButton>
             )}
             <OutlinedInput
               ref={filterRef}
               placeholder={t('sharedSearchDevices')}
-              value={filterKeyword}
-              onChange={(event) => setFilterKeyword(event.target.value)}
+              value={filter.keyword}
+              onChange={(e) => setFilter({ ...filter, keyword: e.target.value })}
               endAdornment={(
                 <InputAdornment position="end">
                   <IconButton size="small" edge="end" onClick={() => setFilterAnchorEl(filterRef.current)}>
-                    <Badge color="info" variant="dot" invisible={!filterStatuses.length && !filterGroups.length}>
+                    <Badge color="info" variant="dot" invisible={!filter.statuses.length && !filter.groups.length}>
                       <TuneIcon fontSize="small" />
                     </Badge>
                   </IconButton>
@@ -290,8 +245,8 @@ const MainPage = () => {
                   <InputLabel>{t('deviceStatus')}</InputLabel>
                   <Select
                     label={t('deviceStatus')}
-                    value={filterStatuses}
-                    onChange={(e) => setFilterStatuses(e.target.value)}
+                    value={filter.statuses}
+                    onChange={(e) => setFilter({ ...filter, statuses: e.target.value })}
                     multiple
                   >
                     <MenuItem value="online">{`${t('deviceStatusOnline')} (${deviceStatusCount('online')})`}</MenuItem>
@@ -303,8 +258,8 @@ const MainPage = () => {
                   <InputLabel>{t('settingsGroups')}</InputLabel>
                   <Select
                     label={t('settingsGroups')}
-                    value={filterGroups}
-                    onChange={(e) => setFilterGroups(e.target.value)}
+                    value={filter.groups}
+                    onChange={(e) => setFilter({ ...filter, groups: e.target.value })}
                     multiple
                   >
                     {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
@@ -337,7 +292,7 @@ const MainPage = () => {
               <AddIcon />
             </IconButton>
             {desktop && (
-              <IconButton onClick={handleClose}>
+              <IconButton onClick={() => setDevicesOpen(!devicesOpen)}>
                 <CloseIcon />
               </IconButton>
             )}
