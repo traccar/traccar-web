@@ -10,33 +10,21 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import ListIcon from '@mui/icons-material/ViewList';
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
-import MapView from '../map/core/MapView';
-import MapSelectedDevice from '../map/main/MapSelectedDevice';
-import MapAccuracy from '../map/main/MapAccuracy';
-import MapGeofence from '../map/MapGeofence';
-import MapCurrentLocation from '../map/MapCurrentLocation';
 import BottomMenu from '../common/components/BottomMenu';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import PoiMap from '../map/main/PoiMap';
-import MapPadding from '../map/MapPadding';
 import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
-import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import usePersistedState from '../common/util/usePersistedState';
-import MapLiveRoutes from '../map/main/MapLiveRoutes';
-import MapPositions from '../map/MapPositions';
-import MapOverlay from '../map/overlay/MapOverlay';
-import MapGeocoder from '../map/geocoder/MapGeocoder';
-import MapScale from '../map/MapScale';
-import MapNotification from '../map/notification/MapNotification';
 import EventsDrawer from './EventsDrawer';
-import useFeatures from '../common/util/useFeatures';
 import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
+import MainMap from './MainMap';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   sidebar: {
     display: 'flex',
@@ -62,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translateX(-100vw)',
     },
   },
-  toolbarContainer: {
-    zIndex: 4,
+  toolbar: {
+    zIndex: 1,
   },
   deviceList: {
     flex: 1,
@@ -109,11 +97,7 @@ const MainPage = () => {
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
   const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const features = useFeatures();
-
   const [mapOnSelect] = usePersistedState('mapOnSelect', false);
-
-  const [mapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.positions.items);
@@ -133,8 +117,7 @@ const MainPage = () => {
   const [devicesOpen, setDevicesOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
 
-  const eventHandler = useCallback(() => setEventsOpen(true), [setEventsOpen]);
-  const eventsAvailable = useSelector((state) => !!state.events.items.length);
+  const onEventsClick = useCallback(() => setEventsOpen(true), [setEventsOpen]);
 
   useEffect(() => setDevicesOpen(desktop), [desktop]);
 
@@ -144,29 +127,15 @@ const MainPage = () => {
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
 
-  const onClick = useCallback((_, deviceId) => {
-    dispatch(devicesActions.select(deviceId));
-  }, [dispatch]);
-
   useFilter(filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
 
   return (
     <div className={classes.root}>
-      <MapView>
-        <MapOverlay />
-        <MapGeofence />
-        <MapAccuracy positions={filteredPositions} />
-        {mapLiveRoutes && <MapLiveRoutes />}
-        <MapPositions positions={filteredPositions} onClick={onClick} selectedPosition={selectedPosition} showStatus />
-        <MapDefaultCamera />
-        <MapSelectedDevice />
-        <PoiMap />
-      </MapView>
-      <MapScale />
-      <MapCurrentLocation />
-      <MapGeocoder />
-      {!features.disableEvents && <MapNotification enabled={eventsAvailable} onClick={eventHandler} />}
-      {desktop && <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />}
+      <MainMap
+        filteredPositions={filteredPositions}
+        selectedPosition={selectedPosition}
+        onEventsClick={onEventsClick}
+      />
       <Button
         variant="contained"
         color={phone ? 'secondary' : 'primary'}
@@ -179,7 +148,7 @@ const MainPage = () => {
         <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
       </Button>
       <Paper square elevation={3} className={`${classes.sidebar} ${!devicesOpen && classes.sidebarCollapsed}`}>
-        <Paper square elevation={3} className={classes.toolbarContainer}>
+        <Paper square elevation={3} className={classes.toolbar}>
           <MainToolbar
             filter={filter}
             setFilter={setFilter}
@@ -198,11 +167,11 @@ const MainPage = () => {
           <BottomMenu />
         </div>
       )}
-      {!features.disableEvents && <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />}
+      <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
       {selectedDeviceId && (
         <StatusCard
           deviceId={selectedDeviceId}
-          position={positions[selectedDeviceId]}
+          position={selectedPosition}
           onClose={() => dispatch(devicesActions.select(null))}
           desktopPadding={theme.dimensions.drawerWidthDesktop}
         />
