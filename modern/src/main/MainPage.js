@@ -1,18 +1,13 @@
 import React, {
-  useState, useEffect, useCallback, useRef,
+  useState, useEffect, useCallback,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
-  Paper, Toolbar, IconButton, Button, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge,
+  Paper, Button,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ListIcon from '@mui/icons-material/ViewList';
-import TuneIcon from '@mui/icons-material/Tune';
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
 import MapView from '../map/core/MapView';
@@ -29,7 +24,6 @@ import { devicesActions } from '../store';
 import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import usePersistedState from '../common/util/usePersistedState';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
-import { useDeviceReadonly } from '../common/util/permissions';
 import MapPositions from '../map/MapPositions';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
@@ -38,6 +32,7 @@ import MapNotification from '../map/notification/MapNotification';
 import EventsDrawer from './EventsDrawer';
 import useFeatures from '../common/util/useFeatures';
 import useFilter from './useFilter';
+import MainToolbar from './MainToolbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,13 +64,6 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarContainer: {
     zIndex: 4,
-  },
-  toolbar: {
-    display: 'flex',
-    padding: theme.spacing(0, 1),
-    '& > *': {
-      margin: theme.spacing(0, 1),
-    },
   },
   deviceList: {
     flex: 1,
@@ -110,23 +98,14 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 4,
     width: theme.dimensions.drawerWidthDesktop,
   },
-  filterPanel: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: theme.spacing(2),
-    gap: theme.spacing(2),
-    width: theme.dimensions.drawerWidthTablet,
-  },
 }));
 
 const MainPage = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
   const t = useTranslation();
 
-  const deviceReadonly = useDeviceReadonly();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
   const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -141,8 +120,6 @@ const MainPage = () => {
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find((position) => selectedDeviceId && position.deviceId === selectedDeviceId);
 
-  const groups = useSelector((state) => state.groups.items);
-  const devices = useSelector((state) => state.devices.items);
   const [filteredDevices, setFilteredDevices] = useState([]);
 
   const [filter, setFilter] = useState({
@@ -153,16 +130,11 @@ const MainPage = () => {
   const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
   const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
 
-  const filterRef = useRef();
-  const [filterAnchorEl, setFilterAnchorEl] = useState(null);
-
   const [devicesOpen, setDevicesOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
 
   const eventHandler = useCallback(() => setEventsOpen(true), [setEventsOpen]);
   const eventsAvailable = useSelector((state) => !!state.events.items.length);
-
-  const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
 
   useEffect(() => setDevicesOpen(desktop), [desktop]);
 
@@ -176,7 +148,7 @@ const MainPage = () => {
     dispatch(devicesActions.select(deviceId));
   }, [dispatch]);
 
-  useFilter(filter, filterSort, filterMap, groups, devices, positions, setFilteredDevices, setFilteredPositions);
+  useFilter(filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
 
   return (
     <div className={classes.root}>
@@ -208,95 +180,14 @@ const MainPage = () => {
       </Button>
       <Paper square elevation={3} className={`${classes.sidebar} ${!devicesOpen && classes.sidebarCollapsed}`}>
         <Paper square elevation={3} className={classes.toolbarContainer}>
-          <Toolbar className={classes.toolbar} disableGutters>
-            {!desktop && (
-              <IconButton edge="start" sx={{ mr: 2 }} onClick={() => setDevicesOpen(!devicesOpen)}>
-                <ArrowBackIcon />
-              </IconButton>
-            )}
-            <OutlinedInput
-              ref={filterRef}
-              placeholder={t('sharedSearchDevices')}
-              value={filter.keyword}
-              onChange={(e) => setFilter({ ...filter, keyword: e.target.value })}
-              endAdornment={(
-                <InputAdornment position="end">
-                  <IconButton size="small" edge="end" onClick={() => setFilterAnchorEl(filterRef.current)}>
-                    <Badge color="info" variant="dot" invisible={!filter.statuses.length && !filter.groups.length}>
-                      <TuneIcon fontSize="small" />
-                    </Badge>
-                  </IconButton>
-                </InputAdornment>
-              )}
-              size="small"
-              fullWidth
-            />
-            <Popover
-              open={!!filterAnchorEl}
-              anchorEl={filterAnchorEl}
-              onClose={() => setFilterAnchorEl(null)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-            >
-              <div className={classes.filterPanel}>
-                <FormControl>
-                  <InputLabel>{t('deviceStatus')}</InputLabel>
-                  <Select
-                    label={t('deviceStatus')}
-                    value={filter.statuses}
-                    onChange={(e) => setFilter({ ...filter, statuses: e.target.value })}
-                    multiple
-                  >
-                    <MenuItem value="online">{`${t('deviceStatusOnline')} (${deviceStatusCount('online')})`}</MenuItem>
-                    <MenuItem value="offline">{`${t('deviceStatusOffline')} (${deviceStatusCount('offline')})`}</MenuItem>
-                    <MenuItem value="unknown">{`${t('deviceStatusUnknown')} (${deviceStatusCount('unknown')})`}</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <InputLabel>{t('settingsGroups')}</InputLabel>
-                  <Select
-                    label={t('settingsGroups')}
-                    value={filter.groups}
-                    onChange={(e) => setFilter({ ...filter, groups: e.target.value })}
-                    multiple
-                  >
-                    {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                      <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <InputLabel>{t('sharedSortBy')}</InputLabel>
-                  <Select
-                    label={t('sharedSortBy')}
-                    value={filterSort}
-                    onChange={(e) => setFilterSort(e.target.value)}
-                    displayEmpty
-                  >
-                    <MenuItem value="">{'\u00a0'}</MenuItem>
-                    <MenuItem value="name">{t('sharedName')}</MenuItem>
-                    <MenuItem value="lastUpdate">{t('deviceLastUpdate')}</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox checked={filterMap} onChange={(e) => setFilterMap(e.target.checked)} />}
-                    label={t('sharedFilterMap')}
-                  />
-                </FormGroup>
-              </div>
-            </Popover>
-            <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
-              <AddIcon />
-            </IconButton>
-            {desktop && (
-              <IconButton onClick={() => setDevicesOpen(!devicesOpen)}>
-                <CloseIcon />
-              </IconButton>
-            )}
-          </Toolbar>
+          <MainToolbar
+            filter={filter}
+            setFilter={setFilter}
+            filterSort={filterSort}
+            setFilterSort={setFilterSort}
+            filterMap={filterMap}
+            setFilterMap={setFilterMap}
+          />
         </Paper>
         <div className={classes.deviceList}>
           <DevicesList devices={filteredDevices} />

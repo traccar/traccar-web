@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-export default (filter, filterSort, filterMap, groups, devices, positions, setFilteredDevices, setFilteredPositions) => {
+export default (filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions) => {
+  const groups = useSelector((state) => state.groups.items);
+  const devices = useSelector((state) => state.devices.items);
+
   useEffect(() => {
     const deviceGroups = (device) => {
       const groupIds = [];
