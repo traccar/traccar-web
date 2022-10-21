@@ -5,6 +5,8 @@ import {
   Toolbar, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import MapIcon from '@mui/icons-material/Map';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import AddIcon from '@mui/icons-material/Add';
 import TuneIcon from '@mui/icons-material/Tune';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -13,10 +15,7 @@ import { useDeviceReadonly } from '../common/util/permissions';
 const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: 'flex',
-    padding: theme.spacing(0, 1),
-    '& > *': {
-      margin: theme.spacing(0, 1),
-    },
+    gap: theme.spacing(1),
   },
   filterPanel: {
     display: 'flex',
@@ -28,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MainToolbar = ({
+  devicesOpen,
+  setDevicesOpen,
   filter,
   setFilter,
   filterSort,
@@ -50,7 +51,10 @@ const MainToolbar = ({
   const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
 
   return (
-    <Toolbar className={classes.toolbar} disableGutters>
+    <Toolbar className={classes.toolbar}>
+      <IconButton edge="start" onClick={() => setDevicesOpen(!devicesOpen)}>
+        {devicesOpen ? <MapIcon /> : <ViewListIcon />}
+      </IconButton>
       <OutlinedInput
         ref={filterRef}
         placeholder={t('sharedSearchDevices')}
@@ -125,7 +129,7 @@ const MainToolbar = ({
           </FormGroup>
         </div>
       </Popover>
-      <IconButton onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
+      <IconButton edge="end" onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
         <AddIcon />
       </IconButton>
     </Toolbar>

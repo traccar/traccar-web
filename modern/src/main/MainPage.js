@@ -1,17 +1,13 @@
 import React, {
-  useState, useEffect, useCallback,
+  useState, useCallback, useEffect,
 } from 'react';
-import {
-  Paper, Button,
-} from '@mui/material';
+import { Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import ListIcon from '@mui/icons-material/ViewList';
 import { useDispatch, useSelector } from 'react-redux';
 import DevicesList from './DevicesList';
 import BottomMenu from '../common/components/BottomMenu';
-import { useTranslation } from '../common/components/LocalizationProvider';
 import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
 import usePersistedState from '../common/util/usePersistedState';
@@ -23,68 +19,40 @@ import MainMap from './MainMap';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
   },
   sidebar: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'fixed',
-    left: 0,
-    top: 0,
-    zIndex: 3,
-    margin: theme.spacing(1.5),
-    width: theme.dimensions.drawerWidthDesktop,
-    bottom: theme.dimensions.bottomBarHeight,
-    transition: 'transform .5s ease',
-    backgroundColor: 'white',
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-      margin: 0,
-    },
-  },
-  sidebarCollapsed: {
-    transform: `translateX(-${theme.dimensions.drawerWidthDesktop})`,
-    marginLeft: 0,
-    [theme.breakpoints.down('md')]: {
-      transform: 'translateX(-100vw)',
-    },
-  },
-  toolbar: {
-    zIndex: 1,
-  },
-  deviceList: {
-    flex: 1,
-  },
-  sidebarToggle: {
-    position: 'fixed',
-    left: theme.spacing(1.5),
-    top: theme.spacing(3),
-    borderRadius: '0px',
-    minWidth: 0,
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.up('md')]: {
+      position: 'fixed',
       left: 0,
+      top: 0,
+      height: `calc(100% - ${theme.spacing(3)})`,
+      width: theme.dimensions.drawerWidthDesktop,
+      margin: theme.spacing(1.5),
+      zIndex: 3,
+    },
+    [theme.breakpoints.down('md')]: {
+      height: '100%',
+      width: '100%',
     },
   },
-  sidebarToggleText: {
-    marginLeft: theme.spacing(1),
-    [theme.breakpoints.only('xs')]: {
-      display: 'none',
-    },
+  header: {
+    zIndex: 6,
   },
-  sidebarToggleBg: {
-    backgroundColor: 'white',
-    color: 'rgba(0, 0, 0, 0.6)',
-    '&:hover': {
-      backgroundColor: 'white',
-    },
+  footer: {
+    zIndex: 5,
   },
-  bottomMenu: {
-    position: 'fixed',
-    left: theme.spacing(1.5),
-    bottom: theme.spacing(1.5),
+  middle: {
+    flex: 1,
+    display: 'grid',
+  },
+  contentMap: {
+    gridArea: '1 / 1',
+  },
+  contentList: {
+    gridArea: '1 / 1',
     zIndex: 4,
-    width: theme.dimensions.drawerWidthDesktop,
   },
 }));
 
@@ -92,10 +60,8 @@ const MainPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const t = useTranslation();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
-  const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [mapOnSelect] = usePersistedState('mapOnSelect', false);
 
@@ -114,12 +80,10 @@ const MainPage = () => {
   const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
   const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
 
-  const [devicesOpen, setDevicesOpen] = useState(false);
+  const [devicesOpen, setDevicesOpen] = useState(desktop);
   const [eventsOpen, setEventsOpen] = useState(false);
 
   const onEventsClick = useCallback(() => setEventsOpen(true), [setEventsOpen]);
-
-  useEffect(() => setDevicesOpen(desktop), [desktop]);
 
   useEffect(() => {
     if (!desktop && mapOnSelect && selectedDeviceId) {
@@ -131,25 +95,18 @@ const MainPage = () => {
 
   return (
     <div className={classes.root}>
-      <MainMap
-        filteredPositions={filteredPositions}
-        selectedPosition={selectedPosition}
-        onEventsClick={onEventsClick}
-      />
-      <Button
-        variant="contained"
-        color={phone ? 'secondary' : 'primary'}
-        classes={{ containedPrimary: classes.sidebarToggleBg }}
-        className={classes.sidebarToggle}
-        onClick={() => setDevicesOpen(!devicesOpen)}
-        disableElevation
-      >
-        <ListIcon />
-        <div className={classes.sidebarToggleText}>{t('deviceTitle')}</div>
-      </Button>
-      <Paper square elevation={3} className={`${classes.sidebar} ${!devicesOpen && classes.sidebarCollapsed}`}>
-        <Paper square elevation={3} className={classes.toolbar}>
+      {desktop && (
+        <MainMap
+          filteredPositions={filteredPositions}
+          selectedPosition={selectedPosition}
+          onEventsClick={onEventsClick}
+        />
+      )}
+      <div className={classes.sidebar}>
+        <Paper square elevation={3} className={classes.header}>
           <MainToolbar
+            devicesOpen={devicesOpen}
+            setDevicesOpen={setDevicesOpen}
             filter={filter}
             setFilter={setFilter}
             filterSort={filterSort}
@@ -158,15 +115,26 @@ const MainPage = () => {
             setFilterMap={setFilterMap}
           />
         </Paper>
-        <div className={classes.deviceList}>
-          <DevicesList devices={filteredDevices} />
+        <div className={classes.middle}>
+          {!desktop && (
+            <div className={classes.contentMap}>
+              <MainMap
+                filteredPositions={filteredPositions}
+                selectedPosition={selectedPosition}
+                onEventsClick={onEventsClick}
+              />
+            </div>
+          )}
+          <Paper square className={classes.contentList} style={devicesOpen ? {} : { visibility: 'hidden' }}>
+            <DevicesList devices={filteredDevices} />
+          </Paper>
         </div>
-      </Paper>
-      {desktop && (
-        <div className={classes.bottomMenu}>
-          <BottomMenu />
-        </div>
-      )}
+        {desktop && (
+          <div className={classes.footer}>
+            <BottomMenu />
+          </div>
+        )}
+      </div>
       <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
       {selectedDeviceId && (
         <StatusCard
