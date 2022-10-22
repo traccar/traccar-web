@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import {
-  IconButton, Tooltip, Avatar, List, ListItemAvatar, ListItemText, ListItemButton,
+  IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton,
 } from '@mui/material';
-import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import Battery60Icon from '@mui/icons-material/Battery60';
@@ -15,7 +13,6 @@ import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
 import ErrorIcon from '@mui/icons-material/Error';
 import moment from 'moment';
 import { devicesActions } from '../store';
-import { useEffectAsync } from '../reactHelper';
 import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
 } from '../common/util/formatter';
@@ -26,13 +23,6 @@ import usePersistedState from '../common/util/usePersistedState';
 import { ReactComponent as EngineIcon } from '../resources/images/data/engine.svg';
 
 const useStyles = makeStyles((theme) => ({
-  list: {
-    maxHeight: '100%',
-  },
-  listInner: {
-    position: 'relative',
-    margin: theme.spacing(1.5, 0),
-  },
   icon: {
     width: '25px',
     height: '25px',
@@ -170,52 +160,4 @@ const DeviceRow = ({ data, index, style }) => {
   );
 };
 
-const DevicesList = ({ devices }) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const listInnerEl = useRef(null);
-
-  if (listInnerEl.current) {
-    listInnerEl.current.className = classes.listInner;
-  }
-
-  const [, setTime] = useState(Date.now());
-
-  useEffect(() => {
-    const interval = setInterval(() => setTime(Date.now()), 60000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  useEffectAsync(async () => {
-    const response = await fetch('/api/devices');
-    if (response.ok) {
-      dispatch(devicesActions.refresh(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
-  }, []);
-
-  return (
-    <AutoSizer className={classes.list}>
-      {({ height, width }) => (
-        <List disablePadding>
-          <FixedSizeList
-            width={width}
-            height={height}
-            itemCount={devices.length}
-            itemData={{ items: devices }}
-            itemSize={72}
-            overscanCount={10}
-            innerRef={listInnerEl}
-          >
-            {DeviceRow}
-          </FixedSizeList>
-        </List>
-      )}
-    </AutoSizer>
-  );
-};
-
-export default DevicesList;
+export default DeviceRow;

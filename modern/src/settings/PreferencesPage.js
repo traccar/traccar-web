@@ -71,7 +71,7 @@ const PreferencesPage = () => {
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
-  const [mapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', false);
+  const [mapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', true);
 
   const filter = createFilterOptions();
 

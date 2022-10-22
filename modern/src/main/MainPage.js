@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
-import DevicesList from './DevicesList';
+import DeviceList from './DeviceList';
 import BottomMenu from '../common/components/BottomMenu';
 import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
@@ -63,7 +63,7 @@ const MainPage = () => {
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  const [mapOnSelect] = usePersistedState('mapOnSelect', false);
+  const [mapOnSelect] = usePersistedState('mapOnSelect', true);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.positions.items);
@@ -126,7 +126,7 @@ const MainPage = () => {
             </div>
           )}
           <Paper square className={classes.contentList} style={devicesOpen ? {} : { visibility: 'hidden' }}>
-            <DevicesList devices={filteredDevices} />
+            <DeviceList devices={filteredDevices} />
           </Paper>
         </div>
         {desktop && (
