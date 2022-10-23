@@ -28,12 +28,6 @@ const useStyles = makeStyles((theme) => ({
     height: '25px',
     filter: 'brightness(0) invert(1)',
   },
-  listItem: {
-    backgroundColor: 'white',
-    '&:hover': {
-      backgroundColor: 'white',
-    },
-  },
   batteryText: {
     fontSize: '0.75rem',
     fontWeight: 'normal',
@@ -98,7 +92,6 @@ const DeviceRow = ({ data, index, style }) => {
     <div style={style}>
       <ListItemButton
         key={item.id}
-        className={classes.listItem}
         onClick={() => dispatch(devicesActions.select(item.id))}
         disabled={!admin && item.disabled}
       >

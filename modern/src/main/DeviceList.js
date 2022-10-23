@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
-import { List } from '@mui/material';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { devicesActions } from '../store';
@@ -48,19 +47,17 @@ const DeviceList = ({ devices }) => {
   return (
     <AutoSizer className={classes.list}>
       {({ height, width }) => (
-        <List disablePadding>
-          <FixedSizeList
-            width={width}
-            height={height}
-            itemCount={devices.length}
-            itemData={devices}
-            itemSize={72}
-            overscanCount={10}
-            innerRef={listInnerEl}
-          >
-            {DeviceRow}
-          </FixedSizeList>
-        </List>
+        <FixedSizeList
+          width={width}
+          height={height}
+          itemCount={devices.length}
+          itemData={devices}
+          itemSize={72}
+          overscanCount={10}
+          innerRef={listInnerEl}
+        >
+          {DeviceRow}
+        </FixedSizeList>
       )}
     </AutoSizer>
   );
