@@ -4,7 +4,6 @@ import {
   Breadcrumbs,
   Divider,
   Drawer,
-  Hidden,
   IconButton,
   Toolbar,
   Typography,
@@ -69,56 +68,53 @@ const PageTitle = ({ breadcrumbs }) => {
 
 const PageLayout = ({ menu, breadcrumbs, children }) => {
   const classes = useStyles();
+  const theme = useTheme();
   const navigate = useNavigate();
+
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  return (
-    <>
-      <Hidden mdDown>
-        <div className={classes.desktopRoot}>
-          <Drawer
-            variant="permanent"
-            className={classes.desktopDrawer}
-            classes={{ paper: classes.desktopDrawer }}
-          >
-            <div className={classes.toolbar}>
-              <Toolbar>
-                <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-                  <ArrowBackIcon />
-                </IconButton>
-                <PageTitle breadcrumbs={breadcrumbs} />
-              </Toolbar>
-            </div>
-            <Divider />
-            {menu}
-          </Drawer>
-          <div className={classes.content}>{children}</div>
+  return desktop ? (
+    <div className={classes.desktopRoot}>
+      <Drawer
+        variant="permanent"
+        className={classes.desktopDrawer}
+        classes={{ paper: classes.desktopDrawer }}
+      >
+        <div className={classes.toolbar}>
+          <Toolbar>
+            <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
+              <ArrowBackIcon />
+            </IconButton>
+            <PageTitle breadcrumbs={breadcrumbs} />
+          </Toolbar>
         </div>
-      </Hidden>
-
-      <Hidden mdUp>
-        <div className={classes.mobileRoot}>
-          <Drawer
-            variant="temporary"
-            open={openDrawer}
-            onClose={() => setOpenDrawer(false)}
-            classes={{ paper: classes.mobileDrawer }}
-          >
-            {menu}
-          </Drawer>
-          <AppBar className={classes.mobileToolbar} position="static" color="inherit">
-            <Toolbar>
-              <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => setOpenDrawer(true)}>
-                <MenuIcon />
-              </IconButton>
-              <PageTitle breadcrumbs={breadcrumbs} />
-            </Toolbar>
-          </AppBar>
-          <div className={classes.content}>{children}</div>
-        </div>
-      </Hidden>
-    </>
+        <Divider />
+        {menu}
+      </Drawer>
+      <div className={classes.content}>{children}</div>
+    </div>
+  ) : (
+    <div className={classes.mobileRoot}>
+      <Drawer
+        variant="temporary"
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        classes={{ paper: classes.mobileDrawer }}
+      >
+        {menu}
+      </Drawer>
+      <AppBar className={classes.mobileToolbar} position="static" color="inherit">
+        <Toolbar>
+          <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => setOpenDrawer(true)}>
+            <MenuIcon />
+          </IconButton>
+          <PageTitle breadcrumbs={breadcrumbs} />
+        </Toolbar>
+      </AppBar>
+      <div className={classes.content}>{children}</div>
+    </div>
   );
 };
 
