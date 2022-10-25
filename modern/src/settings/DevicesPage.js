@@ -71,7 +71,7 @@ const DevicesPage = () => {
           )) : (<TableShimmer columns={6} endAction />)}
         </TableBody>
       </Table>
-      <CollectionFab editPath="/settings/driver" />
+      <CollectionFab editPath="/settings/device" />
     </PageLayout>
   );
 };
