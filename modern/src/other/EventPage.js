@@ -13,6 +13,7 @@ import MapCamera from '../map/MapCamera';
 import MapPositions from '../map/MapPositions';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
+import { formatNotificationTitle } from '../common/util/formatter';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -38,6 +39,13 @@ const EventPage = () => {
   const [event, setEvent] = useState();
   const [position, setPosition] = useState();
   const [showCard, setShowCard] = useState(false);
+
+  const formatType = (event) => formatNotificationTitle(t, {
+    type: event.type,
+    attributes: {
+      alarms: event.attributes.alarm,
+    },
+  });
 
   const onMarkerClick = useCallback((positionId) => {
     setShowCard(!!positionId);
@@ -75,13 +83,13 @@ const EventPage = () => {
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
             <ArrowBackIcon />
           </IconButton>
-          <Typography variant="h6">{t('positionEvent')}</Typography>
+          <Typography variant="h6">{formatType(event)}</Typography>
         </Toolbar>
       </AppBar>
       <div className={classes.mapContainer}>
         <MapView>
           <MapGeofence />
-          {position && <MapPositions positions={[position]} onClick={onMarkerClick} />}
+          {position && <MapPositions positions={[position]} onClick={onMarkerClick} titleField="fixTime" />}
         </MapView>
         {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
         {position && showCard && (

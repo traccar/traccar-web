@@ -161,7 +161,7 @@ const ReplayPage = () => {
         <MapRoutePath positions={positions} />
         <MapRoutePoints positions={positions} onClick={onPointClick} />
         {index < positions.length && (
-          <MapPositions positions={[positions[index]]} onClick={onMarkerClick} />
+          <MapPositions positions={[positions[index]]} onClick={onMarkerClick} titleField="fixTime" />
         )}
       </MapView>
       <MapCamera positions={positions} />

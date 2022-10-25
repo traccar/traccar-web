@@ -83,7 +83,7 @@ const RouteReportPage = () => {
                   </Fragment>
                 );
               })}
-              <MapPositions positions={[selectedItem]} />
+              <MapPositions positions={[selectedItem]} titleField="fixTime" />
             </MapView>
             <MapCamera positions={items} />
           </div>

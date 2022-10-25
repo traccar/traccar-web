@@ -143,7 +143,7 @@ const EventReportPage = () => {
           <div className={classes.containerMap}>
             <MapView>
               <MapGeofence />
-              {position && <MapPositions positions={[position]} />}
+              {position && <MapPositions positions={[position]} titleField="fixTime" />}
             </MapView>
             {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
           </div>

@@ -100,11 +100,14 @@ const StopReportPage = () => {
           <div className={classes.containerMap}>
             <MapView>
               <MapGeofence />
-              <MapPositions positions={[{
-                deviceId: selectedItem.deviceId,
-                latitude: selectedItem.latitude,
-                longitude: selectedItem.longitude,
-              }]}
+              <MapPositions
+                positions={[{
+                  deviceId: selectedItem.deviceId,
+                  fixTime: selectedItem.startTime,
+                  latitude: selectedItem.latitude,
+                  longitude: selectedItem.longitude,
+                }]}
+                titleField="fixTime"
               />
             </MapView>
             <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />
