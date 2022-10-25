@@ -47,6 +47,7 @@ import AccumulatorsPage from './settings/AccumulatorsPage';
 import CommandSendPage from './settings/CommandSendPage';
 import App from './App';
 import ChangeServerPage from './other/ChangeServerPage';
+import DevicesPage from './settings/DevicesPage';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -112,6 +113,7 @@ const Navigation = () => {
           <Route path="attributes" element={<ComputedAttributesPage />} />
           <Route path="attribute/:id" element={<ComputedAttributePage />} />
           <Route path="attribute" element={<ComputedAttributePage />} />
+          <Route path="devices" element={<DevicesPage />} />
           <Route path="device/:id" element={<DevicePage />} />
           <Route path="device" element={<DevicePage />} />
           <Route path="drivers" element={<DriversPage />} />

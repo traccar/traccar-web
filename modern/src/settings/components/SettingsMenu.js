@@ -12,6 +12,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import TodayIcon from '@mui/icons-material/Today';
 import PublishIcon from '@mui/icons-material/Publish';
+import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -60,6 +61,12 @@ const SettingsMenu = () => {
               link={`/settings/user/${userId}`}
               icon={<PersonIcon />}
               selected={location.pathname === `/settings/user/${userId}`}
+            />
+            <MenuItem
+              title={t('deviceTitle')}
+              link="/settings/devices"
+              icon={<SmartphoneIcon />}
+              selected={location.pathname.startsWith('/settings/device')}
             />
             <MenuItem
               title={t('sharedGeofences')}
