@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
   },
-  desktopToolbar: theme.mixins.toolbar,
   mobileToolbar: {
     zIndex: 1,
   },
@@ -82,14 +81,12 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
         className={classes.desktopDrawer}
         classes={{ paper: classes.desktopDrawer }}
       >
-        <div className={classes.toolbar}>
-          <Toolbar>
-            <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-              <ArrowBackIcon />
-            </IconButton>
-            <PageTitle breadcrumbs={breadcrumbs} />
-          </Toolbar>
-        </div>
+        <Toolbar>
+          <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
+            <ArrowBackIcon />
+          </IconButton>
+          <PageTitle breadcrumbs={breadcrumbs} />
+        </Toolbar>
         <Divider />
         {menu}
       </Drawer>
