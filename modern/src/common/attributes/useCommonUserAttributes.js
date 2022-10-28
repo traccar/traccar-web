@@ -25,10 +25,6 @@ export default (t) => useMemo(() => ({
     name: t('mapActive'),
     type: 'string',
   },
-  selectedMapStyle: {
-    name: t('mapDefault'),
-    type: 'string',
-  },
   devicePrimary: {
     name: t('devicePrimaryInfo'),
     type: 'string',

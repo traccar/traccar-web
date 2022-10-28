@@ -30,6 +30,7 @@ import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttri
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useCatch } from '../reactHelper';
 import useServerAttributes from '../common/attributes/useServerAttributes';
+import useMapStyles from '../map/core/useMapStyles';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,6 +59,7 @@ const ServerPage = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
+  const mapStyles = useMapStyles();
   const commonUserAttributes = useCommonUserAttributes(t);
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const serverAttributes = useServerAttributes(t);
@@ -102,6 +104,20 @@ const ServerPage = () => {
                   onChange={(event) => setItem({ ...item, overlayUrl: event.target.value })}
                   label={t('mapOverlayCustom')}
                 />
+                <FormControl>
+                  <InputLabel>{t('mapDefault')}</InputLabel>
+                  <Select
+                    label={t('mapDefault')}
+                    value={item.map || 'locationIqStreets'}
+                    onChange={(e) => setItem({ ...item, map: e.target.value })}
+                  >
+                    {mapStyles.filter((style) => style.available).map((style) => (
+                      <MenuItem key={style.id} value={style.id}>
+                        <Typography component="span">{style.title}</Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <TextField
                   type="number"
                   value={item.latitude || 0}

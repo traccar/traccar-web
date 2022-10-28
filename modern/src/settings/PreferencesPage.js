@@ -181,7 +181,7 @@ const PreferencesPage = () => {
               <InputLabel>{t('mapOverlay')}</InputLabel>
               <Select
                 label={t('mapOverlay')}
-                value={attributes.selectedMapOverlay}
+                value={attributes.selectedMapOverlay || ''}
                 onChange={(e) => {
                   const clicked = mapOverlays.find((o) => o.id === e.target.value);
                   if (!clicked || clicked.available) {

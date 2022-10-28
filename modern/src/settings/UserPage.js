@@ -33,6 +33,7 @@ import { useAdministrator, useRestriction, useManager } from '../common/util/per
 import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
 import { formatNotificationTitle } from '../common/util/formatter';
+import useMapStyles from '../map/core/useMapStyles';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -56,6 +57,7 @@ const UserPage = () => {
   const currentUser = useSelector((state) => state.session.user);
   const registrationEnabled = useSelector((state) => state.session.server.registration);
 
+  const mapStyles = useMapStyles();
   const commonUserAttributes = useCommonUserAttributes(t);
   const userAttributes = useUserAttributes(t);
 
@@ -153,6 +155,20 @@ const UserPage = () => {
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
               />
+              <FormControl>
+                <InputLabel>{t('mapDefault')}</InputLabel>
+                <Select
+                  label={t('mapDefault')}
+                  value={item.map || 'locationIqStreets'}
+                  onChange={(e) => setItem({ ...item, map: e.target.value })}
+                >
+                  {mapStyles.filter((style) => style.available).map((style) => (
+                    <MenuItem key={style.id} value={style.id}>
+                      <Typography component="span">{style.title}</Typography>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
                 type="number"
                 value={item.latitude || 0}
