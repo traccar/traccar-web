@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, InputAdornment, IconButton, OutlinedInput, Autocomplete, TextField, createFilterOptions,
+  Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, InputAdornment, IconButton, OutlinedInput, Autocomplete, TextField, createFilterOptions, Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -19,6 +19,7 @@ import SelectField from '../common/components/SelectField';
 import useMapStyles from '../map/core/useMapStyles';
 import useMapOverlays from '../map/overlay/useMapOverlays';
 import { useCatch } from '../reactHelper';
+import { sessionActions } from '../store';
 
 const deviceFields = [
   { id: 'name', name: 'sharedName' },
@@ -32,6 +33,15 @@ const deviceFields = [
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
+  },
+  buttons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    '& > *': {
+      flexBasis: '33%',
+    },
   },
   details: {
     display: 'flex',
@@ -47,10 +57,12 @@ const useStyles = makeStyles((theme) => ({
 
 const PreferencesPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const userId = useSelector((state) => state.session.user.id);
+  const user = useSelector((state) => state.session.user);
+  const [attributes, setAttributes] = useState(user.attributes);
 
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
@@ -67,7 +79,6 @@ const PreferencesPage = () => {
   const positionAttributes = usePositionAttributes(t);
   const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
 
-  const [mapGeofences, setMapGeofences] = usePersistedState('mapGeofences', true);
   const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
   const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
   const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
@@ -98,6 +109,20 @@ const PreferencesPage = () => {
 
   const [soundEvents, setSoundEvents] = usePersistedState('soundEvents', []);
   const [soundAlarms, setSoundAlarms] = usePersistedState('soundAlarms', ['sos']);
+
+  const handleSave = useCatch(async () => {
+    const response = await fetch(`/api/users/${user.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...user, attributes }),
+    });
+    if (response.ok) {
+      dispatch(sessionActions.updateUser(await response.json()));
+      navigate(-1);
+    } else {
+      throw Error(await response.text());
+    }
+  });
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
@@ -178,7 +203,7 @@ const PreferencesPage = () => {
                     setActiveMapStyles(e.target.value);
                   } else if (clicked.id !== 'custom') {
                     const query = new URLSearchParams({ attribute: clicked.attribute });
-                    navigate(`/settings/user/${userId}?${query.toString()}`);
+                    navigate(`/settings/user/${user.id}?${query.toString()}`);
                   }
                 }}
                 multiple
@@ -201,7 +226,7 @@ const PreferencesPage = () => {
                     setSelectedMapOverlay(e.target.value);
                   } else if (clicked.id !== 'custom') {
                     const query = new URLSearchParams({ attribute: clicked.attribute });
-                    navigate(`/settings/user/${userId}?${query.toString()}`);
+                    navigate(`/settings/user/${user.id}?${query.toString()}`);
                   }
                 }}
               >
@@ -238,8 +263,13 @@ const PreferencesPage = () => {
             />
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox checked={mapGeofences} onChange={(e) => setMapGeofences(e.target.checked)} />}
-                label={t('sharedGeofences')}
+                control={(
+                  <Checkbox
+                    checked={attributes.hasOwnProperty('mapGeofences') ? attributes.mapGeofences : true}
+                    onChange={(e) => setAttributes({ ...attributes, mapGeofences: e.target.checked })}
+                  />
+                )}
+                label={t('attributeShowGeofences')}
               />
               <FormControlLabel
                 control={<Checkbox checked={mapLiveRoutes} onChange={(e) => setMapLiveRoutes(e.target.checked)} />}
@@ -311,6 +341,24 @@ const PreferencesPage = () => {
             />
           </AccordionDetails>
         </Accordion>
+        <div className={classes.buttons}>
+          <Button
+            type="button"
+            color="primary"
+            variant="outlined"
+            onClick={() => navigate(-1)}
+          >
+            {t('sharedCancel')}
+          </Button>
+          <Button
+            type="button"
+            color="primary"
+            variant="contained"
+            onClick={handleSave}
+          >
+            {t('sharedSave')}
+          </Button>
+        </div>
       </Container>
     </PageLayout>
   );

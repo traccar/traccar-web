@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
+  mapGeofences: {
+    name: t('attributeShowGeofences'),
+    type: 'boolean',
+  },
   locationIqKey: {
     name: t('mapLocationIqKey'),
     type: 'string',

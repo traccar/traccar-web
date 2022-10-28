@@ -112,6 +112,7 @@
     "calendarThursday": "Thursday",
     "calendarFriday": "Friday",
     "calendarSaturday": "Saturday",
+    "attributeShowGeofences": "Show Geofences",
     "attributeSpeedLimit": "Speed Limit",
     "attributeFuelDropThreshold": "Fuel Drop Threshold",
     "attributeFuelIncreaseThreshold": "Fuel Increase Threshold",

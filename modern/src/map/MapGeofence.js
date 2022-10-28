@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 import { findFonts, geofenceToFeature } from './core/mapUtil';
-import usePersistedState from '../common/util/usePersistedState';
+import { useAttributePreference } from '../common/util/preferences';
 
 const MapGeofence = () => {
   const id = useId();
 
   const theme = useTheme();
 
-  const [mapGeofences] = usePersistedState('mapGeofences', true);
+  const mapGeofences = useAttributePreference('mapGeofences', true);
 
   const geofences = useSelector((state) => state.geofences.items);
 
