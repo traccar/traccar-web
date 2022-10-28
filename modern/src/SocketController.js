@@ -1,23 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Snackbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 import { positionsActions, devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './common/components/LocalizationProvider';
 import { snackBarDurationLongMs } from './common/util/duration';
-import usePersistedState from './common/util/usePersistedState';
 
 import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
+import { useAttributePreference } from './common/util/preferences';
 
 const logoutCode = 4000;
 
 const SocketController = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const t = useTranslation();
 
   const authenticated = useSelector((state) => !!state.session.user);
@@ -28,8 +26,8 @@ const SocketController = () => {
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
-  const [soundEvents] = usePersistedState('soundEvents', []);
-  const [soundAlarms] = usePersistedState('soundAlarms', ['sos']);
+  const soundEvents = useAttributePreference('soundEvents', '');
+  const soundAlarms = useAttributePreference('soundAlarms', 'sos');
 
   const features = useFeatures();
 
@@ -95,12 +93,6 @@ const SocketController = () => {
           socket.close(logoutCode);
         }
       };
-    }
-    const response = await fetch('/api/session');
-    if (response.ok) {
-      dispatch(sessionActions.updateUser(await response.json()));
-    } else {
-      navigate('/login');
     }
     return null;
   }, [authenticated]);

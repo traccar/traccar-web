@@ -9,8 +9,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { useLocalization, useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
-import usePersistedState from '../common/util/usePersistedState';
+import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -64,25 +63,13 @@ const PreferencesPage = () => {
   const user = useSelector((state) => state.session.user);
   const [attributes, setAttributes] = useState(user.attributes);
 
-  const { languages, language, setLanguage } = useLocalization();
-  const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
-
   const [token, setToken] = useState(null);
   const [tokenExpiration, setTokenExpiration] = useState(moment().add(1, 'week').locale('en').format(moment.HTML5_FMT.DATE));
 
   const mapStyles = useMapStyles();
-  const [activeMapStyles, setActiveMapStyles] = usePersistedState('activeMapStyles', ['locationIqStreets', 'osm', 'carto']);
-
   const mapOverlays = useMapOverlays();
-  const [selectedMapOverlay, setSelectedMapOverlay] = usePersistedState('selectedMapOverlay');
 
   const positionAttributes = usePositionAttributes(t);
-  const [positionItems, setPositionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
-
-  const [mapLiveRoutes, setMapLiveRoutes] = usePersistedState('mapLiveRoutes', false);
-  const [mapFollow, setMapFollow] = usePersistedState('mapFollow', false);
-  const [mapCluster, setMapCluster] = usePersistedState('mapCluster', true);
-  const [mapOnSelect, setMapOnSelect] = usePersistedState('mapOnSelect', true);
 
   const filter = createFilterOptions();
 
@@ -104,12 +91,6 @@ const PreferencesPage = () => {
     name: t(it),
   }));
 
-  const [devicePrimary, setDevicePrimary] = usePersistedState('devicePrimary', 'name');
-  const [deviceSecondary, setDeviceSecondary] = usePersistedState('deviceSecondary', '');
-
-  const [soundEvents, setSoundEvents] = usePersistedState('soundEvents', []);
-  const [soundAlarms, setSoundAlarms] = usePersistedState('soundAlarms', ['sos']);
-
   const handleSave = useCatch(async () => {
     const response = await fetch(`/api/users/${user.id}`, {
       method: 'PUT',
@@ -127,25 +108,6 @@ const PreferencesPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
       <Container maxWidth="xs" className={classes.container}>
-        <Accordion defaultExpanded>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedPreferences')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails className={classes.details}>
-            <FormControl>
-              <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select
-                label={t('loginLanguage')}
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-              >
-                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </AccordionDetails>
-        </Accordion>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">
@@ -196,11 +158,11 @@ const PreferencesPage = () => {
               <InputLabel>{t('mapActive')}</InputLabel>
               <Select
                 label={t('mapActive')}
-                value={activeMapStyles}
+                value={attributes.activeMapStyles?.split(',') || ['locationIqStreets', 'osm', 'carto']}
                 onChange={(e, child) => {
                   const clicked = mapStyles.find((s) => s.id === child.props.value);
                   if (clicked.available) {
-                    setActiveMapStyles(e.target.value);
+                    setAttributes({ ...attributes, activeMapStyles: e.target.value.join(',') });
                   } else if (clicked.id !== 'custom') {
                     const query = new URLSearchParams({ attribute: clicked.attribute });
                     navigate(`/settings/user/${user.id}?${query.toString()}`);
@@ -219,11 +181,11 @@ const PreferencesPage = () => {
               <InputLabel>{t('mapOverlay')}</InputLabel>
               <Select
                 label={t('mapOverlay')}
-                value={selectedMapOverlay}
+                value={attributes.selectedMapOverlay}
                 onChange={(e) => {
                   const clicked = mapOverlays.find((o) => o.id === e.target.value);
                   if (!clicked || clicked.available) {
-                    setSelectedMapOverlay(e.target.value);
+                    setAttributes({ ...attributes, selectedMapOverlay: e.target.value });
                   } else if (clicked.id !== 'custom') {
                     const query = new URLSearchParams({ attribute: clicked.attribute });
                     navigate(`/settings/user/${user.id}?${query.toString()}`);
@@ -243,9 +205,9 @@ const PreferencesPage = () => {
               freeSolo
               options={Object.keys(positionAttributes)}
               getOptionLabel={(option) => (positionAttributes.hasOwnProperty(option) ? positionAttributes[option].name : option)}
-              value={positionItems}
+              value={attributes.positionItems?.split(',') || ['speed', 'address', 'totalDistance', 'course']}
               onChange={(_, option) => {
-                setPositionItems(option);
+                setAttributes({ ...attributes, positionItems: option.join(',') });
               }}
               filterOptions={(options, params) => {
                 const filtered = filter(options, params);
@@ -257,7 +219,7 @@ const PreferencesPage = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  placeholder={t('sharedAttributes')}
+                  label={t('attributePopupInfo')}
                 />
               )}
             />
@@ -272,19 +234,39 @@ const PreferencesPage = () => {
                 label={t('attributeShowGeofences')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapLiveRoutes} onChange={(e) => setMapLiveRoutes(e.target.checked)} />}
+                control={(
+                  <Checkbox
+                    checked={attributes.hasOwnProperty('mapLiveRoutes') ? attributes.mapLiveRoutes : false}
+                    onChange={(e) => setAttributes({ ...attributes, mapLiveRoutes: e.target.checked })}
+                  />
+                )}
                 label={t('mapLiveRoutes')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapFollow} onChange={(e) => setMapFollow(e.target.checked)} />}
+                control={(
+                  <Checkbox
+                    checked={attributes.hasOwnProperty('mapFollow') ? attributes.mapFollow : false}
+                    onChange={(e) => setAttributes({ ...attributes, mapFollow: e.target.checked })}
+                  />
+                )}
                 label={t('deviceFollow')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapCluster} onChange={(e) => setMapCluster(e.target.checked)} />}
+                control={(
+                  <Checkbox
+                    checked={attributes.hasOwnProperty('mapCluster') ? attributes.mapCluster : true}
+                    onChange={(e) => setAttributes({ ...attributes, mapCluster: e.target.checked })}
+                  />
+                )}
                 label={t('mapClustering')}
               />
               <FormControlLabel
-                control={<Checkbox checked={mapOnSelect} onChange={(e) => setMapOnSelect(e.target.checked)} />}
+                control={(
+                  <Checkbox
+                    checked={attributes.hasOwnProperty('mapOnSelect') ? attributes.mapOnSelect : true}
+                    onChange={(e) => setAttributes({ ...attributes, mapOnSelect: e.target.checked })}
+                  />
+                )}
                 label={t('mapOnSelect')}
               />
             </FormGroup>
@@ -299,19 +281,19 @@ const PreferencesPage = () => {
           <AccordionDetails className={classes.details}>
             <SelectField
               emptyValue={null}
-              value={devicePrimary}
-              onChange={(e) => setDevicePrimary(e.target.value)}
+              value={attributes.devicePrimary || 'name'}
+              onChange={(e) => setAttributes({ ...attributes, devicePrimary: e.target.value })}
               data={deviceFields}
               titleGetter={(it) => t(it.name)}
-              label={t('sharedPrimary')}
+              label={t('devicePrimaryInfo')}
             />
             <SelectField
               emptyValue=""
-              value={deviceSecondary}
-              onChange={(e) => setDeviceSecondary(e.target.value)}
+              value={attributes.deviceSecondary || ''}
+              onChange={(e) => setAttributes({ ...attributes, deviceSecondary: e.target.value })}
               data={deviceFields}
               titleGetter={(it) => t(it.name)}
-              label={t('sharedSecondary')}
+              label={t('deviceSecondaryInfo')}
             />
           </AccordionDetails>
         </Accordion>
@@ -324,20 +306,20 @@ const PreferencesPage = () => {
           <AccordionDetails className={classes.details}>
             <SelectField
               multiple
-              value={soundEvents}
-              onChange={(e) => setSoundEvents(e.target.value)}
+              value={attributes.soundEvents?.split(',') || []}
+              onChange={(e) => setAttributes({ ...attributes, soundEvents: e.target.value.join(',') })}
               endpoint="/api/notifications/types"
               keyGetter={(it) => it.type}
               titleGetter={(it) => t(prefixString('event', it.type))}
-              label={t('reportEventTypes')}
+              label={t('eventsSoundEvents')}
             />
             <SelectField
               multiple
-              value={soundAlarms}
-              onChange={(e) => setSoundAlarms(e.target.value)}
+              value={attributes.soundAlarms?.split(',') || ['sos']}
+              onChange={(e) => setAttributes({ ...attributes, soundAlarms: e.target.value.join(',') })}
               data={alarms}
               keyGetter={(it) => it.key}
-              label={t('sharedAlarms')}
+              label={t('eventsSoundAlarms')}
             />
           </AccordionDetails>
         </Accordion>

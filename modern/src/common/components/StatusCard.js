@@ -28,10 +28,10 @@ import { useTranslation } from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
 import PositionValue from './PositionValue';
 import { useDeviceReadonly, useRestriction } from '../util/permissions';
-import usePersistedState from '../util/usePersistedState';
 import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
+import { useAttributePreference } from '../util/preferences';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -122,7 +122,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
-  const [positionItems] = usePersistedState('positionItems', ['speed', 'address', 'totalDistance', 'course']);
+  const positionItems = useAttributePreference('positionItems', 'speed,address,totalDistance,course');
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -204,7 +204,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
               <CardContent className={classes.content}>
                 <Table size="small" classes={{ root: classes.table }}>
                   <TableBody>
-                    {positionItems.filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                    {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
                       <StatusRow
                         key={key}
                         name={positionAttributes[key].name}

@@ -5,6 +5,50 @@ export default (t) => useMemo(() => ({
     name: t('attributeShowGeofences'),
     type: 'boolean',
   },
+  mapLiveRoutes: {
+    name: t('mapLiveRoutes'),
+    type: 'boolean',
+  },
+  mapFollow: {
+    name: t('deviceFollow'),
+    type: 'boolean',
+  },
+  mapCluster: {
+    name: t('mapClustering'),
+    type: 'boolean',
+  },
+  mapOnSelect: {
+    name: t('mapOnSelect'),
+    type: 'boolean',
+  },
+  activeMapStyles: {
+    name: t('mapActive'),
+    type: 'string',
+  },
+  selectedMapStyle: {
+    name: t('mapDefault'),
+    type: 'string',
+  },
+  devicePrimary: {
+    name: t('devicePrimaryInfo'),
+    type: 'string',
+  },
+  deviceSecondary: {
+    name: t('deviceSecondaryInfo'),
+    type: 'string',
+  },
+  soundEvents: {
+    name: t('eventsSoundEvents'),
+    type: 'string',
+  },
+  soundAlarms: {
+    name: t('eventsSoundAlarms'),
+    type: 'string',
+  },
+  positionItems: {
+    name: t('attributePopupInfo'),
+    type: 'string',
+  },
   locationIqKey: {
     name: t('mapLocationIqKey'),
     type: 'string',
