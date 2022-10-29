@@ -15,7 +15,7 @@ const MapLiveRoutes = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const currentDeviceId = usePrevious(selectedDeviceId);
 
-  const position = useSelector((state) => state.positions.items[selectedDeviceId]);
+  const position = useSelector((state) => state.session.positions[selectedDeviceId]);
 
   const [route, setRoute] = useState([]);
 

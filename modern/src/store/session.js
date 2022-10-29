@@ -6,6 +6,7 @@ const { reducer, actions } = createSlice({
     server: null,
     user: null,
     socket: null,
+    positions: {},
   },
   reducers: {
     updateServer(state, action) {
@@ -16,6 +17,9 @@ const { reducer, actions } = createSlice({
     },
     updateSocket(state, action) {
       state.socket = action.payload;
+    },
+    updatePositions(state, action) {
+      action.payload.forEach((position) => state.positions[position.deviceId] = position);
     },
   },
 });

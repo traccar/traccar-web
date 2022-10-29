@@ -48,7 +48,7 @@ const AccumulatorsPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
 
   const { deviceId } = useParams();
-  const position = useSelector((state) => state.positions.items[deviceId]);
+  const position = useSelector((state) => state.session.positions[deviceId]);
 
   const [item, setItem] = useState();
 

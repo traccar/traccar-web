@@ -67,7 +67,7 @@ const MainPage = () => {
   const mapOnSelect = useAttributePreference('mapOnSelect', true);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const positions = useSelector((state) => state.positions.items);
+  const positions = useSelector((state) => state.session.positions);
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find((position) => selectedDeviceId && position.deviceId === selectedDeviceId);
 

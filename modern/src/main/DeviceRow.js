@@ -55,7 +55,7 @@ const DeviceRow = ({ data, index, style }) => {
   const admin = useAdministrator();
 
   const item = data[index];
-  const position = useSelector((state) => state.positions.items[item.id]);
+  const position = useSelector((state) => state.session.positions[item.id]);
 
   const geofences = useSelector((state) => state.geofences.items);
 

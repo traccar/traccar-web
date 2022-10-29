@@ -6,7 +6,7 @@ import { map } from '../core/MapView';
 
 const MapDefaultCamera = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const positions = useSelector((state) => state.positions.items);
+  const positions = useSelector((state) => state.session.positions);
 
   const defaultLatitude = usePreference('latitude');
   const defaultLongitude = usePreference('longitude');

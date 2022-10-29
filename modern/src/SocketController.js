@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Snackbar } from '@mui/material';
 
-import { positionsActions, devicesActions, sessionActions } from './store';
+import { devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './common/components/LocalizationProvider';
 import { snackBarDurationLongMs } from './common/util/duration';
@@ -52,7 +52,7 @@ const SocketController = () => {
             headers: { 'Content-Type': 'application/json' },
           });
           if (positionsResponse.ok) {
-            dispatch(positionsActions.update(await positionsResponse.json()));
+            dispatch(sessionActions.updatePositions(await positionsResponse.json()));
           }
         } catch (error) {
           // ignore errors
@@ -67,7 +67,7 @@ const SocketController = () => {
         dispatch(devicesActions.update(data.devices));
       }
       if (data.positions) {
-        dispatch(positionsActions.update(data.positions));
+        dispatch(sessionActions.updatePositions(data.positions));
       }
       if (data.events) {
         if (!features.disableEvents) {
