@@ -184,6 +184,7 @@
     "loginLogout": "Logout",
     "loginLogo": "Logo",
     "devicesAndState": "Devices and State",
+    "deviceSelected": "Selected Device",
     "deviceTitle": "Devices",
     "devicePrimaryInfo": "Device Title",
     "deviceSecondaryInfo": "Device Detail",

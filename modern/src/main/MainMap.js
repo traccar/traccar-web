@@ -30,7 +30,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
 
   const features = useFeatures();
 
-  const mapLiveRoutes = useAttributePreference('mapLiveRoutes', false);
+  const mapLiveRoutes = useAttributePreference('mapLiveRoutes', 'none');
 
   const onMarkerClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.select(deviceId));
@@ -42,7 +42,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapOverlay />
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
-        {mapLiveRoutes && <MapLiveRoutes />}
+        {mapLiveRoutes !== 'none' && <MapLiveRoutes />}
         <MapPositions
           positions={filteredPositions}
           onClick={onMarkerClick}

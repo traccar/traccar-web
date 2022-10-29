@@ -223,6 +223,18 @@ const PreferencesPage = () => {
                 />
               )}
             />
+            <FormControl>
+              <InputLabel>{t('mapLiveRoutes')}</InputLabel>
+              <Select
+                label={t('mapLiveRoutes')}
+                value={attributes.mapLiveRoutes || 'none'}
+                onChange={(e) => setAttributes({ ...attributes, mapLiveRoutes: e.target.value })}
+              >
+                <MenuItem value="none">{t('sharedDisabled')}</MenuItem>
+                <MenuItem value="selected">{t('deviceSelected')}</MenuItem>
+                <MenuItem value="all">{t('notificationAlways')}</MenuItem>
+              </Select>
+            </FormControl>
             <FormGroup>
               <FormControlLabel
                 control={(
@@ -232,15 +244,6 @@ const PreferencesPage = () => {
                   />
                 )}
                 label={t('attributeShowGeofences')}
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={attributes.hasOwnProperty('mapLiveRoutes') ? attributes.mapLiveRoutes : false}
-                    onChange={(e) => setAttributes({ ...attributes, mapLiveRoutes: e.target.checked })}
-                  />
-                )}
-                label={t('mapLiveRoutes')}
               />
               <FormControlLabel
                 control={(

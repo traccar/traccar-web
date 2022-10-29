@@ -7,7 +7,7 @@ export default (t) => useMemo(() => ({
   },
   mapLiveRoutes: {
     name: t('mapLiveRoutes'),
-    type: 'boolean',
+    type: 'string',
   },
   mapFollow: {
     name: t('deviceFollow'),
