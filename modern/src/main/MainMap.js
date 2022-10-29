@@ -18,7 +18,6 @@ import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapNotification from '../map/notification/MapNotification';
 import useFeatures from '../common/util/useFeatures';
-import { useAttributePreference } from '../common/util/preferences';
 
 const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
   const theme = useTheme();
@@ -30,8 +29,6 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
 
   const features = useFeatures();
 
-  const mapLiveRoutes = useAttributePreference('mapLiveRoutes', 'none');
-
   const onMarkerClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.select(deviceId));
   }, [dispatch]);
@@ -42,7 +39,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapOverlay />
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
-        {mapLiveRoutes !== 'none' && <MapLiveRoutes />}
+        <MapLiveRoutes />
         <MapPositions
           positions={filteredPositions}
           onClick={onMarkerClick}

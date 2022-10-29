@@ -69,7 +69,7 @@ const MapRoutePath = ({ positions }) => {
         color: reportColor,
       },
     });
-  }, [positions, reportColor]);
+  }, [theme, positions, reportColor]);
 
   return null;
 };

@@ -30,6 +30,8 @@ const { reducer, actions } = createSlice({
           if (!last || (last[0] !== position.longitude && last[1] !== position.latitude)) {
             state.history[position.deviceId] = [...route.slice(1 - liveRoutesLimit), [position.longitude, position.latitude]];
           }
+        } else {
+          state.history = {};
         }
       });
     },
