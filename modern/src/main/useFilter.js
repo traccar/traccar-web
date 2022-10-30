@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-export default (filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions) => {
+export default (keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions) => {
   const groups = useSelector((state) => state.groups.items);
   const devices = useSelector((state) => state.devices.items);
 
@@ -21,8 +21,8 @@ export default (filter, filterSort, filterMap, positions, setFilteredDevices, se
       .filter((device) => !filter.statuses.length || filter.statuses.includes(device.status))
       .filter((device) => !filter.groups.length || deviceGroups(device).some((id) => filter.groups.includes(id)))
       .filter((device) => {
-        const keyword = filter.keyword.toLowerCase();
-        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(keyword));
+        const lowerCaseKeyword = keyword.toLowerCase();
+        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(lowerCaseKeyword));
       });
     switch (filterSort) {
       case 'name':
@@ -42,5 +42,5 @@ export default (filter, filterSort, filterMap, positions, setFilteredDevices, se
     setFilteredPositions(filterMap
       ? filtered.map((device) => positions[device.id]).filter(Boolean)
       : Object.values(positions));
-  }, [filter, filterSort, filterMap, groups, devices, positions, setFilteredDevices, setFilteredPositions]);
+  }, [keyword, filter, filterSort, filterMap, groups, devices, positions, setFilteredDevices, setFilteredPositions]);
 };

@@ -73,8 +73,8 @@ const MainPage = () => {
 
   const [filteredDevices, setFilteredDevices] = useState([]);
 
-  const [filter, setFilter] = useState({
-    keyword: '',
+  const [keyword, setKeyword] = useState('');
+  const [filter, setFilter] = usePersistedState('filter', {
     statuses: [],
     groups: [],
   });
@@ -92,7 +92,7 @@ const MainPage = () => {
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
 
-  useFilter(filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
+  useFilter(keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
 
   return (
     <div className={classes.root}>
@@ -109,6 +109,8 @@ const MainPage = () => {
             filteredDevices={filteredDevices}
             devicesOpen={devicesOpen}
             setDevicesOpen={setDevicesOpen}
+            keyword={keyword}
+            setKeyword={setKeyword}
             filter={filter}
             setFilter={setFilter}
             filterSort={filterSort}
