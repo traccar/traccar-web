@@ -16,7 +16,7 @@ import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAdministrator, useManager, useRestriction } from '../../common/util/permissions';
+import { useAdministrator, useDeviceReadonly, useManager, useRestriction } from '../../common/util/permissions';
 import useFeatures from '../../common/util/useFeatures';
 
 const MenuItem = ({
@@ -33,6 +33,7 @@ const SettingsMenu = () => {
   const location = useLocation();
 
   const readonly = useRestriction('readonly');
+  const deviceReadonly = useDeviceReadonly();
   const admin = useAdministrator();
   const manager = useManager();
   const userId = useSelector((state) => state.session.user.id);
@@ -62,12 +63,14 @@ const SettingsMenu = () => {
               icon={<PersonIcon />}
               selected={location.pathname === `/settings/user/${userId}`}
             />
-            <MenuItem
-              title={t('deviceTitle')}
-              link="/settings/devices"
-              icon={<SmartphoneIcon />}
-              selected={location.pathname.startsWith('/settings/device')}
-            />
+            {!deviceReadonly && (
+              <MenuItem
+                title={t('deviceTitle')}
+                link="/settings/devices"
+                icon={<SmartphoneIcon />}
+                selected={location.pathname.startsWith('/settings/device')}
+              />
+            )}
             <MenuItem
               title={t('sharedGeofences')}
               link="/geofences"
