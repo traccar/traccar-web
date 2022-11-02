@@ -154,7 +154,9 @@ export const LocalizationProvider = ({ children }) => {
 
   useEffect(() => {
     let selected;
-    if (language.length > 2) {
+    if (language === 'zh') {
+      selected = 'zh-cn';
+    } else if (language.length > 2) {
       selected = `${language.slice(0, 2)}-${language.slice(-2).toLowerCase()}`;
     } else {
       selected = language;
