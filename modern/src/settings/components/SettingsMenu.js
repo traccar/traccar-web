@@ -16,7 +16,9 @@ import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAdministrator, useDeviceReadonly, useManager, useRestriction } from '../../common/util/permissions';
+import {
+  useAdministrator, useDeviceReadonly, useManager, useRestriction,
+} from '../../common/util/permissions';
 import useFeatures from '../../common/util/useFeatures';
 
 const MenuItem = ({
