@@ -7,7 +7,7 @@ import SelectField from '../../common/components/SelectField';
 import { prefixString } from '../../common/util/stringUtils';
 import useCommandAttributes from '../../common/attributes/useCommandAttributes';
 
-const BaseCommandView = ({ item, setItem }) => {
+const BaseCommandView = ({ deviceId, item, setItem }) => {
   const t = useTranslation();
 
   const availableAttributes = useCommandAttributes(t);
@@ -27,7 +27,7 @@ const BaseCommandView = ({ item, setItem }) => {
       <SelectField
         value={item.type || ''}
         onChange={(e) => setItem({ ...item, type: e.target.value, attributes: {} })}
-        endpoint="/api/commands/types"
+        endpoint={deviceId ? `/api/commands/types?${new URLSearchParams({ deviceId }).toString()}` : '/api/commands/types'}
         keyGetter={(it) => it.type}
         titleGetter={(it) => t(prefixString('command', it.type))}
         label={t('sharedType')}
