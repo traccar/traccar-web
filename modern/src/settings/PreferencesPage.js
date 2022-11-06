@@ -66,6 +66,10 @@ const PreferencesPage = () => {
   const user = useSelector((state) => state.session.user);
   const [attributes, setAttributes] = useState(user.attributes);
 
+  const versionApp = process.env.REACT_APP_VERSION.slice(0, -2);
+  const versionServer = useSelector((state) => state.session.server.version);
+  const socket = useSelector((state) => state.session.socket);
+
   const [token, setToken] = useState(null);
   const [tokenExpiration, setTokenExpiration] = useState(moment().add(1, 'week').locale('en').format(moment.HTML5_FMT.DATE));
 
@@ -328,6 +332,30 @@ const PreferencesPage = () => {
                   data={alarms}
                   keyGetter={(it) => it.key}
                   label={t('eventsSoundAlarms')}
+                />
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedInfoTitle')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <TextField
+                  value={versionApp}
+                  label={t('settingsAppVersion')}
+                  disabled
+                />
+                <TextField
+                  value={versionServer || '-'}
+                  label={t('settingsServerVersion')}
+                  disabled
+                />
+                <TextField
+                  value={socket ? t('deviceStatusOnline') : t('deviceStatusOffline')}
+                  label={t('settingsConnection')}
+                  disabled
                 />
               </AccordionDetails>
             </Accordion>
