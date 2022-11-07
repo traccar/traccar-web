@@ -25,6 +25,7 @@ import { useCatch } from '../reactHelper';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
+import { usePreference } from '../common/util/preferences';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,6 +81,8 @@ const ReplayPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const timerRef = useRef();
+
+  const hours12 = usePreference('twelveHourFormat');
 
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
 
@@ -207,7 +210,7 @@ const ReplayPage = () => {
                 <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing || index >= positions.length - 1}>
                   <FastForwardIcon />
                 </IconButton>
-                {formatTime(positions[index].fixTime)}
+                {formatTime(positions[index].fixTime, 'seconds', hours12)}
               </div>
             </>
           ) : (

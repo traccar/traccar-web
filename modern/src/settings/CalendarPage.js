@@ -13,7 +13,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
 import { prefixString } from '../common/util/stringUtils';
 
-const formatTime = (time) => {
+const formatCalendarTime = (time) => {
   const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return `TZID=${tzid}:${time.locale('en').format('YYYYMMDDTHHmmss')}`;
 };
@@ -47,8 +47,8 @@ const simpleCalendar = () => window.btoa([
   'PRODID:-//Traccar//NONSGML Traccar//EN',
   'BEGIN:VEVENT',
   'UID:00000000-0000-0000-0000-000000000000',
-  `DTSTART;${formatTime(moment())}`,
-  `DTEND;${formatTime(moment().add(1, 'hours'))}`,
+  `DTSTART;${formatCalendarTime(moment())}`,
+  `DTEND;${formatCalendarTime(moment().add(1, 'hours'))}`,
   'RRULE:FREQ=DAILY',
   'SUMMARY:Event',
   'END:VEVENT',
@@ -133,7 +133,7 @@ const CalendarPage = () => {
                     type="datetime-local"
                     value={moment(lines[5].slice(-15)).locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
                     onChange={(e) => {
-                      const time = formatTime(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL));
+                      const time = formatCalendarTime(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL));
                       setItem({ ...item, data: updateCalendar(lines, 5, `DTSTART;${time}`) });
                     }}
                   />
@@ -142,7 +142,7 @@ const CalendarPage = () => {
                     type="datetime-local"
                     value={moment(lines[6].slice(-15)).locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
                     onChange={(e) => {
-                      const time = formatTime(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL));
+                      const time = formatCalendarTime(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL));
                       setItem({ ...item, data: updateCalendar(lines, 6, `DTEND;${time}`) });
                     }}
                   />

@@ -14,6 +14,7 @@ import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAdministrator } from '../common/util/permissions';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import { usePreference } from '../common/util/preferences';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -27,6 +28,8 @@ const UsersPage = () => {
   const t = useTranslation();
 
   const admin = useAdministrator();
+
+  const hours12 = usePreference('twelveHourFormat');
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -83,7 +86,7 @@ const UsersPage = () => {
               <TableCell>{item.email}</TableCell>
               <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
               <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
-              <TableCell>{formatTime(item.expirationTime, 'YYYY-MM-DD')}</TableCell>
+              <TableCell>{formatTime(item.expirationTime, 'date', hours12)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}

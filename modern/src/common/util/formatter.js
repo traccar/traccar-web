@@ -17,7 +17,22 @@ export const formatNumber = (value, precision = 1) => Number(value.toFixed(preci
 
 export const formatPercentage = (value) => `${value}%`;
 
-export const formatTime = (value, format = 'YYYY-MM-DD HH:mm:ss') => (value ? moment(value).format(format) : '');
+export const formatTime = (value, format, hours12) => {
+  if (value) {
+    const m = moment(value);
+    switch (format) {
+      case 'date':
+        return m.format('YYYY-MM-DD');
+      case 'time':
+        return m.format(hours12 ? 'hh:mm:ss A' : 'HH:mm:ss');
+      case 'minutes':
+        return m.format(hours12 ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD HH:mm');
+      default:
+        return m.format(hours12 ? 'YYYY-MM-DD hh:mm:ss A' : 'YYYY-MM-DD HH:mm:ss');
+    }
+  }
+  return '';
+};
 
 export const formatStatus = (value, t) => t(prefixString('deviceStatus', value));
 export const formatAlarm = (value, t) => (value ? t(prefixString('alarm', value)) : '');

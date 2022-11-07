@@ -16,7 +16,7 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import MapView from '../map/core/MapView';
 import MapGeofence from '../map/MapGeofence';
 import MapPositions from '../map/MapPositions';
@@ -39,6 +39,7 @@ const EventReportPage = () => {
   const geofences = useSelector((state) => state.geofences.items);
 
   const speedUnit = useAttributePreference('speedUnit');
+  const hours12 = usePreference('twelveHourFormat');
 
   const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
 
@@ -105,7 +106,7 @@ const EventReportPage = () => {
   const formatValue = (item, key) => {
     switch (key) {
       case 'eventTime':
-        return formatTime(item[key]);
+        return formatTime(item[key], 'seconds', hours12);
       case 'type':
         return t(prefixString('event', item[key]));
       case 'geofenceId':

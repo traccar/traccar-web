@@ -4,7 +4,7 @@ import { map } from './core/MapView';
 import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { findFonts } from './core/mapUtil';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
@@ -15,6 +15,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
 
   const iconScale = useAttributePreference('iconScale', 1);
   const mapCluster = useAttributePreference('mapCluster', true);
+  const hours12 = usePreference('twelveHourFormat');
 
   const createFeature = (devices, position, selectedPositionId) => {
     const device = devices[position.deviceId];
@@ -22,7 +23,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       id: position.id,
       deviceId: position.deviceId,
       name: device.name,
-      fixTime: formatTime(position.fixTime),
+      fixTime: formatTime(position.fixTime, 'seconds', hours12),
       category: mapIconKey(device.category),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
       rotation: position.course,

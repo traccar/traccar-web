@@ -12,7 +12,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import {
   altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
 } from '../common/util/converter';
@@ -28,6 +28,7 @@ const ChartReportPage = () => {
   const altitudeUnit = useAttributePreference('altitudeUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
+  const hours12 = usePreference('twelveHourFormat');
 
   const [items, setItems] = useState([]);
   const [type, setType] = useState('speed');
@@ -47,7 +48,7 @@ const ChartReportPage = () => {
       const formattedPositions = positions.map((position) => {
         const data = { ...position, ...position.attributes };
         const formatted = {};
-        formatted.fixTime = formatTime(position.fixTime, 'HH:mm:ss');
+        formatted.fixTime = formatTime(position.fixTime, 'time', hours12);
         Object.keys(data).forEach((key) => {
           const value = data[key];
           if (typeof value === 'number') {

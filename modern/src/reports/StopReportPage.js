@@ -9,7 +9,7 @@ import {
   formatDistance, formatHours, formatVolume, formatTime,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -41,6 +41,7 @@ const StopReportPage = () => {
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
+  const hours12 = usePreference('twelveHourFormat');
 
   const [columns, setColumns] = usePersistedState('stopColumns', ['startTime', 'endTime', 'startOdometer', 'address']);
   const [items, setItems] = useState([]);
@@ -77,7 +78,7 @@ const StopReportPage = () => {
     switch (key) {
       case 'startTime':
       case 'endTime':
-        return formatTime(item[key], 'YYYY-MM-DD HH:mm');
+        return formatTime(item[key], 'minutes', hours12);
       case 'startOdometer':
         return formatDistance(item[key], distanceUnit, t);
       case 'duration':
