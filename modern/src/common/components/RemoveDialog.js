@@ -7,6 +7,11 @@ import { useCatch } from '../../reactHelper';
 import { snackBarDurationLongMs } from '../util/duration';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    [theme.breakpoints.down('md')]: {
+      bottom: `calc(${theme.dimensions.bottomBarHeight}px + ${theme.spacing(1)})`,
+    },
+  },
   button: {
     height: 'auto',
     marginTop: 0,
@@ -32,6 +37,7 @@ const RemoveDialog = ({
 
   return (
     <Snackbar
+      className={classes.root}
       open={open}
       autoHideDuration={snackBarDurationLongMs}
       onClose={() => onResult(false)}
