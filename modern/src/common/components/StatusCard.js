@@ -164,7 +164,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     } else {
       throw Error(await response.text());
     }
-  }, [navigate]);
+  }, [navigate, position]);
 
   return (
     <div className={classes.root}>
