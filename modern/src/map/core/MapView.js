@@ -91,8 +91,9 @@ const MapView = ({ children }) => {
   }, [mapboxAccessToken]);
 
   useEffect(() => {
-    const filteredStyles = mapStyles.filter((style) => style.available && activeMapStyles.includes(style.id));
-    switcher.updateStyles(filteredStyles, defaultMapStyle);
+    const filteredStyles = mapStyles.filter((s) => s.available && activeMapStyles.includes(s.id));
+    const styles = filteredStyles.length ? filteredStyles : mapStyles.filter((s) => s.id === 'osm');
+    switcher.updateStyles(styles, defaultMapStyle);
   }, [mapStyles, defaultMapStyle]);
 
   useEffect(() => {
