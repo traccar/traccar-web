@@ -4,9 +4,6 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PersonIcon from '@mui/icons-material/Person';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -41,12 +38,6 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleSubmit = useCatch(async () => {
     const response = await fetch('/api/users', {
       method: 'POST',
@@ -79,13 +70,6 @@ const RegisterPage = () => {
           autoComplete="name"
           autoFocus
           onChange={(event) => setName(event.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton>
-                <PersonIcon />
-              </IconButton>
-            ),
-          }}
         />
         <TextField
           required
@@ -95,29 +79,15 @@ const RegisterPage = () => {
           value={email}
           autoComplete="email"
           onChange={(event) => setEmail(event.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton>
-                <MailOutlineIcon />
-              </IconButton>
-            ),
-          }}
         />
         <TextField
           required
           label={t('userPassword')}
           name="password"
           value={password}
-          type={showPassword ? 'text' : 'password'}
+          type="password"
           autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton onClick={handleClickShowPassword}>
-                <VisibilityOffIcon />
-              </IconButton>
-            ),
-          }}
         />
         <Button
           variant="contained"

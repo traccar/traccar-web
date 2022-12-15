@@ -9,8 +9,6 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
@@ -51,8 +49,6 @@ const LoginPage = () => {
   const theme = useTheme();
   const t = useTranslation();
 
-  const [showPassword, setShowPassword] = useState(false);
-
   const { languages, language, setLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
@@ -60,10 +56,6 @@ const LoginPage = () => {
 
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
@@ -161,13 +153,6 @@ const LoginPage = () => {
           onChange={(e) => setEmail(e.target.value)}
           onKeyUp={handleSpecialKey}
           helperText={failed && 'Invalid username or password'}
-          InputProps={{
-            endAdornment: (
-              <IconButton>
-                <MailOutlineIcon />
-              </IconButton>
-            ),
-          }}
         />
         <TextField
           required
@@ -175,18 +160,11 @@ const LoginPage = () => {
           label={t('userPassword')}
           name="password"
           value={password}
-          type={showPassword ? 'text' : 'password'}
+          type="password"
           autoComplete="current-password"
           autoFocus={!!email}
           onChange={(e) => setPassword(e.target.value)}
           onKeyUp={handleSpecialKey}
-          InputProps={{
-            endAdornment: (
-              <IconButton onClick={handleClickShowPassword}>
-                <VisibilityOffIcon />
-              </IconButton>
-            ),
-          }}
         />
         <Button
           onClick={handlePasswordLogin}
