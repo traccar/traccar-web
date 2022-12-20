@@ -16,9 +16,22 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   const iconScale = useAttributePreference('iconScale', 1);
   const mapCluster = useAttributePreference('mapCluster', true);
   const hours12 = usePreference('twelveHourFormat');
+  const directionType = useAttributePreference('mapDirection', 'selected');
 
   const createFeature = (devices, position, selectedPositionId) => {
     const device = devices[position.deviceId];
+    let showDirection;
+    switch (directionType) {
+      case 'none':
+        showDirection = false;
+        break;
+      case 'all':
+        showDirection = true;
+        break;
+      default:
+        showDirection = selectedPositionId === position.id;
+        break;
+    }
     return {
       id: position.id,
       deviceId: position.deviceId,
@@ -27,7 +40,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       category: mapIconKey(device.category),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
       rotation: position.course,
-      direction: selectedPositionId === position.id,
+      direction: showDirection,
     };
   };
 

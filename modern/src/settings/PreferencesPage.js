@@ -244,6 +244,18 @@ const PreferencesPage = () => {
                     <MenuItem value="all">{t('notificationAlways')}</MenuItem>
                   </Select>
                 </FormControl>
+                <FormControl>
+                  <InputLabel>{t('mapDirection')}</InputLabel>
+                  <Select
+                    label={t('mapDirection')}
+                    value={attributes.mapDirection || 'selected'}
+                    onChange={(e) => setAttributes({ ...attributes, mapDirection: e.target.value })}
+                  >
+                    <MenuItem value="none">{t('sharedDisabled')}</MenuItem>
+                    <MenuItem value="selected">{t('deviceSelected')}</MenuItem>
+                    <MenuItem value="all">{t('notificationAlways')}</MenuItem>
+                  </Select>
+                </FormControl>
                 <FormGroup>
                   <FormControlLabel
                     control={(

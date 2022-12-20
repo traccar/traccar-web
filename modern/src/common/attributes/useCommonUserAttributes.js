@@ -9,6 +9,10 @@ export default (t) => useMemo(() => ({
     name: t('mapLiveRoutes'),
     type: 'string',
   },
+  mapDirection: {
+    name: t('mapDirection'),
+    type: 'string',
+  },
   mapFollow: {
     name: t('deviceFollow'),
     type: 'boolean',
