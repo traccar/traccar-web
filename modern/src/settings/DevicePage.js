@@ -136,7 +136,7 @@ const DevicePage = () => {
                 label={t('userExpirationTime')}
                 type="date"
                 value={(item.expirationTime && moment(item.expirationTime).locale('en').format(moment.HTML5_FMT.DATE)) || '2099-01-01'}
-                onChange={(e) => setItem({ ...item, expirationTime: moment(e.target.value, moment.HTML5_FMT.DATE).format() })}
+                onChange={(e) => setItem({ ...item, expirationTime: moment(e.target.value, moment.HTML5_FMT.DATE).locale('en').format() })}
                 disabled={!admin}
               />
               <FormControlLabel
