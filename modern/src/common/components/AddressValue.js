@@ -13,7 +13,7 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
 
   useEffect(() => {
     setAddress(originalAddress);
-  }, [originalAddress]);
+  }, [latitude, longitude, originalAddress]);
 
   const showAddress = useCatch(async () => {
     const query = new URLSearchParams({ latitude, longitude });
