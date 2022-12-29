@@ -1,9 +1,9 @@
 {
-  "short_name": "Traccar",
-  "name": "Traccar GPS Tracking System",
+  "short_name": "FOX GPS",
+  "name": "FOX GPS Rastreamento",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.svg",
       "sizes": "48x48 32x32 16x16",
       "type": "image/x-icon"
     },
@@ -22,6 +22,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#1E88E5",
+  "theme_color": "#ff8d3a",
   "background_color": "#ffffff"
 }
