@@ -26,6 +26,12 @@ Ext.define('Traccar.model.Geofence', {
         name: 'name',
         type: 'string'
     }, {
+        name: 'stopOut',
+        type: 'boolean'
+    }, {
+        name: 'stopIn',
+        type: 'boolean'
+    }, {
         name: 'description',
         type: 'string'
     }, {
