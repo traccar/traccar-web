@@ -1,11 +1,11 @@
 import {
-  amber, grey, green, indigo, red, common,
+  amber, grey, green, red, orange, common,
 } from '@mui/material/colors';
 
 const colors = {
   white: common.white,
   background: grey[50],
-  primary: indigo[900],
+  primary: orange[500],
   secondary: green[500],
   positive: green[500],
   medium: amber[700],

@@ -1,7 +1,7 @@
 (function () {
     var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, olVersion, i, language, languages, languageDefault;
 
-    function addStyleFile(file) {
+    function addStyleFile (file) {
         var link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
@@ -9,14 +9,14 @@
         document.head.appendChild(link);
     }
 
-    function addScriptFile(file) {
+    function addScriptFile (file) {
         var script = document.createElement('script');
         script.setAttribute('src', file);
         script.async = false;
         document.head.appendChild(script);
     }
 
-    function addSvgFile(file, id) {
+    function addSvgFile (file, id) {
         var svg = document.createElement('object');
         svg.setAttribute('id', id);
         svg.setAttribute('data', file);
@@ -36,61 +36,116 @@
     window.Locale = locale;
 
     locale.languages = {
-        'af': { name: 'Afrikaans', code: 'af' },
-        'ar': { name: 'العربية', code: 'en' },
-        'az': { name: 'Azərbaycanca', code: 'en' },
-        'bg': { name: 'Български', code: 'bg' },
-        'bn': { name: 'বাংলা', code: 'en' },
-        'ca': { name: 'Català', code: 'en' },
-        'cs': { name: 'Čeština', code: 'cs' },
-        'de': { name: 'Deutsch', code: 'de' },
-        'da': { name: 'Dansk', code: 'da' },
-        'el': { name: 'Ελληνικά', code: 'el' },
-        'en': { name: 'English', code: 'en' },
-        'es': { name: 'Español', code: 'es' },
-        'fa': { name: 'فارسی', code: 'fa' },
-        'fi': { name: 'Suomi', code: 'fi' },
-        'fr': { name: 'Français', code: 'fr' },
-        'he': { name: 'עברית', code: 'he' },
-        'hi': { name: 'हिन्दी', code: 'en' },
-        'hr': { name: 'Hrvatski', code: 'hr' },
-        'hu': { name: 'Magyar', code: 'hu' },
-        'id': { name: 'Bahasa Indonesia', code: 'id' },
-        'it': { name: 'Italiano', code: 'it' },
-        'ja': { name: '日本語', code: 'ja' },
-        'ka': { name: 'ქართული', code: 'en' },
-        'kk': { name: 'Қазақша', code: 'en' },
-        'ko': { name: '한국어', code: 'ko' },
-        'km': { name: 'ភាសាខ្មែរ', code: 'en' },
-        'lo': { name: 'ລາວ', code: 'en' },
-        'lt': { name: 'Lietuvių', code: 'lt' },
-        'lv': { name: 'Latviešu', code: 'lv' },
-        'ml': { name: 'മലയാളം', code: 'en' },
-        'mn': { name: 'Монгол хэл', code: 'en' },
-        'ms': { name: 'بهاس ملايو', code: 'en' },
-        'nb': { name: 'Norsk bokmål', code: 'no_NB' },
-        'ne': { name: 'नेपाली', code: 'en' },
-        'nl': { name: 'Nederlands', code: 'nl' },
-        'nn': { name: 'Norsk nynorsk', code: 'no_NN' },
-        'pl': { name: 'Polski', code: 'pl' },
-        'pt': { name: 'Português', code: 'pt' },
-        'pt_BR': { name: 'Português (Brasil)', code: 'pt_BR' },
-        'ro': { name: 'Română', code: 'ro' },
-        'ru': { name: 'Русский', code: 'ru' },
-        'si': { name: 'සිංහල', code: 'en' },
-        'sk': { name: 'Slovenčina', code: 'sk' },
-        'sl': { name: 'Slovenščina', code: 'sl' },
-        'sq': { name: 'Shqipëria', code: 'en' },
-        'sr': { name: 'Srpski', code: 'sr' },
-        'sv': { name: 'Svenska', code: 'sv' },
-        'ta': { name: 'தமிழ்', code: 'en' },
-        'th': { name: 'ไทย', code: 'th' },
-        'tr': { name: 'Türkçe', code: 'tr' },
-        'uk': { name: 'Українська', code: 'ukr' },
-        'uz': { name: 'Oʻzbekcha', code: 'en' },
-        'vi': { name: 'Tiếng Việt', code: 'en' },
-        'zh': { name: '中文', code: 'zh_CN' },
-        'zh_TW': { name: '中文 (Taiwan)', code: 'zh_TW' }
+        'af': {name: 'Afrikaans',
+            code: 'af'},
+        'ar': {name: 'العربية',
+            code: 'en'},
+        'az': {name: 'Azərbaycanca',
+            code: 'en'},
+        'bg': {name: 'Български',
+            code: 'bg'},
+        'bn': {name: 'বাংলা',
+            code: 'en'},
+        'ca': {name: 'Català',
+            code: 'en'},
+        'cs': {name: 'Čeština',
+            code: 'cs'},
+        'de': {name: 'Deutsch',
+            code: 'de'},
+        'da': {name: 'Dansk',
+            code: 'da'},
+        'el': {name: 'Ελληνικά',
+            code: 'el'},
+        'en': {name: 'English',
+            code: 'en'},
+        'es': {name: 'Español',
+            code: 'es'},
+        'fa': {name: 'فارسی',
+            code: 'fa'},
+        'fi': {name: 'Suomi',
+            code: 'fi'},
+        'fr': {name: 'Français',
+            code: 'fr'},
+        'he': {name: 'עברית',
+            code: 'he'},
+        'hi': {name: 'हिन्दी',
+            code: 'en'},
+        'hr': {name: 'Hrvatski',
+            code: 'hr'},
+        'hu': {name: 'Magyar',
+            code: 'hu'},
+        'id': {name: 'Bahasa Indonesia',
+            code: 'id'},
+        'it': {name: 'Italiano',
+            code: 'it'},
+        'ja': {name: '日本語',
+            code: 'ja'},
+        'ka': {name: 'ქართული',
+            code: 'en'},
+        'kk': {name: 'Қазақша',
+            code: 'en'},
+        'ko': {name: '한국어',
+            code: 'ko'},
+        'km': {name: 'ភាសាខ្មែរ',
+            code: 'en'},
+        'lo': {name: 'ລາວ',
+            code: 'en'},
+        'lt': {name: 'Lietuvių',
+            code: 'lt'},
+        'lv': {name: 'Latviešu',
+            code: 'lv'},
+        'ml': {name: 'മലയാളം',
+            code: 'en'},
+        'mn': {name: 'Монгол хэл',
+            code: 'en'},
+        'ms': {name: 'بهاس ملايو',
+            code: 'en'},
+        'nb': {name: 'Norsk bokmål',
+            code: 'no_NB'},
+        'ne': {name: 'नेपाली',
+            code: 'en'},
+        'nl': {name: 'Nederlands',
+            code: 'nl'},
+        'nn': {name: 'Norsk nynorsk',
+            code: 'no_NN'},
+        'pl': {name: 'Polski',
+            code: 'pl'},
+        'pt': {name: 'Português',
+            code: 'pt'},
+        'pt_BR': {name: 'Português (Brasil)',
+            code: 'pt_BR'},
+        'ro': {name: 'Română',
+            code: 'ro'},
+        'ru': {name: 'Русский',
+            code: 'ru'},
+        'si': {name: 'සිංහල',
+            code: 'en'},
+        'sk': {name: 'Slovenčina',
+            code: 'sk'},
+        'sl': {name: 'Slovenščina',
+            code: 'sl'},
+        'sq': {name: 'Shqipëria',
+            code: 'en'},
+        'sr': {name: 'Srpski',
+            code: 'sr'},
+        'sv': {name: 'Svenska',
+            code: 'sv'},
+        'ta': {name: 'தமிழ்',
+            code: 'en'},
+        'th': {name: 'ไทย',
+            code: 'th'},
+        'tr': {name: 'Türkçe',
+            code: 'tr'},
+        'uk': {name: 'Українська',
+            code: 'ukr'},
+        'uz': {name: 'Oʻzbekcha',
+            code: 'en'},
+        'vi': {name: 'Tiếng Việt',
+            code: 'en'},
+        'zh': {name: '中文',
+            code: 'zh_CN'},
+        'zh_TW': {name: '中文 (Taiwan)',
+            code: 'zh_TW'}
     };
 
     languageDefault = 'en';
@@ -119,7 +174,6 @@
     }
 
     window.addEventListener('load', function (event) {
-
         if (debugMode) {
             Ext.Loader.setConfig({
                 disableCaching: false
@@ -148,13 +202,14 @@
                 }
             }
         });
-
     });
 
     // Hack for new versions of Android
     if (navigator.userAgent.indexOf('Android') !== -1 && navigator.userAgent.indexOf('OPR') !== -1) {
         var __originalUserAgent = navigator.userAgent;
-        navigator.__defineGetter__('userAgent', function () { return __originalUserAgent.replace(/\/OPR[^)]*/g, ''); });
+        navigator.__defineGetter__('userAgent', function () {
+            return __originalUserAgent.replace(/\/OPR[^)]*/g, '');
+        });
     }
 
     addScriptFile('lib/extjs/ext-all.js');
@@ -175,7 +230,8 @@
     addScriptFile('lib/proj4/proj4.js');
 
     window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
-        'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter'];
+        'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter',
+        'bmw', 'bmwlogo1', 'bmwlogo2', 'harvest', 'hatch', 'jetski-2', 'jetski', 'loadertruck', 'motorbike', 'motorcycle2'];
 
     for (i = 0; i < window.Images.length; i++) {
         addSvgFile('images/' + window.Images[i] + '.svg', window.Images[i] + 'Svg');
