@@ -31,6 +31,7 @@ import useCommonUserAttributes from '../common/attributes/useCommonUserAttribute
 import { useCatch } from '../reactHelper';
 import useServerAttributes from '../common/attributes/useServerAttributes';
 import useMapStyles from '../map/core/useMapStyles';
+import { map } from '../map/core/MapView';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -118,24 +119,6 @@ const ServerPage = () => {
                     ))}
                   </Select>
                 </FormControl>
-                <TextField
-                  type="number"
-                  value={item.latitude || 0}
-                  onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
-                  label={t('positionLatitude')}
-                />
-                <TextField
-                  type="number"
-                  value={item.longitude || 0}
-                  onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
-                  label={t('positionLongitude')}
-                />
-                <TextField
-                  type="number"
-                  value={item.zoom || 0}
-                  onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
-                  label={t('serverZoom')}
-                />
                 <FormControl>
                   <InputLabel>{t('settingsCoordinateFormat')}</InputLabel>
                   <Select
@@ -224,6 +207,48 @@ const ServerPage = () => {
                     label={t('serverForceSettings')}
                   />
                 </FormGroup>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedLocation')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <TextField
+                  type="number"
+                  value={item.latitude || 0}
+                  onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
+                  label={t('positionLatitude')}
+                />
+                <TextField
+                  type="number"
+                  value={item.longitude || 0}
+                  onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
+                  label={t('positionLongitude')}
+                />
+                <TextField
+                  type="number"
+                  value={item.zoom || 0}
+                  onChange={(event) => setItem({ ...item, zoom: Number(event.target.value) })}
+                  label={t('serverZoom')}
+                />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    const { lng, lat } = map.getCenter();
+                    setItem({
+                      ...item,
+                      latitude: Number(lat.toFixed(6)),
+                      longitude: Number(lng.toFixed(6)),
+                      zoom: Number(map.getZoom().toFixed(1)),
+                    });
+                  }}
+                >
+                  {t('mapCurrentLocation')}
+                </Button>
               </AccordionDetails>
             </Accordion>
             <Accordion>
