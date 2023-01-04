@@ -129,6 +129,10 @@ const LoginPage = () => {
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
 
+  const redirectToOldWeb = () => {
+    window.location.href = 'http://app.foxgps.com.br:8082';
+  };
+
   return (
     <LoginLayout>
       <div className={classes.options}>
@@ -203,6 +207,16 @@ const LoginPage = () => {
             {t('loginReset')}
           </Link>
         )}
+
+        <Link
+          onClick={() => redirectToOldWeb()}
+          className={classes.resetPassword}
+          underline="none"
+          variant="caption"
+        >
+          Acessar Servidor Antigo
+        </Link>
+
       </div>
       <Snackbar
         open={!!announcement && !announcementShown}
