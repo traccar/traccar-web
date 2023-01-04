@@ -24,6 +24,16 @@ import tramSvg from '../../resources/images/icon/tram.svg';
 import trolleybusSvg from '../../resources/images/icon/trolleybus.svg';
 import truckSvg from '../../resources/images/icon/truck.svg';
 import vanSvg from '../../resources/images/icon/van.svg';
+import bmwSvg from '../../resources/images/icon/bmw.svg';
+import bmwlogo1Svg from '../../resources/images/icon/bmwlogo1.svg';
+import bmwlogo2Svg from '../../resources/images/icon/bmwlogo2.svg';
+import harvestSvg from '../../resources/images/icon/harvest.svg';
+import hatchSvg from '../../resources/images/icon/hatch.svg';
+import jetski2Svg from '../../resources/images/icon/jetski2.svg';
+import jetskiSvg from '../../resources/images/icon/jetski.svg';
+import loadertruckSvg from '../../resources/images/icon/loadertruck.svg';
+import motorbikeSvg from '../../resources/images/icon/motorbike.svg';
+import motorcycle2Svg from '../../resources/images/icon/motorcycle2.svg';
 
 export const mapIcons = {
   animal: animalSvg,
@@ -47,6 +57,16 @@ export const mapIcons = {
   trolleybus: trolleybusSvg,
   truck: truckSvg,
   van: vanSvg,
+  bmw: bmwSvg,
+  bmwlogo1: bmwlogo1Svg,
+  bmwlogo2: bmwlogo2Svg,
+  harvest: harvestSvg,
+  hatch: hatchSvg,
+  jetski2: jetski2Svg,
+  jetski: jetskiSvg,
+  loadertruck: loadertruckSvg,
+  motorbike: motorbikeSvg,
+  motorcycle2: motorcycle2Svg,
 };
 
 export const mapIconKey = (category) => (mapIcons.hasOwnProperty(category) ? category : 'default');
