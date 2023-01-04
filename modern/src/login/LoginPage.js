@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+// import { Tooltip } from '@mui/material';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+// import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +39,16 @@ const useStyles = makeStyles((theme) => ({
   resetPassword: {
     cursor: 'pointer',
     textAlign: 'center',
+    borderRadius: '0.3rem',
+    backgroundColor: '#110503',
+    transition: '.4s',
     marginTop: theme.spacing(2),
+    padding: '0.8rem',
+    '&:hover': {
+      color: '#110503',
+      backgroundColor: 'rgba(17, 5, 3, 0.1)',
+      border: '1px solid #110503',
+    },
   },
 }));
 
@@ -130,20 +140,18 @@ const LoginPage = () => {
   }, []);
 
   const redirectToOldWeb = () => {
-    window.location.href = 'http://app.foxgps.com.br:8082';
+    window.location.href = 'https://legacy.foxgps.com.br/';
   };
 
   return (
     <LoginLayout>
-      <div className={classes.options}>
-        {nativeEnvironment && (
-          <Tooltip title={t('settingsServer')}>
-            <IconButton onClick={() => navigate('/change-server')}>
-              <LockOpenIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </div>
+      {/* <div className={classes.options}>
+         <Tooltip title={t('settingsServer')}>
+          <IconButton onClick={() => navigate('/change-server')}>
+            <LockOpenIcon />
+          </IconButton>
+        </Tooltip>
+      </div> */}
       <div className={classes.container}>
         {useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.primary.main} />}
         <TextField
@@ -214,7 +222,7 @@ const LoginPage = () => {
           underline="none"
           variant="caption"
         >
-          Acessar Servidor Antigo
+          Acessar painel antigo
         </Link>
 
       </div>

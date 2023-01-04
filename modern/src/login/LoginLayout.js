@@ -3,27 +3,16 @@ import { useMediaQuery, Paper } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTheme } from '@mui/material/styles';
 import LogoImage from './LogoImage';
+import Image from '../resources/images/cover-1920.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     height: '100%',
-  },
-  sidebar: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: theme.palette.primary.main,
-    paddingBottom: theme.spacing(5),
-    width: theme.dimensions.sidebarWidth,
-    [theme.breakpoints.down('lg')]: {
-      width: theme.dimensions.sidebarWidthTablet,
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: '0px',
-    },
+
   },
   paper: {
+    backgroundImage: `url(${Image})`,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -31,13 +20,20 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
     boxShadow: '-2px 0px 16px rgba(0, 0, 0, 0.25)',
     [theme.breakpoints.up('lg')]: {
-      padding: theme.spacing(0, 25, 0, 0),
+      padding: theme.spacing(0, 0, 0, 0),
     },
   },
   form: {
+    border: '1px solid rgba(0,0,0,.125)',
+    borderRadius: '0.25rem',
+    boxShadow: '0 3px 15px 1px rgb(0 0 0 / 15%)',
+    backgroundColor: 'rgba(255,255,255,0.75)',
     maxWidth: theme.spacing(52),
     padding: theme.spacing(5),
     width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
   },
 }));
 
@@ -47,11 +43,9 @@ const LoginLayout = ({ children }) => {
 
   return (
     <main className={classes.root}>
-      <div className={classes.sidebar}>
-        {!useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.secondary.contrastText} />}
-      </div>
       <Paper className={classes.paper}>
         <form className={classes.form}>
+          {!useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.secondary.contrastText} />}
           {children}
         </form>
       </Paper>
