@@ -54,7 +54,7 @@ Ext.define('Traccar.view.dialog.Login', {
             fieldLabel: Strings.settingsServer,
             editable: false,
             value: window.location.host,
-            hidden: !window.appInterface && !(window.webkit && window.webkit.messageHandlers.appInterface),
+            hidden: true,
             createPicker: function () {
                 var self = this, popup = Ext.create({
                     xtype: 'window',
