@@ -107,7 +107,7 @@ const RouteReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.map((item) => (
+              {!loading ? items.slice(0, 4000).map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
