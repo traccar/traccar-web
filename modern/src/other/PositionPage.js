@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useEffectAsync } from '../reactHelper';
 import { prefixString } from '../common/util/stringUtils';
+import { toJson } from '../common/util/converter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 
@@ -110,10 +111,8 @@ const PositionPage = () => {
     obj.nr = attrNr;
     attrNr += 1;
 
-    let newValue = value[key];
-    if (Array.isArray(newValue)
-    || (newValue != null && typeof newValue === 'object')
-    || (typeof newValue === 'string' && (newValue.startsWith('{') || newValue.startsWith('[')))) {
+    let newValue = toJson(value[key]);
+    if (Array.isArray(newValue) || (newValue != null && typeof newValue === 'object')) {
       const children = [];
       if (typeof newValue === 'string') {
         newValue = JSON.parse(newValue);

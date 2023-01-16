@@ -9,6 +9,7 @@ import {
 import { useAttributePreference, usePreference } from '../util/preferences';
 import { useTranslation } from './LocalizationProvider';
 import { useAdministrator } from '../util/permissions';
+import { toJson } from '../util/converter';
 import AddressValue from './AddressValue';
 
 const PositionValue = ({ position, property, attribute }) => {
@@ -37,11 +38,14 @@ const PositionValue = ({ position, property, attribute }) => {
       value = position.attributes[attribute];
     }
 
+    // Convert value to json if possible
+    value = toJson(value);
+
     // Visualise parent objects with the 'Array' type
-    if (Array.isArray(value) || (typeof value === 'string' && value.startsWith('['))) {
+    if (Array.isArray(value)) {
       value = 'Array';
     // Visualize parent objects with the 'Object' type
-    } else if ((value != null && typeof value === 'object') || (typeof value === 'string' && value.startsWith('{'))) {
+    } else if ((value != null && typeof value === 'object')) {
       value = 'Object';
     }
   // Property
