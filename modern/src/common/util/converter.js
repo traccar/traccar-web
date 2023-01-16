@@ -105,3 +105,11 @@ export const volumeUnitString = (unit, t) => {
 export const volumeFromLiters = (value, unit) => value / volumeConverter(unit);
 
 export const volumeToLiters = (value, unit) => value * volumeConverter(unit);
+
+export const toJson = (value) => {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+};

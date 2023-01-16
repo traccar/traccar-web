@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { toJson } from '../common/util/converter';
 
 export default (keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions) => {
   const groups = useSelector((state) => state.groups.items);
@@ -97,10 +98,7 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
               for (let i = 0; i < attrVal.length; i += 1) {
                 for (let j = 0; j < keyVal[i].length; j += 1) {
                   let newAttr = attrVal[i][keyVal[i][j]];
-                  if (typeof newAttr === 'string' && newAttr.startsWith('{')) {
-                    newAttr = JSON.parse(newAttr);
-                  }
-                  newAttrVal.push(newAttr);
+                  newAttr = toJson(newAttr);
                 }
               }
               attrVal = newAttrVal;
@@ -133,6 +131,7 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
         let searchDeviceAttributes = false;
         let searchPositionAttributes = false;
 
+        // [Filter search]
         switch (filter) {
           case 'name':
             toSearchDeviceProps = [device.name];
