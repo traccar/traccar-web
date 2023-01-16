@@ -200,6 +200,7 @@
     "deviceStatusOnline": "Online",
     "deviceStatusOffline": "Offline",
     "deviceStatusUnknown": "Unknown",
+    "deviceRegisterFirst": "Register your first device",
     "groupDialog": "Group",
     "groupParent": "Group",
     "groupNoGroup": "No Group",
