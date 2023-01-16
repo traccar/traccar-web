@@ -99,6 +99,7 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
                 for (let j = 0; j < keyVal[i].length; j += 1) {
                   let newAttr = attrVal[i][keyVal[i][j]];
                   newAttr = toJson(newAttr);
+                  newAttrVal.push(newAttr);
                 }
               }
               attrVal = newAttrVal;
