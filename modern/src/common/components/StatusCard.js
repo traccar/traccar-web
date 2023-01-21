@@ -35,6 +35,7 @@ import { useAttributePreference } from '../util/preferences';
 
 const useStyles = makeStyles((theme) => ({
   card: {
+    pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
   },
   media: {
@@ -78,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
   },
   root: ({ desktopPadding }) => ({
+    pointerEvents: 'none',
     position: 'fixed',
     zIndex: 5,
     left: '50%',
@@ -167,97 +169,99 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   }, [navigate, position]);
 
   return (
-    <div className={classes.root}>
-      {device && (
-        <Draggable
-          handle={`.${classes.media}, .${classes.header}`}
-        >
-          <Card elevation={3} className={classes.card}>
-            {deviceImage ? (
-              <CardMedia
-                className={classes.media}
-                image={`/api/media/${device.uniqueId}/${deviceImage}`}
-              >
-                <IconButton
-                  size="small"
-                  onClick={onClose}
-                  onTouchStart={onClose}
+    <>
+      <div className={classes.root}>
+        {device && (
+          <Draggable
+            handle={`.${classes.media}, .${classes.header}`}
+          >
+            <Card elevation={3} className={classes.card}>
+              {deviceImage ? (
+                <CardMedia
+                  className={classes.media}
+                  image={`/api/media/${device.uniqueId}/${deviceImage}`}
                 >
-                  <CloseIcon fontSize="small" className={classes.mediaButton} />
-                </IconButton>
-              </CardMedia>
-            ) : (
-              <div className={classes.header}>
-                <Typography variant="body2" color="textSecondary">
-                  {device.name}
-                </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={onClose}
+                    onTouchStart={onClose}
+                  >
+                    <CloseIcon fontSize="small" className={classes.mediaButton} />
+                  </IconButton>
+                </CardMedia>
+              ) : (
+                <div className={classes.header}>
+                  <Typography variant="body2" color="textSecondary">
+                    {device.name}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={onClose}
+                    onTouchStart={onClose}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </div>
+              )}
+              {position && (
+                <CardContent className={classes.content}>
+                  <Table size="small" classes={{ root: classes.table }}>
+                    <TableBody>
+                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                        <StatusRow
+                          key={key}
+                          name={positionAttributes.hasOwnProperty(key) ? positionAttributes[key].name : key}
+                          content={(
+                            <PositionValue
+                              position={position}
+                              property={position.hasOwnProperty(key) ? key : null}
+                              attribute={position.hasOwnProperty(key) ? null : key}
+                            />
+                          )}
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              )}
+              <CardActions classes={{ root: classes.actions }} disableSpacing>
                 <IconButton
-                  size="small"
-                  onClick={onClose}
-                  onTouchStart={onClose}
+                  color="secondary"
+                  onClick={(e) => setAnchorEl(e.currentTarget)}
+                  disabled={!position}
                 >
-                  <CloseIcon fontSize="small" />
+                  <PendingIcon />
                 </IconButton>
-              </div>
-            )}
-            {position && (
-              <CardContent className={classes.content}>
-                <Table size="small" classes={{ root: classes.table }}>
-                  <TableBody>
-                    {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
-                      <StatusRow
-                        key={key}
-                        name={positionAttributes.hasOwnProperty(key) ? positionAttributes[key].name : key}
-                        content={(
-                          <PositionValue
-                            position={position}
-                            property={position.hasOwnProperty(key) ? key : null}
-                            attribute={position.hasOwnProperty(key) ? null : key}
-                          />
-                        )}
-                      />
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            )}
-            <CardActions classes={{ root: classes.actions }} disableSpacing>
-              <IconButton
-                color="secondary"
-                onClick={(e) => setAnchorEl(e.currentTarget)}
-                disabled={!position}
-              >
-                <PendingIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => navigate('/replay')}
-                disabled={disableActions || !position}
-              >
-                <ReplayIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => navigate(`/settings/command-send/${deviceId}`)}
-                disabled={disableActions || readonly}
-              >
-                <PublishIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => navigate(`/settings/device/${deviceId}`)}
-                disabled={disableActions || deviceReadonly}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => setRemoving(true)}
-                disabled={disableActions || deviceReadonly}
-                className={classes.negative}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </CardActions>
-          </Card>
-        </Draggable>
-      )}
+                <IconButton
+                  onClick={() => navigate('/replay')}
+                  disabled={disableActions || !position}
+                >
+                  <ReplayIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => navigate(`/settings/command-send/${deviceId}`)}
+                  disabled={disableActions || readonly}
+                >
+                  <PublishIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => navigate(`/settings/device/${deviceId}`)}
+                  disabled={disableActions || deviceReadonly}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => setRemoving(true)}
+                  disabled={disableActions || deviceReadonly}
+                  className={classes.negative}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+          </Draggable>
+        )}
+      </div>
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
           <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
@@ -273,7 +277,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
         itemId={deviceId}
         onResult={(removed) => handleRemove(removed)}
       />
-    </div>
+    </>
   );
 };
 
