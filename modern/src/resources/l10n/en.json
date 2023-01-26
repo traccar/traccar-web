@@ -351,6 +351,7 @@
     "mapShapeCircle": "Circle",
     "mapShapePolyline": "Polyline",
     "mapLiveRoutes": "Live Routes",
+    "mapDirection": "Show Direction",
     "mapCurrentLocation": "Current Location",
     "mapPoiLayer": "POI Layer",
     "mapClustering": "Markers Clustering",

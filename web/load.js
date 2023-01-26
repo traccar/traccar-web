@@ -1,46 +1,32 @@
 (function () {
-    var debugMode,
-        touchMode,
-        locale,
-        localeParameter,
-        extjsVersion,
-        proj4jsVersion,
-        olVersion,
-        i,
-        language,
-        languages,
-        languageDefault;
+    var debugMode, touchMode, locale, localeParameter, extjsVersion, proj4jsVersion, olVersion, i, language, languages, languageDefault;
 
     function addStyleFile(file) {
-        var link = document.createElement("link");
-        link.setAttribute("rel", "stylesheet");
-        link.setAttribute("type", "text/css");
-        link.setAttribute("href", file);
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        link.setAttribute('href', file);
         document.head.appendChild(link);
     }
 
     function addScriptFile(file) {
-        var script = document.createElement("script");
-        script.setAttribute("src", file);
+        var script = document.createElement('script');
+        script.setAttribute('src', file);
         script.async = false;
         document.head.appendChild(script);
     }
 
     function addSvgFile(file, id) {
-        var svg = document.createElement("object");
-        svg.setAttribute("id", id);
-        svg.setAttribute("data", file);
-        svg.setAttribute("type", "image/svg+xml");
-        svg.setAttribute(
-            "style",
-            "visibility:hidden;position:absolute;left:-100px;"
-        );
+        var svg = document.createElement('object');
+        svg.setAttribute('id', id);
+        svg.setAttribute('data', file);
+        svg.setAttribute('type', 'image/svg+xml');
+        svg.setAttribute('style', 'visibility:hidden;position:absolute;left:-100px;');
         document.body.appendChild(svg);
     }
 
-    debugMode =
-        document.getElementById("loadScript").getAttribute("mode") === "debug";
-    touchMode = "ontouchstart" in window || navigator.maxTouchPoints;
+    debugMode = document.getElementById('loadScript').getAttribute('mode') === 'debug';
+    touchMode = 'ontouchstart' in window || navigator.maxTouchPoints;
 
     window.updateNotificationToken = function (token) {
         Traccar.app.updateNotificationToken(token);
@@ -107,7 +93,7 @@
         zh_TW: { name: "中文 (Taiwan)", code: "zh_TW" },
     };
 
-    languageDefault = "en";
+    languageDefault = "pt_BR";
     localeParameter = window.location.search.match(/locale=([^&#]+)/);
     locale.language = localeParameter && localeParameter[1];
     if (!(locale.language in locale.languages)) {

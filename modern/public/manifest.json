@@ -2,23 +2,23 @@
   "short_name": "FOX GPS",
   "name": "FOX GPS Rastreamento",
   "icons": [
-    {
-      "src": "favicon.svg",
-      "sizes": "48x48 32x32 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
+      {
+          "src": "favicon.ico",
+          "sizes": "48x48 32x32 16x16",
+          "type": "image/x-icon"
+      },
+      {
+          "src": "logo192.png",
+          "type": "image/png",
+          "sizes": "192x192",
+          "purpose": "any maskable"
+      },
+      {
+          "src": "logo512.png",
+          "type": "image/png",
+          "sizes": "512x512",
+          "purpose": "any maskable"
+      }
   ],
   "start_url": ".",
   "display": "standalone",

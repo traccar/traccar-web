@@ -227,7 +227,7 @@ Ext.define('Traccar.controller.Root', {
 
     soundPressed: function () {
         var soundButton = Ext.getCmp('soundButton');
-        return soundButton && (soundButton.pressed || soundButton.checked);
+        return soundButton && soundButton.pressed;
     },
 
     removeUrlParameter: function (param) {
