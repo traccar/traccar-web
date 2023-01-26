@@ -26,11 +26,11 @@ Ext.define('Traccar.view.map.Map', {
 
     controller: 'map',
 
-    title: '',
+    title: Strings.mapTitle,
     tbar: {
         componentCls: 'toolbar-header-style',
         defaults: {
-            xtype: 'buttongroup',
+            xtype: 'button',
             tooltipType: 'title',
             stateEvents: ['toggle'],
             enableToggle: true,
@@ -40,77 +40,54 @@ Ext.define('Traccar.view.map.Map', {
         },
         items: [{
             xtype: 'tbtext',
-            html: '',
+            html: Strings.mapTitle,
             baseCls: 'x-panel-header-title-default'
         }, {
             xtype: 'tbfill'
         }, {
-            xtype: 'button',
+            handler: 'showReports',
+            reference: 'showReportsButton',
+            glyph: 'xf0f6@FontAwesome',
+            stateful: false,
+            enableToggle: false,
+            tooltip: Strings.reportTitle
+        }, {
+            handler: 'showEvents',
+            reference: 'showEventsButton',
+            glyph: 'xf27b@FontAwesome',
+            stateful: false,
+            enableToggle: false,
+            tooltip: Strings.reportEvents
+        }, {
+            handler: 'updateGeofences',
+            reference: 'showGeofencesButton',
+            glyph: 'xf21d@FontAwesome',
+            pressed: true,
+            stateId: 'show-geofences-button',
+            tooltip: Strings.sharedGeofences
+        }, {
+            handler: 'showAccuracy',
+            reference: 'showAccuracyButton',
+            glyph: 'xf140@FontAwesome',
+            pressed: true,
+            stateId: 'show-accuracy-button',
+            tooltip: Strings.positionAccuracy
+        }, {
+            handler: 'showCurrentLocation',
+            glyph: 'xf124@FontAwesome',
+            tooltip: Strings.mapCurrentLocation
+        }, {
+            handler: 'showLiveRoutes',
+            reference: 'showLiveRoutes',
+            glyph: 'xf1b0@FontAwesome',
+            stateId: 'show-live-routes-button',
+            tooltip: Strings.mapLiveRoutes
+        }, {
             reference: 'deviceFollowButton',
             glyph: 'xf05b@FontAwesome',
             tooltip: Strings.deviceFollow,
             stateId: 'device-follow-button',
             toggleHandler: 'onFollowClick'
-        }, {
-            xtype: 'button',
-            handler: 'showCurrentLocation',
-            glyph: 'xf124@FontAwesome',
-            tooltip: Strings.mapCurrentLocation
-        }, {
-            xtype: 'settingsMenu',
-            glyph: 'xf046@FontAwesome',
-            scale: 'small',
-            rowspan: 1,
-            iconCls: 'add',
-            iconAlign: 'top',
-            arrowAlign: 'right',
-            menu: [{
-                handler: 'showReports',
-                reference: 'showReportsButton',
-                glyph: 'xf0f6@FontAwesome',
-                text: Strings.reportTitle,
-                stateful: false,
-                enableToggle: false,
-                tooltip: Strings.reportTitle
-            }, {
-                handler: 'showEvents',
-                reference: 'showEventsButton',
-                glyph: 'xf27b@FontAwesome',
-                text: Strings.reportEvents,
-                stateful: false,
-                enableToggle: false,
-                tooltip: Strings.reportEvents
-            }, {
-                handler: 'updateGeofences',
-                reference: 'showGeofencesButton',
-                glyph: 'xf21d@FontAwesome',
-                text: Strings.sharedGeofences,
-                checked: true,
-                stateId: 'show-geofences-button',
-                tooltip: Strings.sharedGeofences
-            }, {
-                handler: 'showAccuracy',
-                reference: 'showAccuracyButton',
-                glyph: 'xf140@FontAwesome',
-                text: Strings.positionAccuracy,
-                checked: true,
-                stateId: 'show-accuracy-button',
-                tooltip: Strings.positionAccuracy
-            }, {
-                handler: 'showLiveRoutes',
-                reference: 'showLiveRoutes',
-                glyph: 'xf1b0@FontAwesome',
-                checked: true,
-                text: Strings.mapLiveRoutes,
-                stateId: 'show-live-routes-button',
-                tooltip: Strings.mapLiveRoutes
-            }, {
-                glyph: 'xf0d0@FontAwesome',
-                text: 'foxgps 2.0',
-                handler: function () {
-                    location.assign(window.location.href + 'modern');
-                }
-            }]
         }, {
             xtype: 'settingsMenu',
             enableToggle: false
@@ -157,7 +134,7 @@ Ext.define('Traccar.view.map.Map', {
         this.liveRouteSource = new ol.source.Vector({});
         this.liveRouteLayer = new ol.layer.Vector({
             source: this.liveRouteSource,
-            visible: this.lookupReference('showLiveRoutes').checked
+            visible: this.lookupReference('showLiveRoutes').pressed
         });
         this.map.addLayer(this.liveRouteLayer);
 

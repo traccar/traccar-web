@@ -65,11 +65,11 @@ Ext.define('Traccar.view.map.MapController', {
     },
 
     showLiveRoutes: function (button) {
-        this.getView().getLiveRouteLayer().setVisible(button.checked);
+        this.getView().getLiveRouteLayer().setVisible(button.pressed);
     },
 
     showAccuracy: function (button) {
-        this.getView().getAccuracyLayer().setVisible(button.checked);
+        this.getView().getAccuracyLayer().setVisible(button.pressed);
     },
 
     getMapState: function () {
@@ -82,7 +82,7 @@ Ext.define('Traccar.view.map.MapController', {
 
     updateGeofences: function () {
         this.getView().getGeofencesSource().clear();
-        if (this.lookupReference('showGeofencesButton').checked) {
+        if (this.lookupReference('showGeofencesButton').pressed) {
             Ext.getStore('Geofences').each(function (geofence) {
                 var feature = new ol.Feature(
                     Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), geofence.get('area')));
