@@ -10,6 +10,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import TableShimmer from '../common/components/TableShimmer';
+import RemoveDialog from '../common/components/RemoveDialog';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -24,8 +25,10 @@ const ScheduledPage = () => {
 
   const calendars = useSelector((state) => state.calendars.items);
 
+  const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [removingId, setRemovingId] = useState();
 
   useEffectAsync(async () => {
     setLoading(true);
@@ -39,7 +42,7 @@ const ScheduledPage = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [timestamp]);
 
   const formatType = (type) => {
     switch (type) {
@@ -76,7 +79,7 @@ const ScheduledPage = () => {
               <TableCell>{item.description}</TableCell>
               <TableCell>{calendars[item.calendarId].name}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <IconButton size="small" onClick={() => {}}>
+                <IconButton size="small" onClick={() => setRemovingId(item.id)}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </TableCell>
@@ -84,6 +87,18 @@ const ScheduledPage = () => {
           )) : (<TableShimmer columns={4} endAction />)}
         </TableBody>
       </Table>
+      <RemoveDialog
+        style={{ transform: 'none' }}
+        open={!!removingId}
+        endpoint="reports"
+        itemId={removingId}
+        onResult={(removed) => {
+          setRemovingId(null);
+          if (removed) {
+            setTimestamp(Date.now());
+          }
+        }}
+      />
     </PageLayout>
   );
 };
