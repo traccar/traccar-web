@@ -38,7 +38,7 @@ Ext.define('Traccar.view.DeviceMenuController', {
             Traccar.app.getBooleanAttributePreference('ui.disableComputedAttributes'));
         this.lookupReference('menuCommandsButton').setHidden(Traccar.app.getPreference('limitCommands', false));
         this.lookupReference('menuDeviceAccumulatorsButton').setHidden(
-            !Traccar.app.getUser().get('administrator') || Traccar.app.getVehicleFeaturesDisabled());
+            !Traccar.app.getUser().get('administrator') && Traccar.app.getVehicleFeaturesDisabled());
         this.lookupReference('menuMaintenancesButton').setHidden(
             Traccar.app.getVehicleFeaturesDisabled() || Traccar.app.getBooleanAttributePreference('ui.disableMaintenance'));
     },
