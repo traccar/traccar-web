@@ -10,6 +10,7 @@ import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import RouteIcon from '@mui/icons-material/Route';
+import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator } from '../../common/util/permissions';
@@ -74,19 +75,22 @@ const ReportsMenu = () => {
           icon={<RouteIcon />}
         />
       </List>
-      {admin && (
-        <>
-          <Divider />
-          <List>
-            <MenuItem
-              title={t('statisticsTitle')}
-              link="/reports/statistics"
-              icon={<BarChartIcon />}
-              selected={location.pathname === '/reports/statistics'}
-            />
-          </List>
-        </>
-      )}
+      <Divider />
+      <List>
+        <MenuItem
+          title={t('reportScheduled')}
+          link="/reports/scheduled"
+          icon={<EventRepeatIcon />}
+        />
+        {admin && (
+          <MenuItem
+            title={t('statisticsTitle')}
+            link="/reports/statistics"
+            icon={<BarChartIcon />}
+            selected={location.pathname === '/reports/statistics'}
+          />
+        )}
+      </List>
     </>
   );
 };
