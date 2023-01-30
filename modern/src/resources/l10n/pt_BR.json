@@ -189,6 +189,8 @@
     "devicePrimaryInfo": "Device Title",
     "deviceSecondaryInfo": "Device Detail",
     "deviceIdentifier": "Identificador",
+    "deviceRegisterFirst": "Registre o seu primeiro dispositivo",
+    "deviceIdentifierHelp": "IMEI, numero de série ou outro id. Tem que ser igual ao id reportados pelo dispositivo ao servidor",
     "deviceModel": "Modelo",
     "deviceContact": "Contato",
     "deviceCategory": "Categoria",
