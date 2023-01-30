@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 import { reportsActions } from '../../store';
+import SplitButton from '../../common/components/SplitButton';
 
 const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDevice, includeGroups }) => {
   const classes = useReportStyles();
@@ -148,37 +149,30 @@ const ReportFilter = ({ children, handleSubmit, showOnly, ignoreDevice, multiDev
         </div>
       )}
       {children}
-      <div className={classes.filterButtons}>
-        <Button
-          onClick={() => handleClick('json')}
-          variant="outlined"
-          color="secondary"
-          className={classes.filterButton}
-          disabled={disabled}
-        >
-          {t('reportShow')}
-        </Button>
-        {!showOnly && (
+      <div className={classes.filterItem}>
+        {showOnly ? (
           <Button
-            onClick={() => handleClick('export')}
+            fullWidth
             variant="outlined"
             color="secondary"
-            className={classes.filterButton}
             disabled={disabled}
+            onClick={() => handleClick('json')}
           >
-            {t('reportExport')}
+            <Typography variant="button" noWrap>{t('reportShow')}</Typography>
           </Button>
-        )}
-        {!showOnly && (
-          <Button
-            onClick={() => handleClick('mail')}
+        ) : (
+          <SplitButton
+            fullWidth
             variant="outlined"
             color="secondary"
-            className={classes.filterButton}
             disabled={disabled}
-          >
-            <Typography variant="button" noWrap>{t('reportEmail')}</Typography>
-          </Button>
+            onClick={handleClick}
+            options={{
+              json: t('reportShow'),
+              export: t('reportExport'),
+              mail: t('reportEmail'),
+            }}
+          />
         )}
       </div>
     </div>
