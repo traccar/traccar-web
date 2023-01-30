@@ -63,7 +63,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('administrator');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('administrator');
         this.lookupReference('toolbarAddButton').setDisabled(readonly || deviceReadonly);
-        this.lookupReference('toolbarDeviceMenu').setHidden(readonly || deviceReadonly);
+        this.lookupReference('toolbarDeviceMenu').setHidden(readonly);
 
         setInterval(function () {
             self.getView().getView().refresh();
@@ -102,7 +102,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('administrator');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('administrator');
         empty = selected.length === 0;
-        this.lookupReference('toolbarEditButton').setDisabled(empty || readonly || deviceReadonly);
+        this.lookupReference('toolbarEditButton').setDisabled(empty || readonly);
         this.lookupReference('toolbarRemoveButton').setDisabled(empty || readonly || deviceReadonly);
         deviceMenu = this.lookupReference('toolbarDeviceMenu');
         deviceMenu.device = empty ? null : selected[0];

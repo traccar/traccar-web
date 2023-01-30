@@ -29,11 +29,11 @@ Ext.define('Traccar.Style', {
 
     formFieldWidth: 275,
 
-    dateTimeFormat24: 'Y-m-d H:i:s',
-    dateTimeFormat12: 'Y-m-d g:i:s a',
+    dateTimeFormat24: 'd-m-Y H:i:s',
+    dateTimeFormat12: 'd-m-Y g:i:s a',
     timeFormat24: 'H:i',
     timeFormat12: 'g:i a',
-    dateFormat: 'Y-m-d',
+    dateFormat: 'd-m-Y',
     weekStartDay: 1,
 
     deviceWidth: 400,
