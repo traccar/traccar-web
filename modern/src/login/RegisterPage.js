@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button, TextField, Typography, Snackbar, IconButton,
 } from '@mui/material';
@@ -9,6 +10,7 @@ import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch } from '../reactHelper';
+import { sessionActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,8 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
+
+  const server = useSelector((state) => state.session.server);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -55,9 +60,11 @@ const RegisterPage = () => {
     <LoginLayout>
       <div className={classes.container}>
         <div className={classes.header}>
-          <IconButton color="primary" onClick={() => navigate('/login')}>
-            <ArrowBackIcon />
-          </IconButton>
+          {!server.newServer && (
+            <IconButton color="primary" onClick={() => navigate('/login')}>
+              <ArrowBackIcon />
+            </IconButton>
+          )}
           <Typography className={classes.title} color="primary">
             {t('loginRegister')}
           </Typography>
@@ -93,7 +100,7 @@ const RegisterPage = () => {
           variant="contained"
           color="secondary"
           onClick={handleSubmit}
-          disabled={!name || !/(.+)@(.+)\.(.{2,})/.test(email) || !password}
+          disabled={!name || !password || !(server.newServer || /(.+)@(.+)\.(.{2,})/.test(email))}
           fullWidth
         >
           {t('loginRegister')}
@@ -101,7 +108,10 @@ const RegisterPage = () => {
       </div>
       <Snackbar
         open={snackbarOpen}
-        onClose={() => navigate('/login')}
+        onClose={() => {
+          dispatch(sessionActions.updateServer({ ...server, newServer: false }));
+          navigate('/login');
+        }}
         autoHideDuration={snackBarDurationShortMs}
         message={t('loginCreated')}
       />

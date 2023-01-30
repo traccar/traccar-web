@@ -24,6 +24,8 @@ import SelectField from '../common/components/SelectField';
 import { useCatch } from '../reactHelper';
 import { snackBarDurationLongMs } from '../common/util/duration';
 
+const allowedProperties = ['valid', 'latitude', 'longitude', 'altitude', 'speed', 'course', 'address', 'accuracy'];
+
 const useStyles = makeStyles((theme) => ({
   details: {
     display: 'flex',
@@ -43,7 +45,7 @@ const ComputedAttributePage = () => {
   const [deviceId, setDeviceId] = useState();
   const [result, setResult] = useState();
 
-  const options = Object.entries(positionAttributes).filter(([, value]) => !value.property).map(([key, value]) => ({
+  const options = Object.entries(positionAttributes).filter(([key, value]) => !value.property || allowedProperties.includes(key)).map(([key, value]) => ({
     key,
     name: value.name,
     type: value.type,

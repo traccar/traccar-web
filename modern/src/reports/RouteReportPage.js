@@ -103,11 +103,11 @@ const RouteReportPage = () => {
               <TableRow>
                 <TableCell className={classes.columnAction} />
                 <TableCell>{t('sharedDevice')}</TableCell>
-                {columns.map((key) => (<TableCell key={key}>{positionAttributes[key].name}</TableCell>))}
+                {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.map((item) => (
+              {!loading ? items.slice(0, 4000).map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (

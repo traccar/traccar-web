@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   sidebar: {
+    pointerEvents: 'none',
     display: 'flex',
     flexDirection: 'column',
     [theme.breakpoints.up('md')]: {
@@ -39,9 +40,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   header: {
+    pointerEvents: 'auto',
     zIndex: 6,
   },
   footer: {
+    pointerEvents: 'auto',
     zIndex: 5,
   },
   middle: {
@@ -49,9 +52,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
   },
   contentMap: {
+    pointerEvents: 'auto',
     gridArea: '1 / 1',
   },
   contentList: {
+    pointerEvents: 'auto',
     gridArea: '1 / 1',
     zIndex: 4,
   },
