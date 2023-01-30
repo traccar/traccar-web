@@ -32,16 +32,19 @@ Ext.define('Traccar.view.dialog.Device', {
         items: [{
             xtype: 'fieldset',
             title: Strings.sharedRequired,
+            reference: 'requiredField',
             items: [{
                 xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName,
-                allowBlank: false
+                allowBlank: false,
+                reference: 'nameField'
             }, {
                 xtype: 'unescapedTextField',
                 name: 'uniqueId',
                 fieldLabel: Strings.deviceIdentifier,
-                allowBlank: false
+                allowBlank: false,
+                reference: 'uniqueIdField'
             }]
         }, {
             xtype: 'fieldset',
@@ -55,19 +58,23 @@ Ext.define('Traccar.view.dialog.Device', {
                 store: 'Groups',
                 queryMode: 'local',
                 displayField: 'name',
-                valueField: 'id'
+                valueField: 'id',
+                reference: 'groupField'
             }, {
                 xtype: 'unescapedTextField',
                 name: 'phone',
-                fieldLabel: Strings.sharedPhone
+                fieldLabel: Strings.sharedPhone,
+                reference: 'phoneField'
             }, {
                 xtype: 'unescapedTextField',
                 name: 'model',
-                fieldLabel: Strings.deviceModel
+                fieldLabel: Strings.deviceModel,
+                reference: 'modelField'
             }, {
                 xtype: 'unescapedTextField',
                 name: 'contact',
-                fieldLabel: Strings.deviceContact
+                fieldLabel: Strings.deviceContact,
+                reference: 'contactField'
             }, {
                 xtype: 'combobox',
                 name: 'category',
