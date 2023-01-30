@@ -27,6 +27,7 @@ const App = () => {
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
+  const newServer = useSelector((state) => state.session.server.newServer);
   const initialized = useSelector((state) => !!state.session.user);
 
   useEffectAsync(async () => {
@@ -34,6 +35,8 @@ const App = () => {
       const response = await fetch('/api/session');
       if (response.ok) {
         dispatch(sessionActions.updateUser(await response.json()));
+      } else if (newServer) {
+        navigate('/register');
       } else {
         navigate('/login');
       }
