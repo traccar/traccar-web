@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton,
 } from '@mui/material';
@@ -21,6 +22,7 @@ import MapView from '../map/core/MapView';
 import MapGeofence from '../map/MapGeofence';
 import MapPositions from '../map/MapPositions';
 import MapCamera from '../map/MapCamera';
+import scheduleReport from './common/scheduleReport';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -32,6 +34,7 @@ const columnsArray = [
 const columnsMap = new Map(columnsArray);
 
 const EventReportPage = () => {
+  const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
 
@@ -103,6 +106,19 @@ const EventReportPage = () => {
     }
   });
 
+  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+    report.type = 'events';
+    if (eventTypes[0] !== 'allEvents') {
+      report.attributes.types = eventTypes.join(',');
+    }
+    const error = await scheduleReport(deviceIds, groupIds, report);
+    if (error) {
+      throw Error(error);
+    } else {
+      navigate('/reports/scheduled');
+    }
+  });
+
   const formatValue = (item, key) => {
     switch (key) {
       case 'eventTime':
@@ -151,7 +167,7 @@ const EventReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit}>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule}>
               <div className={classes.filterItem}>
                 <FormControl fullWidth>
                   <InputLabel>{t('reportEventTypes')}</InputLabel>

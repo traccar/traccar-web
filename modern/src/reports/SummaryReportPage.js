@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
@@ -16,6 +17,7 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
+import scheduleReport from './common/scheduleReport';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
@@ -30,6 +32,7 @@ const columnsArray = [
 const columnsMap = new Map(columnsArray);
 
 const SummaryReportPage = () => {
+  const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
 
@@ -73,6 +76,17 @@ const SummaryReportPage = () => {
     }
   });
 
+  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+    report.type = 'summary';
+    report.attributes.daily = daily;
+    const error = await scheduleReport(deviceIds, groupIds, report);
+    if (error) {
+      throw Error(error);
+    } else {
+      navigate('/reports/scheduled');
+    }
+  });
+
   const formatValue = (item, key) => {
     switch (key) {
       case 'deviceId':
@@ -98,7 +112,7 @@ const SummaryReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} multiDevice includeGroups>
+        <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice includeGroups>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   IconButton,
   Table, TableBody, TableCell, TableHead, TableRow,
@@ -23,6 +24,7 @@ import MapCamera from '../map/MapCamera';
 import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
+import scheduleReport from './common/scheduleReport';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -36,6 +38,7 @@ const columnsArray = [
 const columnsMap = new Map(columnsArray);
 
 const StopReportPage = () => {
+  const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
 
@@ -71,6 +74,16 @@ const StopReportPage = () => {
       } finally {
         setLoading(false);
       }
+    }
+  });
+
+  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+    report.type = 'stops';
+    const error = await scheduleReport(deviceIds, groupIds, report);
+    if (error) {
+      throw Error(error);
+    } else {
+      navigate('/reports/scheduled');
     }
   });
 
@@ -116,7 +129,7 @@ const StopReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit}>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule}>
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
           </div>

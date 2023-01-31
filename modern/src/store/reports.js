@@ -10,6 +10,7 @@ const { reducer, actions } = createSlice({
     period: 'today',
     from: moment().subtract(1, 'hour').locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL),
     to: moment().locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL),
+    button: 'json',
   },
   reducers: {
     updateDeviceId(state, action) {
@@ -29,6 +30,9 @@ const { reducer, actions } = createSlice({
     },
     updateTo(state, action) {
       state.to = action.payload;
+    },
+    updateButton(state, action) {
+      state.button = action.payload;
     },
   },
 });

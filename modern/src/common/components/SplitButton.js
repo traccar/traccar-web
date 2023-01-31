@@ -1,16 +1,17 @@
 import React, { useRef, useState } from 'react';
-import { Button, ButtonGroup, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Button, ButtonGroup, Menu, MenuItem, Typography,
+} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-const SplitButton = ({ fullWidth, variant, color, disabled, onClick, options }) => {
+const SplitButton = ({ fullWidth, variant, color, disabled, onClick, options, selected, setSelected }) => {
   const anchorRef = useRef();
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-  const [selected, setSelected] = useState(Object.keys(options)[0]);
 
   return (
     <>
-      <ButtonGroup fullWidth={fullWidth} variant={variant} color={color} disabled={disabled} ref={anchorRef}>
-        <Button onClick={() => onClick(selected)}>
+      <ButtonGroup fullWidth={fullWidth} variant={variant} color={color} ref={anchorRef}>
+        <Button disabled={disabled} onClick={() => onClick(selected)}>
           <Typography variant="button" noWrap>{options[selected]}</Typography>
         </Button>
         <Button fullWidth={false} size="small" onClick={() => setMenuAnchorEl(anchorRef.current)}>
