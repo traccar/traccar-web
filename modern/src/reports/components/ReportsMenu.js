@@ -13,7 +13,7 @@ import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAdministrator } from '../../common/util/permissions';
+import { useAdministrator, useRestriction } from '../../common/util/permissions';
 
 const MenuItem = ({
   title, link, icon, selected,
@@ -29,6 +29,7 @@ const ReportsMenu = () => {
   const location = useLocation();
 
   const admin = useAdministrator();
+  const readonly = useRestriction('readonly');
 
   return (
     <>
@@ -75,22 +76,26 @@ const ReportsMenu = () => {
           icon={<RouteIcon />}
         />
       </List>
-      <Divider />
-      <List>
-        <MenuItem
-          title={t('reportScheduled')}
-          link="/reports/scheduled"
-          icon={<EventRepeatIcon />}
-        />
-        {admin && (
-          <MenuItem
-            title={t('statisticsTitle')}
-            link="/reports/statistics"
-            icon={<BarChartIcon />}
-            selected={location.pathname === '/reports/statistics'}
-          />
-        )}
-      </List>
+      {(admin || !readonly) && (
+        <>
+          <Divider />
+          <List>
+            <MenuItem
+              title={t('reportScheduled')}
+              link="/reports/scheduled"
+              icon={<EventRepeatIcon />}
+            />
+            {admin && (
+              <MenuItem
+                title={t('statisticsTitle')}
+                link="/reports/statistics"
+                icon={<BarChartIcon />}
+                selected={location.pathname === '/reports/statistics'}
+              />
+            )}
+          </List>
+        </>
+      )}
     </>
   );
 };

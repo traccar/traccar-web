@@ -9,11 +9,14 @@ import useReportStyles from '../common/useReportStyles';
 import { reportsActions } from '../../store';
 import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
+import { useRestriction } from '../../common/util/permissions';
 
 const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups }) => {
   const classes = useReportStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
+
+  const readonly = useRestriction('readonly');
 
   const devices = useSelector((state) => state.devices.items);
   const groups = useSelector((state) => state.groups.items);
@@ -208,7 +211,11 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
             onClick={handleClick}
             selected={button}
             setSelected={(value) => dispatch(reportsActions.updateButton(value))}
-            options={{
+            options={readonly ? {
+              json: t('reportShow'),
+              export: t('reportExport'),
+              mail: t('reportEmail'),
+            } : {
               json: t('reportShow'),
               export: t('reportExport'),
               mail: t('reportEmail'),
