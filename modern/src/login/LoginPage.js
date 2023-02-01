@@ -74,6 +74,12 @@ const LoginPage = () => {
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
 
+  const setMapAttribute = (user) => {
+    if (!user?.attributes?.activeMapStyles) {
+      user.attributes = { ...user?.attributes, activeMapStyles: 'locationIqStreets,osm,bingHybrid,bingAerial,bingRoad,googleHybrid,googleSatellite,googleRoad' };
+    }
+  };
+
   const generateLoginToken = async () => {
     if (nativeEnvironment) {
       let token = '';
@@ -102,6 +108,7 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const user = await response.json();
+        setMapAttribute(user); // Criado por Guilherme Crocetti para setar os mapas do google e bing no login
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
         navigate('/');
