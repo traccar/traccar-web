@@ -4,7 +4,9 @@ import {
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-const SplitButton = ({ fullWidth, variant, color, disabled, onClick, options, selected, setSelected }) => {
+const SplitButton = ({
+  fullWidth, variant, color, disabled, onClick, options, selected, setSelected,
+}) => {
   const anchorRef = useRef();
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
