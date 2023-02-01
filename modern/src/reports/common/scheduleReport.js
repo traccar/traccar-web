@@ -1,5 +1,4 @@
 export default async (deviceIds, groupIds, report) => {
-  console.log(JSON.stringify(report));
   const response = await fetch('/api/reports', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
