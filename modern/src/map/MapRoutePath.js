@@ -3,13 +3,13 @@ import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 
-const MapRoutePath = ({ positions }) => {
+const MapRoutePath = ({ positions, coordinates }) => {
   const id = useId();
 
   const theme = useTheme();
 
   const reportColor = useSelector((state) => {
-    const position = positions.find(() => true);
+    const position = positions?.find(() => true);
     if (position) {
       const attributes = state.devices.items[position.deviceId]?.attributes;
       if (attributes) {
@@ -58,7 +58,9 @@ const MapRoutePath = ({ positions }) => {
   }, []);
 
   useEffect(() => {
-    const coordinates = positions.map((item) => [item.longitude, item.latitude]);
+    if (!coordinates) {
+      coordinates = positions.map((item) => [item.longitude, item.latitude]);
+    }
     map.getSource(id).setData({
       type: 'Feature',
       geometry: {
@@ -69,7 +71,7 @@ const MapRoutePath = ({ positions }) => {
         color: reportColor,
       },
     });
-  }, [theme, positions, reportColor]);
+  }, [theme, positions, coordinates, reportColor]);
 
   return null;
 };

@@ -493,6 +493,7 @@
     "notificatorTelegram": "Telegram",
     "notificatorPushover": "Pushover",
     "reportReplay": "Replay",
+    "reportCombined": "Combined",
     "reportRoute": "Route",
     "reportEvents": "Events",
     "reportTrips": "Trips",
