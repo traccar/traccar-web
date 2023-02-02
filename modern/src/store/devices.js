@@ -5,6 +5,7 @@ const { reducer, actions } = createSlice({
   initialState: {
     items: {},
     selectedId: null,
+    selectedIds: [],
   },
   reducers: {
     refresh(state, action) {
@@ -16,6 +17,14 @@ const { reducer, actions } = createSlice({
     },
     select(state, action) {
       state.selectedId = action.payload;
+    },
+    selectId(state, action) {
+      state.selectedId = action.payload;
+      state.selectedIds = [state.selectedId];
+    },
+    selectIds(state, action) {
+      state.selectedIds = action.payload;
+      [state.selectedId] = state.selectedIds;
     },
     remove(state, action) {
       delete state.items[action.payload];

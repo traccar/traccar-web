@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
-import { reportsActions } from '../../store';
+import { devicesActions, reportsActions } from '../../store';
 import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
@@ -20,15 +20,9 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
 
   const devices = useSelector((state) => state.devices.items);
   const groups = useSelector((state) => state.groups.items);
-  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
-  const deviceId = useSelector((state) => state.reports.deviceId || selectedDeviceId);
-  const deviceIds = useSelector((state) => (
-    state.reports.deviceIds.length
-      ? state.reports.deviceIds : state.reports.deviceId
-        ? [state.reports.deviceId] : selectedDeviceId
-          ? [selectedDeviceId] : []
-  ));
+  const deviceId = useSelector((state) => state.devices.selectedId);
+  const deviceIds = useSelector((state) => state.devices.selectedIds);
   const groupIds = useSelector((state) => state.reports.groupIds);
   const period = useSelector((state) => state.reports.period);
   const from = useSelector((state) => state.reports.from);
@@ -39,7 +33,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
   const [calendarId, setCalendarId] = useState();
 
   const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
-  const disabled = (!ignoreDevice && !selectedDeviceId && !deviceId && !deviceIds.length && !groupIds.length) || scheduleDisabled;
+  const disabled = (!ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length) || scheduleDisabled;
 
   const handleClick = (type) => {
     if (type === 'schedule') {
@@ -103,7 +97,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
             <Select
               label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
               value={multiDevice ? deviceIds : deviceId || ''}
-              onChange={(e) => dispatch(multiDevice ? reportsActions.updateDeviceIds(e.target.value) : reportsActions.updateDeviceId(e.target.value))}
+              onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
               multiple={multiDevice}
             >
               {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
