@@ -17,6 +17,7 @@ import MapGeofence from '../map/MapGeofence';
 import { formatTime } from '../common/util/formatter';
 import { usePreference } from '../common/util/preferences';
 import { prefixString } from '../common/util/stringUtils';
+import MapMarkers from '../map/MapMarkers';
 
 const CombinedReportPage = () => {
   const classes = useReportStyles();
@@ -28,6 +29,14 @@ const CombinedReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const createMarkers = () => items.flatMap((item) => item.events.map((event) => {
+    const position = item.positions.find((p) => event.positionId === p.id);
+    return {
+      latitude: position.latitude,
+      longitude: position.longitude,
+    };
+  }));
 
   const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
@@ -60,6 +69,7 @@ const CombinedReportPage = () => {
                   coordinates={item.route}
                 />
               ))}
+              <MapMarkers markers={createMarkers()} />
             </MapView>
             <MapCamera coordinates={items.flatMap((item) => item.route)} />
           </div>
