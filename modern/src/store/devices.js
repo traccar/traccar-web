@@ -20,7 +20,7 @@ const { reducer, actions } = createSlice({
     },
     selectId(state, action) {
       state.selectedId = action.payload;
-      state.selectedIds = [state.selectedId];
+      state.selectedIds = state.selectedId ? [state.selectedId] : [];
     },
     selectIds(state, action) {
       state.selectedIds = action.payload;
