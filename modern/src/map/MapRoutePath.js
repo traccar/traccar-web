@@ -2,8 +2,9 @@ import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
+import { findFonts } from './core/mapUtil';
 
-const MapRoutePath = ({ positions, coordinates }) => {
+const MapRoutePath = ({ name, positions, coordinates }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -35,7 +36,7 @@ const MapRoutePath = ({ positions, coordinates }) => {
     });
     map.addLayer({
       source: id,
-      id,
+      id: `${id}-line`,
       type: 'line',
       layout: {
         'line-join': 'round',
@@ -46,10 +47,29 @@ const MapRoutePath = ({ positions, coordinates }) => {
         'line-width': 2,
       },
     });
+    if (name) {
+      map.addLayer({
+        source: id,
+        id: `${id}-title`,
+        type: 'symbol',
+        layout: {
+          'text-field': '{name}',
+          'text-font': findFonts(map),
+          'text-size': 12,
+        },
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1,
+        },
+      });
+    }
 
     return () => {
-      if (map.getLayer(id)) {
-        map.removeLayer(id);
+      if (map.getLayer(`${id}-title`)) {
+        map.removeLayer(`${id}-title`);
+      }
+      if (map.getLayer(`${id}-line`)) {
+        map.removeLayer(`${id}-line`);
       }
       if (map.getSource(id)) {
         map.removeSource(id);
@@ -68,6 +88,7 @@ const MapRoutePath = ({ positions, coordinates }) => {
         coordinates,
       },
       properties: {
+        name,
         color: reportColor,
       },
     });

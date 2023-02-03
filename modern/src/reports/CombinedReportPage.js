@@ -54,7 +54,11 @@ const CombinedReportPage = () => {
             <MapView>
               <MapGeofence />
               {items.map((item) => (
-                <MapRoutePath key={item.deviceId} coordinates={item.route} />
+                <MapRoutePath
+                  key={item.deviceId}
+                  name={devices[item.deviceId].name}
+                  coordinates={item.route}
+                />
               ))}
             </MapView>
             <MapCamera coordinates={items.flatMap((item) => item.route)} />
