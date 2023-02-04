@@ -49,7 +49,6 @@ import App from './App';
 import ChangeServerPage from './other/ChangeServerPage';
 import DevicesPage from './settings/DevicesPage';
 import ScheduledPage from './reports/ScheduledPage';
-import CombinedReportPage from './reports/CombinedReportPage';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -140,7 +139,6 @@ const Navigation = () => {
         </Route>
 
         <Route path="reports">
-          <Route path="combined" element={<CombinedReportPage />} />
           <Route path="chart" element={<ChartReportPage />} />
           <Route path="event" element={<EventReportPage />} />
           <Route path="route" element={<RouteReportPage />} />
