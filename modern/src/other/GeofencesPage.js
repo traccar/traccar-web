@@ -11,7 +11,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useNavigate } from 'react-router-dom';
 import MapView from '../map/core/MapView';
 import MapCurrentLocation from '../map/MapCurrentLocation';
-import MapGeofenceEdit from '../map/MapGeofenceEdit';
+import MapGeofenceEdit from '../map/draw/MapGeofenceEdit';
 import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
