@@ -117,6 +117,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const t = useTranslation();
 
   const deviceReadonly = useDeviceReadonly();
+  const PartialDisableEditDevice = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const device = useSelector((state) => state.devices.items[deviceId]);
 
@@ -251,7 +252,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </IconButton>
                 <IconButton
                   onClick={() => setRemoving(true)}
-                  disabled={disableActions || deviceReadonly}
+                  disabled={disableActions || deviceReadonly || PartialDisableEditDevice}
                   className={classes.negative}
                 >
                   <DeleteIcon />

@@ -147,6 +147,7 @@
     "attributeUiDisableEvents": "UI: Deshabilitar panel Eventos",
     "attributeUiDisableVehicleFetures": "UI: Deshabilitar características del vehículo",
     "attributeUiDisableDrivers": "UI: Deshabilitar Conductores",
+    "attributePartialDisableEditDevice": "UI: Desabilitar Editar Dispositivos (PARCIAL)",
     "attributeUiDisableComputedAttributes": "UI: Deshabilitar Atributos calculados",
     "attributeUiDisableCalendars": "UI: Deshabilitar Calendario",
     "attributeUiDisableMaintenance": "UI: Deshabilitar Mantenimiento",

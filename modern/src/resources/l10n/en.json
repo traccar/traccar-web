@@ -147,6 +147,7 @@
     "attributeUiDisableEvents": "UI: Disable Events",
     "attributeUiDisableVehicleFetures": "UI: Disable Vehicle Fetures",
     "attributeUiDisableDrivers": "UI: Disable Drivers",
+    "attributePartialDisableEditDevice": "UI: Disable Edit Devices (Partial)",
     "attributeUiDisableComputedAttributes": "UI: Disable Computed Attributes",
     "attributeUiDisableCalendars": "UI: Disable Calendars",
     "attributeUiDisableMaintenance": "UI: Disable Maintenance",

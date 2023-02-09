@@ -25,6 +25,7 @@ import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttri
 import useFeatures from '../common/util/useFeatures';
 import { useCatch } from '../reactHelper';
 import { formatNotificationTitle } from '../common/util/formatter';
+import { useAttributePreference } from '../common/util/preferences';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -40,6 +41,7 @@ const DevicePage = () => {
   const t = useTranslation();
 
   const admin = useAdministrator();
+  const PartialDisableEditDevice = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
@@ -87,12 +89,14 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
               />
+              { !PartialDisableEditDevice && (
               <TextField
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
                 helperText={t('deviceIdentifierHelp')}
               />
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -102,27 +106,33 @@ const DevicePage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
+              { !PartialDisableEditDevice && (
               <SelectField
                 value={item.groupId || 0}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
               />
+              )}
+              { !PartialDisableEditDevice && (
               <TextField
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
               />
+              )}
               <TextField
                 value={item.model || ''}
                 onChange={(event) => setItem({ ...item, model: event.target.value })}
                 label={t('deviceModel')}
               />
+              { !PartialDisableEditDevice && (
               <TextField
                 value={item.contact || ''}
                 onChange={(event) => setItem({ ...item, contact: event.target.value })}
                 label={t('deviceContact')}
               />
+              )}
               <SelectField
                 value={item.category || 'default'}
                 emptyValue={null}

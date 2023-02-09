@@ -101,6 +101,10 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiDisableDrivers'),
     type: 'boolean',
   },
+  'ui.PartialDisableEditDevice': {
+    name: t('attributePartialDisableEditDevice'),
+    type: 'boolean',
+  },
   'ui.disableComputedAttributes': {
     name: t('attributeUiDisableComputedAttributes'),
     type: 'boolean',

@@ -18,6 +18,7 @@ export default () => useSelector((state) => {
 
   const disableAttributes = get(server, user, 'ui.disableAttributes');
   const disableVehicleFetures = get(server, user, 'ui.disableVehicleFetures');
+  const diablePartialDevice = get(server, user, 'ui.PartialDisableEditDevice');
   const disableDrivers = disableVehicleFetures || get(server, user, 'ui.disableDrivers');
   const disableMaintenance = disableVehicleFetures || get(server, user, 'ui.disableMaintenance');
   const disableGroups = get(server, user, 'ui.disableGroups');
@@ -27,6 +28,7 @@ export default () => useSelector((state) => {
 
   return {
     disableAttributes,
+    diablePartialDevice,
     disableDrivers,
     disableMaintenance,
     disableGroups,
