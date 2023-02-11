@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 // import { Tooltip } from '@mui/material';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, FormGroup, FormControlLabel, Checkbox,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
-import usePersistedState from '../common/util/usePersistedState';
+import usePersistedState, { savePersistedState } from '../common/util/usePersistedState';
 import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
@@ -37,17 +37,19 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 'unset',
   },
   resetPassword: {
+    color: '#757575',
+    fontWeight: '500',
+    fontSize: '1rem',
     cursor: 'pointer',
     textAlign: 'center',
-    borderRadius: '0.3rem',
-    backgroundColor: '#110503',
+    borderRadius: '1px',
+    backgroundColor: '#fff',
+    boxShadow: '0 2px 4px 0 rgb(0 0 0 / 25%)',
     transition: '.4s',
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
     padding: '0.8rem',
     '&:hover': {
-      color: '#110503',
-      backgroundColor: 'rgba(17, 5, 3, 0.1)',
-      border: '1px solid #110503',
+      boxShadow: '0 0 3px 3px rgb(66 133 244 / 30%)',
     },
   },
 }));
@@ -80,8 +82,15 @@ const LoginPage = () => {
     }
   };
 
+  const [checked, setChecked] = usePersistedState('rememberUser', false); // by gui, salvar login e senha usuário
+
+  const handleChange = (event) => { // gui
+    setChecked(event.target.checked);
+    savePersistedState('rememberUser', event.target.checked);
+  };
+
   const generateLoginToken = async () => {
-    if (nativeEnvironment) {
+    if (nativeEnvironment || checked) { // gui
       let token = '';
       try {
         const expiration = moment().add(6, 'months').toISOString();
@@ -96,6 +105,8 @@ const LoginPage = () => {
         token = '';
       }
       nativePostMessage(`login|${token}`);
+    } else {
+      nativePostMessage('login|'); // gui
     }
   };
 
@@ -194,6 +205,19 @@ const LoginPage = () => {
         >
           {t('loginLogin')}
         </Button>
+        <FormGroup>
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={checked}
+                onChange={handleChange}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+)}
+            label="lembrar-me"
+          />
+        </FormGroup>
+
         <div className={classes.extraContainer}>
           <Button
             className={classes.registerButton}
