@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
-
 import { devicesActions, sessionActions } from './store';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './common/components/LocalizationProvider';
 import { snackBarDurationLongMs } from './common/util/duration';
-
 import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
@@ -16,6 +15,7 @@ const logoutCode = 4000;
 
 const SocketController = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const authenticated = useSelector((state) => !!state.session.user);
@@ -48,11 +48,12 @@ const SocketController = () => {
           if (devicesResponse.ok) {
             dispatch(devicesActions.update(await devicesResponse.json()));
           }
-          const positionsResponse = await fetch('/api/positions', {
-            headers: { 'Content-Type': 'application/json' },
-          });
+          const positionsResponse = await fetch('/api/positions');
           if (positionsResponse.ok) {
             dispatch(sessionActions.updatePositions(await positionsResponse.json()));
+          }
+          if (devicesResponse.status === 401 || positionsResponse.status === 401) {
+            navigate('/login');
           }
         } catch (error) {
           // ignore errors
