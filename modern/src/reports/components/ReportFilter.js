@@ -27,7 +27,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
   const period = useSelector((state) => state.reports.period);
   const from = useSelector((state) => state.reports.from);
   const to = useSelector((state) => state.reports.to);
-  const button = useSelector((state) => state.reports.button);
+  const [button, setButton] = useState('json');
 
   const [description, setDescription] = useState();
   const [calendarId, setCalendarId] = useState();
@@ -204,7 +204,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
             disabled={disabled}
             onClick={handleClick}
             selected={button}
-            setSelected={(value) => dispatch(reportsActions.updateButton(value))}
+            setSelected={(value) => setButton(value)}
             options={readonly ? {
               json: t('reportShow'),
               export: t('reportExport'),
