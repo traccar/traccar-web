@@ -28,3 +28,5 @@ for language in languages:
     result = requests.get(url)
     with open('../web/l10n/' + language.code + '.json', "w") as file:
         file.write(result.text)
+    with open('../modern/src/resources/l10n/' + language.code + '.json', "w") as file:
+        file.write(result.text)

@@ -43,7 +43,7 @@ const MapMarkers = ({ markers }) => {
         },
         properties: {
           category: category || 'default',
-          color,
+          color: color || 'neutral',
         },
       })),
     });

@@ -4,20 +4,12 @@ import moment from 'moment';
 const { reducer, actions } = createSlice({
   name: 'reports',
   initialState: {
-    deviceId: null,
-    deviceIds: [],
     groupIds: [],
     period: 'today',
     from: moment().subtract(1, 'hour').locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL),
     to: moment().locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL),
   },
   reducers: {
-    updateDeviceId(state, action) {
-      state.deviceId = action.payload;
-    },
-    updateDeviceIds(state, action) {
-      state.deviceIds = action.payload;
-    },
     updateGroupIds(state, action) {
       state.groupIds = action.payload;
     },

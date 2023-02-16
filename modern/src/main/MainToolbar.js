@@ -167,7 +167,7 @@ const MainToolbar = ({
         </div>
       </Popover>
       <IconButton edge="end" onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
-        <Tooltip open={Object.keys(devices).length === 0} title={t('deviceRegisterFirst')} arrow>
+        <Tooltip open={!deviceReadonly && Object.keys(devices).length === 0} title={t('deviceRegisterFirst')} arrow>
           <AddIcon />
         </Tooltip>
       </IconButton>

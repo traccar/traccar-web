@@ -6,7 +6,7 @@ module.exports = {
   plugins: [
     'react',
   ],
-  ignorePatterns: ['service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js'],
+  ignorePatterns: ['service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js', 'theme.js'],
   rules: {
     'max-len': [0],
     'no-shadow': [0],

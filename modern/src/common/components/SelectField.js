@@ -6,6 +6,7 @@ import { useEffectAsync } from '../../reactHelper';
 
 const SelectField = ({
   label,
+  fullWidth,
   multiple,
   value,
   emptyValue = 0,
@@ -31,7 +32,7 @@ const SelectField = ({
 
   if (items) {
     return (
-      <FormControl>
+      <FormControl fullWidth={fullWidth}>
         <InputLabel>{label}</InputLabel>
         <Select
           label={label}

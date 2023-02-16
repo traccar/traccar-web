@@ -70,7 +70,7 @@ const Navigation = () => {
       if (response.ok) {
         const items = await response.json();
         if (items.length > 0) {
-          dispatch(devicesActions.select(items[0].id));
+          dispatch(devicesActions.selectId(items[0].id));
         }
       } else {
         throw Error(await response.text());

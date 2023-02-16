@@ -1,5 +1,6 @@
 import React, { Fragment, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
@@ -22,8 +23,10 @@ import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
+import scheduleReport from './common/scheduleReport';
 
 const RouteReportPage = () => {
+  const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
 
@@ -67,6 +70,16 @@ const RouteReportPage = () => {
     }
   });
 
+  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+    report.type = 'route';
+    const error = await scheduleReport(deviceIds, groupIds, report);
+    if (error) {
+      throw Error(error);
+    } else {
+      navigate('/reports/scheduled');
+    }
+  });
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
       <div className={classes.container}>
@@ -90,7 +103,7 @@ const RouteReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} multiDevice>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}

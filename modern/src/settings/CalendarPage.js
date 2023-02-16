@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import {
   Accordion, AccordionSummary, AccordionDetails, Typography, FormControl, InputLabel, Select, MenuItem,
@@ -12,6 +13,8 @@ import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
 import { prefixString } from '../common/util/stringUtils';
+import { calendarsActions } from '../store';
+import { useCatch } from '../reactHelper';
 
 const formatCalendarTime = (time) => {
   const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -66,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CalendarPage = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const t = useTranslation();
 
   const [item, setItem] = useState();
@@ -89,6 +93,15 @@ const CalendarPage = () => {
     }
   };
 
+  const onItemSaved = useCatch(async () => {
+    const response = await fetch('/api/calendars');
+    if (response.ok) {
+      dispatch(calendarsActions.update(await response.json()));
+    } else {
+      throw Error(await response.text());
+    }
+  });
+
   const validate = () => item && item.name && item.data;
 
   return (
@@ -98,6 +111,7 @@ const CalendarPage = () => {
       setItem={setItem}
       defaultItem={{ data: simpleCalendar() }}
       validate={validate}
+      onItemSaved={onItemSaved}
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedCalendar']}
     >

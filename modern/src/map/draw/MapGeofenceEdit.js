@@ -2,16 +2,16 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import theme from '@mapbox/mapbox-gl-draw/src/lib/theme';
 import { useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
-import { map } from './core/MapView';
-import { geofenceToFeature, geometryToArea } from './core/mapUtil';
-import { errorsActions, geofencesActions } from '../store';
-import { useCatchCallback } from '../reactHelper';
+import { map } from '../core/MapView';
+import { geofenceToFeature, geometryToArea } from '../core/mapUtil';
+import { errorsActions, geofencesActions } from '../../store';
+import { useCatchCallback } from '../../reactHelper';
+import theme from './theme';
 
 const draw = new MapboxDraw({
   displayControlsDefault: false,
