@@ -145,18 +145,11 @@
     "attributeUiDisableAttributes": "UI: Deshabilitar Atributos",
     "attributeUiDisableGroups": "UI: Deshabilitar Grupos",
     "attributeUiDisableEvents": "UI: Deshabilitar panel Eventos",
-<<<<<<< HEAD
     "attributeUiDisableVehicleFetures": "UI: Deshabilitar características del vehículo",
     "attributeUiDisableDrivers": "UI: Deshabilitar Conductores",
     "attributePartialDisableEditDevice": "UI: Desabilitar Editar Dispositivos (PARCIAL)",
     "attributeUiDisableComputedAttributes": "UI: Deshabilitar Atributos calculados",
     "attributeUiDisableCalendars": "UI: Deshabilitar Calendario",
-=======
-    "attributeUiDisableVehicleFetures": "UI: Desactivar características del vehículo",
-    "attributeUiDisableDrivers": "UI: Desactivar Conductores",
-    "attributeUiDisableComputedAttributes": "UI: Desactivar Atributos calculados",
-    "attributeUiDisableCalendars": "UI: Desactivar Calendario",
->>>>>>> upstream/master
     "attributeUiDisableMaintenance": "UI: Deshabilitar Mantenimiento",
     "attributeUiHidePositionAttributes": "UI: Ocultar Atributos de Posición",
     "attributeUiDisableLoginLanguage": "UI: Deshabilitar Idioma de inicio de sesión",
