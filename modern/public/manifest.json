@@ -22,10 +22,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-<<<<<<< HEAD
   "theme_color": "#ff8d3a",
-=======
-  "theme_color": "#1a237e",
->>>>>>> upstream/master
   "background_color": "#ffffff"
 }

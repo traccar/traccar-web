@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 // import { Tooltip } from '@mui/material';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, FormGroup, FormControlLabel, Checkbox,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
-import usePersistedState, { savePersistedState } from '../common/util/usePersistedState';
+import usePersistedState from '../common/util/usePersistedState';
 import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
@@ -82,15 +82,8 @@ const LoginPage = () => {
     }
   };
 
-  const [checked, setChecked] = usePersistedState('rememberUser', false); // by gui, salvar login e senha usuário
-
-  const handleChange = (event) => { // gui
-    setChecked(event.target.checked);
-    savePersistedState('rememberUser', event.target.checked);
-  };
-
   const generateLoginToken = async () => {
-    if (nativeEnvironment || checked) { // gui
+    if (nativeEnvironment) {
       let token = '';
       try {
         const expiration = moment().add(6, 'months').toISOString();
@@ -105,8 +98,6 @@ const LoginPage = () => {
         token = '';
       }
       nativePostMessage(`login|${token}`);
-    } else {
-      nativePostMessage('login|'); // gui
     }
   };
 
@@ -205,7 +196,7 @@ const LoginPage = () => {
         >
           {t('loginLogin')}
         </Button>
-        <FormGroup>
+        {/* <FormGroup>
           <FormControlLabel
             control={(
               <Checkbox
@@ -216,7 +207,7 @@ const LoginPage = () => {
 )}
             label="lembrar-me"
           />
-        </FormGroup>
+        </FormGroup> */}
 
         <div className={classes.extraContainer}>
           <Button
