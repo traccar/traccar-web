@@ -6,7 +6,7 @@ Traccar is open source server for various GPS tracking devices. This repository 
 
 ## Modern web app
 
-New web app for Traccar. It uses modern technologies like React, Material UI etc. For more information on how to build it please check the [modern app documentation](https://www.traccar.org/build-web-app/).
+New web app for Traccar (**modern** subfolder). It uses modern technologies like React, Material UI etc. For more information on how to build it please check the [modern app documentation](https://www.traccar.org/build-web-app/).
 
 ## Legacy web app
 
