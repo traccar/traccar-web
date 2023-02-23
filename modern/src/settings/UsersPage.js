@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
+import LinkIcon from '@mui/icons-material/Link';
 import makeStyles from '@mui/styles/makeStyles';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { formatBoolean, formatTime } from '../common/util/formatter';
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UsersPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const admin = useAdministrator();
@@ -45,10 +48,18 @@ const UsersPage = () => {
     }
   });
 
-  const loginAction = {
+  const actionLogin = {
+    key: 'login',
     title: t('loginLogin'),
-    icon: (<LoginIcon fontSize="small" />),
+    icon: <LoginIcon fontSize="small" />,
     handler: handleLogin,
+  };
+
+  const actionConnections = {
+    key: 'connections',
+    title: t('sharedConnections'),
+    icon: <LinkIcon fontSize="small" />,
+    handler: (userId) => navigate(`/settings/user/${userId}/connections`),
   };
 
   useEffectAsync(async () => {
@@ -93,7 +104,7 @@ const UsersPage = () => {
                   editPath="/settings/user"
                   endpoint="users"
                   setTimestamp={setTimestamp}
-                  customAction={admin ? loginAction : null}
+                  customActions={admin ? [actionLogin, actionConnections] : [actionConnections]}
                 />
               </TableCell>
             </TableRow>

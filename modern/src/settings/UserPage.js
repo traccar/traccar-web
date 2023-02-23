@@ -22,7 +22,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
-import LinkField from '../common/components/LinkField';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useUserAttributes from '../common/attributes/useUserAttributes';
 import { sessionActions } from '../store';
@@ -32,7 +31,6 @@ import useCommonUserAttributes from '../common/attributes/useCommonUserAttribute
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
 import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
-import { formatNotificationTitle } from '../common/util/formatter';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 
@@ -389,100 +387,6 @@ const UserPage = () => {
                 >
                   {t('userDeleteAccount')}
                 </Button>
-              </AccordionDetails>
-            </Accordion>
-          )}
-          {item.id && manager && (
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">
-                  {t('sharedConnections')}
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails className={classes.details}>
-                <LinkField
-                  endpointAll="/api/devices?all=true"
-                  endpointLinked={`/api/devices?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="deviceId"
-                  label={t('deviceTitle')}
-                />
-                <LinkField
-                  endpointAll="/api/groups?all=true"
-                  endpointLinked={`/api/groups?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="groupId"
-                  label={t('settingsGroups')}
-                />
-                <LinkField
-                  endpointAll="/api/geofences?all=true"
-                  endpointLinked={`/api/geofences?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="geofenceId"
-                  label={t('sharedGeofences')}
-                />
-                <LinkField
-                  endpointAll="/api/notifications?all=true"
-                  endpointLinked={`/api/notifications?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="notificationId"
-                  titleGetter={(it) => formatNotificationTitle(t, it, true)}
-                  label={t('sharedNotifications')}
-                />
-                <LinkField
-                  endpointAll="/api/calendars?all=true"
-                  endpointLinked={`/api/calendars?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="calendarId"
-                  label={t('sharedCalendars')}
-                />
-                <LinkField
-                  endpointAll="/api/users?all=true"
-                  endpointLinked={`/api/users?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="managedUserId"
-                  label={t('settingsUsers')}
-                />
-                <LinkField
-                  endpointAll="/api/attributes/computed?all=true"
-                  endpointLinked={`/api/attributes/computed?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="attributeId"
-                  titleGetter={(it) => it.description}
-                  label={t('sharedComputedAttributes')}
-                />
-                <LinkField
-                  endpointAll="/api/drivers?all=true"
-                  endpointLinked={`/api/drivers?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="driverId"
-                  label={t('sharedDrivers')}
-                />
-                <LinkField
-                  endpointAll="/api/commands?all=true"
-                  endpointLinked={`/api/commands?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="commandId"
-                  titleGetter={(it) => it.description}
-                  label={t('sharedSavedCommands')}
-                />
-                <LinkField
-                  endpointAll="/api/maintenance?all=true"
-                  endpointLinked={`/api/maintenance?userId=${item.id}`}
-                  baseId={item.id}
-                  keyBase="userId"
-                  keyLink="maintenanceId"
-                  label={t('sharedMaintenance')}
-                />
               </AccordionDetails>
             </Accordion>
           )}
