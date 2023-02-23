@@ -15,6 +15,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { usePreference } from '../common/util/preferences';
 import { formatTime } from '../common/util/formatter';
+import { useDeviceReadonly } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -29,6 +30,8 @@ const DevicesPage = () => {
   const t = useTranslation();
 
   const hours12 = usePreference('twelveHourFormat');
+
+  const deviceReadonly = useDeviceReadonly();
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -87,6 +90,7 @@ const DevicesPage = () => {
                   endpoint="devices"
                   setTimestamp={setTimestamp}
                   customActions={[actionConnections]}
+                  readonly={deviceReadonly}
                 />
               </TableCell>
             </TableRow>

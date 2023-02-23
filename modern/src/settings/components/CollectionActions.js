@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp, customActions,
+  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -62,8 +62,12 @@ const CollectionActions = ({
             {customActions && customActions.map((action) => (
               <MenuItem onClick={() => handleCustom(action)} key={action.key}>{action.title}</MenuItem>
             ))}
-            <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
-            <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
+            {!readonly && (
+              <>
+                <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
+                <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
+              </>
+            )}
           </Menu>
         </>
       ) : (
@@ -73,12 +77,16 @@ const CollectionActions = ({
               {action.icon}
             </IconButton>
           ))}
-          <IconButton size="small" onClick={handleEdit}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-          <IconButton size="small" onClick={handleRemove}>
-            <DeleteIcon fontSize="small" />
-          </IconButton>
+          {!readonly && (
+            <>
+              <IconButton size="small" onClick={handleEdit}>
+                <EditIcon fontSize="small" />
+              </IconButton>
+              <IconButton size="small" onClick={handleRemove}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </>
+          )}
         </div>
       )}
       <RemoveDialog style={{ transform: 'none' }} open={removing} endpoint={endpoint} itemId={itemId} onResult={handleRemoveResult} />
