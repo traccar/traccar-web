@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, TextField,
+  Accordion, AccordionSummary, AccordionDetails, Typography, TextField, Switch, FormControlLabel,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -74,6 +74,18 @@ const GeofencePage = () => {
                 value={item.description || ''}
                 onChange={(event) => setItem({ ...item, description: event.target.value })}
                 label={t('sharedDescription')}
+              />
+              <FormControlLabel
+                control={
+                  <Switch label="teste" checked={item.stopIn} onChange={(event) => setItem({ ...item, stopIn: event.target.checked })} name="stopIn" color="warning" />
+              }
+                label="Bloquear ao Entrar"
+              />
+              <FormControlLabel
+                control={
+                  <Switch checked={item.stopOut} onChange={(event) => setItem({ ...item, stopOut: event.target.checked })} name="stopOut" color="warning" />
+            }
+                label="Bloquear ao Sair"
               />
               <SelectField
                 value={item.calendarId || 0}

@@ -77,9 +77,7 @@ const LoginPage = () => {
   const announcement = useSelector((state) => state.session.server.announcement);
 
   const setMapAttribute = (user) => {
-    if (!user?.attributes?.activeMapStyles) {
-      user.attributes = { ...user?.attributes, activeMapStyles: 'locationIqStreets,osm,bingHybrid,bingAerial,bingRoad,googleHybrid,googleSatellite,googleRoad' };
-    }
+    user.attributes = { ...user?.attributes, activeMapStyles: 'locationIqStreets,osm,bingHybrid,bingAerial,bingRoad,googleHybrid,googleSatellite,googleRoad' };
   };
 
   const generateLoginToken = async () => {
