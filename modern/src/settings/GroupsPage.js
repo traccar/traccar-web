@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
+import LinkIcon from '@mui/icons-material/Link';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -21,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GroupsPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const [timestamp, setTimestamp] = useState(Date.now());
@@ -42,6 +45,13 @@ const GroupsPage = () => {
     }
   }, [timestamp]);
 
+  const actionConnections = {
+    key: 'connections',
+    title: t('sharedConnections'),
+    icon: <LinkIcon fontSize="small" />,
+    handler: (groupId) => navigate(`/settings/group/${groupId}/connections`),
+  };
+
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsGroups']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
@@ -57,7 +67,13 @@ const GroupsPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/group" endpoint="groups" setTimestamp={setTimestamp} />
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/group"
+                  endpoint="groups"
+                  setTimestamp={setTimestamp}
+                  customActions={[actionConnections]}
+                />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={2} endAction />)}

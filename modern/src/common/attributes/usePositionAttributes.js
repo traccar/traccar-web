@@ -314,6 +314,10 @@ export default (t) => useMemo(() => ({
     name: t('positionBlocked'),
     type: 'boolean',
   },
+  lock: {
+    name: t('alarmLock'),
+    type: 'boolean',
+  },
   dtcs: {
     name: t('positionDtcs'),
     type: 'string',

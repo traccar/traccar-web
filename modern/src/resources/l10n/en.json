@@ -486,6 +486,7 @@
     "notificationType": "Type of Notification",
     "notificationAlways": "All Devices",
     "notificationNotificators": "Channels",
+    "notificatorCommand": "Command",
     "notificatorWeb": "Web",
     "notificatorMail": "Mail",
     "notificatorSms": "SMS",

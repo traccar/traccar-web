@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
+import LinkIcon from '@mui/icons-material/Link';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -13,6 +15,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { formatTime } from '../common/util/formatter';
+import { useDeviceReadonly } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -23,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
 
 const DevicesPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const hours12 = usePreference('twelveHourFormat');
   const PartialDisableEditDevice = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
+
+  const deviceReadonly = useDeviceReadonly();
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -46,6 +52,13 @@ const DevicesPage = () => {
       setLoading(false);
     }
   }, [timestamp]);
+
+  const actionConnections = {
+    key: 'connections',
+    title: t('sharedConnections'),
+    icon: <LinkIcon fontSize="small" />,
+    handler: (deviceId) => navigate(`/settings/device/${deviceId}/connections`),
+  };
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedDrivers']}>
@@ -72,7 +85,24 @@ const DevicesPage = () => {
               <TableCell>{item.contact}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date', hours12)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                { !PartialDisableEditDevice && (<CollectionActions itemId={item.id} editPath="/settings/device" endpoint="devices" setTimestamp={setTimestamp} />)}
+                { !PartialDisableEditDevice && (
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/device"
+                  endpoint="devices"
+                  setTimestamp={setTimestamp}
+                  customActions={[actionConnections]}
+                  readonly={deviceReadonly}
+                />
+                )}
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/device"
+                  endpoint="devices"
+                  setTimestamp={setTimestamp}
+                  customActions={[actionConnections]}
+                  readonly={deviceReadonly}
+                />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={6} endAction />)}

@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp, customAction,
+  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -39,8 +39,8 @@ const CollectionActions = ({
     setMenuAnchorEl(null);
   };
 
-  const handleCustom = () => {
-    customAction.handler(itemId);
+  const handleCustom = (action) => {
+    action.handler(itemId);
     setMenuAnchorEl(null);
   };
 
@@ -59,26 +59,34 @@ const CollectionActions = ({
             <MoreVertIcon fontSize="small" />
           </IconButton>
           <Menu open={!!menuAnchorEl} anchorEl={menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
-            {customAction && (
-              <MenuItem onClick={handleCustom}>{customAction.title}</MenuItem>
+            {customActions && customActions.map((action) => (
+              <MenuItem onClick={() => handleCustom(action)} key={action.key}>{action.title}</MenuItem>
+            ))}
+            {!readonly && (
+              <>
+                <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
+                <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
+              </>
             )}
-            <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
-            <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
           </Menu>
         </>
       ) : (
         <div className={classes.row}>
-          {customAction && (
-            <IconButton size="small" onClick={handleCustom}>
-              {customAction.icon}
+          {customActions && customActions.map((action) => (
+            <IconButton size="small" onClick={() => handleCustom(action)} key={action.key}>
+              {action.icon}
             </IconButton>
+          ))}
+          {!readonly && (
+            <>
+              <IconButton size="small" onClick={handleEdit}>
+                <EditIcon fontSize="small" />
+              </IconButton>
+              <IconButton size="small" onClick={handleRemove}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+            </>
           )}
-          <IconButton size="small" onClick={handleEdit}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-          <IconButton size="small" onClick={handleRemove}>
-            <DeleteIcon fontSize="small" />
-          </IconButton>
         </div>
       )}
       <RemoveDialog style={{ transform: 'none' }} open={removing} endpoint={endpoint} itemId={itemId} onResult={handleRemoveResult} />

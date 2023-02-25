@@ -52,7 +52,7 @@ const NotificationPage = () => {
     }));
   });
 
-  const validate = () => item && item.type && item.notificators;
+  const validate = () => item && item.type && item.notificators && (!item.notificators?.includes('command') || item.commandId);
 
   return (
     <EditItemView
@@ -100,6 +100,15 @@ const NotificationPage = () => {
                 titleGetter={(it) => t(prefixString('notificator', it.type))}
                 label={t('notificationNotificators')}
               />
+              {item.notificators?.includes('command') && (
+                <SelectField
+                  value={item.commandId || 0}
+                  onChange={(event) => setItem({ ...item, commandId: Number(event.target.value) })}
+                  endpoint="/api/commands"
+                  titleGetter={(it) => it.description}
+                  label={t('sharedSavedCommand')}
+                />
+              )}
               <Button
                 variant="outlined"
                 color="primary"
