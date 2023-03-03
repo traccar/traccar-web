@@ -13,7 +13,7 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-import { usePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { formatTime } from '../common/util/formatter';
 import { useDeviceReadonly } from '../common/util/permissions';
 
@@ -32,6 +32,7 @@ const DevicesPage = () => {
   const hours12 = usePreference('twelveHourFormat');
 
   const deviceReadonly = useDeviceReadonly();
+  const disableDelete = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -91,6 +92,7 @@ const DevicesPage = () => {
                   setTimestamp={setTimestamp}
                   customActions={[actionConnections]}
                   readonly={deviceReadonly}
+                  disable={disableDelete}
                 />
               </TableCell>
             </TableRow>

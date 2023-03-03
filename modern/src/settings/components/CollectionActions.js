@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAttributePreference } from '../../common/util/preferences';
 
 const useStyles = makeStyles(() => ({
   row: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
+  itemId, editPath, endpoint, setTimestamp, customActions, readonly, disable,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -26,8 +25,6 @@ const CollectionActions = ({
   const t = useTranslation();
 
   const phone = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const PartialDisableEditDevice = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [removing, setRemoving] = useState(false);
@@ -68,7 +65,7 @@ const CollectionActions = ({
             {!readonly && (
               <>
                 <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
-                {!PartialDisableEditDevice && (<MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>)}
+                {!disable && (<MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>)}
               </>
             )}
           </Menu>
@@ -85,7 +82,7 @@ const CollectionActions = ({
               <IconButton size="small" onClick={handleEdit}>
                 <EditIcon fontSize="small" />
               </IconButton>
-              {!PartialDisableEditDevice && (
+              {!disable && (
               <IconButton size="small" onClick={handleRemove}>
                 <DeleteIcon fontSize="small" />
               </IconButton>
