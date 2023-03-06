@@ -176,12 +176,12 @@ const LoginPage = () => {
           {t('loginLogin')}
         </Button>
         <div className={classes.extraContainer}>
-          //<Button
-            //className={classes.registerButton}
-            //onClick={() => navigate('/register')}
-            //disabled={!registrationEnabled}
-            //color="secondary"
-          //>
+          <Button
+            className={classes.registerButton}
+            onClick={() => navigate('/register')}
+            disabled={!registrationEnabled}
+            color="secondary"
+          >
             {t('loginRegister')}
           </Button>
           {languageEnabled && (
