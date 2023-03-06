@@ -1,6 +1,6 @@
 {
-  "short_name": "Traccar",
-  "name": "Traccar GPS Tracking System",
+  "short_name": "AutoBot Fleet",
+  "name": "AutoBot Fleet Management",
   "icons": [
     {
       "src": "favicon.ico",
