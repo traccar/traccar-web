@@ -1,5 +1,7 @@
 import { useId, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
@@ -11,9 +13,12 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   const clusters = `${id}-clusters`;
   const direction = `${id}-direction`;
 
+  const theme = useTheme();
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
+
   const devices = useSelector((state) => state.devices.items);
 
-  const iconScale = useAttributePreference('iconScale', 1);
+  const iconScale = useAttributePreference('iconScale', desktop ? 0.75 : 1);
   const mapCluster = useAttributePreference('mapCluster', true);
   const hours12 = usePreference('twelveHourFormat');
   const directionType = useAttributePreference('mapDirection', 'selected');
