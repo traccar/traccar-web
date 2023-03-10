@@ -50,6 +50,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         source: id,
         layout: {
           'icon-image': '{image}',
+          'icon-size': iconScale,
           'icon-allow-overlap': true,
         },
       });
