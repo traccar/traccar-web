@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Divider, List, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
@@ -34,6 +35,12 @@ const ReportsMenu = () => {
   return (
     <>
       <List>
+        <MenuItem
+          title={t('reportCombined')}
+          link="/reports/combined"
+          icon={<StarIcon />}
+          selected={location.pathname === '/reports/combined'}
+        />
         <MenuItem
           title={t('reportRoute')}
           link="/reports/route"
