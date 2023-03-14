@@ -52,7 +52,7 @@ export const reverseCoordinates = (it) => {
   if (!it) {
     return it;
   } if (Array.isArray(it)) {
-    if (it.length === 2 && !Number.isNaN(it[0]) && !Number.isNaN(it[1])) {
+    if (it.length === 2 && typeof it[0] === 'number' && typeof it[1] === 'number') {
       return [it[1], it[0]];
     }
     return it.map((it) => reverseCoordinates(it));
