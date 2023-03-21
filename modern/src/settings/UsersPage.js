@@ -14,7 +14,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import { useAdministrator } from '../common/util/permissions';
+import { useManager } from '../common/util/permissions';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { usePreference } from '../common/util/preferences';
 
@@ -30,7 +30,7 @@ const UsersPage = () => {
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const admin = useAdministrator();
+  const manager = useManager();
 
   const hours12 = usePreference('twelveHourFormat');
 
@@ -104,7 +104,7 @@ const UsersPage = () => {
                   editPath="/settings/user"
                   endpoint="users"
                   setTimestamp={setTimestamp}
-                  customActions={admin ? [actionLogin, actionConnections] : [actionConnections]}
+                  customActions={manager ? [actionLogin, actionConnections] : [actionConnections]}
                 />
               </TableCell>
             </TableRow>
