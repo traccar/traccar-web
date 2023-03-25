@@ -292,6 +292,7 @@
     "positionObdSpeed": "OBD Speed",
     "positionObdOdometer": "OBD Odometer",
     "positionDriverUniqueId": "Driver Unique Id",
+    "positionCard": "Card",
     "positionImage": "Image",
     "positionVideo": "Video",
     "positionAudio": "Audio",

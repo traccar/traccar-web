@@ -340,6 +340,10 @@ export default (t) => useMemo(() => ({
     name: t('positionDriverUniqueId'),
     type: 'string',
   },
+  card: {
+    name: t('positionCard'),
+    type: 'string',
+  },
   color: {
     name: t('attributeColor'),
     type: 'string',
