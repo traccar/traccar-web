@@ -344,6 +344,11 @@ export default (t) => useMemo(() => ({
     name: t('positionCard'),
     type: 'string',
   },
+  drivingTime: {
+    name: t('positionDrivingTime'),
+    type: 'number',
+    dataType: 'hours',
+  },
   color: {
     name: t('attributeColor'),
     type: 'string',

@@ -291,6 +291,7 @@
     "positionDtcs": "DTCs",
     "positionObdSpeed": "OBD Speed",
     "positionObdOdometer": "OBD Odometer",
+    "positionDrivingTime": "Driving Time",
     "positionDriverUniqueId": "Driver Unique Id",
     "positionCard": "Card",
     "positionImage": "Image",
