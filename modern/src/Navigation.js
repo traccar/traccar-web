@@ -45,7 +45,8 @@ import { devicesActions } from './store';
 import EventPage from './other/EventPage';
 import PreferencesPage from './settings/PreferencesPage';
 import AccumulatorsPage from './settings/AccumulatorsPage';
-import CommandSendPage from './settings/CommandSendPage';
+import CommandDevicePage from './settings/CommandDevicePage';
+import CommandGroupPage from './settings/CommandGroupPage';
 import App from './App';
 import ChangeServerPage from './other/ChangeServerPage';
 import DevicesPage from './settings/DevicesPage';
@@ -114,12 +115,12 @@ const Navigation = () => {
           <Route path="commands" element={<CommandsPage />} />
           <Route path="command/:id" element={<CommandPage />} />
           <Route path="command" element={<CommandPage />} />
-          <Route path="command-send/:deviceId" element={<CommandSendPage />} />
           <Route path="attributes" element={<ComputedAttributesPage />} />
           <Route path="attribute/:id" element={<ComputedAttributePage />} />
           <Route path="attribute" element={<ComputedAttributePage />} />
           <Route path="devices" element={<DevicesPage />} />
           <Route path="device/:id/connections" element={<DeviceConnectionsPage />} />
+          <Route path="device/:id/command" element={<CommandDevicePage />} />
           <Route path="device/:id" element={<DevicePage />} />
           <Route path="device" element={<DevicePage />} />
           <Route path="drivers" element={<DriversPage />} />
@@ -129,6 +130,7 @@ const Navigation = () => {
           <Route path="geofence" element={<GeofencePage />} />
           <Route path="groups" element={<GroupsPage />} />
           <Route path="group/:id/connections" element={<GroupConnectionsPage />} />
+          <Route path="group/:id/command" element={<CommandGroupPage />} />
           <Route path="group/:id" element={<GroupPage />} />
           <Route path="group" element={<GroupPage />} />
           <Route path="maintenances" element={<MaintenancesPage />} />

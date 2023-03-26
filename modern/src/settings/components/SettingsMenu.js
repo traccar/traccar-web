@@ -120,7 +120,7 @@ const SettingsMenu = () => {
               title={t('sharedSavedCommands')}
               link="/settings/commands"
               icon={<PublishIcon />}
-              selected={location.pathname.startsWith('/settings/command') && !location.pathname.startsWith('/settings/command-send')}
+              selected={location.pathname.startsWith('/settings/command')}
             />
           </>
         )}
