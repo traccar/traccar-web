@@ -67,7 +67,7 @@ const MapMarkers = ({ markers, showTitles }) => {
   }, [showTitles]);
 
   useEffect(() => {
-    map.getSource(id).setData({
+    map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: markers.map(({ latitude, longitude, image, title }) => ({
         type: 'Feature',
@@ -81,7 +81,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         },
       })),
     });
-  }, [markers]);
+  }, [showTitles, markers]);
 
   return null;
 };

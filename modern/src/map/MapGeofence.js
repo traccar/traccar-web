@@ -81,7 +81,7 @@ const MapGeofence = () => {
 
   useEffect(() => {
     if (mapGeofences) {
-      map.getSource(id).setData({
+      map.getSource(id)?.setData({
         type: 'FeatureCollection',
         features: Object.values(geofences).map((geofence) => geofenceToFeature(theme, geofence)),
       });

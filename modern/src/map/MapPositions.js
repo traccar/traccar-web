@@ -178,7 +178,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   }, [mapCluster, clusters, direction, onMarkerClick, onClusterClick]);
 
   useEffect(() => {
-    map.getSource(id).setData({
+    map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.filter((it) => devices.hasOwnProperty(it.deviceId)).map((position) => ({
         type: 'Feature',
@@ -189,7 +189,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         properties: createFeature(devices, position, selectedPosition && selectedPosition.id),
       })),
     });
-  }, [devices, positions, selectedPosition]);
+  }, [mapCluster, clusters, direction, onMarkerClick, onClusterClick, devices, positions, selectedPosition]);
 
   return null;
 };

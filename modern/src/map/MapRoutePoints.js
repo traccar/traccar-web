@@ -55,7 +55,7 @@ const MapPositions = ({ positions, onClick }) => {
   }, [onMarkerClick]);
 
   useEffect(() => {
-    map.getSource(id).setData({
+    map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.map((position, index) => ({
         type: 'Feature',
@@ -69,7 +69,7 @@ const MapPositions = ({ positions, onClick }) => {
         },
       })),
     });
-  }, [positions]);
+  }, [onMarkerClick, positions]);
 
   return null;
 };
