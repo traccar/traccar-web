@@ -177,6 +177,8 @@
     "loginReset": "Reset Password",
     "loginRegister": "Register",
     "loginLogin": "Login",
+    "loginLoginOIDC": "Login with SSO",
+    "loginOIDCRedirect": "Authenticating with SSO...",
     "loginFailed": "Incorrect email address or password",
     "loginCreated": "New user has been registered",
     "loginResetSuccess": "Check your email",
