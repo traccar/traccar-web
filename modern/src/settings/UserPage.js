@@ -55,6 +55,7 @@ const UserPage = () => {
 
   const currentUser = useSelector((state) => state.session.user);
   const registrationEnabled = useSelector((state) => state.session.server.registration);
+  const openIdForced = useSelector((state) => state.session.server.openIdForce);
 
   const mapStyles = useMapStyles();
   const commonUserAttributes = useCommonUserAttributes(t);
@@ -135,11 +136,13 @@ const UserPage = () => {
                 label={t('userEmail')}
                 disabled={fixedEmail}
               />
-              <TextField
-                type="password"
-                onChange={(event) => setItem({ ...item, password: event.target.value })}
-                label={t('userPassword')}
-              />
+              {!openIdForced && (
+                <TextField
+                  type="password"
+                  onChange={(event) => setItem({ ...item, password: event.target.value })}
+                  label={t('userPassword')}
+                />
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion>
