@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -53,8 +53,6 @@ const LoginPage = () => {
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
-
-  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
@@ -126,9 +124,8 @@ const LoginPage = () => {
   };
 
   const handleOpenIdLogin = () => {
-    setLoading(true);
     document.location = '/api/session/openid/auth';
-  }
+  };
 
   useEffect(() => nativePostMessage('authentication'), []);
 
@@ -138,11 +135,10 @@ const LoginPage = () => {
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
 
-  useEffect(() => {
-    if (openIdForced) {
-      handleOpenIdLogin();
-    }
-  }, [openIdForced]);
+  if (openIdForced) {
+    handleOpenIdLogin();
+    return (<LinearProgress />);
+  }
 
   return (
     <LoginLayout>
