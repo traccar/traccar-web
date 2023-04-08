@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     position: 'relative',
+    zIndex: 0,
     [theme.breakpoints.up('sm')]: {
       width: theme.dimensions.drawerWidthTablet,
     },
