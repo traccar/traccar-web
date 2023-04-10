@@ -262,13 +262,23 @@ const UserPage = () => {
               <TextField
                 type="number"
                 value={item.latitude || 0}
-                onChange={(event) => setItem({ ...item, latitude: Number(event.target.value) })}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  if (value >= -90 && value <= 90) {
+                    setItem({ ...item, latitude: value });
+                  }
+                }}
                 label={t('positionLatitude')}
               />
               <TextField
                 type="number"
                 value={item.longitude || 0}
-                onChange={(event) => setItem({ ...item, longitude: Number(event.target.value) })}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+                  if (value >= -180 && value <= 180) {
+                    setItem({ ...item, longitude: value });
+                  }
+                }}
                 label={t('positionLongitude')}
               />
               <TextField
