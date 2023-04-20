@@ -100,6 +100,10 @@ export default (t) => useMemo(() => ({
     name: t('positionRssi'),
     type: 'number',
   },
+  faultCount: {
+    name: t('positionFaultCount'),
+    type: 'number',
+  },
   gps: {
     name: t('positionGps'),
     type: 'number',
