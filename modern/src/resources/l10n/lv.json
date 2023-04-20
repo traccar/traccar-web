@@ -231,6 +231,7 @@
     "linkGoogleMaps": "Google kartes",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Ielas skats",
+    "positionFaultCount": "Bojājumu skaits",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Ierīces laiks",
     "positionServerTime": "Servera Laiks",

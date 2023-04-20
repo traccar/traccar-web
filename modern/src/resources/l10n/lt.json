@@ -231,6 +231,7 @@
     "linkGoogleMaps": "Google žemėlapiai",
     "linkAppleMaps": "Apple žemėlapiai",
     "linkStreetView": "Street View",
+    "positionFaultCount": "Gedimų skaičius",
     "positionFixTime": "Fiksuoti laiką",
     "positionDeviceTime": "Įrenginio laikas",
     "positionServerTime": "Serverio laikas",

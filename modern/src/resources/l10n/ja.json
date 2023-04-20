@@ -231,6 +231,7 @@
     "linkGoogleMaps": "Googleマップ",
     "linkAppleMaps": "Appleマップ",
     "linkStreetView": "Street View",
+    "positionFaultCount": "フォルト数",
     "positionFixTime": "固定日時",
     "positionDeviceTime": "デバイスの時刻",
     "positionServerTime": "サーバーの時刻",
