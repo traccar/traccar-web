@@ -57,8 +57,6 @@ const DeviceRow = ({ data, index, style }) => {
   const item = data[index];
   const position = useSelector((state) => state.session.positions[item.id]);
 
-  const geofences = useSelector((state) => state.geofences.items);
-
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
 
@@ -90,7 +88,7 @@ const DeviceRow = ({ data, index, style }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={item[deviceSecondary]}
+          primary={item[devicePrimary]}
           primaryTypographyProps={{ noWrap: true }}
           secondary={secondaryText()}
           secondaryTypographyProps={{ noWrap: true }}
