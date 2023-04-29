@@ -51,7 +51,7 @@ const BottomMenu = () => {
     setAnchorEl(null);
 
     const notificationToken = window.localStorage.getItem('notificationToken');
-    if (notificationToken) {
+    if (notificationToken && !user.readonly) {
       window.localStorage.removeItem('notificationToken');
       const tokens = user.attributes.notificationTokens?.split(',') || [];
       if (tokens.includes(notificationToken)) {
@@ -82,7 +82,7 @@ const BottomMenu = () => {
         navigate('/');
         break;
       case 'reports':
-        navigate('/reports/route');
+        navigate('/reports/combined');
         break;
       case 'settings':
         navigate('/settings/preferences');

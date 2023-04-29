@@ -4,6 +4,7 @@ import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
+import PublishIcon from '@mui/icons-material/Publish';
 import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -13,6 +14,7 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import { useRestriction } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -25,6 +27,8 @@ const GroupsPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
+
+  const limitCommands = useRestriction('limitCommands');
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -44,6 +48,13 @@ const GroupsPage = () => {
       setLoading(false);
     }
   }, [timestamp]);
+
+  const actionCommand = {
+    key: 'command',
+    title: t('deviceCommand'),
+    icon: <PublishIcon fontSize="small" />,
+    handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
+  };
 
   const actionConnections = {
     key: 'connections',
@@ -72,7 +83,7 @@ const GroupsPage = () => {
                   editPath="/settings/group"
                   endpoint="groups"
                   setTimestamp={setTimestamp}
-                  customActions={[actionConnections]}
+                  customActions={limitCommands ? [actionConnections] : [actionConnections, actionCommand]}
                 />
               </TableCell>
             </TableRow>
