@@ -7,16 +7,20 @@ import {
   Typography,
   Container,
   Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControlLabel,
+  Checkbox,
+  TextField,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import BaseCommandView from './components/BaseCommandView';
-import SelectField from '../common/components/SelectField';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
-import { useRestriction } from '../common/util/permissions';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,37 +43,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CommandSendPage = () => {
+const CommandDevicePage = () => {
   const navigate = useNavigate();
   const classes = useStyles();
   const t = useTranslation();
 
-  const { deviceId } = useParams();
+  const { id } = useParams();
 
-  const [savedId, setSavedId] = useState(0);
-  const [item, setItem] = useState({});
-
-  const limitCommands = useRestriction('limitCommands');
+  const [item, setItem] = useState({ type: 'custom', attributes: {} });
 
   const handleSend = useCatch(async () => {
-    let command;
-    if (savedId) {
-      const response = await fetch(`/api/commands/${savedId}`);
-      if (response.ok) {
-        command = await response.json();
-      } else {
-        throw Error(await response.text());
-      }
-    } else {
-      command = item;
-    }
-
-    command.deviceId = parseInt(deviceId, 10);
-
-    const response = await fetch('/api/commands/send', {
+    const query = new URLSearchParams({ groupId: id });
+    const response = await fetch(`/api/commands/send?${query.toString()}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(command),
+      body: JSON.stringify(item),
     });
 
     if (response.ok) {
@@ -78,8 +66,6 @@ const CommandSendPage = () => {
       throw Error(await response.text());
     }
   });
-
-  const validate = () => savedId || (item && item.type);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceCommand']}>
@@ -91,18 +77,21 @@ const CommandSendPage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <SelectField
-              value={savedId}
-              emptyValue={limitCommands ? null : 0}
-              emptyTitle={t('sharedNew')}
-              onChange={(e) => setSavedId(e.target.value)}
-              endpoint={`/api/commands/send?deviceId=${deviceId}`}
-              titleGetter={(it) => it.description}
-              label={t('sharedSavedCommand')}
+            <FormControl fullWidth>
+              <InputLabel>{t('sharedType')}</InputLabel>
+              <Select label={t('sharedType')} value="custom" disabled>
+                <MenuItem value="custom">{t('commandCustom')}</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              value={item.attributes.data}
+              onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, data: e.target.value } })}
+              label={t('commandData')}
             />
-            {!limitCommands && !savedId && (
-              <BaseCommandView deviceId={deviceId} item={item} setItem={setItem} />
-            )}
+            <FormControlLabel
+              control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
+              label={t('commandSendSms')}
+            />
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
@@ -119,7 +108,7 @@ const CommandSendPage = () => {
             color="primary"
             variant="contained"
             onClick={handleSend}
-            disabled={!validate()}
+            disabled={!item.attributes.data}
           >
             {t('commandSend')}
           </Button>
@@ -129,4 +118,4 @@ const CommandSendPage = () => {
   );
 };
 
-export default CommandSendPage;
+export default CommandDevicePage;

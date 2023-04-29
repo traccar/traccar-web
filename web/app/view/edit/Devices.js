@@ -135,28 +135,6 @@ Ext.define('Traccar.view.edit.Devices', {
             hidden: true,
             filter: 'boolean'
         }, {
-            text: Strings.sharedGeofences,
-            dataIndex: 'geofenceIds',
-            hidden: true,
-            filter: {
-                type: 'arraylist',
-                idField: 'id',
-                labelField: 'name',
-                store: 'Geofences'
-            },
-            renderer: function (value) {
-                var i, name, result = '';
-                if (Ext.isArray(value)) {
-                    for (i = 0; i < value.length; i++) {
-                        name = Traccar.AttributeFormatter.geofenceIdFormatter(value[i]);
-                        if (name) {
-                            result += name + (i < value.length - 1 ? ', ' : '');
-                        }
-                    }
-                }
-                return result;
-            }
-        }, {
             text: Strings.deviceStatus,
             dataIndex: 'status',
             filter: {

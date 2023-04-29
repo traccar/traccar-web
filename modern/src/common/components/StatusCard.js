@@ -238,7 +238,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   <ReplayIcon />
                 </IconButton>
                 <IconButton
-                  onClick={() => navigate(`/settings/command-send/${deviceId}`)}
+                  onClick={() => navigate(`/settings/device/${deviceId}/command`)}
                   disabled={disableActions}
                 >
                   <PublishIcon />
