@@ -37,7 +37,7 @@ const SocketController = () => {
   const features = useFeatures();
 
   const resetCounterKeepAlive = () => setLastUpdate(new Date());
-  
+
   const isConnected = () => Math.abs(new Date() - lastUpdate) < 10000;
 
   const connectSocket = () => {
