@@ -30,6 +30,7 @@ const SocketController = () => {
   const [notifications, setNotifications] = useState([]);
 
   const [lastUpdate, setLastUpdate] = useState();
+  const [timeoutId, setTimeoutId] = useState();
 
   const soundEvents = useAttributePreference('soundEvents', '');
   const soundAlarms = useAttributePreference('soundAlarms', 'sos');
@@ -106,7 +107,8 @@ const SocketController = () => {
 
   useEffect(() => {
     if (authenticated) {
-      setTimeout(keepAlive, 3000);
+      clearTimeout(timeoutId);
+      setTimeoutId(setTimeout(keepAlive, 3000));
     }
   }, [lastUpdate]);
 
