@@ -29,18 +29,16 @@ const SocketController = () => {
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
-  const [timeKeepAlive, setTimeKeepAlive] = useState();
+  const [lastUpdate, setLastUpdate] = useState();
 
   const soundEvents = useAttributePreference('soundEvents', '');
   const soundAlarms = useAttributePreference('soundAlarms', 'sos');
 
   const features = useFeatures();
 
-  const resetCounterKeepAlive = () => {
-    setTimeKeepAlive(new Date());
-  };
-
-  const isConnected = () => Math.abs(new Date() - timeKeepAlive) < 10000;
+  const resetCounterKeepAlive = () => setLastUpdate(new Date());
+  
+  const isConnected = () => Math.abs(new Date() - lastUpdate) < 10000;
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -99,13 +97,6 @@ const SocketController = () => {
         socket.close(logoutCode);
       }
       try {
-        const [devicesResponse, positionsResponse] = await Promise.all([fetch('/api/devices'), fetch('/api/positions')]);
-        if (devicesResponse.ok) {
-          dispatch(devicesActions.update(await devicesResponse.json()));
-        }
-        if (positionsResponse.ok) {
-          dispatch(sessionActions.updatePositions(await positionsResponse.json()));
-        }
         connectSocket();
       } catch (error) {
         // ignore errors
@@ -117,7 +108,7 @@ const SocketController = () => {
     if (authenticated) {
       setTimeout(keepAlive, 3000);
     }
-  }, [timeKeepAlive]);
+  }, [lastUpdate]);
 
   useEffectAsync(async () => {
     if (authenticated) {
@@ -164,11 +155,6 @@ const SocketController = () => {
           message={notification.message}
           autoHideDuration={snackBarDurationLongMs}
           onClose={() => setEvents(events.filter((e) => e.id !== notification.id))}
-          ContentProps={{
-            sx: {
-              background: 'red',
-            },
-          }}
         />
       ))}
     </>
