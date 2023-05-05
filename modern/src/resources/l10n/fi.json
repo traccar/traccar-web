@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Google kartat",
     "linkAppleMaps": "Apple kartat",
     "linkStreetView": "Katunäkymä",
+    "positionEngineTemp": "Moottorin lämpötila",
+    "positionCoolantTemp":"Jäähdytysnesteen lämpötila",
     "positionFixTime": "Sijaintiaika",
     "positionDeviceTime": "Laitteen aika",
     "positionServerTime": "Palvelimen aika",

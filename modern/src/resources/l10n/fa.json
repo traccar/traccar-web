@@ -231,6 +231,8 @@
     "linkGoogleMaps": "نقشه گوگل",
     "linkAppleMaps": "نقشه اپل",
     "linkStreetView": "نمای خیابان",
+    "positionEngineTemp": "دمای موتور",
+    "positionCoolantTemp": "دمای خنک کننده",
     "positionFixTime": "زمان ثابت",
     "positionDeviceTime": "زمان دستگاه",
     "positionServerTime": "زمان سرور",

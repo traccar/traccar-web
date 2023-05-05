@@ -231,6 +231,8 @@
     "linkGoogleMaps": "ගුගල් සිතියම්",
     "linkAppleMaps": "ඇපල් සිතියම්",
     "linkStreetView": "වීථි දසුන",
+    "positionEngineTemp": "එන්ජින් උෂ්ණත්වය",
+    "positionCoolantTemp": "සිසිලන උෂ්ණත්වය",
     "positionFixTime": "කාලය නිවැරදි කරන්න",
     "positionDeviceTime": "උපාංග කාලය",
     "positionServerTime": "සේවාදායක කාලය",

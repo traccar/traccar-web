@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
+    "positionEngineTemp": "Motorhőmérséklet",
+    "positionCoolantTemp": "Hűtőfolyadék -hőmérséklet",
     "positionFixTime": "Idő beállítás",
     "positionDeviceTime": "Eszköz idő",
     "positionServerTime": "Szerver idő",

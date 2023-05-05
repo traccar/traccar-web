@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Mapy Google",
     "linkAppleMaps": "Mapy Apple",
     "linkStreetView": "Street View",
+    "positionEngineTemp": "Temperatura silnika",
+    "positionCoolantTemp": "Temperatura płynu chłodzącego",
     "positionFixTime": "Czas ustalenia pozycji",
     "positionDeviceTime": "Czas urządzenia",
     "positionServerTime": "Czas serwera",

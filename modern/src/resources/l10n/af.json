@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
+    "positionEngineTemp": "Enjinsemperatuur",
+    "positionCoolantTemp": "Koelmiddel temperatuur",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Toestel Tyd",
     "positionServerTime": "Server Time",

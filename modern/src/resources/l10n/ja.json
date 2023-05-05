@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Googleマップ",
     "linkAppleMaps": "Appleマップ",
     "linkStreetView": "Street View",
+    "positionEngineTemp": "エンジン温度",
+    "positionCoolantTemp": "クーラント温度",
     "positionFixTime": "固定日時",
     "positionDeviceTime": "デバイスの時刻",
     "positionServerTime": "サーバーの時刻",

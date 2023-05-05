@@ -231,6 +231,8 @@
     "linkGoogleMaps": "गुगल नक्शा",
     "linkAppleMaps": "एप्पल नक्शा",
     "linkStreetView": "सडक दृश्य",
+    "positionEngineTemp": "इन्जिन तापक्रम",
+    "positionCoolantTemp": "कोूलन्ट तापक्रम",
     "positionFixTime": "समय तय गर्नुहोस्",
     "positionDeviceTime": "उपकरण समय",
     "positionServerTime": "सर्भर समय",

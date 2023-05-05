@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
+    "positionEngineTemp": "ইঞ্জিন তাপমাত্রা",
+    "positionCoolantTemp": "কমতে থাকা তাপমাত্রা",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",

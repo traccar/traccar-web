@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Карты Google",
     "linkAppleMaps": "Карты Apple",
     "linkStreetView": "Просмотр улиц",
+    "positionEngineTemp": "Температура двигателя",
+    "positionCoolantTemp": "Температура охлаждающей жидкости",
     "positionFixTime": "Время определения",
     "positionDeviceTime": "Время на устройстве",
     "positionServerTime": "Время на сервере",

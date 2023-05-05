@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Google kartes",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Ielas skats",
+    "positionEngineTemp": "Motora temperatūra",
+    "positionCoolantTemp": "Dzesēšanas šķidruma temperatūra",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Ierīces laiks",
     "positionServerTime": "Servera Laiks",
