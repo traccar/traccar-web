@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
@@ -28,6 +29,8 @@ const DevicesPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
+
+  const groups = useSelector((state) => state.groups.items);
 
   const hours12 = usePreference('twelveHourFormat');
 
@@ -60,13 +63,14 @@ const DevicesPage = () => {
   };
 
   return (
-    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedDrivers']}>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceTitle']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedName')}</TableCell>
             <TableCell>{t('deviceIdentifier')}</TableCell>
+            <TableCell>{t('groupParent')}</TableCell>
             <TableCell>{t('sharedPhone')}</TableCell>
             <TableCell>{t('deviceModel')}</TableCell>
             <TableCell>{t('deviceContact')}</TableCell>
@@ -79,6 +83,7 @@ const DevicesPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.uniqueId}</TableCell>
+              <TableCell>{item.groupId ? groups[item.groupId].name : null}</TableCell>
               <TableCell>{item.phone}</TableCell>
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
@@ -94,7 +99,7 @@ const DevicesPage = () => {
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={6} endAction />)}
+          )) : (<TableShimmer columns={7} endAction />)}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/device" />

@@ -9,6 +9,7 @@ import { useAttributePreference, usePreference } from '../util/preferences';
 import { useTranslation } from './LocalizationProvider';
 import { useAdministrator } from '../util/permissions';
 import AddressValue from './AddressValue';
+import GeofencesValue from './GeofencesValue';
 
 const PositionValue = ({ position, property, attribute }) => {
   const t = useTranslation();
@@ -81,6 +82,11 @@ const PositionValue = ({ position, property, attribute }) => {
     case 'network':
       if (value) {
         return (<Link component={RouterLink} underline="none" to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>);
+      }
+      return '';
+    case 'geofenceIds':
+      if (value) {
+        return (<GeofencesValue geofenceIds={value} />);
       }
       return '';
     default:

@@ -68,6 +68,10 @@ export default (t) => useMemo(() => ({
     type: 'string',
     property: true,
   },
+  geofenceIds: {
+    name: t('sharedGeofences'),
+    property: true,
+  },
   raw: {
     name: t('positionRaw'),
     type: 'string',
