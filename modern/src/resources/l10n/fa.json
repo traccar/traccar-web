@@ -231,6 +231,7 @@
     "linkGoogleMaps": "نقشه گوگل",
     "linkAppleMaps": "نقشه اپل",
     "linkStreetView": "نمای خیابان",
+    "positionFaultCount": "شمارش خطا",
     "positionFixTime": "زمان ثابت",
     "positionDeviceTime": "زمان دستگاه",
     "positionServerTime": "زمان سرور",

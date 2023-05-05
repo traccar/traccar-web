@@ -232,6 +232,7 @@
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
     "positionFixTime": "Fix Time",
+    "positionFaultCount": "Antal fejl",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",
     "positionValid": "Valid",

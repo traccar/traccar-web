@@ -231,6 +231,7 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Plans",
     "linkStreetView": "Street View",
+    "positionFaultCount": "Nombre de défauts",
     "positionFixTime": "Horodatage",
     "positionDeviceTime": "Heure de l'appareil",
     "positionServerTime": "Heure du serveur",

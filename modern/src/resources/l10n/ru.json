@@ -231,6 +231,7 @@
     "linkGoogleMaps": "Карты Google",
     "linkAppleMaps": "Карты Apple",
     "linkStreetView": "Просмотр улиц",
+    "positionFaultCount": "Количество ошибок",
     "positionFixTime": "Время определения",
     "positionDeviceTime": "Время на устройстве",
     "positionServerTime": "Время на сервере",
