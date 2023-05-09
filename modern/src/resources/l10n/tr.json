@@ -231,7 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionFaultCount": "Hata sayısı",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Cihaz Saati",
     "positionServerTime": "Sunucu zamanı",

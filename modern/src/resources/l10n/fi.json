@@ -231,7 +231,6 @@
     "linkGoogleMaps": "Google kartat",
     "linkAppleMaps": "Apple kartat",
     "linkStreetView": "Katunäkymä",
-    "positionFaultCount": "Vikamäärä",
     "positionFixTime": "Sijaintiaika",
     "positionDeviceTime": "Laitteen aika",
     "positionServerTime": "Palvelimen aika",
