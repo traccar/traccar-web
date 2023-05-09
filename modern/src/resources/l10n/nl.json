@@ -231,7 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionFaultCount": "Aantal fouten",
     "positionFixTime": "Tijd aanpassen",
     "positionDeviceTime": "Tijd van apparaat",
     "positionServerTime": "Tijd van server",

@@ -231,7 +231,6 @@
     "linkGoogleMaps": "谷歌地图",
     "linkAppleMaps": "苹果地图",
     "linkStreetView": "街景",
-    "positionFaultCount": "故障计数",
     "positionFixTime": "修正时间",
     "positionDeviceTime": "设备时间",
     "positionServerTime": "服务器时间",

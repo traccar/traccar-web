@@ -231,7 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionFaultCount": "นับความผิด",
     "positionFixTime": "แก้ไขเวลา",
     "positionDeviceTime": "เวลาอุปกรณ์",
     "positionServerTime": "เวลาเซิร์ฟเวอร์",

@@ -231,7 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionFaultCount": "결함수",
     "positionFixTime": "Fix 시간",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",

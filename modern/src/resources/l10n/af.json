@@ -231,7 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionFaultCount": "Fouttelling",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Toestel Tyd",
     "positionServerTime": "Server Time",
