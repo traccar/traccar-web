@@ -231,6 +231,8 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
+    "positionCoolantTemp": "Coolant Temperature",
+    "positionEngineTemp": "Engine Temperature",
     "positionEngineTemp": "Engine Temperature",
     "positionCoolantTemp": "Coolant Temperature",
     "positionFixTime": "Fix Time",
