@@ -233,6 +233,7 @@
     "linkStreetView": "Street View",
     "positionCoolantTemp": "Coolant Temperature",
     "positionEngineTemp": "Engine Temperature",
+    "positionFaultCount": "Fault Count",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",
