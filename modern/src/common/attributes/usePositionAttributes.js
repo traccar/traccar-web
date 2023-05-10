@@ -120,10 +120,6 @@ export default (t) => useMemo(() => ({
     name: t('positionRoaming'),
     type: 'boolean',
   },
-  faultCount: {
-    name: t('positionFaultCount'),
-    type: 'string',
-  },
   event: {
     name: t('positionEvent'),
     type: 'string',
