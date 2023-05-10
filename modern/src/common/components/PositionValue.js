@@ -57,10 +57,6 @@ const PositionValue = ({ position, property, attribute }) => {
         return value != null ? formatDistance(value, distanceUnit, t) : '';
       case 'hours':
         return value != null ? formatNumericHours(value, t) : '';
-      case 'coolantTemp':
-        return formatCelsius(value);
-      case 'engineTemp':
-        return formatCelsius(value);
       default:
         if (typeof value === 'number') {
           return formatNumber(value);
