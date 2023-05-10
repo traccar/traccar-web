@@ -196,16 +196,6 @@ export default (t) => useMemo(() => ({
     name: `${t('positionOutput')} 4`,
     type: 'boolean',
   },
-  coolantTemp: {
-    name: t('positionCoolantTemp'),
-    type: 'number',
-    dataType: 'celsius',
-  },
-  engineTemp: {
-    name: t('positionEngineTemp'),
-    type: 'number',
-    dataType: 'celsius',
-  },
   power: {
     name: t('positionPower'),
     type: 'number',
