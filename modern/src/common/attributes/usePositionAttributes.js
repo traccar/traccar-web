@@ -148,6 +148,10 @@ export default (t) => useMemo(() => ({
     name: t('positionSteps'),
     type: 'number',
   },
+  heartRate: {
+    name: t('positionHeartRate'),
+    type: 'number',
+  },
   input: {
     name: t('positionInput'),
     type: 'number',
