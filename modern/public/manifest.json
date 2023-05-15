@@ -1,6 +1,6 @@
 {
-  "short_name": "Traccar",
-  "name": "Traccar GPS Tracking System",
+  "short_name": "${title}",
+  "name": "${description}",
   "icons": [
     {
       "src": "favicon.ico",
@@ -22,6 +22,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#1a237e",
+  "theme_color": "${colorPrimary}",
   "background_color": "#ffffff"
 }
