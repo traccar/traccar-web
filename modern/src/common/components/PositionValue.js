@@ -47,8 +47,6 @@ const PositionValue = ({ position, property, attribute }) => {
         return value != null ? formatPercentage(value, t) : '';
       case 'coolantTemp':
         return formatCelsius(value);
-      case 'engineTemp':
-        return formatCelsius(value);
       case 'alarm':
         return formatAlarm(value, t);
       case 'odometer':
