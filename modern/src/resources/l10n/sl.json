@@ -231,8 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionEngineTemp": "Temperatura motorja",
-    "positionCoolantTemp": "Temperatura hladilne tekočine",
     "positionFixTime": "Čas določitve",
     "positionDeviceTime": "Čas naprave",
     "positionServerTime": "Čas strežnika",

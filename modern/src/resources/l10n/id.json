@@ -231,8 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionEngineTemp": "Suhu mesin",
-    "positionCoolantTemp": "Suhu pendingin",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",

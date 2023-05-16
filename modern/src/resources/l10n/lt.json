@@ -231,8 +231,6 @@
     "linkGoogleMaps": "Google žemėlapiai",
     "linkAppleMaps": "Apple žemėlapiai",
     "linkStreetView": "Street View",
-    "positionEngineTemp": "Variklio temperatūra",
-    "positionCoolantTemp":"Aušinimo skysčio temperatūra",
     "positionFixTime": "Fiksuoti laiką",
     "positionDeviceTime": "Įrenginio laikas",
     "positionServerTime": "Serverio laikas",

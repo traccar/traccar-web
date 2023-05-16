@@ -231,8 +231,6 @@
     "linkGoogleMaps": "谷歌地图",
     "linkAppleMaps": "苹果地图",
     "linkStreetView": "街景",
-    "positionEngineTemp": "发动机温度",
-    "positionCoolantTemp": "冷却液温度",
     "positionFixTime": "修正时间",
     "positionDeviceTime": "设备时间",
     "positionServerTime": "服务器时间",

@@ -231,8 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionEngineTemp": "درجة حرارة المحرك",
-    "positionCoolantTemp": "حرارة المبرد",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",

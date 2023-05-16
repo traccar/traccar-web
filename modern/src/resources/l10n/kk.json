@@ -231,8 +231,6 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionEngineTemp": "Қозғалтқыш температурасы",
-    "positionCoolantTemp": "Салқындатқыш температурасы",
     "positionFixTime": "Fix Time",
     "positionDeviceTime": "Device Time",
     "positionServerTime": "Server Time",

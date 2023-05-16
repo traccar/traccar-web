@@ -17,7 +17,7 @@ export const formatNumber = (value, precision = 1) => Number(value.toFixed(preci
 
 export const formatPercentage = (value) => `${value}%`;
 
-export const formatCelsius = (value) => `${value}°C`;
+export const formatTemperature = (value) => `${value}°C`;
 
 export const formatTime = (value, format, hours12) => {
   if (value) {
