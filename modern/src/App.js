@@ -1,9 +1,8 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { LinearProgress, useMediaQuery } from '@mui/material';
+import { LinearProgress, useMediaQuery, useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import theme from './common/theme';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
 import CachingController from './CachingController';
@@ -22,6 +21,7 @@ const useStyles = makeStyles(() => ({
 
 const App = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
