@@ -61,7 +61,7 @@ export default async () => {
     const results = [];
     ['primary', 'positive', 'negative', 'neutral'].forEach((color) => {
       results.push(loadImage(mapIcons[category]).then((icon) => {
-        mapImages[`${category}-${color}`] = prepareIcon(background, icon, palette.colors[color]);
+        mapImages[`${category}-${color}`] = prepareIcon(background, icon, palette().colors[color]);
       }));
     });
     await Promise.all(results);
