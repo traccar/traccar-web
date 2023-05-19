@@ -310,6 +310,7 @@
     "serverDescription": "Server Description",
     "serverColorPrimary": "Color Primary",
     "serverColorSecondary": "Color Secondary",
+    "serverLogo": "Logo Image",
     "mapTitle": "Map",
     "mapActive": "Active Maps",
     "mapOverlay": "Map Overlay",
