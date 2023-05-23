@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Accordion,
@@ -50,6 +51,8 @@ const CommandDevicePage = () => {
 
   const { id } = useParams();
 
+  const textEnabled = useSelector((state) => state.session.server.textEnabled);
+
   const [item, setItem] = useState({ type: 'custom', attributes: {} });
 
   const handleSend = useCatch(async () => {
@@ -88,10 +91,12 @@ const CommandDevicePage = () => {
               onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, data: e.target.value } })}
               label={t('commandData')}
             />
-            <FormControlLabel
-              control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
-              label={t('commandSendSms')}
-            />
+            {textEnabled && (
+              <FormControlLabel
+                control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
+                label={t('commandSendSms')}
+              />
+            )}
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
