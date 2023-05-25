@@ -31,6 +31,7 @@ const ChartReportPage = () => {
   const hours12 = usePreference('twelveHourFormat');
 
   const [items, setItems] = useState([]);
+  const [types, setTypes] = useState(['speed']);
   const [type, setType] = useState('speed');
 
   const values = items.map((it) => it[type]);
@@ -45,13 +46,16 @@ const ChartReportPage = () => {
     });
     if (response.ok) {
       const positions = await response.json();
+      const keySet = new Set();
+      const keyList = [];
       const formattedPositions = positions.map((position) => {
         const data = { ...position, ...position.attributes };
         const formatted = {};
         formatted.fixTime = formatTime(position.fixTime, 'time', hours12);
-        Object.keys(data).forEach((key) => {
+        Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
           const value = data[key];
           if (typeof value === 'number') {
+            keySet.add(key);
             const definition = positionAttributes[key] || {};
             switch (definition.dataType) {
               case 'speed':
@@ -77,6 +81,13 @@ const ChartReportPage = () => {
         });
         return formatted;
       });
+      Object.keys(positionAttributes).forEach((key) => {
+        if (keySet.has(key)) {
+          keyList.push(key);
+          keySet.delete(key);
+        }
+      });
+      setTypes([...keyList, ...keySet]);
       setItems(formattedPositions);
     } else {
       throw Error(await response.text());
@@ -89,9 +100,14 @@ const ChartReportPage = () => {
         <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
-            <Select label={t('reportChartType')} value={type} onChange={(e) => setType(e.target.value)}>
-              {Object.keys(positionAttributes).filter((key) => positionAttributes[key].type === 'number').map((key) => (
-                <MenuItem key={key} value={key}>{positionAttributes[key].name}</MenuItem>
+            <Select
+              label={t('reportChartType')}
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              disabled={!items.length}
+            >
+              {types.map((key) => (
+                <MenuItem key={key} value={key}>{positionAttributes[key]?.name || key}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -109,7 +125,7 @@ const ChartReportPage = () => {
               <XAxis dataKey="fixTime" />
               <YAxis type="number" tickFormatter={(value) => value.toFixed(2)} domain={[minValue - valueRange / 5, maxValue + valueRange / 5]} />
               <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip formatter={(value, key) => [value, positionAttributes[key].name]} />
+              <Tooltip formatter={(value, key) => [value, positionAttributes[key]?.name || key]} />
               <Line type="monotone" dataKey={type} />
             </LineChart>
           </ResponsiveContainer>
