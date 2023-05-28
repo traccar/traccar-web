@@ -438,6 +438,7 @@
     "eventGeofenceEnter": "Entrada na cerca virtual",
     "eventGeofenceExit": "Saída da cerca virtual",
     "eventAlarm": "Alarme",
+    "eventLock": "Bloqueado",
     "eventIgnitionOn": "Ignição ligada",
     "eventIgnitionOff": "Ignição desligada",
     "eventMaintenance": "Manutenção necessária",

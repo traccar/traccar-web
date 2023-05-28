@@ -436,6 +436,7 @@
     "eventGeofenceEnter": "Geofence entered",
     "eventGeofenceExit": "Geofence exited",
     "eventAlarm": "Alarm",
+    "eventLock": "Locked",
     "eventIgnitionOn": "Ignition on",
     "eventIgnitionOff": "Ignition off",
     "eventMaintenance": "Maintenance required",

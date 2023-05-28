@@ -436,6 +436,7 @@
     "eventGeofenceEnter": "Entrada en la Geo-Zona",
     "eventGeofenceExit": "Salida de la Geo-Zona",
     "eventAlarm": "Alarma ",
+    "eventLock": "Bloqueado",
     "eventIgnitionOn": "Llave encendido ON",
     "eventIgnitionOff": "Llave encendido OFF",
     "eventMaintenance": "Se requiere mantenimiento",

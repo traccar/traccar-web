@@ -11,6 +11,7 @@ import BatteryCharging60Icon from '@mui/icons-material/BatteryCharging60';
 import Battery20Icon from '@mui/icons-material/Battery20';
 import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
 import ErrorIcon from '@mui/icons-material/Error';
+import LockIcon from '@mui/icons-material/Lock';
 import moment from 'moment';
 import { devicesActions } from '../store';
 import {
@@ -112,6 +113,13 @@ const DeviceRow = ({ data, index, style }) => {
               <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
                 <IconButton size="small">
                   <ErrorIcon fontSize="small" className={classes.negative} />
+                </IconButton>
+              </Tooltip>
+            )}
+            {position.attributes.out1 && (
+              <Tooltip title={`${t('eventLock')}`}>
+                <IconButton size="small">
+                  <LockIcon fontSize="small" className={classes.negative} />
                 </IconButton>
               </Tooltip>
             )}
