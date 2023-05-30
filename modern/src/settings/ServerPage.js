@@ -20,6 +20,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { DropzoneArea } from 'react-mui-dropzone';
 import { sessionActions } from '../store';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -67,6 +68,19 @@ const ServerPage = () => {
 
   const original = useSelector((state) => state.session.server);
   const [item, setItem] = useState({ ...original });
+
+  const handleFiles = useCatch(async (files) => {
+    if (files.length > 0) {
+      const file = files[0];
+      const response = await fetch(`/api/server/file/${file.path}`, {
+        method: 'POST',
+        body: file,
+      });
+      if (!response.ok) {
+        throw Error(await response.text());
+      }
+    }
+  });
 
   const handleSave = useCatch(async () => {
     const response = await fetch('/api/server', {
@@ -284,6 +298,21 @@ const ServerPage = () => {
                     label={t('userFixedEmail')}
                   />
                 </FormGroup>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1">
+                  {t('sharedFile')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.details}>
+                <DropzoneArea
+                  dropzoneText={t('sharedDropzoneText')}
+                  filesLimit={1}
+                  onChange={handleFiles}
+                  showAlerts={false}
+                />
               </AccordionDetails>
             </Accordion>
             <EditAttributesAccordion
