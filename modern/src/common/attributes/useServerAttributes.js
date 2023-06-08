@@ -23,6 +23,10 @@ export default (t) => useMemo(() => ({
     type: 'string',
     subtype: 'color',
   },
+  disableChange: {
+    name: t('serverChangeDisable'),
+    type: 'boolean',
+  },
   'ui.disableLoginLanguage': {
     name: t('attributeUiDisableLoginLanguage'),
     type: 'boolean',
