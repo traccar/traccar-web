@@ -311,6 +311,7 @@
     "serverColorPrimary": "Color Primary",
     "serverColorSecondary": "Color Secondary",
     "serverLogo": "Logo Image",
+    "serverLogoInverted": "Inverted Logo Image",
     "serverChangeDisable": "Disable Server Change",
     "mapTitle": "Map",
     "mapActive": "Active Maps",

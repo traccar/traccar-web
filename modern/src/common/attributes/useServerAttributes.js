@@ -13,6 +13,10 @@ export default (t) => useMemo(() => ({
     name: t('serverLogo'),
     type: 'string',
   },
+  logoInverted: {
+    name: t('serverLogoInverted'),
+    type: 'string',
+  },
   colorPrimary: {
     name: t('serverColorPrimary'),
     type: 'string',
