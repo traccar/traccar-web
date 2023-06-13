@@ -176,15 +176,18 @@ const RouteReportPage = () => {
               )) : (<TableShimmer columns={columns.length + 2} startAction />)}
             </TableBody>
           </Table>
-          <TablePagination
-            rowsPerPageOptions={[100, 150, 200]}
-            component="div"
-            count={items.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {items.length > 100 && (
+            <TablePagination
+              sx={{ position: 'sticky', bottom: 0, left: 0, backgroundColor: 'Background' }}
+              rowsPerPageOptions={[100, 150, 200]}
+              component="div"
+              count={items.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          )}
         </div>
       </div>
     </PageLayout>
