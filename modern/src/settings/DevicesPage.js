@@ -5,7 +5,6 @@ import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
-import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -17,16 +16,10 @@ import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { usePreference } from '../common/util/preferences';
 import { formatTime } from '../common/util/formatter';
 import { useDeviceReadonly } from '../common/util/permissions';
-
-const useStyles = makeStyles((theme) => ({
-  columnAction: {
-    width: '1%',
-    paddingRight: theme.spacing(1),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const DevicesPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -65,7 +58,7 @@ const DevicesPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceTitle']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedName')}</TableCell>

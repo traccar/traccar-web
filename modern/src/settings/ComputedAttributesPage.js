@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAdministrator } from '../common/util/permissions';
@@ -12,16 +11,10 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-
-const useStyles = makeStyles((theme) => ({
-  columnAction: {
-    width: '1%',
-    paddingRight: theme.spacing(1),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const ComputedAttributesPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const t = useTranslation();
 
   const [timestamp, setTimestamp] = useState(Date.now());
@@ -47,7 +40,7 @@ const ComputedAttributesPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedDescription')}</TableCell>
