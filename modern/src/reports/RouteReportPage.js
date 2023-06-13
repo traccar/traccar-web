@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
+  IconButton, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
@@ -38,7 +38,19 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  //
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(100);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  //
   const onMapPointClick = useCallback((positionId) => {
     setSelectedItem(items.find((it) => it.id === positionId));
   }, [items, setSelectedItem]);
@@ -137,7 +149,7 @@ const RouteReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.slice(0, 4000).map((item) => (
+              {!loading ? items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
@@ -164,6 +176,15 @@ const RouteReportPage = () => {
               )) : (<TableShimmer columns={columns.length + 2} startAction />)}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[100, 150, 200]}
+            component="div"
+            count={items.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </div>
       </div>
     </PageLayout>
