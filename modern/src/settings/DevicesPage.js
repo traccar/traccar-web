@@ -76,7 +76,7 @@ const DevicesPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.uniqueId}</TableCell>
-              <TableCell>{item.groupId ? groups[item.groupId].name : null}</TableCell>
+              <TableCell>{item.groupId ? groups[item.groupId]?.name : null}</TableCell>
               <TableCell>{item.phone}</TableCell>
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
