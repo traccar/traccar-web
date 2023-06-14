@@ -5,7 +5,6 @@ import {
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PublishIcon from '@mui/icons-material/Publish';
-import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -15,16 +14,10 @@ import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { useRestriction } from '../common/util/permissions';
-
-const useStyles = makeStyles((theme) => ({
-  columnAction: {
-    width: '1%',
-    paddingRight: theme.spacing(1),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const GroupsPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -66,7 +59,7 @@ const GroupsPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsGroups']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedName')}</TableCell>
