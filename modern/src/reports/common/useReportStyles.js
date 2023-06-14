@@ -46,4 +46,14 @@ export default makeStyles((theme) => ({
     flexGrow: 1,
     overflow: 'hidden',
   },
+  pagination: {
+    position: 'static',
+    bottom: 0,
+    '& .MuiTablePagination-spacer': {
+      display: 'none',
+    },
+    '& .MuiTablePagination-toolbar': {
+      justifyContent: 'center',
+    },
+  },
 }));

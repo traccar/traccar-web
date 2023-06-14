@@ -38,19 +38,10 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  //
+
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [itemsPerPage, setItemsPerPage] = useState(50);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  //
   const onMapPointClick = useCallback((positionId) => {
     setSelectedItem(items.find((it) => it.id === positionId));
   }, [items, setSelectedItem]);
@@ -149,7 +140,7 @@ const RouteReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
+              {!loading ? items.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage).map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
@@ -176,16 +167,21 @@ const RouteReportPage = () => {
               )) : (<TableShimmer columns={columns.length + 2} startAction />)}
             </TableBody>
           </Table>
-          {items.length > 100 && (
+          {items.length > 1000 && (
             <TablePagination
-              sx={{ position: 'sticky', bottom: 0, left: 0, backgroundColor: 'Background' }}
-              rowsPerPageOptions={[100, 150, 200]}
+              className={classes.pagination}
+              rowsPerPageOptions={[50, 100, 200, 500]}
               component="div"
               count={items.length}
-              rowsPerPage={rowsPerPage}
+              rowsPerPage={itemsPerPage}
               page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              onPageChange={(event, page) => setPage(page)}
+              onRowsPerPageChange={
+                (event) => {
+                  setItemsPerPage(Number(event.target.value));
+                  setPage(0);
+                }
+              }
             />
           )}
         </div>
