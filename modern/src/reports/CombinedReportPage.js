@@ -30,13 +30,13 @@ const CombinedReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const createMarkers = () => items.flatMap((item) => item.events.map((event) => {
-    const position = item.positions.find((p) => event.positionId === p.id);
-    return {
+  const createMarkers = () => items.flatMap((item) => item.events
+    .map((event) => item.positions.find((p) => event.positionId === p.id))
+    .filter((position) => position != null)
+    .map((position) => ({
       latitude: position.latitude,
       longitude: position.longitude,
-    };
-  }));
+    })));
 
   const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
