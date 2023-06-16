@@ -21,6 +21,8 @@ export const formatTemperature = (value) => `${value}°C`;
 
 export const formatVoltage = (value, t) => `${value} ${t('sharedVoltAbbreviation')}`;
 
+export const formatConsumption = (value, t) => `${value} ${t('sharedLiterPerHourAbbreviation')}`;
+
 export const formatTime = (value, format, hours12) => {
   if (value) {
     const m = moment(value);
