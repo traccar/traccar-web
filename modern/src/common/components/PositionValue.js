@@ -18,7 +18,6 @@ import {
   formatVoltage,
   formatVolume,
   formatConsumption,
-  formatDriverUniqueId,
 } from '../util/formatter';
 import { useAttributePreference, usePreference } from '../util/preferences';
 import { useTranslation } from './LocalizationProvider';
@@ -82,8 +81,6 @@ const PositionValue = ({ position, property, attribute }) => {
         return value != null ? formatDistance(value, distanceUnit, t) : '';
       case 'hours':
         return value != null ? formatNumericHours(value, t) : '';
-      case 'driverUniqueId':
-        return value != null ? formatDriverUniqueId(value) : '';
       default:
         if (typeof value === 'number') {
           return formatNumber(value);
