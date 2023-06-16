@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import {
   altitudeFromMeters,
@@ -66,6 +67,16 @@ export const formatNumericHours = (value, t) => {
   const hours = Math.floor(value / 3600000);
   const minutes = Math.floor((value % 3600000) / 60000);
   return `${hours} ${t('sharedHourAbbreviation')} ${minutes} ${t('sharedMinuteAbbreviation')}`;
+};
+
+export const formatDriverUniqueId = (value) => {
+  const drivers = useSelector((state) => state.drivers.items);
+  let driverId = `${value}`;
+  const storedDriver = Object.values(drivers).find((d) => d.uniqueId === driverId);
+  if (storedDriver) {
+    driverId += ` (${storedDriver.name})`;
+  }
+  return driverId;
 };
 
 export const formatCoordinate = (key, value, unit) => {
