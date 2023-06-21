@@ -2,10 +2,13 @@ import React, { Fragment, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  IconButton, Table, TableBody, TableCell, TableHead, TablePagination, TableRow,
+  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { TableVirtuoso } from 'react-virtuoso';
+import TableContainer from '@mui/material/TableContainer';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -19,10 +22,21 @@ import MapRoutePath from '../map/MapRoutePath';
 import MapRoutePoints from '../map/MapRoutePoints';
 import MapPositions from '../map/MapPositions';
 import useReportStyles from './common/useReportStyles';
-import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
+
+const VirtuosoTableComponents = {
+  Scroller: React.forwardRef((props, ref) => (
+    <TableContainer {...props} ref={ref} />
+  )),
+  Table: (props) => (
+    <Table {...props} />
+  ),
+  TableHead,
+  TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
+  TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
+};
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
@@ -38,9 +52,6 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-  const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(50);
 
   const onMapPointClick = useCallback((positionId) => {
     setSelectedItem(items.find((it) => it.id === positionId));
@@ -98,6 +109,48 @@ const RouteReportPage = () => {
     }
   });
 
+  const fixedHeaderContent = () => (
+    <TableRow style={{ backgroundColor: 'white' }}>
+      <TableCell className={classes.columnAction} />
+      <TableCell>{t('sharedDevice')}</TableCell>
+      {columns.map((key) => (
+        <TableCell
+          key={key}
+          variant="head"
+          align={key.numeric || false ? 'right' : 'left'}
+        >
+          {positionAttributes[key]?.name || key}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+
+  const rowContent = (_index, item) => (
+    <>
+      <TableCell className={classes.columnAction} padding="none">
+        {selectedItem === item ? (
+          <IconButton size="small" onClick={() => setSelectedItem(null)}>
+            <GpsFixedIcon fontSize="small" />
+          </IconButton>
+        ) : (
+          <IconButton size="small" onClick={() => setSelectedItem(item)}>
+            <LocationSearchingIcon fontSize="small" />
+          </IconButton>
+        )}
+      </TableCell>
+      <TableCell>{devices[item.deviceId].name}</TableCell>
+      {columns.map((key) => (
+        <TableCell key={key}>
+          <PositionValue
+            position={item}
+            property={item.hasOwnProperty(key) ? key : null}
+            attribute={item.hasOwnProperty(key) ? null : key}
+          />
+        </TableCell>
+      ))}
+    </>
+  );
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
       <div className={classes.container}>
@@ -119,7 +172,7 @@ const RouteReportPage = () => {
             <MapCamera positions={items} />
           </div>
         )}
-        <div className={classes.containerMain}>
+        <div>
           <div className={classes.header}>
             <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice>
               <ColumnSelect
@@ -131,60 +184,15 @@ const RouteReportPage = () => {
               />
             </ReportFilter>
           </div>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.columnAction} />
-                <TableCell>{t('sharedDevice')}</TableCell>
-                {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!loading ? (items.length > 1000 ? items.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage) : items).map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className={classes.columnAction} padding="none">
-                    {selectedItem === item ? (
-                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
-                        <GpsFixedIcon fontSize="small" />
-                      </IconButton>
-                    ) : (
-                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
-                        <LocationSearchingIcon fontSize="small" />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                  <TableCell>{devices[item.deviceId].name}</TableCell>
-                  {columns.map((key) => (
-                    <TableCell key={key}>
-                      <PositionValue
-                        position={item}
-                        property={item.hasOwnProperty(key) ? key : null}
-                        attribute={item.hasOwnProperty(key) ? null : key}
-                      />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              )) : (<TableShimmer columns={columns.length + 2} startAction />)}
-            </TableBody>
-          </Table>
-          {items.length > 1000 && (
-            <TablePagination
-              className={classes.pagination}
-              rowsPerPageOptions={[50, 100, 200, 500]}
-              component="div"
-              count={items.length}
-              rowsPerPage={itemsPerPage}
-              page={page}
-              onPageChange={(event, page) => setPage(page)}
-              onRowsPerPageChange={
-                (event) => {
-                  setItemsPerPage(Number(event.target.value));
-                  setPage(0);
-                }
-              }
-            />
-          )}
         </div>
+        {!loading && (
+          <TableVirtuoso
+            data={items}
+            components={VirtuosoTableComponents}
+            fixedHeaderContent={fixedHeaderContent}
+            itemContent={rowContent}
+          />
+        )}
       </div>
     </PageLayout>
   );
