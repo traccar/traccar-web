@@ -3,12 +3,12 @@ name: Modern App Lint
 on:
   push:
     branches:
-      - master
+      - Dev
     paths:
       - modern/**
   pull_request:
     branches:
-      - master
+      - Dev
     paths:
       - modern/**
 
