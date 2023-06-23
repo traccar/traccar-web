@@ -3,12 +3,12 @@ name: Legacy App Lint
 on:
   push:
     branches:
-      - master
+      - Dev
     paths:
       - web/**
   pull_request:
     branches:
-      - master
+      - Dev
     paths:
       - web/**
 
