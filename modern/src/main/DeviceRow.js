@@ -20,6 +20,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import { ReactComponent as EngineIcon } from '../resources/images/data/engine.svg';
+import { ReactComponent as SurveillanceIcon } from '../resources/images/data/surveillance.svg';
 import { useAttributePreference } from '../common/util/preferences';
 
 const useStyles = makeStyles((theme) => ({
@@ -95,6 +96,11 @@ const DeviceRow = ({ data, index, style }) => {
         />
         {position && (
           <>
+            <Tooltip title="CAMERA">
+              <IconButton size="small">
+                <SurveillanceIcon width={20} height={20} className={classes.neutral} />
+              </IconButton>
+            </Tooltip>
             {position.attributes.hasOwnProperty('alarm') && (
               <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
                 <IconButton size="small">

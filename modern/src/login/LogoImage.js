@@ -7,8 +7,8 @@ import { ReactComponent as Logo } from '../resources/images/logo.svg';
 const useStyles = makeStyles(() => ({
   image: {
     alignSelf: 'center',
-    maxWidth: '240px',
-    maxHeight: '120px',
+    maxWidth: '340px',
+    maxHeight: '220px',
     width: 'auto',
     height: 'auto',
   },
