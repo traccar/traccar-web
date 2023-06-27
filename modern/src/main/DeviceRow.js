@@ -98,7 +98,12 @@ const DeviceRow = ({ data, index, style }) => {
           <>
             <Tooltip title="CAMERA">
               <IconButton size="small">
-                <SurveillanceIcon width={20} height={20} className={classes.neutral} />
+                <SurveillanceIcon
+                  width={20}
+                  height={20}
+                  className={classes.neutral}
+                  onClick={() => alert('OK')}
+                />
               </IconButton>
             </Tooltip>
             {position.attributes.hasOwnProperty('alarm') && (
