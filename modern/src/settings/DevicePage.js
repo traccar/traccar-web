@@ -128,6 +128,12 @@ const DevicePage = () => {
                 }))}
                 label={t('deviceCategory')}
               />
+              <SelectField
+                value={item.calendarId || 0}
+                onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
+                endpoint="/api/calendars"
+                label={t('sharedCalendar')}
+              />
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
