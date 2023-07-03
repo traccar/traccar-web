@@ -26,17 +26,16 @@ root.render(
     <Provider store={store}>
       <LocalizationProvider>
         <StyledEngineProvider injectFirst>
-          <CssBaseline />
-          <ServerProvider>
-            <AppThemeProvider>
-              <CssBaseline />
+          <AppThemeProvider>
+            <CssBaseline />
+            <ServerProvider>
               <BrowserRouter>
                 <Navigation />
               </BrowserRouter>
               <ErrorHandler />
               <NativeInterface />
-            </AppThemeProvider>
-          </ServerProvider>
+            </ServerProvider>
+          </AppThemeProvider>
         </StyledEngineProvider>
       </LocalizationProvider>
     </Provider>
