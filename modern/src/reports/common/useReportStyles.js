@@ -17,7 +17,6 @@ export default makeStyles((theme) => ({
     position: 'sticky',
     left: 0,
     display: 'flex',
-    height: '100%',
     flexDirection: 'column',
     alignItems: 'stretch',
   },
@@ -46,5 +45,11 @@ export default makeStyles((theme) => ({
   chart: {
     flexGrow: 1,
     overflow: 'hidden',
+  },
+  cellStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5px',
+    borderBottom: '1px solid lightgrey',
   },
 }));

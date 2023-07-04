@@ -2,13 +2,14 @@ import React, { Fragment, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
+  IconButton, Skeleton,
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { TableVirtuoso } from 'react-virtuoso';
-import TableContainer from '@mui/material/TableContainer';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeGrid } from 'react-window';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -26,22 +27,14 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 
-const VirtuosoTableComponents = {
-  Scroller: React.forwardRef((props, ref) => (
-    <TableContainer {...props} ref={ref} />
-  )),
-  Table: (props) => (
-    <Table {...props} />
-  ),
-  TableHead,
-  TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
-  TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
-};
-
 const RouteReportPage = () => {
   const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
+  const theme = useTheme();
+
+  const phone = useMediaQuery(theme.breakpoints.down('md'));
+  const desktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const positionAttributes = usePositionAttributes(t);
 
@@ -109,48 +102,6 @@ const RouteReportPage = () => {
     }
   });
 
-  const fixedHeaderContent = () => (
-    <TableRow style={{ backgroundColor: 'white' }}>
-      <TableCell className={classes.columnAction} />
-      <TableCell>{t('sharedDevice')}</TableCell>
-      {columns.map((key) => (
-        <TableCell
-          key={key}
-          variant="head"
-          align={key.numeric || false ? 'right' : 'left'}
-        >
-          {positionAttributes[key]?.name || key}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-
-  const rowContent = (_index, item) => (
-    <>
-      <TableCell className={classes.columnAction} padding="none">
-        {selectedItem === item ? (
-          <IconButton size="small" onClick={() => setSelectedItem(null)}>
-            <GpsFixedIcon fontSize="small" />
-          </IconButton>
-        ) : (
-          <IconButton size="small" onClick={() => setSelectedItem(item)}>
-            <LocationSearchingIcon fontSize="small" />
-          </IconButton>
-        )}
-      </TableCell>
-      <TableCell>{devices[item.deviceId].name}</TableCell>
-      {columns.map((key) => (
-        <TableCell key={key}>
-          <PositionValue
-            position={item}
-            property={item.hasOwnProperty(key) ? key : null}
-            attribute={item.hasOwnProperty(key) ? null : key}
-          />
-        </TableCell>
-      ))}
-    </>
-  );
-
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
       <div className={classes.container}>
@@ -172,7 +123,7 @@ const RouteReportPage = () => {
             <MapCamera positions={items} />
           </div>
         )}
-        <div>
+        <div className={classes.containerMain} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <div className={classes.header}>
             <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice>
               <ColumnSelect
@@ -184,15 +135,95 @@ const RouteReportPage = () => {
               />
             </ReportFilter>
           </div>
+          <div style={{ flex: 1 }}>
+            <AutoSizer>
+              {({ height, width }) => (
+                <FixedSizeGrid
+                  height={height}
+                  width={width}
+                  columnCount={columns.length + 2}
+                  columnWidth={(columns.length + 2) * (width * (phone ? 0.26 : desktop ? 0.1 : 0.18)) >= width ?
+                    width * (phone ? 0.26 : desktop ? 0.1 : 0.18) : width / (columns.length + 2)}
+                  rowCount={items.length > 0 ? items.length : 5}
+                  rowHeight={52}
+                  overscanRowCount={20}
+                >
+                  {({ columnIndex, rowIndex, style }) => {
+                    const item = items[rowIndex];
+                    const columnKey = columns[columnIndex - 2];
+                    return (
+                      rowIndex === 0 ?
+                        columnIndex === 0 ?
+                          (
+                            <div className={classes.cellStyle} style={style} />
+                          )
+                          :
+                          columnIndex === 1 ?
+                            (
+                              <div className={classes.cellStyle} style={style}>
+                                <b>{t('sharedDevice')}</b>
+                              </div>
+                            ) :
+                            columnIndex < columns.length + 2 ?
+                              (
+                                <div className={classes.cellStyle} style={style}>
+                                  <b>{positionAttributes[columnKey]?.name || columnKey}</b>
+                                </div>
+                              )
+                              :
+                              null
+                        :
+                        !loading ?
+                          item ?
+                            columnIndex === 0 ?
+                              (
+                                <div className={`${classes.cellStyle} ${classes.columnAction}`} style={style}>
+                                  {selectedItem === item ?
+                                    (
+                                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
+                                        <GpsFixedIcon fontSize="small" />
+                                      </IconButton>
+                                    )
+                                    :
+                                    (
+                                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                                        <LocationSearchingIcon fontSize="small" />
+                                      </IconButton>
+                                    )}
+                                </div>
+                              )
+                              :
+                              columnIndex === 1 ?
+                                (
+                                  <div className={classes.cellStyle} style={style}>
+                                    {devices[item.deviceId].name}
+                                  </div>
+                                )
+                                :
+                                (
+                                  <div className={classes.cellStyle} style={style}>
+                                    <PositionValue
+                                      position={item}
+                                      property={item.hasOwnProperty(columnKey) ? columnKey : null}
+                                      attribute={item.hasOwnProperty(columnKey) ? null : columnKey}
+                                    />
+                                  </div>
+                                )
+                            :
+                            null
+                          :
+                          (
+                            <div className={classes.cellStyle} style={style}>
+                              <Skeleton variant="text" width={width / (columns.length * 1.5)} />
+                            </div>
+                          )
+                    );
+                  }}
+                </FixedSizeGrid>
+              )}
+            </AutoSizer>
+          </div>
         </div>
-        {!loading && (
-          <TableVirtuoso
-            data={items}
-            components={VirtuosoTableComponents}
-            fixedHeaderContent={fixedHeaderContent}
-            itemContent={rowContent}
-          />
-        )}
       </div>
     </PageLayout>
   );
