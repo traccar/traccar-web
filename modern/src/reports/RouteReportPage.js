@@ -10,7 +10,6 @@ import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import usePersistedState from '../common/util/usePersistedState';
 import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -34,7 +33,8 @@ const RouteReportPage = () => {
 
   const devices = useSelector((state) => state.devices.items);
 
-  const [columns, setColumns] = usePersistedState('routeColumns', ['fixTime', 'latitude', 'longitude', 'speed', 'address']);
+  const [available, setAvailable] = useState([]);
+  const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -60,7 +60,22 @@ const RouteReportPage = () => {
           headers: { Accept: 'application/json' },
         });
         if (response.ok) {
-          setItems(await response.json());
+          const data = await response.json();
+          const keySet = new Set();
+          const keyList = [];
+          data.forEach((position) => {
+            Object.keys(position).forEach((it) => keySet.add(it));
+            Object.keys(position.attributes).forEach((it) => keySet.add(it));
+          });
+          ['id', 'deviceId', 'outdated', 'network', 'attributes'].forEach((key) => keySet.delete(key));
+          Object.keys(positionAttributes).forEach((key) => {
+            if (keySet.has(key)) {
+              keyList.push(key);
+              keySet.delete(key);
+            }
+          });
+          setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
+          setItems(data);
         } else {
           throw Error(await response.text());
         }
@@ -107,7 +122,9 @@ const RouteReportPage = () => {
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}
-                columnsObject={positionAttributes}
+                columnsArray={available}
+                rawValues
+                disabled={!items.length}
               />
             </ReportFilter>
           </div>

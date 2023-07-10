@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column-reverse',
     },
   },
+  drawer: {
+    zIndex: 1,
+  },
   drawerPaper: {
     position: 'relative',
     [theme.breakpoints.up('sm')]: {
@@ -101,6 +104,7 @@ const GeofencesPage = () => {
     <div className={classes.root}>
       <div className={classes.content}>
         <Drawer
+          className={classes.drawer}
           anchor={isPhone ? 'bottom' : 'left'}
           variant="permanent"
           classes={{ paper: classes.drawerPaper }}

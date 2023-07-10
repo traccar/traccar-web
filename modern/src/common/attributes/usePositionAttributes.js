@@ -68,6 +68,10 @@ export default (t) => useMemo(() => ({
     type: 'string',
     property: true,
   },
+  geofenceIds: {
+    name: t('sharedGeofences'),
+    property: true,
+  },
   raw: {
     name: t('positionRaw'),
     type: 'string',
@@ -98,6 +102,10 @@ export default (t) => useMemo(() => ({
   },
   rssi: {
     name: t('positionRssi'),
+    type: 'number',
+  },
+  coolantTemp: {
+    name: t('positionCoolantTemp'),
     type: 'number',
   },
   gps: {
@@ -142,6 +150,10 @@ export default (t) => useMemo(() => ({
   },
   steps: {
     name: t('positionSteps'),
+    type: 'number',
+  },
+  heartRate: {
+    name: t('positionHeartRate'),
     type: 'number',
   },
   input: {
@@ -339,6 +351,15 @@ export default (t) => useMemo(() => ({
   driverUniqueId: {
     name: t('positionDriverUniqueId'),
     type: 'string',
+  },
+  card: {
+    name: t('positionCard'),
+    type: 'string',
+  },
+  drivingTime: {
+    name: t('positionDrivingTime'),
+    type: 'number',
+    dataType: 'hours',
   },
   color: {
     name: t('attributeColor'),

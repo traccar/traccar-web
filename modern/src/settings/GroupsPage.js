@@ -4,7 +4,7 @@ import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
-import makeStyles from '@mui/styles/makeStyles';
+import PublishIcon from '@mui/icons-material/Publish';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -13,18 +13,15 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-
-const useStyles = makeStyles((theme) => ({
-  columnAction: {
-    width: '1%',
-    paddingRight: theme.spacing(1),
-  },
-}));
+import { useRestriction } from '../common/util/permissions';
+import useSettingsStyles from './common/useSettingsStyles';
 
 const GroupsPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const navigate = useNavigate();
   const t = useTranslation();
+
+  const limitCommands = useRestriction('limitCommands');
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -45,6 +42,13 @@ const GroupsPage = () => {
     }
   }, [timestamp]);
 
+  const actionCommand = {
+    key: 'command',
+    title: t('deviceCommand'),
+    icon: <PublishIcon fontSize="small" />,
+    handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
+  };
+
   const actionConnections = {
     key: 'connections',
     title: t('sharedConnections'),
@@ -55,7 +59,7 @@ const GroupsPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsGroups']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedName')}</TableCell>
@@ -72,7 +76,7 @@ const GroupsPage = () => {
                   editPath="/settings/group"
                   endpoint="groups"
                   setTimestamp={setTimestamp}
-                  customActions={[actionConnections]}
+                  customActions={limitCommands ? [actionConnections] : [actionConnections, actionCommand]}
                 />
               </TableCell>
             </TableRow>

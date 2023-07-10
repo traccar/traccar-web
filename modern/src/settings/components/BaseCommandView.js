@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   TextField, FormControlLabel, Checkbox,
 } from '@mui/material';
@@ -9,6 +10,8 @@ import useCommandAttributes from '../../common/attributes/useCommandAttributes';
 
 const BaseCommandView = ({ deviceId, item, setItem }) => {
   const t = useTranslation();
+
+  const textEnabled = useSelector((state) => state.session.server.textEnabled);
 
   const availableAttributes = useCommandAttributes(t);
 
@@ -63,10 +66,12 @@ const BaseCommandView = ({ deviceId, item, setItem }) => {
           />
         );
       })}
-      <FormControlLabel
-        control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
-        label={t('commandSendSms')}
-      />
+      {textEnabled && (
+        <FormControlLabel
+          control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
+          label={t('commandSendSms')}
+        />
+      )}
     </>
   );
 };

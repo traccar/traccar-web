@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 // import { Tooltip } from '@mui/material';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, LinearProgress,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -71,7 +71,10 @@ const LoginPage = () => {
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
+  // const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
   const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
+  const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
+  const openIdForced = useSelector((state) => state.session.server.openIdEnabled && state.session.server.openIdForce);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
@@ -138,6 +141,10 @@ const LoginPage = () => {
     }
   };
 
+  const handleOpenIdLogin = () => {
+    document.location = '/api/session/openid/auth';
+  };
+
   useEffect(() => nativePostMessage('authentication'), []);
 
   useEffect(() => {
@@ -145,20 +152,17 @@ const LoginPage = () => {
     handleLoginTokenListeners.add(listener);
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
-
   const redirectToOldWeb = () => {
     window.location.href = 'https://legacy.foxgps.com.br/';
   };
 
+  if (openIdForced) {
+    handleOpenIdLogin();
+    return (<LinearProgress />);
+  }
+
   return (
     <LoginLayout>
-      {/* <div className={classes.options}>
-         <Tooltip title={t('settingsServer')}>
-          <IconButton onClick={() => navigate('/change-server')}>
-            <LockOpenIcon />
-          </IconButton>
-        </Tooltip>
-      </div> */}
       <div className={classes.container}>
         {useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.primary.main} />}
         <TextField
@@ -206,7 +210,15 @@ const LoginPage = () => {
             label="lembrar-me"
           />
         </FormGroup> */}
-
+        {openIdEnabled && (
+          <Button
+            onClick={() => handleOpenIdLogin()}
+            variant="contained"
+            color="secondary"
+          >
+            {t('loginOpenId')}
+          </Button>
+        )}
         <div className={classes.extraContainer}>
           <Button
             className={classes.registerButton}

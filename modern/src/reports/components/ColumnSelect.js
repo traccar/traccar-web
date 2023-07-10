@@ -6,7 +6,7 @@ import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 
 const ColumnSelect = ({
-  columns, setColumns, columnsArray, columnsObject,
+  columns, setColumns, columnsArray, rawValues, disabled,
 }) => {
   const classes = useReportStyles();
   const t = useTranslation();
@@ -20,14 +20,11 @@ const ColumnSelect = ({
           value={columns}
           onChange={(e) => setColumns(e.target.value)}
           multiple
+          disabled={disabled}
         >
-          {columnsArray
-            ? columnsArray.map(([key, string]) => (
-              <MenuItem key={key} value={key}>{t(string)}</MenuItem>
-            ))
-            : Object.keys(columnsObject).map((key) => (
-              <MenuItem key={key} value={key}>{columnsObject[key].name}</MenuItem>
-            ))}
+          {columnsArray.map(([key, string]) => (
+            <MenuItem key={key} value={key}>{rawValues ? string : t(string)}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

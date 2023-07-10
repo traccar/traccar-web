@@ -30,13 +30,13 @@ const CombinedReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const createMarkers = () => items.flatMap((item) => item.events.map((event) => {
-    const position = item.positions.find((p) => event.positionId === p.id);
-    return {
+  const createMarkers = () => items.flatMap((item) => item.events
+    .map((event) => item.positions.find((p) => event.positionId === p.id))
+    .filter((position) => position != null)
+    .map((position) => ({
       latitude: position.latitude,
       longitude: position.longitude,
-    };
-  }));
+    })));
 
   const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
@@ -56,7 +56,7 @@ const CombinedReportPage = () => {
   });
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
       <div className={classes.container}>
         {Boolean(items.length) && (
           <div className={classes.containerMap}>

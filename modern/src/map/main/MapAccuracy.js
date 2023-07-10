@@ -42,13 +42,12 @@ const MapAccuracy = ({ positions }) => {
   }, []);
 
   useEffect(() => {
-    const data = {
+    map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions
         .filter((position) => position.accuracy > 0)
         .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
-    };
-    map.getSource(id).setData(data);
+    });
   }, [positions]);
 
   return null;

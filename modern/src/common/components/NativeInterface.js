@@ -37,7 +37,7 @@ const NativeInterface = () => {
   }, [setNotificationToken]);
 
   useEffectAsync(async () => {
-    if (user && notificationToken) {
+    if (user && !user.readonly && notificationToken) {
       window.localStorage.setItem('notificationToken', notificationToken);
       setNotificationToken(null);
 

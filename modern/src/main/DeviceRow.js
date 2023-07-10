@@ -58,21 +58,8 @@ const DeviceRow = ({ data, index, style }) => {
   const item = data[index];
   const position = useSelector((state) => state.session.positions[item.id]);
 
-  const geofences = useSelector((state) => state.geofences.items);
-
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
-
-  const formatProperty = (key) => {
-    if (key === 'geofenceIds') {
-      const geofenceIds = item[key] || [];
-      return geofenceIds
-        .filter((id) => geofences.hasOwnProperty(id))
-        .map((id) => geofences[id].name)
-        .join(', ');
-    }
-    return item[key];
-  };
 
   const secondaryText = () => {
     let status;
@@ -83,7 +70,7 @@ const DeviceRow = ({ data, index, style }) => {
     }
     return (
       <>
-        {deviceSecondary && item[deviceSecondary] && `${formatProperty(deviceSecondary)} • `}
+        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
       </>
     );
@@ -102,7 +89,7 @@ const DeviceRow = ({ data, index, style }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={formatProperty(devicePrimary)}
+          primary={item[devicePrimary]}
           primaryTypographyProps={{ noWrap: true }}
           secondary={secondaryText()}
           secondaryTypographyProps={{ noWrap: true }}

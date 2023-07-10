@@ -62,12 +62,12 @@ const TripReportPage = () => {
     {
       latitude: selectedItem.startLat,
       longitude: selectedItem.startLon,
-      color: 'negative',
+      image: 'default-negative',
     },
     {
       latitude: selectedItem.endLat,
       longitude: selectedItem.endLon,
-      color: 'positive',
+      image: 'default-positive',
     },
   ]);
 

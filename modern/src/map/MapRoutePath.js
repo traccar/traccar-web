@@ -81,7 +81,7 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
     if (!coordinates) {
       coordinates = positions.map((item) => [item.longitude, item.latitude]);
     }
-    map.getSource(id).setData({
+    map.getSource(id)?.setData({
       type: 'Feature',
       geometry: {
         type: 'LineString',

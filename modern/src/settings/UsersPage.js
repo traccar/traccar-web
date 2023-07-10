@@ -5,7 +5,6 @@ import {
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LinkIcon from '@mui/icons-material/Link';
-import makeStyles from '@mui/styles/makeStyles';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { formatBoolean, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -14,23 +13,17 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import { useAdministrator } from '../common/util/permissions';
+import { useManager } from '../common/util/permissions';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { usePreference } from '../common/util/preferences';
-
-const useStyles = makeStyles((theme) => ({
-  columnAction: {
-    width: '1%',
-    paddingRight: theme.spacing(1),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const UsersPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const admin = useAdministrator();
+  const manager = useManager();
 
   const hours12 = usePreference('twelveHourFormat');
 
@@ -79,7 +72,7 @@ const UsersPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedName')}</TableCell>
@@ -104,7 +97,7 @@ const UsersPage = () => {
                   editPath="/settings/user"
                   endpoint="users"
                   setTimestamp={setTimestamp}
-                  customActions={admin ? [actionLogin, actionConnections] : [actionConnections]}
+                  customActions={manager ? [actionLogin, actionConnections] : [actionConnections]}
                 />
               </TableCell>
             </TableRow>

@@ -42,11 +42,7 @@ export const prepareIcon = (background, icon, color) => {
     const iconRatio = 0.5;
     const imageWidth = canvas.width * iconRatio;
     const imageHeight = canvas.height * iconRatio;
-    if (navigator.userAgent.indexOf('Firefox') > 0) {
-      context.drawImage(icon, (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
-    } else {
-      context.drawImage(canvasTintImage(icon, color), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
-    }
+    context.drawImage(canvasTintImage(icon, color), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
   }
 
   return context.getImageData(0, 0, canvas.width, canvas.height);
@@ -56,7 +52,7 @@ export const reverseCoordinates = (it) => {
   if (!it) {
     return it;
   } if (Array.isArray(it)) {
-    if (it.length === 2 && !Number.isNaN(it[0]) && !Number.isNaN(it[1])) {
+    if (it.length === 2 && typeof it[0] === 'number' && typeof it[1] === 'number') {
       return [it[1], it[0]];
     }
     return it.map((it) => reverseCoordinates(it));
