@@ -65,7 +65,7 @@ const RegisterPage = () => {
               <ArrowBackIcon />
             </IconButton>
           )}
-          <Typography className={classes.title} color="primary">
+          <Typography className={classes.title} color="Warning">
             {t('loginRegister')}
           </Typography>
         </div>
