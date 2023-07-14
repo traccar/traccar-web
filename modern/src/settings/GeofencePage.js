@@ -76,15 +76,25 @@ const GeofencePage = () => {
                 label={t('sharedDescription')}
               />
               <FormControlLabel
-                control={
-                  <Switch label="teste" checked={item.stopIn} onChange={(event) => setItem({ ...item, stopIn: event.target.checked })} name="stopIn" color="warning" />
-              }
+                control={(
+                  <Switch
+                    checked={item.stopIn}
+                    onChange={(event) => setItem({ ...item, stopIn: event.target.checked })}
+                    name="stopIn"
+                    color="warning"
+                  />
+                )}
                 label="Bloquear ao Entrar"
               />
               <FormControlLabel
-                control={
-                  <Switch checked={item.stopOut} onChange={(event) => setItem({ ...item, stopOut: event.target.checked })} name="stopOut" color="warning" />
-            }
+                control={(
+                  <Switch
+                    checked={item.stopOut}
+                    onChange={(event) => setItem({ ...item, stopOut: event.target.checked })}
+                    name="stopOut"
+                    color="warning"
+                  />
+                )}
                 label="Bloquear ao Sair"
               />
               <SelectField
