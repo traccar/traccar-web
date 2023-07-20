@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, LinearProgress,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, LinearProgress, FormGroup, FormControlLabel, Checkbox,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -9,6 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import secureLocalStorage from 'react-secure-storage';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
@@ -67,7 +69,45 @@ const LoginPage = () => {
 
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(localStorage.getItem('rememberMe') === 'true');
 
+  // lembrar-me inicio
+  const [checked, setChecked] = useState(rememberMe || false);
+
+  // lembrar-me
+  const handleChange = (event) => {
+    const { checked } = event.target;
+    setChecked(checked);
+    setRememberMe(checked);
+    localStorage.setItem('rememberMe', checked);
+  };
+
+  const handleStoreCredentials = () => {
+    if (checked) {
+      secureLocalStorage.setItem('email', email);
+      secureLocalStorage.setItem('password', password);
+    } else {
+      secureLocalStorage.removeItem('email');
+      secureLocalStorage.removeItem('password');
+    }
+  };
+
+  const handleRetrieveStoredCredentials = () => {
+    const decryptedEmail = secureLocalStorage.getItem('email') || '';
+    const decryptedPassword = secureLocalStorage.getItem('password') || '';
+    setEmail(decryptedEmail);
+    setPassword(decryptedPassword);
+  };
+
+  useEffect(() => {
+    handleRetrieveStoredCredentials();
+  }, []);
+
+  useEffect(() => {
+    handleStoreCredentials();
+  }, [checked, email, password]);
+
+  // lembrar-me fim
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
   // const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
@@ -151,6 +191,7 @@ const LoginPage = () => {
     handleLoginTokenListeners.add(listener);
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
+
   const redirectToOldWeb = () => {
     window.location.href = 'https://legacy.foxgps.com.br/';
   };
@@ -197,7 +238,7 @@ const LoginPage = () => {
         >
           {t('loginLogin')}
         </Button>
-        {/* <FormGroup>
+        <FormGroup>
           <FormControlLabel
             control={(
               <Checkbox
@@ -208,7 +249,7 @@ const LoginPage = () => {
 )}
             label="lembrar-me"
           />
-        </FormGroup> */}
+        </FormGroup>
         {openIdEnabled && (
           <Button
             onClick={() => handleOpenIdLogin()}
