@@ -2,8 +2,9 @@ import React from 'react';
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import { makeStyles } from '@mui/styles';
 import {
-  Autocomplete, Container, createFilterOptions, TextField,
+  Autocomplete, Button, Container, createFilterOptions, TextField,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../common/components/LocalizationProvider';
 
 const currentServer = `${window.location.protocol}//${window.location.host}`;
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangeServerPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const filter = createFilterOptions();
@@ -59,7 +61,7 @@ const ChangeServerPage = () => {
         options={officialServers}
         renderInput={(params) => <TextField {...params} label={t('settingsServer')} />}
         value={currentServer}
-        onChange={(_, value) => handleSubmit(value)}
+        onChange={(_, value) => value && handleSubmit(value)}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
           if (params.inputValue && !filtered.includes(params.inputValue)) {
@@ -68,6 +70,12 @@ const ChangeServerPage = () => {
           return filtered;
         }}
       />
+      <Button
+        onClick={() => navigate(-1)}
+        color="secondary"
+      >
+        {t('sharedCancel')}
+      </Button>
     </Container>
   );
 };
