@@ -22,8 +22,11 @@ const formatCalendarTime = (time) => {
 };
 
 const parseRule = (rule) => {
+  if (rule.endsWith('COUNT=1')) {
+    return { frequency: 'ONCE' };
+  }
   const fragments = rule.split(';');
-  const frequency = fragments[0].includes('FREQ') ? fragments[0].substring(11) : 'ONCE';
+  const frequency = fragments[0].substring(11);
   const by = fragments.length > 1 ? fragments[1].split('=')[1].split(',') : null;
   return { frequency, by };
 };
