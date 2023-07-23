@@ -38,7 +38,7 @@ const formatRule = (rule) => {
     case 'MONTHLY':
       return `RRULE:FREQ=${rule.frequency};BYMONTHDAY=${by || 1}`;
     default:
-      return 'RRULE:';
+      return 'RRULE:FREQ=DAILY;COUNT=1';
   }
 };
 
