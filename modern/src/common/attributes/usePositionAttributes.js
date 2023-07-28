@@ -377,4 +377,16 @@ export default (t) => useMemo(() => ({
     name: t('positionAudio'),
     type: 'string',
   },
+  pressureHigh: {
+    name: t('positionPressureHigh'),
+    type: 'string',
+  },
+  pressureLow: {
+    name: t('positionPressureLow'),
+    type: 'string',
+  },
+  bloodOxygen: {
+    name: t('positionBloodOxygen'),
+    type: 'number',
+  },
 }), [t]);
