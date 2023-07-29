@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     'max-height': '40vh',
-    overflow: 'hidden',
+    overflow: 'scroll',
   },
   negative: {
     color: theme.palette.colors.negative,
