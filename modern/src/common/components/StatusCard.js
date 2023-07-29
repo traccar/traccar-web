@@ -57,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    'max-height': '40vh',
+    overflow: 'hidden',
   },
   negative: {
     color: theme.palette.colors.negative,
