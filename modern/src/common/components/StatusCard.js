@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    'max-height': '40vh',
+    maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'scroll',
   },
   negative: {
