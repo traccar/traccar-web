@@ -172,6 +172,10 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       map.off('click', clusters, onClusterClick);
       map.off('click', onMapClick);
 
+      if (map.getLayer(clusters)) {
+        map.removeLayer(clusters);
+      }
+
       [id, selected].forEach((id) => {
         if (map.getLayer(id)) {
           map.removeLayer(id);
@@ -179,13 +183,10 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         if (map.getLayer(`direction-${id}`)) {
           map.removeLayer(`direction-${id}`);
         }
+        if (map.getSource(id)) {
+          map.removeSource(id);
+        }
       });
-      if (map.getLayer(clusters)) {
-        map.removeLayer(clusters);
-      }
-      if (map.getSource(id)) {
-        map.removeSource(id);
-      }
     };
   }, [mapCluster, clusters, onMarkerClick, onClusterClick]);
 
