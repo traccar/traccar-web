@@ -101,11 +101,11 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         features: [],
       },
     });
-    [id, selected].forEach((id) => {
+    [id, selected].forEach((source) => {
       map.addLayer({
-        id,
+        id: source,
         type: 'symbol',
-        source: id,
+        source,
         filter: ['!has', 'point_count'],
         layout: {
           'icon-image': '{category}-{color}',
@@ -124,9 +124,9 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         },
       });
       map.addLayer({
-        id: `direction-${id}`,
+        id: `direction-${source}`,
         type: 'symbol',
-        source: id,
+        source,
         filter: [
           'all',
           ['!has', 'point_count'],
@@ -176,15 +176,15 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         map.removeLayer(clusters);
       }
 
-      [id, selected].forEach((id) => {
-        if (map.getLayer(id)) {
-          map.removeLayer(id);
+      [id, selected].forEach((source) => {
+        if (map.getLayer(source)) {
+          map.removeLayer(source);
         }
-        if (map.getLayer(`direction-${id}`)) {
-          map.removeLayer(`direction-${id}`);
+        if (map.getLayer(`direction-${source}`)) {
+          map.removeLayer(`direction-${source}`);
         }
-        if (map.getSource(id)) {
-          map.removeSource(id);
+        if (map.getSource(source)) {
+          map.removeSource(source);
         }
       });
     };
