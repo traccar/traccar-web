@@ -26,6 +26,8 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import { usePreference } from '../common/util/preferences';
+import EventFilter from '../common/components/EventFilter';
+import MapMarkers from '../map/MapMarkers';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,6 +89,7 @@ const ReplayPage = () => {
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [positions, setPositions] = useState([]);
+  const [markers, setMarkers] = useState([]);
   const [index, setIndex] = useState(0);
   const [selectedDeviceId, setSelectedDeviceId] = useState(defaultDeviceId);
   const [showCard, setShowCard] = useState(false);
@@ -94,6 +97,7 @@ const ReplayPage = () => {
   const [to, setTo] = useState();
   const [expanded, setExpanded] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [eventTypes, setEventTypes] = useState(['']);
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -137,13 +141,35 @@ const ReplayPage = () => {
     setFrom(from);
     setTo(to);
     const query = new URLSearchParams({ deviceId, from, to });
-    const response = await fetch(`/api/positions?${query.toString()}`);
+    let response = await fetch(`/api/positions?${query.toString()}`);
     if (response.ok) {
       setIndex(0);
       const positions = await response.json();
       setPositions(positions);
       if (positions.length) {
         setExpanded(false);
+        if (eventTypes[0] !== '') {
+          eventTypes.forEach((it) => query.append('type', it));
+          response = await fetch(`/api/reports/events?${query.toString()}`, {
+            headers: { Accept: 'application/json' },
+          });
+          if (response.ok) {
+            const events = await response.json();
+            const markers = events
+              .filter((e) => positions.find((p) => p.id === e.positionId))
+              .map((e) => {
+                const position = positions.find((p) => p.id === e.positionId);
+                return {
+                  latitude: position.latitude,
+                  longitude: position.longitude,
+                  image: 'pausecircle-negative',
+                };
+              });
+            setMarkers(markers);
+          } else {
+            throw Error(await response.text());
+          }
+        }
       } else {
         throw Error(t('sharedNoData'));
       }
@@ -166,6 +192,7 @@ const ReplayPage = () => {
         {index < positions.length && (
           <MapPositions positions={[positions[index]]} onClick={onMarkerClick} titleField="fixTime" />
         )}
+        <MapMarkers markers={markers} />
       </MapView>
       <MapCamera positions={positions} />
       <div className={classes.sidebar}>
@@ -214,7 +241,9 @@ const ReplayPage = () => {
               </div>
             </>
           ) : (
-            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly />
+            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly>
+              <EventFilter eventTypes={eventTypes} setEventTypes={setEventTypes} />
+            </ReportFilter>
           )}
         </Paper>
       </div>

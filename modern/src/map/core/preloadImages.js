@@ -13,6 +13,7 @@ import defaultSvg from '../../resources/images/icon/default.svg';
 import helicopterSvg from '../../resources/images/icon/helicopter.svg';
 import motorcycleSvg from '../../resources/images/icon/motorcycle.svg';
 import offroadSvg from '../../resources/images/icon/offroad.svg';
+import pausecircleSvg from '../../resources/images/icon/pausecircle.svg';
 import personSvg from '../../resources/images/icon/person.svg';
 import pickupSvg from '../../resources/images/icon/pickup.svg';
 import planeSvg from '../../resources/images/icon/plane.svg';
@@ -36,6 +37,7 @@ export const mapIcons = {
   helicopter: helicopterSvg,
   motorcycle: motorcycleSvg,
   offroad: offroadSvg,
+  pausecircle: pausecircleSvg,
   person: personSvg,
   pickup: pickupSvg,
   plane: planeSvg,

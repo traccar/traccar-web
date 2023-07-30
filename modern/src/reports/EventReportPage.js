@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton,
+  Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton,
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
@@ -23,6 +23,7 @@ import MapGeofence from '../map/MapGeofence';
 import MapPositions from '../map/MapPositions';
 import MapCamera from '../map/MapCamera';
 import scheduleReport from './common/scheduleReport';
+import EventFilter from '../common/components/EventFilter';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -43,9 +44,6 @@ const EventReportPage = () => {
 
   const speedUnit = useAttributePreference('speedUnit');
   const hours12 = usePreference('twelveHourFormat');
-
-  const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
-
   const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'attributes']);
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [items, setItems] = useState([]);
@@ -68,16 +66,6 @@ const EventReportPage = () => {
       setPosition(null);
     }
   }, [selectedItem]);
-
-  useEffectAsync(async () => {
-    const response = await fetch('/api/notifications/types');
-    if (response.ok) {
-      const types = await response.json();
-      setAllEventTypes([...allEventTypes, ...types.map((it) => [it.type, prefixString('event', it.type)])]);
-    } else {
-      throw Error(await response.text());
-    }
-  }, []);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to, type }) => {
     const query = new URLSearchParams({ deviceId, from, to });
@@ -168,28 +156,7 @@ const EventReportPage = () => {
         <div className={classes.containerMain}>
           <div className={classes.header}>
             <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule}>
-              <div className={classes.filterItem}>
-                <FormControl fullWidth>
-                  <InputLabel>{t('reportEventTypes')}</InputLabel>
-                  <Select
-                    label={t('reportEventTypes')}
-                    value={eventTypes}
-                    onChange={(event, child) => {
-                      let values = event.target.value;
-                      const clicked = child.props.value;
-                      if (values.includes('allEvents') && values.length > 1) {
-                        values = [clicked];
-                      }
-                      setEventTypes(values);
-                    }}
-                    multiple
-                  >
-                    {allEventTypes.map(([key, string]) => (
-                      <MenuItem key={key} value={key}>{t(string)}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
+              <EventFilter eventTypes={eventTypes} setEventTypes={setEventTypes} />
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
           </div>
