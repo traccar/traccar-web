@@ -30,6 +30,7 @@
     "react-window": "^1.8.9",
     "recharts": "^2.6.2",
     "redux": "^4.2.1",
+    "vite-plugin-env-compatible": "^1.1.1",
     "wellknown": "^0.5.0",
     "workbox-background-sync": "^6.6.1",
     "workbox-broadcast-update": "^6.6.1",
@@ -45,10 +46,11 @@
     "workbox-streams": "^6.6.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js ."
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "lint": "eslint . --fix --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "npm run lint --fix"
   },
   "browserslist": {
     "production": [
