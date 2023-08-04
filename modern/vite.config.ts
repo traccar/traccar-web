@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv, transformWithEsbuild } from 'vite'
 import reactRefresh from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react';
 import envCompatible from 'vite-plugin-env-compatible'
 import svgrPlugin from 'vite-plugin-svgr'
 
@@ -8,12 +9,9 @@ export default ({ mode }) => {
     const config: any = {
         plugins: [
             envCompatible(),
+            react(),
             reactRefresh(),
-            svgrPlugin({
-                svgrOptions: {
-                    icon: true
-                },
-            }),
+            svgrPlugin(),
             {
                 name: 'treat-js-files-as-jsx',
                 async transform(code, id) {
