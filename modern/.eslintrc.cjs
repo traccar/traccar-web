@@ -1,13 +1,19 @@
 module.exports = {
   env: { browser: true, es2020: true },
-  extends: 'airbnb',
+  extends: [
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   parserOptions: {
     ecmaVersion: 2020,
   },
   plugins: [
     'react',
+    'react-refresh'
   ],
-  ignorePatterns: ['service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js', 'theme.js'],
+  parser: '@typescript-eslint/parser',
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js', 'theme.js'],
   rules: {
     'max-len': [0],
     'no-shadow': [0],
@@ -28,5 +34,9 @@ module.exports = {
     'react/prop-types': [0],
     'react/jsx-props-no-spreading': [0],
     'jsx-a11y/anchor-is-valid': [0],
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
+    ],
   },
 };
