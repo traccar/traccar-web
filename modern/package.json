@@ -25,7 +25,6 @@
     "react-mui-dropzone": "^4.0.6",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2",
-    "react-scripts": "^5.0.1",
     "react-virtualized-auto-sizer": "^1.0.19",
     "react-window": "^1.8.9",
     "recharts": "^2.6.2",
