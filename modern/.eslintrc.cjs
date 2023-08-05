@@ -13,7 +13,7 @@ module.exports = {
     'react-refresh'
   ],
   parser: '@typescript-eslint/parser',
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js', 'theme.js'],
+  ignorePatterns: ['build', '.eslintrc.cjs', 'service-worker.js', 'serviceWorkerRegistration.js', 'switcher.js', 'theme.js'],
   rules: {
     'max-len': [0],
     'no-shadow': [0],
