@@ -46,4 +46,10 @@ export default makeStyles((theme) => ({
     flexGrow: 1,
     overflow: 'hidden',
   },
+  cellStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '5px',
+    borderBottom: '1px solid lightgrey',
+  },
 }));
