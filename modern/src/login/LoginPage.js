@@ -192,7 +192,6 @@ const LoginPage = () => {
   useEffect(() => {
     const listener = (token) => handleTokenLogin(token);
     handleLoginTokenListeners.add(listener);
-    console.log(openIdEnabled);
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
 
