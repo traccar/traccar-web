@@ -18,6 +18,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
+import GoogleLoginButton from './GoogleLoginButton';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -108,11 +109,13 @@ const LoginPage = () => {
   }, [checked, email, password]);
 
   // lembrar-me fim
+
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
   // const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
   const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
-  const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
+  // const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
+  const openIdEnabled = true;
   const openIdForced = useSelector((state) => state.session.server.openIdEnabled && state.session.server.openIdForce);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
@@ -189,6 +192,7 @@ const LoginPage = () => {
   useEffect(() => {
     const listener = (token) => handleTokenLogin(token);
     handleLoginTokenListeners.add(listener);
+    console.log(openIdEnabled);
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
 
@@ -238,6 +242,7 @@ const LoginPage = () => {
         >
           {t('loginLogin')}
         </Button>
+        {openIdEnabled && <GoogleLoginButton />}
         <FormGroup>
           <FormControlLabel
             control={(
@@ -246,19 +251,10 @@ const LoginPage = () => {
                 onChange={handleChange}
                 inputProps={{ 'aria-label': 'controlled' }}
               />
-)}
+            )}
             label="lembrar-me"
           />
         </FormGroup>
-        {openIdEnabled && (
-          <Button
-            onClick={() => handleOpenIdLogin()}
-            variant="contained"
-            color="secondary"
-          >
-            {t('loginOpenId')}
-          </Button>
-        )}
         <div className={classes.extraContainer}>
           <Button
             className={classes.registerButton}
