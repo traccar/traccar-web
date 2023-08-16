@@ -15,6 +15,7 @@ export default (server) => {
     negative: red[500],
     neutral: grey[500],
     geometry: red[900],
+    ignition: green[800],
   };
 
   return {
