@@ -59,7 +59,7 @@ const ComputedAttributesPage = () => {
               <TableCell>{item.type}</TableCell>
               {administrator && (
                 <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" collectionTitle={t('sharedComputedAttribute')} setTimestamp={setTimestamp} />
+                  <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" setTimestamp={setTimestamp} />
                 </TableCell>
               )}
             </TableRow>

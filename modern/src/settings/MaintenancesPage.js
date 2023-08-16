@@ -79,7 +79,7 @@ const MaintenacesPage = () => {
               <TableCell>{convertAttribute(item.type, item.start)}</TableCell>
               <TableCell>{convertAttribute(item.type, item.period)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" collectionTitle={t('sharedMaintenance')} setTimestamp={setTimestamp} />
+                <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={5} endAction />)}

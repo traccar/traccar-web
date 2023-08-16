@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, collectionTitle, setTimestamp, customActions, readonly,
+  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -74,7 +74,7 @@ const CollectionActions = ({
       ) : (
         <div className={classes.row}>
           {customActions && customActions.map((action) => (
-            <Tooltip title={action.tooltip} enterDelay={500} enterNextDelay={500}>
+            <Tooltip title={action.tooltip || action.title} enterDelay={500} enterNextDelay={500}>
               <IconButton size="small" onClick={() => handleCustom(action)} key={action.key}>
                 {action.icon}
               </IconButton>
@@ -82,12 +82,12 @@ const CollectionActions = ({
           ))}
           {!readonly && (
             <>
-              <Tooltip title={t('sharedEdit').concat(' ').concat(collectionTitle || '')} enterDelay={500} enterNextDelay={500}>
+              <Tooltip title={t('sharedEdit')} enterDelay={500} enterNextDelay={500}>
                 <IconButton size="small" onClick={handleEdit}>
                   <EditIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
-              <Tooltip title={t('sharedRemove').concat(' ').concat(collectionTitle || '')} enterDelay={500} enterNextDelay={500}>
+              <Tooltip title={t('sharedRemove')} enterDelay={500} enterNextDelay={500}>
                 <IconButton size="small" onClick={handleRemove}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>

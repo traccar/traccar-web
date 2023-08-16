@@ -69,7 +69,7 @@ const NotificationsPage = () => {
               <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
               <TableCell>{formatList('notificator', item.notificators)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" collectionTitle={t('sharedNotification')} setTimestamp={setTimestamp} />
+                <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={5} endAction />)}

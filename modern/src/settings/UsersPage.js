@@ -44,7 +44,6 @@ const UsersPage = () => {
   const actionLogin = {
     key: 'login',
     title: t('loginLogin'),
-    tooltip: t('settingsUser').concat(' ').concat(t('loginTitle')),
     icon: <LoginIcon fontSize="small" />,
     handler: handleLogin,
   };
@@ -52,7 +51,6 @@ const UsersPage = () => {
   const actionConnections = {
     key: 'connections',
     title: t('sharedConnections'),
-    tooltip: t('sharedLink').concat(' ').concat(t('settingsUser')),
     icon: <LinkIcon fontSize="small" />,
     handler: (userId) => navigate(`/settings/user/${userId}/connections`),
   };
@@ -98,7 +96,6 @@ const UsersPage = () => {
                   itemId={item.id}
                   editPath="/settings/user"
                   endpoint="users"
-                  collectionTitle={t('settingsUser')}
                   setTimestamp={setTimestamp}
                   customActions={manager ? [actionLogin, actionConnections] : [actionConnections]}
                 />

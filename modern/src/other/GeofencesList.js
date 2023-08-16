@@ -8,7 +8,6 @@ import {
 import { geofencesActions } from '../store';
 import CollectionActions from '../settings/components/CollectionActions';
 import { useCatchCallback } from '../reactHelper';
-import { useTranslation } from '../common/components/LocalizationProvider';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -25,7 +24,6 @@ const useStyles = makeStyles(() => ({
 const GeofencesList = ({ onGeofenceSelected }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const t = useTranslation();
 
   const items = useSelector((state) => state.geofences.items);
 
@@ -44,7 +42,7 @@ const GeofencesList = ({ onGeofenceSelected }) => {
         <Fragment key={item.id}>
           <ListItemButton key={item.id} onClick={() => onGeofenceSelected(item.id)}>
             <ListItemText primary={item.name} />
-            <CollectionActions itemId={item.id} editPath="/settings/geofence" endpoint="geofences" collectionTitle={t('sharedGeofence')} setTimestamp={refreshGeofences} />
+            <CollectionActions itemId={item.id} editPath="/settings/geofence" endpoint="geofences" setTimestamp={refreshGeofences} />
           </ListItemButton>
           {index < list.length - 1 ? <Divider /> : null}
         </Fragment>
