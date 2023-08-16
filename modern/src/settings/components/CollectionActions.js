@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   IconButton, Menu, MenuItem, useMediaQuery, useTheme,
 } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,7 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
+  itemId, editPath, endpoint, collectionTitle, setTimestamp, customActions, readonly,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -73,18 +74,24 @@ const CollectionActions = ({
       ) : (
         <div className={classes.row}>
           {customActions && customActions.map((action) => (
-            <IconButton size="small" onClick={() => handleCustom(action)} key={action.key}>
-              {action.icon}
-            </IconButton>
+            <Tooltip title={action.tooltip} enterDelay={500} enterNextDelay={500}>
+              <IconButton size="small" onClick={() => handleCustom(action)} key={action.key}>
+                {action.icon}
+              </IconButton>
+            </Tooltip>
           ))}
           {!readonly && (
             <>
-              <IconButton size="small" onClick={handleEdit}>
-                <EditIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small" onClick={handleRemove}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
+              <Tooltip title={t('sharedEdit').concat(' ').concat(collectionTitle || '')} enterDelay={500} enterNextDelay={500}>
+                <IconButton size="small" onClick={handleEdit}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('sharedRemove').concat(' ').concat(collectionTitle || '')} enterDelay={500} enterNextDelay={500}>
+                <IconButton size="small" onClick={handleRemove}>
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
             </>
           )}
         </div>

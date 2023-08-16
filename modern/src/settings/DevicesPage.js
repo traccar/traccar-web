@@ -51,6 +51,7 @@ const DevicesPage = () => {
   const actionConnections = {
     key: 'connections',
     title: t('sharedConnections'),
+    tooltip: t('sharedLink').concat(' ').concat(t('reportDevice')),
     icon: <LinkIcon fontSize="small" />,
     handler: (deviceId) => navigate(`/settings/device/${deviceId}/connections`),
   };
@@ -86,6 +87,7 @@ const DevicesPage = () => {
                   itemId={item.id}
                   editPath="/settings/device"
                   endpoint="devices"
+                  collectionTitle={t('reportDevice')}
                   setTimestamp={setTimestamp}
                   customActions={[actionConnections]}
                   readonly={deviceReadonly}

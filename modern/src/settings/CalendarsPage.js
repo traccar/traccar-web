@@ -50,7 +50,7 @@ const CalendarsPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/calendar" endpoint="calendars" setTimestamp={setTimestamp} />
+                <CollectionActions itemId={item.id} editPath="/settings/calendar" endpoint="calendars" collectionTitle={t('sharedCalendar')} setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={2} endAction />)}

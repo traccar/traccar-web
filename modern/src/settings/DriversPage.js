@@ -52,7 +52,7 @@ const DriversPage = () => {
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.uniqueId}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/driver" endpoint="drivers" setTimestamp={setTimestamp} />
+                <CollectionActions itemId={item.id} editPath="/settings/driver" endpoint="drivers" collectionTitle={t('sharedDriver')} setTimestamp={setTimestamp} />
               </TableCell>
             </TableRow>
           )) : (<TableShimmer columns={3} endAction />)}

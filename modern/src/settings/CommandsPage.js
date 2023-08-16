@@ -59,7 +59,7 @@ const CommandsPage = () => {
               <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
               {!limitCommands && (
                 <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/command" endpoint="commands" setTimestamp={setTimestamp} />
+                  <CollectionActions itemId={item.id} editPath="/settings/command" endpoint="commands" collectionTitle={t('sharedSavedCommand')} setTimestamp={setTimestamp} />
                 </TableCell>
               )}
             </TableRow>

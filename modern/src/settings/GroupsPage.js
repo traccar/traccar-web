@@ -45,6 +45,11 @@ const GroupsPage = () => {
   const actionCommand = {
     key: 'command',
     title: t('deviceCommand'),
+    tooltip: t('commandSend')
+      .concat(' ')
+      .concat(t('reportGroup'))
+      .concat(' ')
+      .concat(t('commandTitle')),
     icon: <PublishIcon fontSize="small" />,
     handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
   };
@@ -52,6 +57,7 @@ const GroupsPage = () => {
   const actionConnections = {
     key: 'connections',
     title: t('sharedConnections'),
+    tooltip: t('sharedLink').concat(' ').concat(t('reportGroup')),
     icon: <LinkIcon fontSize="small" />,
     handler: (groupId) => navigate(`/settings/group/${groupId}/connections`),
   };
@@ -75,6 +81,7 @@ const GroupsPage = () => {
                   itemId={item.id}
                   editPath="/settings/group"
                   endpoint="groups"
+                  collectionTitle={t('reportGroup')}
                   setTimestamp={setTimestamp}
                   customActions={limitCommands ? [actionConnections] : [actionConnections, actionCommand]}
                 />
