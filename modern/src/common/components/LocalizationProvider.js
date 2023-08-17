@@ -178,7 +178,7 @@ export const useLocalization = () => useContext(LocalizationContext);
 export const useTranslation = () => {
   const context = useContext(LocalizationContext);
   const { data } = context.languages[context.language];
-  return useMemo(() => (key) => (data[key] ? data[key] : context.languages.en.data[key]), [data]);
+  return useMemo(() => (key) => data[key], [data]);
 };
 
 export const useTranslationKeys = (predicate) => {
