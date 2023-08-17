@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import {
   IconButton, Menu, MenuItem, useMediaQuery, useTheme,
 } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import DelayedTooltip from '../../common/components/DelayedTooltip';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
@@ -74,24 +74,24 @@ const CollectionActions = ({
       ) : (
         <div className={classes.row}>
           {customActions && customActions.map((action) => (
-            <DelayedTooltip title={action.title} key={action.key}>
+            <Tooltip title={action.title} key={action.key}>
               <IconButton size="small" onClick={() => handleCustom(action)}>
                 {action.icon}
               </IconButton>
-            </DelayedTooltip>
+            </Tooltip>
           ))}
           {!readonly && (
             <>
-              <DelayedTooltip title={t('sharedEdit')}>
+              <Tooltip title={t('sharedEdit')}>
                 <IconButton size="small" onClick={handleEdit}>
                   <EditIcon fontSize="small" />
                 </IconButton>
-              </DelayedTooltip>
-              <DelayedTooltip title={t('sharedRemove')}>
+              </Tooltip>
+              <Tooltip title={t('sharedRemove')}>
                 <IconButton size="small" onClick={handleRemove}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
-              </DelayedTooltip>
+              </Tooltip>
             </>
           )}
         </div>
