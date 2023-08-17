@@ -33,4 +33,10 @@ export default {
       },
     },
   },
+  MuiTooltip: {
+    defaultProps: {
+      enterDelay: 500,
+      enterNextDelay: 500,
+    },
+  },
 };

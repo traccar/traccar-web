@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import {
   Divider, Typography, IconButton, useMediaQuery, Toolbar,
 } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
@@ -117,7 +118,9 @@ const GeofencesPage = () => {
             <label htmlFor="upload-gpx">
               <input accept=".gpx" id="upload-gpx" type="file" className={classes.fileInput} onChange={handleFile} />
               <IconButton edge="end" component="span" onClick={() => {}}>
-                <UploadFileIcon />
+                <Tooltip title={t('sharedUpload')}>
+                  <UploadFileIcon />
+                </Tooltip>
               </IconButton>
             </label>
           </Toolbar>

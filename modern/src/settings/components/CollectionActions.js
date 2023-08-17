@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   IconButton, Menu, MenuItem, useMediaQuery, useTheme,
 } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -73,18 +74,24 @@ const CollectionActions = ({
       ) : (
         <div className={classes.row}>
           {customActions && customActions.map((action) => (
-            <IconButton size="small" onClick={() => handleCustom(action)} key={action.key}>
-              {action.icon}
-            </IconButton>
+            <Tooltip title={action.title} key={action.key}>
+              <IconButton size="small" onClick={() => handleCustom(action)}>
+                {action.icon}
+              </IconButton>
+            </Tooltip>
           ))}
           {!readonly && (
             <>
-              <IconButton size="small" onClick={handleEdit}>
-                <EditIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small" onClick={handleRemove}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
+              <Tooltip title={t('sharedEdit')}>
+                <IconButton size="small" onClick={handleEdit}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('sharedRemove')}>
+                <IconButton size="small" onClick={handleRemove}>
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
             </>
           )}
         </div>
