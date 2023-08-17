@@ -118,7 +118,7 @@ const GeofencesPage = () => {
             <label htmlFor="upload-gpx">
               <input accept=".gpx" id="upload-gpx" type="file" className={classes.fileInput} onChange={handleFile} />
               <IconButton edge="end" component="span" onClick={() => {}}>
-                <Tooltip title={t('sharedUploadGeofence')}>
+                <Tooltip title={t('sharedUpload')}>
                   <UploadFileIcon />
                 </Tooltip>
               </IconButton>
