@@ -74,20 +74,20 @@ const CollectionActions = ({
       ) : (
         <div className={classes.row}>
           {customActions && customActions.map((action) => (
-            <Tooltip title={action.tooltip || action.title} enterDelay={500} enterNextDelay={500}>
-              <IconButton size="small" onClick={() => handleCustom(action)} key={action.key}>
+            <Tooltip title={action.title} enterDelay={process.env.REACT_APP_TOOLTIP_DELAY} enterNextDelay={process.env.REACT_APP_TOOLTIP_DELAY} key={action.key}>
+              <IconButton size="small" onClick={() => handleCustom(action)}>
                 {action.icon}
               </IconButton>
             </Tooltip>
           ))}
           {!readonly && (
             <>
-              <Tooltip title={t('sharedEdit')} enterDelay={500} enterNextDelay={500}>
+              <Tooltip title={t('sharedEdit')} enterDelay={process.env.REACT_APP_TOOLTIP_DELAY} enterNextDelay={process.env.REACT_APP_TOOLTIP_DELAY}>
                 <IconButton size="small" onClick={handleEdit}>
                   <EditIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
-              <Tooltip title={t('sharedRemove')} enterDelay={500} enterNextDelay={500}>
+              <Tooltip title={t('sharedRemove')} enterDelay={process.env.REACT_APP_TOOLTIP_DELAY} enterNextDelay={process.env.REACT_APP_TOOLTIP_DELAY}>
                 <IconButton size="small" onClick={handleRemove}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>

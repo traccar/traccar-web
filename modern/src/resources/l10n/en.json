@@ -379,7 +379,6 @@
     "stateValue": "Value",
     "commandTitle": "Command",
     "commandSend": "Send",
-    "commandSendTitle": "Send Command",
     "commandSent": "Command sent",
     "commandQueued": "Command queued",
     "commandUnit": "Unit",

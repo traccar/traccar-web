@@ -45,7 +45,6 @@ const GroupsPage = () => {
   const actionCommand = {
     key: 'command',
     title: t('deviceCommand'),
-    tooltip: t('commandSendTitle'),
     icon: <PublishIcon fontSize="small" />,
     handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
   };
