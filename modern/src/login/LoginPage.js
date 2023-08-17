@@ -114,8 +114,7 @@ const LoginPage = () => {
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
   // const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
   const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
-  // const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
-  const openIdEnabled = true;
+  const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
   const openIdForced = useSelector((state) => state.session.server.openIdEnabled && state.session.server.openIdForce);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
