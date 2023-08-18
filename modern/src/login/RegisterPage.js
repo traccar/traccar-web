@@ -6,6 +6,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
@@ -42,6 +43,11 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = useCatch(async () => {
     const response = await fetch('/api/users', {
@@ -95,6 +101,13 @@ const RegisterPage = () => {
           type="password"
           autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={handleClickShowPassword}>
+                <VisibilityOffIcon />
+              </IconButton>
+            ),
+          }}
         />
         <Button
           variant="contained"

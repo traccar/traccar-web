@@ -6,6 +6,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -56,6 +57,11 @@ const LoginPage = () => {
 
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
@@ -172,11 +178,18 @@ const LoginPage = () => {
           label={t('userPassword')}
           name="password"
           value={password}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           autoComplete="current-password"
           autoFocus={!!email}
           onChange={(e) => setPassword(e.target.value)}
           onKeyUp={handleSpecialKey}
+          InputProps={{
+            endAdornment: (
+              <IconButton onClick={handleClickShowPassword}>
+                <VisibilityOffIcon />
+              </IconButton>
+            ),
+          }}
         />
         <Button
           onClick={handlePasswordLogin}
