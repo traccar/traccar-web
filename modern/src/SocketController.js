@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
-import { devicesActions, sessionActions } from './store';
+import {
+  devicesActions,
+  sessionActions,
+} from './store';
 import { useEffectAsync } from './reactHelper';
 import { useTranslation } from './common/components/LocalizationProvider';
 import { snackBarDurationLongMs } from './common/util/duration';
@@ -26,10 +29,17 @@ const SocketController = () => {
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
+  const [lastUpdate, setLastUpdate] = useState();
+  const [timeoutId, setTimeoutId] = useState();
+
   const soundEvents = useAttributePreference('soundEvents', '');
   const soundAlarms = useAttributePreference('soundAlarms', 'sos');
 
   const features = useFeatures();
+
+  const resetCounterKeepAlive = () => setLastUpdate(new Date());
+
+  const isConnected = () => Math.abs(new Date() - lastUpdate) < 10000;
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -44,11 +54,10 @@ const SocketController = () => {
       dispatch(sessionActions.updateSocket(false));
       if (event.code !== logoutCode) {
         try {
-          const devicesResponse = await fetch('/api/devices');
+          const [devicesResponse, positionsResponse] = await Promise.all([fetch('/api/devices'), fetch('/api/positions')]);
           if (devicesResponse.ok) {
             dispatch(devicesActions.update(await devicesResponse.json()));
           }
-          const positionsResponse = await fetch('/api/positions');
           if (positionsResponse.ok) {
             dispatch(sessionActions.updatePositions(await positionsResponse.json()));
           }
@@ -58,7 +67,7 @@ const SocketController = () => {
         } catch (error) {
           // ignore errors
         }
-        setTimeout(() => connectSocket(), 60000);
+        setTimeout(connectSocket, 10000);
       }
     };
 
@@ -76,8 +85,32 @@ const SocketController = () => {
         }
         setEvents(data.events);
       }
+      if (data) {
+        resetCounterKeepAlive();
+      }
     };
   };
+
+  const keepAlive = async () => {
+    if (!isConnected) {
+      const socket = socketRef.current;
+      if (socket) {
+        socket.close(logoutCode);
+      }
+      try {
+        connectSocket();
+      } catch (error) {
+        // ignore errors
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (authenticated) {
+      clearTimeout(timeoutId);
+      setTimeoutId(setTimeout(keepAlive, 3000));
+    }
+  }, [lastUpdate]);
 
   useEffectAsync(async () => {
     if (authenticated) {
@@ -87,6 +120,7 @@ const SocketController = () => {
       } else {
         throw Error(await response.text());
       }
+      resetCounterKeepAlive();
       connectSocket();
       return () => {
         const socket = socketRef.current;
