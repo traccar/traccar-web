@@ -50,7 +50,7 @@ const LoginPage = () => {
   const t = useTranslation();
 
   const { languages, language, setLanguage } = useLocalization();
-  const languageList = Object.entries(languages).map((values) => ({ code: values[0], countryCode: values[1].countryCode, name: values[1].name }));
+  const languageList = Object.entries(languages).map((values) => ({ code: values[0], country: values[1].country, name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
 
@@ -211,7 +211,7 @@ const LoginPage = () => {
               <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
                 {languageList.map((it) => (
                   <MenuItem key={it.code} value={it.code}>
-                    {getFlagEmoji(it.countryCode)}
+                    {getFlagEmoji(it.country)}
                     &nbsp;&nbsp;
                     {it.name}
                   </MenuItem>
