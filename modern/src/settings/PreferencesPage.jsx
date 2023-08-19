@@ -65,7 +65,7 @@ const PreferencesPage = () => {
   const user = useSelector((state) => state.session.user);
   const [attributes, setAttributes] = useState(user.attributes);
 
-  const versionApp = process.env.REACT_APP_VERSION.slice(0, -2);
+  const versionApp = import.meta.env.VITE_APP_VERSION.slice(0, -2);
   const versionServer = useSelector((state) => state.session.server.version);
   const socket = useSelector((state) => state.session.socket);
 
