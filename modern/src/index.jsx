@@ -12,7 +12,6 @@ import { LocalizationProvider } from './common/components/LocalizationProvider';
 import ErrorHandler from './common/components/ErrorHandler';
 import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import NativeInterface from './common/components/NativeInterface';
 import ServerProvider from './ServerProvider';
 import ErrorBoundary from './ErrorBoundary';
@@ -41,5 +40,3 @@ root.render(
     </Provider>
   </ErrorBoundary>,
 );
-
-serviceWorkerRegistration.register();
