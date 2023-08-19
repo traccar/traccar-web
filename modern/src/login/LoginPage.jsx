@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress, Box,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -211,8 +211,9 @@ const LoginPage = () => {
               <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
                 {languageList.map((it) => (
                   <MenuItem key={it.code} value={it.code}>
-                    {getFlagEmoji(it.country)}
-                    &nbsp;&nbsp;
+                    {navigator.platform.indexOf('Win') < 0 && (
+                      <Box component="span" sx={{ mr: 1 }}>{getFlagEmoji(it.country)}</Box>
+                    )}
                     {it.name}
                   </MenuItem>
                 ))}
