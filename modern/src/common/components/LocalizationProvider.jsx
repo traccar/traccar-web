@@ -186,6 +186,3 @@ export const useTranslationKeys = (predicate) => {
   const { data } = context.languages[context.language];
   return Object.keys(data).filter(predicate);
 };
-
-export const getFlagEmoji = (country) => String.fromCodePoint(...[...country].map(x=>0x1f1a5+x.charCodeAt()));
-
