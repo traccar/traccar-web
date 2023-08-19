@@ -10,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { sessionActions } from '../store';
-import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
+import { useLocalization, useTranslation, getFlagEmoji } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
 import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
@@ -50,7 +50,7 @@ const LoginPage = () => {
   const t = useTranslation();
 
   const { languages, language, setLanguage } = useLocalization();
-  const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
+  const languageList = Object.entries(languages).map((values) => ({ code: values[0], country: values[1].country, name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
 
@@ -209,7 +209,13 @@ const LoginPage = () => {
             <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
+                {languageList.map((it) => (
+                  <MenuItem key={it.code} value={it.code}>
+                    {getFlagEmoji(it.country)}
+                    &nbsp;&nbsp;
+                    {it.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           )}
