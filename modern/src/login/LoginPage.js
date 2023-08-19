@@ -3,6 +3,7 @@ import moment from 'moment';
 import {
   useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress,
 } from '@mui/material';
+import ReactCountryFlag from 'react-country-flag';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -50,7 +51,7 @@ const LoginPage = () => {
   const t = useTranslation();
 
   const { languages, language, setLanguage } = useLocalization();
-  const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
+  const languageList = Object.entries(languages).map((values) => ({ code: values[0], countryCode: values[1].countryCode, name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
 
@@ -209,7 +210,13 @@ const LoginPage = () => {
             <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
+                {languageList.map((it) => (
+                  <MenuItem key={it.code} value={it.code}>
+                    <ReactCountryFlag countryCode={it.countryCode} />
+                    &nbsp;&nbsp;
+                    {it.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           )}
