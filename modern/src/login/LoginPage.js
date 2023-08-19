@@ -3,7 +3,6 @@ import moment from 'moment';
 import {
   useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress,
 } from '@mui/material';
-import ReactCountryFlag from 'react-country-flag';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -11,7 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { sessionActions } from '../store';
-import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
+import { useLocalization, useTranslation, getFlagEmoji } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
 import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
@@ -212,7 +211,7 @@ const LoginPage = () => {
               <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
                 {languageList.map((it) => (
                   <MenuItem key={it.code} value={it.code}>
-                    <ReactCountryFlag countryCode={it.countryCode} />
+                    {getFlagEmoji(it.countryCode)}
                     &nbsp;&nbsp;
                     {it.name}
                   </MenuItem>
