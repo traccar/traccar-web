@@ -213,7 +213,7 @@ const LoginPage = () => {
                 {languageList.map((it) => (
                   <MenuItem key={it.code} value={it.code}>
                     <Box component="span" sx={{ mr: 1 }}>
-                      <ReactCountryFlag svg={navigator.platform.indexOf('Win') < 0} countryCode={it.country}/>
+                      <ReactCountryFlag svg={navigator.platform.indexOf('Win') >= 0} countryCode={it.country}/>
                     </Box>
                     {it.name}
                   </MenuItem>
