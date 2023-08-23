@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem,
@@ -51,7 +52,7 @@ const ChartReportPage = () => {
       const formattedPositions = positions.map((position) => {
         const data = { ...position, ...position.attributes };
         const formatted = {};
-        formatted.fixTime = formatTime(position.fixTime, 'time', hours12);
+        formatted.fixTime = moment(position.fixTime).valueOf();
         Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
           const value = data[key];
           if (typeof value === 'number') {
@@ -122,10 +123,23 @@ const ChartReportPage = () => {
                 top: 10, right: 40, left: 0, bottom: 10,
               }}
             >
-              <XAxis dataKey="fixTime" />
-              <YAxis type="number" tickFormatter={(value) => value.toFixed(2)} domain={[minValue - valueRange / 5, maxValue + valueRange / 5]} />
+              <XAxis
+                dataKey="fixTime"
+                type="number"
+                tickFormatter={(value) => formatTime(value, 'time', hours12)}
+                domain={['dataMin', 'dataMax']}
+                scale="time"
+              />
+              <YAxis
+                type="number"
+                tickFormatter={(value) => value.toFixed(2)}
+                domain={[minValue - valueRange / 5, maxValue + valueRange / 5]}
+              />
               <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip formatter={(value, key) => [value, positionAttributes[key]?.name || key]} />
+              <Tooltip
+                formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
+                labelFormatter={(value) => formatTime(value, 'seconds', hours12)}
+              />
               <Line type="monotone" dataKey={type} />
             </LineChart>
           </ResponsiveContainer>
