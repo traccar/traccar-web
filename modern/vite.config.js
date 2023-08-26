@@ -28,20 +28,19 @@ export default defineConfig(() => ({
         theme_color: '${colorPrimary}',
         icons: [
           {
-            src: 'favicon.ico',
-            sizes: '48x48 32x32 16x16',
-            type: 'image/x-icon',
+            src: 'pwa-64x64.png',
+            sizes: '64x64',
+            type: 'image/png',
           },
           {
-            src: 'logo192.png',
-            type: 'image/png',
+            src: 'pwa-192x192.png',
             sizes: '192x192',
-            purpose: 'any maskable',
+            type: 'image/png',
           },
           {
-            src: 'logo512.png',
-            type: 'image/png',
+            src: 'pwa-512x512.png',
             sizes: '512x512',
+            type: 'image/png',
             purpose: 'any maskable',
           },
         ],

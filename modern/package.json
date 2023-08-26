@@ -40,6 +40,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg",
     "lint": "eslint .",
     "lint:fix": "eslint --fix --ext .js ."
   },
@@ -55,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@vite-pwa/assets-generator": "^0.0.8",
     "eslint": "^8.47.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.28.1",
