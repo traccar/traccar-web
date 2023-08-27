@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
   },
   mediaButton: {
-    color: theme.palette.colors.white,
+    color: theme.palette.primary.contrastText,
     mixBlendMode: 'difference',
   },
   header: {

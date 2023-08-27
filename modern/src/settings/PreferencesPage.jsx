@@ -114,48 +114,9 @@ const PreferencesPage = () => {
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
       <Container maxWidth="xs" className={classes.container}>
-        <Accordion defaultExpanded>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('userToken')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails className={classes.details}>
-            <TextField
-              label={t('userExpirationTime')}
-              type="date"
-              value={tokenExpiration}
-              onChange={(e) => {
-                setTokenExpiration(e.target.value);
-                setToken(null);
-              }}
-            />
-            <FormControl>
-              <OutlinedInput
-                multiline
-                rows={6}
-                readOnly
-                type="text"
-                value={token || ''}
-                endAdornment={(
-                  <InputAdornment position="end">
-                    <div className={classes.tokenActions}>
-                      <IconButton size="small" edge="end" onClick={generateToken} disabled={!!token}>
-                        <CachedIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton size="small" edge="end" onClick={() => navigator.clipboard.writeText(token)} disabled={!token}>
-                        <ContentCopyIcon fontSize="small" />
-                      </IconButton>
-                    </div>
-                  </InputAdornment>
-                )}
-              />
-            </FormControl>
-          </AccordionDetails>
-        </Accordion>
         {!readonly && (
           <>
-            <Accordion>
+            <Accordion defaultExpanded>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">
                   {t('mapTitle')}
@@ -346,6 +307,49 @@ const PreferencesPage = () => {
                 />
               </AccordionDetails>
             </Accordion>
+          </>
+        )}
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="subtitle1">
+              {t('userToken')}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.details}>
+            <TextField
+              label={t('userExpirationTime')}
+              type="date"
+              value={tokenExpiration}
+              onChange={(e) => {
+                setTokenExpiration(e.target.value);
+                setToken(null);
+              }}
+            />
+            <FormControl>
+              <OutlinedInput
+                multiline
+                rows={6}
+                readOnly
+                type="text"
+                value={token || ''}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <div className={classes.tokenActions}>
+                      <IconButton size="small" edge="end" onClick={generateToken} disabled={!!token}>
+                        <CachedIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton size="small" edge="end" onClick={() => navigator.clipboard.writeText(token)} disabled={!token}>
+                        <ContentCopyIcon fontSize="small" />
+                      </IconButton>
+                    </div>
+                  </InputAdornment>
+                )}
+              />
+            </FormControl>
+          </AccordionDetails>
+        </Accordion>
+        {!readonly && (
+          <>
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1">

@@ -1,5 +1,3 @@
-import { grey } from '@mui/material/colors';
-
 export default {
   MuiUseMediaQuery: {
     defaultProps: {
@@ -8,9 +6,9 @@ export default {
   },
   MuiOutlinedInput: {
     styleOverrides: {
-      root: {
-        backgroundColor: grey[50],
-      },
+      root: ({ theme }) => ({
+        backgroundColor: theme.palette.background.default,
+      }),
     },
   },
   MuiButton: {
