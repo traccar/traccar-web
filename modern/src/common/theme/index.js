@@ -4,8 +4,8 @@ import palette from './palette';
 import dimensions from './dimensions';
 import components from './components';
 
-export default (server) => useMemo(() => createTheme({
-  palette: palette(server),
+export default (server, darkMode) => useMemo(() => createTheme({
+  palette: palette(server, darkMode),
   dimensions,
   components,
-}), [server]);
+}), [server, darkMode]);
