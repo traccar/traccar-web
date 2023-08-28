@@ -1,4 +1,4 @@
-import { grey, indigo } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import createPalette from '@mui/material/styles/createPalette';
 import { loadImage, prepareIcon } from './mapUtil';
 
