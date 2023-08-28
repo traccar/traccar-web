@@ -1,6 +1,6 @@
-import { loadImage, prepareIcon } from './mapUtil';
 import { grey, indigo } from '@mui/material/colors';
 import createPalette from '@mui/material/styles/createPalette';
+import { loadImage, prepareIcon } from './mapUtil';
 
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
