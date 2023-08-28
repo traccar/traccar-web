@@ -1,5 +1,6 @@
-import palette from '../../common/theme/palette';
 import { loadImage, prepareIcon } from './mapUtil';
+import { grey, indigo } from '@mui/material/colors';
+import createPalette from '@mui/material/styles/createPalette';
 
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
@@ -53,15 +54,20 @@ export const mapIconKey = (category) => (mapIcons.hasOwnProperty(category) ? cat
 
 export const mapImages = {};
 
+const mapPalette = createPalette({
+  primary: { main: indigo[900] },
+  neutral: { main: grey[500] },
+});
+
 export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
-    ['primary', 'positive', 'negative', 'neutral'].forEach((color) => {
+    ['primary', 'success', 'error', 'neutral'].forEach((color) => {
       results.push(loadImage(mapIcons[category]).then((icon) => {
-        mapImages[`${category}-${color}`] = prepareIcon(background, icon, palette().colors[color]);
+        mapImages[`${category}-${color}`] = prepareIcon(background, icon, mapPalette[color].main);
       }));
     });
     await Promise.all(results);

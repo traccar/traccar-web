@@ -100,9 +100,9 @@ export const formatCoordinate = (key, value, unit) => {
 export const getStatusColor = (status) => {
   switch (status) {
     case 'online':
-      return 'positive';
+      return 'success';
     case 'offline':
-      return 'negative';
+      return 'error';
     case 'unknown':
     default:
       return 'neutral';
@@ -111,12 +111,12 @@ export const getStatusColor = (status) => {
 
 export const getBatteryStatus = (batteryLevel) => {
   if (batteryLevel >= 70) {
-    return 'positive';
+    return 'success';
   }
   if (batteryLevel > 30) {
-    return 'medium';
+    return 'warning';
   }
-  return 'negative';
+  return 'error';
 };
 
 export const formatNotificationTitle = (t, notification, includeId) => {

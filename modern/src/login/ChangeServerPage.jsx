@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     textAlign: 'center',
     fontSize: '128px',
-    color: theme.palette.colors.neutral,
+    color: theme.palette.neutral.main,
   },
   container: {
     textAlign: 'center',

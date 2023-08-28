@@ -33,17 +33,17 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'normal',
     lineHeight: '0.875rem',
   },
-  positive: {
-    color: theme.palette.colors.positive,
+  success: {
+    color: theme.palette.success.main,
   },
-  medium: {
-    color: theme.palette.colors.medium,
+  warning: {
+    color: theme.palette.warning.main,
   },
-  negative: {
-    color: theme.palette.colors.negative,
+  error: {
+    color: theme.palette.error.main,
   },
   neutral: {
-    color: theme.palette.colors.neutral,
+    color: theme.palette.neutral.main,
   },
 }));
 
@@ -98,7 +98,7 @@ const DeviceRow = ({ data, index, style }) => {
             {position.attributes.hasOwnProperty('alarm') && (
               <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
                 <IconButton size="small">
-                  <ErrorIcon fontSize="small" className={classes.negative} />
+                  <ErrorIcon fontSize="small" className={classes.error} />
                 </IconButton>
               </Tooltip>
             )}
@@ -106,7 +106,7 @@ const DeviceRow = ({ data, index, style }) => {
               <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
                 <IconButton size="small">
                   {position.attributes.ignition ? (
-                    <EngineIcon width={20} height={20} className={classes.positive} />
+                    <EngineIcon width={20} height={20} className={classes.success} />
                   ) : (
                     <EngineIcon width={20} height={20} className={classes.neutral} />
                   )}
@@ -118,16 +118,16 @@ const DeviceRow = ({ data, index, style }) => {
                 <IconButton size="small">
                   {position.attributes.batteryLevel > 70 ? (
                     position.attributes.charge
-                      ? (<BatteryChargingFullIcon fontSize="small" className={classes.positive} />)
-                      : (<BatteryFullIcon fontSize="small" className={classes.positive} />)
+                      ? (<BatteryChargingFullIcon fontSize="small" className={classes.success} />)
+                      : (<BatteryFullIcon fontSize="small" className={classes.success} />)
                   ) : position.attributes.batteryLevel > 30 ? (
                     position.attributes.charge
-                      ? (<BatteryCharging60Icon fontSize="small" className={classes.medium} />)
-                      : (<Battery60Icon fontSize="small" className={classes.medium} />)
+                      ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
+                      : (<Battery60Icon fontSize="small" className={classes.warning} />)
                   ) : (
                     position.attributes.charge
-                      ? (<BatteryCharging20Icon fontSize="small" className={classes.negative} />)
-                      : (<Battery20Icon fontSize="small" className={classes.negative} />)
+                      ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
+                      : (<Battery20Icon fontSize="small" className={classes.error} />)
                   )}
                 </IconButton>
               </Tooltip>
