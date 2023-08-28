@@ -55,7 +55,6 @@ export const mapIconKey = (category) => (mapIcons.hasOwnProperty(category) ? cat
 export const mapImages = {};
 
 const mapPalette = createPalette({
-  primary: { main: indigo[900] },
   neutral: { main: grey[500] },
 });
 
@@ -65,7 +64,7 @@ export default async () => {
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
-    ['primary', 'success', 'error', 'neutral'].forEach((color) => {
+    ['info', 'success', 'error', 'neutral'].forEach((color) => {
       results.push(loadImage(mapIcons[category]).then((icon) => {
         mapImages[`${category}-${color}`] = prepareIcon(background, icon, mapPalette[color].main);
       }));
