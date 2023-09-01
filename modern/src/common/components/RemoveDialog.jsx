@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     height: 'auto',
     marginTop: 0,
     marginBottom: 0,
-    color: theme.palette.colors.negative,
+    color: theme.palette.error.main,
   },
 }));
 
