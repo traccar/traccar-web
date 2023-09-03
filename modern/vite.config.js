@@ -19,6 +19,7 @@ export default defineConfig(() => ({
     svgr(),
     react(),
     VitePWA({
+      registerType: 'autoUpdate',
       workbox: {
         navigateFallbackDenylist: [/^\/api/],
       },
