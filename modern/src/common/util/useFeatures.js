@@ -26,7 +26,7 @@ const featureSelector = createSelector(
     const disableEvents = get(server, user, 'ui.disableEvents');
     const disableComputedAttributes = get(server, user, 'ui.disableComputedAttributes');
     const disableCalendars = get(server, user, 'ui.disableCalendars');
-  
+
     return {
       disableAttributes,
       disableDrivers,
