@@ -9,6 +9,8 @@ module.exports = {
   ignorePatterns: ['build/', 'switcher.js', 'theme.js'],
   rules: {
     'max-len': [0],
+    'no-shadow': [0],
+    'no-return-assign': [0],
     'no-param-reassign': [0],
     'no-prototype-builtins': [0],
     'object-curly-newline': [1, {
