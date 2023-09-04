@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -70,7 +70,7 @@ const PreferencesPage = () => {
   const socket = useSelector((state) => state.session.socket);
 
   const [token, setToken] = useState(null);
-  const [tokenExpiration, setTokenExpiration] = useState(moment().add(1, 'week').locale('en').format(moment.HTML5_FMT.DATE));
+  const [tokenExpiration, setTokenExpiration] = useState(dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'));
 
   const mapStyles = useMapStyles();
   const mapOverlays = useMapOverlays();
@@ -80,7 +80,7 @@ const PreferencesPage = () => {
   const filter = createFilterOptions();
 
   const generateToken = useCatch(async () => {
-    const expiration = moment(tokenExpiration, moment.HTML5_FMT.DATE).toISOString();
+    const expiration = dayjs(tokenExpiration, 'YYYY-MM-DD').toISOString();
     const response = await fetch('/api/session/token', {
       method: 'POST',
       body: new URLSearchParams(`expiration=${expiration}`),

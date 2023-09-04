@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress, Box,
 } from '@mui/material';
@@ -72,7 +72,7 @@ const LoginPage = () => {
     if (nativeEnvironment) {
       let token = '';
       try {
-        const expiration = moment().add(6, 'months').toISOString();
+        const expiration = dayjs().add(6, 'months').toISOString();
         const response = await fetch('/api/session/token', {
           method: 'POST',
           body: new URLSearchParams(`expiration=${expiration}`),

@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem,
@@ -52,7 +52,7 @@ const ChartReportPage = () => {
       const formattedPositions = positions.map((position) => {
         const data = { ...position, ...position.attributes };
         const formatted = {};
-        formatted.fixTime = moment(position.fixTime).valueOf();
+        formatted.fixTime = dayjs(position.fixTime).valueOf();
         Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
           const value = data[key];
           if (typeof value === 'number') {

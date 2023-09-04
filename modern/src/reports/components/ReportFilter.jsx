@@ -3,7 +3,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 import { devicesActions, reportsActions } from '../../store';
@@ -47,32 +47,32 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
       let selectedTo;
       switch (period) {
         case 'today':
-          selectedFrom = moment().startOf('day');
-          selectedTo = moment().endOf('day');
+          selectedFrom = dayjs().startOf('day');
+          selectedTo = dayjs().endOf('day');
           break;
         case 'yesterday':
-          selectedFrom = moment().subtract(1, 'day').startOf('day');
-          selectedTo = moment().subtract(1, 'day').endOf('day');
+          selectedFrom = dayjs().subtract(1, 'day').startOf('day');
+          selectedTo = dayjs().subtract(1, 'day').endOf('day');
           break;
         case 'thisWeek':
-          selectedFrom = moment().startOf('week');
-          selectedTo = moment().endOf('week');
+          selectedFrom = dayjs().startOf('week');
+          selectedTo = dayjs().endOf('week');
           break;
         case 'previousWeek':
-          selectedFrom = moment().subtract(1, 'week').startOf('week');
-          selectedTo = moment().subtract(1, 'week').endOf('week');
+          selectedFrom = dayjs().subtract(1, 'week').startOf('week');
+          selectedTo = dayjs().subtract(1, 'week').endOf('week');
           break;
         case 'thisMonth':
-          selectedFrom = moment().startOf('month');
-          selectedTo = moment().endOf('month');
+          selectedFrom = dayjs().startOf('month');
+          selectedTo = dayjs().endOf('month');
           break;
         case 'previousMonth':
-          selectedFrom = moment().subtract(1, 'month').startOf('month');
-          selectedTo = moment().subtract(1, 'month').endOf('month');
+          selectedFrom = dayjs().subtract(1, 'month').startOf('month');
+          selectedTo = dayjs().subtract(1, 'month').endOf('month');
           break;
         default:
-          selectedFrom = moment(from, moment.HTML5_FMT.DATETIME_LOCAL);
-          selectedTo = moment(to, moment.HTML5_FMT.DATETIME_LOCAL);
+          selectedFrom = dayjs(from, 'YYYY-MM-DDTHH:mm');
+          selectedTo = dayjs(to, 'YYYY-MM-DDTHH:mm');
           break;
       }
 

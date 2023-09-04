@@ -11,7 +11,8 @@ import BatteryCharging60Icon from '@mui/icons-material/BatteryCharging60';
 import Battery20Icon from '@mui/icons-material/Battery20';
 import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
 import ErrorIcon from '@mui/icons-material/Error';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
 import {
   formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
@@ -21,6 +22,8 @@ import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import { ReactComponent as EngineIcon } from '../resources/images/data/engine.svg';
 import { useAttributePreference } from '../common/util/preferences';
+
+dayjs.extend(relativeTime);
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -65,7 +68,7 @@ const DeviceRow = ({ data, index, style }) => {
     if (item.status === 'online' || !item.lastUpdate) {
       status = formatStatus(item.status, t);
     } else {
-      status = moment(item.lastUpdate).fromNow();
+      status = dayjs(item.lastUpdate).fromNow();
     }
     return (
       <>
