@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import 'dayjs/plugin/duration';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
@@ -15,8 +14,8 @@ import {
 } from './converter';
 import { prefixString } from './stringUtils';
 
-dayjs.extend(duration)
-dayjs.extend(relativeTime)
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));
 
