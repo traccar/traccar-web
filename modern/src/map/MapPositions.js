@@ -140,6 +140,10 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'icon-rotation-alignment': 'map',
         },
       });
+
+      map.on('mouseenter', source, onMouseEnter);
+      map.on('mouseleave', source, onMouseLeave);
+      map.on('click', source, onMarkerClick);
     });
     map.addLayer({
       id: clusters,
@@ -155,20 +159,14 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       },
     });
 
-    map.on('mouseenter', id, onMouseEnter);
-    map.on('mouseleave', id, onMouseLeave);
     map.on('mouseenter', clusters, onMouseEnter);
     map.on('mouseleave', clusters, onMouseLeave);
-    map.on('click', id, onMarkerClick);
     map.on('click', clusters, onClusterClick);
     map.on('click', onMapClick);
 
     return () => {
-      map.off('mouseenter', id, onMouseEnter);
-      map.off('mouseleave', id, onMouseLeave);
       map.off('mouseenter', clusters, onMouseEnter);
       map.off('mouseleave', clusters, onMouseLeave);
-      map.off('click', id, onMarkerClick);
       map.off('click', clusters, onClusterClick);
       map.off('click', onMapClick);
 
@@ -177,6 +175,10 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       }
 
       [id, selected].forEach((source) => {
+        map.off('mouseenter', source, onMouseEnter);
+        map.off('mouseleave', source, onMouseLeave);
+        map.off('click', source, onMarkerClick);
+
         if (map.getLayer(source)) {
           map.removeLayer(source);
         }
