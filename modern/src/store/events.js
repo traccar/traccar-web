@@ -8,6 +8,7 @@ const { reducer, actions } = createSlice({
   reducers: {
     add(state, action) {
       state.items.unshift(...action.payload);
+      state.items.splice(50);
     },
     delete(state, action) {
       state.items = state.items.filter((item) => item.id !== action.payload.id);
