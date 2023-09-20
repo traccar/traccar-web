@@ -13,6 +13,7 @@ import {
   formatNumericHours,
   formatPercentage,
   formatSpeed,
+  formatSpeedKph,
   formatTime,
   formatTemperature,
   formatVoltage,
@@ -53,8 +54,9 @@ const PositionValue = ({ position, property, attribute }) => {
       case 'longitude':
         return formatCoordinate('longitude', value, coordinateFormat);
       case 'speed':
-      case 'obdSpeed':
         return value != null ? formatSpeed(value, speedUnit, t) : '';
+      case 'obdSpeed':
+        return value != null ? formatSpeedKph(value, speedUnit, t) : '';
       case 'course':
         return formatCourse(value);
       case 'altitude':
