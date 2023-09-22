@@ -10,18 +10,6 @@ const speedConverter = (unit) => {
   }
 };
 
-const speedConverterKph = (unit) => {
-  switch (unit) {
-    case 'kmh':
-      return 1;
-    case 'mph':
-      return 0.62137;
-    case 'kn':
-    default:
-      return 0.539957;
-  }
-};
-
 export const speedUnitString = (unit, t) => {
   switch (unit) {
     case 'kmh':
@@ -35,8 +23,6 @@ export const speedUnitString = (unit, t) => {
 };
 
 export const speedFromKnots = (value, unit) => value * speedConverter(unit);
-
-export const speedFromKph = (value, unit) => value * speedConverterKph(unit);
 
 export const speedToKnots = (value, unit) => value / speedConverter(unit);
 

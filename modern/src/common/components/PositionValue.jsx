@@ -53,9 +53,8 @@ const PositionValue = ({ position, property, attribute }) => {
       case 'longitude':
         return formatCoordinate('longitude', value, coordinateFormat);
       case 'speed':
-        return value != null ? formatSpeed(value, speedUnit, t) : '';
       case 'obdSpeed':
-        return value != null ? formatSpeed(value, speedUnit, t, 'kmh') : '';
+        return value != null ? formatSpeed(value, speedUnit, t) : '';
       case 'course':
         return formatCourse(value);
       case 'altitude':
