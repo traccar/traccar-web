@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   Accordion,
   AccordionSummary,
@@ -147,8 +147,8 @@ const DevicePage = () => {
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
-                value={(item.expirationTime && moment(item.expirationTime).locale('en').format(moment.HTML5_FMT.DATE)) || '2099-01-01'}
-                onChange={(e) => setItem({ ...item, expirationTime: moment(e.target.value, moment.HTML5_FMT.DATE).locale('en').format() })}
+                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('DD-MM-YYYY')) || '2099-01-01'}
+                onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'DD-MM-YYYY').locale('en').format() })}
                 disabled={!admin}
               />
               <FormControlLabel

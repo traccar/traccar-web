@@ -35,7 +35,7 @@ const PoiMap = () => {
         type: 'circle',
         paint: {
           'circle-radius': 5,
-          'circle-color': theme.palette.colors.geometry,
+          'circle-color': theme.palette.geometry.main,
         },
       });
       map.addLayer({
@@ -43,7 +43,7 @@ const PoiMap = () => {
         id: 'poi-line',
         type: 'line',
         paint: {
-          'line-color': theme.palette.colors.geometry,
+          'line-color': theme.palette.geometry.main,
           'line-width': 2,
         },
       });

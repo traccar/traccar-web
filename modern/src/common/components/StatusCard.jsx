@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
   },
   mediaButton: {
-    color: theme.palette.colors.white,
+    color: theme.palette.primary.contrastText,
     mixBlendMode: 'difference',
   },
   header: {
@@ -58,9 +58,11 @@ const useStyles = makeStyles((theme) => ({
   content: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    maxHeight: theme.dimensions.cardContentMaxHeight,
+    overflow: 'auto',
   },
-  negative: {
-    color: theme.palette.colors.negative,
+  delete: {
+    color: theme.palette.error.main,
   },
   icon: {
     width: '25px',
@@ -125,7 +127,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
-
   const positionItems = useAttributePreference('positionItems', 'speed,address,totalDistance,ignition,power,course,geofenceIds');
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -261,7 +262,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 <IconButton
                   onClick={() => setRemoving(true)}
                   disabled={disableActions || deviceReadonly || PartialDisableEditDevice}
-                  className={classes.negative}
+                  className={classes.delete}
                 >
                   <DeleteIcon />
                 </IconButton>

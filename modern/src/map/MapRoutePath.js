@@ -20,7 +20,7 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
         }
       }
     }
-    return theme.palette.colors.geometry;
+    return theme.palette.geometry.main;
   });
 
   useEffect(() => {

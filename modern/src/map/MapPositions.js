@@ -11,13 +11,14 @@ import { useAttributePreference, usePreference } from '../common/util/preference
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
-  const direction = `${id}-direction`;
+  const selected = `${id}-selected`;
 
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
   const iconScale = useAttributePreference('iconScale', desktop ? 0.75 : 1);
 
   const devices = useSelector((state) => state.devices.items);
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const mapCluster = useAttributePreference('mapCluster', true);
   const hours12 = usePreference('twelveHourFormat');
@@ -93,26 +94,56 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       clusterMaxZoom: 14,
       clusterRadius: 50,
     });
-    map.addLayer({
-      id,
-      type: 'symbol',
-      source: id,
-      filter: ['!has', 'point_count'],
-      layout: {
-        'icon-image': '{category}-{color}',
-        'icon-size': iconScale,
-        'icon-allow-overlap': true,
-        'text-field': `{${titleField || 'name'}}`,
-        'text-allow-overlap': true,
-        'text-anchor': 'bottom',
-        'text-offset': [0, -2 * iconScale],
-        'text-font': findFonts(map),
-        'text-size': 12,
+    map.addSource(selected, {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [],
       },
-      paint: {
-        'text-halo-color': 'white',
-        'text-halo-width': 1,
-      },
+    });
+    [id, selected].forEach((source) => {
+      map.addLayer({
+        id: source,
+        type: 'symbol',
+        source,
+        filter: ['!has', 'point_count'],
+        layout: {
+          'icon-image': '{category}-{color}',
+          'icon-size': iconScale,
+          'icon-allow-overlap': true,
+          'text-field': `{${titleField || 'name'}}`,
+          'text-allow-overlap': true,
+          'text-anchor': 'bottom',
+          'text-offset': [0, -2 * iconScale],
+          'text-font': findFonts(map),
+          'text-size': 12,
+        },
+        paint: {
+          'text-halo-color': 'white',
+          'text-halo-width': 1,
+        },
+      });
+      map.addLayer({
+        id: `direction-${source}`,
+        type: 'symbol',
+        source,
+        filter: [
+          'all',
+          ['!has', 'point_count'],
+          ['==', 'direction', true],
+        ],
+        layout: {
+          'icon-image': 'direction',
+          'icon-size': iconScale,
+          'icon-allow-overlap': true,
+          'icon-rotate': ['get', 'rotation'],
+          'icon-rotation-alignment': 'map',
+        },
+      });
+
+      map.on('mouseenter', source, onMouseEnter);
+      map.on('mouseleave', source, onMouseLeave);
+      map.on('click', source, onMarkerClick);
     });
     map.addLayer({
       id: clusters,
@@ -127,69 +158,57 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         'text-size': 14,
       },
     });
-    map.addLayer({
-      id: direction,
-      type: 'symbol',
-      source: id,
-      filter: [
-        'all',
-        ['!has', 'point_count'],
-        ['==', 'direction', true],
-      ],
-      layout: {
-        'icon-image': 'direction',
-        'icon-size': iconScale,
-        'icon-allow-overlap': true,
-        'icon-rotate': ['get', 'rotation'],
-        'icon-rotation-alignment': 'map',
-      },
-    });
 
-    map.on('mouseenter', id, onMouseEnter);
-    map.on('mouseleave', id, onMouseLeave);
     map.on('mouseenter', clusters, onMouseEnter);
     map.on('mouseleave', clusters, onMouseLeave);
-    map.on('click', id, onMarkerClick);
     map.on('click', clusters, onClusterClick);
     map.on('click', onMapClick);
 
     return () => {
-      map.off('mouseenter', id, onMouseEnter);
-      map.off('mouseleave', id, onMouseLeave);
       map.off('mouseenter', clusters, onMouseEnter);
       map.off('mouseleave', clusters, onMouseLeave);
-      map.off('click', id, onMarkerClick);
       map.off('click', clusters, onClusterClick);
       map.off('click', onMapClick);
 
-      if (map.getLayer(id)) {
-        map.removeLayer(id);
-      }
       if (map.getLayer(clusters)) {
         map.removeLayer(clusters);
       }
-      if (map.getLayer(direction)) {
-        map.removeLayer(direction);
-      }
-      if (map.getSource(id)) {
-        map.removeSource(id);
-      }
+
+      [id, selected].forEach((source) => {
+        map.off('mouseenter', source, onMouseEnter);
+        map.off('mouseleave', source, onMouseLeave);
+        map.off('click', source, onMarkerClick);
+
+        if (map.getLayer(source)) {
+          map.removeLayer(source);
+        }
+        if (map.getLayer(`direction-${source}`)) {
+          map.removeLayer(`direction-${source}`);
+        }
+        if (map.getSource(source)) {
+          map.removeSource(source);
+        }
+      });
     };
-  }, [mapCluster, clusters, direction, onMarkerClick, onClusterClick]);
+  }, [mapCluster, clusters, onMarkerClick, onClusterClick]);
 
   useEffect(() => {
-    map.getSource(id)?.setData({
-      type: 'FeatureCollection',
-      features: positions.filter((it) => devices.hasOwnProperty(it.deviceId)).map((position) => ({
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [position.longitude, position.latitude],
-        },
-        properties: createFeature(devices, position, selectedPosition && selectedPosition.id),
-      })),
+    [id, selected].forEach((source) => {
+      map.getSource(source)?.setData({
+        type: 'FeatureCollection',
+        features: positions.filter((it) => devices.hasOwnProperty(it.deviceId))
+          .filter((it) => (source === id ? it.deviceId !== selectedDeviceId : it.deviceId === selectedDeviceId))
+          .map((position) => ({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [position.longitude, position.latitude],
+            },
+            properties: createFeature(devices, position, selectedPosition && selectedPosition.id),
+          })),
+      });
     });
-  }, [mapCluster, clusters, direction, onMarkerClick, onClusterClick, devices, positions, selectedPosition]);
+  }, [mapCluster, clusters, onMarkerClick, onClusterClick, devices, positions, selectedPosition]);
 
   return null;
 };

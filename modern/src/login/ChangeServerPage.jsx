@@ -2,19 +2,17 @@ import React from 'react';
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import { makeStyles } from '@mui/styles';
 import {
-  Autocomplete, Container, createFilterOptions, TextField,
+  Autocomplete, Button, Container, createFilterOptions, TextField,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../common/components/LocalizationProvider';
 
 const currentServer = `${window.location.protocol}//${window.location.host}`;
 
 const officialServers = [
   currentServer,
-  'https://demo.traccar.org',
-  'https://demo2.traccar.org',
-  'https://demo3.traccar.org',
-  'https://demo4.traccar.org',
-  'https://server.traccar.org',
+  'https://app.foxgps.com.br',
+  'http://app.foxgps.com.br:8082',
   'http://localhost:8082',
   'http://localhost:3000',
 ];
@@ -23,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     textAlign: 'center',
     fontSize: '128px',
-    color: theme.palette.colors.neutral,
+    color: theme.palette.neutral.main,
   },
   container: {
     textAlign: 'center',
@@ -36,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ChangeServerPage = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
   const t = useTranslation();
 
   const filter = createFilterOptions();
@@ -57,9 +56,10 @@ const ChangeServerPage = () => {
         freeSolo
         className={classes.field}
         options={officialServers}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         renderInput={(params) => <TextField {...params} label={t('settingsServer')} />}
         value={currentServer}
-        onChange={(_, value) => handleSubmit(value)}
+        onChange={(_, value) => value && handleSubmit(value)}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
           if (params.inputValue && !filtered.includes(params.inputValue)) {
@@ -68,6 +68,12 @@ const ChangeServerPage = () => {
           return filtered;
         }}
       />
+      <Button
+        onClick={() => navigate(-1)}
+        color="secondary"
+      >
+        {t('sharedCancel')}
+      </Button>
     </Container>
   );
 };

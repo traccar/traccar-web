@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default (keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions) => {
   const groups = useSelector((state) => state.groups.items);
@@ -30,8 +30,8 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
         break;
       case 'lastUpdate':
         filtered.sort((device1, device2) => {
-          const time1 = device1.lastUpdate ? moment(device1.lastUpdate).valueOf() : 0;
-          const time2 = device2.lastUpdate ? moment(device2.lastUpdate).valueOf() : 0;
+          const time1 = device1.lastUpdate ? dayjs(device1.lastUpdate).valueOf() : 0;
+          const time2 = device2.lastUpdate ? dayjs(device2.lastUpdate).valueOf() : 0;
           return time2 - time1;
         });
         break;

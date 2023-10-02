@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, LinearProgress, FormGroup, FormControlLabel, Checkbox,
+  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, LinearProgress, Box, FormGroup, FormControlLabel, Checkbox,
 } from '@mui/material';
+import ReactCountryFlag from 'react-country-flag';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 // import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -64,7 +65,7 @@ const LoginPage = () => {
   const t = useTranslation();
 
   const { languages, language, setLanguage } = useLocalization();
-  const languageList = Object.entries(languages).map((values) => ({ code: values[0], name: values[1].name }));
+  const languageList = Object.entries(languages).map((values) => ({ code: values[0], country: values[1].country, name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
 
@@ -128,7 +129,7 @@ const LoginPage = () => {
     if (nativeEnvironment) {
       let token = '';
       try {
-        const expiration = moment().add(6, 'months').toISOString();
+        const expiration = dayjs().add(6, 'months').toISOString();
         const response = await fetch('/api/session/token', {
           method: 'POST',
           body: new URLSearchParams(`expiration=${expiration}`),
@@ -194,9 +195,9 @@ const LoginPage = () => {
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
 
-  const redirectToOldWeb = () => {
-    window.location.href = 'https://legacy.foxgps.com.br/';
-  };
+  // const redirectToOldWeb = () => {
+  //   window.location.href = 'https://legacy.foxgps.com.br/';
+  // };
 
   if (openIdForced) {
     handleOpenIdLogin();
@@ -266,12 +267,20 @@ const LoginPage = () => {
             <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
               <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-                {languageList.map((it) => <MenuItem key={it.code} value={it.code}>{it.name}</MenuItem>)}
+                {languageList.map((it) => (
+                  <MenuItem key={it.code} value={it.code}>
+                    <Box component="span" sx={{ mr: 1 }}>
+                      <ReactCountryFlag countryCode={it.country} svg />
+                    </Box>
+                    {it.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           )}
         </div>
         {emailEnabled && (
+          // eslint-disable-next-line jsx-a11y/anchor-is-valid
           <Link
             onClick={() => navigate('/reset-password')}
             className={classes.resetPassword}
@@ -281,16 +290,14 @@ const LoginPage = () => {
             {t('loginReset')}
           </Link>
         )}
-
-        <Link
+        {/* <Link
           onClick={() => redirectToOldWeb()}
           className={classes.resetPassword}
           underline="none"
           variant="caption"
         >
           Acessar painel antigo
-        </Link>
-
+        </Link> */}
       </div>
       <Snackbar
         open={!!announcement && !announcementShown}

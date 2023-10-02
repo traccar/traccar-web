@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid rgba(0,0,0,.125)',
     borderRadius: '0.25rem',
     boxShadow: '0 3px 15px 1px rgb(0 0 0 / 15%)',
-    backgroundColor: 'rgba(255,255,255,0.75)',
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : 'rgba(255,255,255,0.75)',
     maxWidth: theme.spacing(52),
     padding: theme.spacing(5),
     width: '100%',

@@ -31,6 +31,10 @@ export default (t) => useMemo(() => ({
     name: t('serverChangeDisable'),
     type: 'boolean',
   },
+  darkMode: {
+    name: t('settingsDarkMode'),
+    type: 'boolean',
+  },
   'ui.disableLoginLanguage': {
     name: t('attributeUiDisableLoginLanguage'),
     type: 'boolean',

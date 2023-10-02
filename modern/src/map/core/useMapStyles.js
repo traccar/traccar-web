@@ -30,7 +30,7 @@ export default () => {
   const t = useTranslation();
 
   const mapTilerKey = useAttributePreference('mapTilerKey');
-  const locationIqKey = useAttributePreference('locationIqKey');
+  const locationIqKey = useAttributePreference('locationIqKey') || 'pk.0f147952a41c555a5b70614039fd148b';
   const bingMapsKey = useAttributePreference('bingMapsKey');
   const tomTomKey = useAttributePreference('tomTomKey');
   const hereKey = useAttributePreference('hereKey');
@@ -41,7 +41,13 @@ export default () => {
     {
       id: 'locationIqStreets',
       title: t('mapLocationIqStreets'),
-      style: `https://tiles.locationiq.com/v3/streets/vector.json?key=${locationIqKey || 'pk.0f147952a41c555a5b70614039fd148b'}`,
+      style: `https://tiles.locationiq.com/v3/streets/vector.json?key=${locationIqKey}`,
+      available: true,
+    },
+    {
+      id: 'locationIqDark',
+      title: t('mapLocationIqDark'),
+      style: `https://tiles.locationiq.com/v3/dark/vector.json?key=${locationIqKey}`,
       available: true,
     },
     {

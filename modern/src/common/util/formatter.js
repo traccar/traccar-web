@@ -1,4 +1,7 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 import {
   altitudeFromMeters,
   altitudeUnitString,
@@ -10,6 +13,9 @@ import {
   volumeUnitString,
 } from './converter';
 import { prefixString } from './stringUtils';
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
 
 export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));
 
@@ -25,16 +31,16 @@ export const formatConsumption = (value, t) => `${value} ${t('sharedLiterPerHour
 
 export const formatTime = (value, format, hours12) => {
   if (value) {
-    const m = moment(value);
+    const d = dayjs(value);
     switch (format) {
       case 'date':
-        return m.format('YYYY-MM-DD');
+        return d.format('DD-MM-YYYY');
       case 'time':
-        return m.format(hours12 ? 'hh:mm:ss A' : 'HH:mm:ss');
+        return d.format(hours12 ? 'hh:mm:ss A' : 'HH:mm:ss');
       case 'minutes':
-        return m.format(hours12 ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD HH:mm');
+        return d.format(hours12 ? 'DD-MM-YYYY hh:mm A' : 'DD-MM-YYYY HH:mm');
       default:
-        return m.format(hours12 ? 'YYYY-MM-DD hh:mm:ss A' : 'YYYY-MM-DD HH:mm:ss');
+        return d.format(hours12 ? 'DD-MM-YYYY hh:mm:ss A' : 'DD-MM-YYYY HH:mm:ss');
     }
   }
   return '';
@@ -56,11 +62,11 @@ export const formatDistance = (value, unit, t) => `${distanceFromMeters(value, u
 
 export const formatAltitude = (value, unit, t) => `${altitudeFromMeters(value, unit).toFixed(2)} ${altitudeUnitString(unit, t)}`;
 
-export const formatSpeed = (value, unit, t) => `${speedFromKnots(value, unit).toFixed(0)} ${speedUnitString(unit, t)}`;
+export const formatSpeed = (value, unit, t) => `${speedFromKnots(value, unit).toFixed(2)} ${speedUnitString(unit, t)}`;
 
 export const formatVolume = (value, unit, t) => `${volumeFromLiters(value, unit).toFixed(2)} ${volumeUnitString(unit, t)}`;
 
-export const formatHours = (value) => moment.duration(value).humanize();
+export const formatHours = (value) => dayjs.duration(value).humanize();
 
 export const formatNumericHours = (value, t) => {
   const hours = Math.floor(value / 3600000);
@@ -100,9 +106,9 @@ export const formatCoordinate = (key, value, unit) => {
 export const getStatusColor = (status) => {
   switch (status) {
     case 'online':
-      return 'positive';
+      return 'success';
     case 'offline':
-      return 'negative';
+      return 'error';
     case 'unknown':
     default:
       return 'neutral';
@@ -111,12 +117,12 @@ export const getStatusColor = (status) => {
 
 export const getBatteryStatus = (batteryLevel) => {
   if (batteryLevel >= 70) {
-    return 'positive';
+    return 'success';
   }
   if (batteryLevel > 30) {
-    return 'medium';
+    return 'warning';
   }
-  return 'negative';
+  return 'error';
 };
 
 export const formatNotificationTitle = (t, notification, includeId) => {

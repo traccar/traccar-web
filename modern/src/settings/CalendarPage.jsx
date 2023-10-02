@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
@@ -22,8 +22,11 @@ const formatCalendarTime = (time) => {
 };
 
 const parseRule = (rule) => {
+  if (rule.endsWith('COUNT=1')) {
+    return { frequency: 'ONCE' };
+  }
   const fragments = rule.split(';');
-  const frequency = fragments[0].includes('FREQ') ? fragments[0].substring(11) : 'ONCE';
+  const frequency = fragments[0].substring(11);
   const by = fragments.length > 1 ? fragments[1].split('=')[1].split(',') : null;
   return { frequency, by };
 };
@@ -38,7 +41,7 @@ const formatRule = (rule) => {
     case 'MONTHLY':
       return `RRULE:FREQ=${rule.frequency};BYMONTHDAY=${by || 1}`;
     default:
-      return 'RRULE:';
+      return 'RRULE:FREQ=DAILY;COUNT=1';
   }
 };
 
@@ -50,8 +53,8 @@ const simpleCalendar = () => window.btoa([
   'PRODID:-//Traccar//NONSGML Traccar//EN',
   'BEGIN:VEVENT',
   'UID:00000000-0000-0000-0000-000000000000',
-  `DTSTART;${formatCalendarTime(moment())}`,
-  `DTEND;${formatCalendarTime(moment().add(1, 'hours'))}`,
+  `DTSTART;${formatCalendarTime(dayjs())}`,
+  `DTEND;${formatCalendarTime(dayjs().add(1, 'hours'))}`,
   'RRULE:FREQ=DAILY',
   'SUMMARY:Event',
   'END:VEVENT',
@@ -145,18 +148,18 @@ const CalendarPage = () => {
                   <TextField
                     label={t('reportFrom')}
                     type="datetime-local"
-                    value={moment(lines[5].slice(-15)).locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
+                    value={dayjs(lines[5].slice(-15)).locale('en').format('DD-MM-YYYYTHH:mm')}
                     onChange={(e) => {
-                      const time = formatCalendarTime(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL));
+                      const time = formatCalendarTime(dayjs(e.target.value, 'DD-MM-YYYYTHH:mm'));
                       setItem({ ...item, data: updateCalendar(lines, 5, `DTSTART;${time}`) });
                     }}
                   />
                   <TextField
                     label={t('reportTo')}
                     type="datetime-local"
-                    value={moment(lines[6].slice(-15)).locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL)}
+                    value={dayjs(lines[6].slice(-15)).locale('en').format('DD-MM-YYYYTHH:mm')}
                     onChange={(e) => {
-                      const time = formatCalendarTime(moment(e.target.value, moment.HTML5_FMT.DATETIME_LOCAL));
+                      const time = formatCalendarTime(dayjs(e.target.value, 'DD-MM-YYYYTHH:mm'));
                       setItem({ ...item, data: updateCalendar(lines, 6, `DTEND;${time}`) });
                     }}
                   />

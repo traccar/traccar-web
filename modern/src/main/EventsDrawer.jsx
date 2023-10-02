@@ -69,7 +69,7 @@ const EventsDrawer = ({ open, onClose }) => {
               secondary={formatTime(event.eventTime, 'seconds', hours12)}
             />
             <IconButton size="small" onClick={() => dispatch(eventsActions.delete(event))}>
-              <DeleteIcon fontSize="small" className={classes.negative} />
+              <DeleteIcon fontSize="small" className={classes.delete} />
             </IconButton>
           </ListItemButton>
         ))}

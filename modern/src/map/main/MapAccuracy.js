@@ -25,8 +25,8 @@ const MapAccuracy = ({ positions }) => {
         ['==', '$type', 'Polygon'],
       ],
       paint: {
-        'fill-color': theme.palette.colors.geometry,
-        'fill-outline-color': theme.palette.colors.geometry,
+        'fill-color': theme.palette.geometry.main,
+        'fill-outline-color': theme.palette.geometry.main,
         'fill-opacity': 0.25,
       },
     });

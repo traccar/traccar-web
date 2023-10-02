@@ -48,7 +48,7 @@ import AccumulatorsPage from './settings/AccumulatorsPage';
 import CommandDevicePage from './settings/CommandDevicePage';
 import CommandGroupPage from './settings/CommandGroupPage';
 import App from './App';
-import ChangeServerPage from './other/ChangeServerPage';
+import ChangeServerPage from './login/ChangeServerPage';
 import DevicesPage from './settings/DevicesPage';
 import ScheduledPage from './reports/ScheduledPage';
 import DeviceConnectionsPage from './settings/DeviceConnectionsPage';

@@ -36,7 +36,6 @@ export const prepareIcon = (background, icon, color) => {
   canvas.style.height = `${background.height}px`;
 
   const context = canvas.getContext('2d');
-
   if (color && color === '#2e7d32') { // logica de cor pra ignição ligada by gui
     // Desenhar o fundo com o efeito de sombra
     context.save();
@@ -91,7 +90,7 @@ export const geofenceToFeature = (theme, item) => {
     geometry,
     properties: {
       name: item.name,
-      color: item.attributes.color || theme.palette.colors.geometry,
+      color: item.attributes.color || theme.palette.geometry.main,
     },
   };
 };

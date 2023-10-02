@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const { reducer, actions } = createSlice({
   name: 'reports',
   initialState: {
     groupIds: [],
     period: 'today',
-    from: moment().subtract(1, 'hour').locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL),
-    to: moment().locale('en').format(moment.HTML5_FMT.DATETIME_LOCAL),
+    from: dayjs().subtract(1, 'hour').locale('en').format('DD-MM-YYYYTHH:mm'),
+    to: dayjs().locale('en').format('DD-MM-YYYYTHH:mm'),
   },
   reducers: {
     updateGroupIds(state, action) {

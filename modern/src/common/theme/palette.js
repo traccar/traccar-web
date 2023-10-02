@@ -1,34 +1,27 @@
 import {
-  amber, grey, green, red, orange, common,
+  grey, green, amber, purple,
 } from '@mui/material/colors';
 
 const validatedColor = (color) => (/^#([0-9A-Fa-f]{3}){1,2}$/.test(color) ? color : null);
 
-export default (server) => {
-  const colors = {
-    white: common.white,
-    background: grey[50],
-    primary: validatedColor(server?.attributes?.colorPrimary) || orange[500],
-    secondary: validatedColor(server?.attributes?.colorSecondary) || green[500],
-    positive: green[500],
-    medium: amber[700],
-    negative: red[500],
-    neutral: grey[500],
-    geometry: red[900],
-    ignition: green[800],
-  };
-
-  return {
-    background: {
-      default: colors.background,
-    },
-    primary: {
-      main: colors.primary,
-    },
-    secondary: {
-      main: colors.secondary,
-      contrastText: colors.white,
-    },
-    colors,
-  };
-};
+export default (server, darkMode) => ({
+  mode: darkMode ? 'dark' : 'light',
+  background: {
+    default: darkMode ? grey[900] : grey[50],
+  },
+  primary: {
+    main: validatedColor(server?.attributes?.colorPrimary) || (darkMode ? amber[300] : amber[900]),
+  },
+  secondary: {
+    main: validatedColor(server?.attributes?.colorSecondary) || (darkMode ? green[300] : green[800]),
+  },
+  neutral: {
+    main: grey[500],
+  },
+  geometry: {
+    main: purple[900],
+  },
+  ignition: {
+    main: green[800],
+  },
+});

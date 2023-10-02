@@ -70,7 +70,7 @@ const MapLiveRoutes = () => {
             coordinates: history[deviceId],
           },
           properties: {
-            color: devices[deviceId].attributes['web.reportColor'] || theme.palette.colors.geometry,
+            color: devices[deviceId].attributes['web.reportColor'] || theme.palette.geometry.main,
           },
         })),
       });
