@@ -442,6 +442,7 @@
     "eventDeviceUnknown": "Status unknown",
     "eventDeviceOffline": "Status offline",
     "eventDeviceInactive": "Device inactive",
+    "eventQueuedCommandSent": "Queued command sent",
     "eventDeviceMoving": "Device moving",
     "eventDeviceStopped": "Device stopped",
     "eventDeviceOverspeed": "Speed limit exceeded",
