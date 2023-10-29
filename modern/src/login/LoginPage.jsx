@@ -98,7 +98,6 @@ const LoginPage = () => {
         method: 'POST',
         body: new URLSearchParams(code.length ? query + `&code=${code}` : query),
       });
-      console.log(response); // TODO check missing code
       if (response.ok) {
         const user = await response.json();
         generateLoginToken();
