@@ -35,6 +35,14 @@ export default (t) => useMemo(() => ({
     name: t('settingsDarkMode'),
     type: 'boolean',
   },
+  totpEnable: {
+    name: t('settingsTotpEnable'),
+    type: 'boolean',
+  },
+  totpForce: {
+    name: t('settingsTotpForce'),
+    type: 'boolean',
+  },
   'ui.disableLoginLanguage': {
     name: t('attributeUiDisableLoginLanguage'),
     type: 'boolean',

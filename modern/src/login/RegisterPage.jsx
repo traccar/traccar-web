@@ -9,7 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
-import { useCatch } from '../reactHelper';
+import { useCatch, useEffectAsync } from '../reactHelper';
 import { sessionActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,17 +37,30 @@ const RegisterPage = () => {
   const t = useTranslation();
 
   const server = useSelector((state) => state.session.server);
+  const totpForce = useSelector((state) => state.session.server.attributes.totpForce);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [totpKey, setTotpKey] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  useEffectAsync(async () => {
+    if (totpForce) {
+      const response = await fetch('/api/users/totp', { method: 'POST' });
+      if (response.ok) {
+        setTotpKey(await response.text());
+      } else {
+        throw Error(await response.text());
+      }
+    }
+  }, [totpForce, setTotpKey]);
 
   const handleSubmit = useCatch(async () => {
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, password, totpKey }),
     });
     if (response.ok) {
       setSnackbarOpen(true);
@@ -96,6 +109,17 @@ const RegisterPage = () => {
           autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
         />
+        {totpForce && (
+          <TextField
+            required
+            label={t('loginTotpKey')}
+            name="totpKey"
+            value={totpKey}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        )}
         <Button
           variant="contained"
           color="secondary"
