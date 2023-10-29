@@ -57,6 +57,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
@@ -64,6 +65,7 @@ const LoginPage = () => {
   const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
   const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
   const openIdForced = useSelector((state) => state.session.server.openIdEnabled && state.session.server.openIdForce);
+  const [codeEnabled, setCodeEnabled] = useState(false);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
@@ -89,16 +91,20 @@ const LoginPage = () => {
 
   const handlePasswordLogin = async (event) => {
     event.preventDefault();
+    setFailed(false);
     try {
+      const query = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
       const response = await fetch('/api/session', {
         method: 'POST',
-        body: new URLSearchParams(`email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`),
+        body: new URLSearchParams(code.length ? query + `&code=${code}` : query),
       });
       if (response.ok) {
         const user = await response.json();
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
         navigate('/');
+      } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
+        setCodeEnabled(true);
       } else {
         throw Error(await response.text());
       }
@@ -120,7 +126,7 @@ const LoginPage = () => {
   });
 
   const handleSpecialKey = (e) => {
-    if (e.keyCode === 13 && email && password) {
+    if (e.keyCode === 13 && email && password && (!codeEnabled || code)) {
       handlePasswordLogin(e);
     }
   };
@@ -179,12 +185,24 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           onKeyUp={handleSpecialKey}
         />
+        {codeEnabled && (
+          <TextField
+            required
+            error={failed}
+            label={t('loginTotpCode')}
+            name="code"
+            value={code}
+            type="number"
+            onChange={(e) => setCode(e.target.value)}
+            onKeyUp={handleSpecialKey}
+          />
+        )}
         <Button
           onClick={handlePasswordLogin}
           onKeyUp={handleSpecialKey}
           variant="contained"
           color="secondary"
-          disabled={!email || !password}
+          disabled={!email || !password || (codeEnabled && !code)}
         >
           {t('loginLogin')}
         </Button>
