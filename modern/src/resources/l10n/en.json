@@ -228,6 +228,7 @@
     "settingsDarkMode": "Dark Mode",
     "settingsTotpEnable": "Enable One-time Password",
     "settingsTotpForce": "Force One-time Password",
+    "settingsServiceWorkerUpdateInterval": "ServiceWorker Update Interval",
     "reportTitle": "Reports",
     "reportScheduled": "Scheduled Reports",
     "reportDevice": "Device",
