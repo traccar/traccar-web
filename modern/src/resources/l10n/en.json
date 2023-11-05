@@ -99,6 +99,8 @@
     "sharedImport": "Import",
     "sharedColumns": "Columns",
     "sharedDropzoneText": "Drag and drop a file here or click",
+    "sharedReload": "Reload",
+    "updateAvailable": "New update available, click on the reload button to update.",
     "calendarSimple": "Simple",
     "calendarRecurrence": "Recurrence",
     "calendarOnce": "Once",
