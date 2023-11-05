@@ -16,7 +16,6 @@ import NativeInterface from './common/components/NativeInterface';
 import ServerProvider from './ServerProvider';
 import ErrorBoundary from './ErrorBoundary';
 import AppThemeProvider from './AppThemeProvider';
-import ReloadPrompt from './ReloadPrompt';
 
 preloadImages();
 
@@ -32,7 +31,6 @@ root.render(
               <BrowserRouter>
                 <Navigation />
               </BrowserRouter>
-              <ReloadPrompt />
               <ErrorHandler />
               <NativeInterface />
             </ServerProvider>

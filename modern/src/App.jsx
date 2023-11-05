@@ -8,6 +8,7 @@ import SocketController from './SocketController';
 import CachingController from './CachingController';
 import { useEffectAsync } from './reactHelper';
 import { sessionActions } from './store';
+import ReloadPrompt from './ReloadPrompt';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -48,6 +49,7 @@ const App = () => {
     <>
       <SocketController />
       <CachingController />
+      <ReloadPrompt />
       <div className={classes.page}>
         <Outlet />
       </div>
