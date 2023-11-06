@@ -43,6 +43,10 @@ export default (t) => useMemo(() => ({
     name: t('settingsTotpForce'),
     type: 'boolean',
   },
+  serviceWorkerUpdateInterval: {
+    name: t('settingsServiceWorkerUpdateInterval'),
+    type: 'number',
+  },
   'ui.disableLoginLanguage': {
     name: t('attributeUiDisableLoginLanguage'),
     type: 'boolean',
