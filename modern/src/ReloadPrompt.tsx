@@ -45,7 +45,7 @@ function ReloadPrompt() {
       open={needRefresh} 
       message={t('updateAvailable')}
       action={(
-        <Button color="secondary" size="small" onClick={() => updateServiceWorker(true)}>
+        <Button onClick={() => updateServiceWorker(true)}>
           {t('sharedReload')}
         </Button>
       )}
