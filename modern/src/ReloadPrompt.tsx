@@ -11,8 +11,7 @@ function ReloadPrompt() {
   const serviceWorkerUpdateInterval = useAttributePreference('serviceWorkerUpdateInterval', 3600000);
 
   const {
-    offlineReady: [offlineReady, setOfflineReady],
-    needRefresh: [needRefresh, setNeedRefresh],
+    needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(swUrl, r) {
