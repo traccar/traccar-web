@@ -1,22 +1,22 @@
 import { Snackbar, IconButton } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useTranslation } from './common/components/LocalizationProvider';
-import { useServerAttributePreference } from './common/util/preferences';
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 // Based on https://vite-pwa-org.netlify.app/frameworks/react.html
 function UpdateController() {
   const t = useTranslation();
 
-  const serviceWorkerUpdateInterval = useServerAttributePreference('serviceWorkerUpdateInterval', 3600000);
+  const swUpdateInterval = useSelector((state) => state.session.server.attributes.serviceWorkerUpdateInterval || 3600000);
 
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(swUrl, swRegistration) {
-      if (serviceWorkerUpdateInterval > 0 && swRegistration) {
+      if (swUpdateInterval > 0 && swRegistration) {
         setInterval(async () => {
           if (!(!swRegistration.installing && navigator)) {
             return;
@@ -37,7 +37,7 @@ function UpdateController() {
           if (newSW?.status === 200) {
             await swRegistration.update();
           }
-        }, serviceWorkerUpdateInterval);
+        }, swUpdateInterval);
       }
     }
   });
