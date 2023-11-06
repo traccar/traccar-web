@@ -2,14 +2,14 @@ import { Snackbar, IconButton } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import React from 'react'
 import { useTranslation } from './common/components/LocalizationProvider';
-import { useAttributePreference } from './common/util/preferences';
+import { useServerAttributePreference } from './common/util/preferences';
 import { useRegisterSW } from 'virtual:pwa-register/react'
 
 // Based on https://vite-pwa-org.netlify.app/frameworks/react.html
 function UpdateController() {
   const t = useTranslation();
 
-  const serviceWorkerUpdateInterval = useAttributePreference('serviceWorkerUpdateInterval', 3600000);
+  const serviceWorkerUpdateInterval = useServerAttributePreference('serviceWorkerUpdateInterval', 3600000);
 
   const {
     needRefresh: [needRefresh],

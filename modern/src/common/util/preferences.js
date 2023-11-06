@@ -39,3 +39,10 @@ export const useAttributePreference = (key, defaultValue) => useSelector((state)
   }
   return defaultValue;
 });
+
+export const useServerAttributePreference = (key, defaultValue) => useSelector((state) => {
+  if (containsProperty(state.session.server.attributes, key)) {
+    return state.session.server.attributes[key];
+  }
+  return defaultValue;
+});
