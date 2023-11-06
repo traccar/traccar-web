@@ -1,4 +1,5 @@
-import { Snackbar, Button } from '@mui/material';
+import { Snackbar, IconButton } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import React from 'react'
 import { useTranslation } from './common/components/LocalizationProvider';
 import { useAttributePreference } from './common/util/preferences';
@@ -46,9 +47,9 @@ function UpdateCheckPrompt() {
       open={needRefresh} 
       message={t('settingsUpdateAvailable')}
       action={(
-        <Button onClick={() => updateServiceWorker(true)}>
-          {t('settingsReload')}
-        </Button>
+        <IconButton color="inherit" onClick={() => updateServiceWorker(true)}>
+          <RefreshIcon />
+        </IconButton>
       )}
     />
   );

@@ -227,7 +227,6 @@
     "settingsTotpEnable": "Enable One-time Password",
     "settingsTotpForce": "Force One-time Password",
     "settingsServiceWorkerUpdateInterval": "ServiceWorker Update Interval",
-    "settingsReload": "Reload",
     "settingsUpdateAvailable": "There is an update available.",
     "reportTitle": "Reports",
     "reportScheduled": "Scheduled Reports",
