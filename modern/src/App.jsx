@@ -8,7 +8,7 @@ import SocketController from './SocketController';
 import CachingController from './CachingController';
 import { useEffectAsync } from './reactHelper';
 import { sessionActions } from './store';
-import UpdateCheckPrompt from './UpdateCheckPrompt';
+import UpdateController from './UpdateController';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -49,7 +49,7 @@ const App = () => {
     <>
       <SocketController />
       <CachingController />
-      <UpdateCheckPrompt />
+      <UpdateController />
       <div className={classes.page}>
         <Outlet />
       </div>
