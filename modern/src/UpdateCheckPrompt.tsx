@@ -50,7 +50,7 @@ function UpdateCheckPrompt() {
           {t('settingsReload')}
         </Button>
       )}
-      />
+    />
   );
 }
 
