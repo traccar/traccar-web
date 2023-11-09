@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Toolbar, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText, Tooltip,
+  Toolbar, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText, Tooltip, Autocomplete, TextField
 } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import MapIcon from '@mui/icons-material/Map';
@@ -133,17 +133,17 @@ const MainToolbar = ({
             </Select>
           </FormControl>
           <FormControl>
-            <InputLabel>{t('settingsGroups')}</InputLabel>
-            <Select
-              label={t('settingsGroups')}
-              value={filter.groups}
-              onChange={(e) => setFilter({ ...filter, groups: e.target.value })}
+            <Autocomplete
               multiple
-            >
-              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-              ))}
-            </Select>
+              limitTags={1}
+              options={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
+              getOptionLabel={(option) => option.name}
+              value={filter.groups.map(id => groups[id])}
+              onChange={(event, newValue) => {
+                setFilter({ ...filter, groups: newValue.map(group => group.id) });
+              }}
+              renderInput={(params) => <TextField {...params} label={t('settingsGroups')} />}
+            />
           </FormControl>
           <FormControl>
             <InputLabel>{t('sharedSortBy')}</InputLabel>
