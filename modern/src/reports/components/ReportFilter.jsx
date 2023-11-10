@@ -102,7 +102,6 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
               getOptionLabel={(option) => option?.name ?? ''}
               value={multiDevice ? deviceIds.map(did => devices[did]) : devices[deviceId] || ''}
               onChange={(event, newValue) => {
-                console.log(newValue);
                 dispatch(multiDevice ? devicesActions.selectIds(newValue.map(device => device.id)) : devicesActions.selectId(newValue?.id ?? null))
               }}
               renderInput={(params) => <TextField {...params} label={t(multiDevice ? 'deviceTitle' : 'reportDevice')} />}
