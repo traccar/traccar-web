@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, Autocomplete
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -93,34 +93,39 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
       {!ignoreDevice && (
         <div className={classes.filterItem}>
           <FormControl fullWidth>
-            <InputLabel>{t(multiDevice ? 'deviceTitle' : 'reportDevice')}</InputLabel>
-            <Select
-              label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
-              value={multiDevice ? deviceIds : deviceId || ''}
-              onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
+            <Autocomplete
               multiple={multiDevice}
-            >
-              {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
-                <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-              ))}
-            </Select>
+              limitTags={1}
+              disableClearable
+              size="small"
+              options={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
+              getOptionLabel={(option) => option?.name ?? ''}
+              value={multiDevice ? deviceIds.map(did => devices[did]) : devices[deviceId] || ''}
+              onChange={(event, newValue) => {
+                console.log(newValue);
+                dispatch(multiDevice ? devicesActions.selectIds(newValue.map(device => device.id)) : devicesActions.selectId(newValue?.id ?? null))
+              }}
+              renderInput={(params) => <TextField {...params} label={t(multiDevice ? 'deviceTitle' : 'reportDevice')} />}
+            />
           </FormControl>
         </div>
       )}
       {includeGroups && (
         <div className={classes.filterItem}>
           <FormControl fullWidth>
-            <InputLabel>{t('settingsGroups')}</InputLabel>
-            <Select
-              label={t('settingsGroups')}
-              value={groupIds}
-              onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
-              multiple
-            >
-              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-              ))}
-            </Select>
+            <Autocomplete
+                multiple
+                limitTags={1}
+                disableClearable
+                size="small"
+                options={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
+                getOptionLabel={(option) => option?.name ?? ''}
+                value={groupIds.map(gid => groups[gid])}
+                onChange={(event, newValue) => {
+                  dispatch(reportsActions.updateGroupIds(newValue.map(group => group.id)))
+                }}
+                renderInput={(params) => <TextField {...params} label={t('settingsGroups')} />}
+              />
           </FormControl>
         </div>
       )}

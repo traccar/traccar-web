@@ -136,6 +136,7 @@ const MainToolbar = ({
             <Autocomplete
               multiple
               limitTags={1}
+              size="small"
               options={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
               getOptionLabel={(option) => option.name}
               value={filter.groups.map(id => groups[id])}
