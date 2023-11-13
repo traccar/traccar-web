@@ -2,14 +2,16 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('dotenv').config();
 /* eslint-disable no-template-curly-in-string */
 export default defineConfig(() => ({
   server: {
     port: 3000,
     proxy: {
-      '/api/socket': 'ws://localhost:8082',
-      '/api': 'http://localhost:8082',
+      '/api/socket': `ws://${process.env.APP_AXE_DOMAIN}:8082`,
+      '/api': `https://${process.env.APP_AXE_DOMAIN}`,
+      '/axelor-api': `https://${process.env.APP_AXE_DOMAIN}/${process.env.APP_AXE_API_PATH}`,
     },
   },
   build: {
