@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinearProgress } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import AxelorAuthController from '../AxelorAuthController';
 import SocketController from '../SocketController';
 import CachingController from '../CachingController';
 import { useEffectAsync } from '../reactHelper';
@@ -43,6 +44,7 @@ const App = () => {
 
   return !initialized ? (<LinearProgress />) : (
     <>
+      <AxelorAuthController />
       <SocketController />
       <CachingController />
       <UpdateController />

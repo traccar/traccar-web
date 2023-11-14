@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinearProgress, useMediaQuery, useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import AxelorAuthController from './AxelorAuthController';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
 import CachingController from './CachingController';
@@ -47,6 +48,7 @@ const App = () => {
 
   return !initialized ? (<LinearProgress />) : (
     <>
+      <AxelorAuthController />
       <SocketController />
       <CachingController />
       <UpdateController />
