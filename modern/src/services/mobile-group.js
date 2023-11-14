@@ -16,11 +16,11 @@ const mobileGroupApi = createApi({
             offset: 0,
             limit: 500,
             fields: [
-              "mobileGroup.groupNumber",                          //номер группы
-              "mobileGroup.groupStatus",                          //статус группы
-              "mobileGroup.groupInspector.fullName",              //старший инспектор
-              "mobileGroup.groupInspector.mobilePhone",           //номер телефона
-              "mobileGroup.groupInspector.jobTitleFunction.name",  //должность
+              "mobileGroup.groupNumber",                    
+              "mobileGroup.groupStatus",                        
+              "mobileGroup.groupInspector.fullName",         
+              "mobileGroup.groupInspector.mobilePhone",          
+              "mobileGroup.groupInspector.jobTitleFunction.name",  
               "latitude",
               "longitude",
             ],
