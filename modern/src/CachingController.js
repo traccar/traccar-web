@@ -4,8 +4,10 @@ import {
   geofencesActions, groupsActions, driversActions, maintenancesActions, calendarsActions,
 } from './store';
 import { useEffectAsync } from './reactHelper';
+import { useMobileGroupCarTypesMutation } from './services/dictionaries';
 
 const CachingController = () => {
+  const [getMobileGroupCarTypes] = useMobileGroupCarTypesMutation();
   const authenticated = useSelector((state) => !!state.session.user);
   const dispatch = useDispatch();
 
@@ -62,6 +64,10 @@ const CachingController = () => {
         throw Error(await response.text());
       }
     }
+  }, [authenticated]);
+
+  useEffectAsync(async () => {
+    if (authenticated) await getMobileGroupCarTypes()
   }, [authenticated]);
 
   return null;
