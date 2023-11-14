@@ -5,11 +5,15 @@ const { reducer, actions } = createSlice({
   initialState: {
     server: null,
     user: null,
+    axelor: null,
     socket: null,
     positions: {},
     history: {},
   },
   reducers: {
+    updateAxelor(state, action) {
+      state.axelor = action.payload;
+    },
     updateServer(state, action) {
       state.server = action.payload;
     },

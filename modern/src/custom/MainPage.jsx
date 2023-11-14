@@ -70,6 +70,8 @@ const MainPage = () => {
     (state) => state.mobileGroups.selectedId
   );
 
+  const state = useSelector((state) => state);
+
   const positions = useSelector((state) => state.session.positions);
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find(
@@ -100,6 +102,10 @@ const MainPage = () => {
       setDevicesOpen(false);
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   useFilter(
     keyword,

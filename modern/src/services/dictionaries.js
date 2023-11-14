@@ -30,9 +30,35 @@ const dictionariesApi = createApi({
           }),
         }),
     }),
+    transportationStatuses: builder.mutation({
+      query: () => ({
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic YWRtaW46QWRtaW4yMDIz",
+        },
+        url: "ws/selection/ens.transportation.status.select",
+        method: "POST",
+        body: JSON.stringify({
+            translate: true
+        }),
+      }),
+    }),
+    deviceStatuses: builder.mutation({
+      query: () => ({
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic YWRtaW46QWRtaW4yMDIz",
+        },
+        url: "ws/selection/ens.status.select",
+        method: "POST",
+        body: JSON.stringify({
+            translate: true
+        }),
+      }),
+    }),
   }),
 });
 
-export const { useMobileGroupCarTypesMutation, useMobileGroupStatusesMutation } = dictionariesApi;
+export const { useMobileGroupCarTypesMutation, useMobileGroupStatusesMutation, useDeviceStatusesMutation, useTransportationStatusesMutation } = dictionariesApi;
 
 export default dictionariesApi;

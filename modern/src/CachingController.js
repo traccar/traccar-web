@@ -1,14 +1,16 @@
 import { useDispatch, useSelector, connect } from 'react-redux';
-
-import {
-  geofencesActions, groupsActions, driversActions, maintenancesActions, calendarsActions,
-} from './store';
+import { geofencesActions, groupsActions, driversActions, maintenancesActions, calendarsActions } from './store';
 import { useEffectAsync } from './reactHelper';
-import { useMobileGroupCarTypesMutation } from './services/dictionaries';
+import { useMobileGroupCarTypesMutation, useDeviceStatusesMutation, useMobileGroupStatusesMutation, useTransportationStatusesMutation } from './services/dictionaries';
 
 const CachingController = () => {
   const [getMobileGroupCarTypes] = useMobileGroupCarTypesMutation();
+  const [getDeviceStatuses] = useDeviceStatusesMutation();
+  const [getMobileGroupStatuses] = useMobileGroupStatusesMutation();
+  const [getTransportationStatuses] = useTransportationStatusesMutation();
+
   const authenticated = useSelector((state) => !!state.session.user);
+  const axelorAuthenticated = useSelector((state) => !!state.session.axelor);
   const dispatch = useDispatch();
 
   useEffectAsync(async () => {
@@ -67,8 +69,13 @@ const CachingController = () => {
   }, [authenticated]);
 
   useEffectAsync(async () => {
-    if (authenticated) await getMobileGroupCarTypes()
-  }, [authenticated]);
+    if (axelorAuthenticated) {
+     await getMobileGroupCarTypes();
+     await getDeviceStatuses()
+     await getMobileGroupStatuses()
+     await getTransportationStatuses()
+    }
+  }, [axelorAuthenticated]);
 
   return null;
 };

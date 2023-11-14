@@ -6,6 +6,8 @@ const { reducer, actions } = createSlice({
   initialState: {
     mobileGroupStatuses: [],
     mobileGroupCarTypes: [],
+    transportationStatuses: [],
+    deviceStatuses: []
   },
   reducers: {
   },
@@ -15,6 +17,12 @@ const { reducer, actions } = createSlice({
     }),
     builder.addMatcher(dictionariesApi.endpoints.mobileGroupStatuses.matchFulfilled, (state, action) => {
       state.mobileGroupStatuses = action.payload?.data;
+    }),
+    builder.addMatcher(dictionariesApi.endpoints.transportationStatuses.matchFulfilled, (state, action) => {
+      state.transportationStatuses = action.payload?.data;
+    }),
+    builder.addMatcher(dictionariesApi.endpoints.deviceStatuses.matchFulfilled, (state, action) => {
+      state.deviceStatuses = action.payload?.data;
     })
   }
 });
