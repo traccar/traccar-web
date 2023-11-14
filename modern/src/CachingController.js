@@ -1,13 +1,14 @@
 import { useDispatch, useSelector, connect } from 'react-redux';
-
 import {
   geofencesActions, groupsActions, driversActions, maintenancesActions, calendarsActions, mobileStatusesActions,
-  transportationStatusesActions, deviceStatusesActions, carsActions
+  transportationStatusesActions, deviceStatusesActions, carsActions,
 } from './store';
 import { useEffectAsync } from './reactHelper';
+import { http } from './services/AxelorFetchService';
 
 const CachingController = () => {
   const authenticated = useSelector((state) => !!state.session.user);
+  const axelorAuthenticated = useSelector((state) => !!state.session.axelor);
   const dispatch = useDispatch();
 
   useEffectAsync(async () => {
@@ -65,10 +66,9 @@ const CachingController = () => {
     }
   }, [authenticated]);
 
-  // TODO: Надо проверить не на authenticated traccar, а на наличие authenticated axelor
   useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/axelor-api/ws/selection/ens.mobile.group.status.select', {
+    if (axelorAuthenticated) {
+      const response = await http.post('/ws/selection/ens.mobile.group.status.select', {
         method: 'POST',
         body: JSON.stringify({ translate: true }),
       });
@@ -78,49 +78,40 @@ const CachingController = () => {
         throw Error(await response.text());
       }
     }
-  }, [authenticated]);
+  }, [axelorAuthenticated]);
 
   useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/axelor-api/ws/selection/ens.transportation.status.select', {
-        method: 'POST',
-        body: JSON.stringify({ translate: true }),
-      });
+    if (axelorAuthenticated) {
+      const response = await http.post('/ws/selection/ens.transportation.status.select', { body: JSON.stringify({ translate: true }) });
       if (response.ok) {
         dispatch(transportationStatusesActions.update(await response.json()));
       } else {
         throw Error(await response.text());
       }
     }
-  }, [authenticated]);
+  }, [axelorAuthenticated]);
 
   useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/axelor-api/ws/selection/ens.status.select', {
-        method: 'POST',
-        body: JSON.stringify({ translate: true }),
-      });
+    if (axelorAuthenticated) {
+      const response = await http.post('/ws/selection/ens.status.select', { body: JSON.stringify({ translate: true }) });
       if (response.ok) {
         dispatch(deviceStatusesActions.update(await response.json()));
       } else {
         throw Error(await response.text());
       }
     }
-  }, [authenticated]);
+  }, [axelorAuthenticated]);
 
   useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetch('/axelor-api/ws/selection/ens.mobile.group.car.model.select', {
-        method: 'POST',
-        body: JSON.stringify({ translate: true }),
-      });
+    if (axelorAuthenticated) {
+      const response = await http.post('/ws/selection/ens.mobile.group.car.model.select', { body: JSON.stringify({ translate: true }) });
       if (response.ok) {
         dispatch(carsActions.update(await response.json()));
       } else {
         throw Error(await response.text());
       }
     }
-  }, [authenticated]);
+  }, [axelorAuthenticated]);
 
   return null;
 };
