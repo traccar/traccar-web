@@ -14,7 +14,6 @@ const mobileGroupApi = createApi({
         method: "POST",
         body: JSON.stringify({
             offset: 0,
-            limit: 500,
             fields: [
               "mobileGroup.groupNumber",                    
               "mobileGroup.groupStatus",                        
