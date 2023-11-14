@@ -9,29 +9,36 @@ import { devicesActions } from '../store';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import MapPositions from './MapPositions';
 import MapOverlay from '../map/overlay/MapOverlay';
+import MapCamera from './MapCamera';
 
 const MainMap = ({ filteredPositions, selectedPosition }) => {
   const dispatch = useDispatch();
 
-  const onMarkerClick = useCallback((_, deviceId) => {
-    dispatch(devicesActions.selectId(deviceId));
-  }, [dispatch]);
+  const onMarkerClick = useCallback(
+    (_, deviceId) => {
+      dispatch(devicesActions.selectId(deviceId));
+    },
+    [dispatch],
+  );
 
   return (
-    <MapView>
-      <MapOverlay />
-      <MapGeofence />
-      <MapAccuracy positions={filteredPositions} />
-      <MapLiveRoutes />
-      <MapPositions
-        positions={filteredPositions}
-        onClick={onMarkerClick}
-        selectedPosition={selectedPosition}
-        showStatus
-      />
-      <MapSelectedDevice />
-      <PoiMap />
-    </MapView>
+    <>
+      <MapView>
+        <MapOverlay />
+        <MapGeofence />
+        <MapAccuracy positions={filteredPositions} />
+        <MapLiveRoutes />
+        <MapPositions
+          positions={filteredPositions}
+          onClick={onMarkerClick}
+          selectedPosition={selectedPosition}
+          showStatus
+        />
+        <MapSelectedDevice />
+        <PoiMap />
+      </MapView>
+      {selectedPosition && <MapCamera latitude={selectedPosition.latitude} longitude={selectedPosition.longitude} />}
+    </>
   );
 };
 

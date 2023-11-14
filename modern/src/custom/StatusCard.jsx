@@ -47,14 +47,6 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
   },
-  delete: {
-    color: theme.palette.error.main,
-  },
-  icon: {
-    width: '25px',
-    height: '25px',
-    filter: 'brightness(0) invert(1)',
-  },
   table: {
     '& .MuiTableCell-sizeSmall': {
       paddingLeft: 0,
@@ -64,24 +56,14 @@ const useStyles = makeStyles((theme) => ({
   cell: {
     borderBottom: 'none',
   },
-  actions: {
-    justifyContent: 'space-between',
-  },
-  root: ({ desktopPadding }) => ({
+  root: {
     pointerEvents: 'none',
     position: 'fixed',
     zIndex: 5,
     left: '50%',
-    [theme.breakpoints.up('md')]: {
-      left: `calc(50% + ${desktopPadding} / 2)`,
-      bottom: theme.spacing(3),
-    },
-    [theme.breakpoints.down('md')]: {
-      left: '50%',
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
-    },
+    bottom: theme.spacing(3),
     transform: 'translateX(-50%)',
-  }),
+  },
 }));
 
 const StatusRow = ({ name, content }) => {
@@ -99,8 +81,8 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, position, onClose, desktopPadding = 0 }) => {
-  const classes = useStyles({ desktopPadding });
+const StatusCard = ({ deviceId, position, onClose }) => {
+  const classes = useStyles();
   const t = useTranslation();
 
   const device = useSelector((state) => state.devices.items[deviceId]);

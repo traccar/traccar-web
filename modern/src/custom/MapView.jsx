@@ -18,6 +18,7 @@ export const map = new maplibregl.Map({
   container: element,
   attributionControl: false,
   zoom: 6,
+  maxZoom: 18,
   center: [75.06, 41.84],
   maxBounds: [[68.0, 39.0], [81.0, 44.0]],
 });
