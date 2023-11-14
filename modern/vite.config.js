@@ -3,36 +3,18 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('dotenv').config({ path: '.env.dev.local' });
+require('dotenv').config({ path: '.env.test.local' });
 /* eslint-disable no-template-curly-in-string */
 export default defineConfig(() => ({
   server: {
     port: 3000,
     proxy: {
-      '/api/socket': `ws://${process.env.APP_TRACCAR_DOMAIN}:8082`,
-      '/api': `https://${process.env.APP_TRACCAR_DOMAIN}`,
+      '/api/socket': `ws://${process.env.APP_DOMAIN}:8082`,
+      '/api': `https://${process.env.APP_DOMAIN}`,
       '/axelor-api': {
-        target: `https://${process.env.APP_AXE_DOMAIN}/`,
+        target: `https://${process.env.APP_AXE_DOMAIN}`,
         changeOrigin: true,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic YWRtaW46QWRtaW4yMDIz',
-        },
         rewrite: (path) => path.replace(/^\/axelor-api/, ''),
-        configure: (proxy) => {
-          proxy.on('error', (err) => {
-            // eslint-disable-next-line no-console
-            console.log('proxy error', err);
-          });
-          proxy.on('proxyReq', (proxyReq, req) => {
-            // eslint-disable-next-line no-console
-            console.log('Sending Request to the Target:', req.method, req.url);
-          });
-          proxy.on('proxyRes', (proxyRes, req) => {
-            // eslint-disable-next-line no-console
-            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
-          });
-        },
       },
     },
   },

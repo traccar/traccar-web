@@ -18,6 +18,7 @@
     "@turf/turf": "^6.5.0",
     "@vitejs/plugin-react": "^4.0.4",
     "dayjs": "^1.11.9",
+    "dotenv": "^16.3.1",
     "events": "^3.3.0",
     "mapbox-gl": "^1.13.3",
     "maplibre-gl": "^3.3.0",
