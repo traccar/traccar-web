@@ -1,58 +1,28 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { makeStyles } from "@mui/styles";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useDispatch, useSelector } from "react-redux";
-import StatusCard from "./StatusCard";
-import { devicesActions } from "../store";
-import usePersistedState from "../common/util/usePersistedState";
-import useFilter from "../main/useFilter";
-import MainMap from "./MainMap";
-import { useAttributePreference } from "../common/util/preferences";
-import MobileGroupStatusCard from "./MobileGroupStatusCard";
+import React, { useState, useEffect } from 'react';
+import { Paper } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useDispatch, useSelector } from 'react-redux';
+import StatusCard from './StatusCard';
+import MobileGroupStatusCard from './MobileGroupStatusCard';
+import { devicesActions } from '../store';
+import usePersistedState from '../common/util/usePersistedState';
+import useFilter from '../main/useFilter';
+import MainMap from './MainMap';
+import MainToolbar from './MainToolbar';
+import { useAttributePreference } from '../common/util/preferences';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
-    height: "100%",
-  },
-  sidebar: {
-    pointerEvents: "none",
-    display: "flex",
-    flexDirection: "column",
-    [theme.breakpoints.up("md")]: {
-      position: "fixed",
-      left: 0,
-      top: 0,
-      height: `calc(100% - ${theme.spacing(3)})`,
-      width: theme.dimensions.drawerWidthDesktop,
-      margin: theme.spacing(1.5),
-      zIndex: 3,
-    },
-    [theme.breakpoints.down("md")]: {
-      height: "100%",
-      width: "100%",
-    },
+    height: '100%',
   },
   header: {
-    pointerEvents: "auto",
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
     zIndex: 6,
-  },
-  footer: {
-    pointerEvents: "auto",
-    zIndex: 5,
-  },
-  middle: {
-    flex: 1,
-    display: "grid",
-  },
-  contentMap: {
-    pointerEvents: "auto",
-    gridArea: "1 / 1",
-  },
-  contentList: {
-    pointerEvents: "auto",
-    gridArea: "1 / 1",
-    zIndex: 4,
   },
 }));
 
@@ -61,41 +31,34 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const desktop = useMediaQuery(theme.breakpoints.up("md"));
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  const mapOnSelect = useAttributePreference("mapOnSelect", true);
+  const mapOnSelect = useAttributePreference('mapOnSelect', true);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const selectedMobileGroupId = useSelector(
-    (state) => state.mobileGroups.selectedId
-  );
-
-  const state = useSelector((state) => state);
+  const selectedMobileGroupId = useSelector((state) => state.mobileGroups.selectedId);
 
   const positions = useSelector((state) => state.session.positions);
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find(
-    (position) => selectedDeviceId && position.deviceId === selectedDeviceId
+    (position) => selectedDeviceId && position.deviceId === selectedDeviceId,
   );
 
   const selectedMobileGroupPosition = filteredPositions.find(
-    (position) => selectedMobileGroupId && position.id === selectedMobileGroupId
+    (position) => selectedMobileGroupId && position.id === selectedMobileGroupId,
   );
 
   const [filteredDevices, setFilteredDevices] = useState([]);
 
-  const [keyword, setKeyword] = useState("");
-  const [filter, setFilter] = usePersistedState("filter", {
+  const [keyword, setKeyword] = useState('');
+  const [filter, setFilter] = usePersistedState('filter', {
     statuses: [],
     groups: [],
   });
-  const [filterSort, setFilterSort] = usePersistedState("filterSort", "");
-  const [filterMap, setFilterMap] = usePersistedState("filterMap", false);
+  const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
+  const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
 
   const [devicesOpen, setDevicesOpen] = useState(desktop);
-  const [eventsOpen, setEventsOpen] = useState(false);
-
-  const onEventsClick = useCallback(() => setEventsOpen(true), [setEventsOpen]);
 
   useEffect(() => {
     if (!desktop && mapOnSelect && selectedDeviceId) {
@@ -103,29 +66,31 @@ const MainPage = () => {
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
 
-  useFilter(
-    keyword,
-    filter,
-    filterSort,
-    filterMap,
-    positions,
-    setFilteredDevices,
-    setFilteredPositions
-  );
+  useFilter(keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
 
   return (
     <div className={classes.root}>
-      <MainMap
-        filteredPositions={filteredPositions}
-        selectedPosition={selectedPosition}
-        onEventsClick={onEventsClick}
-      />
+      <MainMap filteredPositions={filteredPositions} selectedPosition={selectedPosition} />
+      <Paper square elevation={3} className={classes.header}>
+        <MainToolbar
+          filteredDevices={filteredDevices}
+          devicesOpen={devicesOpen}
+          setDevicesOpen={setDevicesOpen}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          filter={filter}
+          setFilter={setFilter}
+          filterSort={filterSort}
+          setFilterSort={setFilterSort}
+          filterMap={filterMap}
+          setFilterMap={setFilterMap}
+        />
+      </Paper>
       {selectedDeviceId && (
         <StatusCard
           deviceId={selectedDeviceId}
           position={selectedPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
-          desktopPadding={theme.dimensions.drawerWidthDesktop}
         />
       )}
 
@@ -133,7 +98,6 @@ const MainPage = () => {
         <MobileGroupStatusCard
           position={selectedMobileGroupPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
-          desktopPadding={theme.dimensions.drawerWidthDesktop}
         />
       )}
     </div>
