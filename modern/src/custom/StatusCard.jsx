@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
   },
+  delete: {
+    color: theme.palette.error.main,
+  },
+  icon: {
+    width: '25px',
+    height: '25px',
+    filter: 'brightness(0) invert(1)',
+  },
   table: {
     '& .MuiTableCell-sizeSmall': {
       paddingLeft: 0,
@@ -75,7 +83,9 @@ const StatusRow = ({ name, content }) => {
         <Typography variant="body2">{name}</Typography>
       </TableCell>
       <TableCell className={classes.cell}>
-        <Typography variant="body2" color="textSecondary">{content}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          {content}
+        </Typography>
       </TableCell>
     </TableRow>
   );
@@ -95,20 +105,11 @@ const StatusCard = ({ deviceId, position, onClose }) => {
   return (
     <div className={classes.root}>
       {device && (
-        <Draggable
-          handle={`.${classes.media}, .${classes.header}`}
-        >
+        <Draggable handle={`.${classes.media}, .${classes.header}`}>
           <Card elevation={3} className={classes.card}>
             {deviceImage ? (
-              <CardMedia
-                className={classes.media}
-                image={`/api/media/${device.uniqueId}/${deviceImage}`}
-              >
-                <IconButton
-                  size="small"
-                  onClick={onClose}
-                  onTouchStart={onClose}
-                >
+              <CardMedia className={classes.media} image={`/api/media/${device.uniqueId}/${deviceImage}`}>
+                <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
                   <CloseIcon fontSize="small" className={classes.mediaButton} />
                 </IconButton>
               </CardMedia>
@@ -117,11 +118,7 @@ const StatusCard = ({ deviceId, position, onClose }) => {
                 <Typography variant="body2" color="textSecondary">
                   {device.name}
                 </Typography>
-                <IconButton
-                  size="small"
-                  onClick={onClose}
-                  onTouchStart={onClose}
-                >
+                <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </div>
@@ -130,19 +127,22 @@ const StatusCard = ({ deviceId, position, onClose }) => {
               <CardContent className={classes.content}>
                 <Table size="small" classes={{ root: classes.table }}>
                   <TableBody>
-                    {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
-                      <StatusRow
-                        key={key}
-                        name={positionAttributes.hasOwnProperty(key) ? positionAttributes[key].name : key}
-                        content={(
-                          <PositionValue
-                            position={position}
-                            property={position.hasOwnProperty(key) ? key : null}
-                            attribute={position.hasOwnProperty(key) ? null : key}
-                          />
-                        )}
-                      />
-                    ))}
+                    {positionItems
+                      .split(',')
+                      .filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key))
+                      .map((key) => (
+                        <StatusRow
+                          key={key}
+                          name={positionAttributes.hasOwnProperty(key) ? positionAttributes[key].name : key}
+                          content={(
+                            <PositionValue
+                              position={position}
+                              property={position.hasOwnProperty(key) ? key : null}
+                              attribute={position.hasOwnProperty(key) ? null : key}
+                            />
+                          )}
+                        />
+                      ))}
                   </TableBody>
                 </Table>
               </CardContent>

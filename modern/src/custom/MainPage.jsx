@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import StatusCard from './StatusCard';
+import MobileGroupStatusCard from './MobileGroupStatusCard';
 import { devicesActions } from '../store';
 import usePersistedState from '../common/util/usePersistedState';
 import useFilter from '../main/useFilter';
@@ -35,10 +36,16 @@ const MainPage = () => {
   const mapOnSelect = useAttributePreference('mapOnSelect', true);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+  const selectedMobileGroupId = useSelector((state) => state.mobileGroups.selectedId);
+
   const positions = useSelector((state) => state.session.positions);
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find(
     (position) => selectedDeviceId && position.deviceId === selectedDeviceId,
+  );
+
+  const selectedMobileGroupPosition = filteredPositions.find(
+    (position) => selectedMobileGroupId && position.id === selectedMobileGroupId,
   );
 
   const [filteredDevices, setFilteredDevices] = useState([]);
@@ -83,6 +90,13 @@ const MainPage = () => {
         <StatusCard
           deviceId={selectedDeviceId}
           position={selectedPosition}
+          onClose={() => dispatch(devicesActions.selectId(null))}
+        />
+      )}
+
+      {selectedMobileGroupId && (
+        <MobileGroupStatusCard
+          position={selectedMobileGroupPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
         />
       )}

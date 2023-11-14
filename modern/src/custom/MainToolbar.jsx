@@ -16,7 +16,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useTranslation } from '../common/components/LocalizationProvider';
+import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import { sessionActions } from '../store';
 import { nativePostMessage } from '../common/components/NativeInterface';
 
@@ -41,16 +41,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainToolbar = () => {
+const MainToolbar = ({ filter, setFilter, setFilterMap }) => {
+  setFilterMap(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.session.user);
+
   const t = useTranslation();
+  const { language } = useLocalization();
   const classes = useStyles();
+
+  const user = useSelector((state) => state.session.user);
+  const deviceStatuses = useSelector((state) => state.dictionaries.deviceStatuses);
+  const mobileGroupStatuses = useSelector((state) => state.dictionaries.mobileGroupStatuses);
+  const groups = useSelector((state) => state.groups.items);
+  const devices = useSelector((state) => state.devices.items);
 
   const [filterOpen, setFilterOpen] = useState(false);
 
   const toolbarRef = useRef();
+
+  const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
 
   const handleLogout = async () => {
     const notificationToken = window.localStorage.getItem('notificationToken');
@@ -100,14 +110,36 @@ const MainToolbar = () => {
           <Box display="flex" gap={1}>
             <FormControl className={classes.formControl}>
               <InputLabel>{t('deviceStatus')}</InputLabel>
-              <Select label={t('deviceStatus')}>
-                <MenuItem value="online">1dfgsdjsdgj sdkfjskdfjskdjf</MenuItem>
+              <Select
+                label={t('deviceStatus')}
+                value={filter.statuses}
+                onChange={(e) => setFilter({ ...filter, statuses: e.target.value })}
+              >
+                <MenuItem value="online">{`${t('deviceStatusOnline')} (${deviceStatusCount('online')})`}</MenuItem>
+                <MenuItem value="offline">{`${t('deviceStatusOffline')} (${deviceStatusCount('offline')})`}</MenuItem>
+                <MenuItem value="unknown">{`${t('deviceStatusUnknown')} (${deviceStatusCount('unknown')})`}</MenuItem>
+                {/* {deviceStatuses?.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>{item[`title_${language}`] || item.title}</MenuItem>
+                ))} */}
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel>{t('settingsGroups')}</InputLabel>
-              <Select label={t('settingsGroups')}>
-                <MenuItem value="online">1dfgsdjsdgj sdkfjskdfjskdjf</MenuItem>
+              <Select
+                label={t('settingsGroups')}
+                value={filter.groups}
+                onChange={(e) => setFilter({ ...filter, groups: e.target.value })}
+              >
+                {Object.values(groups)
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((group) => (
+                    <MenuItem key={group.id} value={group.id}>
+                      {group.name}
+                    </MenuItem>
+                  ))}
+                {/* {mobileGroupStatuses?.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>{item[`title_${language}`] || item.title}</MenuItem>
+                ))} */}
               </Select>
             </FormControl>
           </Box>

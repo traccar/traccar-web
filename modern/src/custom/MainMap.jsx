@@ -10,13 +10,24 @@ import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import MapPositions from './MapPositions';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapCamera from './MapCamera';
+import { mobileGroupsActions } from '../store/mobile-groups';
+import MapMobileGroupPositions from './MapMobileGroupPositions';
 
 const MainMap = ({ filteredPositions, selectedPosition }) => {
   const dispatch = useDispatch();
 
   const onMarkerClick = useCallback(
     (_, deviceId) => {
+      dispatch(mobileGroupsActions.selectId(null));
       dispatch(devicesActions.selectId(deviceId));
+    },
+    [dispatch],
+  );
+
+  const onMobileGroupMarkerClick = useCallback(
+    (id) => {
+      dispatch(devicesActions.selectId(null));
+      dispatch(mobileGroupsActions.selectId(id));
     },
     [dispatch],
   );
@@ -31,6 +42,12 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
         <MapPositions
           positions={filteredPositions}
           onClick={onMarkerClick}
+          selectedPosition={selectedPosition}
+          showStatus
+        />
+        <MapMobileGroupPositions
+          positions={filteredPositions}
+          onClick={onMobileGroupMarkerClick}
           selectedPosition={selectedPosition}
           showStatus
         />
