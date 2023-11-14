@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 // eslint-disable-next-line import/no-extraneous-dependencies
-require('dotenv').config({ path: '.env.test.local' });
+require('dotenv').config({ path: '.env.dev.local' });
 /* eslint-disable no-template-curly-in-string */
 export default defineConfig(() => ({
   server: {
