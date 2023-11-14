@@ -103,10 +103,6 @@ const MainPage = () => {
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   useFilter(
     keyword,
     filter,
