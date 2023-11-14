@@ -10,11 +10,11 @@ import { driversReducer as drivers } from './drivers';
 import { maintenancesReducer as maintenances } from './maintenances';
 import { calendarsReducer as calendars } from './calendars';
 import { reportsReducer as reports } from './reports';
-import { mobileStatusesReducer as mobileStatuses } from './mobileStatuses';
-import { transportationStatusesReducer as transportationStatuses } from './transportationStatuses';
-import { deviceStatusesReducer as deviceStatuses } from './deviceStatuses';
-import { carsReducer as cars } from './cars';
+import { mobileGroupsReducer as mobileGroups } from './mobile-groups';
+import { dictionariesReducer as dictionaries } from './dictionaries';
 import throttleMiddleware from './throttleMiddleware';
+import mobileGroupApi from '../services/mobile-group';
+import dictionariesApi from '../services/dictionaries';
 
 const reducer = combineReducers({
   errors,
@@ -27,10 +27,10 @@ const reducer = combineReducers({
   maintenances,
   calendars,
   reports,
-  mobileStatuses,
-  transportationStatuses,
-  deviceStatuses,
-  cars,
+  mobileGroups,
+  dictionaries,
+  [mobileGroupApi.reducerPath]: [mobileGroupApi.reducer],
+  [dictionariesApi.reducerPath]: [dictionariesApi.reducer],
 });
 
 export { errorsActions } from './errors';
@@ -43,12 +43,8 @@ export { driversActions } from './drivers';
 export { maintenancesActions } from './maintenances';
 export { calendarsActions } from './calendars';
 export { reportsActions } from './reports';
-export { mobileStatusesActions } from './mobileStatuses';
-export { transportationStatusesActions } from './transportationStatuses';
-export { deviceStatusesActions } from './deviceStatuses';
-export { carsActions } from './cars';
 
 export default configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(throttleMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(throttleMiddleware, mobileGroupApi.middleware, dictionariesApi.middleware),
 });

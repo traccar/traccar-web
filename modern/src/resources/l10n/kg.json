@@ -579,8 +579,8 @@
   "categoryScooter": "Скутер",
   "maintenanceStart": "Начало",
   "maintenancePeriod": "Период",
-  "axelorMobileGroupStatus": "Статус группы",
-  "axelorMobileGroupNumber": "Номер группы",
-  "axelorMobileGroupChiefInspector": "Старший инспектор",
-  "axelorMobileGroupPhoneNumber": "Номер телефона"
+  "axelorMobileGroupStatus": "Топтун статусу",
+  "axelorMobileGroupNumber": "Топтун номери",
+  "axelorMobileGroupChiefInspector": "Башкы инспектор",
+  "axelorMobileGroupPhoneNumber": "Телефон номери"
 }
