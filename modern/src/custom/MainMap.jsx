@@ -13,7 +13,11 @@ import MapCamera from './MapCamera';
 import { mobileGroupsActions } from '../store/mobile-groups';
 import MapMobileGroupPositions from './MapMobileGroupPositions';
 
-const MainMap = ({ filteredPositions, selectedPosition }) => {
+const MainMap = ({
+  filteredPositions,
+  selectedPosition,
+  mobileGroupsPositions,
+}) => {
   const dispatch = useDispatch();
 
   const onMarkerClick = useCallback(
@@ -21,7 +25,7 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
       dispatch(mobileGroupsActions.selectId(null));
       dispatch(devicesActions.selectId(deviceId));
     },
-    [dispatch],
+    [dispatch]
   );
 
   const onMobileGroupMarkerClick = useCallback(
@@ -29,7 +33,7 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
       dispatch(devicesActions.selectId(null));
       dispatch(mobileGroupsActions.selectId(id));
     },
-    [dispatch],
+    [dispatch]
   );
 
   return (
@@ -46,7 +50,7 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
           showStatus
         />
         <MapMobileGroupPositions
-          positions={filteredPositions}
+          positions={mobileGroupsPositions}
           onClick={onMobileGroupMarkerClick}
           selectedPosition={selectedPosition}
           showStatus
@@ -54,7 +58,12 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
         <MapSelectedDevice />
         <PoiMap />
       </MapView>
-      {selectedPosition && <MapCamera latitude={selectedPosition.latitude} longitude={selectedPosition.longitude} />}
+      {selectedPosition && (
+        <MapCamera
+          latitude={selectedPosition.latitude}
+          longitude={selectedPosition.longitude}
+        />
+      )}
     </>
   );
 };

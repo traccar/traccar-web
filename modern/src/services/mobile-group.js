@@ -14,6 +14,7 @@ const mobileGroupApi = createApi({
         method: "POST",
         body: JSON.stringify({
             offset: 0,
+            limit: 500,
             fields: [
               "mobileGroup.groupNumber",                    
               "mobileGroup.groupStatus",                        
@@ -22,16 +23,7 @@ const mobileGroupApi = createApi({
               "mobileGroup.groupInspector.jobTitleFunction.name",  
               "latitude",
               "longitude",
-            ],
-            data: {
-              criteria: [
-                {
-                  fieldName: "mobileGroup.groupNumber",
-                  operator: "=",
-                  value: "005", 
-                },
-              ],
-            }
+            ]
         }),
       }),
     }),

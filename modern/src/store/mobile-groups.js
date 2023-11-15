@@ -4,7 +4,8 @@ const { reducer, actions } = createSlice({
   name: 'mobile-groups',
   initialState: {
     selectedId: null,
-    selectedIds: []
+    selectedIds: [],
+    positions: [],
   },
   reducers: {
     selectId(state, action) {
@@ -14,8 +15,11 @@ const { reducer, actions } = createSlice({
     selectIds(state, action) {
       state.selectedIds = action.payload;
       [state.selectedId] = state.selectedIds;
-    }
-  },
+    },
+    updatePositions(state, action) {
+      state.positions = action.payload
+    },
+  }
 });
 
 export { actions as mobileGroupsActions };

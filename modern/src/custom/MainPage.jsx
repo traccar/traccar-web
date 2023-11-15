@@ -34,18 +34,22 @@ const MainPage = () => {
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const mapOnSelect = useAttributePreference('mapOnSelect', true);
-
+  const mobileGroupsPositions = useSelector(
+    (state) => state.mobileGroups.positions
+  );
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const selectedMobileGroupId = useSelector((state) => state.mobileGroups.selectedId);
+  const selectedMobileGroupId = useSelector(
+    (state) => state.mobileGroups.selectedId
+  );
 
   const positions = useSelector((state) => state.session.positions);
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find(
-    (position) => selectedDeviceId && position.deviceId === selectedDeviceId,
+    (position) => selectedDeviceId && position.deviceId === selectedDeviceId
   );
 
-  const selectedMobileGroupPosition = filteredPositions.find(
-    (position) => selectedMobileGroupId && position.id === selectedMobileGroupId,
+  const selectedMobileGroupPosition = mobileGroupsPositions.find(
+    (position) => selectedMobileGroupId && position.id === selectedMobileGroupId
   );
 
   const [filteredDevices, setFilteredDevices] = useState([]);
@@ -66,11 +70,23 @@ const MainPage = () => {
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
 
-  useFilter(keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
+  useFilter(
+    keyword,
+    filter,
+    filterSort,
+    filterMap,
+    positions,
+    setFilteredDevices,
+    setFilteredPositions
+  );
 
   return (
     <div className={classes.root}>
-      <MainMap filteredPositions={filteredPositions} selectedPosition={selectedPosition} />
+      <MainMap
+        filteredPositions={filteredPositions}
+        selectedPosition={selectedPosition}
+        mobileGroupsPositions={mobileGroupsPositions}
+      />
       <Paper square elevation={3} className={classes.header}>
         <MainToolbar
           filteredDevices={filteredDevices}
@@ -97,7 +113,7 @@ const MainPage = () => {
       {selectedMobileGroupId && (
         <MobileGroupStatusCard
           position={selectedMobileGroupPosition}
-          onClose={() => dispatch(devicesActions.selectId(null))}
+          onClose={() => dispatch(mobileGroupsPositions.selectId(null))}
         />
       )}
     </div>
