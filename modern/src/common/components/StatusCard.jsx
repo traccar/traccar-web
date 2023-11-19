@@ -211,7 +211,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
                         <StatusRow
                           key={key}
-                          name={positionAttributes.hasOwnProperty(key) ? positionAttributes[key].name : key}
+                          name={positionAttributes[key]?.name || key}
                           content={(
                             <PositionValue
                               position={position}
