@@ -34,6 +34,7 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
+import { snackBarDurationShortMs } from '../util/duration';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -297,7 +298,12 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
         itemId={deviceId}
         onResult={(removed) => handleRemove(removed)}
       />
-      <Snackbar open={shared} onClose={() => setShared(false)} message={t('sharedLinkCopied')} />
+      <Snackbar
+        open={shared}
+        onClose={() => setShared(false)}
+        autoHideDuration={snackBarDurationShortMs}
+        message={t('sharedLinkCopied')}
+      />
     </>
   );
 };
