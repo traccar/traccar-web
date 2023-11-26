@@ -40,7 +40,6 @@ Ext.define('Traccar.view.dialog.LoginController', {
                 url: 'api/session',
                 params: form.getValues(),
                 callback: function (options, success, response) {
-                    var user, password;
                     Ext.get('spinner').setVisible(false);
                     if (success) {
                         Traccar.app.setUser(Ext.decode(response.responseText));
