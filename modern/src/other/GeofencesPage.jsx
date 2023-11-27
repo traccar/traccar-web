@@ -78,7 +78,7 @@ const GeofencesPage = () => {
         .map((point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`)
         .join(', ');
       const area = `LINESTRING (${coordinates})`;
-      const newItem = { name: '', area };
+      const newItem = { name: t('sharedGeofence'), area };
       try {
         const response = await fetch('/api/geofences', {
           method: 'POST',

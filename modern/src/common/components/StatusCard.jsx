@@ -149,7 +149,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const handleGeofence = useCatchCallback(async () => {
     const newItem = {
-      name: '',
+      name: t('sharedGeofence'),
       area: `CIRCLE (${position.latitude} ${position.longitude}, 50)`,
     };
     const response = await fetch('/api/geofences', {
