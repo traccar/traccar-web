@@ -32,7 +32,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
         'icon-allow-overlap': true,
         'icon-rotate': ['get', 'rotation'],
         'icon-rotation-alignment': 'map',
-    },
+      },
     });
 
     map.on('mouseenter', id, onMouseEnter);
