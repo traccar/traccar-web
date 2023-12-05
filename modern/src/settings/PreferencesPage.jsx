@@ -288,6 +288,15 @@ const PreferencesPage = () => {
                   )}
                   label={t('attributeShowDetailsOnDrawer')}
                 />
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={attributes.hasOwnProperty('quickDetailsBotton') ? attributes.quickDetailsBotton : false}
+                      onChange={(e) => setAttributes({ ...attributes, quickDetailsBotton: e.target.checked })}
+                    />
+                  )}
+                  label={t('attributeQuickDetailsBotton')}
+                />
               </AccordionDetails>
             </Accordion>
             <Accordion>

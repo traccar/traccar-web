@@ -116,6 +116,7 @@
     "calendarSaturday": "Saturday",
     "attributeShowGeofences": "Show Geofences",
     "attributeShowDetailsOnDrawer": "Show Details on Drawer",
+    "attributeQuickDetailsBotton": "Show Quick Button Details",
     "attributeSpeedLimit": "Speed Limit",
     "attributeFuelDropThreshold": "Fuel Drop Threshold",
     "attributeFuelIncreaseThreshold": "Fuel Increase Threshold",

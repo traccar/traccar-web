@@ -17,6 +17,7 @@ import {
   MenuItem,
   CardMedia,
   Snackbar,
+  Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -130,6 +131,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const positionAttributes = usePositionAttributes(t);
   const positionItems = useAttributePreference('positionItems', 'speed,address,totalDistance,course');
   const showDetailsDrawer = useAttributePreference('showDetailsDrawer', true);
+  const quickDetailsBotton = useAttributePreference('quickDetailsBotton', false);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -251,6 +253,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       ))}
                     </TableBody>
                   </Table>
+                  {quickDetailsBotton === true && (<Button fullWidth onClick={onDetailsClick}><Typography color="secondary">{t('sharedShowDetails')}</Typography></Button>)}
                 </CardContent>
               )}
               <CardActions classes={{ root: classes.actions }} disableSpacing>
@@ -293,7 +296,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       </div>
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+          {!quickDetailsBotton && (
           <MenuItem onClick={handleDetails}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
+          )}
           <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
