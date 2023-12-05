@@ -279,6 +279,15 @@ const PreferencesPage = () => {
                   titleGetter={(it) => t(it.name)}
                   label={t('deviceSecondaryInfo')}
                 />
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={attributes.hasOwnProperty('showDetailsDrawer') ? attributes.showDetailsDrawer : true}
+                      onChange={(e) => setAttributes({ ...attributes, showDetailsDrawer: e.target.checked })}
+                    />
+                  )}
+                  label={t('attributeShowDetailsOnDrawer')}
+                />
               </AccordionDetails>
             </Accordion>
             <Accordion>
