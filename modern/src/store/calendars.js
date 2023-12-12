@@ -6,7 +6,8 @@ const { reducer, actions } = createSlice({
     items: {},
   },
   reducers: {
-    update(state, action) {
+    refresh(state, action) {
+      state.items = {};
       action.payload.forEach((item) => state.items[item.id] = item);
     },
   },

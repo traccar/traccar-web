@@ -13,7 +13,7 @@ const CachingController = () => {
     if (authenticated) {
       const response = await fetch('/api/geofences');
       if (response.ok) {
-        dispatch(geofencesActions.update(await response.json()));
+        dispatch(geofencesActions.refresh(await response.json()));
       } else {
         throw Error(await response.text());
       }
@@ -24,7 +24,7 @@ const CachingController = () => {
     if (authenticated) {
       const response = await fetch('/api/groups');
       if (response.ok) {
-        dispatch(groupsActions.update(await response.json()));
+        dispatch(groupsActions.refresh(await response.json()));
       } else {
         throw Error(await response.text());
       }
@@ -35,7 +35,7 @@ const CachingController = () => {
     if (authenticated) {
       const response = await fetch('/api/drivers');
       if (response.ok) {
-        dispatch(driversActions.update(await response.json()));
+        dispatch(driversActions.refresh(await response.json()));
       } else {
         throw Error(await response.text());
       }
@@ -46,7 +46,7 @@ const CachingController = () => {
     if (authenticated) {
       const response = await fetch('/api/maintenance');
       if (response.ok) {
-        dispatch(maintenancesActions.update(await response.json()));
+        dispatch(maintenancesActions.refresh(await response.json()));
       } else {
         throw Error(await response.text());
       }
@@ -57,7 +57,7 @@ const CachingController = () => {
     if (authenticated) {
       const response = await fetch('/api/calendars');
       if (response.ok) {
-        dispatch(calendarsActions.update(await response.json()));
+        dispatch(calendarsActions.refresh(await response.json()));
       } else {
         throw Error(await response.text());
       }

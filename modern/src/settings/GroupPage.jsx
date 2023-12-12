@@ -39,7 +39,7 @@ const GroupPage = () => {
   const onItemSaved = useCatch(async () => {
     const response = await fetch('/api/groups');
     if (response.ok) {
-      dispatch(groupsActions.update(await response.json()));
+      dispatch(groupsActions.refresh(await response.json()));
     } else {
       throw Error(await response.text());
     }
