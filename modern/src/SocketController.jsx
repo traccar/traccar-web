@@ -20,6 +20,7 @@ const SocketController = () => {
 
   const authenticated = useSelector((state) => !!state.session.user);
   const devices = useSelector((state) => state.devices.items);
+  const includeLogs = useSelector((state) => state.session.includeLogs);
 
   const socketRef = useRef();
 
@@ -76,8 +77,15 @@ const SocketController = () => {
         }
         setEvents(data.events);
       }
+      if (data.logs) {
+        dispatch(sessionActions.updateLogs(data.logs));
+      }
     };
   };
+
+  useEffect(() => {
+    socketRef.current?.send(JSON.stringify({ logs: includeLogs }));
+  }, [socketRef, includeLogs]);
 
   useEffectAsync(async () => {
     if (authenticated) {
