@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
+  support: {
+    name: t('settingsSupport'),
+    type: 'string',
+  },
   title: {
     name: t('serverName'),
     type: 'string',

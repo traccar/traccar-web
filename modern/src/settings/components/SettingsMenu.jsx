@@ -13,6 +13,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import TodayIcon from '@mui/icons-material/Today';
 import PublishIcon from '@mui/icons-material/Publish';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
+import HelpIcon from '@mui/icons-material/Help';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -38,6 +39,7 @@ const SettingsMenu = () => {
   const admin = useAdministrator();
   const manager = useManager();
   const userId = useSelector((state) => state.session.user.id);
+  const supportLink = useSelector((state) => state.session.server.attributes.support);
 
   const features = useFeatures();
 
@@ -122,6 +124,13 @@ const SettingsMenu = () => {
               icon={<PublishIcon />}
               selected={location.pathname.startsWith('/settings/command')}
             />
+            {supportLink && (
+              <MenuItem
+                title={t('settingsSupport')}
+                link={supportLink}
+                icon={<HelpIcon />}
+              />
+            )}
           </>
         )}
       </List>
