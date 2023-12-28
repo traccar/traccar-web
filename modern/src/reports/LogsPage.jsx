@@ -33,7 +33,7 @@ const LogsPage = () => {
           {items.map((item, index) => (
             <TableRow key={index}>
               <TableCell>{item.uniqueId}</TableCell>
-              <TableCell>{item.port}</TableCell>
+              <TableCell>{item.protocol}</TableCell>
               <TableCell>{item.data}</TableCell>
             </TableRow>
           ))}
