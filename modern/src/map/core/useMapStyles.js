@@ -217,6 +217,16 @@ export default () => {
       attribute: 'mapboxAccessToken',
     },
     {
+      id: 'mapboxStreetsDark',
+      title: t('mapMapboxStreetsDark'),
+      style: styleCustom({
+        tiles: [`https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
+        maxZoom: 22,
+      }),
+      available: !!mapboxAccessToken,
+      attribute: 'mapboxAccessToken',
+    },
+    {
       id: 'mapboxOutdoors',
       title: t('mapMapboxOutdoors'),
       style: styleCustom({

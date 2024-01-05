@@ -358,6 +358,7 @@
     "mapWikimedia": "Wikimedia",
     "mapOrdnanceSurvey": "Ordnance Survey",
     "mapMapboxStreets": "Mapbox Streets",
+    "mapMapboxStreetsDark": "Mapbox Streets Dark",
     "mapMapboxOutdoors": "Mapbox Outdoors",
     "mapMapboxSatellite": "Mapbox Satellite",
     "mapMapboxKey": "Mapbox Access Token",
