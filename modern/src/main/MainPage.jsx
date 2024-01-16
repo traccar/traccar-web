@@ -16,6 +16,7 @@ import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
 import MainMap from './MainMap';
 import { useAttributePreference } from '../common/util/preferences';
+import DetailsDrawer from './DetailsDrawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,8 +89,10 @@ const MainPage = () => {
 
   const [devicesOpen, setDevicesOpen] = useState(desktop);
   const [eventsOpen, setEventsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const onEventsClick = useCallback(() => setEventsOpen(true), [setEventsOpen]);
+  const onDetailsClick = useCallback(() => setDetailsOpen(true), [setDetailsOpen]);
 
   useEffect(() => {
     if (!desktop && mapOnSelect && selectedDeviceId) {
@@ -150,7 +153,15 @@ const MainPage = () => {
           deviceId={selectedDeviceId}
           position={selectedPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
+          onDetailsClick={onDetailsClick}
           desktopPadding={theme.dimensions.drawerWidthDesktop}
+        />
+      )}      
+      {selectedDeviceId && (
+        <DetailsDrawer
+          deviceId={selectedDeviceId}
+          open={detailsOpen}
+          onClose={() => setDetailsOpen(false)}
         />
       )}
     </div>

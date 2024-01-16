@@ -17,6 +17,7 @@ import {
   MenuItem,
   CardMedia,
   Snackbar,
+  Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -115,7 +116,7 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
+const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0, onDetailsClick }) => {
   const classes = useStyles({ desktopPadding });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -129,6 +130,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const positionAttributes = usePositionAttributes(t);
   const positionItems = useAttributePreference('positionItems', 'speed,address,totalDistance,course');
+  const showDetailsDrawer = useAttributePreference('showDetailsDrawer', true);
+  const quickDetailsBotton = useAttributePreference('quickDetailsBotton', false);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -188,6 +191,14 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     }
   }, [deviceId, setShared]);
 
+  const handleDetails = useCatchCallback(async () =>{
+    if (showDetailsDrawer==true) {
+      onDetailsClick();
+      setAnchorEl(null);
+    }else{
+      navigate(`/position/${position.id}`);
+    }
+  })
   return (
     <>
       <div className={classes.root}>
@@ -242,6 +253,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       ))}
                     </TableBody>
                   </Table>
+                  {quickDetailsBotton === true && (<Button fullWidth onClick={onDetailsClick}><Typography color="secondary">{t('sharedShowDetails')}</Typography></Button>)}
                 </CardContent>
               )}
               <CardActions classes={{ root: classes.actions }} disableSpacing>
@@ -284,7 +296,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       </div>
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-          <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
+          {!quickDetailsBotton && (
+          <MenuItem onClick={handleDetails}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
+          )}
           <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
