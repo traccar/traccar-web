@@ -16,7 +16,11 @@ import {
   Menu,
   MenuItem,
   CardMedia,
-  Snackbar,
+  Dialog,
+  TextField,
+  DialogActions,
+  DialogContent,
+  Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -34,7 +38,6 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
-import { snackBarDurationShortMs } from '../util/duration';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -134,7 +137,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [removing, setRemoving] = useState(false);
-  const [shared, setShared] = useState(false);
+  const [shared, setShared] = useState(null);
 
   const handleRemove = useCatch(async (removed) => {
     if (removed) {
@@ -182,8 +185,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     });
     if (response.ok) {
       const token = await response.text();
-      navigator.clipboard.writeText(`${window.location.origin}?token=${token}`);
-      setShared(true);
+      setShared(`${window.location.origin}?token=${token}`);
     } else {
       throw Error(await response.text());
     }
@@ -299,12 +301,15 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
         itemId={deviceId}
         onResult={(removed) => handleRemove(removed)}
       />
-      <Snackbar
-        open={shared}
-        onClose={() => setShared(false)}
-        autoHideDuration={snackBarDurationShortMs}
-        message={t('sharedLinkCopied')}
-      />
+      <Dialog open={Boolean(shared)} onClose={() => setShared(null)}>
+        <DialogContent>
+          <TextField value={shared} onFocus={e => e.target.select()} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShared(null)}>{t('sharedCancel')}</Button>
+          <Button onClick={() => navigator.clipboard?.writeText(shared)}>{t('sharedCopy')}</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
