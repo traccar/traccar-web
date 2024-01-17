@@ -89,6 +89,8 @@ const MainPage = () => {
   const [devicesOpen, setDevicesOpen] = useState(desktop);
   const [eventsOpen, setEventsOpen] = useState(false);
 
+  const clientId = useSelector((state) => state.session.user.publicId);
+
   const onEventsClick = useCallback(() => setEventsOpen(true), [setEventsOpen]);
 
   useEffect(() => {
@@ -135,6 +137,9 @@ const MainPage = () => {
             </div>
           )}
           <Paper square className={classes.contentList} style={devicesOpen ? {} : { visibility: 'hidden' }}>
+		  	<div style={{ textAlign: 'center' }}>
+				Client ID: {clientId}
+			</div>
             <DeviceList devices={filteredDevices} />
           </Paper>
         </div>

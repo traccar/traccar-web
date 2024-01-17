@@ -6,7 +6,7 @@ export default (t) => useMemo(() => ({
     type: 'string',
   },
   title: {
-    name: t('serverName'),
+    name: 'Sanjay',
     type: 'string',
   },
   description: {
