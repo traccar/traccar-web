@@ -55,4 +55,8 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiDisableLoginLanguage'),
     type: 'boolean',
   },
+  disableShare: {
+    name: t('serverDisableShare'),
+    type: 'boolean',
+  },
 }), [t]);
