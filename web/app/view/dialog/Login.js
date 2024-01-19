@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2017 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2023 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -127,12 +127,6 @@ Ext.define('Traccar.view.dialog.Login', {
                 specialKey: 'onSpecialKey'
             },
             inputAttrTpl: ['autocomplete="on"']
-        }, {
-            xtype: 'checkboxfield',
-            inputValue: true,
-            uncheckedValue: false,
-            reference: 'rememberField',
-            fieldLabel: Strings.userRemember
         }, {
             xtype: 'component',
             html: '<iframe id="submitTarget" name="submitTarget" style="display:none"></iframe>'

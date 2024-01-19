@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 - 2021 Anton Tananaev (anton@traccar.org)
+ * Copyright 2015 - 2023 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,15 +40,8 @@ Ext.define('Traccar.view.dialog.LoginController', {
                 url: 'api/session',
                 params: form.getValues(),
                 callback: function (options, success, response) {
-                    var user, password;
                     Ext.get('spinner').setVisible(false);
                     if (success) {
-                        if (this.lookupReference('rememberField').getValue()) {
-                            user = Ext.util.Base64.encode(this.lookupReference('userField').getValue());
-                            password = Ext.util.Base64.encode(this.lookupReference('passwordField').getValue());
-                            Ext.util.Cookies.set('user', user, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-                            Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-                        }
                         Traccar.app.setUser(Ext.decode(response.responseText));
                         this.fireViewEvent('login');
                     } else {

@@ -1,11 +1,8 @@
 import { useId, useCallback, useEffect } from 'react';
-import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 
-const MapPositions = ({ positions, onClick }) => {
+const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
-
-  const theme = useTheme();
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
@@ -28,11 +25,13 @@ const MapPositions = ({ positions, onClick }) => {
     });
     map.addLayer({
       id,
-      type: 'circle',
+      type: 'symbol',
       source: id,
-      paint: {
-        'circle-radius': 5,
-        'circle-color': theme.palette.geometry.main,
+      layout: {
+        'icon-image': 'arrow',
+        'icon-allow-overlap': true,
+        'icon-rotate': ['get', 'rotation'],
+        'icon-rotation-alignment': 'map',
       },
     });
 
@@ -66,6 +65,7 @@ const MapPositions = ({ positions, onClick }) => {
         properties: {
           index,
           id: position.id,
+          rotation: position.course,
         },
       })),
     });
@@ -74,4 +74,4 @@ const MapPositions = ({ positions, onClick }) => {
   return null;
 };
 
-export default MapPositions;
+export default MapRoutePoints;

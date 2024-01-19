@@ -22,6 +22,7 @@ import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
+import useQuery from '../common/util/useQuery';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -41,7 +42,10 @@ const DevicePage = () => {
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
 
-  const [item, setItem] = useState();
+  const query = useQuery();
+  const uniqueId = query.get('uniqueId');
+
+  const [item, setItem] = useState(uniqueId ? { uniqueId } : null);
 
   const handleFiles = useCatch(async (files) => {
     if (files.length > 0) {
@@ -87,6 +91,7 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
                 helperText={t('deviceIdentifierHelp')}
+                disabled={Boolean(uniqueId)}
               />
             </AccordionDetails>
           </Accordion>

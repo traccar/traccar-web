@@ -20,7 +20,7 @@ import {
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
-import { ReactComponent as EngineIcon } from '../resources/images/data/engine.svg';
+import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
 
 dayjs.extend(relativeTime);

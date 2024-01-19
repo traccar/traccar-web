@@ -173,7 +173,7 @@ const PreferencesPage = () => {
                   multiple
                   freeSolo
                   options={Object.keys(positionAttributes)}
-                  getOptionLabel={(option) => (positionAttributes.hasOwnProperty(option) ? positionAttributes[option].name : option)}
+                  getOptionLabel={(option) => (positionAttributes[option]?.name || option)}
                   value={attributes.positionItems?.split(',') || ['speed', 'address', 'totalDistance', 'course']}
                   onChange={(_, option) => {
                     setAttributes({ ...attributes, positionItems: option.join(',') });

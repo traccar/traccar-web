@@ -12,6 +12,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
+import NotesIcon from '@mui/icons-material/Notes';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator, useRestriction } from '../../common/util/permissions';
@@ -83,26 +84,31 @@ const ReportsMenu = () => {
           icon={<RouteIcon />}
         />
       </List>
-      {(admin || !readonly) && (
-        <>
-          <Divider />
-          <List>
-            <MenuItem
-              title={t('reportScheduled')}
-              link="/reports/scheduled"
-              icon={<EventRepeatIcon />}
-            />
-            {admin && (
-              <MenuItem
-                title={t('statisticsTitle')}
-                link="/reports/statistics"
-                icon={<BarChartIcon />}
-                selected={location.pathname === '/reports/statistics'}
-              />
-            )}
-          </List>
-        </>
-      )}
+      <Divider />
+      <List>
+        <MenuItem
+          title={t('sharedLogs')}
+          link="/reports/logs"
+          icon={<NotesIcon />}
+          selected={location.pathname === '/reports/logs'}
+        />
+        {!readonly && (
+          <MenuItem
+            title={t('reportScheduled')}
+            link="/reports/scheduled"
+            icon={<EventRepeatIcon />}
+            selected={location.pathname === '/reports/scheduled'}
+          />
+        )}
+        {admin && (
+          <MenuItem
+            title={t('statisticsTitle')}
+            link="/reports/statistics"
+            icon={<BarChartIcon />}
+            selected={location.pathname === '/reports/statistics'}
+          />
+        )}
+      </List>
     </>
   );
 };
