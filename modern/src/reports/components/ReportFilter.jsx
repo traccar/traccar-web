@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, Autocomplete
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -93,17 +93,39 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
       {!ignoreDevice && (
         <div className={classes.filterItem}>
           <FormControl fullWidth>
-            <InputLabel>{t(multiDevice ? 'deviceTitle' : 'reportDevice')}</InputLabel>
-            <Select
-              label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
-              value={multiDevice ? deviceIds : deviceId || ''}
-              onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
-              multiple={multiDevice}
-            >
-              {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
-                <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-              ))}
-            </Select>
+          {multiDevice ? (
+            <>
+              <InputLabel>{t('deviceTitle')}</InputLabel>
+              <Select
+                label={t('deviceTitle')}
+                value={deviceIds}
+                onChange={(e) => dispatch(devicesActions.selectIds(e.target.value))}
+                multiple
+              >
+                {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
+                  <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
+                ))}
+              </Select>
+            </>
+          ) : (
+            <>
+              <Autocomplete
+                size="small"
+                options={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
+                getOptionLabel={(option) => option?.name ?? ''}
+                renderOption={(props, option) => (
+                  <MenuItem {...props} key={option.id}>
+                      {option.name}
+                  </MenuItem>
+                )}
+                value={devices[deviceId] || null}
+                onChange={(event, newValue) => {
+                  dispatch(devicesActions.selectId(newValue?.id ?? null))
+                }}
+                renderInput={(params) => <TextField {...params} label={t('reportDevice')} />}
+              />
+            </>
+          )}
           </FormControl>
         </div>
       )}
