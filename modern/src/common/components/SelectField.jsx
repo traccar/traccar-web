@@ -1,5 +1,5 @@
 import {
-  FormControl, InputLabel, MenuItem, Select,
+  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
@@ -14,6 +14,7 @@ const SelectField = ({
   onChange,
   endpoint,
   data,
+  keyField = 'id',
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
 }) => {
@@ -33,20 +34,47 @@ const SelectField = ({
   if (items) {
     return (
       <FormControl fullWidth={fullWidth}>
-        <InputLabel>{label}</InputLabel>
-        <Select
-          label={label}
-          multiple={multiple}
-          value={value}
-          onChange={onChange}
-        >
-          {!multiple && emptyValue !== null && (
-            <MenuItem value={emptyValue}>{emptyTitle}</MenuItem>
-          )}
-          {items.map((item) => (
-            <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
-          ))}
-        </Select>
+        {multiple ? (
+          <>
+            <InputLabel>{label}</InputLabel>
+            <Select
+              label={label}
+              multiple
+              value={value}
+              onChange={onChange}
+            >
+              {items.map((item) => (
+                <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
+              ))}
+            </Select>
+          </>
+        ) : (
+          <>
+            <Autocomplete
+              size="small"
+              options={items}
+              getOptionLabel={(option) => {
+                                      if (typeof option != 'object') {
+                                        if (keyField) {
+                                          option = items.find(obj => obj[keyField] === option)
+                                        } else {
+                                          option = items.find(obj => obj === option)
+                                        }
+                                      }
+                                      const title = option ? titleGetter(option) : ''
+                                      return title ? title : ''
+                                      }
+                              }
+              renderOption={(props, option) => (
+                <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
+              )}
+              isOptionEqualToValue={(option, value) => keyGetter(option) == value}
+              value={value}
+              onChange={(e, nV) => {onChange({target:{value:nV ? keyGetter(nV) : emptyValue}})}}
+              renderInput={(params) => <TextField {...params} label={label} />}
+            />
+          </>
+        )}
       </FormControl>
     );
   }

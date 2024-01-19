@@ -272,8 +272,8 @@ const PreferencesPage = () => {
                   label={t('devicePrimaryInfo')}
                 />
                 <SelectField
-                  emptyValue=""
-                  value={attributes.deviceSecondary || ''}
+                  emptyValue={null}
+                  value={attributes.deviceSecondary || null}
                   onChange={(e) => setAttributes({ ...attributes, deviceSecondary: e.target.value })}
                   data={deviceFields}
                   titleGetter={(it) => t(it.name)}

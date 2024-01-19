@@ -28,9 +28,10 @@ const BaseCommandView = ({ deviceId, item, setItem }) => {
   return (
     <>
       <SelectField
-        value={item.type || ''}
+        value={item.type || null}
         onChange={(e) => setItem({ ...item, type: e.target.value, attributes: {} })}
         endpoint={deviceId ? `/api/commands/types?${new URLSearchParams({ deviceId }).toString()}` : '/api/commands/types'}
+        keyField='type'
         keyGetter={(it) => it.type}
         titleGetter={(it) => t(prefixString('command', it.type))}
         label={t('sharedType')}
