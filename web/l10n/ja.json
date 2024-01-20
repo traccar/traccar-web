@@ -148,7 +148,7 @@
     "attributeUiDisableAttributes": "UI:属性を無効にする",
     "attributeUiDisableGroups": "UI:グループを無効にする",
     "attributeUiDisableEvents": "UI: イベントを無効にする",
-    "attributeUiDisableVehicleFetures": "UI: 車両の機能を無効にする",
+    "attributeUiDisableVehicleFeatures": "UI: 車両の機能を無効にする",
     "attributeUiDisableDrivers": "UI: ドライバーを無効にする",
     "attributeUiDisableComputedAttributes": "UI: 計算された属性を無効にする",
     "attributeUiDisableCalendars": "UI: カレンダーを無効にする",

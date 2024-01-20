@@ -148,7 +148,7 @@
     "attributeUiDisableAttributes": "UI: ปิดใช้งานแอตทริบิวต์",
     "attributeUiDisableGroups": "UI: ปิดการใช้งานกลุ่ม",
     "attributeUiDisableEvents": "UI: ปิดการใช้งานเหตุการณ์",
-    "attributeUiDisableVehicleFetures": "UI: ปิดการใช้งาน Fetures ยานพาหนะ",
+    "attributeUiDisableVehicleFeatures": "UI: ปิดการใช้งาน Features ยานพาหนะ",
     "attributeUiDisableDrivers": "UI: ปิดการใช้งานไดร์เวอร์",
     "attributeUiDisableComputedAttributes": "UI: ปิดใช้งานแอ็ตทริบิวต์ที่คำนวณ",
     "attributeUiDisableCalendars": "UI: ปิดปฏิทิน",

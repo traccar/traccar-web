@@ -93,8 +93,8 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiDisableEvents'),
     type: 'boolean',
   },
-  'ui.disableVehicleFetures': {
-    name: t('attributeUiDisableVehicleFetures'),
+  'ui.disableVehicleFeatures': {
+    name: t('attributeUiDisableVehicleFeatures'),
     type: 'boolean',
   },
   'ui.disableDrivers': {
