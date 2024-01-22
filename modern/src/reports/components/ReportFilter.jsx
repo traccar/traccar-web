@@ -92,41 +92,14 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
     <div className={classes.filter}>
       {!ignoreDevice && (
         <div className={classes.filterItem}>
-          <FormControl fullWidth>
-          {multiDevice ? (
-            <>
-              <InputLabel>{t('deviceTitle')}</InputLabel>
-              <Select
-                label={t('deviceTitle')}
-                value={deviceIds}
-                onChange={(e) => dispatch(devicesActions.selectIds(e.target.value))}
-                multiple
-              >
-                {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
-                  <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-                ))}
-              </Select>
-            </>
-          ) : (
-            <>
-              <Autocomplete
-                size="small"
-                options={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
-                getOptionLabel={(option) => option?.name ?? ''}
-                renderOption={(props, option) => (
-                  <MenuItem {...props} key={option.id}>
-                      {option.name}
-                  </MenuItem>
-                )}
-                value={devices[deviceId] || null}
-                onChange={(event, newValue) => {
-                  dispatch(devicesActions.selectId(newValue?.id ?? null))
-                }}
-                renderInput={(params) => <TextField {...params} label={t('reportDevice')} />}
-              />
-            </>
-          )}
-          </FormControl>
+          <SelectField 
+            label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
+            data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
+            value={multiDevice ? deviceIds : deviceId || null}
+            onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
+            multiple={multiDevice}
+            fullWidth
+          />
         </div>
       )}
       {includeGroups && (
