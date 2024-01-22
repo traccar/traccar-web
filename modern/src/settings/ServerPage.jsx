@@ -193,7 +193,7 @@ const ServerPage = () => {
                   </Select>
                 </FormControl>
                 <SelectField
-                  value={item.attributes.timezone || null}
+                  value={item.attributes.timezone}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
                   endpoint="/api/server/timezones"
                   keyGetter={(it) => it}

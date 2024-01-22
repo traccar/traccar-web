@@ -103,7 +103,7 @@ const DevicePage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
-                value={item.groupId || null}
+                value={item.groupId}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
@@ -133,7 +133,7 @@ const DevicePage = () => {
                 label={t('deviceCategory')}
               />
               <SelectField
-                value={item.calendarId || null}
+                value={item.calendarId}
                 onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}

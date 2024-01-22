@@ -95,7 +95,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
           <SelectField 
             label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
-            value={multiDevice ? deviceIds : deviceId || null}
+            value={multiDevice ? deviceIds : deviceId}
             onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
             multiple={multiDevice}
             fullWidth
@@ -165,7 +165,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
           </div>
           <div className={classes.filterItem}>
             <SelectField
-              value={calendarId || null}
+              value={calendarId}
               onChange={(event) => setCalendarId(Number(event.target.value))}
               endpoint="/api/calendars"
               label={t('sharedCalendar')}

@@ -8,9 +8,9 @@ const SelectField = ({
   label,
   fullWidth,
   multiple,
-  value,
+  value = null,
   emptyValue = null,
-  emptyTitle = '\u00a0',
+  emptyTitle = '',
   onChange,
   endpoint,
   data,
@@ -23,7 +23,7 @@ const SelectField = ({
     if (typeof option !== 'object') {
       option = items.find(obj => keyGetter(obj) === option);
     }
-    return option ? titleGetter(option) : '';
+    return option ? titleGetter(option) : emptyTitle;
   }
 
   useEffectAsync(async () => {
