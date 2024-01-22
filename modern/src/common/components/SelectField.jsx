@@ -20,6 +20,13 @@ const SelectField = ({
 }) => {
   const [items, setItems] = useState(data);
 
+  const getOptionLabel = (option) => {
+    if (typeof option !== 'object') {
+      option = items.find(obj => keyField ? obj[keyField] === option : obj === option);
+    }
+    return option ? titleGetter(option) : '';
+  }
+
   useEffectAsync(async () => {
     if (endpoint) {
       const response = await fetch(endpoint);
@@ -53,18 +60,7 @@ const SelectField = ({
             <Autocomplete
               size="small"
               options={items}
-              getOptionLabel={(option) => {
-                                      if (typeof option != 'object') {
-                                        if (keyField) {
-                                          option = items.find(obj => obj[keyField] === option)
-                                        } else {
-                                          option = items.find(obj => obj === option)
-                                        }
-                                      }
-                                      const title = option ? titleGetter(option) : ''
-                                      return title ? title : ''
-                                      }
-                              }
+              getOptionLabel={getOptionLabel}
               renderOption={(props, option) => (
                 <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
               )}
