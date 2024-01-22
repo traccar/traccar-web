@@ -271,7 +271,6 @@ const UserPage = () => {
                 emptyValue={null}
                 onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
                 endpoint="/api/server/timezones"
-                keyField={false}
                 keyGetter={(it) => it}
                 titleGetter={(it) => it}
                 label={t('sharedTimezone')}

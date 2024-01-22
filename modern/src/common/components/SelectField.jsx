@@ -14,7 +14,6 @@ const SelectField = ({
   onChange,
   endpoint,
   data,
-  keyField = 'id',
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
 }) => {
@@ -22,7 +21,7 @@ const SelectField = ({
 
   const getOptionLabel = (option) => {
     if (typeof option !== 'object') {
-      option = items.find(obj => keyField ? obj[keyField] === option : obj === option);
+      option = items.find(obj => keyGetter(obj) === option);
     }
     return option ? titleGetter(option) : '';
   }
