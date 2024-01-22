@@ -125,7 +125,6 @@ const DevicePage = () => {
               />
               <SelectField
                 value={item.category || 'default'}
-                emptyValue={null}
                 onChange={(event) => setItem({ ...item, category: event.target.value })}
                 data={deviceCategories.map((category) => ({
                   id: category,

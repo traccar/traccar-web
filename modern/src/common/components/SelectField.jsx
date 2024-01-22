@@ -9,7 +9,7 @@ const SelectField = ({
   fullWidth,
   multiple,
   value,
-  emptyValue = 0,
+  emptyValue = null,
   emptyTitle = '\u00a0',
   onChange,
   endpoint,
