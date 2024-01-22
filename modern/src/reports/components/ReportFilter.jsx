@@ -104,19 +104,14 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
       )}
       {includeGroups && (
         <div className={classes.filterItem}>
-          <FormControl fullWidth>
-            <InputLabel>{t('settingsGroups')}</InputLabel>
-            <Select
-              label={t('settingsGroups')}
-              value={groupIds}
-              onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
-              multiple
-            >
-              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <SelectField 
+            label={t('settingsGroups')}
+            data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
+            value={groupIds}
+            onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
+            multiple
+            fullWidth  
+          />
         </div>
       )}
       {button !== 'schedule' ? (
@@ -170,7 +165,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
           </div>
           <div className={classes.filterItem}>
             <SelectField
-              value={calendarId || 0}
+              value={calendarId || null}
               onChange={(event) => setCalendarId(Number(event.target.value))}
               endpoint="/api/calendars"
               label={t('sharedCalendar')}
