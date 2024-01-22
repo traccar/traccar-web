@@ -102,7 +102,7 @@ const NotificationPage = () => {
               />
               {item.notificators?.includes('command') && (
                 <SelectField
-                  value={item.commandId || 0}
+                  value={item.commandId || null}
                   onChange={(event) => setItem({ ...item, commandId: Number(event.target.value) })}
                   endpoint="/api/commands"
                   titleGetter={(it) => it.description}
@@ -138,7 +138,7 @@ const NotificationPage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
-                value={item.calendarId || 0}
+                value={item.calendarId || null}
                 onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}
