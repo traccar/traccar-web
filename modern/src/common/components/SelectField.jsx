@@ -55,20 +55,18 @@ const SelectField = ({
             </Select>
           </>
         ) : (
-          <>
-            <Autocomplete
-              size="small"
-              options={items}
-              getOptionLabel={getOptionLabel}
-              renderOption={(props, option) => (
-                <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
-              )}
-              isOptionEqualToValue={(option, value) => keyGetter(option) == value}
-              value={value}
-              onChange={(e, nV) => {onChange({target:{value:nV ? keyGetter(nV) : emptyValue}})}}
-              renderInput={(params) => <TextField {...params} label={label} />}
-            />
-          </>
+          <Autocomplete
+            size="small"
+            options={items}
+            getOptionLabel={getOptionLabel}
+            renderOption={(props, option) => (
+              <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
+            )}
+            isOptionEqualToValue={(option, value) => keyGetter(option) == value}
+            value={value}
+            onChange={(_, value) => {onChange({ target: { value: value ? keyGetter(value) : emptyValue }})}}
+            renderInput={(params) => <TextField {...params} label={label} />}
+          />
         )}
       </FormControl>
     );
