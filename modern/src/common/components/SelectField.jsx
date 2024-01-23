@@ -64,7 +64,7 @@ const SelectField = ({
             )}
             isOptionEqualToValue={(option, value) => keyGetter(option) == value}
             value={value}
-            onChange={(_, value) => {onChange({ target: { value: value ? keyGetter(value) : emptyValue }})}}
+            onChange={(_, value) => onChange({ target: { value: value ? keyGetter(value) : emptyValue }})}
             renderInput={(params) => <TextField {...params} label={label} />}
           />
         )}
