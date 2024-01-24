@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useState } from 'react';
+import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -23,6 +23,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
+import availableOptions from '../availableOptions.js';
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const RouteReportPage = () => {
 
   const devices = useSelector((state) => state.devices.items);
 
-  const [available, setAvailable] = useState([]);
+  const [available, setAvailable] = useState(availableOptions.RouteReportsPage?.columns || []);
   const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,7 +75,13 @@ const RouteReportPage = () => {
               keySet.delete(key);
             }
           });
-          setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
+
+		  if (availableOptions.RouteReportsPage?.columns) {
+		  	setAvailable(availableOptions.RouteReportsPage?.columns);
+		  } else {
+			setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
+		  }
+
           setItems(data);
         } else {
           throw Error(await response.text());
@@ -124,7 +131,7 @@ const RouteReportPage = () => {
                 setColumns={setColumns}
                 columnsArray={available}
                 rawValues
-                disabled={!items.length}
+                disabled={!available.length}
               />
             </ReportFilter>
           </div>
