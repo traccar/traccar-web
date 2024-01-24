@@ -18,17 +18,24 @@ import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
+import availableOptions from '../availableOptions';
 
-const columnsArray = [
-  ['startTime', 'reportStartDate'],
-  ['distance', 'sharedDistance'],
-  ['startOdometer', 'reportStartOdometer'],
-  ['endOdometer', 'reportEndOdometer'],
-  ['averageSpeed', 'reportAverageSpeed'],
-  ['maxSpeed', 'reportMaximumSpeed'],
-  ['engineHours', 'reportEngineHours'],
-  ['spentFuel', 'reportSpentFuel'],
-];
+let columnsArray = []
+if (availableOptions.SummaryReportPage?.columnsArray) {
+	columnsArray = availableOptions.SummaryReportPage?.columnsArray;
+} else {
+	columnsArray = [
+		['startTime', 'reportStartDate'],
+		['distance', 'sharedDistance'],
+		['startOdometer', 'reportStartOdometer'],
+		['endOdometer', 'reportEndOdometer'],
+		['averageSpeed', 'reportAverageSpeed'],
+		['maxSpeed', 'reportMaximumSpeed'],
+		['engineHours', 'reportEngineHours'],
+		['spentFuel', 'reportSpentFuel'],
+	];
+}
+
 const columnsMap = new Map(columnsArray);
 
 const SummaryReportPage = () => {

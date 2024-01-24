@@ -34,7 +34,7 @@ const RouteReportPage = () => {
 
   const devices = useSelector((state) => state.devices.items);
 
-  const [available, setAvailable] = useState(availableOptions.RouteReportsPage?.columns || []);
+  const [available, setAvailable] = useState(availableOptions.RouteReportPage?.columns || []);
   const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -76,8 +76,8 @@ const RouteReportPage = () => {
             }
           });
 
-		  if (availableOptions.RouteReportsPage?.columns) {
-		  	setAvailable(availableOptions.RouteReportsPage?.columns);
+		  if (availableOptions.RouteReportPage?.columns) {
+		  	setAvailable(availableOptions.RouteReportPage?.columns);
 		  } else {
 			setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
 		  }

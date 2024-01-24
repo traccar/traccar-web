@@ -25,21 +25,28 @@ import MapMarkers from '../map/MapMarkers';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
+import availableOptions from '../availableOptions';
 
-const columnsArray = [
-  ['startTime', 'reportStartTime'],
-  ['startOdometer', 'reportStartOdometer'],
-  ['startAddress', 'reportStartAddress'],
-  ['endTime', 'reportEndTime'],
-  ['endOdometer', 'reportEndOdometer'],
-  ['endAddress', 'reportEndAddress'],
-  ['distance', 'sharedDistance'],
-  ['averageSpeed', 'reportAverageSpeed'],
-  ['maxSpeed', 'reportMaximumSpeed'],
-  ['duration', 'reportDuration'],
-  ['spentFuel', 'reportSpentFuel'],
-  ['driverName', 'sharedDriver'],
-];
+let columnsArray = []
+if (availableOptions.TripReportPage?.columnsArray) {
+	columnsArray = availableOptions.TripReportPage?.columnsArray;
+} else {
+	columnsArray = [
+		['startTime', 'reportStartTime'],
+		['startOdometer', 'reportStartOdometer'],
+		['startAddress', 'reportStartAddress'],
+		['endTime', 'reportEndTime'],
+		['endOdometer', 'reportEndOdometer'],
+		['endAddress', 'reportEndAddress'],
+		['distance', 'sharedDistance'],
+		['averageSpeed', 'reportAverageSpeed'],
+		['maxSpeed', 'reportMaximumSpeed'],
+		['duration', 'reportDuration'],
+		['spentFuel', 'reportSpentFuel'],
+		['driverName', 'sharedDriver'],
+	];
+}
+
 const columnsMap = new Map(columnsArray);
 
 const TripReportPage = () => {

@@ -25,16 +25,23 @@ import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
+import availableOptions from '../availableOptions';
 
-const columnsArray = [
-  ['startTime', 'reportStartTime'],
-  ['startOdometer', 'positionOdometer'],
-  ['address', 'positionAddress'],
-  ['endTime', 'reportEndTime'],
-  ['duration', 'reportDuration'],
-  ['engineHours', 'reportEngineHours'],
-  ['spentFuel', 'reportSpentFuel'],
-];
+let columnsArray = []
+if (availableOptions.StopReportPage?.columnsArray) {
+	columnsArray = availableOptions.StopReportPage?.columnsArray;
+} else {
+	columnsArray = [
+		['startTime', 'reportStartTime'],
+		['startOdometer', 'positionOdometer'],
+		['address', 'positionAddress'],
+		['endTime', 'reportEndTime'],
+		['duration', 'reportDuration'],
+		['engineHours', 'reportEngineHours'],
+		['spentFuel', 'reportSpentFuel']
+	];
+}
+
 const columnsMap = new Map(columnsArray);
 
 const StopReportPage = () => {

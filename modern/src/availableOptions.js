@@ -1,5 +1,5 @@
 const availableOptions ={
-	RouteReportsPage: {
+	RouteReportPage: {
 		columns: [
 			['latitude', 'Latitude'],
 			['longitude', 'Longitude'],
@@ -29,7 +29,38 @@ const availableOptions ={
 			['geofenceEnter', 'eventGeofenceEnter'],
 			['geofenceExit', 'eventGeofenceExit']
 		]
-	}
+	},
+
+	TripReportPage: {
+		columnsArray: [
+			['startTime', 'reportStartTime'],
+			['startAddress', 'reportStartAddress'],
+			['endTime', 'reportEndTime'],
+			['endAddress', 'reportEndAddress'],
+			['distance', 'sharedDistance'],
+			['averageSpeed', 'reportAverageSpeed'],
+			['maxSpeed', 'reportMaximumSpeed'],
+			['duration', 'reportDuration']
+		]
+	},
+
+	StopReportPage: {
+		columnsArray: [
+			['startTime', 'reportStartTime'],
+			['endTime', 'reportEndTime'],
+			['address', 'positionAddress'],
+			['duration', 'reportDuration']
+		]
+	},
+
+	SummaryReportPage: {
+		columnsArray: [
+			['startTime', 'reportStartDate'],
+			['distance', 'sharedDistance'],
+			['averageSpeed', 'reportAverageSpeed'],
+			['maxSpeed', 'reportMaximumSpeed']
+		]
+	},
 }
 
 export default availableOptions;
