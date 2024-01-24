@@ -15,6 +15,20 @@ const availableOptions ={
 			['totalDistance', 'Total Distance'],
 			['motion', 'Motion']
 		]
+	},
+
+	EventReportPage: {
+		allEventTypes: [
+			['allEvents', 'eventAll'],
+			['deviceOnline', 'eventDeviceOnline'],
+			['deviceUnknown', 'eventDeviceUnknown'],
+			['deviceOffline', 'eventDeviceOffline'],
+			['deviceInactive', 'eventDeviceInactive'],
+			['deviceMoving', 'eventDeviceMoving'],
+			['deviceStopped', 'eventDeviceStopped'],
+			['geofenceEnter', 'eventGeofenceEnter'],
+			['geofenceExit', 'eventGeofenceExit']
+		]
 	}
 }
 
