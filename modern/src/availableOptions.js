@@ -119,6 +119,36 @@ const availableOptions ={
 			'sharedSavedCommands',
 			'settingsSupport'
 		]
+	},
+
+	NotificationPage: {
+		types: [
+			{ type: 'deviceOnline' },
+			{ type: 'deviceUnknown' },
+			{ type: 'deviceOffline' },
+			{ type: 'deviceInactive' },
+			{ type: 'deviceMoving' },
+			{ type: 'deviceStopped' },
+			{ type: 'geofenceEnter' },
+			{ type: 'geofenceExit' }
+		],
+
+		_types: [
+			{ type: 'commandResult' },		
+			{ type: 'queuedCommandSent' },		
+			{ type: 'deviceOverspeed' },
+			{ type: 'deviceFuelDrop' },
+			{ type: 'deviceFuelIncrease' },
+			{ type: 'alarm' },
+			{ type: 'ignitionOn' },
+			{ type: 'ignitionOff' },
+			{ type: 'maintenance' },
+			{ type: 'textMessage' },
+			{ type: 'driverChanged' },
+			{ type: 'media' }
+		],
+
+		showExtra: false
 	}
 }
 

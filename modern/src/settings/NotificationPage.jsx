@@ -18,6 +18,17 @@ import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
+import availableOptions from '../availableOptions';
+
+let types = null;
+if (availableOptions.NotificationPage?.types) {
+	types = availableOptions.NotificationPage?.types;
+}
+
+let showExtra = true;
+if (availableOptions.NotificationPage?.showExtra !== undefined) {
+	showExtra = availableOptions.NotificationPage?.showExtra;
+}
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -76,10 +87,11 @@ const NotificationPage = () => {
                 value={item.type}
                 emptyValue={null}
                 onChange={(e) => setItem({ ...item, type: e.target.value })}
-                endpoint="/api/notifications/types"
+                endpoint={!types && "/api/notifications/types"}
                 keyGetter={(it) => it.type}
                 titleGetter={(it) => t(prefixString('event', it.type))}
                 label={t('sharedType')}
+				data={types}
               />
               {item.type === 'alarm' && (
                 <SelectField
@@ -130,21 +142,24 @@ const NotificationPage = () => {
               </FormGroup>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedExtra')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.details}>
-              <SelectField
-                value={item.calendarId || 0}
-                onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
-                endpoint="/api/calendars"
-                label={t('sharedCalendar')}
-              />
-            </AccordionDetails>
-          </Accordion>
+		  {
+		  	showExtra &&
+			<Accordion>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+				<Typography variant="subtitle1">
+					{t('sharedExtra')}
+				</Typography>
+				</AccordionSummary>
+				<AccordionDetails className={classes.details}>
+				<SelectField
+					value={item.calendarId || 0}
+					onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
+					endpoint="/api/calendars"
+					label={t('sharedCalendar')}
+				/>
+				</AccordionDetails>
+			</Accordion>		  
+		  }
         </>
       )}
     </EditItemView>
