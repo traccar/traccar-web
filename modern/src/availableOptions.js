@@ -78,6 +78,19 @@ const availableOptions ={
 			'distance',
 			'totalDistance'
 		]
+	},
+
+	ReportsMenu: {
+		listItems: [
+			'reportCombined',
+			'reportRoute',
+			'reportEvents',
+			'reportTrips',
+			'reportStops',
+			'reportSummary',
+			'reportChart',
+			'reportReplay'
+		]
 	}
 }
 
