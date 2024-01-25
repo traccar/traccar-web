@@ -32,7 +32,7 @@ if (availableOptions.SummaryReportPage?.columnsArray) {
 		['averageSpeed', 'reportAverageSpeed'],
 		['maxSpeed', 'reportMaximumSpeed'],
 		['engineHours', 'reportEngineHours'],
-		['spentFuel', 'reportSpentFuel'],
+		['spentFuel', 'reportSpentFuel']
 	];
 }
 

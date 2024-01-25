@@ -24,7 +24,7 @@ const MapCamera = ({
         zoom: Math.max(map.getZoom(), 10),
       });
     }
-  }, [latitude, longitude, positions, coordinates]);
+  }, [latitude, longitude, positions, JSON.stringify(coordinates)]);
 
   return null;
 };
