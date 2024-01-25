@@ -90,6 +90,34 @@ const availableOptions ={
 			'reportSummary',
 			'reportChart',
 			'reportReplay'
+		],
+
+		_listItems: [
+			'sharedLogs',
+			'reportScheduled',
+			'statisticsTitle'
+		]
+	},
+
+	SettingsMenu: {
+		listItems: [
+			'sharedNotifications',
+			'deviceTitle',
+			'sharedGeofences',
+			'settingsGroups',
+			'settingsServer',
+			'settingsUsers'
+		],
+
+		_listItems: [
+			'sharedPreferences',
+			'settingsUser',
+			'sharedDrivers',
+			'sharedCalendars',
+			'sharedComputedAttributes',
+			'sharedMaintenance',
+			'sharedSavedCommands',
+			'settingsSupport'
 		]
 	}
 }
