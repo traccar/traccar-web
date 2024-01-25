@@ -18,6 +18,7 @@ import {
   altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
 } from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
+import availableOptions from '../availableOptions.js';
 
 const ChartReportPage = () => {
   const classes = useReportStyles();
@@ -32,7 +33,7 @@ const ChartReportPage = () => {
   const hours12 = usePreference('twelveHourFormat');
 
   const [items, setItems] = useState([]);
-  const [types, setTypes] = useState(['speed']);
+  const [types, setTypes] = useState(availableOptions.ChartReportPage?.types || ['speed']);
   const [type, setType] = useState('speed');
 
   const values = items.map((it) => it[type]);
@@ -88,7 +89,13 @@ const ChartReportPage = () => {
           keySet.delete(key);
         }
       });
-      setTypes([...keyList, ...keySet]);
+		  
+		  if (availableOptions.ChartReportPage?.types) {
+		  	setTypes(availableOptions.ChartReportPage?.types);
+		  } else {
+			setTypes([...keyList, ...keySet]);
+		  }
+      
       setItems(formattedPositions);
     } else {
       throw Error(await response.text());

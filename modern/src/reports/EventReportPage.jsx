@@ -25,13 +25,19 @@ import MapCamera from '../map/MapCamera';
 import scheduleReport from './common/scheduleReport';
 import availableOptions from '../availableOptions.js';
 
-const columnsArray = [
-  ['eventTime', 'positionFixTime'],
-  ['type', 'sharedType'],
-  ['geofenceId', 'sharedGeofence'],
-  ['maintenanceId', 'sharedMaintenance'],
-  ['attributes', 'commandData'],
-];
+let columnsArray = []
+if (availableOptions.EventReportPage?.columnsArray) {
+	columnsArray = availableOptions.EventReportPage?.columnsArray;
+} else {
+	columnsArray = [
+		['eventTime', 'positionFixTime'],
+		['type', 'sharedType'],
+		['geofenceId', 'sharedGeofence'],
+		['maintenanceId', 'sharedMaintenance'],
+		['attributes', 'commandData']
+	];
+}
+
 const columnsMap = new Map(columnsArray);
 
 const EventReportPage = () => {

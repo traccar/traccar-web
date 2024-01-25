@@ -28,6 +28,12 @@ const availableOptions ={
 			['deviceStopped', 'eventDeviceStopped'],
 			['geofenceEnter', 'eventGeofenceEnter'],
 			['geofenceExit', 'eventGeofenceExit']
+		],
+
+		columnsArray: [
+			['eventTime', 'positionFixTime'],
+			['type', 'sharedType'],
+			['geofenceId', 'sharedGeofence']
 		]
 	},
 
@@ -61,6 +67,18 @@ const availableOptions ={
 			['maxSpeed', 'reportMaximumSpeed']
 		]
 	},
+
+	ChartReportPage: {
+		types: [
+			'latitude',
+			'longitude',
+			'speed',
+			'accuracy',
+			'batteryLevel',
+			'distance',
+			'totalDistance'
+		]
+	}
 }
 
 export default availableOptions;
