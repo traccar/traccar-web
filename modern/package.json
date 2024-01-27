@@ -1,6 +1,6 @@
 {
   "name": "traccar",
-  "version": "5.11.0",
+  "version": "5.12.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.3",
