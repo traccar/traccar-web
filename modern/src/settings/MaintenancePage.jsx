@@ -48,7 +48,7 @@ const MaintenancePage = () => {
     const otherList = [];
     Object.keys(attributes).forEach((key) => {
       const value = attributes[key];
-      if (value.type === 'number') {
+      if (value.type === 'number' || key.endsWith('Time')) {
         otherList.push({ key, name: value.name, type: value.type });
       }
     });
