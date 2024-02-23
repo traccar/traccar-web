@@ -58,13 +58,19 @@ export const formatCourse = (value) => {
   return courseValues[Math.floor(normalizedValue / 45)];
 };
 
-export const formatDistance = (value, unit, t) => `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
+export const formatDistance = (value, unit, t) => {
+  const formattedDistance = distanceFromMeters(value, unit).toFixed(2);
+  const numberWithCommas = parseFloat(formattedDistance).toLocaleString();
+  return `${numberWithCommas} ${distanceUnitString(unit, t)}`;
+};
 
 export const formatAltitude = (value, unit, t) => `${altitudeFromMeters(value, unit).toFixed(2)} ${altitudeUnitString(unit, t)}`;
 
 export const formatSpeed = (value, unit, t) => `${speedFromKnots(value, unit).toFixed(2)} ${speedUnitString(unit, t)}`;
 
 export const formatVolume = (value, unit, t) => `${volumeFromLiters(value, unit).toFixed(2)} ${volumeUnitString(unit, t)}`;
+
+export const formatHours = (value) => dayjs.duration(value).humanize();
 
 export const formatNumericHours = (value, t) => {
   const hours = Math.floor(value / 3600000);
@@ -101,15 +107,18 @@ export const formatCoordinate = (key, value, unit) => {
   }
 };
 
-export const getStatusColor = (status) => {
+export const getStatusColor = ({ status, speed = 0 }) => {
   switch (status) {
     case 'online':
-      return 'success';
+      if (speed > 3) {
+        return 'success';
+      }
+      return 'warning';
     case 'offline':
       return 'error';
     case 'unknown':
     default:
-      return 'neutral';
+      return 'error';
   }
 };
 
