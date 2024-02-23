@@ -11,7 +11,6 @@ import { useEffectAsync } from '../reactHelper';
 import { prefixString } from '../common/util/stringUtils';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
-import usePositionAttributes from '../common/attributes/usePositionAttributes';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +29,6 @@ const PositionPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
-
-  const positionAttributes = usePositionAttributes(t);
 
   const { id } = useParams();
 
@@ -88,14 +85,14 @@ const PositionPage = () => {
                 {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
                   <TableRow key={property}>
                     <TableCell>{property}</TableCell>
-                    <TableCell><strong>{positionAttributes[property]?.name || property}</strong></TableCell>
+                    <TableCell><strong>{t(prefixString('position', property))}</strong></TableCell>
                     <TableCell><PositionValue position={item} property={property} /></TableCell>
                   </TableRow>
                 ))}
                 {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
                   <TableRow key={attribute}>
                     <TableCell>{attribute}</TableCell>
-                    <TableCell><strong>{positionAttributes[attribute]?.name || attribute}</strong></TableCell>
+                    <TableCell><strong>{t(prefixString('position', attribute)) || t(prefixString('device', attribute))}</strong></TableCell>
                     <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
                   </TableRow>
                 ))}
