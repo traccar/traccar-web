@@ -14,18 +14,29 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@emotion/react';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapRoutePoints from '../map/MapRoutePoints';
 import MapPositions from '../map/MapPositions';
-import { formatTime } from '../common/util/formatter';
+import { formatDistance, formatTime } from '../common/util/formatter';
 import ReportFilter from '../reports/components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatch } from '../reactHelper';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
-import { usePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
+import PositionValue from '../common/components/PositionValue';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,9 +85,29 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(1),
     },
   },
+  icon: {
+    width: '16px',
+    height: '16px',
+  },
+  table: {
+    overflow: 'scroll',
+    maxHeight: '600px',
+    scrollbarWidth: 'thin', // Para navegadores basados en Firefox
+    msOverflowStyle: 'none', // Para navegadores basados en Internet Explorer y Edge
+    '&::-webkit-scrollbar': {
+      width: '0.2em', // Para navegadores basados en WebKit (Chrome, Safari, etc.)
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'transparent',
+    },
+  },
+
 }));
 
 const ReplayPage = () => {
+  const theme = useTheme();
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
+
   const t = useTranslation();
   const classes = useStyles();
   const navigate = useNavigate();
@@ -94,6 +125,8 @@ const ReplayPage = () => {
   const [to, setTo] = useState();
   const [expanded, setExpanded] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const distanceUnit = useAttributePreference('distanceUnit');
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -133,6 +166,7 @@ const ReplayPage = () => {
   }, [setShowCard]);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
+    setSearching(true);
     setSelectedDeviceId(deviceId);
     setFrom(from);
     setTo(to);
@@ -142,6 +176,8 @@ const ReplayPage = () => {
       setIndex(0);
       const positions = await response.json();
       setPositions(positions);
+      setSearching(false);
+
       if (positions.length) {
         setExpanded(false);
       } else {
@@ -156,7 +192,6 @@ const ReplayPage = () => {
     const query = new URLSearchParams({ deviceId: selectedDeviceId, from, to });
     window.location.assign(`/api/positions/kml?${query.toString()}`);
   };
-
   return (
     <div className={classes.root}>
       <MapView>
@@ -212,20 +247,81 @@ const ReplayPage = () => {
                 </IconButton>
                 {formatTime(positions[index].fixTime, 'seconds', hours12)}
               </div>
+              { desktop && positions && (
+              <TableContainer component={Paper} className={classes.table}>
+                <Table sx={{ minWidth: 300 }} aria-label="Points table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell />
+                      <TableCell align="right">Speed</TableCell>
+                      <TableCell align="right">Time</TableCell>
+                      <TableCell align="right" />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {positions.map((row, index) => (
+                      <TableRow
+                        key={index}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        onClick={() => setIndex(index)}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <TableCell component="th" scope="row">
+                          <img
+                            className={classes.icon}
+                            src={row?.speed >= 3 ? '/1.png' : '/2.png'}
+                            alt="Icon Marker"
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          <PositionValue
+                            position={row}
+                            property="speed"
+                            attribute={row.speed}
+                          />
+                        </TableCell>
+                        <TableCell align="right">
+                          {formatTime(row.fixTime, 'seconds', hours12)}
+                        </TableCell>
+                        <TableCell align="right">
+                          {formatDistance(row.attributes.totalDistance, distanceUnit, t)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              )}
             </>
           ) : (
-            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly />
+            <>
+              {
+              searching && (
+
+              <Box sx={{ width: '100%' }}>
+                <LinearProgress />
+              </Box>
+              )
+}
+              <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly />
+            </>
           )}
         </Paper>
       </div>
-      {showCard && index < positions.length && (
+      {/* {showCard && index < positions.length && (
         <StatusCard
           deviceId={selectedDeviceId}
           position={positions[index]}
           onClose={() => setShowCard(false)}
           disableActions
         />
-      )}
+      )} */}
+      <StatusCard
+        deviceId={selectedDeviceId}
+        position={positions[index]}
+        onClose={() => setShowCard(false)}
+        disableActions
+      />
     </div>
   );
 };
