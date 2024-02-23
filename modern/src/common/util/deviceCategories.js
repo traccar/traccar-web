@@ -5,7 +5,6 @@ export default [
   'boat',
   'bus',
   'car',
-  'camper',
   'crane',
   'helicopter',
   'motorcycle',

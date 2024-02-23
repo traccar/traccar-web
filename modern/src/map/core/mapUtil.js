@@ -9,8 +9,8 @@ export const loadImage = (url) => new Promise((imageLoaded) => {
 
 const canvasTintImage = (image, color) => {
   const canvas = document.createElement('canvas');
-  canvas.width = image.width * devicePixelRatio;
-  canvas.height = image.height * devicePixelRatio;
+  canvas.width = 75;
+  canvas.height =  100;
   canvas.style.width = `${image.width}px`;
   canvas.style.height = `${image.height}px`;
 
@@ -30,8 +30,8 @@ const canvasTintImage = (image, color) => {
 
 export const prepareIcon = (background, icon, color) => {
   const canvas = document.createElement('canvas');
-  canvas.width = background.width * devicePixelRatio;
-  canvas.height = background.height * devicePixelRatio;
+  canvas.width = 85;
+  canvas.height = 110;
   canvas.style.width = `${background.width}px`;
   canvas.style.height = `${background.height}px`;
 

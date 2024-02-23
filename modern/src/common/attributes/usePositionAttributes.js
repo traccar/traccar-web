@@ -349,7 +349,7 @@ export default (t) => useMemo(() => ({
     type: 'string',
   },
   driverUniqueId: {
-    name: t('sharedDriver'),
+    name: t('positionDriverUniqueId'),
     type: 'string',
   },
   card: {
