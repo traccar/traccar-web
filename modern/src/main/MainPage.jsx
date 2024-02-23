@@ -12,14 +12,16 @@ import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
 import usePersistedState from '../common/util/usePersistedState';
 import EventsDrawer from './EventsDrawer';
-import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
 import MainMap from './MainMap';
 import { useAttributePreference } from '../common/util/preferences';
+import useFilterMain from './useFilterMain';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%',
+    width: '100vw',
+    overflowX: 'hidden',
   },
   sidebar: {
     pointerEvents: 'none',
@@ -84,7 +86,7 @@ const MainPage = () => {
     groups: [],
   });
   const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
-  const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
+  const [filterMap, setFilterMap] = usePersistedState('filterMap', true);
 
   const [devicesOpen, setDevicesOpen] = useState(desktop);
   const [eventsOpen, setEventsOpen] = useState(false);
@@ -97,7 +99,7 @@ const MainPage = () => {
     }
   }, [desktop, mapOnSelect, selectedDeviceId]);
 
-  useFilter(keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
+  useFilterMain(keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions);
 
   return (
     <div className={classes.root}>
