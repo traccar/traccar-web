@@ -5,7 +5,7 @@ const { reducer, actions } = createSlice({
   name: 'reports',
   initialState: {
     groupIds: [],
-    period: 'today',
+    period: 'custom',
     from: dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'),
     to: dayjs().locale('en').format('YYYY-MM-DDTHH:mm'),
   },
