@@ -43,8 +43,16 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
         'line-cap': 'round',
       },
       paint: {
-        'line-color': ['get', 'color'],
-        'line-width': 2,
+        'line-width': 3,
+        'line-color': theme.palette.primary.main,
+        // 'line-color': [
+        //   'interpolate',
+        //   ['linear'],
+        //   ['get', 'speed'],
+        //   0, theme.palette.error.main,
+        //   30, theme.palette.warning.main,
+        //   60, theme.palette.primary.main,
+        // ],
       },
     });
     if (name) {
@@ -79,18 +87,21 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
 
   useEffect(() => {
     if (!coordinates) {
-      coordinates = positions.map((item) => [item.longitude, item.latitude]);
+      coordinates = positions.map((item) => [item.longitude, item.latitude, item.speed]);
     }
+
     map.getSource(id)?.setData({
       type: 'Feature',
       geometry: {
         type: 'LineString',
         coordinates,
       },
-      properties: {
-        name,
-        color: reportColor,
-      },
+      features: positions.map((position, index) => ({
+        properties: {
+          name,
+          speed: position.speed,
+        },
+      })),
     });
   }, [theme, positions, coordinates, reportColor]);
 
