@@ -22,6 +22,8 @@ import {
   DialogContent,
   Button,
 } from '@mui/material';
+import BlockIcon from '@mui/icons-material/Block';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -29,6 +31,10 @@ import PublishIcon from '@mui/icons-material/Publish';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PendingIcon from '@mui/icons-material/Pending';
+import { RiSpeedUpFill } from 'react-icons/ri';
+import { TbEngineOff, TbEngine, TbReportSearch } from 'react-icons/tb';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import { useTranslation } from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
@@ -38,6 +44,9 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
+
+import { runMotor, stopMotor } from '../util/sms';
+import { Share } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -69,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
   delete: {
     color: theme.palette.error.main,
   },
+  block: {
+    color: theme.palette.error.main,
+  },
+  play: {
+    color: theme.palette.primary.main,
+  },
   icon: {
     width: '25px',
     height: '25px',
@@ -97,7 +112,9 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('md')]: {
       left: '50%',
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+      bottom: `calc(${theme.spacing(3)} + ${
+        theme.dimensions.bottomBarHeight
+      }px)`,
     },
     transform: 'translateX(-50%)',
   }),
@@ -105,7 +122,6 @@ const useStyles = makeStyles((theme) => ({
 
 const StatusRow = ({ name, content }) => {
   const classes = useStyles();
-
   return (
     <TableRow>
       <TableCell className={classes.cell}>
@@ -133,7 +149,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
-  const positionItems = useAttributePreference('positionItems', 'speed,address,totalDistance,course');
+
+  const positionItems = useAttributePreference('positionItems', 'speed,totalDistance');
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -152,9 +169,21 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     setRemoving(false);
   });
 
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleShutdownClick = () => {
+    setOpenDialog(true);
+  };
+  const handleConfirmShutdown = ({ phoneNumber, deviceName }) => {
+    stopMotor({
+      phoneNumber,
+      deviceName,
+    });
+    setOpenDialog(false);
+  };
   const handleGeofence = useCatchCallback(async () => {
     const newItem = {
-      name: t('sharedGeofence'),
+      name: '',
       area: `CIRCLE (${position.latitude} ${position.longitude}, 50)`,
     };
     const response = await fetch('/api/geofences', {
@@ -167,7 +196,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       const permissionResponse = await fetch('/api/permissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deviceId: position.deviceId, geofenceId: item.id }),
+        body: JSON.stringify({
+          deviceId: position.deviceId,
+          geofenceId: item.id,
+        }),
       });
       if (!permissionResponse.ok) {
         throw Error(await permissionResponse.text());
@@ -196,9 +228,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     <>
       <div className={classes.root}>
         {device && (
-          <Draggable
-            handle={`.${classes.media}, .${classes.header}`}
-          >
+          <Draggable handle={`.${classes.media}, .${classes.header}`}>
             <Card elevation={3} className={classes.card}>
               {deviceImage ? (
                 <CardMedia
@@ -210,14 +240,34 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     onClick={onClose}
                     onTouchStart={onClose}
                   >
-                    <CloseIcon fontSize="small" className={classes.mediaButton} />
+                    <CloseIcon
+                      fontSize="small"
+                      className={classes.mediaButton}
+                    />
                   </IconButton>
                 </CardMedia>
               ) : (
                 <div className={classes.header}>
-                  <Typography variant="body2" color="textSecondary">
-                    {device.name}
-                  </Typography>
+                  <Typography variant="body2" color="textSecondary"> {device.name}</Typography>
+                  { position && positionItems
+                    .split(',')
+                    .filter(
+                      (key) => position.hasOwnProperty(key)
+                            || position.attributes.hasOwnProperty(key),
+                    )
+                    .map((key) => (
+                      <Typography variant="body2" color="textSecondary" key={key}>
+                        <PositionValue
+                          position={position}
+                          property={
+                          position.hasOwnProperty(key) ? key : null
+                        }
+                          attribute={
+                          position.hasOwnProperty(key) ? null : key
+                        }
+                        />
+                      </Typography>
+                    ))}
                   <IconButton
                     size="small"
                     onClick={onClose}
@@ -227,60 +277,134 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   </IconButton>
                 </div>
               )}
-              {position && (
-                <CardContent className={classes.content}>
-                  <Table size="small" classes={{ root: classes.table }}>
-                    <TableBody>
-                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+              {/* {position && (
+              <CardContent className={classes.content}>
+                <Table size="small" classes={{ root: classes.table }}>
+                  <TableBody>
+                    {positionItems
+                      .split(',')
+                      .filter(
+                        (key) => position.hasOwnProperty(key)
+                            || position.attributes.hasOwnProperty(key),
+                      )
+                      .map((key) => (
                         <StatusRow
                           key={key}
-                          name={positionAttributes[key]?.name || key}
+                          name={
+                              positionAttributes.hasOwnProperty(key)
+                                ? positionAttributes[key].name
+                                : key
+                            }
                           content={(
                             <PositionValue
                               position={position}
-                              property={position.hasOwnProperty(key) ? key : null}
-                              attribute={position.hasOwnProperty(key) ? null : key}
+                              property={
+                                  position.hasOwnProperty(key) ? key : null
+                                }
+                              attribute={
+                                  position.hasOwnProperty(key) ? null : key
+                                }
                             />
-                          )}
+                            )}
                         />
                       ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+              )} */}
               <CardActions classes={{ root: classes.actions }} disableSpacing>
-                <IconButton
+                {!shareDisabled && !user.temporary && <MenuItem onClick={handleShare}><Share /></MenuItem>}
+
+                {/* <IconButton
                   color="secondary"
                   onClick={(e) => setAnchorEl(e.currentTarget)}
                   disabled={!position}
                 >
                   <PendingIcon />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                   onClick={() => navigate('/replay')}
                   disabled={disableActions || !position}
                 >
-                  <ReplayIcon />
+                  <TbReportSearch />
                 </IconButton>
-                <IconButton
+                {/* <IconButton
                   onClick={() => navigate(`/settings/device/${deviceId}/command`)}
                   disabled={disableActions}
                 >
                   <PublishIcon />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
-                  onClick={() => navigate(`/settings/device/${deviceId}`)}
-                  disabled={disableActions || deviceReadonly}
+                  onClick={handleShutdownClick}
+                  className={classes.block}
                 >
-                  <EditIcon />
+                  <TbEngineOff />
                 </IconButton>
+                <Dialog
+                  open={openDialog}
+                  onClose={() => setOpenDialog(false)}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    ¿Estás seguro de que quieres apagar el motor?
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Apagar el motor abruptamente, especialmente a altas
+                      velocidades, puede ocasionar pérdida de control y aumentar
+                      el riesgo de accidentes. En situaciones donde sea
+                      necesario apagar el motor mientras te desplazas, se
+                      recomienda hacerlo a baja velocidad para minimizar
+                      cualquier impacto en la conducción.
+                    </DialogContentText>
+                  </DialogContent>
+
+                  <DialogActions>
+                    <Button
+                      onClick={() => setOpenDialog(false)}
+                      color="primary"
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      className={classes.block}
+                      onClick={() => handleConfirmShutdown({
+                        phoneNumber: device.phone,
+                        deviceName: device.name,
+                      })}
+                      autoFocus
+                    >
+                      Apagar
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+
                 <IconButton
-                  onClick={() => setRemoving(true)}
-                  disabled={disableActions || deviceReadonly}
-                  className={classes.delete}
+                  onClick={() => runMotor({
+                    phoneNumber: device.phone,
+                    deviceName: device.name,
+                  })}
                 >
-                  <DeleteIcon />
+                  <TbEngine className={classes.play} />
                 </IconButton>
+                {deviceReadonly ? null : (
+                  <>
+                    <IconButton
+                      onClick={() => navigate(`/settings/device/${deviceId}`)}
+                      disabled={disableActions || deviceReadonly}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => setRemoving(true)}
+                      disabled={disableActions || deviceReadonly}
+                      className={classes.delete}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
               </CardActions>
             </Card>
           </Draggable>
@@ -294,6 +418,33 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
           {!shareDisabled && !user.temporary && <MenuItem onClick={handleShare}>{t('deviceShare')}</MenuItem>}
+          <MenuItem onClick={() => navigate(`/position/${position.id}`)}>
+            <Typography color="secondary">{t('sharedShowDetails')}</Typography>
+          </MenuItem>
+          <MenuItem onClick={handleGeofence}>
+            {t('sharedCreateGeofence')}
+          </MenuItem>
+          <MenuItem
+            component="a"
+            target="_blank"
+            href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}
+          >
+            {t('linkGoogleMaps')}
+          </MenuItem>
+          <MenuItem
+            component="a"
+            target="_blank"
+            href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}
+          >
+            {t('linkAppleMaps')}
+          </MenuItem>
+          <MenuItem
+            component="a"
+            target="_blank"
+            href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}
+          >
+            {t('linkStreetView')}
+          </MenuItem>
         </Menu>
       )}
       <RemoveDialog
