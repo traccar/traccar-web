@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import {
-  useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress, Box,
+import { useMediaQuery, InputLabel, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress, Box, Typography,
 } from '@mui/material';
 import ReactCountryFlag from 'react-country-flag';
 import makeStyles from '@mui/styles/makeStyles';
@@ -10,12 +9,12 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import RoomRounded from '@mui/icons-material/Room';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
 import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
-import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +40,25 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginTop: theme.spacing(2),
   },
+  title: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(5),
+    fontSize: theme.spacing(6),
+    fontWeight: 'bold',
+    color: theme.palette.primary.main,
+  },
+  logo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  icon: {
+    fontSize: theme.spacing(10),
+    color: theme.palette.primary.main,
+  },
 }));
 
 const LoginPage = () => {
@@ -51,7 +69,11 @@ const LoginPage = () => {
   const t = useTranslation();
 
   const { languages, language, setLanguage } = useLocalization();
-  const languageList = Object.entries(languages).map((values) => ({ code: values[0], country: values[1].country, name: values[1].name }));
+  const languageList = Object.entries(languages).map((values) => ({
+    code: values[0],
+    country: values[1].country,
+    name: values[1].name,
+  }));
 
   const [failed, setFailed] = useState(false);
 
@@ -59,16 +81,30 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
 
-  const registrationEnabled = useSelector((state) => state.session.server.registration);
-  const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
-  const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
-  const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
-  const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
-  const openIdForced = useSelector((state) => state.session.server.openIdEnabled && state.session.server.openIdForce);
+  const registrationEnabled = useSelector(
+    (state) => state.session.server.registration,
+  );
+  const languageEnabled = useSelector(
+    (state) => !state.session.server.attributes['ui.disableLoginLanguage'],
+  );
+  const changeEnabled = useSelector(
+    (state) => !state.session.server.attributes.disableChange,
+  );
+  const emailEnabled = useSelector(
+    (state) => state.session.server.emailEnabled,
+  );
+  const openIdEnabled = useSelector(
+    (state) => state.session.server.openIdEnabled,
+  );
+  const openIdForced = useSelector(
+    (state) => state.session.server.openIdEnabled && state.session.server.openIdForce,
+  );
   const [codeEnabled, setCodeEnabled] = useState(false);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
-  const announcement = useSelector((state) => state.session.server.announcement);
+  const announcement = useSelector(
+    (state) => state.session.server.announcement,
+  );
 
   const generateLoginToken = async () => {
     if (nativeEnvironment) {
@@ -93,17 +129,24 @@ const LoginPage = () => {
     event.preventDefault();
     setFailed(false);
     try {
-      const query = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+      const query = `email=${encodeURIComponent(
+        email,
+      )}&password=${encodeURIComponent(password)}`;
       const response = await fetch('/api/session', {
         method: 'POST',
-        body: new URLSearchParams(code.length ? query + `&code=${code}` : query),
+        body: new URLSearchParams(
+          code.length ? `${query}&code=${code}` : query,
+        ),
       });
       if (response.ok) {
         const user = await response.json();
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
         navigate('/');
-      } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
+      } else if (
+        response.status === 401
+        && response.headers.get('WWW-Authenticate') === 'TOTP'
+      ) {
         setCodeEnabled(true);
       } else {
         throw Error(await response.text());
@@ -115,7 +158,9 @@ const LoginPage = () => {
   };
 
   const handleTokenLogin = useCatch(async (token) => {
-    const response = await fetch(`/api/session?token=${encodeURIComponent(token)}`);
+    const response = await fetch(
+      `/api/session?token=${encodeURIComponent(token)}`,
+    );
     if (response.ok) {
       const user = await response.json();
       dispatch(sessionActions.updateUser(user));
@@ -145,7 +190,7 @@ const LoginPage = () => {
 
   if (openIdForced) {
     handleOpenIdLogin();
-    return (<LinearProgress />);
+    return <LinearProgress />;
   }
 
   return (
@@ -160,7 +205,12 @@ const LoginPage = () => {
         )}
       </div>
       <div className={classes.container}>
-        {useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.primary.main} />}
+        <div className={classes.logo}>
+          <RoomRounded fontSize="inherit" className={classes.icon} />
+          <Typography variant="h3" className="title">
+            GONZHER
+          </Typography>
+        </div>
         <TextField
           required
           error={failed}
@@ -227,7 +277,11 @@ const LoginPage = () => {
           {languageEnabled && (
             <FormControl fullWidth>
               <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
+              <Select
+                label={t('loginLanguage')}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+              >
                 {languageList.map((it) => (
                   <MenuItem key={it.code} value={it.code}>
                     <Box component="span" sx={{ mr: 1 }}>
@@ -255,7 +309,11 @@ const LoginPage = () => {
         open={!!announcement && !announcementShown}
         message={announcement}
         action={(
-          <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
+          <IconButton
+            size="small"
+            color="inherit"
+            onClick={() => setAnnouncementShown(true)}
+          >
             <CloseIcon fontSize="small" />
           </IconButton>
         )}
