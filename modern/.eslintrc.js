@@ -23,6 +23,8 @@ module.exports = {
       namedComponents: 'arrow-function',
       unnamedComponents: 'arrow-function',
     }],
+    'import/no-extraneous-dependencies': [0],
     'react/prop-types': [0],
+    'linebreak-style': [0],
   },
 };

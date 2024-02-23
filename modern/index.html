@@ -4,16 +4,47 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="${colorPrimary}" />
-    <meta name="description" content="${description}" />
     <link rel="icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" sizes="180x180" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="stylesheet" href="/styles.css">
-    <title>${title}</title>
+    <title>GPS GONZHER</title>
+    <meta name="description" content="Con el GPS de Gonzher Monitorea y administra fácilmente tu fuerza móvil de trabajadores. Ten una vista de 360º en casi tiempo real de las maniobras diarias de tu flota, para reducir costos, aumentar la productividad, estar al día con el mantenimiento del vehículo y sacar el máximo provecho a cada día de trabajo." />
+
+    <link rel="canonical" href="https://api.gonzher.com/" />
+
+    <meta property="og:url" content="https://api.gonzher.com/" />
+    <meta property="og:title" content="Gonzher - Software de Logística y Facturación" />
+    <meta property="og:description" content="Optimiza tu logística con el software de Gonzher. Facturación en línea, seguimiento de pedidos y más para transportistas." />
+    <meta property="og:image" content="https://gonzher.com/og-image.png" />
+    <meta property="og:image:width" content="800" />
+    <meta property="og:image:height" content="600" />
+
+    <meta name="twitter:title" content="Gonzher - Software de Logística y Facturación" />
+    <meta name="twitter:description" content="Optimiza procesos de transporte con nuestro software" />
+    <meta name="twitter:image" content="https://gonzher.com/og-image.png" />
+
   </head>
   <body>
-    <noscript>Enable JavaScript to use <a href="https://www.traccar.org/">Traccar GPS Tracking System</a>.</noscript>
     <div id="root" class="root"></div>
     <script type="module" src="/src/index.jsx"></script>
-  </body>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8Q0SXFKWHP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8Q0SXFKWHP');
+    </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.google-analytics.com/analytics.js?id=G-8Q0SXFKWHP"></script>
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'G-8Q0SXFKWHP', 'auto');
+      ga('send', 'pageview');
+    </script>
+  
+</body>
+  
 </html>
