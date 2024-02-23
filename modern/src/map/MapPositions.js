@@ -13,9 +13,11 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   const clusters = `${id}-clusters`;
   const selected = `${id}-selected`;
 
+  const textSize = 15;
+
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
-  const iconScale = useAttributePreference('iconScale', desktop ? 0.75 : 1);
+  const iconScale = useAttributePreference('iconScale', desktop ? 0.5 : 1.3);
 
   const devices = useSelector((state) => state.devices.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -44,7 +46,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       name: device.name,
       fixTime: formatTime(position.fixTime, 'seconds', hours12),
       category: mapIconKey(device.category),
-      color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
+      color: getStatusColor({ status: device.status, speed: position?.speed }),
       rotation: position.course,
       direction: showDirection,
     };
@@ -64,6 +66,13 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
     const feature = event.features[0];
     if (onClick) {
       onClick(feature.properties.id, feature.properties.deviceId);
+
+      const { coordinates } = feature.geometry;
+
+      map.easeTo({
+        center: coordinates,
+        zoom: 18,
+      });
     }
   }, [onClick]);
 
@@ -92,7 +101,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       },
       cluster: mapCluster,
       clusterMaxZoom: 14,
-      clusterRadius: 50,
+      clusterRadius: 10,
     });
     map.addSource(selected, {
       type: 'geojson',
@@ -114,32 +123,34 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-field': `{${titleField || 'name'}}`,
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
-          'text-offset': [0, -2 * iconScale],
+          'text-offset': [0, -1.5],
           'text-font': findFonts(map),
-          'text-size': 12,
+          'text-size': textSize,
         },
         paint: {
           'text-halo-color': 'white',
           'text-halo-width': 1,
         },
       });
-      map.addLayer({
-        id: `direction-${source}`,
-        type: 'symbol',
-        source,
-        filter: [
-          'all',
-          ['!has', 'point_count'],
-          ['==', 'direction', true],
-        ],
-        layout: {
-          'icon-image': 'direction',
-          'icon-size': iconScale,
-          'icon-allow-overlap': true,
-          'icon-rotate': ['get', 'rotation'],
-          'icon-rotation-alignment': 'map',
-        },
-      });
+      // This show the direccion in the map
+
+      // map.addLayer({
+      //   id: `direction-${source}`,
+      //   type: 'symbol',
+      //   source,
+      //   filter: [
+      //     'all',
+      //     ['!has', 'point_count'],
+      //     ['==', 'direction', true],
+      //   ],
+      //   layout: {
+      //     'icon-image': 'direction',
+      //     'icon-size': iconScale,
+      //     'icon-allow-overlap': true,
+      //     'icon-rotate': ['get', 'rotation'],
+      //     'icon-rotation-alignment': 'map',
+      //   },
+      // });
 
       map.on('mouseenter', source, onMouseEnter);
       map.on('mouseleave', source, onMouseLeave);
@@ -151,11 +162,14 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       source: id,
       filter: ['has', 'point_count'],
       layout: {
-        'icon-image': 'background',
+        'icon-image': 'default-neutral',
         'icon-size': iconScale,
         'text-field': '{point_count_abbreviated}',
         'text-font': findFonts(map),
-        'text-size': 14,
+        'text-offset': [0, -1.5],
+        'text-size': textSize,
+        'text-anchor': 'bottom',
+
       },
     });
 
