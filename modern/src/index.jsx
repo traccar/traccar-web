@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
+import { Toaster } from 'react-hot-toast';
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
 import ErrorHandler from './common/components/ErrorHandler';
@@ -29,6 +30,7 @@ root.render(
             <CssBaseline />
             <ServerProvider>
               <BrowserRouter>
+                <Toaster />
                 <Navigation />
               </BrowserRouter>
               <ErrorHandler />
