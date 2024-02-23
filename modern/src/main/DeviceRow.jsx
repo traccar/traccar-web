@@ -4,6 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import {
   IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton,
 } from '@mui/material';
+
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import Battery60Icon from '@mui/icons-material/Battery60';
@@ -19,17 +20,17 @@ import {
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
-import { useAdministrator } from '../common/util/permissions';
-import EngineIcon from '../resources/images/data/engine.svg?react';
+import { useAdministrator, useDeviceReadonly } from '../common/util/permissions';
+import { ReactComponent as EngineIcon } from '../resources/images/data/engine.svg';
 import { useAttributePreference } from '../common/util/preferences';
+import { resumeDevice } from '../common/util/sms';
+import PositionValue from '../common/components/PositionValue';
 
 dayjs.extend(relativeTime);
 
 const useStyles = makeStyles((theme) => ({
   icon: {
-    width: '25px',
-    height: '25px',
-    filter: 'brightness(0) invert(1)',
+    width: '35px',
   },
   batteryText: {
     fontSize: '0.75rem',
@@ -48,9 +49,14 @@ const useStyles = makeStyles((theme) => ({
   neutral: {
     color: theme.palette.neutral.main,
   },
+  tooltipButton: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const DeviceRow = ({ data, index, style }) => {
+  const deviceReadonly = useDeviceReadonly();
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -73,11 +79,10 @@ const DeviceRow = ({ data, index, style }) => {
     return (
       <>
         {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
-        <span className={classes[getStatusColor(item.status)]}>{status}</span>
+        <span className={classes[getStatusColor({ status: item.status, speed: position?.speed })]}>{status}</span>
       </>
     );
   };
-
   return (
     <div style={style}>
       <ListItemButton
@@ -86,10 +91,13 @@ const DeviceRow = ({ data, index, style }) => {
         disabled={!admin && item.disabled}
       >
         <ListItemAvatar>
-          <Avatar>
-            <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
-          </Avatar>
+          <img
+            className={classes.icon}
+            src={item.status !== 'online' ? '/2.png' : (position?.speed ?? 0) >= 3 ? '/1.png' : '/3.png'}
+            alt=""
+          />
         </ListItemAvatar>
+
         <ListItemText
           primary={item[devicePrimary]}
           primaryTypographyProps={{ noWrap: true }}
@@ -137,6 +145,20 @@ const DeviceRow = ({ data, index, style }) => {
             )}
           </>
         )}
+        {/* {
+          deviceReadonly ? null : (
+            <Tooltip title="run" onClick={() => resumeDevice(item.phone)}>
+              <IconButton size="small">
+                <EngineIcon width={20} height={20} className={classes.tooltipButton} />
+              </IconButton>
+            </Tooltip>
+          )
+        } */}
+        {/* <PositionValue
+          position={item}
+          property="speed"
+          attribute={position?.speed}
+        /> */}
       </ListItemButton>
     </div>
   );
