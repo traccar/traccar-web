@@ -5,6 +5,9 @@ import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import makeStyles from '@mui/styles/makeStyles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -18,8 +21,24 @@ import { formatTime } from '../common/util/formatter';
 import { useDeviceReadonly } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 
+const useStyles = makeStyles((theme) => ({
+  header: {
+    display: 'flex',
+    position: 'sticky',
+    padding: theme.spacing(3, 2, 2),
+  },
+  item:{
+    padding: theme.spacing(3, 2, 2),
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  ...useSettingsStyles,
+}));
+
 const DevicesPage = () => {
-  const classes = useSettingsStyles();
+  const classes = useStyles();
+
+
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -33,7 +52,6 @@ const DevicesPage = () => {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
-
   useEffectAsync(async () => {
     setLoading(true);
     try {
@@ -57,6 +75,30 @@ const DevicesPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceTitle']}>
+      <Grid container spacing={8} className={classes.header}>
+        <Grid item xs={4}>
+          <Paper elevation={3} className={classes.item}>
+            Total:
+            {' '}
+            {items.length}
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper elevation={3} className={classes.item}>
+            Online:
+            {' '}
+            {items.filter((item) => item.status === 'online').length}
+          </Paper>
+        </Grid>
+        <Grid item xs={4}>
+          <Paper elevation={3} className={classes.item}>
+            Offline:
+            {' '}
+            <span>{items.filter((item) => item.status !== 'online').length}</span>
+          </Paper>
+        </Grid>
+      </Grid>
+
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>
@@ -65,8 +107,7 @@ const DevicesPage = () => {
             <TableCell>{t('deviceIdentifier')}</TableCell>
             <TableCell>{t('groupParent')}</TableCell>
             <TableCell>{t('sharedPhone')}</TableCell>
-            <TableCell>{t('deviceModel')}</TableCell>
-            <TableCell>{t('deviceContact')}</TableCell>
+            <TableCell>Cliente</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
             <TableCell className={classes.columnAction} />
           </TableRow>
@@ -78,7 +119,6 @@ const DevicesPage = () => {
               <TableCell>{item.uniqueId}</TableCell>
               <TableCell>{item.groupId ? groups[item.groupId]?.name : null}</TableCell>
               <TableCell>{item.phone}</TableCell>
-              <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date', hours12)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
@@ -89,6 +129,7 @@ const DevicesPage = () => {
                   setTimestamp={setTimestamp}
                   customActions={[actionConnections]}
                   readonly={deviceReadonly}
+                  phoneNumber={item.phone}
                 />
               </TableCell>
             </TableRow>

@@ -22,7 +22,6 @@ import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
-import useQuery from '../common/util/useQuery';
 
 const useStyles = makeStyles((theme) => ({
   details: {
@@ -42,10 +41,7 @@ const DevicePage = () => {
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
 
-  const query = useQuery();
-  const uniqueId = query.get('uniqueId');
-
-  const [item, setItem] = useState(uniqueId ? { uniqueId } : null);
+  const [item, setItem] = useState();
 
   const handleFiles = useCatch(async (files) => {
     if (files.length > 0) {
@@ -87,11 +83,20 @@ const DevicePage = () => {
                 label={t('sharedName')}
               />
               <TextField
+                value={item.phone || ''}
+                onChange={(event) => setItem({ ...item, phone: event.target.value })}
+                label={t('sharedPhone')}
+              />
+              <TextField
+                value={item.contact || ''}
+                onChange={(event) => setItem({ ...item, contact: event.target.value })}
+                label={t('deviceContact')}
+              />
+              <TextField
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
                 label={t('deviceIdentifier')}
                 helperText={t('deviceIdentifierHelp')}
-                disabled={Boolean(uniqueId)}
               />
             </AccordionDetails>
           </Accordion>
