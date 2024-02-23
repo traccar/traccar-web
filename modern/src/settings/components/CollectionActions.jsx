@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import {
-  IconButton, Menu, MenuItem, useMediaQuery, useTheme,
+  IconButton,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -8,8 +12,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
+import { TbSettingsShare } from 'react-icons/tb';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
+import { configDevice } from '../../common/util/sms';
 
 const useStyles = makeStyles(() => ({
   row: {
@@ -18,7 +24,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
+  itemId,
+  editPath,
+  endpoint,
+  setTimestamp,
+  customActions,
+  readonly,
+  phoneNumber,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -56,13 +68,23 @@ const CollectionActions = ({
     <>
       {phone ? (
         <>
-          <IconButton size="small" onClick={(event) => setMenuAnchorEl(event.currentTarget)}>
+          <IconButton
+            size="small"
+            onClick={(event) => setMenuAnchorEl(event.currentTarget)}
+          >
             <MoreVertIcon fontSize="small" />
           </IconButton>
-          <Menu open={!!menuAnchorEl} anchorEl={menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
-            {customActions && customActions.map((action) => (
-              <MenuItem onClick={() => handleCustom(action)} key={action.key}>{action.title}</MenuItem>
-            ))}
+          <Menu
+            open={!!menuAnchorEl}
+            anchorEl={menuAnchorEl}
+            onClose={() => setMenuAnchorEl(null)}
+          >
+            {customActions
+              && customActions.map((action) => (
+                <MenuItem onClick={() => handleCustom(action)} key={action.key}>
+                  {action.title}
+                </MenuItem>
+              ))}
             {!readonly && (
               <>
                 <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
@@ -73,13 +95,23 @@ const CollectionActions = ({
         </>
       ) : (
         <div className={classes.row}>
-          {customActions && customActions.map((action) => (
-            <Tooltip title={action.title} key={action.key}>
-              <IconButton size="small" onClick={() => handleCustom(action)}>
-                {action.icon}
+          {customActions
+            && customActions.map((action) => (
+              <Tooltip title={action.title} key={action.key}>
+                <IconButton size="small" onClick={() => handleCustom(action)}>
+                  {action.icon}
+                </IconButton>
+              </Tooltip>
+            ))}
+          {
+            phoneNumber && phoneNumber.length === 19 && (
+            <Tooltip title="Setup">
+              <IconButton size="small" onClick={() => configDevice({ phoneNumber })}>
+                <TbSettingsShare fontSize="medium" />
               </IconButton>
             </Tooltip>
-          ))}
+            )
+          }
           {!readonly && (
             <>
               <Tooltip title={t('sharedEdit')}>
@@ -96,7 +128,13 @@ const CollectionActions = ({
           )}
         </div>
       )}
-      <RemoveDialog style={{ transform: 'none' }} open={removing} endpoint={endpoint} itemId={itemId} onResult={handleRemoveResult} />
+      <RemoveDialog
+        style={{ transform: 'none' }}
+        open={removing}
+        endpoint={endpoint}
+        itemId={itemId}
+        onResult={handleRemoveResult}
+      />
     </>
   );
 };

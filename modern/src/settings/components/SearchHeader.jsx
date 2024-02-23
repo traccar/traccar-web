@@ -17,13 +17,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchHeader = ({ keyword, setKeyword }) => {
-  const theme = useTheme();
   const classes = useStyles();
   const t = useTranslation();
 
-  const phone = useMediaQuery(theme.breakpoints.down('sm'));
-
-  return phone ? (
+  return (
     <div className={classes.header}>
       <TextField
         variant="outlined"
@@ -32,7 +29,7 @@ const SearchHeader = ({ keyword, setKeyword }) => {
         onChange={(e) => setKeyword(e.target.value)}
       />
     </div>
-  ) : '';
+  );
 };
 
 export default SearchHeader;
