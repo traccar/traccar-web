@@ -42,7 +42,7 @@ const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [totpKey, setTotpKey] = useState(null);
+  const [totpKey, setTotpKey] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffectAsync(async () => {
@@ -114,7 +114,7 @@ const RegisterPage = () => {
             required
             label={t('loginTotpKey')}
             name="totpKey"
-            value={totpKey || ''}
+            value={totpKey}
             InputProps={{
               readOnly: true,
             }}
