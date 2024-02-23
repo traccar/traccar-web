@@ -8,8 +8,8 @@ export default defineConfig(() => ({
   server: {
     port: 3000,
     proxy: {
-      '/api/socket': 'ws://api.gonzher.com',
-      '/api': 'http://api.gonzher.com',
+      '/api/socket': 'wss:https://api.gonzher.com/',
+      '/api': 'https://api.gonzher.com/',
     },
   },
   build: {
@@ -19,13 +19,14 @@ export default defineConfig(() => ({
     svgr(),
     react(),
     VitePWA({
+      registerType: 'autoUpdate',
       workbox: {
         navigateFallbackDenylist: [/^\/api/],
       },
       manifest: {
-        short_name: '${title}',
-        name: '${description}',
-        theme_color: '${colorPrimary}',
+        short_name: 'GPS GONZHER',
+        name: 'GPS GONZHER',
+        theme_color: '#14B8A6',
         icons: [
           {
             src: 'pwa-64x64.png',
