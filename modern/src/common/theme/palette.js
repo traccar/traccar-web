@@ -8,15 +8,22 @@ export default (server, darkMode) => ({
     default: darkMode ? grey[900] : grey[50],
   },
   primary: {
-    main: validatedColor(server?.attributes?.colorPrimary) || (darkMode ? indigo[200] : indigo[900]),
+    main: '#0dd3ba',
   },
   secondary: {
-    main: validatedColor(server?.attributes?.colorSecondary) || (darkMode ? green[200] : green[800]),
+    main: '#0dd3ba',
   },
   neutral: {
     main: grey[500],
   },
+  // Replay line
   geometry: {
-    main: '#3bb2d0',
+    main: '#0dd3ba',
   },
+  warning: {
+    main: '#FFA100',
+  },
+  error:{
+    main: '#ec1b3e',
+  }
 });
