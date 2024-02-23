@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  TextField,
+  Typography,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -11,7 +17,15 @@ import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
-const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups }) => {
+const ReportFilter = ({
+  children,
+  handleSubmit,
+  handleSchedule,
+  showOnly,
+  ignoreDevice,
+  multiDevice,
+  includeGroups,
+}) => {
   const classes = useReportStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -33,7 +47,8 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
   const [calendarId, setCalendarId] = useState();
 
   const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
-  const disabled = (!ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length) || scheduleDisabled;
+  const disabled = (!ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length)
+    || scheduleDisabled;
 
   const handleClick = (type) => {
     if (type === 'schedule') {
@@ -93,16 +108,26 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
       {!ignoreDevice && (
         <div className={classes.filterItem}>
           <FormControl fullWidth>
-            <InputLabel>{t(multiDevice ? 'deviceTitle' : 'reportDevice')}</InputLabel>
+            <InputLabel>
+              {t(multiDevice ? 'deviceTitle' : 'reportDevice')}
+            </InputLabel>
             <Select
               label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
               value={multiDevice ? deviceIds : deviceId || ''}
-              onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
+              onChange={(e) => dispatch(
+                multiDevice
+                  ? devicesActions.selectIds(e.target.value)
+                  : devicesActions.selectId(e.target.value),
+              )}
               multiple={multiDevice}
             >
-              {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
-                <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-              ))}
+              {Object.values(devices)
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((device) => (
+                  <MenuItem key={device.id} value={device.id}>
+                    {device.name}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </div>
@@ -117,9 +142,13 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
               onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
               multiple
             >
-              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-              ))}
+              {Object.values(groups)
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((group) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    {group.name}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </div>
@@ -129,39 +158,34 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('reportPeriod')}</InputLabel>
-              <Select label={t('reportPeriod')} value={period} onChange={(e) => dispatch(reportsActions.updatePeriod(e.target.value))}>
+              <Select
+                label={t('reportPeriod')}
+                value={period}
+                onChange={(e) => dispatch(reportsActions.updatePeriod(e.target.value))}
+              >
+                <MenuItem value="custom" default>{t('reportCustom')}</MenuItem>
                 <MenuItem value="today">{t('reportToday')}</MenuItem>
-                <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
-                <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
-                <MenuItem value="previousWeek">{t('reportPreviousWeek')}</MenuItem>
-                <MenuItem value="thisMonth">{t('reportThisMonth')}</MenuItem>
-                <MenuItem value="previousMonth">{t('reportPreviousMonth')}</MenuItem>
-                <MenuItem value="custom">{t('reportCustom')}</MenuItem>
               </Select>
             </FormControl>
           </div>
-          {period === 'custom' && (
-            <div className={classes.filterItem}>
-              <TextField
-                label={t('reportFrom')}
-                type="datetime-local"
-                value={from}
-                onChange={(e) => dispatch(reportsActions.updateFrom(e.target.value))}
-                fullWidth
-              />
-            </div>
-          )}
-          {period === 'custom' && (
-            <div className={classes.filterItem}>
-              <TextField
-                label={t('reportTo')}
-                type="datetime-local"
-                value={to}
-                onChange={(e) => dispatch(reportsActions.updateTo(e.target.value))}
-                fullWidth
-              />
-            </div>
-          )}
+          <div className={classes.filterItem}>
+            <TextField
+              label={t('reportFrom')}
+              type="datetime-local"
+              value={from}
+              onChange={(e) => dispatch(reportsActions.updateFrom(e.target.value))}
+              fullWidth
+            />
+          </div>
+          <div className={classes.filterItem}>
+            <TextField
+              label={t('reportTo')}
+              type="datetime-local"
+              value={to}
+              onChange={(e) => dispatch(reportsActions.updateTo(e.target.value))}
+              fullWidth
+            />
+          </div>
         </>
       ) : (
         <>
@@ -194,7 +218,9 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
             disabled={disabled}
             onClick={() => handleClick('json')}
           >
-            <Typography variant="button" noWrap>{t('reportShow')}</Typography>
+            <Typography variant="button" noWrap>
+              {t('reportShow')}
+            </Typography>
           </Button>
         ) : (
           <SplitButton
@@ -205,16 +231,20 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
             onClick={handleClick}
             selected={button}
             setSelected={(value) => setButton(value)}
-            options={readonly ? {
-              json: t('reportShow'),
-              export: t('reportExport'),
-              mail: t('reportEmail'),
-            } : {
-              json: t('reportShow'),
-              export: t('reportExport'),
-              mail: t('reportEmail'),
-              schedule: t('reportSchedule'),
-            }}
+            options={
+              readonly
+                ? {
+                  json: t('reportShow'),
+                  export: t('reportExport'),
+                  mail: t('reportEmail'),
+                }
+                : {
+                  json: t('reportShow'),
+                  export: t('reportExport'),
+                  mail: t('reportEmail'),
+                  schedule: t('reportSchedule'),
+                }
+            }
           />
         )}
       </div>
