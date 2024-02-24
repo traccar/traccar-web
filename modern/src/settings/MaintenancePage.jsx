@@ -10,7 +10,6 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { prefixString } from '../common/util/stringUtils';
 import EditItemView from './components/EditItemView';
@@ -22,18 +21,10 @@ import {
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import SettingsMenu from './components/SettingsMenu';
-
-const useStyles = makeStyles((theme) => ({
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const MaintenancePage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);

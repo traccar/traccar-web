@@ -38,18 +38,10 @@ import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
-
-const useStyles = makeStyles((theme) => ({
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const UserPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();

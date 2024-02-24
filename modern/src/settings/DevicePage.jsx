@@ -9,7 +9,6 @@ import {
   Checkbox,
   TextField,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DropzoneArea } from 'react-mui-dropzone';
 import EditItemView from './components/EditItemView';
@@ -23,18 +22,10 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
-
-const useStyles = makeStyles((theme) => ({
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const DevicePage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const t = useTranslation();
 
   const admin = useAdministrator();

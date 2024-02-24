@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, InputAdornment, IconButton, OutlinedInput, Autocomplete, TextField, createFilterOptions, Button,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CachedIcon from '@mui/icons-material/Cached';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -20,6 +19,7 @@ import useMapOverlays from '../map/overlay/useMapOverlays';
 import { useCatch } from '../reactHelper';
 import { sessionActions } from '../store';
 import { useRestriction } from '../common/util/permissions';
+import useSettingsStyles from './common/useSettingsStyles';
 
 const deviceFields = [
   { id: 'name', name: 'sharedName' },
@@ -29,33 +29,8 @@ const deviceFields = [
   { id: 'contact', name: 'deviceContact' },
 ];
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(2),
-  },
-  buttons: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    '& > *': {
-      flexBasis: '33%',
-    },
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-  tokenActions: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
-
 const PreferencesPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
@@ -334,7 +309,7 @@ const PreferencesPage = () => {
                 value={token || ''}
                 endAdornment={(
                   <InputAdornment position="end">
-                    <div className={classes.tokenActions}>
+                    <div className={classes.verticalActions}>
                       <IconButton size="small" edge="end" onClick={generateToken} disabled={!!token}>
                         <CachedIcon fontSize="small" />
                       </IconButton>

@@ -1,37 +1,18 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import makeStyles from '@mui/styles/makeStyles';
 import {
   Container, Button, Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, TextField,
 } from '@mui/material';
 import { useCatch, useEffectAsync } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import PageLayout from '../../common/components/PageLayout';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(2),
-  },
-  buttons: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    '& > *': {
-      flexBasis: '33%',
-    },
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}));
+import useSettingsStyles from '../common/useSettingsStyles';
 
 const EditItemView = ({
   children, endpoint, item, setItem, defaultItem, validate, onItemSaved, menu, breadcrumbs,
 }) => {
   const navigate = useNavigate();
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();

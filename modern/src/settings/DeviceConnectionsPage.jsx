@@ -7,7 +7,6 @@ import {
   Typography,
   Container,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LinkField from '../common/components/LinkField';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -15,21 +14,10 @@ import SettingsMenu from './components/SettingsMenu';
 import { formatNotificationTitle } from '../common/util/formatter';
 import PageLayout from '../common/components/PageLayout';
 import useFeatures from '../common/util/useFeatures';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: theme.spacing(2),
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const DeviceConnectionsPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();
