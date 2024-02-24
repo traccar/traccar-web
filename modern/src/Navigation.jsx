@@ -55,6 +55,7 @@ import DeviceConnectionsPage from './settings/DeviceConnectionsPage';
 import GroupConnectionsPage from './settings/GroupConnectionsPage';
 import UserConnectionsPage from './settings/UserConnectionsPage';
 import LogsPage from './reports/LogsPage';
+import SharePage from './settings/SharePage';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -122,6 +123,7 @@ const Navigation = () => {
           <Route path="devices" element={<DevicesPage />} />
           <Route path="device/:id/connections" element={<DeviceConnectionsPage />} />
           <Route path="device/:id/command" element={<CommandDevicePage />} />
+          <Route path="device/:id/share" element={<SharePage />} />
           <Route path="device/:id" element={<DevicePage />} />
           <Route path="device" element={<DevicePage />} />
           <Route path="drivers" element={<DriversPage />} />

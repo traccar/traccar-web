@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
 import Draggable from 'react-draggable';
 import {
   Card,
@@ -16,11 +15,6 @@ import {
   Menu,
   MenuItem,
   CardMedia,
-  Dialog,
-  TextField,
-  DialogActions,
-  DialogContent,
-  Button,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -138,7 +132,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [removing, setRemoving] = useState(false);
-  const [shared, setShared] = useState(null);
 
   const handleRemove = useCatch(async (removed) => {
     if (removed) {
@@ -177,20 +170,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       throw Error(await response.text());
     }
   }, [navigate, position]);
-
-  const handleShare = useCatchCallback(async () => {
-    const expiration = dayjs().add(1, 'week').toISOString();
-    const response = await fetch('/api/devices/share', {
-      method: 'POST',
-      body: new URLSearchParams(`deviceId=${deviceId}&expiration=${expiration}`),
-    });
-    if (response.ok) {
-      const token = await response.text();
-      setShared(`${window.location.origin}?token=${token}`);
-    } else {
-      throw Error(await response.text());
-    }
-  }, [deviceId, setShared]);
 
   return (
     <>
@@ -293,7 +272,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
-          {!shareDisabled && !user.temporary && <MenuItem onClick={handleShare}>{t('deviceShare')}</MenuItem>}
+          {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
         </Menu>
       )}
       <RemoveDialog
@@ -302,15 +281,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
         itemId={deviceId}
         onResult={(removed) => handleRemove(removed)}
       />
-      <Dialog open={Boolean(shared)} onClose={() => setShared(null)}>
-        <DialogContent>
-          <TextField value={shared} onFocus={e => e.target.select()} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShared(null)}>{t('sharedCancel')}</Button>
-          <Button onClick={() => navigator.clipboard?.writeText(shared)}>{t('sharedCopy')}</Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };
