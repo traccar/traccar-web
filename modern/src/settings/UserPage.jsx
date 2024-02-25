@@ -18,7 +18,6 @@ import {
   IconButton,
   OutlinedInput,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -84,7 +83,7 @@ const UserPage = () => {
   const handleGenerateTotp = useCatch(async () => {
     const response = await fetch('/api/users/totp', { method: 'POST' });
     if (response.ok) {
-      setItem({ ...item, totpKey: await response.text() })
+      setItem({ ...item, totpKey: await response.text() });
     } else {
       throw Error(await response.text());
     }

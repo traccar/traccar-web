@@ -41,7 +41,7 @@ const LogsPage = () => {
   const registerDevice = (uniqueId) => {
     const query = new URLSearchParams({ uniqueId });
     navigate(`/settings/device?${query.toString()}`);
-  }
+  };
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
@@ -55,7 +55,7 @@ const LogsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item, index) => (
+          {items.map((item, index) => /* eslint-disable react/no-array-index-key */ (
             <TableRow key={index}>
               <TableCell className={classes.columnAction} padding="none">
                 {item.deviceId ? (

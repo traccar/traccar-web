@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, Switch, TableFooter, FormControlLabel, FormControl, FormGroup, Grid,
+  Table, TableRow, TableCell, TableHead, TableBody, Switch, TableFooter, FormControlLabel,
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LinkIcon from '@mui/icons-material/Link';
@@ -81,7 +81,7 @@ const UsersPage = () => {
             <TableCell>{t('userAdmin')}</TableCell>
             <TableCell>{t('sharedDisabled')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
-            <TableCell className={classes.columnAction}></TableCell>
+            <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -108,13 +108,13 @@ const UsersPage = () => {
           <TableRow>
             <TableCell colSpan={6} align="right">
               <FormControlLabel
-                control={
+                control={(
                   <Switch
                     value={temporary}
                     onChange={(e) => setTemporary(e.target.checked)}
                     size="small"
                   />
-                }
+                )}
                 label={t('userTemporary')}
                 labelPlacement="start"
               />
