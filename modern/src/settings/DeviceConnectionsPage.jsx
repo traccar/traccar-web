@@ -61,6 +61,7 @@ const DeviceConnectionsPage = () => {
                 baseId={id}
                 keyBase="deviceId"
                 keyLink="driverId"
+                titleGetter={(it) => `${it.name} (${it.uniqueId})`}
                 label={t('sharedDrivers')}
               />
             )}

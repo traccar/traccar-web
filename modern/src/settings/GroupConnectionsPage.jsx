@@ -61,6 +61,7 @@ const GroupConnectionsPage = () => {
                 baseId={id}
                 keyBase="groupId"
                 keyLink="driverId"
+                titleGetter={(it) => `${it.name} (${it.uniqueId})`}
                 label={t('sharedDrivers')}
               />
             )}

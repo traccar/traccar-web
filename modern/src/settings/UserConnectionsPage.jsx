@@ -40,6 +40,7 @@ const UserConnectionsPage = () => {
               baseId={id}
               keyBase="userId"
               keyLink="deviceId"
+              titleGetter={(it) => `${it.name} (${it.uniqueId})`}
               label={t('deviceTitle')}
             />
             <LinkField
@@ -98,6 +99,7 @@ const UserConnectionsPage = () => {
               baseId={id}
               keyBase="userId"
               keyLink="driverId"
+              titleGetter={(it) => `${it.name} (${it.uniqueId})`}
               label={t('sharedDrivers')}
             />
             <LinkField
