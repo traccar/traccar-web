@@ -7,7 +7,7 @@ import {
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import {
-  formatDistance, formatHours, formatVolume, formatTime,
+  formatDistance, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
@@ -95,9 +95,9 @@ const StopReportPage = () => {
       case 'startOdometer':
         return formatDistance(item[key], distanceUnit, t);
       case 'duration':
-        return formatHours(item[key]);
+        return formatNumericHours(item[key], t);
       case 'engineHours':
-        return formatHours(item[key]);
+        return formatNumericHours(item[key], t);
       case 'spentFuel':
         return formatVolume(item[key], volumeUnit, t);
       case 'address':

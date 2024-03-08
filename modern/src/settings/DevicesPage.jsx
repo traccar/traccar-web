@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody,
+  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import { useEffectAsync } from '../reactHelper';
@@ -47,6 +47,10 @@ const DevicesPage = () => {
       setLoading(false);
     }
   }, [timestamp]);
+
+  const handleExport = () => {
+    window.location.assign('/api/reports/devices/xlsx');
+  };
 
   const actionConnections = {
     key: 'connections',
@@ -94,6 +98,13 @@ const DevicesPage = () => {
             </TableRow>
           )) : (<TableShimmer columns={7} endAction />)}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={8} align="right">
+              <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
+            </TableCell>
+          </TableRow>
+        </TableFooter>
       </Table>
       <CollectionFab editPath="/settings/device" />
     </PageLayout>

@@ -1,6 +1,7 @@
 {
   "name": "traccar",
-  "version": "5.11.0",
+  "version": "5.12.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -32,7 +33,7 @@
     "react-window": "^1.8.10",
     "recharts": "^2.10.4",
     "redux": "^5.0.1",
-    "vite": "^5.0.11",
+    "vite": "^5.0.12",
     "vite-plugin-pwa": "^0.17.4",
     "vite-plugin-svgr": "^4.2.0",
     "wellknown": "^0.5.0"
@@ -42,7 +43,7 @@
     "build": "vite build",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js ."
+    "lint:fix": "eslint --fix ."
   },
   "browserslist": {
     "production": [

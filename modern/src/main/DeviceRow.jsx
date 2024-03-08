@@ -119,15 +119,15 @@ const DeviceRow = ({ data, index, style }) => {
             {position.attributes.hasOwnProperty('batteryLevel') && (
               <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
                 <IconButton size="small">
-                  {position.attributes.batteryLevel > 70 ? (
+                  {(position.attributes.batteryLevel > 70 && (
                     position.attributes.charge
                       ? (<BatteryChargingFullIcon fontSize="small" className={classes.success} />)
                       : (<BatteryFullIcon fontSize="small" className={classes.success} />)
-                  ) : position.attributes.batteryLevel > 30 ? (
+                  )) || (position.attributes.batteryLevel > 30 && (
                     position.attributes.charge
                       ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
                       : (<Battery60Icon fontSize="small" className={classes.warning} />)
-                  ) : (
+                  )) || (
                     position.attributes.charge
                       ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
                       : (<Battery20Icon fontSize="small" className={classes.error} />)

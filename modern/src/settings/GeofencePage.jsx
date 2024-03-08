@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import {
   Accordion, AccordionSummary, AccordionDetails, Typography, TextField,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
@@ -12,18 +11,10 @@ import useGeofenceAttributes from '../common/attributes/useGeofenceAttributes';
 import SettingsMenu from './components/SettingsMenu';
 import SelectField from '../common/components/SelectField';
 import { geofencesActions } from '../store';
-
-const useStyles = makeStyles((theme) => ({
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const GeofencePage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 

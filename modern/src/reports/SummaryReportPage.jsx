@@ -5,7 +5,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
 import {
-  formatDistance, formatHours, formatSpeed, formatVolume, formatTime,
+  formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
@@ -101,7 +101,7 @@ const SummaryReportPage = () => {
       case 'maxSpeed':
         return formatSpeed(item[key], speedUnit, t);
       case 'engineHours':
-        return formatHours(item[key]);
+        return formatNumericHours(item[key], t);
       case 'spentFuel':
         return formatVolume(item[key], volumeUnit, t);
       default:

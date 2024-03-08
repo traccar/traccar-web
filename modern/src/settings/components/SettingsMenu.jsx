@@ -14,6 +14,7 @@ import TodayIcon from '@mui/icons-material/Today';
 import PublishIcon from '@mui/icons-material/Publish';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import HelpIcon from '@mui/icons-material/Help';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -139,12 +140,20 @@ const SettingsMenu = () => {
           <Divider />
           <List>
             {admin && (
-              <MenuItem
-                title={t('settingsServer')}
-                link="/settings/server"
-                icon={<StorageIcon />}
-                selected={location.pathname === '/settings/server'}
-              />
+              <>
+                <MenuItem
+                  title={t('serverAnnouncement')}
+                  link="/settings/announcement"
+                  icon={<CampaignIcon />}
+                  selected={location.pathname === '/settings/announcement'}
+                />
+                <MenuItem
+                  title={t('settingsServer')}
+                  link="/settings/server"
+                  icon={<StorageIcon />}
+                  selected={location.pathname === '/settings/server'}
+                />
+              </>
             )}
             <MenuItem
               title={t('settingsUsers')}

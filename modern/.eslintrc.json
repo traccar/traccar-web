@@ -1,0 +1,37 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "overrides": [{
+    "files": ["*.jsx", "*.js"]
+  }],
+  "plugins": [
+    "react"
+  ],
+  "ignorePatterns": ["build/", "switcher.js", "theme.js"],
+  "rules": {
+    "max-len": [0],
+    "no-shadow": [0],
+    "no-return-assign": [0],
+    "no-param-reassign": [0],
+    "no-prototype-builtins": [0],
+    "object-curly-newline": [1, {
+      "ObjectExpression": { "minProperties": 8, "multiline": true, "consistent": true },
+      "ObjectPattern": { "minProperties": 8, "multiline": true, "consistent": true },
+      "ImportDeclaration": { "minProperties": 4, "multiline": true, "consistent": true },
+      "ExportDeclaration": { "minProperties": 4, "multiline": true, "consistent": true }
+    }],
+    "import/no-unresolved": [1, {
+      "ignore": ["\\.svg", "virtual:"]
+    }],
+    "react/function-component-definition": [1, {
+      "namedComponents": "arrow-function",
+      "unnamedComponents": "arrow-function"
+    }],
+    "react/jsx-props-no-spreading": [0],
+    "jsx-a11y/anchor-is-valid": [0],
+    "jsx-a11y/label-has-associated-control": [0],
+    "react/prop-types": [0]
+  }
+}

@@ -10,7 +10,6 @@ import {
   FormGroup,
   Button,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
 import EditItemView from './components/EditItemView';
@@ -18,18 +17,10 @@ import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
-
-const useStyles = makeStyles((theme) => ({
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
+import useSettingsStyles from './common/useSettingsStyles';
 
 const NotificationPage = () => {
-  const classes = useStyles();
+  const classes = useSettingsStyles();
   const t = useTranslation();
 
   const [item, setItem] = useState();

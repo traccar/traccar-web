@@ -123,7 +123,7 @@ Ext.define('Traccar.Application', {
     },
 
     getVehicleFeaturesDisabled: function () {
-        return this.getBooleanAttributePreference('ui.disableVehicleFetures');
+        return this.getBooleanAttributePreference('ui.disableVehicleFeatures');
     },
 
     getEventString: function (eventType) {

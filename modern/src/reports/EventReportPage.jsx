@@ -204,7 +204,7 @@ const EventReportPage = () => {
               {!loading ? items.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
-                    {item.positionId ? selectedItem === item ? (
+                    {(item.positionId && (selectedItem === item ? (
                       <IconButton size="small" onClick={() => setSelectedItem(null)}>
                         <GpsFixedIcon fontSize="small" />
                       </IconButton>
@@ -212,7 +212,7 @@ const EventReportPage = () => {
                       <IconButton size="small" onClick={() => setSelectedItem(item)}>
                         <LocationSearchingIcon fontSize="small" />
                       </IconButton>
-                    ) : ''}
+                    ))) || ''}
                   </TableCell>
                   {columns.map((key) => (
                     <TableCell key={key}>

@@ -35,6 +35,7 @@ import ko from '../../resources/l10n/ko.json'; import 'dayjs/locale/ko';
 import lo from '../../resources/l10n/lo.json'; import 'dayjs/locale/lo';
 import lt from '../../resources/l10n/lt.json'; import 'dayjs/locale/lt';
 import lv from '../../resources/l10n/lv.json'; import 'dayjs/locale/lv';
+import mk from '../../resources/l10n/mk.json'; import 'dayjs/locale/mk';
 import ml from '../../resources/l10n/ml.json'; import 'dayjs/locale/ml';
 import mn from '../../resources/l10n/mn.json'; import 'dayjs/locale/mn';
 import ms from '../../resources/l10n/ms.json'; import 'dayjs/locale/ms';
@@ -93,6 +94,7 @@ const languages = {
   lo: { data: lo, country: 'LA', name: 'ລາວ' },
   lt: { data: lt, country: 'LT', name: 'Lietuvių' },
   lv: { data: lv, country: 'LV', name: 'Latviešu' },
+  mk: { data: mk, country: 'MK', name: 'Mакедонски' },
   ml: { data: ml, country: 'IN', name: 'മലയാളം' },
   mn: { data: mn, country: 'MN', name: 'Монгол хэл' },
   ms: { data: ms, country: 'MY', name: 'بهاس ملايو' },
