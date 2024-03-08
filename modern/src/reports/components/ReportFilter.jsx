@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography, Autocomplete
+  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
@@ -92,7 +92,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
     <div className={classes.filter}>
       {!ignoreDevice && (
         <div className={classes.filterItem}>
-          <SelectField 
+          <SelectField
             label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
             value={multiDevice ? deviceIds : deviceId}
@@ -104,13 +104,13 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
       )}
       {includeGroups && (
         <div className={classes.filterItem}>
-          <SelectField 
+          <SelectField
             label={t('settingsGroups')}
             data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
             value={groupIds}
             onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
             multiple
-            fullWidth  
+            fullWidth
           />
         </div>
       )}
