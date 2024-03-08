@@ -239,7 +239,6 @@ const PreferencesPage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <SelectField
-                  emptyValue={null}
                   value={attributes.devicePrimary || 'name'}
                   onChange={(e) => setAttributes({ ...attributes, devicePrimary: e.target.value })}
                   data={deviceFields}
@@ -247,8 +246,7 @@ const PreferencesPage = () => {
                   label={t('devicePrimaryInfo')}
                 />
                 <SelectField
-                  emptyValue=""
-                  value={attributes.deviceSecondary || ''}
+                  value={attributes.deviceSecondary}
                   onChange={(e) => setAttributes({ ...attributes, deviceSecondary: e.target.value })}
                   data={deviceFields}
                   titleGetter={(it) => t(it.name)}

@@ -147,7 +147,7 @@ const ComputedAttributePage = () => {
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
-                value={deviceId || 0}
+                value={deviceId}
                 onChange={(e) => setDeviceId(Number(e.target.value))}
                 endpoint="/api/devices"
                 label={t('sharedDevice')}

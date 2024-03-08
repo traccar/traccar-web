@@ -67,7 +67,7 @@ const GeofencePage = () => {
                 label={t('sharedDescription')}
               />
               <SelectField
-                value={item.calendarId || 0}
+                value={item.calendarId}
                 onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}

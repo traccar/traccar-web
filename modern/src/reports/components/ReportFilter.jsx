@@ -92,36 +92,26 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
     <div className={classes.filter}>
       {!ignoreDevice && (
         <div className={classes.filterItem}>
-          <FormControl fullWidth>
-            <InputLabel>{t(multiDevice ? 'deviceTitle' : 'reportDevice')}</InputLabel>
-            <Select
-              label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
-              value={multiDevice ? deviceIds : deviceId || ''}
-              onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
-              multiple={multiDevice}
-            >
-              {Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)).map((device) => (
-                <MenuItem key={device.id} value={device.id}>{device.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <SelectField
+            label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
+            data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
+            value={multiDevice ? deviceIds : deviceId}
+            onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
+            multiple={multiDevice}
+            fullWidth
+          />
         </div>
       )}
       {includeGroups && (
         <div className={classes.filterItem}>
-          <FormControl fullWidth>
-            <InputLabel>{t('settingsGroups')}</InputLabel>
-            <Select
-              label={t('settingsGroups')}
-              value={groupIds}
-              onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
-              multiple
-            >
-              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <SelectField
+            label={t('settingsGroups')}
+            data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
+            value={groupIds}
+            onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
+            multiple
+            fullWidth
+          />
         </div>
       )}
       {button !== 'schedule' ? (
@@ -175,7 +165,7 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
           </div>
           <div className={classes.filterItem}>
             <SelectField
-              value={calendarId || 0}
+              value={calendarId}
               onChange={(event) => setCalendarId(Number(event.target.value))}
               endpoint="/api/calendars"
               label={t('sharedCalendar')}
