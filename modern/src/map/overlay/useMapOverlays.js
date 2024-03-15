@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
@@ -21,7 +22,7 @@ export default () => {
   const hereKey = useAttributePreference('hereKey');
   const customMapOverlay = useSelector((state) => state.session.server.overlayUrl);
 
-  return [
+  return useMemo(() => [
     {
       id: 'openSeaMap',
       title: t('mapOpenSeaMap'),
@@ -98,5 +99,5 @@ export default () => {
       source: sourceCustom(customMapOverlay),
       available: !!customMapOverlay,
     },
-  ];
+  ], [t, openWeatherKey, tomTomKey, hereKey, customMapOverlay]);
 };

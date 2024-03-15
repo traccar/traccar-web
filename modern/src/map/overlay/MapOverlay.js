@@ -31,7 +31,7 @@ const MapOverlay = () => {
         map.removeSource(id);
       }
     };
-  });
+  }, [id, activeOverlay]);
 
   return null;
 };
