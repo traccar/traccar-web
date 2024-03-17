@@ -119,12 +119,14 @@ const SettingsMenu = () => {
                 selected={location.pathname.startsWith('/settings/maintenance')}
               />
             )}
-            <MenuItem
-              title={t('sharedSavedCommands')}
-              link="/settings/commands"
-              icon={<PublishIcon />}
-              selected={location.pathname.startsWith('/settings/command')}
-            />
+            {!features.disableSavedCommands && (
+              <MenuItem
+                title={t('sharedSavedCommands')}
+                link="/settings/commands"
+                icon={<PublishIcon />}
+                selected={location.pathname.startsWith('/settings/command')}
+              />
+            )}
             {supportLink && (
               <MenuItem
                 title={t('settingsSupport')}

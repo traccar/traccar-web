@@ -81,6 +81,10 @@ export default (t) => useMemo(() => ({
     name: t('attributeNotificationTokens'),
     type: 'string',
   },
+  'ui.disableSavedCommands': {
+    name: t('attributeUiDisableSavedCommands'),
+    type: 'boolean',
+  },
   'ui.disableGroups': {
     name: t('attributeUiDisableGroups'),
     type: 'boolean',

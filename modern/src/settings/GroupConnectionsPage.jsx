@@ -76,15 +76,17 @@ const GroupConnectionsPage = () => {
                 label={t('sharedComputedAttributes')}
               />
             )}
-            <LinkField
-              endpointAll="/api/commands"
-              endpointLinked={`/api/commands?groupId=${id}`}
-              baseId={id}
-              keyBase="groupId"
-              keyLink="commandId"
-              titleGetter={(it) => it.description}
-              label={t('sharedSavedCommands')}
-            />
+            {!features.disableSavedCommands && (
+              <LinkField
+                endpointAll="/api/commands"
+                endpointLinked={`/api/commands?groupId=${id}`}
+                baseId={id}
+                keyBase="groupId"
+                keyLink="commandId"
+                titleGetter={(it) => it.description}
+                label={t('sharedSavedCommands')}
+              />
+            )}
             {!features.disableMaintenance && (
               <LinkField
                 endpointAll="/api/maintenance"
