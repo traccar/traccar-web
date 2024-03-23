@@ -48,10 +48,10 @@ const MaintenacesPage = () => {
     if (key.endsWith('Time')) {
       if (start) {
         return dayjs(value).locale('en').format('YYYY-MM-DD');
-      } else {
-        return `${value / 86400000} ${t('sharedDays')}`;
       }
-    } else if (attribute && attribute.dataType) {
+      return `${value / 86400000} ${t('sharedDays')}`;
+    }
+    if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return formatSpeed(value, speedUnit, t);

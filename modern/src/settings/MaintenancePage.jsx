@@ -73,10 +73,10 @@ const MaintenancePage = () => {
     if (item.type.endsWith('Time')) {
       if (start) {
         return dayjs(value).locale('en').format('YYYY-MM-DD');
-      } else {
-        return value / 86400000;
       }
-    } else if (attribute && attribute.dataType) {
+      return value / 86400000;
+    }
+    if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return speedFromKnots(value, speedUnit);
@@ -94,10 +94,9 @@ const MaintenancePage = () => {
     if (item.type.endsWith('Time')) {
       if (start) {
         return dayjs(value, 'YYYY-MM-DD').valueOf();
-      } else {
-        return value * 86400000;
       }
-    } else if (attribute && attribute.dataType) {
+      return value * 86400000;
+    } if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return speedToKnots(value, speedUnit);
