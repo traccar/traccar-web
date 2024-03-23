@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
@@ -42,9 +43,15 @@ const MaintenacesPage = () => {
     }
   }, [timestamp]);
 
-  const convertAttribute = (key, value) => {
+  const convertAttribute = (key, start, value) => {
     const attribute = positionAttributes[key];
-    if (attribute && attribute.dataType) {
+    if (key.endsWith('Time')) {
+      if (start) {
+        return dayjs(value).locale('en').format('YYYY-MM-DD');
+      } else {
+        return `${value / 86400000} ${t('sharedDays')}`;
+      }
+    } else if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return formatSpeed(value, speedUnit, t);
@@ -76,8 +83,8 @@ const MaintenacesPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.type}</TableCell>
-              <TableCell>{convertAttribute(item.type, item.start)}</TableCell>
-              <TableCell>{convertAttribute(item.type, item.period)}</TableCell>
+              <TableCell>{convertAttribute(item.type, true, item.start)}</TableCell>
+              <TableCell>{convertAttribute(item.type, false, item.period)}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" setTimestamp={setTimestamp} />
               </TableCell>

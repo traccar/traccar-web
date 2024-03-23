@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import {
   Accordion,
   AccordionSummary,
@@ -46,14 +47,11 @@ const MaintenancePage = () => {
     return otherList;
   };
 
-  const onMaintenanceTypeChange = (event) => {
-    const newValue = event.target.value;
-    setItem({
-      ...item, type: newValue, start: 0, period: 0,
-    });
-
-    const attribute = positionAttributes[newValue];
-    if (attribute && attribute.dataType) {
+  useEffect(() => {
+    const attribute = positionAttributes[item?.type];
+    if (item?.type?.endsWith('Time')) {
+      setLabels({ ...labels, start: null, period: t('sharedDays') });
+    } else if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'distance':
           setLabels({ ...labels, start: t(prefixString('shared', distanceUnit)), period: t(prefixString('shared', distanceUnit)) });
@@ -68,11 +66,17 @@ const MaintenancePage = () => {
     } else {
       setLabels({ ...labels, start: null, period: null });
     }
-  };
+  }, [item?.type]);
 
-  const rawToValue = (value) => {
+  const rawToValue = (start, value) => {
     const attribute = positionAttributes[item.type];
-    if (attribute && attribute.dataType) {
+    if (item.type.endsWith('Time')) {
+      if (start) {
+        return dayjs(value).locale('en').format('YYYY-MM-DD');
+      } else {
+        return value / 86400000;
+      }
+    } else if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return speedFromKnots(value, speedUnit);
@@ -85,9 +89,15 @@ const MaintenancePage = () => {
     return value;
   };
 
-  const valueToRaw = (value) => {
+  const valueToRaw = (start, value) => {
     const attribute = positionAttributes[item.type];
-    if (attribute && attribute.dataType) {
+    if (item.type.endsWith('Time')) {
+      if (start) {
+        return dayjs(value, 'YYYY-MM-DD').valueOf();
+      } else {
+        return value * 86400000;
+      }
+    } else if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return speedToKnots(value, speedUnit);
@@ -122,7 +132,7 @@ const MaintenancePage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 value={item.name || ''}
-                onChange={(event) => setItem({ ...item, name: event.target.value })}
+                onChange={(e) => setItem({ ...item, name: e.target.value })}
                 label={t('sharedName')}
               />
               <FormControl>
@@ -130,7 +140,7 @@ const MaintenancePage = () => {
                 <Select
                   label={t('sharedType')}
                   value={item.type || ''}
-                  onChange={onMaintenanceTypeChange}
+                  onChange={(e) => setItem({ ...item, type: e.target.value, start: 0, period: 0 })}
                 >
                   {convertToList(positionAttributes).map(({ key, name }) => (
                     <MenuItem key={key} value={key}>{name}</MenuItem>
@@ -138,15 +148,15 @@ const MaintenancePage = () => {
                 </Select>
               </FormControl>
               <TextField
-                type="number"
-                value={rawToValue(item.start) || ''}
-                onChange={(event) => setItem({ ...item, start: valueToRaw(event.target.value) })}
+                type={item.type.endsWith('Time') ? 'date' : 'number'}
+                value={rawToValue(true, item.start) || ''}
+                onChange={(e) => setItem({ ...item, start: valueToRaw(true, e.target.value) })}
                 label={labels.start ? `${t('maintenanceStart')} (${labels.start})` : t('maintenanceStart')}
               />
               <TextField
                 type="number"
-                value={rawToValue(item.period) || ''}
-                onChange={(event) => setItem({ ...item, period: valueToRaw(event.target.value) })}
+                value={rawToValue(false, item.period) || ''}
+                onChange={(e) => setItem({ ...item, period: valueToRaw(false, e.target.value) })}
                 label={labels.period ? `${t('maintenancePeriod')} (${labels.period})` : t('maintenancePeriod')}
               />
             </AccordionDetails>
