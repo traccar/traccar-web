@@ -56,7 +56,8 @@ const RegisterPage = () => {
     }
   }, [totpForce, setTotpKey]);
 
-  const handleSubmit = useCatch(async () => {
+  const handleSubmit = useCatch(async (event) => {
+    event.preventDefault();
     const response = await fetch('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -124,6 +125,7 @@ const RegisterPage = () => {
           variant="contained"
           color="secondary"
           onClick={handleSubmit}
+          type="submit"
           disabled={!name || !password || !(server.newServer || /(.+)@(.+)\.(.{2,})/.test(email))}
           fullWidth
         >

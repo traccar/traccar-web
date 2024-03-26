@@ -125,12 +125,6 @@ const LoginPage = () => {
     }
   });
 
-  const handleSpecialKey = (e) => {
-    if (e.keyCode === 13 && email && password && (!codeEnabled || code)) {
-      handlePasswordLogin(e);
-    }
-  };
-
   const handleOpenIdLogin = () => {
     document.location = '/api/session/openid/auth';
   };
@@ -170,7 +164,6 @@ const LoginPage = () => {
           autoComplete="email"
           autoFocus={!email}
           onChange={(e) => setEmail(e.target.value)}
-          onKeyUp={handleSpecialKey}
           helperText={failed && 'Invalid username or password'}
         />
         <TextField
@@ -183,7 +176,6 @@ const LoginPage = () => {
           autoComplete="current-password"
           autoFocus={!!email}
           onChange={(e) => setPassword(e.target.value)}
-          onKeyUp={handleSpecialKey}
         />
         {codeEnabled && (
           <TextField
@@ -194,12 +186,11 @@ const LoginPage = () => {
             value={code}
             type="number"
             onChange={(e) => setCode(e.target.value)}
-            onKeyUp={handleSpecialKey}
           />
         )}
         <Button
           onClick={handlePasswordLogin}
-          onKeyUp={handleSpecialKey}
+          type="submit"
           variant="contained"
           color="secondary"
           disabled={!email || !password || (codeEnabled && !code)}
