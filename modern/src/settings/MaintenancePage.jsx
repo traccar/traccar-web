@@ -70,7 +70,7 @@ const MaintenancePage = () => {
 
   const rawToValue = (start, value) => {
     const attribute = positionAttributes[item.type];
-    if (item.type.endsWith('Time')) {
+    if (item.type?.endsWith('Time')) {
       if (start) {
         return dayjs(value).locale('en').format('YYYY-MM-DD');
       }
@@ -91,7 +91,7 @@ const MaintenancePage = () => {
 
   const valueToRaw = (start, value) => {
     const attribute = positionAttributes[item.type];
-    if (item.type.endsWith('Time')) {
+    if (item.type?.endsWith('Time')) {
       if (start) {
         return dayjs(value, 'YYYY-MM-DD').valueOf();
       }
@@ -147,7 +147,7 @@ const MaintenancePage = () => {
                 </Select>
               </FormControl>
               <TextField
-                type={item.type.endsWith('Time') ? 'date' : 'number'}
+                type={item.type?.endsWith('Time') ? 'date' : 'number'}
                 value={rawToValue(true, item.start) || ''}
                 onChange={(e) => setItem({ ...item, start: valueToRaw(true, e.target.value) })}
                 label={labels.start ? `${t('maintenanceStart')} (${labels.start})` : t('maintenanceStart')}
