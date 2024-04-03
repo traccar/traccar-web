@@ -33,7 +33,7 @@
     "react-window": "^1.8.10",
     "recharts": "^2.10.4",
     "redux": "^5.0.1",
-    "vite": "^5.0.12",
+    "vite": "^5.0.13",
     "vite-plugin-pwa": "^0.17.4",
     "vite-plugin-svgr": "^4.2.0",
     "wellknown": "^0.5.0"
