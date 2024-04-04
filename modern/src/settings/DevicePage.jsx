@@ -157,6 +157,7 @@ const DevicePage = () => {
                   filesLimit={1}
                   onChange={handleFiles}
                   showAlerts={false}
+                  maxFileSize={500000}
                 />
               </AccordionDetails>
             </Accordion>
