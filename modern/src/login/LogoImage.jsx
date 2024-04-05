@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import Logo from '../resources/images/logo.svg?react';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   image: {
     alignSelf: 'center',
     maxWidth: '240px',
     maxHeight: '120px',
     width: 'auto',
     height: 'auto',
+    margin: theme.spacing(2),
   },
 }));
 

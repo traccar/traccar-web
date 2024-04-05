@@ -21,8 +21,11 @@ import { useCatch } from '../reactHelper';
 const useStyles = makeStyles((theme) => ({
   options: {
     position: 'fixed',
-    top: theme.spacing(1),
-    right: theme.spacing(1),
+    top: theme.spacing(2),
+    right: theme.spacing(2),
+    display: 'flex',
+    flexDirection: 'row',
+    gap: theme.spacing(1),
   },
   container: {
     display: 'flex',
@@ -31,15 +34,16 @@ const useStyles = makeStyles((theme) => ({
   },
   extraContainer: {
     display: 'flex',
-    gap: theme.spacing(2),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   registerButton: {
     minWidth: 'unset',
   },
-  resetPassword: {
+  link: {
     cursor: 'pointer',
-    textAlign: 'center',
-    marginTop: theme.spacing(2),
   },
 }));
 
@@ -152,6 +156,20 @@ const LoginPage = () => {
             </IconButton>
           </Tooltip>
         )}
+        {languageEnabled && (
+          <FormControl>
+            <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+              {languageList.map((it) => (
+                <MenuItem key={it.code} value={it.code}>
+                  <Box component="span" sx={{ mr: 1 }}>
+                    <ReactCountryFlag countryCode={it.country} svg />
+                  </Box>
+                  {it.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
       </div>
       <div className={classes.container}>
         {useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.primary.main} />}
@@ -207,40 +225,27 @@ const LoginPage = () => {
           </Button>
         )}
         <div className={classes.extraContainer}>
-          <Button
-            className={classes.registerButton}
-            onClick={() => navigate('/register')}
-            disabled={!registrationEnabled}
-            color="secondary"
-          >
-            {t('loginRegister')}
-          </Button>
-          {languageEnabled && (
-            <FormControl fullWidth>
-              <InputLabel>{t('loginLanguage')}</InputLabel>
-              <Select label={t('loginLanguage')} value={language} onChange={(e) => setLanguage(e.target.value)}>
-                {languageList.map((it) => (
-                  <MenuItem key={it.code} value={it.code}>
-                    <Box component="span" sx={{ mr: 1 }}>
-                      <ReactCountryFlag countryCode={it.country} svg />
-                    </Box>
-                    {it.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          {registrationEnabled && (
+            <Link
+              onClick={() => navigate('/register')}
+              className={classes.link}
+              underline="none"
+              variant="caption"
+            >
+              {t('loginRegister')}
+            </Link>
+          )}
+          {emailEnabled && (
+            <Link
+              onClick={() => navigate('/reset-password')}
+              className={classes.link}
+              underline="none"
+              variant="caption"
+            >
+              {t('loginReset')}
+            </Link>
           )}
         </div>
-        {emailEnabled && (
-          <Link
-            onClick={() => navigate('/reset-password')}
-            className={classes.resetPassword}
-            underline="none"
-            variant="caption"
-          >
-            {t('loginReset')}
-          </Link>
-        )}
       </div>
       <Snackbar
         open={!!announcement && !announcementShown}
