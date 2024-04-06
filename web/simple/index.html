@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Traccar</title>
+<link href="https://unpkg.com/@picocss/pico@2.0.6/css/pico.min.css" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css" rel="stylesheet">
 </head>
 <body style="margin: 0; padding: 0;">
 <div id="content" style="width: 100%; height: 100%; position:fixed;"></div>
 <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
 
@@ -45,11 +46,10 @@
     };
 
     const formStyle = {
-      width: '180px',
-      margin: '16px',
+      width: '320px',
+      margin: '32px',
       display: 'flex',
       flexDirection: 'column',
-      gap: '8px',
     };
 
     return (
@@ -72,7 +72,7 @@
     );
   };
 
-  const MainScreen = () => {
+  const MainScreen = ({ setUser }) => {
     const mapContainer = React.useRef();
     const map = React.useRef();
 
@@ -132,6 +132,15 @@
       fetchData();
     };
 
+    const handleLogout = (event) => {
+      event.preventDefault();
+      const fetchData = async () => {
+        await fetch('/api/session', { method: 'DELETE' });
+        setUser(null);
+      }
+      fetchData();
+    };
+
     React.useEffect(() => {
       map.current.on('load', () => {
         map.current.addSource('points', {
@@ -169,7 +178,8 @@
       display: 'flex',
     };
     const deviceStyle = {
-      width: '240px',
+      width: '320px',
+      marginTop: '16px',
     };
     const mapStyle = {
       height: '100%',
@@ -182,6 +192,7 @@
           <ul>
             {devices?.map((device) => (<li key={device.id}>{device.name}</li>))}
             <li><a href="#" onClick={handleAddDevice}>Add device</a></li>
+            <li><a href="#" onClick={handleLogout}>Logout</a></li>
           </ul>
         </div>
         <div style={mapStyle} ref={mapContainer}></div>
@@ -208,7 +219,9 @@
     }, []);
 
     return user ? (
-      <MainScreen />
+      <MainScreen
+        setUser={setUser}
+      />
     ) : server ? (
       <LoginScreen
         server={server}
