@@ -9,7 +9,7 @@
   "plugins": [
     "react"
   ],
-  "ignorePatterns": ["build/", "switcher.js", "theme.js"],
+  "ignorePatterns": ["legacy/", "build/", "switcher.js", "theme.js"],
   "rules": {
     "max-len": [0],
     "no-shadow": [0],
