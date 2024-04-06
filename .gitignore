@@ -3,10 +3,10 @@
 .tern-project
 .DS_Store
 nbproject/
-web/app.min.js
-web/theme
-web/modern
-web/lib
+legacy/web/app.min.js
+legacy/web/theme
+legacy/web/modern
+legacy/web/lib
 sencha-error-*
 node_modules
 
