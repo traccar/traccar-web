@@ -93,7 +93,7 @@ const MainToolbar = ({
         slotProps={{
           paper: {
             style: { width: `calc(${toolbarRef.current?.clientWidth}px - ${theme.spacing(4)})` },
-          }
+          },
         }}
         elevation={1}
         disableAutoFocus
