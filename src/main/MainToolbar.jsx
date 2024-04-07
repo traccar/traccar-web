@@ -90,8 +90,10 @@ const MainToolbar = ({
           horizontal: Number(theme.spacing(2).slice(0, -2)),
         }}
         marginThreshold={0}
-        PaperProps={{
-          style: { width: `calc(${toolbarRef.current?.clientWidth}px - ${theme.spacing(4)})` },
+        slotProps={{
+          paper: {
+            style: { width: `calc(${toolbarRef.current?.clientWidth}px - ${theme.spacing(4)})` },
+          }
         }}
         elevation={1}
         disableAutoFocus
