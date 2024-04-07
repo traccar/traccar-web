@@ -163,6 +163,7 @@ export const LocalizationProvider = ({ children }) => {
       selected = language;
     }
     dayjs.locale(selected);
+    document.dir = /^(ar|he|fa)$/.test(language) ? 'rtl' : 'ltr';
   }, [language]);
 
   return (
