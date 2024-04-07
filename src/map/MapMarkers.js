@@ -3,7 +3,6 @@ import { useTheme } from '@mui/styles';
 import { useMediaQuery } from '@mui/material';
 import { map } from './core/MapView';
 import { useAttributePreference } from '../common/util/preferences';
-import { findFonts } from './core/mapUtil';
 
 const MapMarkers = ({ markers, showTitles }) => {
   const id = useId();
@@ -35,7 +34,6 @@ const MapMarkers = ({ markers, showTitles }) => {
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
           'text-offset': [0, -2 * iconScale],
-          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {

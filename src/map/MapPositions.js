@@ -5,7 +5,6 @@ import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
-import { findFonts } from './core/mapUtil';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
 
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
@@ -115,7 +114,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
           'text-offset': [0, -2 * iconScale],
-          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {
@@ -154,7 +152,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         'icon-image': 'background',
         'icon-size': iconScale,
         'text-field': '{point_count_abbreviated}',
-        'text-font': findFonts(map),
         'text-size': 14,
       },
     });

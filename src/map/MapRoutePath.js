@@ -2,7 +2,6 @@ import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
-import { findFonts } from './core/mapUtil';
 
 const MapRoutePath = ({ name, positions, coordinates }) => {
   const id = useId();
@@ -54,7 +53,6 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
         type: 'symbol',
         layout: {
           'text-field': '{name}',
-          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {

@@ -2,7 +2,7 @@ import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
-import { findFonts, geofenceToFeature } from './core/mapUtil';
+import { geofenceToFeature } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
 
 const MapGeofence = () => {
@@ -52,7 +52,6 @@ const MapGeofence = () => {
         type: 'symbol',
         layout: {
           'text-field': '{name}',
-          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {
