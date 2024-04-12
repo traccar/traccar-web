@@ -6,6 +6,7 @@ import { map } from './core/MapView';
 import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
+import { useCatchCallback } from '../reactHelper';
 
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
@@ -66,19 +67,16 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
     }
   }, [onClick]);
 
-  const onClusterClick = useCallback((event) => {
+  const onClusterClick = useCatchCallback(async (event) => {
     event.preventDefault();
     const features = map.queryRenderedFeatures(event.point, {
       layers: [clusters],
     });
     const clusterId = features[0].properties.cluster_id;
-    map.getSource(id).getClusterExpansionZoom(clusterId, (error, zoom) => {
-      if (!error) {
-        map.easeTo({
-          center: features[0].geometry.coordinates,
-          zoom,
-        });
-      }
+    const zoom = await map.getSource(id).getClusterExpansionZoom(clusterId);
+    map.easeTo({
+      center: features[0].geometry.coordinates,
+      zoom,
     });
   }, [clusters]);
 
