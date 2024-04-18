@@ -57,6 +57,8 @@ const MaintenacesPage = () => {
           return formatSpeed(value, speedUnit, t);
         case 'distance':
           return formatDistance(value, distanceUnit, t);
+        case 'hours':
+          return `${value / 3600000} ${t('sharedHours')}`;
         default:
           return value;
       }
