@@ -120,19 +120,20 @@ const EventReportPage = () => {
   });
 
   const formatValue = (item, key) => {
+    const value = item[key];
     switch (key) {
       case 'eventTime':
-        return formatTime(item[key], 'seconds', hours12);
+        return formatTime(value, 'seconds', hours12);
       case 'type':
-        return t(prefixString('event', item[key]));
+        return t(prefixString('event', value));
       case 'geofenceId':
-        if (item[key] > 0) {
-          const geofence = geofences[item[key]];
+        if (value > 0) {
+          const geofence = geofences[value];
           return geofence && geofence.name;
         }
         return null;
       case 'maintenanceId':
-        return item[key] > 0 ? item[key] > 0 : null;
+        return value > 0 ? value : null;
       case 'attributes':
         switch (item.type) {
           case 'alarm':
@@ -149,7 +150,7 @@ const EventReportPage = () => {
             return '';
         }
       default:
-        return item[key];
+        return value;
     }
   };
 

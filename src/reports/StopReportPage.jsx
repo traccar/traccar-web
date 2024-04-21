@@ -88,22 +88,23 @@ const StopReportPage = () => {
   });
 
   const formatValue = (item, key) => {
+    const value = item[key];
     switch (key) {
       case 'startTime':
       case 'endTime':
-        return formatTime(item[key], 'minutes', hours12);
+        return formatTime(value, 'minutes', hours12);
       case 'startOdometer':
-        return formatDistance(item[key], distanceUnit, t);
+        return formatDistance(value, distanceUnit, t);
       case 'duration':
-        return formatNumericHours(item[key], t);
+        return formatNumericHours(value, t);
       case 'engineHours':
-        return formatNumericHours(item[key], t);
+        return value > 0 ? formatNumericHours(value, t) : null;
       case 'spentFuel':
-        return formatVolume(item[key], volumeUnit, t);
+        return value > 0 ? formatVolume(value, volumeUnit, t) : null;
       case 'address':
-        return (<AddressValue latitude={item.latitude} longitude={item.longitude} originalAddress={item[key]} />);
+        return (<AddressValue latitude={item.latitude} longitude={item.longitude} originalAddress={value} />);
       default:
-        return item[key];
+        return value;
     }
   };
 

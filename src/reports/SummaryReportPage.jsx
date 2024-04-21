@@ -88,24 +88,25 @@ const SummaryReportPage = () => {
   });
 
   const formatValue = (item, key) => {
+    const value = item[key];
     switch (key) {
       case 'deviceId':
-        return devices[item[key]].name;
+        return devices[value].name;
       case 'startTime':
-        return formatTime(item[key], 'date', hours12);
+        return formatTime(value, 'date', hours12);
       case 'startOdometer':
       case 'endOdometer':
       case 'distance':
-        return formatDistance(item[key], distanceUnit, t);
+        return formatDistance(value, distanceUnit, t);
       case 'averageSpeed':
       case 'maxSpeed':
-        return formatSpeed(item[key], speedUnit, t);
+        return value > 0 ? formatSpeed(value, speedUnit, t) : null;
       case 'engineHours':
-        return formatNumericHours(item[key], t);
+        return value > 0 ? formatNumericHours(value, t) : null;
       case 'spentFuel':
-        return formatVolume(item[key], volumeUnit, t);
+        return value > 0 ? formatVolume(value, volumeUnit, t) : null;
       default:
-        return item[key];
+        return value;
     }
   };
 

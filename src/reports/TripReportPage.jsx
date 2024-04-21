@@ -130,27 +130,28 @@ const TripReportPage = () => {
   });
 
   const formatValue = (item, key) => {
+    const value = item[key];
     switch (key) {
       case 'startTime':
       case 'endTime':
-        return formatTime(item[key], 'minutes', hours12);
+        return formatTime(value, 'minutes', hours12);
       case 'startOdometer':
       case 'endOdometer':
       case 'distance':
-        return formatDistance(item[key], distanceUnit, t);
+        return formatDistance(value, distanceUnit, t);
       case 'averageSpeed':
       case 'maxSpeed':
-        return formatSpeed(item[key], speedUnit, t);
+        return value > 0 ? formatSpeed(value, speedUnit, t) : null;
       case 'duration':
-        return formatNumericHours(item[key], t);
+        return formatNumericHours(value, t);
       case 'spentFuel':
-        return formatVolume(item[key], volumeUnit, t);
+        return value > 0 ? formatVolume(value, volumeUnit, t) : null;
       case 'startAddress':
-        return (<AddressValue latitude={item.startLat} longitude={item.startLon} originalAddress={item[key]} />);
+        return (<AddressValue latitude={item.startLat} longitude={item.startLon} originalAddress={value} />);
       case 'endAddress':
-        return (<AddressValue latitude={item.endLat} longitude={item.endLon} originalAddress={item[key]} />);
+        return (<AddressValue latitude={item.endLat} longitude={item.endLon} originalAddress={value} />);
       default:
-        return item[key];
+        return value;
     }
   };
 
