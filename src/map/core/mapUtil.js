@@ -36,7 +36,18 @@ export const prepareIcon = (background, icon, color) => {
   canvas.style.height = `${background.height}px`;
 
   const context = canvas.getContext('2d');
-  context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (color && color === '#2e7d32') { // logica de cor pra ignição ligada by gui
+    // Desenhar o fundo com o efeito de sombra
+    context.save();
+    context.shadowBlur = 5; // Ajuste o valor do sombreamento conforme necessário
+    context.shadowColor = 'rgba(0, 255, 0, 1)'; // Cor verde claro com transparência
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+    context.restore();
+  } else {
+    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  }
 
   if (icon) {
     const iconRatio = 0.5;
@@ -85,3 +96,21 @@ export const geofenceToFeature = (theme, item) => {
 };
 
 export const geometryToArea = (geometry) => stringify(reverseCoordinates(geometry));
+
+export const findFonts = (map) => {
+  const fontSet = new Set();
+  const { layers } = map.getStyle();
+  layers?.forEach?.((layer) => {
+    layer.layout?.['text-font']?.forEach?.(fontSet.add, fontSet);
+  });
+  const availableFonts = [...fontSet];
+  const regularFont = availableFonts.find((it) => it.includes('Regular'));
+  if (regularFont) {
+    return [regularFont];
+  }
+  const anyFont = availableFonts.find(Boolean);
+  if (anyFont) {
+    return [anyFont];
+  }
+  return ['Roboto Regular'];
+};

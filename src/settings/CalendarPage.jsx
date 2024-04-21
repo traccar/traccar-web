@@ -139,18 +139,18 @@ const CalendarPage = () => {
                   <TextField
                     label={t('reportFrom')}
                     type="datetime-local"
-                    value={dayjs(lines[5].slice(-15)).locale('en').format('YYYY-MM-DDTHH:mm')}
+                    value={dayjs(lines[5].slice(-15)).locale('en').format('DD-MM-YYYYTHH:mm')}
                     onChange={(e) => {
-                      const time = formatCalendarTime(dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'));
+                      const time = formatCalendarTime(dayjs(e.target.value, 'DD-MM-YYYYTHH:mm'));
                       setItem({ ...item, data: updateCalendar(lines, 5, `DTSTART;${time}`) });
                     }}
                   />
                   <TextField
                     label={t('reportTo')}
                     type="datetime-local"
-                    value={dayjs(lines[6].slice(-15)).locale('en').format('YYYY-MM-DDTHH:mm')}
+                    value={dayjs(lines[6].slice(-15)).locale('en').format('DD-MM-YYYYTHH:mm')}
                     onChange={(e) => {
-                      const time = formatCalendarTime(dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'));
+                      const time = formatCalendarTime(dayjs(e.target.value, 'DD-MM-YYYYTHH:mm'));
                       setItem({ ...item, data: updateCalendar(lines, 6, `DTEND;${time}`) });
                     }}
                   />

@@ -11,11 +11,8 @@ const currentServer = `${window.location.protocol}//${window.location.host}`;
 
 const officialServers = [
   currentServer,
-  'https://demo.traccar.org',
-  'https://demo2.traccar.org',
-  'https://demo3.traccar.org',
-  'https://demo4.traccar.org',
-  'https://server.traccar.org',
+  'https://app.foxgps.com.br',
+  'http://app.foxgps.com.br:8082',
   'http://localhost:8082',
   'http://localhost:3000',
 ];

@@ -21,6 +21,7 @@ import { useAdministrator } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
+import { useAttributePreference } from '../common/util/preferences';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
 
@@ -29,6 +30,7 @@ const DevicePage = () => {
   const t = useTranslation();
 
   const admin = useAdministrator();
+  const PartialDisableEditDevice = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
@@ -77,6 +79,7 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
               />
+              { !PartialDisableEditDevice && (
               <TextField
                 value={item.uniqueId || ''}
                 onChange={(event) => setItem({ ...item, uniqueId: event.target.value })}
@@ -84,6 +87,7 @@ const DevicePage = () => {
                 helperText={t('deviceIdentifierHelp')}
                 disabled={Boolean(uniqueId)}
               />
+              )}
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -93,27 +97,33 @@ const DevicePage = () => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
+              { !PartialDisableEditDevice && (
               <SelectField
                 value={item.groupId}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
                 endpoint="/api/groups"
                 label={t('groupParent')}
               />
+              )}
+              { !PartialDisableEditDevice && (
               <TextField
                 value={item.phone || ''}
                 onChange={(event) => setItem({ ...item, phone: event.target.value })}
                 label={t('sharedPhone')}
               />
+              )}
               <TextField
                 value={item.model || ''}
                 onChange={(event) => setItem({ ...item, model: event.target.value })}
                 label={t('deviceModel')}
               />
+              { !PartialDisableEditDevice && (
               <TextField
                 value={item.contact || ''}
                 onChange={(event) => setItem({ ...item, contact: event.target.value })}
                 label={t('deviceContact')}
               />
+              )}
               <SelectField
                 value={item.category || 'default'}
                 onChange={(event) => setItem({ ...item, category: event.target.value })}
@@ -132,8 +142,8 @@ const DevicePage = () => {
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
-                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('YYYY-MM-DD')) || '2099-01-01'}
-                onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'YYYY-MM-DD').locale('en').format() })}
+                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('DD-MM-YYYY')) || '2099-01-01'}
+                onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'DD-MM-YYYY').locale('en').format() })}
                 disabled={!admin}
               />
               <FormControlLabel

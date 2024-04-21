@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import {
-  useMediaQuery, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, LinearProgress, Box,
+  useMediaQuery, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, LinearProgress, Box, FormGroup, FormControlLabel, Checkbox, Tooltip,
 } from '@mui/material';
 import ReactCountryFlag from 'react-country-flag';
 import makeStyles from '@mui/styles/makeStyles';
@@ -10,6 +10,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import secureLocalStorage from 'react-secure-storage';
 import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
@@ -27,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     gap: theme.spacing(1),
   },
+  //  options: {   //GUI OPTIONS
+  //    position: 'fixed',
+  //    top: theme.spacing(1),
+  //    right: theme.spacing(1),
+  //  },
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -39,11 +46,28 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(4),
     marginTop: theme.spacing(2),
   },
+  //  extraContainer: { //GUI EXTRA
+  //    display: 'flex',
+  //    gap: theme.spacing(2),
+  //  },
   registerButton: {
     minWidth: 'unset',
   },
   link: {
+    //  color: '#757575',  GUI STYLE
+    //  fontWeight: '500',
+    //  fontSize: '1rem',
     cursor: 'pointer',
+    //  textAlign: 'center',
+    //  borderRadius: '1px',
+    //  backgroundColor: '#fff',
+    //  boxShadow: '0 2px 4px 0 rgb(0 0 0 / 25%)',
+    //  transition: '.4s',
+    //  marginTop: theme.spacing(1),
+    //  padding: '0.8rem',
+    //  '&:hover': {
+    //    boxShadow: '0 0 3px 3px rgb(66 133 244 / 30%)',
+    //  },
   },
 }));
 
@@ -62,6 +86,45 @@ const LoginPage = () => {
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+  const [rememberMe, setRememberMe] = useState(localStorage.getItem('rememberMe') === 'true');
+
+  // lembrar-me inicio
+  const [checked, setChecked] = useState(rememberMe || false);
+
+  // lembrar-me
+  const handleChange = (event) => {
+    const { checked } = event.target;
+    setChecked(checked);
+    setRememberMe(checked);
+    localStorage.setItem('rememberMe', checked);
+  };
+
+  const handleStoreCredentials = () => {
+    if (checked) {
+      secureLocalStorage.setItem('email', email);
+      secureLocalStorage.setItem('password', password);
+    } else {
+      secureLocalStorage.removeItem('email');
+      secureLocalStorage.removeItem('password');
+    }
+  };
+
+  const handleRetrieveStoredCredentials = () => {
+    const decryptedEmail = secureLocalStorage.getItem('email') || '';
+    const decryptedPassword = secureLocalStorage.getItem('password') || '';
+    setEmail(decryptedEmail);
+    setPassword(decryptedPassword);
+  };
+
+  useEffect(() => {
+    handleRetrieveStoredCredentials();
+  }, []);
+
+  useEffect(() => {
+    handleStoreCredentials();
+  }, [checked, email, password]);
+
+  // lembrar-me fim
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
@@ -73,6 +136,10 @@ const LoginPage = () => {
 
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
+
+  const setMapAttribute = (user) => {
+    user.attributes = { ...user?.attributes, activeMapStyles: 'locationIqStreets,osm,bingHybrid,bingAerial,bingRoad,googleHybrid,googleSatellite,googleRoad' };
+  };
 
   const generateLoginToken = async () => {
     if (nativeEnvironment) {
@@ -104,6 +171,7 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const user = await response.json();
+        setMapAttribute(user); // Criado por Guilherme Crocetti para setar os mapas do google e bing no login
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
         navigate('/');
@@ -140,6 +208,10 @@ const LoginPage = () => {
     handleLoginTokenListeners.add(listener);
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
+
+  // const redirectToOldWeb = () => {
+  //   window.location.href = 'https://legacy.foxgps.com.br/';
+  // };
 
   if (openIdForced) {
     handleOpenIdLogin();
@@ -224,6 +296,18 @@ const LoginPage = () => {
             {t('loginOpenId')}
           </Button>
         )}
+        <FormGroup>
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={checked}
+                onChange={handleChange}
+                inputProps={{ 'aria-label': 'controlled' }}
+              />
+            )}
+            label="lembrar-me"
+          />
+        </FormGroup>
         <div className={classes.extraContainer}>
           {registrationEnabled && (
             <Link

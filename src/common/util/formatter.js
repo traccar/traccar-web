@@ -34,13 +34,13 @@ export const formatTime = (value, format, hours12) => {
     const d = dayjs(value);
     switch (format) {
       case 'date':
-        return d.format('YYYY-MM-DD');
+        return d.format('DD-MM-YYYY');
       case 'time':
         return d.format(hours12 ? 'hh:mm:ss A' : 'HH:mm:ss');
       case 'minutes':
-        return d.format(hours12 ? 'YYYY-MM-DD hh:mm A' : 'YYYY-MM-DD HH:mm');
+        return d.format(hours12 ? 'DD-MM-YYYY hh:mm A' : 'DD-MM-YYYY HH:mm');
       default:
-        return d.format(hours12 ? 'YYYY-MM-DD hh:mm:ss A' : 'YYYY-MM-DD HH:mm:ss');
+        return d.format(hours12 ? 'DD-MM-YYYY hh:mm:ss A' : 'DD-MM-YYYY HH:mm:ss');
     }
   }
   return '';

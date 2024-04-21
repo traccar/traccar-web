@@ -71,8 +71,8 @@ const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignore
           selectedTo = dayjs().subtract(1, 'month').endOf('month');
           break;
         default:
-          selectedFrom = dayjs(from, 'YYYY-MM-DDTHH:mm');
-          selectedTo = dayjs(to, 'YYYY-MM-DDTHH:mm');
+          selectedFrom = dayjs(from, 'DD-MM-YYYYTHH:mm');
+          selectedTo = dayjs(to, 'DD-MM-YYYYTHH:mm');
           break;
       }
 

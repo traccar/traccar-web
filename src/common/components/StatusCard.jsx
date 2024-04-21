@@ -20,6 +20,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
 import PublishIcon from '@mui/icons-material/Publish';
+import LinkIcon from '@mui/icons-material/Link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PendingIcon from '@mui/icons-material/Pending';
@@ -119,6 +120,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const t = useTranslation();
 
   const deviceReadonly = useDeviceReadonly();
+  const PartialDisableEditDevice = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const shareDisabled = useSelector((state) => state.session.server.attributes.disableShare);
   const user = useSelector((state) => state.session.user);
@@ -127,7 +129,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
-  const positionItems = useAttributePreference('positionItems', 'fixTime,address,speed,totalDistance');
+  const positionItems = useAttributePreference('positionItems', 'fixTime,address,speed,totalDistance,ignition,power,course,geofenceIds');
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -248,6 +250,12 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   <PublishIcon />
                 </IconButton>
                 <IconButton
+                  onClick={() => navigate(`/settings/device/${deviceId}/connections`)}
+                  disabled={disableActions}
+                >
+                  <LinkIcon />
+                </IconButton>
+                <IconButton
                   onClick={() => navigate(`/settings/device/${deviceId}`)}
                   disabled={disableActions || deviceReadonly}
                 >
@@ -255,7 +263,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </IconButton>
                 <IconButton
                   onClick={() => setRemoving(true)}
-                  disabled={disableActions || deviceReadonly}
+                  disabled={disableActions || deviceReadonly || PartialDisableEditDevice}
                   className={classes.delete}
                 >
                   <DeleteIcon />
