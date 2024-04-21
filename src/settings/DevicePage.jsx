@@ -22,20 +22,17 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
-<<<<<<< HEAD:src/settings/DevicePage.jsx
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
-=======
 
-const useStyles = makeStyles((theme) => ({
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-    paddingBottom: theme.spacing(3),
-  },
-}));
->>>>>>> master:modern/src/settings/DevicePage.jsx
+//const useStyles = makeStyles((theme) => ({
+//  details: {
+//    display: 'flex',
+//    flexDirection: 'column',
+//    gap: theme.spacing(2),
+//    paddingBottom: theme.spacing(3),
+//  },
+//}));
 
 const DevicePage = () => {
   const classes = useSettingsStyles();
@@ -145,17 +142,12 @@ const DevicePage = () => {
                 }))}
                 label={t('deviceCategory')}
               />
-<<<<<<< HEAD:src/settings/DevicePage.jsx
               <SelectField
                 value={item.calendarId}
-=======
-              {/* <SelectField
-                value={item.calendarId || 0}
->>>>>>> master:modern/src/settings/DevicePage.jsx
                 onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}
-              /> */}
+              />
               <TextField
                 label={t('userExpirationTime')}
                 type="date"

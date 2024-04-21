@@ -112,10 +112,6 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
           'text-offset': [0, -2 * iconScale],
-<<<<<<< HEAD:src/map/MapPositions.js
-=======
-          'text-font': findFonts(map),
->>>>>>> master:modern/src/map/MapPositions.js
           'text-size': 12,
         },
         paint: {

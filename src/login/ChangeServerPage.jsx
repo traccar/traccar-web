@@ -56,7 +56,6 @@ const ChangeServerPage = () => {
         freeSolo
         className={classes.field}
         options={officialServers}
-        // eslint-disable-next-line react/jsx-props-no-spreading
         renderInput={(params) => <TextField {...params} label={t('settingsServer')} />}
         value={currentServer}
         onChange={(_, value) => value && handleSubmit(value)}

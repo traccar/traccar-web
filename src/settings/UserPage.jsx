@@ -330,13 +330,8 @@ const UserPage = () => {
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
-<<<<<<< HEAD:src/settings/UserPage.jsx
-                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('YYYY-MM-DD')) || '2099-01-01'}
-                onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'YYYY-MM-DD').locale('en').format() })}
-=======
-                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('DD-MM-YYYY')) || '2099-01-01'}
+                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('DD-MM-YYYY')) || '01-01-2099'}
                 onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'DD-MM-YYYY').locale('en').format() })}
->>>>>>> master:modern/src/settings/UserPage.jsx
                 disabled={!manager}
               />
               <TextField

@@ -35,10 +35,7 @@ import ko from '../../resources/l10n/ko.json'; import 'dayjs/locale/ko';
 import lo from '../../resources/l10n/lo.json'; import 'dayjs/locale/lo';
 import lt from '../../resources/l10n/lt.json'; import 'dayjs/locale/lt';
 import lv from '../../resources/l10n/lv.json'; import 'dayjs/locale/lv';
-<<<<<<< HEAD:src/common/components/LocalizationProvider.jsx
 import mk from '../../resources/l10n/mk.json'; import 'dayjs/locale/mk';
-=======
->>>>>>> master:modern/src/common/components/LocalizationProvider.jsx
 import ml from '../../resources/l10n/ml.json'; import 'dayjs/locale/ml';
 import mn from '../../resources/l10n/mn.json'; import 'dayjs/locale/mn';
 import ms from '../../resources/l10n/ms.json'; import 'dayjs/locale/ms';
@@ -97,10 +94,7 @@ const languages = {
   lo: { data: lo, country: 'LA', name: 'ລາວ' },
   lt: { data: lt, country: 'LT', name: 'Lietuvių' },
   lv: { data: lv, country: 'LV', name: 'Latviešu' },
-<<<<<<< HEAD:src/common/components/LocalizationProvider.jsx
   mk: { data: mk, country: 'MK', name: 'Mакедонски' },
-=======
->>>>>>> master:modern/src/common/components/LocalizationProvider.jsx
   ml: { data: ml, country: 'IN', name: 'മലയാളം' },
   mn: { data: mn, country: 'MN', name: 'Монгол хэл' },
   ms: { data: ms, country: 'MY', name: 'بهاس ملايو' },
@@ -158,14 +152,9 @@ const LocalizationContext = createContext({
 
 export const LocalizationProvider = ({ children }) => {
   const [language, setLanguage] = usePersistedState('language', getDefaultLanguage());
-<<<<<<< HEAD:src/common/components/LocalizationProvider.jsx
   const direction = /^(ar|he|fa)$/.test(language) ? 'rtl' : 'ltr';
 
   const value = useMemo(() => ({ languages, language, setLanguage, direction }), [languages, language, setLanguage, direction]);
-=======
-
-  const value = useMemo(() => ({ languages, language, setLanguage }), [languages, language, setLanguage]);
->>>>>>> master:modern/src/common/components/LocalizationProvider.jsx
 
   useEffect(() => {
     let selected;
@@ -175,12 +164,8 @@ export const LocalizationProvider = ({ children }) => {
       selected = language;
     }
     dayjs.locale(selected);
-<<<<<<< HEAD:src/common/components/LocalizationProvider.jsx
     document.dir = direction;
   }, [language, direction]);
-=======
-  }, [language]);
->>>>>>> master:modern/src/common/components/LocalizationProvider.jsx
 
   return (
     <LocalizationContext.Provider value={value}>
