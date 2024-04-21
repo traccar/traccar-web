@@ -1,4 +1,4 @@
-import { grey } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 import createPalette from '@mui/material/styles/createPalette';
 import { loadImage, prepareIcon } from './mapUtil';
 
@@ -79,6 +79,7 @@ export const mapImages = {};
 
 const mapPalette = createPalette({
   neutral: { main: grey[500] },
+  ignition: { main: green[700] },
 });
 
 export default async () => {

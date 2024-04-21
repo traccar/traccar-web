@@ -22,6 +22,6 @@ export default (server, darkMode) => ({
     main: purple[900],
   },
   ignition: {
-    main: green[800],
+    main: green[700],
   },
 });

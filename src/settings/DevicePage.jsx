@@ -25,15 +25,6 @@ import { useAttributePreference } from '../common/util/preferences';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
 
-//const useStyles = makeStyles((theme) => ({
-//  details: {
-//    display: 'flex',
-//    flexDirection: 'column',
-//    gap: theme.spacing(2),
-//    paddingBottom: theme.spacing(3),
-//  },
-//}));
-
 const DevicePage = () => {
   const classes = useSettingsStyles();
   const t = useTranslation();

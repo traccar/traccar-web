@@ -34,9 +34,8 @@ export const prepareIcon = (background, icon, color) => {
   canvas.height = background.height * devicePixelRatio;
   canvas.style.width = `${background.width}px`;
   canvas.style.height = `${background.height}px`;
-
   const context = canvas.getContext('2d');
-  if (color && color === '#2e7d32') { // logica de cor pra ignição ligada by gui
+  if (color && color === '#388e3c') { // logica de cor pra ignição ligada by gui
     // Desenhar o fundo com o efeito de sombra
     context.save();
     context.shadowBlur = 5; // Ajuste o valor do sombreamento conforme necessário
