@@ -31,12 +31,9 @@ Ext.define('Traccar.view.dialog.DeviceController', {
             this.lookupReference('phoneField').setHidden(true);
             this.lookupReference('contactField').setHidden(true);
         }
-
-
         if (Traccar.app.getUser().get('administrator')) {
             this.lookupReference('disabledField').setHidden(false);
         }
     }
-
 
 });

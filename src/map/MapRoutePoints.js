@@ -27,17 +27,11 @@ const MapRoutePoints = ({ positions, onClick }) => {
       id,
       type: 'symbol',
       source: id,
-<<<<<<< HEAD:src/map/MapRoutePoints.js
       layout: {
         'icon-image': 'arrow',
         'icon-allow-overlap': true,
         'icon-rotate': ['get', 'rotation'],
         'icon-rotation-alignment': 'map',
-=======
-      paint: {
-        'circle-radius': 5,
-        'circle-color': theme.palette.geometry.main,
->>>>>>> master:modern/src/map/MapRoutePoints.js
       },
     });
 
