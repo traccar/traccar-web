@@ -26,7 +26,5 @@ for language in languages:
     print(language.code)
     url = transifex_api.ResourceTranslationsAsyncDownload.download(resource=resource, language=language)
     result = requests.get(url)
-    with open('../web/l10n/' + language.code + '.json', "w") as file:
-        file.write(result.text)
-    with open('../modern/src/resources/l10n/' + language.code + '.json', "w") as file:
+    with open('..//src/resources/l10n/' + language.code + '.json', "w") as file:
         file.write(result.text)
