@@ -45,6 +45,14 @@ Ext.define('Traccar.view.edit.Geofences', {
             dataIndex: 'name',
             filter: 'string'
         }, {
+            text: 'Bloquear ao Sair',
+            dataIndex: 'stopOut',
+            filter: 'boolean'
+        }, {
+            text: 'Bloquear ao Entrar',
+            dataIndex: 'stopIn',
+            filter: 'boolean'
+        }, {
             text: Strings.sharedDescription,
             dataIndex: 'description',
             filter: 'string'

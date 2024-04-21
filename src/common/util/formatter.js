@@ -66,6 +66,11 @@ export const formatSpeed = (value, unit, t) => `${speedFromKnots(value, unit).to
 
 export const formatVolume = (value, unit, t) => `${volumeFromLiters(value, unit).toFixed(2)} ${volumeUnitString(unit, t)}`;
 
+<<<<<<< HEAD:src/common/util/formatter.js
+=======
+export const formatHours = (value) => dayjs.duration(value).humanize();
+
+>>>>>>> master:modern/src/common/util/formatter.js
 export const formatNumericHours = (value, t) => {
   const hours = Math.floor(value / 3600000);
   const minutes = Math.floor((value % 3600000) / 60000);

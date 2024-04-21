@@ -39,6 +39,7 @@ export default (t) => useMemo(() => ({
     name: t('settingsDarkMode'),
     type: 'boolean',
   },
+<<<<<<< HEAD:src/common/attributes/useServerAttributes.js
   totpEnable: {
     name: t('settingsTotpEnable'),
     type: 'boolean',
@@ -51,6 +52,8 @@ export default (t) => useMemo(() => ({
     name: t('settingsServiceWorkerUpdateInterval'),
     type: 'number',
   },
+=======
+>>>>>>> master:modern/src/common/attributes/useServerAttributes.js
   'ui.disableLoginLanguage': {
     name: t('attributeUiDisableLoginLanguage'),
     type: 'boolean',

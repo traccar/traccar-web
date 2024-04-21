@@ -131,11 +131,19 @@ const DeviceRow = ({ data, index, style }) => {
                     position.attributes.charge
                       ? (<BatteryChargingFullIcon fontSize="small" className={classes.success} />)
                       : (<BatteryFullIcon fontSize="small" className={classes.success} />)
+<<<<<<< HEAD:src/main/DeviceRow.jsx
                   )) || (position.attributes.batteryLevel > 30 && (
                     position.attributes.charge
                       ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
                       : (<Battery60Icon fontSize="small" className={classes.warning} />)
                   )) || (
+=======
+                  ) : position.attributes.batteryLevel > 30 ? (
+                    position.attributes.charge
+                      ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
+                      : (<Battery60Icon fontSize="small" className={classes.warning} />)
+                  ) : (
+>>>>>>> master:modern/src/main/DeviceRow.jsx
                     position.attributes.charge
                       ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
                       : (<Battery20Icon fontSize="small" className={classes.error} />)

@@ -19,11 +19,17 @@ export default defineConfig(() => ({
     svgr(),
     react(),
     VitePWA({
+<<<<<<< HEAD:vite.config.js
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       workbox: {
         navigateFallbackDenylist: [/^\/api/],
         maximumFileSizeToCacheInBytes: 4000000,
         globPatterns: ['**/*.{js,css,html,woff,woff2,mp3}'],
+=======
+      registerType: 'autoUpdate',
+      workbox: {
+        navigateFallbackDenylist: [/^\/api/],
+>>>>>>> master:modern/vite.config.js
       },
       manifest: {
         short_name: '${title}',

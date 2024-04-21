@@ -18,7 +18,11 @@ import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapNotification from '../map/notification/MapNotification';
 import useFeatures from '../common/util/useFeatures';
+<<<<<<< HEAD:src/main/MainMap.jsx
 // import MapGroupIcons from '../map/group/MapGroupIcons';
+=======
+import MapGroupIcons from '../map/group/MapGroupIcons';
+>>>>>>> master:modern/src/main/MainMap.jsx
 
 const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
   const theme = useTheme();
@@ -57,7 +61,11 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
       {!features.disableEvents && (
         <MapNotification enabled={eventsAvailable} onClick={onEventsClick} />
       )}
+<<<<<<< HEAD:src/main/MainMap.jsx
       {/* <MapGroupIcons enabled={eventsAvailable} onClick={onEventsClick} /> */}
+=======
+      <MapGroupIcons enabled={eventsAvailable} onClick={onEventsClick} />
+>>>>>>> master:modern/src/main/MainMap.jsx
       {desktop && (
         <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10)} />
       )}

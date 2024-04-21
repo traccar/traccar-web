@@ -29,11 +29,11 @@ Ext.define('Traccar.Style', {
 
     formFieldWidth: 275,
 
-    dateTimeFormat24: 'Y-m-d H:i:s',
-    dateTimeFormat12: 'Y-m-d g:i:s a',
+    dateTimeFormat24: 'd-m-Y H:i:s',
+    dateTimeFormat12: 'd-m-Y g:i:s a',
     timeFormat24: 'H:i',
     timeFormat12: 'g:i a',
-    dateFormat: 'Y-m-d',
+    dateFormat: 'd-m-Y',
     weekStartDay: 1,
 
     deviceWidth: 400,
@@ -43,8 +43,8 @@ Ext.define('Traccar.Style', {
 
     columnWidthNormal: 100,
 
-    mapDefaultLat: 48.8567,
-    mapDefaultLon: 2.3508,
+    mapDefaultLat: -13.990072,
+    mapDefaultLon: -46.72512,
     mapDefaultZoom: 4,
 
     mapRouteColor: [
@@ -70,13 +70,13 @@ Ext.define('Traccar.Style', {
     mapScaleNormal: 1,
     mapScaleSelected: 1.5,
 
-    mapMaxZoom: 18,
+    mapMaxZoom: 19,
     mapDelay: 500,
 
     mapAccuracyColor: 'rgba(96, 96, 96, 1.0)',
 
     mapGeofenceTextColor: 'rgba(14, 88, 141, 1.0)',
-    mapGeofenceColor: 'rgba(21, 127, 204, 1.0)',
+    mapGeofenceColor: 'rgba(255, 141, 58, 1.0)',
     mapGeofenceOverlayOpacity: 0.2,
     mapGeofenceWidth: 5,
     mapGeofenceRadius: 9,
@@ -91,5 +91,14 @@ Ext.define('Traccar.Style', {
 
     chartPadding: '20 40 10 10',
     chartMarkerRadius: 3,
-    chartMarkerHighlightScaling: 1.5
+    chartMarkerHighlightScaling: 1.5,
+
+    foxThemeColor: {
+        main: '#181818',
+        light: '#ff8614',
+        dark: '#fa7614',
+        darker: '#e06000',
+        lighter: '#fc9f59'
+
+    }
 });

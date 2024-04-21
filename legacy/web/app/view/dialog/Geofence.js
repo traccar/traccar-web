@@ -36,6 +36,18 @@ Ext.define('Traccar.view.dialog.Geofence', {
                 xtype: 'unescapedTextField',
                 name: 'name',
                 fieldLabel: Strings.sharedName
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'stopOut',
+                fieldLabel: 'Bloquear ao Sair'
+            }, {
+                xtype: 'checkboxfield',
+                inputValue: true,
+                uncheckedValue: false,
+                name: 'stopIn',
+                fieldLabel: 'Bloquear ao Entrar'
             }]
         }, {
             xtype: 'fieldset',

@@ -51,6 +51,10 @@ Ext.define('Traccar.store.CommonUserAttributes', {
         name: Strings.attributeUiDisableDrivers,
         valueType: 'boolean'
     }, {
+        key: 'ui.PartialDisableEditDevice',
+        name: Strings.attributePartialDisableEditDevice,
+        valueType: 'boolean'
+    }, {
         key: 'ui.disableComputedAttributes',
         name: Strings.attributeUiDisableComputedAttributes,
         valueType: 'boolean'

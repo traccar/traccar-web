@@ -307,7 +307,11 @@ const PreferencesPage = () => {
                 value={token || ''}
                 endAdornment={(
                   <InputAdornment position="end">
+<<<<<<< HEAD:src/settings/PreferencesPage.jsx
                     <div className={classes.verticalActions}>
+=======
+                    <div className={classes.tokenActions}>
+>>>>>>> master:modern/src/settings/PreferencesPage.jsx
                       <IconButton size="small" edge="end" onClick={generateToken} disabled={!!token}>
                         <CachedIcon fontSize="small" />
                       </IconButton>

@@ -21,9 +21,22 @@ Ext.define('Traccar.view.dialog.DeviceController', {
     alias: 'controller.device',
 
     init: function () {
+        // Criado por Guilherme Crocetti para editar as permissões dos usuários em Dispositivos edit
+
+        if (!Traccar.app.getUser().get('administrator') &&
+        Traccar.app.getBooleanAttributePreference('ui.PartialDisableEditDevice')) {
+            this.lookupReference('uniqueIdField').setDisabled(true);
+            this.lookupReference('groupField').setHidden(true);
+            this.lookupReference('modelField').setHidden(true);
+            this.lookupReference('phoneField').setHidden(true);
+            this.lookupReference('contactField').setHidden(true);
+        }
+
+
         if (Traccar.app.getUser().get('administrator')) {
             this.lookupReference('disabledField').setHidden(false);
         }
     }
+
 
 });
