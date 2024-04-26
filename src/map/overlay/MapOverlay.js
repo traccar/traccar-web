@@ -35,7 +35,7 @@ const MapOverlay = () => {
         });
       }
     };
-  });
+  }, [id, availableActiveMapOverlays]);
 
   return null;
 };
