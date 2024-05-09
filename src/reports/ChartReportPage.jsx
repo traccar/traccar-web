@@ -13,7 +13,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
-import { useAttributePreference, usePreference } from '../common/util/preferences';
+import { useAttributePreference } from '../common/util/preferences';
 import {
   altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
 } from '../common/util/converter';
@@ -29,7 +29,6 @@ const ChartReportPage = () => {
   const altitudeUnit = useAttributePreference('altitudeUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
-  const hours12 = usePreference('twelveHourFormat');
 
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState(['speed']);
@@ -126,7 +125,7 @@ const ChartReportPage = () => {
               <XAxis
                 dataKey="fixTime"
                 type="number"
-                tickFormatter={(value) => formatTime(value, 'time', hours12)}
+                tickFormatter={(value) => formatTime(value, 'time')}
                 domain={['dataMin', 'dataMax']}
                 scale="time"
               />
@@ -138,7 +137,7 @@ const ChartReportPage = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip
                 formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
-                labelFormatter={(value) => formatTime(value, 'seconds', hours12)}
+                labelFormatter={(value) => formatTime(value, 'seconds')}
               />
               <Line type="monotone" dataKey={type} />
             </LineChart>

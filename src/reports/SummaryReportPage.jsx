@@ -8,7 +8,7 @@ import {
   formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
-import { useAttributePreference, usePreference } from '../common/util/preferences';
+import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -41,7 +41,6 @@ const SummaryReportPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
-  const hours12 = usePreference('twelveHourFormat');
 
   const [columns, setColumns] = usePersistedState('summaryColumns', ['startTime', 'distance', 'averageSpeed']);
   const [daily, setDaily] = useState(false);
@@ -93,7 +92,7 @@ const SummaryReportPage = () => {
       case 'deviceId':
         return devices[value].name;
       case 'startTime':
-        return formatTime(value, 'date', hours12);
+        return formatTime(value, 'date');
       case 'startOdometer':
       case 'endOdometer':
       case 'distance':

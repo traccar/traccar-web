@@ -42,14 +42,13 @@ const PositionValue = ({ position, property, attribute }) => {
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
   const coordinateFormat = usePreference('coordinateFormat');
-  const hours12 = usePreference('twelveHourFormat');
 
   const formatValue = () => {
     switch (key) {
       case 'fixTime':
       case 'deviceTime':
       case 'serverTime':
-        return formatTime(value, 'seconds', hours12);
+        return formatTime(value, 'seconds');
       case 'latitude':
         return formatCoordinate('latitude', value, coordinateFormat);
       case 'longitude':
