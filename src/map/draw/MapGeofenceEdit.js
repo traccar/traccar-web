@@ -13,6 +13,10 @@ import { errorsActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
 import theme from './theme';
 
+MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
+MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
+MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
+
 const draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
