@@ -39,6 +39,14 @@ export default (t) => useMemo(() => ({
     name: t('settingsDarkMode'),
     type: 'boolean',
   },
+  termsUrl: {
+    name: t('userTerms'),
+    type: 'string',
+  },
+  privacyUrl: {
+    name: t('userPrivacy'),
+    type: 'string',
+  },
   totpEnable: {
     name: t('settingsTotpEnable'),
     type: 'boolean',
