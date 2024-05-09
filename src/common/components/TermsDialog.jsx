@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Link } from '@mui/material';
+import {
+  Button, Dialog, DialogActions, DialogContent, DialogContentText, Link,
+} from '@mui/material';
 import { useTranslation } from './LocalizationProvider';
 
 const TermsDialog = ({ open, onCancel, onAccept }) => {
