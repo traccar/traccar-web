@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-unresolved
+import mapboxglRtlTextUrl from '@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min?url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
-import mapboxglRtlTextUrl from '@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min.js?url'
 import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
