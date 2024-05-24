@@ -559,6 +559,8 @@
     "reportAverageSpeed": "Average Speed",
     "reportMaximumSpeed": "Maximum Speed",
     "reportEngineHours": "Engine Hours",
+    "reportStartEngineHours": "Start Engine Hours",
+    "reportEndEngineHours": "End Engine Hours",
     "reportDuration": "Duration",
     "reportStartDate": "Start Date",
     "reportStartTime": "Start Time",
