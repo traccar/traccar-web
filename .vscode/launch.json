@@ -2,9 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch via NPM",
+      "name": "npm start",
       "request": "launch",
       "runtimeArgs": ["start"],
+      "runtimeExecutable": "npm",
+      "type": "node"
+    },
+    {
+      "name": "npm run build",
+      "request": "launch",
+      "runtimeArgs": ["run", "build"],
       "runtimeExecutable": "npm",
       "type": "node"
     }
