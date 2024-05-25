@@ -57,6 +57,7 @@ import UserConnectionsPage from './settings/UserConnectionsPage';
 import LogsPage from './reports/LogsPage';
 import SharePage from './settings/SharePage';
 import AnnouncementPage from './settings/AnnouncementPage';
+import EmulatorPage from './other/EmulatorPage';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -109,6 +110,7 @@ const Navigation = () => {
         <Route path="event/:id" element={<EventPage />} />
         <Route path="replay" element={<ReplayPage />} />
         <Route path="geofences" element={<GeofencesPage />} />
+        <Route path="emulator" element={<EmulatorPage />} />
 
         <Route path="settings">
           <Route path="accumulators/:deviceId" element={<AccumulatorsPage />} />
