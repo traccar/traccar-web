@@ -17,6 +17,7 @@ import MapGeocoder from '../map/geocoder/MapGeocoder';
 import SelectField from '../common/components/SelectField';
 import { devicesActions } from '../store';
 import MapPositions from '../map/MapPositions';
+import { useCatch } from '../reactHelper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +67,23 @@ const EmulatorPage = () => {
   const deviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.session.positions);
 
+  const handleClick = useCatch(async (latitude, longitude) => {
+    if (deviceId) {
+      const params = new URLSearchParams();
+      params.append('id', devices[deviceId].uniqueId);
+      params.append('lat', latitude);
+      params.append('lon', longitude);
+
+      const response = await fetch(`http://${window.location.hostname}:5055?${params.toString()}`, {
+        method: 'GET',
+        mode: 'no-cors',
+      });
+      if (!response.ok) {
+        throw Error(await response.text());
+      }
+    }
+  });
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -96,7 +114,11 @@ const EmulatorPage = () => {
         </Drawer>
         <div className={classes.mapContainer}>
           <MapView>
-            <MapPositions positions={Object.values(positions)} showStatus />
+            <MapPositions
+              positions={Object.values(positions)}
+              onClick={handleClick}
+              showStatus
+            />
           </MapView>
           <MapCurrentLocation />
           <MapGeocoder />

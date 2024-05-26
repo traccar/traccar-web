@@ -54,7 +54,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
 
   const onMapClick = useCallback((event) => {
     if (!event.defaultPrevented && onClick) {
-      onClick();
+      onClick(event.lngLat.lat, event.lngLat.lng);
     }
   }, [onClick]);
 
