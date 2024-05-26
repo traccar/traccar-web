@@ -345,6 +345,13 @@ const PreferencesPage = () => {
                   label={t('settingsConnection')}
                   disabled
                 />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => navigate('/emulator')}
+                >
+                  {t('sharedEmulator')}
+                </Button>
               </AccordionDetails>
             </Accordion>
             <div className={classes.buttons}>
