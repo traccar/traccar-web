@@ -26,7 +26,7 @@ const SelectField = ({
     return option ? titleGetter(option) : emptyTitle;
   };
 
-  useEffect(() => setItems(data), [data])
+  useEffect(() => setItems(data), [data]);
 
   useEffectAsync(async () => {
     if (endpoint) {
