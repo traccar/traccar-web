@@ -142,6 +142,21 @@ const ComputedAttributePage = () => {
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant="subtitle1">
+                {t('sharedExtra')}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails className={classes.details}>
+              <TextField
+                type="number"
+                value={item.priority || 0}
+                onChange={(e) => setItem({ ...item, priority: Number(e.target.value) })}
+                label={t('sharedPriority')}
+              />
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="subtitle1">
                 {t('sharedTest')}
               </Typography>
             </AccordionSummary>
