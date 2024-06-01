@@ -337,6 +337,7 @@
     "serverLogoInverted": "倒置标识图片",
     "serverChangeDisable": "禁用服务器更改",
     "serverDisableShare": "禁用设备共享",
+    "serverReboot": "Reboot",
     "mapTitle": "地图",
     "mapActive": "已选地图",
     "mapOverlay": "地图叠层",

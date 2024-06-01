@@ -337,6 +337,7 @@
     "serverLogoInverted": "Logo kuva negatiivinen",
     "serverChangeDisable": "Estä palvelimen vaihto",
     "serverDisableShare": "Estä laitteen jakaminen",
+    "serverReboot": "Reboot",
     "mapTitle": "Kartta",
     "mapActive": "Aktiiviset kartat",
     "mapOverlay": "Karttapäällys",

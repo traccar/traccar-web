@@ -337,6 +337,7 @@
     "serverLogoInverted": "倒置 Logo 圖片",
     "serverChangeDisable": "禁改伺服器",
     "serverDisableShare": "Disable Device Sharing",
+    "serverReboot": "Reboot",
     "mapTitle": "地圖",
     "mapActive": "啟用地圖",
     "mapOverlay": "地圖疊層",

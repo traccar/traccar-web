@@ -337,6 +337,7 @@
     "serverLogoInverted": "Umgekehrte Logografik",
     "serverChangeDisable": "Serverwechsel deaktivieren",
     "serverDisableShare": "Gerätefreigabe deaktivieren",
+    "serverReboot": "Reboot",
     "mapTitle": "Karte",
     "mapActive": "Aktive Karte",
     "mapOverlay": "Karten Overlay",

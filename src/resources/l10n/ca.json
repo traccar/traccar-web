@@ -337,6 +337,7 @@
     "serverLogoInverted": "Imatge de logotip invertida",
     "serverChangeDisable": "Desactiva el canvi de servidor",
     "serverDisableShare": "Desactiva l'ús compartit de dispositius",
+    "serverReboot": "Reboot",
     "mapTitle": "Mapa",
     "mapActive": "Mapes actius",
     "mapOverlay": "Capa sobre el mapa",

@@ -337,6 +337,7 @@
     "serverLogoInverted": "กลับด้านภาพโลโก้แล้ว",
     "serverChangeDisable": "ปิดใช้งานการเปลี่ยนแปลงเซิร์ฟเวอร์",
     "serverDisableShare": "ปิดใช้งานการแชร์อุปกรณ์",
+    "serverReboot": "Reboot",
     "mapTitle": "แผนที่",
     "mapActive": "แผนที่ที่ใช้งานอยู่",
     "mapOverlay": "การวางซ้อนแผนที่",
