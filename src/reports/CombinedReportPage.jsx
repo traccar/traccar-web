@@ -73,7 +73,7 @@ const CombinedReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups />
+            <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups loading={loading} />
           </div>
           <Table>
             <TableHead>
