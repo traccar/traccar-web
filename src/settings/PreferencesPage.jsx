@@ -18,7 +18,7 @@ import useMapStyles from '../map/core/useMapStyles';
 import useMapOverlays from '../map/overlay/useMapOverlays';
 import { useCatch } from '../reactHelper';
 import { sessionActions } from '../store';
-import { useRestriction } from '../common/util/permissions';
+import { useAdministrator, useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const deviceFields = [
@@ -35,6 +35,7 @@ const PreferencesPage = () => {
   const navigate = useNavigate();
   const t = useTranslation();
 
+  const admin = useAdministrator();
   const readonly = useRestriction('readonly');
 
   const user = useSelector((state) => state.session.user);
@@ -82,6 +83,13 @@ const PreferencesPage = () => {
       dispatch(sessionActions.updateUser(await response.json()));
       navigate(-1);
     } else {
+      throw Error(await response.text());
+    }
+  });
+
+  const handleReboot = useCatch(async () => {
+    const response = await fetch('/api/server/reboot', { method: 'POST' });
+    if (!response.ok) {
       throw Error(await response.text());
     }
   });
@@ -352,6 +360,15 @@ const PreferencesPage = () => {
                 >
                   {t('sharedEmulator')}
                 </Button>
+                {admin && (
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleReboot}
+                  >
+                    {t('serverReboot')}
+                  </Button>
+                )}
               </AccordionDetails>
             </Accordion>
             <div className={classes.buttons}>

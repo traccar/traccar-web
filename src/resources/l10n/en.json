@@ -337,6 +337,7 @@
     "serverLogoInverted": "Inverted Logo Image",
     "serverChangeDisable": "Disable Server Change",
     "serverDisableShare": "Disable Device Sharing",
+    "serverReboot": "Reboot",
     "mapTitle": "Map",
     "mapActive": "Active Maps",
     "mapOverlay": "Map Overlay",
