@@ -89,9 +89,7 @@ const PreferencesPage = () => {
 
   const handleReboot = useCatch(async () => {
     const response = await fetch('/api/server/reboot', { method: 'POST' });
-    if (!response.ok) {
-      throw Error(await response.text());
-    }
+    throw Error(response.statusText);
   });
 
   return (
