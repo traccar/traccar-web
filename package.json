@@ -24,7 +24,7 @@
     "events": "^3.3.0",
     "mapbox-gl": "^1.13.3",
     "maplibre-gl": "^4.3.2",
-    "maplibre-google-maps": "^1.0.4",
+    "maplibre-google-maps": "^1.1.0",
     "react": "^18.3.1",
     "react-country-flag": "3.1.0",
     "react-dom": "^18.3.1",

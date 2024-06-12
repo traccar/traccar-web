@@ -90,6 +90,7 @@ export default () => {
         attribution: '© Google',
       }),
       available: Boolean(googleKey),
+      attribute: 'googleKey',
     },
     {
       id: 'googleSatellite',
@@ -100,16 +101,18 @@ export default () => {
         attribution: '© Google',
       }),
       available: Boolean(googleKey),
+      attribute: 'googleKey',
     },
     {
       id: 'googleHybrid',
       title: t('mapGoogleHybrid'),
       style: styleCustom({
-        tiles: [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        tiles: [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`],
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: true,
+      available: Boolean(googleKey),
+      attribute: 'googleKey',
     },
     {
       id: 'mapTilerBasic',
