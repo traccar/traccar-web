@@ -359,6 +359,7 @@
     "mapGoogleRoad": "Google Road",
     "mapGoogleHybrid": "Google Hybrid",
     "mapGoogleSatellite": "Google Satellite",
+    "mapGoogleKey": "Google API Key",
     "mapOpenTopoMap": "OpenTopoMap",
     "mapBingKey": "Bing Maps Key",
     "mapBingRoad": "Bing Maps Road",
