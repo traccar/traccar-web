@@ -11,7 +11,9 @@ import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
-const ReportFilter = ({ children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups, loading }) => {
+const ReportFilter = ({
+  children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups, loading,
+}) => {
   const classes = useReportStyles();
   const dispatch = useDispatch();
   const t = useTranslation();

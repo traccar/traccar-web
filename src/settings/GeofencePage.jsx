@@ -14,7 +14,7 @@ import { geofencesActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
 import { useAdministrator } from '../common/util/permissions';
 
-const admin = useAdministrator()
+const admin = useAdministrator();
 
 const GeofencePage = () => {
   const classes = useSettingsStyles();
@@ -69,7 +69,7 @@ const GeofencePage = () => {
                 onChange={(event) => setItem({ ...item, description: event.target.value })}
                 label={t('sharedDescription')}
               />
-              {admin && ( 
+              {admin && (
                 <>
                   <FormControlLabel
                     control={(
@@ -93,7 +93,7 @@ const GeofencePage = () => {
                     )}
                     label="Bloquear ao Sair"
                   />
-                </> 
+                </>
               )}
               <SelectField
                 value={item.calendarId}

@@ -148,7 +148,7 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const user = await response.json();
-        // setMapAttribute(user); // Criado por Guilherme Crocetti para setar os mapas do google e bing no login
+        setMapAttribute(user); // Criado por Guilherme Crocetti para setar os mapas do google e bing no login
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
         navigate('/');
