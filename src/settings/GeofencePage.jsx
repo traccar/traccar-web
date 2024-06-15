@@ -14,13 +14,11 @@ import { geofencesActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
 import { useAdministrator } from '../common/util/permissions';
 
-const admin = useAdministrator();
-
 const GeofencePage = () => {
   const classes = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
-
+  const admin = useAdministrator();
   const geofenceAttributes = useGeofenceAttributes(t);
 
   const [item, setItem] = useState();
