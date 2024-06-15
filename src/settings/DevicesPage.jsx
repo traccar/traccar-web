@@ -13,7 +13,7 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-import { useAttributePreference, usePreference } from '../common/util/preferences';
+import { useAttributePreference } from '../common/util/preferences';
 import { formatTime } from '../common/util/formatter';
 import { useDeviceReadonly } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
@@ -24,8 +24,6 @@ const DevicesPage = () => {
   const t = useTranslation();
 
   const groups = useSelector((state) => state.groups.items);
-
-  const hours12 = usePreference('twelveHourFormat');
 
   const deviceReadonly = useDeviceReadonly();
   const disableDelete = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
@@ -85,7 +83,7 @@ const DevicesPage = () => {
               <TableCell>{item.phone}</TableCell>
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
-              <TableCell>{formatTime(item.expirationTime, 'date', hours12)}</TableCell>
+              <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 
 import {
   altitudeFromMeters,
@@ -16,6 +17,7 @@ import { prefixString } from './stringUtils';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
+dayjs.extend(localizedFormat);
 
 export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));
 
@@ -23,24 +25,24 @@ export const formatNumber = (value, precision = 1) => Number(value.toFixed(preci
 
 export const formatPercentage = (value) => `${value}%`;
 
-export const formatTemperature = (value) => `${value}°C`;
+export const formatTemperature = (value) => `${value.toFixed(1)}°C`;
 
-export const formatVoltage = (value, t) => `${value} ${t('sharedVoltAbbreviation')}`;
+export const formatVoltage = (value, t) => `${value.toFixed(2)} ${t('sharedVoltAbbreviation')}`;
 
-export const formatConsumption = (value, t) => `${value} ${t('sharedLiterPerHourAbbreviation')}`;
+export const formatConsumption = (value, t) => `${value.toFixed(2)} ${t('sharedLiterPerHourAbbreviation')}`;
 
-export const formatTime = (value, format, hours12) => {
+export const formatTime = (value, format) => {
   if (value) {
     const d = dayjs(value);
     switch (format) {
       case 'date':
-        return d.format('DD-MM-YYYY');
+        return d.format('L');
       case 'time':
-        return d.format(hours12 ? 'hh:mm:ss A' : 'HH:mm:ss');
+        return d.format('LTS');
       case 'minutes':
-        return d.format(hours12 ? 'DD-MM-YYYY hh:mm A' : 'DD-MM-YYYY HH:mm');
+        return d.format('L LT');
       default:
-        return d.format(hours12 ? 'DD-MM-YYYY hh:mm:ss A' : 'DD-MM-YYYY HH:mm:ss');
+        return d.format('L LTS');
     }
   }
   return '';

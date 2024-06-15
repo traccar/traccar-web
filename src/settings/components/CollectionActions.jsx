@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CollectionActions = ({
-  itemId, editPath, endpoint, setTimestamp, customActions, readonly, disable,
+  itemId, editPath, endpoint, setTimestamp, customActions, readonly,
 }) => {
   const theme = useTheme();
   const classes = useStyles();
@@ -66,7 +66,7 @@ const CollectionActions = ({
             {!readonly && (
               <>
                 <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
-                {!disable && (<MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>)}
+                <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
               </>
             )}
           </Menu>
@@ -87,13 +87,11 @@ const CollectionActions = ({
                   <EditIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
-              {!disable && (
               <Tooltip title={t('sharedRemove')}>
                 <IconButton size="small" onClick={handleRemove}>
                   <DeleteIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
-              )}
             </>
           )}
         </div>

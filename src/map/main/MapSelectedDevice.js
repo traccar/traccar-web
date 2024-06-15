@@ -7,16 +7,18 @@ import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
 
 const MapSelectedDevice = () => {
-  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const previousDeviceId = usePrevious(selectedDeviceId);
+  const currentTime = useSelector((state) => state.devices.selectTime);
+  const currentId = useSelector((state) => state.devices.selectedId);
+  const previousTime = usePrevious(currentTime);
+  const previousId = usePrevious(currentId);
 
   const selectZoom = useAttributePreference('web.selectZoom', 10);
   const mapFollow = useAttributePreference('mapFollow', false);
 
-  const position = useSelector((state) => state.session.positions[selectedDeviceId]);
+  const position = useSelector((state) => state.session.positions[currentId]);
 
   useEffect(() => {
-    if ((selectedDeviceId !== previousDeviceId || mapFollow) && position) {
+    if ((currentId !== previousId || currentTime !== previousTime || mapFollow) && position) {
       map.easeTo({
         center: [position.longitude, position.latitude],
         zoom: Math.max(map.getZoom(), selectZoom),

@@ -12,6 +12,11 @@ import { geofenceToFeature, geometryToArea } from '../core/mapUtil';
 import { errorsActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
 import theme from './theme';
+import { useTranslation } from '../../common/components/LocalizationProvider';
+
+MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
+MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
+MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
 const draw = new MapboxDraw({
   displayControlsDefault: false,
@@ -41,6 +46,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const t = useTranslation();
 
   const geofences = useSelector((state) => state.geofences.items);
 
@@ -63,7 +69,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   useEffect(() => {
     const listener = async (event) => {
       const feature = event.features[0];
-      const newItem = { name: '', area: geometryToArea(feature.geometry) };
+      const newItem = { name: t('sharedGeofence'), area: geometryToArea(feature.geometry) };
       draw.delete(feature.id);
       try {
         const response = await fetch('/api/geofences', {

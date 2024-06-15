@@ -15,7 +15,6 @@ import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import { formatTime } from '../common/util/formatter';
-import { usePreference } from '../common/util/preferences';
 import { prefixString } from '../common/util/stringUtils';
 import MapMarkers from '../map/MapMarkers';
 
@@ -24,8 +23,6 @@ const CombinedReportPage = () => {
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);
-
-  const hours12 = usePreference('twelveHourFormat');
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -76,7 +73,7 @@ const CombinedReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups />
+            <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups loading={loading} />
           </div>
           <Table>
             <TableHead>
@@ -90,7 +87,7 @@ const CombinedReportPage = () => {
               {!loading ? items.flatMap((item) => item.events.map((event, index) => (
                 <TableRow key={event.id}>
                   <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
-                  <TableCell>{formatTime(event.eventTime, 'seconds', hours12)}</TableCell>
+                  <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
                   <TableCell>{t(prefixString('event', event.type))}</TableCell>
                 </TableRow>
               ))) : (<TableShimmer columns={3} />)}

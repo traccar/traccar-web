@@ -15,14 +15,13 @@ const { reducer, actions } = createSlice({
     update(state, action) {
       action.payload.forEach((item) => state.items[item.id] = item);
     },
-    select(state, action) {
-      state.selectedId = action.payload;
-    },
     selectId(state, action) {
+      state.selectTime = Date.now();
       state.selectedId = action.payload;
       state.selectedIds = state.selectedId ? [state.selectedId] : [];
     },
     selectIds(state, action) {
+      state.selectTime = Date.now();
       state.selectedIds = action.payload;
       [state.selectedId] = state.selectedIds;
     },

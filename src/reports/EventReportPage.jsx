@@ -17,7 +17,7 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
-import { useAttributePreference, usePreference } from '../common/util/preferences';
+import { useAttributePreference } from '../common/util/preferences';
 import MapView from '../map/core/MapView';
 import MapGeofence from '../map/MapGeofence';
 import MapPositions from '../map/MapPositions';
@@ -42,7 +42,6 @@ const EventReportPage = () => {
   const geofences = useSelector((state) => state.geofences.items);
 
   const speedUnit = useAttributePreference('speedUnit');
-  const hours12 = usePreference('twelveHourFormat');
 
   const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
 
@@ -120,19 +119,20 @@ const EventReportPage = () => {
   });
 
   const formatValue = (item, key) => {
+    const value = item[key];
     switch (key) {
       case 'eventTime':
-        return formatTime(item[key], 'seconds', hours12);
+        return formatTime(value, 'seconds');
       case 'type':
-        return t(prefixString('event', item[key]));
+        return t(prefixString('event', value));
       case 'geofenceId':
-        if (item[key] > 0) {
-          const geofence = geofences[item[key]];
+        if (value > 0) {
+          const geofence = geofences[value];
           return geofence && geofence.name;
         }
         return null;
       case 'maintenanceId':
-        return item[key] > 0 ? item[key] > 0 : null;
+        return value > 0 ? value : null;
       case 'attributes':
         switch (item.type) {
           case 'alarm':
@@ -149,7 +149,7 @@ const EventReportPage = () => {
             return '';
         }
       default:
-        return item[key];
+        return value;
     }
   };
 
@@ -167,7 +167,7 @@ const EventReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule}>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} loading={loading}>
               <div className={classes.filterItem}>
                 <FormControl fullWidth>
                   <InputLabel>{t('reportEventTypes')}</InputLabel>

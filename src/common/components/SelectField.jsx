@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import {
   FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
 const SelectField = ({
@@ -17,7 +17,7 @@ const SelectField = ({
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
 }) => {
-  const [items, setItems] = useState(data);
+  const [items, setItems] = useState();
 
   const getOptionLabel = (option) => {
     if (typeof option !== 'object') {
@@ -25,6 +25,8 @@ const SelectField = ({
     }
     return option ? titleGetter(option) : emptyTitle;
   };
+
+  useEffect(() => setItems(data), [data]);
 
   useEffectAsync(async () => {
     if (endpoint) {

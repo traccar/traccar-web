@@ -178,7 +178,7 @@ const CalendarPage = () => {
                         {rule.frequency === 'WEEKLY' ? ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map((it) => (
                           <MenuItem key={it} value={it.substring(0, 2).toUpperCase()}>{t(prefixString('calendar', it))}</MenuItem>
                         )) : Array.from({ length: 31 }, (_, i) => i + 1).map((it) => (
-                          <MenuItem key={it} value={it}>{it}</MenuItem>
+                          <MenuItem key={it} value={String(it)}>{it}</MenuItem>
                         ))}
                       </Select>
                     </FormControl>

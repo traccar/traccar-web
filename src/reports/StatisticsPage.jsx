@@ -12,7 +12,6 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
-import { usePreference } from '../common/util/preferences';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -31,8 +30,6 @@ const columnsMap = new Map(columnsArray);
 const StatisticsPage = () => {
   const classes = useReportStyles();
   const t = useTranslation();
-
-  const hours12 = usePreference('twelveHourFormat');
 
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
   const [items, setItems] = useState([]);
@@ -56,7 +53,7 @@ const StatisticsPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice>
+        <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice loading={loading}>
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
         </ReportFilter>
       </div>
@@ -71,7 +68,7 @@ const StatisticsPage = () => {
             <TableRow key={item.id}>
               {columns.map((key) => (
                 <TableCell key={key}>
-                  {key === 'captureTime' ? formatTime(item[key], 'date', hours12) : item[key]}
+                  {key === 'captureTime' ? formatTime(item[key], 'date') : item[key]}
                 </TableCell>
               ))}
             </TableRow>

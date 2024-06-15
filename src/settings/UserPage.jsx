@@ -270,12 +270,6 @@ const UserPage = () => {
                 onChange={(e) => setItem({ ...item, poiLayer: e.target.value })}
                 label={t('mapPoiLayer')}
               />
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox checked={item.twelveHourFormat} onChange={(e) => setItem({ ...item, twelveHourFormat: e.target.checked })} />}
-                  label={t('settingsTwelveHourFormat')}
-                />
-              </FormGroup>
             </AccordionDetails>
           </Accordion>
           <Accordion>

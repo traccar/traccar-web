@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-unresolved
+import mapboxglRtlTextUrl from '@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min?url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 import React, {
@@ -13,6 +15,8 @@ const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
 element.style.boxSizing = 'initial';
+
+maplibregl.setRTLTextPlugin(mapboxglRtlTextUrl);
 
 export const map = new maplibregl.Map({
   container: element,

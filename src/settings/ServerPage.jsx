@@ -191,10 +191,6 @@ const ServerPage = () => {
                 />
                 <FormGroup>
                   <FormControlLabel
-                    control={<Checkbox checked={item.twelveHourFormat} onChange={(event) => setItem({ ...item, twelveHourFormat: event.target.checked })} />}
-                    label={t('settingsTwelveHourFormat')}
-                  />
-                  <FormControlLabel
                     control={<Checkbox checked={item.forceSettings} onChange={(event) => setItem({ ...item, forceSettings: event.target.checked })} />}
                     label={t('serverForceSettings')}
                   />
