@@ -32,10 +32,10 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         showDirection = false;
         break;
       case 'all':
-        showDirection = true;
+        showDirection = position.course > 0;
         break;
       default:
-        showDirection = selectedPositionId === position.id;
+        showDirection = selectedPositionId === position.id && position.course > 0;
         break;
     }
     return {

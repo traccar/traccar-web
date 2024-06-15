@@ -13,7 +13,7 @@ const officialServers = [
   currentServer,
   'https://app.foxgps.com.br',
   'http://app.foxgps.com.br:8082',
-  'http://localhost:8082',
+  'http://legacy.foxgps.com.br',
   'http://localhost:3000',
 ];
 

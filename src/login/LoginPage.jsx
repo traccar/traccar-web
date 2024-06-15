@@ -28,11 +28,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
     gap: theme.spacing(1),
   },
-  //  options: {   //GUI OPTIONS
-  //    position: 'fixed',
-  //    top: theme.spacing(1),
-  //    right: theme.spacing(1),
-  //  },
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -45,28 +40,11 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(4),
     marginTop: theme.spacing(2),
   },
-  //  extraContainer: { //GUI EXTRA
-  //    display: 'flex',
-  //    gap: theme.spacing(2),
-  //  },
   registerButton: {
     minWidth: 'unset',
   },
   link: {
-    //  color: '#757575',  GUI STYLE
-    //  fontWeight: '500',
-    //  fontSize: '1rem',
     cursor: 'pointer',
-    //  textAlign: 'center',
-    //  borderRadius: '1px',
-    //  backgroundColor: '#fff',
-    //  boxShadow: '0 2px 4px 0 rgb(0 0 0 / 25%)',
-    //  transition: '.4s',
-    //  marginTop: theme.spacing(1),
-    //  padding: '0.8rem',
-    //  '&:hover': {
-    //    boxShadow: '0 0 3px 3px rgb(66 133 244 / 30%)',
-    //  },
   },
 }));
 
@@ -170,7 +148,7 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const user = await response.json();
-        setMapAttribute(user); // Criado por Guilherme Crocetti para setar os mapas do google e bing no login
+        // setMapAttribute(user); // Criado por Guilherme Crocetti para setar os mapas do google e bing no login
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
         navigate('/');
