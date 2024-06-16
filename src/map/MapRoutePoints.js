@@ -1,5 +1,6 @@
 import { useId, useCallback, useEffect } from 'react';
 import { map } from './core/MapView';
+import { getSpeedColor } from '../common/util/colors';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
@@ -27,11 +28,13 @@ const MapRoutePoints = ({ positions, onClick }) => {
       id,
       type: 'symbol',
       source: id,
+      paint: {
+        'text-color': ['get', 'color'],
+      },
       layout: {
-        'icon-image': 'arrow',
-        'icon-allow-overlap': true,
-        'icon-rotate': ['get', 'rotation'],
-        'icon-rotation-alignment': 'map',
+        'text-field': '▲',
+        'text-allow-overlap': true,
+        'text-rotate': ['get', 'rotation'],
       },
     });
 
@@ -54,6 +57,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
   }, [onMarkerClick]);
 
   useEffect(() => {
+    const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.map((position, index) => ({
@@ -66,6 +70,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
           index,
           id: position.id,
           rotation: position.course,
+          color: getSpeedColor(position.speed, maxSpeed),
         },
       })),
     });

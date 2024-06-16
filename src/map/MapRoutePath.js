@@ -1,7 +1,9 @@
 import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { featureCollection, lineString } from '@turf/turf';
 import { map } from './core/MapView';
+import { getSpeedColor } from '../common/util/colors';
 
 const MapRoutePath = ({ name, positions, coordinates }) => {
   const id = useId();
@@ -79,17 +81,18 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
     if (!coordinates) {
       coordinates = positions.map((item) => [item.longitude, item.latitude]);
     }
-    map.getSource(id)?.setData({
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates,
-      },
-      properties: {
-        name,
-        color: reportColor,
-      },
-    });
+    const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
+    const features = [];
+    for (let i = 0; i < positions.length - 1; i += 1) {
+      const p1 = positions[i];
+      const p2 = positions[i + 1];
+      features.push(lineString(
+        [[p1.longitude, p1.latitude], [p2.longitude, p2.latitude]],
+        { color: getSpeedColor(p1.speed, maxSpeed) },
+      ));
+    }
+
+    map.getSource(id)?.setData(featureCollection(features));
   }, [theme, positions, coordinates, reportColor]);
 
   return null;
