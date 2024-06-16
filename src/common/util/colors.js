@@ -4,7 +4,7 @@ export const interpolateColor = (color1, color2, factor) => {
   if (factor > 1) factor = 1;
   if (factor < 0) factor = 0;
 
-  const parseRgb = (rgb) => rgb.match(/\d+/g).map(Number);
+  const parseRgb = (rgb) => rgb.split(',').map(Number);
 
   const c1 = parseRgb(hexToRgb(color1));
   const c2 = parseRgb(hexToRgb(color2));
