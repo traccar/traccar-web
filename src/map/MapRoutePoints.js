@@ -1,9 +1,11 @@
 import { useId, useCallback, useEffect } from 'react';
+import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
 import { getSpeedColor } from '../common/util/colors';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
+  const theme = useTheme();
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
@@ -70,7 +72,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
           index,
           id: position.id,
           rotation: position.course,
-          color: getSpeedColor(position.speed, maxSpeed),
+          color: getSpeedColor(theme.palette.warning.main, theme.palette.error.main, position.speed, maxSpeed),
         },
       })),
     });

@@ -14,4 +14,4 @@ export const interpolateColor = (color1, color2, factor) => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-export const getSpeedColor = (speed, max) => interpolateColor('#FFFF00', '#FF0000', speed / max);
+export const getSpeedColor = (color1, color2, speed, max) => interpolateColor(color1, color2, speed / max);
