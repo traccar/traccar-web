@@ -359,6 +359,8 @@
     "mapGoogleRoad": "Google Carreteras",
     "mapGoogleHybrid": "Google Híbrido",
     "mapGoogleSatellite": "Google Satélite",
+    "mapGoogleTraffic": "Google Tráfico",
+    "mapGoogleKey": "Google API Key",
     "mapOpenTopoMap": "OpenTopoMap",
     "mapBingKey": "Bing Maps Key",
     "mapBingRoad": "Bing Maps - Carretera",
