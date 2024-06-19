@@ -2,7 +2,6 @@ import { grey } from '@mui/material/colors';
 import createPalette from '@mui/material/styles/createPalette';
 import { loadImage, prepareIcon } from './mapUtil';
 
-import arrowSvg from '../../resources/images/arrow.svg';
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
 import animalSvg from '../../resources/images/icon/animal.svg';
@@ -65,7 +64,6 @@ export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
-  mapImages.arrow = await prepareIcon(await loadImage(arrowSvg));
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
     ['info', 'success', 'error', 'neutral'].forEach((color) => {
