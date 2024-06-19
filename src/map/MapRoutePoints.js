@@ -72,7 +72,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
           index,
           id: position.id,
           rotation: position.course,
-          color: getSpeedColor(theme.palette.error.main, theme.palette.warning.main, theme.palette.success.main, position.speed, maxSpeed),
+          color: getSpeedColor(theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main, position.speed, maxSpeed),
         },
       })),
     });

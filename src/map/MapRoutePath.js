@@ -92,7 +92,7 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
           coordinates: [[p1.longitude, p1.latitude], [p2.longitude, p2.latitude]],
         },
         properties: {
-          color: getSpeedColor(theme.palette.error.main, theme.palette.warning.main, theme.palette.success.main, p1.speed, maxSpeed),
+          color: getSpeedColor(theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main, p1.speed, maxSpeed),
         },
       });
     }
