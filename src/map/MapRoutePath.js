@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { featureCollection } from '@turf/turf';
 import { map } from './core/MapView';
 import { getSpeedColor } from '../common/util/colors';
 
@@ -98,7 +97,10 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
       });
     }
 
-    map.getSource(id)?.setData(featureCollection(features));
+    map.getSource(id)?.setData({
+      type: 'FeatureCollection',
+      features,
+    });
   }, [theme, positions, coordinates, reportColor]);
 
   return null;
