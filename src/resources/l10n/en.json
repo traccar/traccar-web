@@ -575,6 +575,7 @@
     "reportSpentFuel": "Spent Fuel",
     "reportStartOdometer": "Odometer Start",
     "reportEndOdometer": "Odometer End",
+    "reportTimeType": "Time",
     "statisticsTitle": "Statistics",
     "statisticsCaptureTime": "Capture Time",
     "statisticsActiveUsers": "Active Users",
