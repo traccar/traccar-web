@@ -33,7 +33,7 @@ const ChartReportPage = () => {
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState(['speed']);
   const [type, setType] = useState('speed');
-  const [timeIndex, setTimeIndex] = useState('fixTime');
+  const [timeType, setTimeType] = useState('fixTime');
 
   const values = items.map((it) => it[type]);
   const minValue = Math.min(...values);
@@ -120,8 +120,8 @@ const ChartReportPage = () => {
             <InputLabel>{t('commandIndex')}</InputLabel>
             <Select
               label={t('commandIndex')}
-              value={timeIndex}
-              onChange={(e) => setTimeIndex(e.target.value)}
+              value={timeType}
+              onChange={(e) => setTimeType(e.target.value)}
               disabled={!items.length}
             >
               <MenuItem value="fixTime">{t('positionFixTime')}</MenuItem>
@@ -141,7 +141,7 @@ const ChartReportPage = () => {
               }}
             >
               <XAxis
-                dataKey={timeIndex}
+                dataKey={timeType}
                 interval="preserveStartEnd"
                 type="number"
                 tickFormatter={(value) => formatTime(value, 'time')}
