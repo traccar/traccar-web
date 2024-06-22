@@ -117,9 +117,9 @@ const ChartReportPage = () => {
         </div>
         <div className={classes.filterItem}>
           <FormControl fullWidth>
-            <InputLabel>{t('commandIndex')}</InputLabel>
+            <InputLabel>{t('reportTimeType')}</InputLabel>
             <Select
-              label={t('commandIndex')}
+              label={t('reportTimeType')}
               value={timeType}
               onChange={(e) => setTimeType(e.target.value)}
               disabled={!items.length}
