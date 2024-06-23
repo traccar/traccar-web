@@ -142,7 +142,6 @@ const ChartReportPage = () => {
             >
               <XAxis
                 dataKey={timeType}
-                interval="preserveStartEnd"
                 type="number"
                 tickFormatter={(value) => formatTime(value, 'time')}
                 domain={['dataMin', 'dataMax']}
