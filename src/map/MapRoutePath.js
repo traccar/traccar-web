@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import { getSpeedColor } from '../common/util/colors';
 
-const MapRoutePath = ({ name, positions, coordinates }) => {
+const MapRoutePath = ({ name, positions }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -77,9 +77,6 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
   }, []);
 
   useEffect(() => {
-    if (!coordinates) {
-      coordinates = positions.map((item) => [item.longitude, item.latitude]);
-    }
     if (positions) {
       const maxSpeed = positions.map((p) => p.speed)
         .reduce((a, b) => Math.max(a, b), -Infinity);
@@ -105,7 +102,7 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
           features,
         });
     }
-  }, [theme, positions, coordinates, reportColor]);
+  }, [theme, positions, reportColor]);
 
   return null;
 };
