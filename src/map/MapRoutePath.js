@@ -96,11 +96,10 @@ const MapRoutePath = ({ name, positions }) => {
         });
       }
 
-      map.getSource(id)
-        ?.setData({
-          type: 'FeatureCollection',
-          features,
-        });
+      map.getSource(id)?.setData({
+        type: 'FeatureCollection',
+        features,
+      });
     }
   }, [theme, positions, reportColor]);
 
