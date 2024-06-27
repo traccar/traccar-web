@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import { getSpeedColor } from '../common/util/colors';
 
-const MapRoutePath = ({ name, positions, coordinates }) => {
+const MapRoutePath = ({ name, positions }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -77,31 +77,31 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
   }, []);
 
   useEffect(() => {
-    if (!coordinates) {
-      coordinates = positions.map((item) => [item.longitude, item.latitude]);
-    }
-    const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
-    const features = [];
-    for (let i = 0; i < positions.length - 1; i += 1) {
-      const p1 = positions[i];
-      const p2 = positions[i + 1];
-      features.push({
-        type: 'Feature',
-        geometry: {
-          type: 'LineString',
-          coordinates: [[p1.longitude, p1.latitude], [p2.longitude, p2.latitude]],
-        },
-        properties: {
-          color: getSpeedColor(theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main, p1.speed, maxSpeed),
-        },
+    if (positions) {
+      const maxSpeed = positions.map((p) => p.speed)
+        .reduce((a, b) => Math.max(a, b), -Infinity);
+      const features = [];
+      for (let i = 0; i < positions.length - 1; i += 1) {
+        const p1 = positions[i];
+        const p2 = positions[i + 1];
+        features.push({
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: [[p1.longitude, p1.latitude], [p2.longitude, p2.latitude]],
+          },
+          properties: {
+            color: getSpeedColor(theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main, p1.speed, maxSpeed),
+          },
+        });
+      }
+
+      map.getSource(id)?.setData({
+        type: 'FeatureCollection',
+        features,
       });
     }
-
-    map.getSource(id)?.setData({
-      type: 'FeatureCollection',
-      features,
-    });
-  }, [theme, positions, coordinates, reportColor]);
+  }, [theme, positions, reportColor]);
 
   return null;
 };
