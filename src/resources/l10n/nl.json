@@ -131,8 +131,6 @@
     "attributeDeviceImage": "Apparaatafbeelding",
     "attributeDeviceInactivityStart": "Start van inactiviteit",
     "attributeDeviceInactivityPeriod": "Inactiviteitperiode",
-    "attributeDeviceAllowPositionForwarding": "Stuur posities voor device door",
-    "attributeDeviceAllowEventForwarding": "Stuur events voor device door",
     "attributeProcessingCopyAttributes": "Verwerking: kopieer attributen",
     "attributeColor": "Kleur",
     "attributeWebLiveRouteLength": "Web: live routelengte",
