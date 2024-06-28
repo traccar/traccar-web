@@ -1,11 +1,8 @@
 import { useId, useCallback, useEffect } from 'react';
-import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
-import { getSpeedColor } from '../common/util/colors';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
-  const theme = useTheme();
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
@@ -30,13 +27,11 @@ const MapRoutePoints = ({ positions, onClick }) => {
       id,
       type: 'symbol',
       source: id,
-      paint: {
-        'text-color': ['get', 'color'],
-      },
       layout: {
-        'text-field': '▲',
-        'text-allow-overlap': true,
-        'text-rotate': ['get', 'rotation'],
+        'icon-image': 'arrow',
+        'icon-allow-overlap': true,
+        'icon-rotate': ['get', 'rotation'],
+        'icon-rotation-alignment': 'map',
       },
     });
 
@@ -59,7 +54,6 @@ const MapRoutePoints = ({ positions, onClick }) => {
   }, [onMarkerClick]);
 
   useEffect(() => {
-    const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.map((position, index) => ({
@@ -72,7 +66,6 @@ const MapRoutePoints = ({ positions, onClick }) => {
           index,
           id: position.id,
           rotation: position.course,
-          color: getSpeedColor(theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main, position.speed, maxSpeed),
         },
       })),
     });
