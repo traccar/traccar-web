@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Table, TableBody, TableCell, TableHead, TableRow,
@@ -26,6 +26,13 @@ const CombinedReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [itemsCoordinates, setItemsCoordinates] = useState([]);
+
+  const itemsRoutes = items.flatMap((item) => item.route);
+
+  useEffect(() => {
+    setItemsCoordinates(itemsRoutes);
+  }, [itemsRoutes.length]);
 
   const createMarkers = () => items.flatMap((item) => item.events
     .map((event) => item.positions.find((p) => event.positionId === p.id))
@@ -68,7 +75,7 @@ const CombinedReportPage = () => {
               ))}
               <MapMarkers markers={createMarkers()} />
             </MapView>
-            <MapCamera coordinates={items.flatMap((item) => item.route)} />
+            <MapCamera coordinates={itemsCoordinates} />
           </div>
         )}
         <div className={classes.containerMain}>
