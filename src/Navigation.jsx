@@ -58,6 +58,7 @@ import LogsPage from './reports/LogsPage';
 import SharePage from './settings/SharePage';
 import AnnouncementPage from './settings/AnnouncementPage';
 import EmulatorPage from './other/EmulatorPage';
+import ReportsLayout from './reports/components/ReportsLayout';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -154,7 +155,7 @@ const Navigation = () => {
           <Route path="user" element={<UserPage />} />
         </Route>
 
-        <Route path="reports">
+        <Route path="reports" element={<ReportsLayout />}>
           <Route path="combined" element={<CombinedReportPage />} />
           <Route path="chart" element={<ChartReportPage />} />
           <Route path="event" element={<EventReportPage />} />

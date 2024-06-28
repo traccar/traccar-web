@@ -5,8 +5,6 @@ import {
 } from '@mui/material';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import ReportsMenu from './components/ReportsMenu';
 import { useCatch } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
@@ -53,49 +51,47 @@ const CombinedReportPage = () => {
   });
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
-      <div className={classes.container}>
-        {Boolean(items.length) && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {items.map((item) => (
-                <MapRoutePath
-                  key={item.deviceId}
-                  name={devices[item.deviceId].name}
-                  coordinates={item.route}
-                />
-              ))}
-              <MapMarkers markers={createMarkers()} />
-            </MapView>
-            <MapCamera coordinates={items.flatMap((item) => item.route)} />
-          </div>
-        )}
-        <div className={classes.containerMain}>
-          <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups loading={loading} />
-          </div>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>{t('sharedDevice')}</TableCell>
-                <TableCell>{t('positionFixTime')}</TableCell>
-                <TableCell>{t('sharedType')}</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {!loading ? items.flatMap((item) => item.events.map((event, index) => (
-                <TableRow key={event.id}>
-                  <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
-                  <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
-                  <TableCell>{t(prefixString('event', event.type))}</TableCell>
-                </TableRow>
-              ))) : (<TableShimmer columns={3} />)}
-            </TableBody>
-          </Table>
+    <div className={classes.container}>
+      {Boolean(items.length) && (
+        <div className={classes.containerMap}>
+          <MapView>
+            <MapGeofence />
+            {items.map((item) => (
+              <MapRoutePath
+                key={item.deviceId}
+                name={devices[item.deviceId].name}
+                coordinates={item.route}
+              />
+            ))}
+            <MapMarkers markers={createMarkers()} />
+          </MapView>
+          <MapCamera coordinates={items.flatMap((item) => item.route)} />
         </div>
+      )}
+      <div className={classes.containerMain}>
+        <div className={classes.header}>
+          <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups loading={loading} />
+        </div>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>{t('sharedDevice')}</TableCell>
+              <TableCell>{t('positionFixTime')}</TableCell>
+              <TableCell>{t('sharedType')}</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {!loading ? items.flatMap((item) => item.events.map((event, index) => (
+              <TableRow key={event.id}>
+                <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
+                <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
+                <TableCell>{t(prefixString('event', event.type))}</TableCell>
+              </TableRow>
+            ))) : (<TableShimmer columns={3} />)}
+          </TableBody>
+        </Table>
       </div>
-    </PageLayout>
+    </div>
   );
 };
 
