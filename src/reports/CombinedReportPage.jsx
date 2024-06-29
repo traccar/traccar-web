@@ -67,7 +67,7 @@ const CombinedReportPage = () => {
             ))}
             <MapMarkers markers={createMarkers()} />
           </MapView>
-          <MapCamera coordinates={items.flatMap((item) => item.route)} />
+          <MapCamera coordinates={itemsCoordinates} />
         </div>
       )}
       <div className={classes.containerMain}>
