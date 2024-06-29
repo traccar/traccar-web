@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Breadcrumbs,
@@ -73,6 +73,10 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  useEffect(() => {
+    setOpenDrawer(false);
+  }, [breadcrumbs]);
 
   return desktop ? (
     <div className={classes.desktopRoot}>
