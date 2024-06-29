@@ -3,24 +3,30 @@ import { Outlet, useLocation } from 'react-router-dom';
 import PageLayout from '../../common/components/PageLayout';
 import ReportsMenu from './ReportsMenu';
 
-const reportsPaths = {
-  '/reports/combined': ['reportTitle', 'reportCombined'],
-  '/reports/route': ['reportTitle', 'reportRoute'],
-  '/reports/event': ['reportTitle', 'reportEvents'],
-  '/reports/trip': ['reportTitle', 'reportTrips'],
-  '/reports/stop': ['reportTitle', 'reportStops'],
-  '/reports/summary': ['reportTitle', 'reportSummary'],
-  '/reports/chart': ['reportTitle', 'reportChart'],
-  '/reports/logs': ['reportTitle', 'statisticsTitle'],
-  '/reports/scheduled': ['settingsTitle', 'reportScheduled'],
-  '/reports/statistics': ['reportTitle', 'statisticsTitle'],
+const routes = {
+  reports: {
+    combined: ['reportTitle', 'reportCombined'],
+    route: ['reportTitle', 'reportRoute'],
+    event: ['reportTitle', 'reportEvents'],
+    trip: ['reportTitle', 'reportTrips'],
+    stop: ['reportTitle', 'reportStops'],
+    summary: ['reportTitle', 'reportSummary'],
+    chart: ['reportTitle', 'reportChart'],
+    logs: ['reportTitle', 'statisticsTitle'],
+    scheduled: ['settingsTitle', 'reportScheduled'],
+    statistics: ['reportTitle', 'statisticsTitle'],
+  },
 };
 
 const ReportsLayout = () => {
   const { pathname } = useLocation();
+  const pathSegmets = pathname.split('/').filter((p) => p !== '');
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={[...reportsPaths[pathname]]}>
+    <PageLayout
+      menu={<ReportsMenu />}
+      breadcrumbs={[...routes[pathSegmets[0]][pathSegmets[1]]]}
+    >
       <Outlet />
     </PageLayout>
   );
