@@ -5,16 +5,16 @@ import ReportsMenu from './ReportsMenu';
 
 const routes = {
   reports: {
-    combined: ['reportTitle', 'reportCombined'],
-    route: ['reportTitle', 'reportRoute'],
-    event: ['reportTitle', 'reportEvents'],
-    trip: ['reportTitle', 'reportTrips'],
-    stop: ['reportTitle', 'reportStops'],
-    summary: ['reportTitle', 'reportSummary'],
-    chart: ['reportTitle', 'reportChart'],
-    logs: ['reportTitle', 'statisticsTitle'],
-    scheduled: ['settingsTitle', 'reportScheduled'],
-    statistics: ['reportTitle', 'statisticsTitle'],
+    combined: 'reportCombined',
+    route: 'reportRoute',
+    event: 'reportEvents',
+    trip: 'reportTrips',
+    stop: 'reportStops',
+    summary: 'reportSummary',
+    chart: 'reportChart',
+    logs: 'statisticsTitle',
+    scheduled: 'reportScheduled',
+    statistics: 'statisticsTitle',
   },
 };
 
@@ -25,7 +25,7 @@ const ReportsLayout = () => {
   return (
     <PageLayout
       menu={<ReportsMenu />}
-      breadcrumbs={[...routes[pathSegmets[0]][pathSegmets[1]]]}
+      breadcrumbs={['reportTitle', routes[pathSegmets[0]][pathSegmets[1]]]}
     >
       <Outlet />
     </PageLayout>
