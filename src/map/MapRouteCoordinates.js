@@ -43,21 +43,19 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         'line-width': 2,
       },
     });
-    if (name) {
-      map.addLayer({
-        source: id,
-        id: `${id}-title`,
-        type: 'symbol',
-        layout: {
-          'text-field': '{name}',
-          'text-size': 12,
-        },
-        paint: {
-          'text-halo-color': 'white',
-          'text-halo-width': 1,
-        },
-      });
-    }
+    map.addLayer({
+      source: id,
+      id: `${id}-title`,
+      type: 'symbol',
+      layout: {
+        'text-field': '{name}',
+        'text-size': 12,
+      },
+      paint: {
+        'text-halo-color': 'white',
+        'text-halo-width': 1,
+      },
+    });
 
     return () => {
       if (map.getLayer(`${id}-title`)) {
