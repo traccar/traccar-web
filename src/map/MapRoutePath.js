@@ -62,23 +62,21 @@ const MapRoutePath = ({ name, positions }) => {
   }, []);
 
   useEffect(() => {
-    const coordinates = positions.map((item) => [item.longitude, item.latitude]);
-    const speeds = positions.map((item) => item.speed);
-    const maxSpeed = speeds.reduce((a, b) => Math.max(a, b), -Infinity);
+    const maxSpeed = positions.map((item) => item.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     const features = [];
-    for (let i = 0; i < coordinates.length - 1; i += 1) {
+    for (let i = 0; i < positions.length - 1; i += 1) {
       features.push({
         type: 'Feature',
         geometry: {
           type: 'LineString',
-          coordinates: [coordinates[i], coordinates[i + 1]],
+          coordinates: [[positions[i].longitude, positions[i].latitude], [positions[i + 1].longitude, positions[i + 1].latitude]],
         },
         properties: {
           color: getSpeedColor(
             theme.palette.success.main,
             theme.palette.warning.main,
             theme.palette.error.main,
-            speeds[i + 1],
+            positions[i + 1].speed,
             maxSpeed,
           ),
         },
