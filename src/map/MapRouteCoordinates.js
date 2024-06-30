@@ -1,12 +1,23 @@
 import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
-import { getSpeedColor } from '../common/util/colors';
 
-const MapRoutePath = ({ name, positions }) => {
+const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
   const id = useId();
 
   const theme = useTheme();
+
+  const reportColor = useSelector((state) => {
+    const attributes = state.devices.items[deviceId]?.attributes;
+    if (attributes) {
+      const color = attributes['web.reportColor'];
+      if (color) {
+        return color;
+      }
+    }
+    return theme.palette.geometry.main;
+  });
 
   useEffect(() => {
     map.addSource(id, {
@@ -62,38 +73,20 @@ const MapRoutePath = ({ name, positions }) => {
   }, []);
 
   useEffect(() => {
-    const coordinates = positions.map((item) => [item.longitude, item.latitude]);
-    const speeds = positions.map((item) => item.speed);
-    const maxSpeed = speeds.reduce((a, b) => Math.max(a, b), -Infinity);
-    const features = [];
-    for (let i = 0; i < coordinates.length - 1; i += 1) {
-      features.push({
-        type: 'Feature',
-        geometry: {
-          type: 'LineString',
-          coordinates: [coordinates[i], coordinates[i + 1]],
-        },
-        properties: {
-          color: getSpeedColor(
-            theme.palette.success.main,
-            theme.palette.warning.main,
-            theme.palette.error.main,
-            speeds[i + 1],
-            maxSpeed,
-          ),
-        },
-      });
-    }
     map.getSource(id)?.setData({
-      type: 'FeatureCollection',
-      features,
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates,
+      },
       properties: {
         name,
+        color: reportColor,
       },
     });
-  }, [theme, positions]);
+  }, [theme, coordinates]);
 
   return null;
 };
 
-export default MapRoutePath;
+export default MapRouteCoordinates;
