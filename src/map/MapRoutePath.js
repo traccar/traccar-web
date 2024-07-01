@@ -1,5 +1,6 @@
 import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import { getSpeedColor } from '../common/util/colors';
 
@@ -7,6 +8,20 @@ const MapRoutePath = ({ positions }) => {
   const id = useId();
 
   const theme = useTheme();
+
+  const reportColor = useSelector((state) => {
+    const position = positions?.find(() => true);
+    if (position) {
+      const attributes = state.devices.items[position.deviceId]?.attributes;
+      if (attributes) {
+        const color = attributes['web.reportColor'];
+        if (color) {
+          return color;
+        }
+      }
+    }
+    return null;
+  });
 
   useEffect(() => {
     map.addSource(id, {
@@ -57,7 +72,7 @@ const MapRoutePath = ({ positions }) => {
           coordinates: [[positions[i].longitude, positions[i].latitude], [positions[i + 1].longitude, positions[i + 1].latitude]],
         },
         properties: {
-          color: getSpeedColor(
+          color: reportColor || getSpeedColor(
             theme.palette.success.main,
             theme.palette.warning.main,
             theme.palette.error.main,
@@ -71,7 +86,7 @@ const MapRoutePath = ({ positions }) => {
       type: 'FeatureCollection',
       features,
     });
-  }, [theme, positions]);
+  }, [theme, positions, reportColor]);
 
   return null;
 };
