@@ -4,18 +4,16 @@ import PageLayout from '../../common/components/PageLayout';
 import ReportsMenu from './ReportsMenu';
 
 const routes = {
-  reports: {
-    combined: 'reportCombined',
-    route: 'reportRoute',
-    event: 'reportEvents',
-    trip: 'reportTrips',
-    stop: 'reportStops',
-    summary: 'reportSummary',
-    chart: 'reportChart',
-    logs: 'statisticsTitle',
-    scheduled: 'reportScheduled',
-    statistics: 'statisticsTitle',
-  },
+  combined: 'reportCombined',
+  route: 'reportRoute',
+  event: 'reportEvents',
+  trip: 'reportTrips',
+  stop: 'reportStops',
+  summary: 'reportSummary',
+  chart: 'reportChart',
+  logs: 'statisticsTitle',
+  scheduled: 'reportScheduled',
+  statistics: 'statisticsTitle',
 };
 
 const ReportsLayout = () => {
@@ -25,7 +23,7 @@ const ReportsLayout = () => {
   return (
     <PageLayout
       menu={<ReportsMenu />}
-      breadcrumbs={['reportTitle', routes[pathSegmets[0]][pathSegmets[1]]]}
+      breadcrumbs={['reportTitle', routes[pathSegmets[1]]]}
     >
       <Outlet />
     </PageLayout>
