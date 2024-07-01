@@ -30,7 +30,7 @@ export default (t) => useMemo(() => ({
     name: t('attributeDeviceInactivityPeriod'),
     type: 'number',
   },
-  allowPositionForwarding: {
+  enablePositionForwarding: {
     name: t('attributeDeviceAllowPositionForwarding'),
     type: 'boolean',
   },
