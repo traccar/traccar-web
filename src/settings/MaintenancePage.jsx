@@ -21,7 +21,6 @@ import {
 } from '../common/util/converter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
-import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const MaintenancePage = () => {
@@ -124,8 +123,6 @@ const MaintenancePage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedMaintenance']}
     >
       {item && (
         <>

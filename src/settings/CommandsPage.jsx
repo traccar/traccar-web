@@ -6,8 +6,6 @@ import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatBoolean } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
-import PageLayout from '../common/components/PageLayout';
-import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
@@ -40,7 +38,7 @@ const CommandsPage = () => {
   }, [timestamp]);
 
   return (
-    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedSavedCommands']}>
+    <>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>
@@ -67,7 +65,7 @@ const CommandsPage = () => {
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/command" disabled={limitCommands} />
-    </PageLayout>
+    </>
   );
 };
 

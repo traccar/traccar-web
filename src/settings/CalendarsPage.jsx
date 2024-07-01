@@ -4,8 +4,6 @@ import {
 } from '@mui/material';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
@@ -36,7 +34,7 @@ const CalendarsPage = () => {
   }, [timestamp]);
 
   return (
-    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedCalendars']}>
+    <>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>
@@ -57,7 +55,7 @@ const CalendarsPage = () => {
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/calendar" />
-    </PageLayout>
+    </>
   );
 };
 

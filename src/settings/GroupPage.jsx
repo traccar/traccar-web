@@ -10,7 +10,6 @@ import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import useGroupAttributes from '../common/attributes/useGroupAttributes';
 import { useCatch } from '../reactHelper';
@@ -45,8 +44,6 @@ const GroupPage = () => {
       setItem={setItem}
       validate={validate}
       onItemSaved={onItemSaved}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'groupDialog']}
     >
       {item && (
         <>

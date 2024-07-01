@@ -7,7 +7,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const DriverPage = () => {
@@ -24,8 +23,6 @@ const DriverPage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedDriver']}
     >
       {item && (
         <>

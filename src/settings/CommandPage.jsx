@@ -6,7 +6,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import BaseCommandView from './components/BaseCommandView';
-import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const CommandPage = () => {
@@ -23,8 +22,6 @@ const CommandPage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedSavedCommand']}
     >
       {item && (
         <Accordion defaultExpanded>

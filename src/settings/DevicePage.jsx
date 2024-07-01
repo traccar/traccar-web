@@ -18,7 +18,6 @@ import deviceCategories from '../common/util/deviceCategories';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import { useAdministrator } from '../common/util/permissions';
-import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
@@ -60,8 +59,6 @@ const DevicePage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedDevice']}
     >
       {item && (
         <>

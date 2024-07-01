@@ -8,8 +8,6 @@ import LinkIcon from '@mui/icons-material/Link';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { formatBoolean, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
@@ -68,7 +66,7 @@ const UsersPage = () => {
   }, [timestamp]);
 
   return (
-    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
+    <>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>
@@ -120,7 +118,7 @@ const UsersPage = () => {
         </TableFooter>
       </Table>
       <CollectionFab editPath="/settings/user" />
-    </PageLayout>
+    </>
   );
 };
 

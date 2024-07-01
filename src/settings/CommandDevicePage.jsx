@@ -12,8 +12,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import BaseCommandView from './components/BaseCommandView';
 import SelectField from '../common/components/SelectField';
-import PageLayout from '../common/components/PageLayout';
-import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
@@ -61,50 +59,48 @@ const CommandDevicePage = () => {
   const validate = () => savedId || (item && item.type);
 
   return (
-    <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceCommand']}>
-      <Container maxWidth="xs" className={classes.container}>
-        <Accordion defaultExpanded>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedRequired')}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails className={classes.details}>
-            <SelectField
-              value={savedId}
-              emptyValue={limitCommands ? null : 0}
-              emptyTitle={t('sharedNew')}
-              onChange={(e) => setSavedId(e.target.value)}
-              endpoint={`/api/commands/send?deviceId=${id}`}
-              titleGetter={(it) => it.description}
-              label={t('sharedSavedCommand')}
-            />
-            {!limitCommands && !savedId && (
-              <BaseCommandView deviceId={id} item={item} setItem={setItem} />
-            )}
-          </AccordionDetails>
-        </Accordion>
-        <div className={classes.buttons}>
-          <Button
-            type="button"
-            color="primary"
-            variant="outlined"
-            onClick={() => navigate(-1)}
-          >
-            {t('sharedCancel')}
-          </Button>
-          <Button
-            type="button"
-            color="primary"
-            variant="contained"
-            onClick={handleSend}
-            disabled={!validate()}
-          >
-            {t('commandSend')}
-          </Button>
-        </div>
-      </Container>
-    </PageLayout>
+    <Container maxWidth="xs" className={classes.container}>
+      <Accordion defaultExpanded>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography variant="subtitle1">
+            {t('sharedRequired')}
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails className={classes.details}>
+          <SelectField
+            value={savedId}
+            emptyValue={limitCommands ? null : 0}
+            emptyTitle={t('sharedNew')}
+            onChange={(e) => setSavedId(e.target.value)}
+            endpoint={`/api/commands/send?deviceId=${id}`}
+            titleGetter={(it) => it.description}
+            label={t('sharedSavedCommand')}
+          />
+          {!limitCommands && !savedId && (
+            <BaseCommandView deviceId={id} item={item} setItem={setItem} />
+          )}
+        </AccordionDetails>
+      </Accordion>
+      <div className={classes.buttons}>
+        <Button
+          type="button"
+          color="primary"
+          variant="outlined"
+          onClick={() => navigate(-1)}
+        >
+          {t('sharedCancel')}
+        </Button>
+        <Button
+          type="button"
+          color="primary"
+          variant="contained"
+          onClick={handleSend}
+          disabled={!validate()}
+        >
+          {t('commandSend')}
+        </Button>
+      </div>
+    </Container>
   );
 };
 
