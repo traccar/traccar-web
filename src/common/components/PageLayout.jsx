@@ -102,7 +102,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
         onClose={() => setOpenDrawer(false)}
         classes={{ paper: classes.mobileDrawer }}
       >
-        {menu}
+        {menuMemo}
       </Drawer>
       <AppBar className={classes.mobileToolbar} position="static" color="inherit">
         <Toolbar>
