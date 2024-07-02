@@ -6,74 +6,56 @@ import SettingsMenu from './SettingsMenu';
 const commondBreadcrumb = 'settingsTitle';
 
 const routes = {
-  settings: {
-    announcement: 'serverAnnouncement',
-    calendars: 'sharedCalendars',
-    calendar: 'sharedCalendar',
-    commands: 'sharedSavedCommands',
-    command: 'sharedSavedCommand',
-    attributes: 'sharedComputedAttributes',
-    attribute: 'sharedComputedAttribute',
-    devices: 'deviceTitle',
-    device: 'sharedDevice',
-    drivers: 'sharedDrivers',
-    driver: 'sharedDriver',
-    geofence: 'sharedGeofence',
-    groups: 'settingsGroups',
-    group: 'groupDialog',
-    maintenances: 'sharedMaintenance',
-    maintenance: 'sharedMaintenance',
-    notifications: 'sharedNotifications',
-    notification: 'sharedNotification',
-    preferences: 'sharedPreferences',
-    server: 'settingsServer',
-    users: 'settingsUsers',
-    user: 'settingsUser',
-  },
-};
-
-const compoundRoutes = {
-  '^/settings/accumulators/([^/]+)$': ['sharedDeviceAccumulators'],
-  '^/settings/calendar/([^/]+)': [commondBreadcrumb, routes.settings.calendar],
-  '^/settings/command/([^/]+)': [commondBreadcrumb, routes.settings.command],
-  '^/settings/attribute/([^/]+)': [commondBreadcrumb, routes.settings.attribute],
-  '^/settings/device/([^/]+)/connections$': [commondBreadcrumb, routes.settings.device, 'sharedConnections'],
-  '^/settings/device/([^/]+)/command$': [commondBreadcrumb, 'deviceCommand'],
-  '^/settings/device/([^/]+)/share$': ['deviceShare'],
-  '^/settings/device/([^/]+)': [commondBreadcrumb, routes.settings.device],
-  '^/settings/driver/([^/]+)': [commondBreadcrumb, routes.settings.driver],
-  '^/settings/geofence/([^/]+)': [commondBreadcrumb, routes.settings.geofence],
-  '^/settings/group/([^/]+)/connections$': [commondBreadcrumb, routes.settings.group, 'sharedConnections'],
-  '^/settings/group/([^/]+)/command$': [commondBreadcrumb, 'deviceCommand'],
-  '^/settings/group/([^/]+)': [commondBreadcrumb, routes.settings.group],
-  '^/settings/maintenance/([^/]+)': [commondBreadcrumb, routes.settings.maintenance],
-  '^/settings/notification/([^/]+)': [commondBreadcrumb, routes.settings.notification],
-  '^/settings/user/([^/]+)/connections$': [commondBreadcrumb, routes.settings.user, 'sharedConnections'],
-  '^/settings/user/([^/]+)': [commondBreadcrumb, routes.settings.user],
-};
-
-const generateBreadcrumbs = (pathname, compoundRoutes) => {
-  const routeEntry = Object.entries(compoundRoutes).find(([pattern]) => {
-    const regex = new RegExp(pattern);
-    return regex.test(pathname);
-  });
-
-  return routeEntry ? routeEntry[1] : [commondBreadcrumb];
+  accumulators: 'sharedDeviceAccumulators',
+  announcement: 'serverAnnouncement',
+  calendars: 'sharedCalendars',
+  calendar: 'sharedCalendar',
+  commands: 'sharedSavedCommands',
+  command: 'sharedSavedCommand',
+  attributes: 'sharedComputedAttributes',
+  attribute: 'sharedComputedAttribute',
+  devices: 'deviceTitle',
+  device: 'sharedDevice',
+  drivers: 'sharedDrivers',
+  driver: 'sharedDriver',
+  geofence: 'sharedGeofence',
+  groups: 'settingsGroups',
+  group: 'groupDialog',
+  maintenances: 'sharedMaintenance',
+  maintenance: 'sharedMaintenance',
+  notifications: 'sharedNotifications',
+  notification: 'sharedNotification',
+  preferences: 'sharedPreferences',
+  server: 'settingsServer',
+  users: 'settingsUsers',
+  user: 'settingsUser',
 };
 
 const SettingsLayout = () => {
   let breadcrumbs = [];
   const { pathname } = useLocation();
-  const pathSegmets = pathname.split('/').filter((p) => p !== '');
+  const pathSegmets = pathname?.split('/').filter((p) => p !== '');
 
-  if (pathSegmets.length === 2) breadcrumbs = [commondBreadcrumb, routes[pathSegmets[0]][pathSegmets[1]]];
-  if (pathSegmets.length > 2) breadcrumbs = generateBreadcrumbs(pathname, compoundRoutes);
+  if (pathSegmets?.length >= 2 && pathSegmets?.length <= 3) breadcrumbs = [commondBreadcrumb, routes[pathSegmets[1]]] || [commondBreadcrumb];
+
+  if (pathSegmets?.length === 4) {
+    switch (pathSegmets[3]) {
+      case 'connections':
+        breadcrumbs = [commondBreadcrumb, routes[pathSegmets[1]], 'sharedConnections'];
+        break;
+      case 'command':
+        breadcrumbs = [commondBreadcrumb, 'deviceCommand'];
+        break;
+      case 'share':
+        breadcrumbs = ['deviceShare'];
+        break;
+      default:
+        breadcrumbs = [commondBreadcrumb];
+    }
+  }
 
   return (
-    <PageLayout
-      menu={<SettingsMenu />}
-      breadcrumbs={breadcrumbs}
-    >
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={breadcrumbs}>
       <Outlet />
     </PageLayout>
   );
