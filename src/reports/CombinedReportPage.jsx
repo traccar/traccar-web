@@ -7,7 +7,6 @@ import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatch } from '../reactHelper';
 import MapView from '../map/core/MapView';
-import MapRoutePath from '../map/MapRoutePath';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
@@ -15,6 +14,7 @@ import MapGeofence from '../map/MapGeofence';
 import { formatTime } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
 import MapMarkers from '../map/MapMarkers';
+import MapRouteCoordinates from '../map/MapRouteCoordinates';
 
 const CombinedReportPage = () => {
   const classes = useReportStyles();
@@ -59,10 +59,11 @@ const CombinedReportPage = () => {
           <MapView>
             <MapGeofence />
             {items.map((item) => (
-              <MapRoutePath
+              <MapRouteCoordinates
                 key={item.deviceId}
                 name={devices[item.deviceId].name}
                 coordinates={item.route}
+                deviceId={item.deviceId}
               />
             ))}
             <MapMarkers markers={createMarkers()} />
