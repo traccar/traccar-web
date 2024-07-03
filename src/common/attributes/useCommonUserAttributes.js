@@ -37,6 +37,10 @@ export default (t) => useMemo(() => ({
     name: t('deviceSecondaryInfo'),
     type: 'string',
   },
+  deviceShowSpeed: {
+    name: t('attributeShowSpeed'),
+    type: 'boolean',
+  },
   soundEvents: {
     name: t('eventsSoundEvents'),
     type: 'string',

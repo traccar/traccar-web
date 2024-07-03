@@ -258,6 +258,17 @@ const PreferencesPage = () => {
                   titleGetter={(it) => t(it.name)}
                   label={t('deviceSecondaryInfo')}
                 />
+                <FormGroup>
+                  <FormControlLabel
+                    control={(
+                      <Checkbox
+                        checked={attributes.hasOwnProperty('deviceShowSpeed') ? attributes.deviceShowSpeed : true}
+                        onChange={(e) => setAttributes({ ...attributes, deviceShowSpeed: e.target.checked })}
+                      />
+                    )}
+                    label={t('attributeShowSpeed')}
+                  />
+                </FormGroup>
               </AccordionDetails>
             </Accordion>
             <Accordion>

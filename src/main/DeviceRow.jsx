@@ -22,6 +22,7 @@ import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
+import { speedFromKnots } from '../common/util/converter';
 
 dayjs.extend(relativeTime);
 
@@ -62,6 +63,10 @@ const DeviceRow = ({ data, index, style }) => {
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
+  const showSpeed = useAttributePreference('deviceShowSpeed', '');
+  const speedUnit = useAttributePreference('speedUnit');
+
+  const deviceSpeed = position?.speed;
 
   const secondaryText = () => {
     let status;
@@ -74,6 +79,7 @@ const DeviceRow = ({ data, index, style }) => {
       <>
         {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
+        {showSpeed && deviceSpeed != null && <span>{` • ${parseInt(speedFromKnots(deviceSpeed, speedUnit), 10)} ${speedUnit}`}</span>}
       </>
     );
   };
