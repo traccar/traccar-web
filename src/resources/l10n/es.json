@@ -121,7 +121,7 @@
     "calendarFriday": "Viernes",
     "calendarSaturday": "Sábado",
     "attributeShowGeofences": "Mostrar Geo-Zonas",
-    "attributeShowSpeed": "Mostrar Velocidad en la Barra Lateral",
+    "deviceShowAttribute": "Mostrar atributo en la Barra Lateral",
     "attributeSpeedLimit": "Límite de velocidad",
     "attributeFuelDropThreshold": "Umbral de pérdida de combustible",
     "attributeFuelIncreaseThreshold": "Umbral del subida de combustible",

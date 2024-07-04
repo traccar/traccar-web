@@ -258,17 +258,25 @@ const PreferencesPage = () => {
                   titleGetter={(it) => t(it.name)}
                   label={t('deviceSecondaryInfo')}
                 />
-                <FormGroup>
-                  <FormControlLabel
-                    control={(
-                      <Checkbox
-                        checked={attributes.hasOwnProperty('deviceShowSpeed') ? attributes.deviceShowSpeed : true}
-                        onChange={(e) => setAttributes({ ...attributes, deviceShowSpeed: e.target.checked })}
-                      />
-                    )}
-                    label={t('attributeShowSpeed')}
-                  />
-                </FormGroup>
+                <FormControl>
+                  <InputLabel>{t('deviceShowAttribute')}</InputLabel>
+                  <Select
+                    label={t('deviceShowAttribute')}
+                    value={attributes.deviceShowAttribute || ''}
+                    onChange={(e) => {
+                      setAttributes({ ...attributes, deviceShowAttribute: e.target.value });
+                    }}
+                  >
+                    <MenuItem value="">{'\u00a0'}</MenuItem>
+                    {Object.keys(positionAttributes).map((option) => (
+                      <MenuItem key={option} value={option}>
+                        <Typography component="span" color="textPrimary">
+                          {positionAttributes[option]?.name || option}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </AccordionDetails>
             </Accordion>
             <Accordion>
