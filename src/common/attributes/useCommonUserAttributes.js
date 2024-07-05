@@ -37,7 +37,7 @@ export default (t) => useMemo(() => ({
     name: t('deviceSecondaryInfo'),
     type: 'string',
   },
-  deviceAttribute: {
+  deviceShowAttribute: {
     name: t('deviceShowAttribute'),
     type: 'string',
   },

@@ -63,7 +63,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
-  const deviceAttributeToShow = useAttributePreference('deviceShowAttribute', '');
+  const deviceShowAttribute = useAttributePreference('deviceShowAttribute', '');
 
   const secondaryText = () => {
     let status;
@@ -76,13 +76,13 @@ const DeviceRow = ({ data, index, style }) => {
       <>
         {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
-        {position && position.hasOwnProperty(deviceAttributeToShow) && (
+        {position && position.hasOwnProperty(deviceShowAttribute) && (
           <>
             <span>{' • '}</span>
             <PositionValue
               position={position}
-              property={position.hasOwnProperty(deviceAttributeToShow) ? deviceAttributeToShow : null}
-              attribute={position.hasOwnProperty(deviceAttributeToShow) ? null : deviceAttributeToShow}
+              property={position.hasOwnProperty(deviceShowAttribute) ? deviceShowAttribute : null}
+              attribute={position.hasOwnProperty(deviceShowAttribute) ? null : deviceShowAttribute}
             />
           </>
         )}

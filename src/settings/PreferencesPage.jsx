@@ -270,9 +270,7 @@ const PreferencesPage = () => {
                     <MenuItem value="">{'\u00a0'}</MenuItem>
                     {Object.keys(positionAttributes).map((option) => (
                       <MenuItem key={option} value={option}>
-                        <Typography component="span" color="textPrimary">
-                          {positionAttributes[option]?.name || option}
-                        </Typography>
+                        {positionAttributes[option]?.name || option}
                       </MenuItem>
                     ))}
                   </Select>
