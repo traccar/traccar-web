@@ -73,9 +73,6 @@ const MapRoutePath = ({ positions }) => {
         },
         properties: {
           color: reportColor || getSpeedColor(
-            theme.palette.success.main,
-            theme.palette.warning.main,
-            theme.palette.error.main,
             positions[i + 1].speed,
             maxSpeed,
           ),
