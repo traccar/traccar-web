@@ -14,8 +14,9 @@ import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { formatTime } from '../common/util/formatter';
-import { useDeviceReadonly } from '../common/util/permissions';
+import { useAdministrator, useDeviceReadonly } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import DeviceUsersValue from './components/DeviceUsersValue';
 
 const DevicesPage = () => {
   const classes = useSettingsStyles();
@@ -24,6 +25,7 @@ const DevicesPage = () => {
 
   const groups = useSelector((state) => state.groups.items);
 
+  const admin = useAdministrator();
   const deviceReadonly = useDeviceReadonly();
 
   const [timestamp, setTimestamp] = useState(Date.now());
@@ -69,6 +71,7 @@ const DevicesPage = () => {
             <TableCell>{t('deviceModel')}</TableCell>
             <TableCell>{t('deviceContact')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
+            {admin && <TableCell>{t('settingsUsers')}</TableCell>}
             <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
@@ -82,6 +85,7 @@ const DevicesPage = () => {
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+              {admin && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}
@@ -93,11 +97,11 @@ const DevicesPage = () => {
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={7} endAction />)}
+          )) : (<TableShimmer columns={admin ? 8 : 7} endAction />)}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={8} align="right">
+            <TableCell colSpan={admin ? 9 : 8} align="right">
               <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
             </TableCell>
           </TableRow>
