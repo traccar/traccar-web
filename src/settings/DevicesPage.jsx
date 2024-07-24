@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter,
+  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import { useEffectAsync } from '../reactHelper';
@@ -31,12 +31,14 @@ const DevicesPage = () => {
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/devices');
+      const query = new URLSearchParams({ all: showAll });
+      const response = await fetch(`/api/devices?${query.toString()}`);
       if (response.ok) {
         setItems(await response.json());
       } else {
@@ -45,7 +47,7 @@ const DevicesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, showAll]);
 
   const handleExport = () => {
     window.location.assign('/api/reports/devices/xlsx');
@@ -101,8 +103,22 @@ const DevicesPage = () => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={admin ? 9 : 8} align="right">
+            <TableCell>
               <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
+            </TableCell>
+            <TableCell colSpan={admin ? 8 : 7} align="right">
+              <FormControlLabel
+                control={(
+                  <Switch
+                    value={showAll}
+                    onChange={(e) => setShowAll(e.target.checked)}
+                    size="small"
+                  />
+                )}
+                label={t('notificationAlways')}
+                labelPlacement="start"
+                disabled={!admin}
+              />
             </TableCell>
           </TableRow>
         </TableFooter>
