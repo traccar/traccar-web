@@ -33,16 +33,19 @@ export const formatConsumption = (value, t) => `${value.toFixed(2)} ${t('sharedL
 
 export const formatTime = (value, format) => {
   if (value) {
-    const d = dayjs(value);
+    const d = dayjs(value).toDate();
+    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const minuteConfig = { hour: '2-digit', minute: '2-digit' };
+    const secondConfig = { ...minuteConfig, second: '2-digit' };
     switch (format) {
       case 'date':
-        return d.format('L');
+        return d.toLocaleDateString(undefined, dateConfig);
       case 'time':
-        return d.format('LTS');
+        return d.toLocaleTimeString(undefined, secondConfig);
       case 'minutes':
-        return d.format('L LT');
+        return d.toLocaleString(undefined, { ...dateConfig, ...minuteConfig });
       default:
-        return d.format('L LTS');
+        return d.toLocaleString(undefined, { ...dateConfig, ...secondConfig });
     }
   }
   return '';
