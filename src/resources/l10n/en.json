@@ -131,6 +131,8 @@
     "attributeDeviceImage": "Device Image",
     "attributeDeviceInactivityStart": "Device Inactivity Start",
     "attributeDeviceInactivityPeriod": "Device Inactivity Period",
+    "attributeDeviceAllowPositionForwarding": "Forward Device Positions",
+    "attributeDeviceAllowEventForwarding": "Forward Device Events",
     "attributeProcessingCopyAttributes": "Processing: Copy Attributes",
     "attributeColor": "Color",
     "attributeWebLiveRouteLength": "Web: Live Route Length",
