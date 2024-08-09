@@ -141,7 +141,7 @@ const UserPage = () => {
                 value={item.email || ''}
                 onChange={(e) => setItem({ ...item, email: e.target.value })}
                 label={t('userEmail')}
-                disabled={fixedEmail}
+                disabled={fixedEmail && item.id === currentUser.id}
               />
               {!openIdForced && (
                 <TextField
