@@ -2,8 +2,9 @@ import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
+import { getSpeedColor } from '../common/util/colors';
 
-const MapRoutePath = ({ name, positions, coordinates }) => {
+const MapRoutePath = ({ positions }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -19,7 +20,7 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
         }
       }
     }
-    return theme.palette.geometry.main;
+    return null;
   });
 
   useEffect(() => {
@@ -43,24 +44,9 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
       },
       paint: {
         'line-color': ['get', 'color'],
-        'line-width': 3,
+        'line-width': 2,
       },
     });
-    if (name) {
-      map.addLayer({
-        source: id,
-        id: `${id}-title`,
-        type: 'symbol',
-        layout: {
-          'text-field': '{name}',
-          'text-size': 12,
-        },
-        paint: {
-          'text-halo-color': 'white',
-          'text-halo-width': 1,
-        },
-      });
-    }
 
     return () => {
       if (map.getLayer(`${id}-title`)) {
@@ -76,21 +62,31 @@ const MapRoutePath = ({ name, positions, coordinates }) => {
   }, []);
 
   useEffect(() => {
-    if (!coordinates) {
-      coordinates = positions.map((item) => [item.longitude, item.latitude]);
+    const maxSpeed = positions.map((item) => item.speed).reduce((a, b) => Math.max(a, b), -Infinity);
+    const features = [];
+    for (let i = 0; i < positions.length - 1; i += 1) {
+      features.push({
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: [[positions[i].longitude, positions[i].latitude], [positions[i + 1].longitude, positions[i + 1].latitude]],
+        },
+        properties: {
+          color: reportColor || getSpeedColor(
+            theme.palette.success.main,
+            theme.palette.warning.main,
+            theme.palette.error.main,
+            positions[i + 1].speed,
+            maxSpeed,
+          ),
+        },
+      });
     }
     map.getSource(id)?.setData({
-      type: 'Feature',
-      geometry: {
-        type: 'LineString',
-        coordinates,
-      },
-      properties: {
-        name,
-        color: reportColor,
-      },
+      type: 'FeatureCollection',
+      features,
     });
-  }, [theme, positions, coordinates, reportColor]);
+  }, [theme, positions, reportColor]);
 
   return null;
 };

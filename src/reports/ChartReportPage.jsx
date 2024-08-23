@@ -33,6 +33,7 @@ const ChartReportPage = () => {
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState(['speed']);
   const [type, setType] = useState('speed');
+  const [timeType, setTimeType] = useState('fixTime');
 
   const values = items.map((it) => it[type]);
   const minValue = Math.min(...values);
@@ -52,6 +53,8 @@ const ChartReportPage = () => {
         const data = { ...position, ...position.attributes };
         const formatted = {};
         formatted.fixTime = dayjs(position.fixTime).valueOf();
+        formatted.deviceTime = dayjs(position.deviceTime).valueOf();
+        formatted.serverTime = dayjs(position.serverTime).valueOf();
         Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
           const value = data[key];
           if (typeof value === 'number') {
@@ -112,6 +115,21 @@ const ChartReportPage = () => {
             </Select>
           </FormControl>
         </div>
+        <div className={classes.filterItem}>
+          <FormControl fullWidth>
+            <InputLabel>{t('reportTimeType')}</InputLabel>
+            <Select
+              label={t('reportTimeType')}
+              value={timeType}
+              onChange={(e) => setTimeType(e.target.value)}
+              disabled={!items.length}
+            >
+              <MenuItem value="fixTime">{t('positionFixTime')}</MenuItem>
+              <MenuItem value="deviceTime">{t('positionDeviceTime')}</MenuItem>
+              <MenuItem value="serverTime">{t('positionServerTime')}</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </ReportFilter>
       {items.length > 0 && (
         <div className={classes.chart}>
@@ -123,7 +141,7 @@ const ChartReportPage = () => {
               }}
             >
               <XAxis
-                dataKey="fixTime"
+                dataKey={timeType}
                 type="number"
                 tickFormatter={(value) => formatTime(value, 'time')}
                 domain={['dataMin', 'dataMax']}

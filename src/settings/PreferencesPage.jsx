@@ -56,7 +56,7 @@ const PreferencesPage = () => {
   const filter = createFilterOptions();
 
   const generateToken = useCatch(async () => {
-    const expiration = dayjs(tokenExpiration, 'DD-MM-YYYY').toISOString();
+    const expiration = dayjs(tokenExpiration, 'YYYY-MM-DD').toISOString();
     const response = await fetch('/api/session/token', {
       method: 'POST',
       body: new URLSearchParams(`expiration=${expiration}`),
@@ -89,9 +89,7 @@ const PreferencesPage = () => {
 
   const handleReboot = useCatch(async () => {
     const response = await fetch('/api/server/reboot', { method: 'POST' });
-    if (!response.ok) {
-      throw Error(await response.text());
-    }
+    throw Error(response.statusText);
   });
 
   return (

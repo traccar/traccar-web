@@ -30,6 +30,7 @@ const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
 export default () => {
   const t = useTranslation();
 
+  const googleKey = useAttributePreference('googleKey');
   const mapTilerKey = useAttributePreference('mapTilerKey');
   const locationIqKey = useAttributePreference('locationIqKey') || 'pk.0f147952a41c555a5b70614039fd148b';
   const bingMapsKey = useAttributePreference('bingMapsKey');
@@ -84,44 +85,47 @@ export default () => {
       id: 'googleRoad',
       title: t('mapGoogleRoad'),
       style: styleCustom({
-        tiles: [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        tiles: [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`],
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: true,
+      available: Boolean(googleKey),
+      attribute: 'googleKey',
     },
     {
       id: 'googleSatellite',
       title: t('mapGoogleSatellite'),
       style: styleCustom({
-        tiles: [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        tiles: [`google://satellite/{z}/{x}/{y}?key=${googleKey}`],
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: true,
+      available: Boolean(googleKey),
+      attribute: 'googleKey',
     },
     {
       id: 'googleHybrid',
       title: t('mapGoogleHybrid'),
       style: styleCustom({
-        tiles: [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
+        tiles: [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`],
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: true,
+      available: Boolean(googleKey),
+      attribute: 'googleKey',
     },
     {
       id: 'mapTilerBasic',
       title: t('mapMapTilerBasic'),
       style: `https://api.maptiler.com/maps/basic/style.json?key=${mapTilerKey}`,
-      available: !!mapTilerKey,
+      available: Boolean(mapTilerKey),
       attribute: 'mapTilerKey',
     },
     {
       id: 'mapTilerHybrid',
       title: t('mapMapTilerHybrid'),
       style: `https://api.maptiler.com/maps/hybrid/style.json?key=${mapTilerKey}`,
-      available: !!mapTilerKey,
+      available: Boolean(mapTilerKey),
       attribute: 'mapTilerKey',
     },
     {
@@ -131,7 +135,7 @@ export default () => {
         tiles: [0, 1, 2, 3].map((i) => `https://t${i}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=G,L&shading=hill&og=1885&n=z`),
         maxZoom: 21,
       }),
-      available: !!bingMapsKey,
+      available: Boolean(bingMapsKey),
       attribute: 'bingMapsKey',
     },
     {
@@ -141,7 +145,7 @@ export default () => {
         tiles: [0, 1, 2, 3].map((i) => `https://ecn.t${i}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g=12327`),
         maxZoom: 19,
       }),
-      available: !!bingMapsKey,
+      available: Boolean(bingMapsKey),
       attribute: 'bingMapsKey',
     },
     {
@@ -151,21 +155,21 @@ export default () => {
         tiles: [0, 1, 2, 3].map((i) => `https://t${i}.ssl.ak.dynamic.tiles.virtualearth.net/comp/ch/{quadkey}?mkt=en-US&it=A,G,L&og=1885&n=z`),
         maxZoom: 19,
       }),
-      available: !!bingMapsKey,
+      available: Boolean(bingMapsKey),
       attribute: 'bingMapsKey',
     },
     {
       id: 'tomTomBasic',
       title: t('mapTomTomBasic'),
       style: `https://api.tomtom.com/map/1/style/20.0.0-8/basic_main.json?key=${tomTomKey}`,
-      available: !!tomTomKey,
+      available: Boolean(tomTomKey),
       attribute: 'tomTomKey',
     },
     {
       id: 'hereBasic',
       title: t('mapHereBasic'),
       style: `https://assets.vector.hereapi.com/styles/berlin/base/mapbox/tilezen?apikey=${hereKey}`,
-      available: !!hereKey,
+      available: Boolean(hereKey),
       attribute: 'hereKey',
     },
     {
@@ -175,7 +179,7 @@ export default () => {
         tiles: [1, 2, 3, 4].map((i) => `https://${i}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
         maxZoom: 20,
       }),
-      available: !!hereKey,
+      available: Boolean(hereKey),
       attribute: 'hereKey',
     },
     {
@@ -185,7 +189,7 @@ export default () => {
         tiles: [1, 2, 3, 4].map((i) => `https://${i}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
         maxZoom: 19,
       }),
-      available: !!hereKey,
+      available: Boolean(hereKey),
       attribute: 'hereKey',
     },
     {
@@ -214,7 +218,7 @@ export default () => {
         tiles: [`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
         maxZoom: 22,
       }),
-      available: !!mapboxAccessToken,
+      available: Boolean(mapboxAccessToken),
       attribute: 'mapboxAccessToken',
     },
     {
@@ -224,7 +228,7 @@ export default () => {
         tiles: [`https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
         maxZoom: 22,
       }),
-      available: !!mapboxAccessToken,
+      available: Boolean(mapboxAccessToken),
       attribute: 'mapboxAccessToken',
     },
     {
@@ -234,7 +238,7 @@ export default () => {
         tiles: [`https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
         maxZoom: 22,
       }),
-      available: !!mapboxAccessToken,
+      available: Boolean(mapboxAccessToken),
       attribute: 'mapboxAccessToken',
     },
     {
@@ -244,7 +248,7 @@ export default () => {
         tiles: [`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`],
         maxZoom: 22,
       }),
-      available: !!mapboxAccessToken,
+      available: Boolean(mapboxAccessToken),
       attribute: 'mapboxAccessToken',
     },
     {
@@ -253,7 +257,7 @@ export default () => {
       style: styleCustom({
         tiles: [customMapUrl],
       }),
-      available: !!customMapUrl,
+      available: Boolean(customMapUrl),
     },
   ], [t, mapTilerKey, locationIqKey, bingMapsKey, tomTomKey, hereKey, mapboxAccessToken, customMapUrl]);
 };

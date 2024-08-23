@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter,
+  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import { useEffectAsync } from '../reactHelper';
@@ -13,10 +13,11 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference } from '../common/util/preferences'; // gui
 import { formatTime } from '../common/util/formatter';
-import { useDeviceReadonly } from '../common/util/permissions';
+import { useAdministrator, useDeviceReadonly } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import DeviceUsersValue from './components/DeviceUsersValue';
 
 const DevicesPage = () => {
   const classes = useSettingsStyles();
@@ -25,18 +26,21 @@ const DevicesPage = () => {
 
   const groups = useSelector((state) => state.groups.items);
 
+  const admin = useAdministrator();
   const deviceReadonly = useDeviceReadonly();
   const disableDelete = useAttributePreference('ui.PartialDisableEditDevice') || false; // gui config permissão de usuário par exibir
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/devices');
+      const query = new URLSearchParams({ all: showAll });
+      const response = await fetch(`/api/devices?${query.toString()}`);
       if (response.ok) {
         setItems(await response.json());
       } else {
@@ -45,7 +49,7 @@ const DevicesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, showAll]);
 
   const handleExport = () => {
     window.location.assign('/api/reports/devices/xlsx');
@@ -71,6 +75,7 @@ const DevicesPage = () => {
             <TableCell>{t('deviceModel')}</TableCell>
             <TableCell>{t('deviceContact')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
+            {admin && <TableCell>{t('settingsUsers')}</TableCell>}
             <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
@@ -84,6 +89,7 @@ const DevicesPage = () => {
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+              {admin && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}
@@ -92,16 +98,30 @@ const DevicesPage = () => {
                   setTimestamp={setTimestamp}
                   customActions={[actionConnections]}
                   readonly={deviceReadonly}
-                  disable={disableDelete}
+                  disable={disableDelete} // gui
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={7} endAction />)}
+          )) : (<TableShimmer columns={admin ? 8 : 7} endAction />)}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={8} align="right">
+            <TableCell>
               <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
+            </TableCell>
+            <TableCell colSpan={admin ? 8 : 7} align="right">
+              <FormControlLabel
+                control={(
+                  <Switch
+                    value={showAll}
+                    onChange={(e) => setShowAll(e.target.checked)}
+                    size="small"
+                  />
+                )}
+                label={t('notificationAlways')}
+                labelPlacement="start"
+                disabled={!admin}
+              />
             </TableCell>
           </TableRow>
         </TableFooter>

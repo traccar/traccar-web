@@ -49,6 +49,10 @@ export default (t) => useMemo(() => ({
     name: t('attributePopupInfo'),
     type: 'string',
   },
+  googleKey: {
+    name: t('mapGoogleKey'),
+    type: 'string',
+  },
   locationIqKey: {
     name: t('mapLocationIqKey'),
     type: 'string',

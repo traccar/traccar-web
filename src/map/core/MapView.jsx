@@ -2,6 +2,7 @@
 import mapboxglRtlTextUrl from '@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min?url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
+import { googleProtocol } from 'maplibre-google-maps';
 import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
@@ -17,6 +18,7 @@ element.style.height = '100%';
 element.style.boxSizing = 'initial';
 
 maplibregl.setRTLTextPlugin(mapboxglRtlTextUrl);
+maplibregl.addProtocol('google', googleProtocol);
 
 export const map = new maplibregl.Map({
   container: element,
