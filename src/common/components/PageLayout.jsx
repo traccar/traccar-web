@@ -20,14 +20,21 @@ const useStyles = makeStyles((theme) => ({
   desktopRoot: {
     height: "100%",
     display: "flex",
+    backgroundColor: "#272727",
   },
   mobileRoot: {
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#272727",
   },
   desktopDrawer: {
     width: theme.dimensions.drawerWidthDesktop,
+    backgroundColor: "#444",
+    borderRadius: 10,
+    margin: 10,
+    height: "98%",
+    boxShadow: "0 0 12px 0 rgba(0, 0, 0, 20%)",
   },
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
@@ -87,11 +94,15 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
         className={classes.desktopDrawer}
         classes={{ paper: classes.desktopDrawer }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            backgroundColor: "#3c3c3c",
+          }}
+        >
           <IconButton
             color="inherit"
             edge="start"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, backgroundColor: "#2c2c2c" }}
             onClick={() => navigate("/")}
           >
             <ArrowBackIcon />

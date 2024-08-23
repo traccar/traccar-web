@@ -34,7 +34,6 @@ const MenuItem = ({ title, link, icon, selected }) => (
 const ReportsMenu = () => {
   const t = useTranslation();
   const location = useLocation();
-  console.log(t("reportCombined"));
   const admin = useAdministrator();
   const readonly = useRestriction("readonly");
 

@@ -95,7 +95,7 @@ Ext.define("Traccar.model.Server", {
 
   proxy: {
     type: "ajax",
-    url: "api/server",
+    url: "/api/server",
     actionMethods: {
       update: "PUT",
     },
