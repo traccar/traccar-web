@@ -30,7 +30,6 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import useUserAttributes from '../common/attributes/useUserAttributes';
 import { sessionActions } from '../store';
 import SelectField from '../common/components/SelectField';
-import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
 import useQuery from '../common/util/useQuery';
@@ -120,8 +119,6 @@ const UserPage = () => {
       defaultItem={admin ? { deviceLimit: -1 } : {}}
       validate={validate}
       onItemSaved={onItemSaved}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'settingsUser']}
     >
       {item && (
         <>

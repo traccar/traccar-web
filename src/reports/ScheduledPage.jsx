@@ -7,8 +7,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import ReportsMenu from './components/ReportsMenu';
 import TableShimmer from '../common/components/TableShimmer';
 import RemoveDialog from '../common/components/RemoveDialog';
 
@@ -62,7 +60,7 @@ const ScheduledPage = () => {
   };
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['settingsTitle', 'reportScheduled']}>
+    <>
       <Table>
         <TableHead>
           <TableRow>
@@ -99,7 +97,7 @@ const ScheduledPage = () => {
           }
         }}
       />
-    </PageLayout>
+    </>
   );
 };
 

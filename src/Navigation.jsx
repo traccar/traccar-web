@@ -58,6 +58,8 @@ import LogsPage from './reports/LogsPage';
 import SharePage from './settings/SharePage';
 import AnnouncementPage from './settings/AnnouncementPage';
 import EmulatorPage from './other/EmulatorPage';
+import ReportsLayout from './reports/components/ReportsLayout';
+import SettingsLayout from './settings/components/SettingsLayout';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -112,7 +114,7 @@ const Navigation = () => {
         <Route path="geofences" element={<GeofencesPage />} />
         <Route path="emulator" element={<EmulatorPage />} />
 
-        <Route path="settings">
+        <Route path="settings" element={<SettingsLayout />}>
           <Route path="accumulators/:deviceId" element={<AccumulatorsPage />} />
           <Route path="announcement" element={<AnnouncementPage />} />
           <Route path="calendars" element={<CalendarsPage />} />
@@ -154,7 +156,7 @@ const Navigation = () => {
           <Route path="user" element={<UserPage />} />
         </Route>
 
-        <Route path="reports">
+        <Route path="reports" element={<ReportsLayout />}>
           <Route path="combined" element={<CombinedReportPage />} />
           <Route path="chart" element={<ChartReportPage />} />
           <Route path="event" element={<EventReportPage />} />

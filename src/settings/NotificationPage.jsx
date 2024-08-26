@@ -15,7 +15,6 @@ import { useTranslation, useTranslationKeys } from '../common/components/Localiz
 import EditItemView from './components/EditItemView';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import SelectField from '../common/components/SelectField';
-import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
 
@@ -51,8 +50,6 @@ const NotificationPage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedNotification']}
     >
       {item && (
         <>

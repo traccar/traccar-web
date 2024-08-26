@@ -18,7 +18,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
-import SettingsMenu from './components/SettingsMenu';
 import SelectField from '../common/components/SelectField';
 import { useCatch } from '../reactHelper';
 import { snackBarDurationLongMs } from '../common/util/duration';
@@ -69,8 +68,6 @@ const ComputedAttributePage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedComputedAttribute']}
     >
       {item && (
         <>

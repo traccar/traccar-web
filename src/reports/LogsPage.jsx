@@ -8,8 +8,6 @@ import makeStyles from '@mui/styles/makeStyles';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import ReportsMenu from './components/ReportsMenu';
 import { sessionActions } from '../store';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,40 +42,38 @@ const LogsPage = () => {
   };
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.columnAction} />
-            <TableCell>{t('deviceIdentifier')}</TableCell>
-            <TableCell>{t('positionProtocol')}</TableCell>
-            <TableCell>{t('commandData')}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item, index) => /* eslint-disable react/no-array-index-key */ (
-            <TableRow key={index}>
-              <TableCell className={classes.columnAction} padding="none">
-                {item.deviceId ? (
-                  <IconButton size="small" disabled>
-                    <CheckCircleOutlineIcon fontSize="small" className={classes.success} />
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell className={classes.columnAction} />
+          <TableCell>{t('deviceIdentifier')}</TableCell>
+          <TableCell>{t('positionProtocol')}</TableCell>
+          <TableCell>{t('commandData')}</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {items.map((item, index) => /* eslint-disable react/no-array-index-key */ (
+          <TableRow key={index}>
+            <TableCell className={classes.columnAction} padding="none">
+              {item.deviceId ? (
+                <IconButton size="small" disabled>
+                  <CheckCircleOutlineIcon fontSize="small" className={classes.success} />
+                </IconButton>
+              ) : (
+                <Tooltip title={t('loginRegister')}>
+                  <IconButton size="small" onClick={() => registerDevice(item.uniqueId)}>
+                    <HelpOutlineIcon fontSize="small" className={classes.error} />
                   </IconButton>
-                ) : (
-                  <Tooltip title={t('loginRegister')}>
-                    <IconButton size="small" onClick={() => registerDevice(item.uniqueId)}>
-                      <HelpOutlineIcon fontSize="small" className={classes.error} />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </TableCell>
-              <TableCell>{item.uniqueId}</TableCell>
-              <TableCell>{item.protocol}</TableCell>
-              <TableCell>{item.data}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </PageLayout>
+                </Tooltip>
+              )}
+            </TableCell>
+            <TableCell>{item.uniqueId}</TableCell>
+            <TableCell>{item.protocol}</TableCell>
+            <TableCell>{item.data}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

@@ -10,7 +10,6 @@ import { DropzoneArea } from 'react-mui-dropzone';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import SettingsMenu from './components/SettingsMenu';
 import { prefixString } from '../common/util/stringUtils';
 import { calendarsActions } from '../store';
 import { useCatch } from '../reactHelper';
@@ -106,8 +105,6 @@ const CalendarPage = () => {
       defaultItem={{ data: simpleCalendar() }}
       validate={validate}
       onItemSaved={onItemSaved}
-      menu={<SettingsMenu />}
-      breadcrumbs={['settingsTitle', 'sharedCalendar']}
     >
       {item && (
         <>
