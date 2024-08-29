@@ -60,7 +60,7 @@ export const formatAlarm = (value, t) => {
       .join(', ');
   }
   return '';
-}
+};
 
 export const formatCourse = (value) => {
   const courseValues = ['\u2191', '\u2197', '\u2192', '\u2198', '\u2193', '\u2199', '\u2190', '\u2196'];
