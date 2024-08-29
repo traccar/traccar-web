@@ -52,7 +52,15 @@ export const formatTime = (value, format) => {
 };
 
 export const formatStatus = (value, t) => t(prefixString('deviceStatus', value));
-export const formatAlarm = (value, t) => (value ? t(prefixString('alarm', value)) : '');
+
+export const formatAlarm = (value, t) => {
+  if (value) {
+    return value.split(',')
+      .map((alarm) => t(prefixString('alarm', alarm)))
+      .join(', ');
+  }
+  return '';
+}
 
 export const formatCourse = (value) => {
   const courseValues = ['\u2191', '\u2197', '\u2192', '\u2198', '\u2193', '\u2199', '\u2190', '\u2196'];
