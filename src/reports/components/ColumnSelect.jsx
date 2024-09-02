@@ -18,6 +18,7 @@ const ColumnSelect = ({
       <FormControl fullWidth>
         <InputLabel>{t("sharedColumns")}</InputLabel>
         <Select
+          sx={{ backgroundColor: "#303234", borderRadius: "100px" }}
           label={t("sharedColumns")}
           value={columns}
           onChange={(e) => setColumns(e.target.value)}

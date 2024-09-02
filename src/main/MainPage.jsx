@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     pointerEvents: "auto",
     zIndex: 6,
-    backgroundColor: "#2c2c2c",
+    backgroundColor: "#3b3c36",
     borderRadius: "10px 10px 0 0",
   },
   footer: {

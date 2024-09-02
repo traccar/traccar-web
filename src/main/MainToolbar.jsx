@@ -75,12 +75,16 @@ const MainToolbar = ({
 
   return (
     <Toolbar ref={toolbarRef} className={classes.toolbar}>
-      <IconButton edge="start" onClick={() => setDevicesOpen(!devicesOpen)}>
+      <IconButton
+        sx={{ border: "1px solid #909090" }}
+        edge="start"
+        onClick={() => setDevicesOpen(!devicesOpen)}
+      >
         {devicesOpen ? <MapIcon /> : <ViewListIcon />}
       </IconButton>
       <OutlinedInput
         ref={inputRef}
-        sx={{ borderRadius: "100px" }}
+        sx={{ borderRadius: "100px", border: "1px solid #5c5c5c" }}
         placeholder={t("sharedSearchDevices")}
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
@@ -91,7 +95,7 @@ const MainToolbar = ({
             <IconButton
               size="medium"
               edge="end"
-              sx={{ border: "1px solid #444" }}
+              sx={{}}
               onClick={() => setFilterAnchorEl(inputRef.current)}
             >
               <Badge
@@ -226,6 +230,9 @@ const MainToolbar = ({
         edge="end"
         onClick={() => navigate("/settings/device")}
         disabled={deviceReadonly}
+        sx={{
+          border: "1px solid #909090",
+        }}
       >
         <Tooltip
           open={!deviceReadonly && Object.keys(devices).length === 0}

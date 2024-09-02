@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
   },
   containerMain: {
     overflow: "auto",
-    backgroundColor: "#444",
+    backgroundColor: "#303234",
     margin: "10px 20px 0px 10px",
     borderRadius: 10,
     boxShadow: "0 0 12px 0 rgba(0, 0, 0, 20%)",

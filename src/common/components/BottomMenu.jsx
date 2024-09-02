@@ -117,7 +117,7 @@ const BottomMenu = () => {
         onChange={handleSelection}
         showLabels
         sx={{
-          backgroundColor: "#2c2c2c",
+          backgroundColor: "#3b3c36",
         }}
       >
         <BottomNavigationAction
@@ -138,8 +138,10 @@ const BottomMenu = () => {
           value="map"
           sx={{
             color: "#fff",
-            backgroundColor: "#444 ",
+            backgroundColor: "#595652",
             padding: "5px",
+            borderRadius: "0px 10px 0px 0px",
+            boxShadow: "0px 0px 5px #0707064f",
             "& .MuiBottomNavigationAction-label": {
               color: "#fff", // This changes the color of the label
             },

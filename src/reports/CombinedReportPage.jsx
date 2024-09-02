@@ -99,7 +99,7 @@ const CombinedReportPage = () => {
           </div>
           <Table
             sx={{
-              backgroundColor: "#2c2c2c",
+              backgroundColor: "#26282a",
               border: "2px solid transparent",
             }}
           >

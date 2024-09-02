@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import makeStyles from '@mui/styles/makeStyles';
-import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { devicesActions } from '../store';
-import { useEffectAsync } from '../reactHelper';
-import DeviceRow from './DeviceRow';
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import makeStyles from "@mui/styles/makeStyles";
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { devicesActions } from "../store";
+import { useEffectAsync } from "../reactHelper";
+import DeviceRow from "./DeviceRow";
 
 const useStyles = makeStyles((theme) => ({
   list: {
-    maxHeight: '100%',
+    maxHeight: "100%",
   },
   listInner: {
-    position: 'relative',
+    position: "relative",
     margin: theme.spacing(1.5, 0),
   },
 }));
@@ -36,7 +36,7 @@ const DeviceList = ({ devices }) => {
   }, []);
 
   useEffectAsync(async () => {
-    const response = await fetch('/api/devices');
+    const response = await fetch("/api/devices");
     if (response.ok) {
       dispatch(devicesActions.refresh(await response.json()));
     } else {

@@ -140,7 +140,7 @@ const ReportFilter = ({
             onChange={(e) =>
               dispatch(reportsActions.updateGroupIds(e.target.value))
             }
-            sx={{ backgroundColor: "#444" }}
+            sx={{ backgroundColor: "#303234", borderRadius: "100px" }}
             multiple
             fullWidth
           />
@@ -157,7 +157,7 @@ const ReportFilter = ({
                 onChange={(e) =>
                   dispatch(reportsActions.updatePeriod(e.target.value))
                 }
-                sx={{ backgroundColor: "#444" }}
+                sx={{ backgroundColor: "#303234", borderRadius: "100px" }}
               >
                 <MenuItem value="today">{t("reportToday")}</MenuItem>
                 <MenuItem value="yesterday">{t("reportYesterday")}</MenuItem>
@@ -183,6 +183,9 @@ const ReportFilter = ({
                   dispatch(reportsActions.updateFrom(e.target.value))
                 }
                 fullWidth
+                InputProps={{
+                  style: { backgroundColor: "#303234", borderRadius: "100px" },
+                }}
               />
             </div>
           )}
@@ -196,6 +199,9 @@ const ReportFilter = ({
                   dispatch(reportsActions.updateTo(e.target.value))
                 }
                 fullWidth
+                InputProps={{
+                  style: { backgroundColor: "#303234", borderRadius: "100px" },
+                }}
               />
             </div>
           )}
@@ -229,7 +235,13 @@ const ReportFilter = ({
             color="secondary"
             disabled={disabled}
             onClick={() => handleClick("json")}
-            sx={{ backgroundColor: "#2c2c2c" }}
+            sx={{
+              backgroundColor: "#5c5c5c",
+              color: "#fff",
+              borderRadius: "100px",
+              border: "1px solid #909090",
+              boxShadow: "3px 5px 5px 0 rgba(0, 0, 0, 15%)",
+            }}
           >
             <Typography variant="button" noWrap>
               {t("reportShow")}

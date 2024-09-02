@@ -52,11 +52,11 @@ const SelectField = ({
           <>
             <InputLabel>{label}</InputLabel>
             <Select
+              sx={{ backgroundColor: "#303234", borderRadius: "100px" }}
               label={label}
               multiple
               value={value}
               onChange={onChange}
-              sx={{ backgroundColor: "#444" }}
             >
               {items.map((item) => (
                 <MenuItem key={keyGetter(item)} value={keyGetter(item)}>
@@ -66,6 +66,34 @@ const SelectField = ({
             </Select>
           </>
         ) : (
+          // <Autocomplete
+          //   sx={{
+          //     // backgroundColor: "red",
+          //     borderRadius: "100px",
+          //   }}
+          //   size="small"
+          //   options={items}
+          //   getOptionLabel={getOptionLabel}
+          //   renderOption={(props, option) => (
+          //     <MenuItem
+          //       {...props}
+          //       key={keyGetter(option)}
+          //       value={keyGetter(option)}
+          //     >
+          //       {titleGetter(option)}
+          //     </MenuItem>
+          //   )}
+          //   isOptionEqualToValue={(option, value) =>
+          //     keyGetter(option) === value
+          //   }
+          //   value={value}
+          //   onChange={(_, value) =>
+          //     onChange({
+          //       target: { value: value ? keyGetter(value) : emptyValue },
+          //     })
+          //   }
+          //   renderInput={(params) => <TextField {...params} label={label} />}
+          // />
           <Autocomplete
             size="small"
             options={items}
@@ -88,7 +116,18 @@ const SelectField = ({
                 target: { value: value ? keyGetter(value) : emptyValue },
               })
             }
-            renderInput={(params) => <TextField {...params} label={label} />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={label}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    backgroundColor: "#303234",
+                    borderRadius: "100px",
+                  },
+                }}
+              />
+            )}
           />
         )}
       </FormControl>

@@ -20,19 +20,20 @@ const useStyles = makeStyles((theme) => ({
   desktopRoot: {
     height: "100%",
     display: "flex",
-    backgroundColor: "#272727",
+    backgroundColor: "#26282a",
   },
   mobileRoot: {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#272727",
+    backgroundColor: "#26282a",
   },
   desktopDrawer: {
     width: theme.dimensions.drawerWidthDesktop,
-    backgroundColor: "#444",
+    backgroundColor: "#303234",
     borderRadius: 10,
     margin: 10,
+    border: "1px solid transparent",
     height: "98%",
     boxShadow: "0 0 12px 0 rgba(0, 0, 0, 20%)",
   },
@@ -96,13 +97,17 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
       >
         <Toolbar
           sx={{
-            backgroundColor: "#3c3c3c",
+            backgroundColor: "#2b2b2c",
           }}
         >
           <IconButton
             color="inherit"
             edge="start"
-            sx={{ mr: 2, backgroundColor: "#2c2c2c" }}
+            sx={{
+              mr: 2,
+              backgroundColor: "#2b2b2c",
+              border: "1px solid #909090",
+            }}
             onClick={() => navigate("/")}
           >
             <ArrowBackIcon />
