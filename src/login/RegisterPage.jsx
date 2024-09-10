@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Button, TextField, Typography, Snackbar, IconButton,
-} from '@mui/material';
+import { Button, TextField, Typography, Snackbar, IconButton } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -38,6 +36,12 @@ const RegisterPage = () => {
 
   const server = useSelector((state) => state.session.server);
   const totpForce = useSelector((state) => state.session.server.attributes.totpForce);
+  const registrationEnabled = useSelector((state) => state.session.server.registration);
+  useEffect(() => {
+    if (!registrationEnabled) {
+      navigate('/login');
+    }
+  }, [registrationEnabled]);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
