@@ -8,8 +8,8 @@ export default defineConfig(() => ({
   server: {
     port: 3000,
     proxy: {
-      '/api/socket': 'ws://localhost:8082',
-      '/api': 'http://localhost:8082',
+      '/api/socket': 'ws://mi.satelitegps.app',
+      '/api': 'https://mi.satelitegps.app',
     },
   },
   build: {
@@ -26,9 +26,9 @@ export default defineConfig(() => ({
         globPatterns: ['**/*.{js,css,html,woff,woff2,mp3}'],
       },
       manifest: {
-        short_name: '${title}',
-        name: '${description}',
-        theme_color: '${colorPrimary}',
+        short_name: 'Mi Satelite GPS',
+        name: 'Mi Satelite - GPS Tracking Solution',
+        theme_color: '#01579b',
         icons: [
           {
             src: 'pwa-64x64.png',

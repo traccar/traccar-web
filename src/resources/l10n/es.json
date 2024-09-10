@@ -533,7 +533,7 @@
     "notificatorMail": "Correo",
     "notificatorSms": "SMS",
     "notificatorFirebase": "Firebase",
-    "notificatorTraccar": "Traccar",
+    "notificatorTraccar": "Aplicación",
     "notificatorTelegram": "Telegram",
     "notificatorPushover": "Pushover",
     "reportReplay": "Repetición Ruta",
