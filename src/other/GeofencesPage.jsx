@@ -17,6 +17,7 @@ import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import { errorsActions } from '../store';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,6 +132,7 @@ const GeofencesPage = () => {
           <MapView>
             <MapGeofenceEdit selectedGeofenceId={selectedGeofenceId} />
           </MapView>
+          <MapScale />
           <MapCurrentLocation />
           <MapGeocoder />
         </div>

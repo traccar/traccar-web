@@ -14,6 +14,7 @@ import MapPositions from '../map/MapPositions';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -91,6 +92,7 @@ const EventPage = () => {
           <MapGeofence />
           {position && <MapPositions positions={[position]} onClick={onMarkerClick} titleField="fixTime" />}
         </MapView>
+        <MapScale />
         {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
         {position && showCard && (
           <StatusCard

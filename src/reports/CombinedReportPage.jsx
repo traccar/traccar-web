@@ -17,6 +17,7 @@ import { formatTime } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
 import MapMarkers from '../map/MapMarkers';
 import MapRouteCoordinates from '../map/MapRouteCoordinates';
+import MapScale from '../map/MapScale';
 
 const CombinedReportPage = () => {
   const classes = useReportStyles();
@@ -71,6 +72,7 @@ const CombinedReportPage = () => {
               ))}
               <MapMarkers markers={createMarkers()} />
             </MapView>
+            <MapScale />
             <MapCamera coordinates={itemsCoordinates} />
           </div>
         )}

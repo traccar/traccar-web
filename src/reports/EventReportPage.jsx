@@ -23,6 +23,7 @@ import MapGeofence from '../map/MapGeofence';
 import MapPositions from '../map/MapPositions';
 import MapCamera from '../map/MapCamera';
 import scheduleReport from './common/scheduleReport';
+import MapScale from '../map/MapScale';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -162,6 +163,7 @@ const EventReportPage = () => {
               <MapGeofence />
               {position && <MapPositions positions={[position]} titleField="fixTime" />}
             </MapView>
+            <MapScale />
             {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
           </div>
         )}
