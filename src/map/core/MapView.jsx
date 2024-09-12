@@ -22,7 +22,6 @@ maplibregl.addProtocol('google', googleProtocol);
 
 export const map = new maplibregl.Map({
   container: element,
-  attributionControl: false,
 });
 
 let ready = false;
