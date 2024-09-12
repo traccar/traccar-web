@@ -8,8 +8,8 @@ export default defineConfig(() => ({
   server: {
     port: 3000,
     proxy: {
-      '/api/socket': 'ws://mi.satelitegps.app',
-      '/api': 'https://mi.satelitegps.app',
+      '/api/socket': 'ws://localhost:8082',
+      '/api': 'http://localhost:8082',
     },
   },
   build: {
