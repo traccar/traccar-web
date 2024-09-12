@@ -22,7 +22,7 @@ export default defineConfig(() => ({
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       workbox: {
         navigateFallbackDenylist: [/^\/api/],
-        maximumFileSizeToCacheInBytes: 4000000,
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,woff,woff2,mp3}'],
       },
       manifest: {

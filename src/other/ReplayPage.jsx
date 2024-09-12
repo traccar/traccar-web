@@ -25,6 +25,7 @@ import { useCatch } from '../reactHelper';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -164,6 +165,7 @@ const ReplayPage = () => {
           <MapPositions positions={[positions[index]]} onClick={onMarkerClick} titleField="fixTime" />
         )}
       </MapView>
+      <MapScale />
       <MapCamera positions={positions} />
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
