@@ -17,24 +17,22 @@ preloadImages();
 
 const root = createRoot(document.getElementById('root'));
 root.render(
-  <StrictMode>
-    <ErrorBoundary>
-      <Provider store={store}>
-        <LocalizationProvider>
-          <StyledEngineProvider injectFirst>
-            <AppThemeProvider>
-              <CssBaseline />
-              <ServerProvider>
-                <BrowserRouter>
-                  <Navigation />
-                </BrowserRouter>
-                <ErrorHandler />
-                <NativeInterface />
-              </ServerProvider>
-            </AppThemeProvider>
-          </StyledEngineProvider>
-        </LocalizationProvider>
-      </Provider>
-    </ErrorBoundary>
-  </StrictMode>,
+  <ErrorBoundary>
+    <Provider store={store}>
+      <LocalizationProvider>
+        <StyledEngineProvider injectFirst>
+          <AppThemeProvider>
+            <CssBaseline />
+            <ServerProvider>
+              <BrowserRouter>
+                <Navigation />
+              </BrowserRouter>
+              <ErrorHandler />
+              <NativeInterface />
+            </ServerProvider>
+          </AppThemeProvider>
+        </StyledEngineProvider>
+      </LocalizationProvider>
+    </Provider>
+  </ErrorBoundary>,
 );
