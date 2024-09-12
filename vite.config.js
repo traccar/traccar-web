@@ -28,7 +28,7 @@ export default defineConfig(() => ({
       manifest: {
         short_name: 'Mi Satelite GPS',
         name: 'Mi Satelite - GPS Tracking Solution',
-        theme_color: '#01579b',
+        theme_color: '#1a237e',
         icons: [
           {
             src: 'pwa-64x64.png',
