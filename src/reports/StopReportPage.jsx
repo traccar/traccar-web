@@ -25,6 +25,7 @@ import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
+import MapScale from '../map/MapScale';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -124,6 +125,7 @@ const StopReportPage = () => {
                 titleField="fixTime"
               />
             </MapView>
+            <MapScale />
             <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />
           </div>
         )}
