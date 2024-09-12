@@ -22,7 +22,15 @@ maplibregl.addProtocol('google', googleProtocol);
 
 export const map = new maplibregl.Map({
   container: element,
-  attributionControl: false,
+});
+
+map.on('load', () => {
+  const container = document.querySelector('.maplibregl-ctrl-bottom-right');
+  if (container) {
+    container.style.display = 'flex';
+    container.style.flexDirection = 'row';
+    container.style.alignItems = 'flex-end';
+  }
 });
 
 let ready = false;
