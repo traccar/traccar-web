@@ -13,7 +13,8 @@
     "react"
   ],
   "ignorePatterns": ["legacy/", "build/", "switcher.js", "theme.js"],
-  "rules": {
+  "rules": {    
+    "linebreak-style": "off",
     "max-len": [0],
     "no-shadow": [0],
     "no-return-assign": [0],
