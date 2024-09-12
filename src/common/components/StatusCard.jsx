@@ -179,40 +179,31 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             handle={`.${classes.media}, .${classes.header}`}
           >
             <Card elevation={3} className={classes.card}>
-              {deviceImage ? (
+              <div className={classes.header}>
+                <Typography variant="body2" color="textSecondary">
+                  {device.name}
+                </Typography>
+                <IconButton
+                  size="small"
+                  onClick={onClose}
+                  onTouchStart={onClose}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </div>
+              {deviceImage && (
                 <CardMedia
                   className={classes.media}
                   image={`/api/media/${device.uniqueId}/${deviceImage}`}
-                >
-                  <IconButton
-                    size="small"
-                    onClick={onClose}
-                    onTouchStart={onClose}
-                  >
-                    <CloseIcon fontSize="small" className={classes.mediaButton} />
-                  </IconButton>
-                </CardMedia>
-              ) : (
-                <div className={classes.header}>
-                  <Typography variant="body2" color="textSecondary">
-                    {device.name}
-                  </Typography>
-                  <IconButton
-                    size="small"
-                    onClick={onClose}
-                    onTouchStart={onClose}
-                  >
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </div>
+                />
               )}
               {position && (
                 <CardContent className={classes.content}>
                   <Table size="small" classes={{ root: classes.table }}>
                     <TableBody>
+                      <div>{positionItems}</div>
                       {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
                         <StatusRow
-                          key={key}
                           name={positionAttributes[key]?.name || key}
                           content={(
                             <PositionValue

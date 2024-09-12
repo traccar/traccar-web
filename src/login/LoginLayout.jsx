@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebar: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     background: theme.palette.primary.main,
