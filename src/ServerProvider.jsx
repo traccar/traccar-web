@@ -21,7 +21,8 @@ const ServerProvider = ({
         if (response.ok) {
           dispatch(sessionActions.updateServer(await response.json()));
         } else {
-          throw Error(await response.text());
+          const message = await response.text();
+          throw Error(message || response.statusText);
         }
       } catch (error) {
         setError(error.message);
