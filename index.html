@@ -12,11 +12,11 @@
     <title>${title}</title>
     <style>
       .loader {
-        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        position: fixed; top: calc(50% - 25px); left: calc(50% - 25px);
         width: 50px; aspect-ratio: 1; animation: ll 1s infinite linear;
         border-radius: 50%; border: 8px solid lightgray; border-right-color: black;
       }
-      @keyframes ll {to{transform: translate(-50%, -50%) rotate(1turn)}}
+      @keyframes ll {to{transform: rotate(1turn)}}
     </style>
   </head>
   <body>
