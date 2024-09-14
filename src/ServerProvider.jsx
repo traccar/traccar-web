@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Alert, IconButton, LinearProgress } from '@mui/material';
+import { Alert, IconButton } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffectAsync } from './reactHelper';
 import { sessionActions } from './store';
+import Loader from './common/components/Loader';
 
 const ServerProvider = ({
   children,
@@ -43,7 +44,7 @@ const ServerProvider = ({
     );
   }
   if (!initialized) {
-    return (<LinearProgress />);
+    return (<Loader />);
   }
   return children;
 };

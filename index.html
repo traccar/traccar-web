@@ -10,10 +10,21 @@
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="stylesheet" href="/styles.css">
     <title>${title}</title>
+    <style>
+      .loader {
+        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 120px; height: 20px;
+        -webkit-mask: radial-gradient(circle closest-side,#000 94%,#0000) left/20% 100%;
+        background: linear-gradient(#000 0 0) left/0% 100% no-repeat #ddd;
+        animation: loader 2s infinite steps(6);
+      }
+      @keyframes loader { 100% {background-size:120% 100%} }
+    </style>
   </head>
   <body>
     <noscript>Enable JavaScript to use <a href="https://www.traccar.org/">Traccar GPS Tracking System</a>.</noscript>
     <div id="root" class="root"></div>
-    <script type="module" src="/src/index.jsx"></script>
+    <div class="loader"></div>
+    <script type="module" src="/src/index.jsx" onerror="alert('Loading error.')"></script>
   </body>
 </html>
