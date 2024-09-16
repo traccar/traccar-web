@@ -85,7 +85,7 @@ export default () => {
       id: 'googleRoad',
       title: t('mapGoogleRoad'),
       style: styleCustom({
-        tiles: Boolean(googleKey)
+        tiles: googleKey
           ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
           : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
@@ -98,7 +98,7 @@ export default () => {
       id: 'googleSatellite',
       title: t('mapGoogleSatellite'),
       style: styleCustom({
-        tiles: Boolean(googleKey)
+        tiles: googleKey
           ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}`]
           : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
@@ -111,7 +111,7 @@ export default () => {
       id: 'googleHybrid',
       title: t('mapGoogleHybrid'),
       style: styleCustom({
-        tiles: Boolean(googleKey)
+        tiles: googleKey
           ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`]
           : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
