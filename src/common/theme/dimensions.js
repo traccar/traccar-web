@@ -8,7 +8,7 @@ export default {
   eventsDrawerWidth: '320px',
   bottomBarHeight: 56,
   popupMapOffset: 300,
-  popupMaxWidth: 400,
+  popupMaxWidth: '320px',
   popupImageHeight: 144,
   cardContentMaxHeight: '40vh',
 };
