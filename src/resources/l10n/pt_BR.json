@@ -254,7 +254,7 @@
     "linkGoogleMaps": "Google Maps",
     "linkAppleMaps": "Apple Maps",
     "linkStreetView": "Street View",
-    "positionFixTime": "Definir tempo",
+    "positionFixTime": "Hora GPS",
     "positionDeviceTime": "Hora do dispositivo",
     "positionServerTime": "Hora do servidor",
     "positionValid": "Válido",
