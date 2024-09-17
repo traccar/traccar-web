@@ -16,6 +16,7 @@ import {
   MenuItem,
   CardMedia,
   Link,
+  Divider,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -109,12 +110,11 @@ const VisualCell = ({ name, content }) => {
     maxWidth: 90,
     margin: 0,
     padding: 1,
+    borderBottom: 'none',
   };
-
-  const classes = useStyles();
   return (
-    <TableCell style={cellStyle} className={classes.cell}>
-      <Card sx={{ minHeight: 45, maxHeight: 45 }} variant="outlined">
+    <TableCell style={cellStyle}>
+      <Card sx={{ minHeight: 43, maxHeight: 43 }} variant="outlined">
         <Typography sx={{ fontSize: 14 }} align="center" variant="h6">{content == null ? '-' : content}</Typography>
         <Typography sx={{ fontSize: 12 }} align="center" variant="subtitle1">{name}</Typography>
       </Card>
@@ -256,25 +256,27 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       {renderVisualRows(positionItems, positionItemsTable, positionAttributes, position)}
                     </TableBody>
                   </Table>
-                  <Table size="small" classes={{ root: classes.table }}>
-                    <TableBody>
-                      {positionItemsTable.filter(
-                        (key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key),
-                      ).map((key) => (
-                        <StatusRow
-                          name={positionAttributes[key]?.name || key}
-                          content={(
-                            <PositionValue
-                              position={position}
-                              property={position.hasOwnProperty(key) ? key : null}
-                              attribute={position.hasOwnProperty(key) ? null : key}
-                            />
-                          )}
-                        />
-                      ))}
-                    </TableBody>
-                  </Table>
-                  <Link component="button" underline="none" variant="body2" onClick={() => navigate(`/position/${position.id}`)}>{t('sharedShowDetails')}</Link>
+                  <Card>
+                    <Table size="small" classes={{ root: classes.table }}>
+                      <TableBody>
+                        {positionItemsTable.filter(
+                          (key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key),
+                        ).map((key) => (
+                          <StatusRow
+                            name={positionAttributes[key]?.name || key}
+                            content={(
+                              <PositionValue
+                                position={position}
+                                property={position.hasOwnProperty(key) ? key : null}
+                                attribute={position.hasOwnProperty(key) ? null : key}
+                              />
+                            )}
+                          />
+                        ))}
+                      </TableBody>
+                    </Table>
+                    <Link component="button" underline="none" variant="body2" onClick={() => navigate(`/position/${position.id}`)}>{t('sharedShowDetails')}</Link>
+                  </Card>
                 </CardContent>
               )}
               <CardActions classes={{ root: classes.actions }} disableSpacing>
@@ -323,7 +325,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
           {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
         </Menu>
-      )}
+      )
+      }
       <RemoveDialog
         open={removing}
         endpoint="devices"
