@@ -278,7 +278,7 @@
     "positionPdop": "PDOP",
     "positionSat": "Satellites",
     "positionSatVisible": "Visible Satellites",
-    "positionRssi": "RSSI",
+    "positionRssi": "Signal GSM",
     "positionGps": "GPS",
     "positionRoaming": "Roaming",
     "positionEvent": "Event",

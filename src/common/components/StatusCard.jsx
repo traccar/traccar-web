@@ -15,6 +15,7 @@ import {
   Menu,
   MenuItem,
   CardMedia,
+  Link,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -37,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
   },
   media: {
     height: theme.dimensions.popupImageHeight,
@@ -52,11 +56,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: theme.spacing(1, 1, 0, 2),
+    padding: theme.spacing(1, 1, 1, 1),
   },
   content: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    padding: theme.spacing(1, 2, 0, 1),
     maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
   },
@@ -91,12 +94,33 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('md')]: {
       left: '50%',
-      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+      bottom: 0,
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
     },
     transform: 'translateX(-50%)',
   }),
 }));
 
+const VisualCell = ({ name, content }) => {
+  const cellStyle = {
+    minWidth: 90,
+    maxWidth: 90,
+    margin: 0,
+    padding: 1,
+  };
+
+  const classes = useStyles();
+  return (
+    <TableCell style={cellStyle} className={classes.cell}>
+      <Card sx={{ minHeight: 45, maxHeight: 45 }} variant="outlined">
+        <Typography sx={{ fontSize: 14 }} align="center" variant="h6">{content == null ? '-' : content}</Typography>
+        <Typography sx={{ fontSize: 12 }} align="center" variant="subtitle1">{name}</Typography>
+      </Card>
+    </TableCell>
+  );
+};
 const StatusRow = ({ name, content }) => {
   const classes = useStyles();
 
@@ -111,7 +135,32 @@ const StatusRow = ({ name, content }) => {
     </TableRow>
   );
 };
+const renderVisualRows = (positionItems, excludeItems, positionAttributes, position) => {
+  const newPositionItems = positionItems.split(',').filter((key) => (position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)) && !excludeItems.includes(key));
 
+  return newPositionItems.map((key, index) => {
+    if (index % 3 === 0) {
+      return (
+        <TableRow>
+          {newPositionItems.slice(index, index + 3).map((key) => (
+            <VisualCell
+              key={key}
+              name={positionAttributes[key]?.name || key}
+              content={(
+                <PositionValue
+                  position={position}
+                  property={position.hasOwnProperty(key) ? key : null}
+                  attribute={position.hasOwnProperty(key) ? null : key}
+                />
+              )}
+            />
+          ))}
+        </TableRow>
+      );
+    }
+    return null;
+  });
+};
 const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
   const classes = useStyles({ desktopPadding });
   const navigate = useNavigate();
@@ -127,7 +176,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
+
   const positionItems = useAttributePreference('positionItems', 'fixTime,address,speed,totalDistance');
+
+  const positionItemsTable = ['deviceTime', 'geofenceIds', 'address'];
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -199,10 +251,16 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
               )}
               {position && (
                 <CardContent className={classes.content}>
+                  <Table>
+                    <TableBody>
+                      {renderVisualRows(positionItems, positionItemsTable, positionAttributes, position)}
+                    </TableBody>
+                  </Table>
                   <Table size="small" classes={{ root: classes.table }}>
                     <TableBody>
-                      <div>{positionItems}</div>
-                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                      {positionItemsTable.filter(
+                        (key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key),
+                      ).map((key) => (
                         <StatusRow
                           name={positionAttributes[key]?.name || key}
                           content={(
@@ -216,6 +274,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       ))}
                     </TableBody>
                   </Table>
+                  <Link component="button" underline="none" variant="body2" onClick={() => navigate(`/position/${position.id}`)}>{t('sharedShowDetails')}</Link>
                 </CardContent>
               )}
               <CardActions classes={{ root: classes.actions }} disableSpacing>
@@ -258,7 +317,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       </div>
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-          <MenuItem onClick={() => navigate(`/position/${position.id}`)}><Typography color="secondary">{t('sharedShowDetails')}</Typography></MenuItem>
           <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
