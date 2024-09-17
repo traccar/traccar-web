@@ -16,7 +16,6 @@ import {
   MenuItem,
   CardMedia,
   Link,
-  Divider,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -60,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 1, 1, 1),
   },
   content: {
-    padding: theme.spacing(1, 2, 0, 1),
+    padding: theme.spacing(20, 2, 0, 1),
     maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
   },
@@ -250,7 +249,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 />
               )}
               {position && (
-                <CardContent className={classes.content}>
+                <CardContent className={classes.content} sx={{ paddingTop: 0, paddingBottom: 0, paddingLeft: 1, paddingRight: 1 }}>
                   <Table>
                     <TableBody>
                       {renderVisualRows(positionItems, positionItemsTable, positionAttributes, position)}
