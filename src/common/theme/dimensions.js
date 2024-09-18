@@ -10,5 +10,5 @@ export default {
   popupMapOffset: 300,
   popupMaxWidth: '320px',
   popupImageHeight: 144,
-  cardContentMaxHeight: '40vh',
+  cardContentMaxHeight: '35vh',
 };

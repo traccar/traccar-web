@@ -16,6 +16,7 @@ import {
   MenuItem,
   CardMedia,
   Link,
+  Tooltip,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -24,6 +25,7 @@ import PublishIcon from '@mui/icons-material/Publish';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PendingIcon from '@mui/icons-material/Pending';
+import ErrorIcon from '@mui/icons-material/Error';
 
 import { useTranslation } from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
@@ -33,6 +35,9 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
+import {
+  formatAlarm,
+} from '../util/formatter';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -101,6 +106,10 @@ const useStyles = makeStyles((theme) => ({
     },
     transform: 'translateX(-50%)',
   }),
+
+  error: {
+    color: theme.palette.error.main,
+  },
 }));
 
 const VisualCell = ({ name, content }) => {
@@ -113,7 +122,7 @@ const VisualCell = ({ name, content }) => {
   };
   return (
     <TableCell style={cellStyle}>
-      <Card sx={{ minHeight: 43, maxHeight: 43 }} variant="outlined">
+      <Card sx={{ minHeight: 43, maxHeight: 43 }}>
         <Typography sx={{ fontSize: 14 }} align="center" variant="h6">{content == null ? '-' : content}</Typography>
         <Typography sx={{ fontSize: 12 }} align="center" variant="subtitle1">{name}</Typography>
       </Card>
@@ -122,10 +131,14 @@ const VisualCell = ({ name, content }) => {
 };
 const StatusRow = ({ name, content }) => {
   const classes = useStyles();
-
+  const cellStyle = {
+    minWidth: 90,
+    maxWidth: 90,
+    paddingLeft: 8,
+  };
   return (
     <TableRow>
-      <TableCell className={classes.cell}>
+      <TableCell className={classes.cell} style={cellStyle}>
         <Typography variant="body2">{name}</Typography>
       </TableCell>
       <TableCell className={classes.cell}>
@@ -233,7 +246,15 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
               <div className={classes.header}>
                 <Typography variant="body2" color="textSecondary">
                   {device.name}
+
                 </Typography>
+                {position.attributes.hasOwnProperty('alarm') && (
+                  <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
+                    <IconButton size="small">
+                      <ErrorIcon fontSize="small" className={classes.error} />
+                    </IconButton>
+                  </Tooltip>
+                )}
                 <IconButton
                   size="small"
                   onClick={onClose}
@@ -249,7 +270,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 />
               )}
               {position && (
-                <CardContent className={classes.content} sx={{ paddingTop: 0, paddingBottom: 0, paddingLeft: 1, paddingRight: 1 }}>
+                <CardContent className={classes.content} sx={{ paddingTop: 0, paddingBottom: 1, paddingLeft: 1, paddingRight: 1 }}>
                   <Table>
                     <TableBody>
                       {renderVisualRows(positionItems, positionItemsTable, positionAttributes, position)}
@@ -274,7 +295,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         ))}
                       </TableBody>
                     </Table>
-                    <Link component="button" underline="none" variant="body2" onClick={() => navigate(`/position/${position.id}`)}>{t('sharedShowDetails')}</Link>
+                    <Link sx={{ padding: 1, float: 'right' }} component="button" underline="none" variant="body2" onClick={() => navigate(`/position/${position.id}`)}>{t('sharedShowDetails')}</Link>
                   </Card>
                 </CardContent>
               )}
@@ -298,19 +319,23 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 >
                   <PublishIcon />
                 </IconButton>
-                <IconButton
-                  onClick={() => navigate(`/settings/device/${deviceId}`)}
-                  disabled={disableActions || deviceReadonly}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => setRemoving(true)}
-                  disabled={disableActions || deviceReadonly}
-                  className={classes.delete}
-                >
-                  <DeleteIcon />
-                </IconButton>
+                {!deviceReadonly && (
+                  <>
+                    <IconButton
+                      onClick={() => navigate(`/settings/device/${deviceId}`)}
+                      disabled={disableActions || deviceReadonly}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => setRemoving(true)}
+                      disabled={disableActions || deviceReadonly}
+                      className={classes.delete}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </>
+                )}
               </CardActions>
             </Card>
           </Draggable>
@@ -324,8 +349,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
           {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
         </Menu>
-      )
-      }
+      )}
       <RemoveDialog
         open={removing}
         endpoint="devices"
