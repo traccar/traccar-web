@@ -147,7 +147,7 @@ const SettingsMenu = () => {
               icon={<CampaignIcon />}
               selected={location.pathname === '/settings/announcement'}
             />
-            {admin && (  
+            {admin && (
               <MenuItem
                 title={t('settingsServer')}
                 link="/settings/server"
