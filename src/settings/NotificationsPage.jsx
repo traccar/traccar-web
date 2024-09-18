@@ -54,6 +54,7 @@ const NotificationsPage = () => {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
+            <TableCell>{t('sharedDescription')}</TableCell>
             <TableCell>{t('notificationType')}</TableCell>
             <TableCell>{t('notificationAlways')}</TableCell>
             <TableCell>{t('sharedAlarms')}</TableCell>
@@ -64,6 +65,7 @@ const NotificationsPage = () => {
         <TableBody>
           {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
             <TableRow key={item.id}>
+              <TableCell>{item.description}</TableCell>
               <TableCell>{t(prefixString('event', item.type))}</TableCell>
               <TableCell>{formatBoolean(item.always, t)}</TableCell>
               <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
