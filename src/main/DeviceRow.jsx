@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from '@mui/styles/makeStyles';
 import {
-  IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton,
+  IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton, Chip,
 } from '@mui/material';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
@@ -84,6 +84,7 @@ const DeviceRow = ({ data, index, style }) => {
         key={item.id}
         onClick={() => dispatch(devicesActions.selectId(item.id))}
         disabled={!admin && item.disabled}
+        style={{ paddingLeft: 8, paddingRight: 8 }}
       >
         <ListItemAvatar>
           <Avatar>
@@ -99,13 +100,18 @@ const DeviceRow = ({ data, index, style }) => {
         {position && (
           <>
             {position.attributes.hasOwnProperty('alarm') && (
-              <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
-                <IconButton size="small">
-                  <ErrorIcon fontSize="small" className={classes.error} />
-                </IconButton>
-              </Tooltip>
+              <Chip
+                size="small"
+                variant="outlined"
+                avatar={(
+                  <IconButton size="small">
+                    <ErrorIcon fontSize="small" className={classes.error} />
+                  </IconButton>
+                )}
+                label={`${formatAlarm(position.attributes.alarm, t)}`}
+              />
             )}
-            {position.attributes.hasOwnProperty('ignition') && (
+            {!position.attributes.hasOwnProperty('alarm') && position.attributes.hasOwnProperty('ignition') && (
               <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
                 <IconButton size="small">
                   {position.attributes.ignition ? (
@@ -116,7 +122,7 @@ const DeviceRow = ({ data, index, style }) => {
                 </IconButton>
               </Tooltip>
             )}
-            {position.attributes.hasOwnProperty('batteryLevel') && (
+            {!position.attributes.hasOwnProperty('alarm') && position.attributes.hasOwnProperty('batteryLevel') && (
               <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
                 <IconButton size="small">
                   {(position.attributes.batteryLevel > 70 && (
@@ -128,10 +134,10 @@ const DeviceRow = ({ data, index, style }) => {
                       ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
                       : (<Battery60Icon fontSize="small" className={classes.warning} />)
                   )) || (
-                    position.attributes.charge
-                      ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
-                      : (<Battery20Icon fontSize="small" className={classes.error} />)
-                  )}
+                      position.attributes.charge
+                        ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
+                        : (<Battery20Icon fontSize="small" className={classes.error} />)
+                    )}
                 </IconButton>
               </Tooltip>
             )}
