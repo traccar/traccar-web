@@ -60,9 +60,6 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
   },
-  delete: {
-    color: theme.palette.error.main,
-  },
   icon: {
     width: '25px',
     height: '25px',
@@ -254,9 +251,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   <EditIcon />
                 </IconButton>
                 <IconButton
+                  color="error"
                   onClick={() => setRemoving(true)}
                   disabled={disableActions || deviceReadonly}
-                  className={classes.delete}
                 >
                   <DeleteIcon />
                 </IconButton>
