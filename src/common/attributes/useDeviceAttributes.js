@@ -22,12 +22,4 @@ export default (t) => useMemo(() => ({
     name: t('sharedTimezone'),
     type: 'string',
   },
-  deviceInactivityStart: {
-    name: t('attributeDeviceInactivityStart'),
-    type: 'number',
-  },
-  deviceInactivityPeriod: {
-    name: t('attributeDeviceInactivityPeriod'),
-    type: 'number',
-  },
 }), [t]);
