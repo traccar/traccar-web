@@ -137,4 +137,12 @@ export default (t) => useMemo(() => ({
     name: t('sharedIconScale'),
     type: 'number',
   },
+  navigationAppLink: {
+    name: t('navigationAppLink'),
+    type: 'string',
+  },
+  navigationAppTitle: {
+    name: t('navigationAppTitle'),
+    type: 'string',
+  },
 }), [t]);

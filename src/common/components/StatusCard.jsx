@@ -126,6 +126,11 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const positionAttributes = usePositionAttributes(t);
   const positionItems = useAttributePreference('positionItems', 'fixTime,address,speed,totalDistance');
 
+  const serverNavigationAppLink = useSelector((state) => state.session.server.attributes.navigationAppLink);
+  const serverNavigationAppTitle = useSelector((state) => state.session.server.attributes.navigationAppTitle);
+  const userNavigationAppLink = user.attributes.navigationAppLink;
+  const userNavigationAppTitle = user.attributes.navigationAppTitle;
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [removing, setRemoving] = useState(false);
@@ -269,6 +274,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
+          {serverNavigationAppLink && serverNavigationAppTitle && <MenuItem component="a" target="_blank" href={serverNavigationAppLink.replace('{latitude}', position.latitude).replace('{longitude}', position.longitude)}>{serverNavigationAppTitle}</MenuItem>}
+          {userNavigationAppLink && userNavigationAppTitle && <MenuItem component="a" target="_blank" href={userNavigationAppLink.replace('{latitude}', position.latitude).replace('{longitude}', position.longitude)}>{userNavigationAppTitle}</MenuItem>}
           {!shareDisabled && !user.temporary && <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>{t('deviceShare')}</MenuItem>}
         </Menu>
       )}

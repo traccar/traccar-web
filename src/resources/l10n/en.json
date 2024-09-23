@@ -609,5 +609,7 @@
     "categoryVan": "Van",
     "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
-    "maintenancePeriod": "Period"
+    "maintenancePeriod": "Period",
+    "navigationAppLink": "Navigation app link",
+    "navigationAppTitle": "Navigation app title"
 }
