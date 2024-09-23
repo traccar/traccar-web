@@ -138,11 +138,11 @@ export default (t) => useMemo(() => ({
     type: 'number',
   },
   navigationAppLink: {
-    name: t('navigationAppLink'),
+    name: t('attributeNavigationAppLink'),
     type: 'string',
   },
   navigationAppTitle: {
-    name: t('navigationAppTitle'),
+    name: t('attributeNavigationAppTitle'),
     type: 'string',
   },
 }), [t]);
