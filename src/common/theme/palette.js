@@ -1,22 +1,33 @@
-import { grey, green, indigo } from '@mui/material/colors';
-
-const validatedColor = (color) => (/^#([0-9A-Fa-f]{3}){1,2}$/.test(color) ? color : null);
+import {
+	grey,
+	green,
+	indigo,
+	lightGreen,
+	deepOrange,
+	blueGrey,
+} from '@mui/material/colors';
+const validatedColor = color =>
+	/^#([0-9A-Fa-f]{3}){1,2}$/.test(color) ? color : null;
 
 export default (server, darkMode) => ({
-  mode: darkMode ? 'dark' : 'light',
-  background: {
-    default: darkMode ? grey[900] : grey[50],
-  },
-  primary: {
-    main: validatedColor(server?.attributes?.colorPrimary) || (darkMode ? indigo[200] : indigo[900]),
-  },
-  secondary: {
-    main: validatedColor(server?.attributes?.colorSecondary) || (darkMode ? green[200] : green[800]),
-  },
-  neutral: {
-    main: grey[500],
-  },
-  geometry: {
-    main: '#3bb2d0',
-  },
+	mode: darkMode ? 'dark' : 'light',
+	background: {
+		default: darkMode ? blueGrey[900] : blueGrey[50],
+	},
+	primary: {
+		main:
+			validatedColor(server?.attributes?.colorPrimary) ||
+			(darkMode ? deepOrange[200] : deepOrange[900]),
+	},
+	secondary: {
+		main:
+			validatedColor(server?.attributes?.colorSecondary) ||
+			(darkMode ? lightGreen[300] : green[900]),
+	},
+	neutral: {
+		main: blueGrey[500],
+	},
+	geometry: {
+		main: '#ff781f',
+	},
 });
