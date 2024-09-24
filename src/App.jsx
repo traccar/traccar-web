@@ -66,7 +66,8 @@ const App = () => {
   }, [user]);
 
   if (user == null) {
-    return <LinearProgress />;
+
+    return (<Loader />);
   }
   if (termsUrl && !user.attributes.termsAccepted) {
     return (

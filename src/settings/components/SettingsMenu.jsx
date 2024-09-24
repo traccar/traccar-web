@@ -141,21 +141,19 @@ const SettingsMenu = () => {
         <>
           <Divider />
           <List>
+            <MenuItem
+              title={t('serverAnnouncement')}
+              link="/settings/announcement"
+              icon={<CampaignIcon />}
+              selected={location.pathname === '/settings/announcement'}
+            />
             {admin && (
-              <>
-                <MenuItem
-                  title={t('serverAnnouncement')}
-                  link="/settings/announcement"
-                  icon={<CampaignIcon />}
-                  selected={location.pathname === '/settings/announcement'}
-                />
-                <MenuItem
-                  title={t('settingsServer')}
-                  link="/settings/server"
-                  icon={<StorageIcon />}
-                  selected={location.pathname === '/settings/server'}
-                />
-              </>
+              <MenuItem
+                title={t('settingsServer')}
+                link="/settings/server"
+                icon={<StorageIcon />}
+                selected={location.pathname === '/settings/server'}
+              />
             )}
             <MenuItem
               title={t('settingsUsers')}

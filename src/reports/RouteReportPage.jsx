@@ -2,32 +2,29 @@ import React, { Fragment, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
-import ReportFilter from "./components/ReportFilter";
-import { useTranslation } from "../common/components/LocalizationProvider";
-import PageLayout from "../common/components/PageLayout";
-import ReportsMenu from "./components/ReportsMenu";
-import PositionValue from "../common/components/PositionValue";
-import ColumnSelect from "./components/ColumnSelect";
-import usePositionAttributes from "../common/attributes/usePositionAttributes";
-import { useCatch } from "../reactHelper";
-import MapView from "../map/core/MapView";
-import MapRoutePath from "../map/MapRoutePath";
-import MapRoutePoints from "../map/MapRoutePoints";
-import MapPositions from "../map/MapPositions";
-import useReportStyles from "./common/useReportStyles";
-import TableShimmer from "../common/components/TableShimmer";
-import MapCamera from "../map/MapCamera";
-import MapGeofence from "../map/MapGeofence";
-import scheduleReport from "./common/scheduleReport";
+
+  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
+} from '@mui/material';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+import ReportFilter from './components/ReportFilter';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import ReportsMenu from './components/ReportsMenu';
+import PositionValue from '../common/components/PositionValue';
+import ColumnSelect from './components/ColumnSelect';
+import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { useCatch } from '../reactHelper';
+import MapView from '../map/core/MapView';
+import MapRoutePath from '../map/MapRoutePath';
+import MapRoutePoints from '../map/MapRoutePoints';
+import MapPositions from '../map/MapPositions';
+import useReportStyles from './common/useReportStyles';
+import TableShimmer from '../common/components/TableShimmer';
+import MapCamera from '../map/MapCamera';
+import MapGeofence from '../map/MapGeofence';
+import scheduleReport from './common/scheduleReport';
+import MapScale from '../map/MapScale';
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
@@ -144,6 +141,7 @@ const RouteReportPage = () => {
               })}
               <MapPositions positions={[selectedItem]} titleField="fixTime" />
             </MapView>
+            <MapScale />
             <MapCamera positions={items} />
           </div>
         )}

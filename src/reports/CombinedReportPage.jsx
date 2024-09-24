@@ -84,6 +84,7 @@ const CombinedReportPage = () => {
               ))}
               <MapMarkers markers={createMarkers()} />
             </MapView>
+            <MapScale />
             <MapCamera coordinates={itemsCoordinates} />
           </div>
         )}

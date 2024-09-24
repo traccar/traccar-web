@@ -1,38 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Link,
-  IconButton,
-} from "@mui/material";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
-import { useSelector } from "react-redux";
-import { formatSpeed, formatTime } from "../common/util/formatter";
-import ReportFilter from "./components/ReportFilter";
-import { prefixString } from "../common/util/stringUtils";
-import { useTranslation } from "../common/components/LocalizationProvider";
-import PageLayout from "../common/components/PageLayout";
-import ReportsMenu from "./components/ReportsMenu";
-import usePersistedState from "../common/util/usePersistedState";
-import ColumnSelect from "./components/ColumnSelect";
-import { useCatch, useEffectAsync } from "../reactHelper";
-import useReportStyles from "./common/useReportStyles";
-import TableShimmer from "../common/components/TableShimmer";
-import { useAttributePreference } from "../common/util/preferences";
-import MapView from "../map/core/MapView";
-import MapGeofence from "../map/MapGeofence";
-import MapPositions from "../map/MapPositions";
-import MapCamera from "../map/MapCamera";
-import scheduleReport from "./common/scheduleReport";
+  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton,
+} from '@mui/material';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+import { useSelector } from 'react-redux';
+import { formatSpeed, formatTime } from '../common/util/formatter';
+import ReportFilter from './components/ReportFilter';
+import { prefixString } from '../common/util/stringUtils';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import PageLayout from '../common/components/PageLayout';
+import ReportsMenu from './components/ReportsMenu';
+import usePersistedState from '../common/util/usePersistedState';
+import ColumnSelect from './components/ColumnSelect';
+import { useCatch, useEffectAsync } from '../reactHelper';
+import useReportStyles from './common/useReportStyles';
+import TableShimmer from '../common/components/TableShimmer';
+import { useAttributePreference } from '../common/util/preferences';
+import MapView from '../map/core/MapView';
+import MapGeofence from '../map/MapGeofence';
+import MapPositions from '../map/MapPositions';
+import MapCamera from '../map/MapCamera';
+import scheduleReport from './common/scheduleReport';
+import MapScale from '../map/MapScale';
 
 const columnsArray = [
   ["eventTime", "positionFixTime"],
@@ -202,12 +193,9 @@ const EventReportPage = () => {
                 <MapPositions positions={[position]} titleField="fixTime" />
               )}
             </MapView>
-            {position && (
-              <MapCamera
-                latitude={position.latitude}
-                longitude={position.longitude}
-              />
-            )}
+
+            <MapScale />
+            {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
           </div>
         )}
         <div className={classes.containerMain}>

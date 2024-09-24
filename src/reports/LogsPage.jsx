@@ -17,12 +17,6 @@ const useStyles = makeStyles((theme) => ({
     width: '1%',
     paddingLeft: theme.spacing(1),
   },
-  success: {
-    color: theme.palette.success.main,
-  },
-  error: {
-    color: theme.palette.error.main,
-  },
 }));
 
 const LogsPage = () => {
@@ -59,13 +53,13 @@ const LogsPage = () => {
             <TableRow key={index}>
               <TableCell className={classes.columnAction} padding="none">
                 {item.deviceId ? (
-                  <IconButton size="small" disabled>
-                    <CheckCircleOutlineIcon fontSize="small" className={classes.success} />
+                  <IconButton color="success" size="small" disabled>
+                    <CheckCircleOutlineIcon fontSize="small" />
                   </IconButton>
                 ) : (
                   <Tooltip title={t('loginRegister')}>
-                    <IconButton size="small" onClick={() => registerDevice(item.uniqueId)}>
-                      <HelpOutlineIcon fontSize="small" className={classes.error} />
+                    <IconButton color="error" size="small" onClick={() => registerDevice(item.uniqueId)}>
+                      <HelpOutlineIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>
                 )}

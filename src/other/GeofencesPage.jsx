@@ -17,6 +17,7 @@ import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import { errorsActions } from '../store';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,14 +36,12 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     zIndex: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
+    position: 'relative !important',
     [theme.breakpoints.up('sm')]: {
       width: theme.dimensions.drawerWidthDesktop,
     },
     [theme.breakpoints.down('sm')]: {
-      height: theme.dimensions.drawerHeightPhone,
+      height: `${theme.dimensions.drawerHeightPhone} !important`,
     },
   },
   mapContainer: {
@@ -108,7 +107,7 @@ const GeofencesPage = () => {
           className={classes.drawer}
           anchor={isPhone ? 'bottom' : 'left'}
           variant="permanent"
-          classes={{ paper: classes.drawerPaper }}
+          classes={{ paper: classes.drawer }}
         >
           <Toolbar>
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
@@ -131,6 +130,7 @@ const GeofencesPage = () => {
           <MapView>
             <MapGeofenceEdit selectedGeofenceId={selectedGeofenceId} />
           </MapView>
+          <MapScale />
           <MapCurrentLocation />
           <MapGeocoder />
         </div>
