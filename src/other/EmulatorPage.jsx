@@ -18,6 +18,7 @@ import SelectField from '../common/components/SelectField';
 import { devicesActions } from '../store';
 import MapPositions from '../map/MapPositions';
 import { useCatch } from '../reactHelper';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -131,6 +132,7 @@ const EmulatorPage = () => {
               showStatus
             />
           </MapView>
+          <MapScale />
           <MapCurrentLocation />
           <MapGeocoder />
         </div>

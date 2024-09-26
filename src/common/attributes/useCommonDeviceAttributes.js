@@ -18,4 +18,12 @@ export default (t) => useMemo(() => ({
     name: t('attributeReportIgnoreOdometer'),
     type: 'boolean',
   },
+  deviceInactivityStart: {
+    name: t('attributeDeviceInactivityStart'),
+    type: 'number',
+  },
+  deviceInactivityPeriod: {
+    name: t('attributeDeviceInactivityPeriod'),
+    type: 'number',
+  },
 }), [t]);

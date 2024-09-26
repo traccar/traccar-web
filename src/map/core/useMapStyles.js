@@ -41,6 +41,12 @@ export default () => {
 
   return useMemo(() => [
     {
+      id: 'openFreeMap',
+      title: t('mapOpenFreeMap'),
+      style: 'https://tiles.openfreemap.org/styles/liberty',
+      available: true,
+    },
+    {
       id: 'locationIqStreets',
       title: t('mapLocationIqStreets'),
       style: `https://tiles.locationiq.com/v3/streets/vector.json?key=${locationIqKey}`,
@@ -85,33 +91,39 @@ export default () => {
       id: 'googleRoad',
       title: t('mapGoogleRoad'),
       style: styleCustom({
-        tiles: [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`],
+        tiles: googleKey
+          ? [`google://roadmap/{z}/{x}/{y}?key=${googleKey}`]
+          : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: Boolean(googleKey),
+      available: true,
       attribute: 'googleKey',
     },
     {
       id: 'googleSatellite',
       title: t('mapGoogleSatellite'),
       style: styleCustom({
-        tiles: [`google://satellite/{z}/{x}/{y}?key=${googleKey}`],
+        tiles: googleKey
+          ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}`]
+          : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: Boolean(googleKey),
+      available: true,
       attribute: 'googleKey',
     },
     {
       id: 'googleHybrid',
       title: t('mapGoogleHybrid'),
       style: styleCustom({
-        tiles: [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`],
+        tiles: googleKey
+          ? [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerRoadmap`]
+          : [0, 1, 2, 3].map((i) => `https://mt${i}.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga`),
         maxZoom: 20,
         attribution: '© Google',
       }),
-      available: Boolean(googleKey),
+      available: true,
       attribute: 'googleKey',
     },
     {
@@ -254,7 +266,7 @@ export default () => {
     {
       id: 'custom',
       title: t('mapCustom'),
-      style: styleCustom({
+      style: !customMapUrl?.includes('{z}') ? customMapUrl : styleCustom({
         tiles: [customMapUrl],
       }),
       available: Boolean(customMapUrl),
