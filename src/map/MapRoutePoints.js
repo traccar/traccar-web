@@ -1,9 +1,13 @@
-import { useId, useCallback, useEffect } from 'react';
+import {
+  useId, useCallback, useEffect, useMemo,
+} from 'react';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
+import { useAttributePreference } from '../common/util/preferences';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
+  const MaxExpectedDeviceSpeed = useAttributePreference('ui.MaxExpectedDeviceSpeed');
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
@@ -15,6 +19,13 @@ const MapRoutePoints = ({ positions, onClick }) => {
       onClick(feature.properties.id, feature.properties.index);
     }
   }, [onClick]);
+
+  const maxSpeed = useMemo(() => {
+    if (MaxExpectedDeviceSpeed > 0) {
+      return MaxExpectedDeviceSpeed;
+    }
+    return positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
+  }, [MaxExpectedDeviceSpeed, positions]);
 
   useEffect(() => {
     map.addSource(id, {
@@ -57,7 +68,6 @@ const MapRoutePoints = ({ positions, onClick }) => {
   }, [onMarkerClick]);
 
   useEffect(() => {
-    const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.map((position, index) => ({
@@ -74,7 +84,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
         },
       })),
     });
-  }, [onMarkerClick, positions]);
+  }, [id, positions, maxSpeed]);
 
   return null;
 };
