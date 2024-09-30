@@ -22,8 +22,10 @@ const interpolateTurbo = (value) => {
   ];
 };
 
-export const getSpeedColor = (speed, maxSpeed) => {
+const getSpeedColor = (speed, maxSpeed) => {
   const normalizedSpeed = Math.max(0, Math.min(1, speed / maxSpeed));
   const [r, g, b] = interpolateTurbo(normalizedSpeed);
   return `rgb(${r}, ${g}, ${b})`;
 };
+
+export default getSpeedColor;
