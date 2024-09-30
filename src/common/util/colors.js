@@ -5,27 +5,25 @@ const turboPolynomials = {
   b: [0.10667330, 12.64194608, -60.58204836, 110.36276771, -89.90310912, 27.34824973],
 };
 
-function interpolateChannel(normalizedValue, coeffs) {
+const interpolateChannel = (normalizedValue, coeffs) => {
   let result = 0;
   for (let i = 0; i < coeffs.length; i += 1) {
     result += coeffs[i] * (normalizedValue ** i);
   }
   return Math.max(0, Math.min(1, result));
-}
+};
 
-function interpolateTurbo(value) {
+const interpolateTurbo = (value) => {
   const normalizedValue = Math.max(0, Math.min(1, value));
   return [
     Math.round(255 * interpolateChannel(normalizedValue, turboPolynomials.r)),
     Math.round(255 * interpolateChannel(normalizedValue, turboPolynomials.g)),
     Math.round(255 * interpolateChannel(normalizedValue, turboPolynomials.b)),
   ];
-}
+};
 
-const getSpeedColor = (speed, maxSpeed) => {
+export const getSpeedColor = (speed, maxSpeed) => {
   const normalizedSpeed = Math.max(0, Math.min(1, speed / maxSpeed));
   const [r, g, b] = interpolateTurbo(normalizedSpeed);
   return `rgb(${r}, ${g}, ${b})`;
 };
-
-export default getSpeedColor;

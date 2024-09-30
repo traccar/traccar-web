@@ -2,7 +2,7 @@ import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
-import getSpeedColor from '../common/util/colors';
+import { getSpeedColor } from '../common/util/colors';
 
 const MapRoutePath = ({ positions }) => {
   const id = useId();

@@ -1,6 +1,6 @@
 import { useId, useCallback, useEffect } from 'react';
 import { map } from './core/MapView';
-import getSpeedColor from '../common/util/colors';
+import { getSpeedColor } from '../common/util/colors';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
