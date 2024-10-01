@@ -1,15 +1,13 @@
 import { useTheme } from '@mui/styles';
-import { useId, useEffect, useMemo } from 'react';
+import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
-import { useAttributePreference } from '../common/util/preferences';
 
 const MapRoutePath = ({ positions }) => {
   const id = useId();
-  const theme = useTheme();
 
-  const MaxExpectedDeviceSpeed = useAttributePreference('ui.MaxExpectedDeviceSpeed');
+  const theme = useTheme();
 
   const reportColor = useSelector((state) => {
     const position = positions?.find(() => true);
@@ -24,13 +22,6 @@ const MapRoutePath = ({ positions }) => {
     }
     return null;
   });
-
-  const maxSpeed = useMemo(() => {
-    if (MaxExpectedDeviceSpeed > 0) {
-      return MaxExpectedDeviceSpeed;
-    }
-    return positions.map((item) => item.speed).reduce((a, b) => Math.max(a, b), -Infinity);
-  }, [MaxExpectedDeviceSpeed, positions]);
 
   useEffect(() => {
     map.addSource(id, {
@@ -71,6 +62,7 @@ const MapRoutePath = ({ positions }) => {
   }, []);
 
   useEffect(() => {
+    const maxSpeed = positions.map((item) => item.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     const features = [];
     for (let i = 0; i < positions.length - 1; i += 1) {
       features.push({
@@ -91,7 +83,7 @@ const MapRoutePath = ({ positions }) => {
       type: 'FeatureCollection',
       features,
     });
-  }, [theme, positions, reportColor, maxSpeed, id]);
+  }, [theme, positions, reportColor]);
 
   return null;
 };

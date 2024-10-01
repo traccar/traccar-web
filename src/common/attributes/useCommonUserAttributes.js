@@ -145,8 +145,4 @@ export default (t) => useMemo(() => ({
     name: t('attributeNavigationAppTitle'),
     type: 'string',
   },
-  'ui.MaxExpectedDeviceSpeed': {
-    name: t('attributeUIMaxExpectedDeviceSpeed'),
-    type: 'number',
-  },
 }), [t]);

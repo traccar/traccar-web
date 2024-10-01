@@ -612,6 +612,5 @@
     "categoryVan": "Van",
     "categoryScooter": "Scooter",
     "maintenanceStart": "Start",
-    "maintenancePeriod": "Period",
-    "attributeUIMaxExpectedDeviceSpeed": "Max Expected Device Speed"
+    "maintenancePeriod": "Period"
 }
