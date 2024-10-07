@@ -57,8 +57,6 @@ const MapRoutePoints = ({ positions, onClick }) => {
   }, [onMarkerClick]);
 
   useEffect(() => {
-    if (positions.length === 0) return;
-
     const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
 
