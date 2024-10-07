@@ -58,6 +58,8 @@ const MapRoutePoints = ({ positions, onClick }) => {
 
   useEffect(() => {
     const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
+    const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
+
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.map((position, index) => ({
@@ -70,7 +72,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
           index,
           id: position.id,
           rotation: position.course,
-          color: getSpeedColor(position.speed, maxSpeed),
+          color: getSpeedColor(position.speed, minSpeed, maxSpeed),
         },
       })),
     });
