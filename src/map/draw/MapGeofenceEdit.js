@@ -11,7 +11,7 @@ import { map } from '../core/MapView';
 import { findFonts, geofenceToFeature, geometryToArea } from '../core/mapUtil';
 import { errorsActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
-import theme from './theme';
+import drawTheme from './theme';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
@@ -32,7 +32,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
       trash: true,
     },
     userProperties: true,
-    styles: [...theme, {
+    styles: [...drawTheme, {
       id: 'gl-draw-title',
       type: 'symbol',
       filter: ['all'],
@@ -47,7 +47,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
       },
     }],
   }), []);
-  
+
   const geofences = useSelector((state) => state.geofences.items);
 
   const refreshGeofences = useCatchCallback(async () => {
