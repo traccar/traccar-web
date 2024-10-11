@@ -2,6 +2,7 @@ import { useTheme } from '@mui/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
+import { findFonts } from './core/mapUtil';
 
 const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
   const id = useId();
@@ -49,6 +50,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
       type: 'symbol',
       layout: {
         'text-field': '{name}',
+        'text-font': findFonts(map),
         'text-size': 12,
       },
       paint: {
