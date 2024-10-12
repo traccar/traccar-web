@@ -1,6 +1,7 @@
 import { useId, useCallback, useEffect } from 'react';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
+import { findFonts } from './core/mapUtil';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
@@ -32,6 +33,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
         'text-color': ['get', 'color'],
       },
       layout: {
+        'text-font': findFonts(map),
         'text-field': '▲',
         'text-allow-overlap': true,
         'text-rotate': ['get', 'rotation'],
