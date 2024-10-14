@@ -11,7 +11,7 @@ import { useCatchCallback } from '../reactHelper';
 
 const useStyles = makeStyles(() => ({
   list: {
-    maxHeight: '100%',
+    flexGrow: 1,
     overflow: 'auto',
   },
   icon: {
