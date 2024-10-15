@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   AppBar,
   Breadcrumbs,
@@ -74,6 +74,8 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
+  const menuMemo = useMemo(() => menu, []);
+
   return desktop ? (
     <div className={classes.desktopRoot}>
       <Drawer
@@ -88,7 +90,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           <PageTitle breadcrumbs={breadcrumbs} />
         </Toolbar>
         <Divider />
-        {menu}
+        {menuMemo}
       </Drawer>
       <div className={classes.content}>{children}</div>
     </div>
@@ -100,7 +102,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
         onClose={() => setOpenDrawer(false)}
         classes={{ paper: classes.mobileDrawer }}
       >
-        {menu}
+        {menuMemo}
       </Drawer>
       <AppBar className={classes.mobileToolbar} position="static" color="inherit">
         <Toolbar>

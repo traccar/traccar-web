@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Container, Button, Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, TextField,
@@ -54,8 +54,10 @@ const EditItemView = ({
     }
   });
 
+  const menuMemo = useMemo(() => menu, []);
+
   return (
-    <PageLayout menu={menu} breadcrumbs={breadcrumbs}>
+    <PageLayout menu={menuMemo} breadcrumbs={breadcrumbs}>
       <Container maxWidth="xs" className={classes.container}>
         {item ? children : (
           <Accordion defaultExpanded>
