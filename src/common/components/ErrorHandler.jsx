@@ -3,9 +3,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
 import { errorsActions } from '../../store';
+import { useTranslation } from './LocalizationProvider';
 
 const ErrorHandler = () => {
   const dispatch = useDispatch();
+  const t = useTranslation();
 
   const error = useSelector((state) => state.errors.errors.find(() => true));
   const previousError = usePrevious(error);
@@ -18,7 +20,7 @@ const ErrorHandler = () => {
         severity="error"
         variant="filled"
       >
-        {error || previousError}
+        {error === "HiddenError" ? t("errorTitle") : error ? error : previousError}
       </Alert>
     </Snackbar>
   );
