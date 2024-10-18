@@ -121,6 +121,10 @@ export default (t) => useMemo(() => ({
     name: t('attributeUiDisableMaintenance'),
     type: 'boolean',
   },
+  'ui.disableVersionOnLogin': {
+    name: t('attributeUiDisableVersionOnLogin'),
+    type: 'boolean',
+  },
   'web.liveRouteLength': {
     name: t('attributeWebLiveRouteLength'),
     type: 'number',

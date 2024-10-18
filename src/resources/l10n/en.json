@@ -163,6 +163,7 @@
     "attributeUiDisableMaintenance": "UI: Disable Maintenance",
     "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
     "attributeUiDisableLoginLanguage": "UI: Disable Login Language",
+    "attributeUiDisableVersionOnLogin": "UI: Disable Version on Login page",
     "attributeNotificationTokens": "Notification Tokens",
     "attributePopupInfo": "Popup Info",
     "errorTitle": "Error",
