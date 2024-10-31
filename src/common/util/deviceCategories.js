@@ -13,6 +13,7 @@ export default [
   'plane',
   'ship',
   'tractor',
+  'trailer',
   'train',
   'tram',
   'truck',
