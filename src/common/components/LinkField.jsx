@@ -21,7 +21,9 @@ const LinkField = ({
     if (active) {
       const response = await fetch(endpointAll);
       if (response.ok) {
-        setItems(await response.json());
+        const data = await response.json();
+        data.sort((a, b) => titleGetter(a).localeCompare(titleGetter(b)));
+        setItems(data);
       } else {
         throw Error(await response.text());
       }
