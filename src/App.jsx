@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { LinearProgress, useMediaQuery, useTheme } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
@@ -10,6 +10,7 @@ import { useCatch, useEffectAsync } from './reactHelper';
 import { sessionActions } from './store';
 import UpdateController from './UpdateController';
 import TermsDialog from './common/components/TermsDialog';
+import Loader from './common/components/Loader';
 
 const useStyles = makeStyles(() => ({
   page: {
@@ -61,7 +62,7 @@ const App = () => {
   }, [user]);
 
   if (user == null) {
-    return (<LinearProgress />);
+    return (<Loader />);
   }
   if (termsUrl && !user.attributes.termsAccepted) {
     return (<TermsDialog open onCancel={() => navigate('/login')} onAccept={() => acceptTerms()} />);

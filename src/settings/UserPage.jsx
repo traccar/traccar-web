@@ -23,7 +23,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -141,7 +140,7 @@ const UserPage = () => {
                 value={item.email || ''}
                 onChange={(e) => setItem({ ...item, email: e.target.value })}
                 label={t('userEmail')}
-                disabled={fixedEmail}
+                disabled={fixedEmail && item.id === currentUser.id}
               />
               {!openIdForced && (
                 <TextField
@@ -188,7 +187,7 @@ const UserPage = () => {
                 <InputLabel>{t('mapDefault')}</InputLabel>
                 <Select
                   label={t('mapDefault')}
-                  value={item.map || 'locationIqStreets'}
+                  value={item.map || 'openFreeMap'}
                   onChange={(e) => setItem({ ...item, map: e.target.value })}
                 >
                   {mapStyles.filter((style) => style.available).map((style) => (
@@ -324,8 +323,12 @@ const UserPage = () => {
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
-                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('YYYY-MM-DD')) || '2099-01-01'}
-                onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'YYYY-MM-DD').locale('en').format() })}
+                value={item.expirationTime ? item.expirationTime.split('T')[0] : '2099-01-01'}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
+                  }
+                }}
                 disabled={!manager}
               />
               <TextField

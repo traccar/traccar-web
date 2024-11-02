@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Alert, IconButton, LinearProgress } from '@mui/material';
+import { Alert, IconButton } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffectAsync } from './reactHelper';
 import { sessionActions } from './store';
+import Loader from './common/components/Loader';
 
 const ServerProvider = ({
   children,
@@ -20,7 +21,8 @@ const ServerProvider = ({
         if (response.ok) {
           dispatch(sessionActions.updateServer(await response.json()));
         } else {
-          throw Error(await response.text());
+          const message = await response.text();
+          throw Error(message || response.statusText);
         }
       } catch (error) {
         setError(error.message);
@@ -43,7 +45,7 @@ const ServerProvider = ({
     );
   }
   if (!initialized) {
-    return (<LinearProgress />);
+    return (<Loader />);
   }
   return children;
 };

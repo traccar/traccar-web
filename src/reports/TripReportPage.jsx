@@ -25,6 +25,7 @@ import MapMarkers from '../map/MapMarkers';
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
+import MapScale from '../map/MapScale';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -61,12 +62,12 @@ const TripReportPage = () => {
     {
       latitude: selectedItem.startLat,
       longitude: selectedItem.startLon,
-      image: 'default-error',
+      image: 'start-success',
     },
     {
       latitude: selectedItem.endLat,
       longitude: selectedItem.endLon,
-      image: 'default-success',
+      image: 'finish-error',
     },
   ]);
 
@@ -169,6 +170,7 @@ const TripReportPage = () => {
                 </>
               )}
             </MapView>
+            <MapScale />
           </div>
         )}
         <div className={classes.containerMain}>

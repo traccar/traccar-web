@@ -4,6 +4,7 @@ import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
 import { useEffectAsync } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
+import { findFonts } from '../core/mapUtil';
 
 const PoiMap = () => {
   const id = useId();
@@ -54,6 +55,7 @@ const PoiMap = () => {
           'text-field': '{name}',
           'text-anchor': 'bottom',
           'text-offset': [0, -0.5],
+          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {

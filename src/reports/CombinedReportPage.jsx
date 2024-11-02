@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Table, TableBody, TableCell, TableHead, TableRow,
@@ -9,7 +9,6 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import { useCatch } from '../reactHelper';
 import MapView from '../map/core/MapView';
-import MapRoutePath from '../map/MapRoutePath';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
@@ -17,6 +16,8 @@ import MapGeofence from '../map/MapGeofence';
 import { formatTime } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
 import MapMarkers from '../map/MapMarkers';
+import MapRouteCoordinates from '../map/MapRouteCoordinates';
+import MapScale from '../map/MapScale';
 
 const CombinedReportPage = () => {
   const classes = useReportStyles();
@@ -26,6 +27,8 @@ const CombinedReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
 
   const createMarkers = () => items.flatMap((item) => item.events
     .map((event) => item.positions.find((p) => event.positionId === p.id))
@@ -60,15 +63,17 @@ const CombinedReportPage = () => {
             <MapView>
               <MapGeofence />
               {items.map((item) => (
-                <MapRoutePath
+                <MapRouteCoordinates
                   key={item.deviceId}
                   name={devices[item.deviceId].name}
                   coordinates={item.route}
+                  deviceId={item.deviceId}
                 />
               ))}
               <MapMarkers markers={createMarkers()} />
             </MapView>
-            <MapCamera coordinates={items.flatMap((item) => item.route)} />
+            <MapScale />
+            <MapCamera coordinates={itemsCoordinates} />
           </div>
         )}
         <div className={classes.containerMain}>

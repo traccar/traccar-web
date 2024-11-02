@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem,
+  FormControl, InputLabel, Select, MenuItem, useTheme,
 } from '@mui/material';
 import {
   CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
@@ -21,6 +21,7 @@ import useReportStyles from './common/useReportStyles';
 
 const ChartReportPage = () => {
   const classes = useReportStyles();
+  const theme = useTheme();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
@@ -141,6 +142,7 @@ const ChartReportPage = () => {
               }}
             >
               <XAxis
+                stroke={theme.palette.text.primary}
                 dataKey={timeType}
                 type="number"
                 tickFormatter={(value) => formatTime(value, 'time')}
@@ -148,16 +150,18 @@ const ChartReportPage = () => {
                 scale="time"
               />
               <YAxis
+                stroke={theme.palette.text.primary}
                 type="number"
                 tickFormatter={(value) => value.toFixed(2)}
                 domain={[minValue - valueRange / 5, maxValue + valueRange / 5]}
               />
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid stroke={theme.palette.divider} strokeDasharray="3 3" />
               <Tooltip
+                contentStyle={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                 formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
                 labelFormatter={(value) => formatTime(value, 'seconds')}
               />
-              <Line type="monotone" dataKey={type} />
+              <Line type="monotone" dataKey={type} stroke={theme.palette.primary.main} />
             </LineChart>
           </ResponsiveContainer>
         </div>

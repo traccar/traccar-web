@@ -104,7 +104,7 @@ export default () => {
     {
       id: 'custom',
       title: t('mapOverlayCustom'),
-      source: sourceCustom(customMapOverlay),
+      source: sourceCustom([customMapOverlay]),
       available: Boolean(customMapOverlay),
     },
   ], [t, googleKey, openWeatherKey, tomTomKey, hereKey, customMapOverlay]);

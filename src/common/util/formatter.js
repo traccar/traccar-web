@@ -33,23 +33,34 @@ export const formatConsumption = (value, t) => `${value.toFixed(2)} ${t('sharedL
 
 export const formatTime = (value, format) => {
   if (value) {
-    const d = dayjs(value);
+    const d = dayjs(value).toDate();
+    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const minuteConfig = { hour: '2-digit', minute: '2-digit' };
+    const secondConfig = { ...minuteConfig, second: '2-digit' };
     switch (format) {
       case 'date':
-        return d.format('L');
+        return d.toLocaleDateString(undefined, dateConfig);
       case 'time':
-        return d.format('LTS');
+        return d.toLocaleTimeString(undefined, secondConfig);
       case 'minutes':
-        return d.format('L LT');
+        return d.toLocaleString(undefined, { ...dateConfig, ...minuteConfig });
       default:
-        return d.format('L LTS');
+        return d.toLocaleString(undefined, { ...dateConfig, ...secondConfig });
     }
   }
   return '';
 };
 
 export const formatStatus = (value, t) => t(prefixString('deviceStatus', value));
-export const formatAlarm = (value, t) => (value ? t(prefixString('alarm', value)) : '');
+
+export const formatAlarm = (value, t) => {
+  if (value) {
+    return value.split(',')
+      .map((alarm) => t(prefixString('alarm', alarm)))
+      .join(', ');
+  }
+  return '';
+};
 
 export const formatCourse = (value) => {
   const courseValues = ['\u2191', '\u2197', '\u2192', '\u2198', '\u2193', '\u2199', '\u2190', '\u2196'];
@@ -126,6 +137,9 @@ export const getBatteryStatus = (batteryLevel) => {
 };
 
 export const formatNotificationTitle = (t, notification, includeId) => {
+  if (notification.description) {
+    return notification.description;
+  }
   let title = t(prefixString('event', notification.type));
   if (notification.type === 'alarm') {
     const alarmString = notification.attributes.alarms;

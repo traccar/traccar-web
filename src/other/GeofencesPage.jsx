@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Divider, Typography, IconButton, useMediaQuery, Toolbar,
+  Divider, Typography, IconButton, Toolbar,
+  Paper,
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import makeStyles from '@mui/styles/makeStyles';
-import { useTheme } from '@mui/material/styles';
-import Drawer from '@mui/material/Drawer';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +16,7 @@ import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import { errorsActions } from '../store';
+import MapScale from '../map/MapScale';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,10 +34,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawer: {
-    zIndex: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
     [theme.breakpoints.up('sm')]: {
       width: theme.dimensions.drawerWidthDesktop,
     },
@@ -57,13 +55,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GeofencesPage = () => {
-  const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
-
-  const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [selectedGeofenceId, setSelectedGeofenceId] = useState();
 
@@ -104,12 +99,7 @@ const GeofencesPage = () => {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <Drawer
-          className={classes.drawer}
-          anchor={isPhone ? 'bottom' : 'left'}
-          variant="permanent"
-          classes={{ paper: classes.drawerPaper }}
-        >
+        <Paper square className={classes.drawer}>
           <Toolbar>
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
               <ArrowBackIcon />
@@ -126,11 +116,12 @@ const GeofencesPage = () => {
           </Toolbar>
           <Divider />
           <GeofencesList onGeofenceSelected={setSelectedGeofenceId} />
-        </Drawer>
+        </Paper>
         <div className={classes.mapContainer}>
           <MapView>
             <MapGeofenceEdit selectedGeofenceId={selectedGeofenceId} />
           </MapView>
+          <MapScale />
           <MapCurrentLocation />
           <MapGeocoder />
         </div>

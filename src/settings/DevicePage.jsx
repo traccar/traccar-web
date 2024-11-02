@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
 import {
   Accordion,
   AccordionSummary,
@@ -132,8 +131,12 @@ const DevicePage = () => {
               <TextField
                 label={t('userExpirationTime')}
                 type="date"
-                value={(item.expirationTime && dayjs(item.expirationTime).locale('en').format('YYYY-MM-DD')) || '2099-01-01'}
-                onChange={(e) => setItem({ ...item, expirationTime: dayjs(e.target.value, 'YYYY-MM-DD').locale('en').format() })}
+                value={item.expirationTime ? item.expirationTime.split('T')[0] : '2099-01-01'}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
+                  }
+                }}
                 disabled={!admin}
               />
               <FormControlLabel
