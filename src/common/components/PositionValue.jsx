@@ -93,7 +93,7 @@ const PositionValue = ({ position, property, attribute }) => {
     }
   };
 
-  if (value === undefined) {
+  if (value === undefined || value === null) {
     return '';
   }
 
