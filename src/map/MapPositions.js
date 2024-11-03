@@ -8,6 +8,9 @@ import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
 import { findFonts } from './core/mapUtil';
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
+import mapboxgl from 'mapbox-gl';
 
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
@@ -23,6 +26,20 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
 
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
+
+  const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
+
+  const directionsControl = new MapboxDirections({
+    accessToken: mapboxAccessToken,
+    unit: 'metric',
+    profile: 'mapbox/driving',
+    interactive: true,
+    controls: {
+      inputs: true,
+      instructions: true,
+      profileSwitcher: false,
+    },
+  });
 
   const createFeature = (devices, position, selectedPositionId) => {
     const device = devices[position.deviceId];
@@ -80,6 +97,21 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
     });
   }, [clusters]);
 
+  const onMapRightClick = useCallback((event) => {
+    event.preventDefault();
+    const destination = event.lngLat;
+    const startingPoint = positions.find(pos => pos.deviceId === selectedDeviceId);
+    
+    if (startingPoint) {
+      directionsControl.setOrigin([startingPoint.longitude, startingPoint.latitude]);
+      directionsControl.setDestination([destination.lng, destination.lat]);
+      
+      directionsControl.setRoute();
+      map.addControl(directionsControl);
+    }
+  }, [positions, selectedDeviceId]);
+
+
   useEffect(() => {
     map.addSource(id, {
       type: 'geojson',
@@ -98,6 +130,23 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         features: [],
       },
     });
+
+    const setOrigin = (event) => {
+      const feature = event.features[0];
+      const { coordinates } = feature.geometry;
+      directionsControl.setOrigin(coordinates); // Set origin
+    };
+
+    const setDestination = (event) => {
+      const { lng, lat } = event.lngLat;
+      directionsControl.setDestination([lng, lat]); // Set destination
+    };
+
+    map.addControl(directionsControl, 'top-right');
+
+    map.on('click', selected, setOrigin);
+    map.on('contextmenu', setDestination);
+
     [id, selected].forEach((source) => {
       map.addLayer({
         id: source,
@@ -160,12 +209,17 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
     map.on('mouseleave', clusters, onMouseLeave);
     map.on('click', clusters, onClusterClick);
     map.on('click', onMapClick);
+    map.on('contextmenu', onMapRightClick);
 
     return () => {
       map.off('mouseenter', clusters, onMouseEnter);
       map.off('mouseleave', clusters, onMouseLeave);
       map.off('click', clusters, onClusterClick);
       map.off('click', onMapClick);
+      map.off('contextmenu', onMapRightClick);
+      map.off('click', selected, setOrigin);
+      map.off('contextmenu', setDestination);
+      map.removeControl(directionsControl);
 
       if (map.getLayer(clusters)) {
         map.removeLayer(clusters);
@@ -187,7 +241,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         }
       });
     };
-  }, [mapCluster, clusters, onMarkerClick, onClusterClick]);
+  }, [mapCluster, clusters, onMarkerClick, onClusterClick, selected]);
 
   useEffect(() => {
     [id, selected].forEach((source) => {
