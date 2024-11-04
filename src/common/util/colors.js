@@ -1,5 +1,5 @@
 // Turbo Colormap
-const turboPolynomials = {
+export const turboPolynomials = {
   r: [0.13572138, 4.61539260, -42.66032258, 132.13108234, -152.94239396, 59.28637943],
   g: [0.09140261, 2.19418839, 4.84296658, -14.18503333, 4.27729857, 2.82956604],
   b: [0.10667330, 12.64194608, -60.58204836, 110.36276771, -89.90310912, 27.34824973],
@@ -13,7 +13,7 @@ const interpolateChannel = (normalizedValue, coeffs) => {
   return Math.max(0, Math.min(1, result));
 };
 
-const interpolateTurbo = (value) => {
+export const interpolateTurbo = (value) => {
   const normalizedValue = Math.max(0, Math.min(1, value));
   return [
     Math.round(255 * interpolateChannel(normalizedValue, turboPolynomials.r)),

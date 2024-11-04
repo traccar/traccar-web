@@ -1,0 +1,25 @@
+.legend {
+    padding: 10px;
+}
+
+.legend-color-bar {
+    height: 20px;
+}
+
+.legend-speed-labels {
+    display: flex;
+}
+
+.legend-speed-label {
+    /* this makes the middle label position exactly in the middle */
+    min-width: 70px;
+}
+
+.legend-speed-label:nth-child(2) {
+    text-align: center;
+    padding: 0 30px;
+}
+
+.legend-speed-label:nth-child(3) {
+    text-align: right;
+}
