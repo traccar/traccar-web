@@ -7,6 +7,7 @@ import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
+import { findFonts } from './core/mapUtil';
 
 const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
@@ -111,6 +112,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
           'text-offset': [0, -2 * iconScale],
+          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {
@@ -149,6 +151,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         'icon-image': 'background',
         'icon-size': iconScale,
         'text-field': '{point_count_abbreviated}',
+        'text-font': findFonts(map),
         'text-size': 14,
       },
     });

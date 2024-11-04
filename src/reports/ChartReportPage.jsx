@@ -2,22 +2,8 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import ReportFilter from "./components/ReportFilter";
-import { formatTime } from "../common/util/formatter";
-import { useTranslation } from "../common/components/LocalizationProvider";
-import PageLayout from "../common/components/PageLayout";
-import ReportsMenu from "./components/ReportsMenu";
-import usePositionAttributes from "../common/attributes/usePositionAttributes";
-import { useCatch } from "../reactHelper";
-import { useAttributePreference } from "../common/util/preferences";
+  FormControl, InputLabel, Select, MenuItem, useTheme,
+} from '@mui/material';
 import {
   altitudeFromMeters,
   distanceFromMeters,
@@ -28,6 +14,7 @@ import useReportStyles from "./common/useReportStyles";
 
 const ChartReportPage = () => {
   const classes = useReportStyles();
+  const theme = useTheme();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
@@ -168,6 +155,7 @@ const ChartReportPage = () => {
               }}
             >
               <XAxis
+                stroke={theme.palette.text.primary}
                 dataKey={timeType}
                 type="number"
                 tickFormatter={(value) => formatTime(value, "time")}
@@ -175,11 +163,12 @@ const ChartReportPage = () => {
                 scale="time"
               />
               <YAxis
+                stroke={theme.palette.text.primary}
                 type="number"
                 tickFormatter={(value) => value.toFixed(2)}
                 domain={[minValue - valueRange / 5, maxValue + valueRange / 5]}
               />
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid stroke={theme.palette.divider} strokeDasharray="3 3" />
               <Tooltip
                 formatter={(value, key) => [
                   value,
@@ -187,7 +176,7 @@ const ChartReportPage = () => {
                 ]}
                 labelFormatter={(value) => formatTime(value, "seconds")}
               />
-              <Line type="monotone" dataKey={type} />
+              <Line type="monotone" dataKey={type} stroke={theme.palette.primary.main} />
             </LineChart>
           </ResponsiveContainer>
         </div>
