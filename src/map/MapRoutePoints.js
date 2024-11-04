@@ -68,7 +68,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
 
     const control = new LegendControl(positions, speedUnit, t);
-    map.addControl(control, 'bottom-right');
+    map.addControl(control, 'bottom-left');
 
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
