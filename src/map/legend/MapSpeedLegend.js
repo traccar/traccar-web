@@ -1,13 +1,13 @@
 import { interpolateTurbo } from '../../common/util/colors';
 import { speedFromKnots, speedUnitString } from '../../common/util/converter';
 
-export class LegendControl {
-  constructor(positions, speedUnit, t) {
+export class SpeedLegendControl {
+  constructor(positions, speedUnit, t, maxSpeed, minSpeed) {
     this.positions = positions;
     this.t = t;
     this.speedUnit = speedUnit;
-    this.maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
-    this.minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
+    this.maxSpeed = maxSpeed;
+    this.minSpeed = minSpeed;
   }
 
   onAdd(map) {
@@ -43,8 +43,9 @@ export class LegendControl {
     colorBar.style.height = '10px';
 
     const speedLabel = document.createElement('span');
-    speedLabel.textContent = `${Math.round(speedFromKnots(this.minSpeed, this.speedUnit))} - ${
-      Math.round(speedFromKnots(this.maxSpeed, this.speedUnit))} ${speedUnitString(this.speedUnit, this.t)}`;
+    const minSpeed = Math.round(speedFromKnots(this.minSpeed, this.speedUnit));
+    const maxSpeed = Math.round(speedFromKnots(this.maxSpeed, this.speedUnit));
+    speedLabel.textContent = `${minSpeed} - ${maxSpeed} ${speedUnitString(this.speedUnit, this.t)}`;
 
     legend.appendChild(colorBar);
     legend.appendChild(speedLabel);
@@ -53,4 +54,4 @@ export class LegendControl {
   }
 }
 
-export default LegendControl;
+export default SpeedLegendControl;
