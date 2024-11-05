@@ -2,9 +2,14 @@ import { useId, useCallback, useEffect } from 'react';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
 import { findFonts } from './core/mapUtil';
+import { SpeedLegendControl } from './legend/MapSpeedLegend';
+import { useTranslation } from '../common/components/LocalizationProvider';
+import { useAttributePreference } from '../common/util/preferences';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
+  const t = useTranslation();
+  const speedUnit = useAttributePreference('speedUnit');
 
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
@@ -62,6 +67,9 @@ const MapRoutePoints = ({ positions, onClick }) => {
     const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
 
+    const control = new SpeedLegendControl(positions, speedUnit, t, maxSpeed, minSpeed);
+    map.addControl(control, 'bottom-left');
+
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions.map((position, index) => ({
@@ -78,6 +86,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
         },
       })),
     });
+    return () => map.removeControl(control);
   }, [onMarkerClick, positions]);
 
   return null;
