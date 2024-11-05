@@ -1,6 +1,5 @@
-import './legend.css';
-import { formatSpeed } from '../../common/util/formatter';
 import { interpolateTurbo } from '../../common/util/colors';
+import { speedFromKnots, speedUnitString } from '../../common/util/converter';
 
 export class LegendControl {
   constructor(positions, speedUnit, t) {
@@ -13,12 +12,11 @@ export class LegendControl {
 
   onAdd(map) {
     this.map = map;
-    // Create the control container
     this.controlContainer = document.createElement('div');
-    this.controlContainer.className = 'maplibregl-ctrl';
+    this.controlContainer.className = 'maplibregl-ctrl maplibregl-ctrl-scale';
 
     if (this.positions.length && this.maxSpeed) {
-      this.controlContainer.appendChild(this.createSpeedLegend(this.minSpeed, this.maxSpeed, this.t));
+      this.controlContainer.appendChild(this.createSpeedLegend());
     }
 
     return this.controlContainer;
@@ -41,30 +39,15 @@ export class LegendControl {
     const legend = document.createElement('div');
 
     const colorBar = document.createElement('div');
-    colorBar.classList.add('legend-color-bar');
     colorBar.style.background = `linear-gradient(to right, ${gradientStops})`;
+    colorBar.style.height = '10px';
 
-    const speedLabels = document.createElement('div');
-    speedLabels.classList.add('legend-speed-labels');
-
-    const minSpeedLabel = document.createElement('span');
-    minSpeedLabel.classList.add('legend-speed-label');
-    minSpeedLabel.textContent = `${formatSpeed(this.minSpeed, this.speedUnit, this.t)}`;
-
-    const middleSpeedLabel = document.createElement('span');
-    middleSpeedLabel.classList.add('legend-speed-label');
-    middleSpeedLabel.textContent = `${formatSpeed(this.maxSpeed / 2, this.speedUnit, this.t)}`;
-
-    const maxSpeedLabel = document.createElement('span');
-    maxSpeedLabel.classList.add('legend-speed-label');
-    maxSpeedLabel.textContent = `${formatSpeed(this.maxSpeed, this.speedUnit, this.t)}`;
-
-    speedLabels.appendChild(minSpeedLabel);
-    speedLabels.appendChild(middleSpeedLabel);
-    speedLabels.appendChild(maxSpeedLabel);
+    const speedLabel = document.createElement('span');
+    speedLabel.textContent = `${Math.round(speedFromKnots(this.minSpeed, this.speedUnit))} - ${
+      Math.round(speedFromKnots(this.maxSpeed, this.speedUnit))} ${speedUnitString(this.speedUnit, this.t)}`;
 
     legend.appendChild(colorBar);
-    legend.appendChild(speedLabels);
+    legend.appendChild(speedLabel);
 
     return legend;
   }
