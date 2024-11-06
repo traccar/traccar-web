@@ -310,6 +310,7 @@
     "positionMotion": "Motion",
     "positionArmed": "Armed",
     "positionAcceleration": "Acceleration",
+    "positionHumidity": "Humidity",
     "positionTemp": "Temperature",
     "positionDeviceTemp": "Device Temperature",
     "positionCoolantTemp": "Coolant Temperature",

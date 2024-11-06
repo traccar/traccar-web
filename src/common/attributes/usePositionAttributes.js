@@ -294,6 +294,10 @@ export default (t) => useMemo(() => ({
     name: t('positionAcceleration'),
     type: 'number',
   },
+  humidity: {
+    name: t('positionHumidity'),
+    type: 'number',
+  },
   deviceTemp: {
     name: t('positionDeviceTemp'),
     type: 'number',
