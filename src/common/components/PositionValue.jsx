@@ -93,6 +93,10 @@ const PositionValue = ({ position, property, attribute }) => {
     }
   };
 
+  if (key === 'address') {
+    return <AddressValue latitude={position.latitude} longitude={position.longitude} originalAddress={value} />;
+  }
+
   if (value === undefined || value === null) {
     return '';
   }
@@ -111,8 +115,6 @@ const PositionValue = ({ position, property, attribute }) => {
           {!deviceReadonly && <Link component={RouterLink} underline="none" to={`/settings/accumulators/${position.deviceId}`}>&#9881;</Link>}
         </>
       );
-    case 'address':
-      return <AddressValue latitude={position.latitude} longitude={position.longitude} originalAddress={value} />;
     case 'network':
       return <Link component={RouterLink} underline="none" to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>;
     case 'geofenceIds':
