@@ -102,7 +102,7 @@ const ServerPage = () => {
                   <InputLabel>{t('mapDefault')}</InputLabel>
                   <Select
                     label={t('mapDefault')}
-                    value={item.map || 'openFreeMap'}
+                    value={item.map || 'locationIqStreets'}
                     onChange={(e) => setItem({ ...item, map: e.target.value })}
                   >
                     {mapStyles.filter((style) => style.available).map((style) => (

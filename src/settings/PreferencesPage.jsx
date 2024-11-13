@@ -108,7 +108,7 @@ const PreferencesPage = () => {
                   <InputLabel>{t('mapActive')}</InputLabel>
                   <Select
                     label={t('mapActive')}
-                    value={attributes.activeMapStyles?.split(',') || ['openFreeMap', 'locationIqStreets', 'locationIqDark']}
+                    value={attributes.activeMapStyles?.split(',') || ['locationIqStreets', 'locationIqDark', 'openFreeMap']}
                     onChange={(e, child) => {
                       const clicked = mapStyles.find((s) => s.id === child.props.value);
                       if (clicked.available) {
