@@ -22,7 +22,7 @@ const MenuItem = ({
 }) => (
   <ListItemButton key={link} component={Link} to={link} selected={selected}>
     <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText primary={title} />
+    <ListItemText primary={title} sx={{ whiteSpace: 'nowrap' }} />
   </ListItemButton>
 );
 
