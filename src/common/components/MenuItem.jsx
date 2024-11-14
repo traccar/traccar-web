@@ -3,14 +3,14 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
 import React from 'react';
 
-const MenuItem = ({
-  title, link, icon, selected,
-}) => {
-  const classes = makeStyles({
-    menuItemText: {
-      whiteSpace: 'nowrap',
-    },
-  });
+const useStyles = makeStyles(() => ({
+  menuItemText: {
+    whiteSpace: 'nowrap',
+  },
+}));
+
+const MenuItem = ({ title, link, icon, selected }) => {
+  const classes = useStyles();
   return (
     <ListItemButton key={link} component={Link} to={link} selected={selected}>
       <ListItemIcon>{icon}</ListItemIcon>
