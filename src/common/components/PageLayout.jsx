@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   desktopDrawer: {
-    width: (props) => (props.miniVariant ? theme.dimensions.miniDrawerWidthDesktop : theme.dimensions.drawerWidthDesktop),
+    width: (props) => (props.miniVariant ? `calc(${theme.spacing(7)} + 1px)` : theme.dimensions.drawerWidthDesktop),
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -81,9 +81,7 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const toggleDrawer = () => {
-    setMiniVariant(!miniVariant);
-  };
+  const toggleDrawer = () => setMiniVariant(!miniVariant);
 
   return desktop ? (
     <div className={classes.desktopRoot}>
