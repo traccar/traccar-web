@@ -14,17 +14,27 @@ import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import NotesIcon from '@mui/icons-material/Notes';
 import { Link, useLocation } from 'react-router-dom';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator, useRestriction } from '../../common/util/permissions';
 
+const useStyles = makeStyles({
+  menuItemText: {
+    whiteSpace: 'nowrap',
+  },
+});
+
 const MenuItem = ({
   title, link, icon, selected,
-}) => (
-  <ListItemButton key={link} component={Link} to={link} selected={selected}>
-    <ListItemIcon>{icon}</ListItemIcon>
-    <ListItemText primary={title} sx={{ whiteSpace: 'nowrap' }} />
-  </ListItemButton>
-);
+}) => {
+  const classes = useStyles();
+  return (
+    <ListItemButton key={link} component={Link} to={link} selected={selected}>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText primary={title} className={classes.menuItemText} />
+    </ListItemButton>
+  );
+};
 
 const ReportsMenu = () => {
   const t = useTranslation();
