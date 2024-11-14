@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Divider, List, ListItemButton, ListItemIcon, ListItemText,
+  Divider, List,
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CreateIcon from '@mui/icons-material/Create';
