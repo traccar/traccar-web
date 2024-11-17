@@ -225,7 +225,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           )}
                         />
                       ))}
-                      
+
                     </TableBody>
                     <TableFooter>
                       <TableRow>
