@@ -17,6 +17,7 @@ import {
   CardMedia,
   TableFooter,
   Link,
+  Tooltip,
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
@@ -240,38 +241,48 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </CardContent>
               )}
               <CardActions classes={{ root: classes.actions }} disableSpacing>
-                <IconButton
-                  color="secondary"
-                  onClick={(e) => setAnchorEl(e.currentTarget)}
-                  disabled={!position}
-                >
-                  <PendingIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate('/replay')}
-                  disabled={disableActions || !position}
-                >
-                  <ReplayIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate(`/settings/device/${deviceId}/command`)}
-                  disabled={disableActions}
-                >
-                  <PublishIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => navigate(`/settings/device/${deviceId}`)}
-                  disabled={disableActions || deviceReadonly}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => setRemoving(true)}
-                  disabled={disableActions || deviceReadonly}
-                >
-                  <DeleteIcon />
-                </IconButton>
+                <Tooltip title={t('sharedExtra')}>
+                  <IconButton
+                    color="secondary"
+                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                    disabled={!position}
+                  >
+                    <PendingIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('reportReplay')}>
+                  <IconButton
+                    onClick={() => navigate('/replay')}
+                    disabled={disableActions || !position}
+                  >
+                    <ReplayIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('commandTitle')}>
+                  <IconButton
+                    onClick={() => navigate(`/settings/device/${deviceId}/command`)}
+                    disabled={disableActions}
+                  >
+                    <PublishIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('sharedEdit')}>
+                  <IconButton
+                    onClick={() => navigate(`/settings/device/${deviceId}`)}
+                    disabled={disableActions || deviceReadonly}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('sharedRemove')}>
+                  <IconButton
+                    color="error"
+                    onClick={() => setRemoving(true)}
+                    disabled={disableActions || deviceReadonly}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
               </CardActions>
             </Card>
           </Draggable>
