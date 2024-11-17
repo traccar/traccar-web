@@ -232,7 +232,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       <TableRow>
                         <TableCell colSpan={2} className={classes.cell}>
                           <Typography variant="body2">
-                            <Link component={RouterLink} underline="none" to={`/position/${position.id}`}>{t('sharedShowDetails')}</Link>
+                            <Link component={RouterLink} to={`/position/${position.id}`}>{t('sharedShowDetails')}</Link>
                           </Typography>
                         </TableCell>
                       </TableRow>
