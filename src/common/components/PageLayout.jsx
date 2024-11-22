@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   AppBar,
   Breadcrumbs,
-  Divider,
+  // Divider,
   Drawer,
   IconButton,
   Toolbar,
@@ -20,22 +20,24 @@ const useStyles = makeStyles((theme) => ({
   desktopRoot: {
     height: "100%",
     display: "flex",
-    backgroundColor: "#26282a",
+    // backgroundColor:"#F9FAFB",
+
   },
   mobileRoot: {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#26282a",
+    backgroundColor:"#ffffff",
   },
   desktopDrawer: {
     width: theme.dimensions.drawerWidthDesktop,
-    backgroundColor: "#303234",
+    // backgroundColor: "#303234",
+    backgroundColor:"#ffffff",
     borderRadius: 10,
     margin: 10,
     border: "1px solid transparent",
     height: "98%",
-    boxShadow: "0 0 12px 0 rgba(0, 0, 0, 20%)",
+    // boxShadow: "0 0 12px 0 rgba(0, 0, 0, 20%)",
   },
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
@@ -60,7 +62,7 @@ const PageTitle = ({ breadcrumbs }) => {
 
   if (desktop) {
     return (
-      <Typography variant="h6" noWrap>
+      <Typography variant="h6" color='#637381' noWrap>
         {t(breadcrumbs[0])}
       </Typography>
     );
@@ -97,7 +99,10 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
       >
         <Toolbar
           sx={{
-            backgroundColor: "#2b2b2c",
+            backgroundColor:"#F6F7F9",
+            m:1,
+            p:2,
+            borderRadius:'6px'
           }}
         >
           <IconButton
@@ -105,16 +110,18 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
             edge="start"
             sx={{
               mr: 2,
-              backgroundColor: "#2b2b2c",
-              border: "1px solid #909090",
+              // backgroundColor: "#F6F7F9",
+              // border: "1px solid transparent",
             }}
             onClick={() => navigate("/")}
           >
-            <ArrowBackIcon />
+            <ArrowBackIcon sx={{
+              color:'#637381'
+            }} />
           </IconButton>
           <PageTitle breadcrumbs={breadcrumbs} />
         </Toolbar>
-        <Divider />
+        {/* <Divider /> */}
         {menu}
       </Drawer>
       <div className={classes.content}>{children}</div>

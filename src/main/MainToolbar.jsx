@@ -84,7 +84,7 @@ const MainToolbar = ({
       </IconButton>
       <OutlinedInput
         ref={inputRef}
-        sx={{ borderRadius: "100px", border: "1px solid #5c5c5c" }}
+        sx={{ borderRadius: "10px", border: "1px solid #5c5c5c" }}
         placeholder={t("sharedSearchDevices")}
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}

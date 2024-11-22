@@ -9,6 +9,7 @@ import {
   Checkbox,
   FormGroup,
   Button,
+  Box,
   TextField,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -47,6 +48,7 @@ const NotificationPage = () => {
   const validate = () => item && item.type && item.notificators && (!item.notificators?.includes('command') || item.commandId);
 
   return (
+    <Box sx={{marginTop:"50px"}}>
     <EditItemView
       endpoint="notifications"
       item={item}
@@ -144,6 +146,7 @@ const NotificationPage = () => {
         </>
       )}
     </EditItemView>
+    </Box>
   );
 };
 

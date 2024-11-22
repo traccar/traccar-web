@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, Switch, TableFooter, FormControlLabel,
+  Table, TableRow, TableCell, TableHead, TableBody, Switch, TableFooter, FormControlLabel, Box,
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LinkIcon from '@mui/icons-material/Link';

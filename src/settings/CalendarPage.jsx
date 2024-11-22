@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, FormControl, InputLabel, Select, MenuItem,
+  Accordion, AccordionSummary, Box, AccordionDetails, Typography, FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { DropzoneArea } from 'react-mui-dropzone';
@@ -99,7 +99,8 @@ const CalendarPage = () => {
   const validate = () => item && item.name && item.data;
 
   return (
-    <EditItemView
+      <Box sx={{marginTop:"50px"}}>
+      <EditItemView
       endpoint="calendars"
       item={item}
       setItem={setItem}
@@ -202,6 +203,7 @@ const CalendarPage = () => {
         </>
       )}
     </EditItemView>
+    </Box>
   );
 };
 

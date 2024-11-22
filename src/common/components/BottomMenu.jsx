@@ -11,10 +11,14 @@ import {
   Badge,
 } from "@mui/material";
 
-import DescriptionIcon from "@mui/icons-material/Description";
-import SettingsIcon from "@mui/icons-material/Settings";
-import MapIcon from "@mui/icons-material/Map";
-import PersonIcon from "@mui/icons-material/Person";
+// import DescriptionIcon from "@mui/icons-material/Description";
+import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+// import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsApplicationsTwoToneIcon from '@mui/icons-material/SettingsApplicationsTwoTone';
+// import MapIcon from "@mui/icons-material/Map";
+import MapTwoToneIcon from '@mui/icons-material/MapTwoTone';
+// import PersonIcon from "@mui/icons-material/Person";
+import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import { sessionActions } from "../../store";
@@ -117,7 +121,7 @@ const BottomMenu = () => {
         onChange={handleSelection}
         showLabels
         sx={{
-          backgroundColor: "#3b3c36",
+          backgroundColor:"#F4F6F8"
         }}
       >
         <BottomNavigationAction
@@ -132,13 +136,14 @@ const BottomMenu = () => {
                 color: "#fff",
               }}
             >
-              <MapIcon />
+              {/* <MapIcon /> */}
+             <MapTwoToneIcon />
             </Badge>
           }
           value="map"
           sx={{
             color: "#fff",
-            backgroundColor: "#595652",
+            backgroundColor: "#9FBCFB",
             padding: "5px",
             borderRadius: "0px 10px 0px 0px",
             boxShadow: "0px 0px 5px #0707064f",
@@ -150,13 +155,15 @@ const BottomMenu = () => {
         {!disableReports && (
           <BottomNavigationAction
             label={t("reportTitle")}
-            icon={<DescriptionIcon />}
+            // icon={<DescriptionIcon />}
+            icon={<DescriptionTwoToneIcon />}
             value="reports"
           />
         )}
         <BottomNavigationAction
           label={t("settingsTitle")}
-          icon={<SettingsIcon />}
+          // icon={<SettingsIcon />}
+         icon={<SettingsApplicationsTwoToneIcon />}
           value="settings"
         />
         {readonly ? (
@@ -168,7 +175,8 @@ const BottomMenu = () => {
         ) : (
           <BottomNavigationAction
             label={t("settingsUser")}
-            icon={<PersonIcon />}
+            // icon={<PersonIcon />}
+            icon={<AccountBoxTwoToneIcon />}
             value="account"
           />
         )}

@@ -1,7 +1,8 @@
 export default {
   sidebarWidth: "28%",
   sidebarWidthTablet: "52px",
-  drawerWidthDesktop: "350px",
+  // drawerWidthDesktop: "350px",
+  drawerWidthDesktop:"320px",
   drawerWidthTablet: "320px",
   drawerHeightPhone: "250px",
   filterFormWidth: "160px",

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography,
+  Accordion, AccordionSummary, AccordionDetails, Typography, Box
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
@@ -39,6 +39,7 @@ const GroupPage = () => {
   const validate = () => item && item.name;
 
   return (
+    <Box sx={{marginTop:"50px"}}>
     <EditItemView
       endpoint="groups"
       item={item}
@@ -87,6 +88,7 @@ const GroupPage = () => {
         </>
       )}
     </EditItemView>
+    </Box>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Box,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { prefixString } from '../common/util/stringUtils';
@@ -119,6 +120,7 @@ const MaintenancePage = () => {
   const validate = () => item && item.name && item.type && item.start && item.period;
 
   return (
+    <Box sx={{marginTop:"50px"}}>
     <EditItemView
       endpoint="maintenance"
       item={item}
@@ -175,6 +177,7 @@ const MaintenancePage = () => {
         </>
       )}
     </EditItemView>
+    </Box>
   );
 };
 

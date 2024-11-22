@@ -14,6 +14,7 @@ import {
   FormGroup,
   TextField,
   Button,
+  Box,
   InputAdornment,
   IconButton,
   OutlinedInput,
@@ -112,6 +113,7 @@ const UserPage = () => {
   const validate = () => item && item.name && item.email && (item.id || item.password) && (admin || !totpForce || item.totpKey);
 
   return (
+    <Box sx={{marginTop:"50px"}}>
     <EditItemView
       endpoint="users"
       item={item}
@@ -419,6 +421,7 @@ const UserPage = () => {
         </>
       )}
     </EditItemView>
+    </Box>
   );
 };
 

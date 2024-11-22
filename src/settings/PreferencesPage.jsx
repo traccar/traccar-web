@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, InputAdornment, IconButton, OutlinedInput, Autocomplete, TextField, createFilterOptions, Button,
+  Accordion, Box, AccordionSummary, AccordionDetails, Typography, Container, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, FormGroup, InputAdornment, IconButton, OutlinedInput, Autocomplete, TextField, createFilterOptions, Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -93,8 +93,9 @@ const PreferencesPage = () => {
   });
 
   return (
+    <Box sx={{marginTop:"50px"}}>
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
-      <Container maxWidth="xs" className={classes.container}>
+      <Container maxWidth="md" className={classes.container}>
         {!readonly && (
           <>
             <Accordion defaultExpanded>
@@ -391,6 +392,7 @@ const PreferencesPage = () => {
         )}
       </Container>
     </PageLayout>
+    </Box>
   );
 };
 

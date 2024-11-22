@@ -57,7 +57,9 @@ const CollectionActions = ({
       {phone ? (
         <>
           <IconButton size="small" onClick={(event) => setMenuAnchorEl(event.currentTarget)}>
-            <MoreVertIcon fontSize="small" />
+            <MoreVertIcon sx={{
+              color: 'blue'
+            }} fontSize="small" />
           </IconButton>
           <Menu open={!!menuAnchorEl} anchorEl={menuAnchorEl} onClose={() => setMenuAnchorEl(null)}>
             {customActions && customActions.map((action) => (
@@ -75,7 +77,9 @@ const CollectionActions = ({
         <div className={classes.row}>
           {customActions && customActions.map((action) => (
             <Tooltip title={action.title} key={action.key}>
-              <IconButton size="small" onClick={() => handleCustom(action)}>
+              <IconButton sx={{
+                color: 'green'
+              }} size="small" onClick={() => handleCustom(action)}>
                 {action.icon}
               </IconButton>
             </Tooltip>
@@ -84,12 +88,16 @@ const CollectionActions = ({
             <>
               <Tooltip title={t('sharedEdit')}>
                 <IconButton size="small" onClick={handleEdit}>
-                  <EditIcon fontSize="small" />
+                  <EditIcon sx={{
+                    color: 'blue'
+                  }} fontSize="small" />
                 </IconButton>
               </Tooltip>
               <Tooltip title={t('sharedRemove')}>
                 <IconButton size="small" onClick={handleRemove}>
-                  <DeleteIcon fontSize="small" />
+                  <DeleteIcon sx={{
+                    color: 'red'
+                  }} fontSize="small" />
                 </IconButton>
               </Tooltip>
             </>

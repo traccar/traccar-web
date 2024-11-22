@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, TextField,
+  Accordion, AccordionSummary, AccordionDetails, Typography, TextField, Box
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
@@ -18,6 +18,7 @@ const CommandPage = () => {
   const validate = () => item && item.type;
 
   return (
+    <Box sx={{marginTop:"50px"}}>
     <EditItemView
       endpoint="commands"
       item={item}
@@ -44,6 +45,7 @@ const CommandPage = () => {
         </Accordion>
       )}
     </EditItemView>
+    </Box>
   );
 };
 
