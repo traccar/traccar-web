@@ -82,6 +82,7 @@ const NotificationPage = () => {
                   data={alarms}
                   keyGetter={(it) => it.key}
                   label={t('sharedAlarms')}
+                  
                 />
               )}
               <SelectField
@@ -134,6 +135,12 @@ const NotificationPage = () => {
                 value={item.description || ''}
                 onChange={(e) => setItem({ ...item, description: e.target.value })}
                 label={t('sharedDescription')}
+                sx={{
+                  background:"#fff",
+                  "& .MuiOutlinedInput-root": {
+                    backgroundColor: "#fff",
+                  },
+                }}
               />
               <SelectField
                 value={item.calendarId}
