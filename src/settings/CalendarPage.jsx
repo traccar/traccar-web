@@ -123,6 +123,14 @@ const CalendarPage = () => {
                 value={item.name || ''}
                 onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
+                sx={{
+                  backgroundColor: "white",
+                 
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
               <FormControl>
                 <InputLabel>{t('sharedType')}</InputLabel>
@@ -130,6 +138,13 @@ const CalendarPage = () => {
                   label={t('sharedType')}
                   value={simple ? 'simple' : 'custom'}
                   onChange={(e) => setItem({ ...item, data: (e.target.value === 'simple' ? simpleCalendar() : null) })}
+                  sx={{
+                    backgroundColor: "white",
+                                     '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 >
                   <MenuItem value="simple">{t('calendarSimple')}</MenuItem>
                   <MenuItem value="custom">{t('reportCustom')}</MenuItem>
@@ -145,6 +160,14 @@ const CalendarPage = () => {
                       const time = formatCalendarTime(dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'));
                       setItem({ ...item, data: updateCalendar(lines, 5, `DTSTART;${time}`) });
                     }}
+                    sx={{
+                      backgroundColor: "white",
+                  
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white', 
+                    },
+                  
+                  }}
                   />
                   <TextField
                     label={t('reportTo')}
@@ -154,6 +177,14 @@ const CalendarPage = () => {
                       const time = formatCalendarTime(dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'));
                       setItem({ ...item, data: updateCalendar(lines, 6, `DTEND;${time}`) });
                     }}
+                    sx={{
+                      backgroundColor: "white",
+                      
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: 'white', 
+                    },
+                  
+                  }}
                   />
                   <FormControl>
                     <InputLabel>{t('calendarRecurrence')}</InputLabel>
@@ -161,6 +192,14 @@ const CalendarPage = () => {
                       label={t('calendarRecurrence')}
                       value={rule.frequency}
                       onChange={(e) => setItem({ ...item, data: updateCalendar(lines, 7, formatRule({ frequency: e.target.value })) })}
+                      sx={{
+                        backgroundColor: "white",
+                       
+                      '& .MuiOutlinedInput-root': {
+                        backgroundColor: 'white', 
+                      },
+                    
+                    }}
                     >
                       {['ONCE', 'DAILY', 'WEEKLY', 'MONTHLY'].map((it) => (
                         <MenuItem key={it} value={it}>{t(prefixString('calendar', it.toLowerCase()))}</MenuItem>

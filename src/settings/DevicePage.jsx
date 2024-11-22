@@ -92,6 +92,14 @@ const DevicePage = () => {
                     setItem({ ...item, name: event.target.value })
                   }
                   label={t("sharedName")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <TextField
                   value={item.uniqueId || ""}
@@ -101,6 +109,14 @@ const DevicePage = () => {
                   label={t("deviceIdentifier")}
                   helperText={t("deviceIdentifierHelp")}
                   disabled={Boolean(uniqueId)}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
               </AccordionDetails>
             </Accordion>
@@ -116,6 +132,14 @@ const DevicePage = () => {
                   }
                   endpoint="/api/groups"
                   label={t("groupParent")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <TextField
                   value={item.phone || ""}
@@ -123,6 +147,14 @@ const DevicePage = () => {
                     setItem({ ...item, phone: event.target.value })
                   }
                   label={t("sharedPhone")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <TextField
                   value={item.model || ""}
@@ -130,6 +162,14 @@ const DevicePage = () => {
                     setItem({ ...item, model: event.target.value })
                   }
                   label={t("deviceModel")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <TextField
                   value={item.contact || ""}
@@ -137,6 +177,14 @@ const DevicePage = () => {
                     setItem({ ...item, contact: event.target.value })
                   }
                   label={t("deviceContact")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <SelectField
                   value={item.category || "default"}
@@ -152,6 +200,14 @@ const DevicePage = () => {
                     ),
                   }))}
                   label={t("deviceCategory")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <SelectField
                   value={item.calendarId}
@@ -160,6 +216,14 @@ const DevicePage = () => {
                   }
                   endpoint="/api/calendars"
                   label={t("sharedCalendar")}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <TextField
                   label={t("userExpirationTime")}
@@ -178,6 +242,14 @@ const DevicePage = () => {
                     }
                   }}
                   disabled={!admin}
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "8px",
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={

@@ -125,7 +125,7 @@ const ComputedAttributesPage = () => {
           <Toolbar sx={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
             <TextField
               variant="outlined"
-              placeholder={t("searchPlaceholder")}
+              placeholder="Search Computed Attributes..."
               size="small"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
@@ -140,6 +140,9 @@ const ComputedAttributesPage = () => {
                 flex: 1,
                 maxWidth: "300px",
                 backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
                 borderRadius: "8px",
               }}
             />

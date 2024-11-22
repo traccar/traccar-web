@@ -152,7 +152,7 @@ const CommandsPage = () => {
 
 <TextField 
 variant="outlined"
-placeholder="Search User ..."
+placeholder="Search Commands ..."
 size="small"
 value={searchKeyword}
 onChange={(e) => setSearchKeyword(e.target.value)}

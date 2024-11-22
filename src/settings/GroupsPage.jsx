@@ -144,7 +144,7 @@ const GroupsPage = () => {
           <Toolbar sx={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
             <TextField
               variant="outlined"
-              placeholder="Search User ..."
+              placeholder="Search Group ..."
               size="small"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
@@ -159,6 +159,9 @@ const GroupsPage = () => {
                 flex: 1,
                 maxWidth: "300px",
                 backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
                 padding: "10px",
                 borderRadius: "8px",
               }}

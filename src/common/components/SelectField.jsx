@@ -122,8 +122,8 @@ const SelectField = ({
                 label={label}
                 sx={{
                   "& .MuiInputBase-root": {
-                    backgroundColor: "#303234",
-                    borderRadius: "100px",
+                    backgroundColor: "#fff",
+                    
                   },
                 }}
               />

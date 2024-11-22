@@ -137,7 +137,7 @@ const CalendarsPage = () => {
           <Toolbar sx={{ padding: "10px", display: "flex", justifyContent: "space-between" }}>
           <TextField 
                 variant="outlined"
-                placeholder="Search User ..."
+                placeholder="Search Calendar ..."
                 size="small"
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}

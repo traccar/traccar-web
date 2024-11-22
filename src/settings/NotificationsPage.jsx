@@ -183,7 +183,7 @@ const NotificationsPage = () => {
             >
               <TextField
                 variant="outlined"
-                placeholder={t("searchPlaceholder")}
+                placeholder="Search Notification..."
                 size="small"
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}

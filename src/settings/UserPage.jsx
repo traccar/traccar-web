@@ -137,18 +137,44 @@ const UserPage = () => {
                 value={item.name || ''}
                 onChange={(e) => setItem({ ...item, name: e.target.value })}
                 label={t('sharedName')}
+                sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
               />
               <TextField
                 value={item.email || ''}
                 onChange={(e) => setItem({ ...item, email: e.target.value })}
                 label={t('userEmail')}
                 disabled={fixedEmail && item.id === currentUser.id}
+
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
+                
               />
               {!openIdForced && (
                 <TextField
                   type="password"
                   onChange={(e) => setItem({ ...item, password: e.target.value })}
                   label={t('userPassword')}
+
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
               )}
               {totpEnable && (
@@ -184,6 +210,16 @@ const UserPage = () => {
                 value={item.phone || ''}
                 onChange={(e) => setItem({ ...item, phone: e.target.value })}
                 label={t('sharedPhone')}
+
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
+
+
               />
               <FormControl>
                 <InputLabel>{t('mapDefault')}</InputLabel>
@@ -191,6 +227,14 @@ const UserPage = () => {
                   label={t('mapDefault')}
                   value={item.map || 'openFreeMap'}
                   onChange={(e) => setItem({ ...item, map: e.target.value })}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 >
                   {mapStyles.filter((style) => style.available).map((style) => (
                     <MenuItem key={style.id} value={style.id}>
@@ -205,6 +249,14 @@ const UserPage = () => {
                   label={t('settingsCoordinateFormat')}
                   value={item.coordinateFormat || 'dd'}
                   onChange={(e) => setItem({ ...item, coordinateFormat: e.target.value })}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 >
                   <MenuItem value="dd">{t('sharedDecimalDegrees')}</MenuItem>
                   <MenuItem value="ddm">{t('sharedDegreesDecimalMinutes')}</MenuItem>
@@ -217,6 +269,14 @@ const UserPage = () => {
                   label={t('settingsSpeedUnit')}
                   value={(item.attributes && item.attributes.speedUnit) || 'kn'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, speedUnit: e.target.value } })}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 >
                   <MenuItem value="kn">{t('sharedKn')}</MenuItem>
                   <MenuItem value="kmh">{t('sharedKmh')}</MenuItem>
@@ -229,6 +289,14 @@ const UserPage = () => {
                   label={t('settingsDistanceUnit')}
                   value={(item.attributes && item.attributes.distanceUnit) || 'km'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, distanceUnit: e.target.value } })}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 >
                   <MenuItem value="km">{t('sharedKm')}</MenuItem>
                   <MenuItem value="mi">{t('sharedMi')}</MenuItem>
@@ -241,7 +309,15 @@ const UserPage = () => {
                   label={t('settingsAltitudeUnit')}
                   value={(item.attributes && item.attributes.altitudeUnit) || 'm'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, altitudeUnit: e.target.value } })}
-                >
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
+               >
                   <MenuItem value="m">{t('sharedMeters')}</MenuItem>
                   <MenuItem value="ft">{t('sharedFeet')}</MenuItem>
                 </Select>
@@ -252,24 +328,55 @@ const UserPage = () => {
                   label={t('settingsVolumeUnit')}
                   value={(item.attributes && item.attributes.volumeUnit) || 'ltr'}
                   onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, volumeUnit: e.target.value } })}
-                >
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
+               >
                   <MenuItem value="ltr">{t('sharedLiter')}</MenuItem>
                   <MenuItem value="usGal">{t('sharedUsGallon')}</MenuItem>
                   <MenuItem value="impGal">{t('sharedImpGallon')}</MenuItem>
                 </Select>
               </FormControl>
               <SelectField
+              style={{backgroundColor:"green !important"}}
                 value={item.attributes && item.attributes.timezone}
                 onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })}
                 endpoint="/api/server/timezones"
                 keyGetter={(it) => it}
                 titleGetter={(it) => it}
                 label={t('sharedTimezone')}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    backgroundColor: "#fff !important",
+
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "red !important", // Adjust border color if needed
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "rgba(0, 0, 0, 0.87)", // Hover effect
+                  },
+                  "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#3f51b5 !important", // Focused border color
+                  },
+                }}
               />
               <TextField
                 value={item.poiLayer || ''}
                 onChange={(e) => setItem({ ...item, poiLayer: e.target.value })}
                 label={t('mapPoiLayer')}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
             </AccordionDetails>
           </Accordion>
@@ -285,18 +392,39 @@ const UserPage = () => {
                 value={item.latitude || 0}
                 onChange={(e) => setItem({ ...item, latitude: Number(e.target.value) })}
                 label={t('positionLatitude')}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
               <TextField
                 type="number"
                 value={item.longitude || 0}
                 onChange={(e) => setItem({ ...item, longitude: Number(e.target.value) })}
                 label={t('positionLongitude')}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
               <TextField
                 type="number"
                 value={item.zoom || 0}
                 onChange={(e) => setItem({ ...item, zoom: Number(e.target.value) })}
                 label={t('serverZoom')}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
               <Button
                 variant="outlined"
@@ -331,6 +459,13 @@ const UserPage = () => {
                     setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
                   }
                 }}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
                 disabled={!manager}
               />
               <TextField
@@ -339,6 +474,13 @@ const UserPage = () => {
                 onChange={(e) => setItem({ ...item, deviceLimit: Number(e.target.value) })}
                 label={t('userDeviceLimit')}
                 disabled={!admin}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
               <TextField
                 type="number"
@@ -346,42 +488,105 @@ const UserPage = () => {
                 onChange={(e) => setItem({ ...item, userLimit: Number(e.target.value) })}
                 label={t('userUserLimit')}
                 disabled={!admin}
+                sx={{
+                  backgroundColor: "white",
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'white', 
+                },
+              
+              }}
               />
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox checked={item.disabled} onChange={(e) => setItem({ ...item, disabled: e.target.checked })} />}
                   label={t('sharedDisabled')}
                   disabled={!manager}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.administrator} onChange={(e) => setItem({ ...item, administrator: e.target.checked })} />}
                   label={t('userAdmin')}
                   disabled={!admin}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.readonly} onChange={(e) => setItem({ ...item, readonly: e.target.checked })} />}
                   label={t('serverReadonly')}
                   disabled={!manager}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.deviceReadonly} onChange={(e) => setItem({ ...item, deviceReadonly: e.target.checked })} />}
                   label={t('userDeviceReadonly')}
                   disabled={!manager}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.limitCommands} onChange={(e) => setItem({ ...item, limitCommands: e.target.checked })} />}
                   label={t('userLimitCommands')}
                   disabled={!manager}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.disableReports} onChange={(e) => setItem({ ...item, disableReports: e.target.checked })} />}
                   label={t('userDisableReports')}
                   disabled={!manager}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
                 <FormControlLabel
                   control={<Checkbox checked={item.fixedEmail} onChange={(e) => setItem({ ...item, fixedEmail: e.target.checked })} />}
                   label={t('userFixedEmail')}
                   disabled={!manager}
+                  sx={{
+                    backgroundColor: "white",
+
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'white', 
+                  },
+                
+                }}
                 />
               </FormGroup>
             </AccordionDetails>
