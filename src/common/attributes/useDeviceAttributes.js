@@ -22,4 +22,8 @@ export default (t) => useMemo(() => ({
     name: t('sharedTimezone'),
     type: 'string',
   },
+  'forward.url': {
+    name: t('attributeForwardUrl'),
+    type: 'string',
+  },
 }), [t]);

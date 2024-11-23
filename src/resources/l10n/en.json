@@ -165,6 +165,7 @@
     "attributeUiDisableLoginLanguage": "UI: Disable Login Language",
     "attributeNotificationTokens": "Notification Tokens",
     "attributePopupInfo": "Popup Info",
+    "attributeForwardUrl": "Forward URL",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",
