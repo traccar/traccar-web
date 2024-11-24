@@ -75,5 +75,3 @@ console.log("File KML has been created successfully.");
 
 // how to run tools
 // node /tools/geofences-to-kml.js
-
-// if you get error with const fs = require("fs");
