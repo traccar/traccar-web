@@ -8,7 +8,7 @@
         "proj4": "^2.7.5"
     },
     "devDependencies": {
-        "eslint": "^4.4.1"
+        "eslint": "^9.0.0"
     },
     "scripts": {
         "postinstall": "/bin/bash -c 'mkdir -p web/lib/{ol,ol-layerswitcher,proj4,extjs} && cp node_modules/openlayers-dist/{ol.js,ol.css} web/lib/ol/ && cp node_modules/ol-layerswitcher/dist/{ol-layerswitcher.js,ol-layerswitcher.css} web/lib/ol-layerswitcher/ && cp node_modules/proj4/dist/proj4.js web/lib/proj4/ && cp node_modules/extjs-gpl/build/ext-all.js web/lib/extjs/ && mkdir -p web/lib/extjs/classic && cp -r node_modules/extjs-gpl/build/classic/locale web/lib/extjs/classic/locale && cp -r node_modules/extjs-gpl/build/classic/theme-triton web/lib/extjs/classic/theme-triton && mkdir -p web/lib/extjs/packages/charts && cp -r node_modules/extjs-gpl/build/packages/charts/classic web/lib/extjs/packages/charts/classic'",
