@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: 0,
       paddingRight: 0,
     },
+    '& .MuiTableCell-sizeSmall:first-child': {
+      paddingRight: theme.spacing(1),
+    },
   },
   cell: {
     borderBottom: 'none',
