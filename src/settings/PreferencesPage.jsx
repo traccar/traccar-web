@@ -258,6 +258,23 @@ const PreferencesPage = () => {
                   titleGetter={(it) => t(it.name)}
                   label={t('deviceSecondaryInfo')}
                 />
+                <FormControl>
+                  <InputLabel>{t('deviceShowAttribute')}</InputLabel>
+                  <Select
+                    label={t('deviceShowAttribute')}
+                    value={attributes.deviceShowAttribute || ''}
+                    onChange={(e) => {
+                      setAttributes({ ...attributes, deviceShowAttribute: e.target.value });
+                    }}
+                  >
+                    <MenuItem value="">{'\u00a0'}</MenuItem>
+                    {Object.keys(positionAttributes).map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {positionAttributes[option]?.name || option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </AccordionDetails>
             </Accordion>
             <Accordion>
