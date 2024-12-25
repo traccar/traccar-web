@@ -4,7 +4,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, useTheme,
 } from '@mui/material';
 import {
-  CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Brush, ReferenceArea, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import ReportFilter from './components/ReportFilter';
 import { formatTime } from '../common/util/formatter';
@@ -20,6 +20,9 @@ import {
 import useReportStyles from './common/useReportStyles';
 
 const ChartReportPage = () => {
+  const [zoomDomain, setZoomDomain] = useState({ start: 'dataMin', end: 'dataMax' });
+  const handleBrushChange = (range) => { if (range) { setZoomDomain({ start: range.startIndex, end: range.endIndex }); }};
+  
   const classes = useReportStyles();
   const theme = useTheme();
   const t = useTranslation();
@@ -161,7 +164,13 @@ const ChartReportPage = () => {
                 formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
                 labelFormatter={(value) => formatTime(value, 'seconds')}
               />
-              <Line type="monotone" dataKey={type} stroke={theme.palette.primary.main} />
+              <Brush
+                dataKey={timeType}
+                height={30}
+                stroke={theme.palette.primary.main}
+                onChange={(range) => handleBrushChange(range)}
+              />
+              <Line type="monotone" dataKey={type} stroke={theme.palette.primary.main} dot={false} activeDot={{ r: 6 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
