@@ -4,7 +4,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, useTheme,
 } from '@mui/material';
 import {
-  Brush, ReferenceArea, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Brush, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import ReportFilter from './components/ReportFilter';
 import { formatTime } from '../common/util/formatter';
@@ -21,7 +21,7 @@ import useReportStyles from './common/useReportStyles';
 
 const ChartReportPage = () => {
   const [zoomDomain, setZoomDomain] = useState({ start: 'dataMin', end: 'dataMax' });
-  const handleBrushChange = (range) => { if (range) { setZoomDomain({ start: range.startIndex, end: range.endIndex }); }};
+  const handleBrushChange = (range) => { if (range) { setZoomDomain({ start: range.startIndex, end: range.endIndex }); } };
   
   const classes = useReportStyles();
   const theme = useTheme();
