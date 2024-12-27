@@ -137,20 +137,22 @@ const ReplayPage = () => {
     setFrom(from);
     setTo(to);
     const query = new URLSearchParams({ deviceId, from, to });
-    const response = await fetch(`/api/positions?${query.toString()}`);
-    if (response.ok) {
-      setIndex(0);
-      const positions = await response.json();
-      setPositions(positions);
-      setLoading(false);
-      if (positions.length) {
-        setExpanded(false);
+    try {
+      const response = await fetch(`/api/positions?${query.toString()}`);
+      if (response.ok) {
+        setIndex(0);
+        const positions = await response.json();
+        setPositions(positions);
+        if (positions.length) {
+          setExpanded(false);
+        } else {
+          throw Error(t('sharedNoData'));
+        }
       } else {
-        throw Error(t('sharedNoData'));
+        throw Error(await response.text());
       }
-    } else {
+    } finally {
       setLoading(false);
-      throw Error(await response.text());
     }
   });
 
