@@ -92,6 +92,7 @@ const ReplayPage = () => {
   const [to, setTo] = useState();
   const [expanded, setExpanded] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -131,6 +132,7 @@ const ReplayPage = () => {
   }, [setShowCard]);
 
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
+    setLoading(true);
     setSelectedDeviceId(deviceId);
     setFrom(from);
     setTo(to);
@@ -140,12 +142,14 @@ const ReplayPage = () => {
       setIndex(0);
       const positions = await response.json();
       setPositions(positions);
+      setLoading(false);
       if (positions.length) {
         setExpanded(false);
       } else {
         throw Error(t('sharedNoData'));
       }
     } else {
+      setLoading(false);
       throw Error(await response.text());
     }
   });
@@ -213,7 +217,7 @@ const ReplayPage = () => {
               </div>
             </>
           ) : (
-            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly />
+            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly loading={loading} />
           )}
         </Paper>
       </div>
