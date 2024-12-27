@@ -171,7 +171,13 @@ const ChartReportPage = () => {
                 tickFormatter={() => ''}
                 onChange={(range) => handleBrushChange(range)}
               />
-              <Line type="monotone" dataKey={type} stroke={theme.palette.primary.main} dot={false} activeDot={{ r: 6 }} />
+              <Line 
+                type="monotone"
+                dataKey={type}
+                stroke={theme.palette.primary.main}
+                dot={false}
+                activeDot={{ r: 6 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
