@@ -20,9 +20,6 @@ import {
 import useReportStyles from './common/useReportStyles';
 
 const ChartReportPage = () => {
-  const [, setZoomDomain] = useState({ start: 'dataMin', end: 'dataMax' });
-  const handleBrushChange = (range) => { if (range) { setZoomDomain({ start: range.startIndex, end: range.endIndex }); } };
-  
   const classes = useReportStyles();
   const theme = useTheme();
   const t = useTranslation();
@@ -169,9 +166,8 @@ const ChartReportPage = () => {
                 height={30}
                 stroke={theme.palette.primary.main}
                 tickFormatter={() => ''}
-                onChange={(range) => handleBrushChange(range)}
               />
-              <Line 
+              <Line
                 type="monotone"
                 dataKey={type}
                 stroke={theme.palette.primary.main}
