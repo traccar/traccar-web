@@ -79,7 +79,7 @@ const GeofencePage = () => {
                 label={t('sharedCalendar')}
               />
               <FormControlLabel
-                control={<Checkbox checked={item.attributes.hide} onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, hide: e.target.checked }})} />}
+                control={<Checkbox checked={item.attributes.hide} onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, hide: e.target.checked } })} />}
                 label={t('sharedFilterMap')}
               />
             </AccordionDetails>
