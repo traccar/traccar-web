@@ -15,4 +15,8 @@ export default (t) => useMemo(() => ({
     type: 'number',
     subtype: 'distance',
   },
+  hide: {
+    name: t('sharedFilterMap'),
+    type: 'boolean',
+  },
 }), [t]);
