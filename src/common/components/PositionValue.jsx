@@ -63,15 +63,15 @@ const PositionValue = ({ position, property, attribute }) => {
         return formatAltitude(value, altitudeUnit, t);
       case 'power':
       case 'battery':
-        return formatVoltage(value, t);
+        return value != null ? formatVoltage(value, t) : '';
       case 'batteryLevel':
-        return value != null ? formatPercentage(value, t) : '';
+        return value != null ? formatPercentage(value) : '';
       case 'volume':
         return value != null ? formatVolume(value, volumeUnit, t) : '';
       case 'fuelConsumption':
         return value != null ? formatConsumption(value, t) : '';
       case 'coolantTemp':
-        return formatTemperature(value);
+        return value != null ? formatTemperature(value) : '';
       case 'alarm':
         return formatAlarm(value, t);
       case 'odometer':
