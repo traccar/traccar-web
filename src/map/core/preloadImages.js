@@ -17,6 +17,7 @@ import finishSvg from '../../resources/images/icon/finish.svg';
 import helicopterSvg from '../../resources/images/icon/helicopter.svg';
 import motorcycleSvg from '../../resources/images/icon/motorcycle.svg';
 import personSvg from '../../resources/images/icon/person.svg';
+import pickupSvg from '../../resources/images/icon/pickup.svg';
 import planeSvg from '../../resources/images/icon/plane.svg';
 import scooterSvg from '../../resources/images/icon/scooter.svg';
 import shipSvg from '../../resources/images/icon/ship.svg';
@@ -40,6 +41,7 @@ export const mapIcons = {
   helicopter: helicopterSvg,
   motorcycle: motorcycleSvg,
   person: personSvg,
+  pickup: pickupSvg,
   plane: planeSvg,
   scooter: scooterSvg,
   ship: shipSvg,
