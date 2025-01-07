@@ -83,7 +83,9 @@ const MapGeofence = () => {
     if (mapGeofences) {
       map.getSource(id)?.setData({
         type: 'FeatureCollection',
-        features: Object.values(geofences).map((geofence) => geofenceToFeature(theme, geofence)),
+        features: Object.values(geofences)
+          .filter((geofence) => !geofence.attributes.hide)
+          .map((geofence) => geofenceToFeature(theme, geofence)),
       });
     }
   }, [mapGeofences, geofences]);

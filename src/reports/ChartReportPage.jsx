@@ -4,7 +4,7 @@ import {
   FormControl, InputLabel, Select, MenuItem, useTheme,
 } from '@mui/material';
 import {
-  CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  Brush, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from 'recharts';
 import ReportFilter from './components/ReportFilter';
 import { formatTime } from '../common/util/formatter';
@@ -161,7 +161,19 @@ const ChartReportPage = () => {
                 formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
                 labelFormatter={(value) => formatTime(value, 'seconds')}
               />
-              <Line type="monotone" dataKey={type} stroke={theme.palette.primary.main} />
+              <Brush
+                dataKey={timeType}
+                height={30}
+                stroke={theme.palette.primary.main}
+                tickFormatter={() => ''}
+              />
+              <Line
+                type="monotone"
+                dataKey={type}
+                stroke={theme.palette.primary.main}
+                dot={false}
+                activeDot={{ r: 6 }}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
