@@ -1,21 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="64px" height="64px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
- <metadata>
-  <rdf:RDF>
-   <cc:Work rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <ellipse transform="rotate(-30)" cx="11.713" cy="43.713" rx="24.705" ry="24.705" fill="#fff" stroke-width=".89115"/>
- <g fill="#1a237e">
-  <g stroke-width=".89115">
-   <circle transform="rotate(-30)" cx="9.7033" cy="43.713" r="2.0096"/>
-   <path d="m36.425 25.095-2.5095 3.1892c0.58567 0.46084 1.1701 1.0219 1.5655 1.7067 0.39538 0.68482 0.58903 1.4714 0.69529 2.2091l4.0167-0.57872c-0.17122-1.2543-0.55927-2.4759-1.2313-3.6399-0.67207-1.1641-1.536-2.1109-2.5366-2.8863z"/>
-   <path d="m41.272 18.67-2.5095 3.1892c1.4186 1.0907 2.729 2.466 3.6793 4.1119 0.95031 1.646 1.4861 3.4684 1.7214 5.2423l4.0167-0.57872c-0.29984-2.2912-1.0301-4.5474-2.2575-6.6732-1.2273-2.1258-2.8161-3.8863-4.6504-5.2916z"/>
-  </g>
-  <path transform="rotate(-30)" d="m3.6746 51.751a8.0382 8.0382 0 0 1-6.9613-4.0191 8.0382 8.0382 0 0 1 0-8.0382 8.0382 8.0382 0 0 1 6.9613-4.0191v8.0382z" stroke-width=".89114"/>
-  <path d="m19.202 9.8335c-12.242 7.0681-16.437 22.722-9.3687 34.964 7.0681 12.242 22.722 16.437 34.964 9.3687s16.437-22.722 9.3687-34.964-22.722-16.437-34.964-9.3687zm1.5056 2.6078c10.802-6.2365 24.614-2.5355 30.851 8.2665 6.2365 10.802 2.5355 24.614-8.2665 30.851-10.802 6.2365-24.614 2.5355-30.851-8.2665-6.2365-10.802-2.5355-24.614 8.2665-30.851z" stroke-width=".89115"/>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1018)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(0.5401234567901234,0,0,0.5401234567901234,150,150)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1296" height="1296"><svg enable-background="new 0 0 1296 1296" version="1.1" viewBox="0 0 1296 1296" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+<style type="text/css">
+	.st0{fill:none;stroke:#0A0506;stroke-width:65;stroke-miterlimit:10;}
+	.st1{stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st3{fill:#0D0808;stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st4{fill:#171111;stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st5{fill:#0A0808;stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st6{fill:#121010;stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st7{fill:#080808;stroke:#0A0506;stroke-width:30;stroke-miterlimit:10;}
+	.st8{fill:none;stroke:#0A0506;stroke-width:30;stroke-linecap:round;stroke-miterlimit:10;}
+	.st9{fill:none;stroke:#0A0506;stroke-width:20;stroke-linecap:round;stroke-miterlimit:10;}
+</style>
+
+	<ellipse class="st0" cx="645.94" cy="590.01" rx="348.69" ry="354.17"></ellipse>
+	<ellipse class="st1" cx="151.93" cy="580.01" rx="9.89" ry="10"></ellipse>
+	<ellipse class="st1" cx="166.29" cy="462.46" rx="4.76" ry="4.82"></ellipse>
+	<ellipse class="st1" cx="253.85" cy="351.54" rx="2.52" ry="2.55"></ellipse>
+	<ellipse class="st1" cx="424.03" cy="179.28" rx=".45" ry=".45"></ellipse>
+	<ellipse class="st2" cx="640.52" cy="349" rx="7.73" ry="8.18"></ellipse>
+	<ellipse class="st1" cx="981.38" cy="240.96" rx="1.44" ry="2"></ellipse>
+	<ellipse class="st1" cx="1110.1" cy="282.5" rx="12.58" ry="11.64"></ellipse>
+	<ellipse class="st1" cx="1169.3" cy="423.29" rx="12.58" ry="12.73"></ellipse>
+	<ellipse class="st3" cx="1144" cy="559.44" rx="3.24" ry="4"></ellipse>
+	<ellipse class="st4" cx="1140.6" cy="660.81" rx="3.41" ry="2.36"></ellipse>
+	<ellipse class="st5" cx="1043.6" cy="797.44" rx="2.16" ry="2.18"></ellipse>
+	<ellipse class="st6" cx="974.7" cy="948.45" rx=".99" ry="1"></ellipse>
+	<ellipse class="st1" cx="869.19" cy="1002.1" rx=".18" ry=".18"></ellipse>
+	<ellipse class="st1" cx="315.93" cy="946.46" rx="1.26" ry=".55"></ellipse>
+	<ellipse class="st1" cx="156.77" cy="913.74" rx="13.66" ry="13.64"></ellipse>
+	<ellipse class="st7" cx="128.46" cy="760.29" rx="15.64" ry="16"></ellipse>
+	<ellipse class="st1" cx="657.99" cy="824.39" rx="12.04" ry="11.09"></ellipse>
+	<ellipse class="st1" cx="640.52" cy="349" rx="7.73" ry="8.18"></ellipse>
+
+
+	<line class="st8" x1="1075.9" x2="158.19" y1="299.2" y2="747.21"></line>
+	<line class="st8" x1="1101.5" x2="165.67" y1="373.51" y2="830.34"></line>
+	<line class="st8" x1="1139.7" x2="176.81" y1="436.02" y2="906.08"></line>
+	<line class="st8" x1="547.33" x2="895.68" y1="795.26" y2="625.2"></line>
+	<line class="st8" x1="714.34" x2="862.61" y1="795.19" y2="722.81"></line>
+	<line class="st8" x1="385.3" x2="744.01" y1="556.56" y2="381.45"></line>
+	<line class="st8" x1="419.83" x2="594.01" y1="458.55" y2="373.53"></line>
+	<line class="st8" x1="1101.5" x2="158.18" y1="286.52" y2="747.19"></line>
+	<line class="st8" x1="1101.5" x2="165.67" y1="373.51" y2="830.34"></line>
+	<line class="st8" x1="1157.5" x2="176.82" y1="427.77" y2="906.1"></line>
+	<line class="st8" x1="547.33" x2="895.68" y1="795.26" y2="625.2"></line>
+	<line class="st8" x1="714.34" x2="862.61" y1="795.19" y2="722.81"></line>
+	<line class="st8" x1="385.3" x2="744.01" y1="556.56" y2="381.45"></line>
+	<line class="st8" x1="419.83" x2="594.01" y1="458.55" y2="373.53"></line>
+
+	<g id="img" fill="currentColor" aria-label="IoTRides">
+	<path class="st9" d="m88.41 380.33c-2.69-105.38 107.51-191.67 180.2-196.4"></path>
+		<path class="st9" d="m142.4 381.45c0.66-99.3 79.73-146.56 133.39-140.06"></path>
+		<path class="st9" d="m186.28 371.63c-2.57-29.54 33.02-81.91 83.88-82.87"></path>
+		<path class="st9" d="m1201.6 741.84c21.28 103.19-71.88 208.03-142.56 225.83"></path>
+		<path class="st9" d="m1148.2 750.51c16.92 97.82-52.53 158.62-106.47 161.94"></path>
+		<path class="st9" d="m1106.8 768.11c7.75 28.6-18 86.56-67.87 96.71"></path>
+</g>
+</svg></svg></g></g><defs><clipPath id="SvgjsClipPath1018"><rect width="1000" height="1000" x="0" y="0" rx="350" ry="350"></rect></clipPath></defs></svg>
