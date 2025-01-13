@@ -2,50 +2,51 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/styles';
 import { map } from '../core/MapView';
-import { geofenceToFeature, geometryToArea } from '../core/mapUtil';
+import { findFonts, geofenceToFeature, geometryToArea } from '../core/mapUtil';
 import { errorsActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
-import theme from './theme';
+import drawTheme from './theme';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
 MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
-const draw = new MapboxDraw({
-  displayControlsDefault: false,
-  controls: {
-    polygon: true,
-    line_string: true,
-    trash: true,
-  },
-  userProperties: true,
-  styles: [...theme, {
-    id: 'gl-draw-title',
-    type: 'symbol',
-    filter: ['all'],
-    layout: {
-      'text-field': '{user_name}',
-      'text-size': 12,
-    },
-    paint: {
-      'text-halo-color': 'white',
-      'text-halo-width': 1,
-    },
-  }],
-});
-
 const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
+
+  const draw = useMemo(() => new MapboxDraw({
+    displayControlsDefault: false,
+    controls: {
+      polygon: true,
+      line_string: true,
+      trash: true,
+    },
+    userProperties: true,
+    styles: [...drawTheme, {
+      id: 'gl-draw-title',
+      type: 'symbol',
+      filter: ['all'],
+      layout: {
+        'text-field': '{user_name}',
+        'text-font': findFonts(map),
+        'text-size': 12,
+      },
+      paint: {
+        'text-halo-color': 'white',
+        'text-halo-width': 1,
+      },
+    }],
+  }), []);
 
   const geofences = useSelector((state) => state.geofences.items);
 

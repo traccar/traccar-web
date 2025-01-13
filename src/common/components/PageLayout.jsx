@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
@@ -27,7 +29,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   desktopDrawer: {
-    width: theme.dimensions.drawerWidthDesktop,
+    width: (props) => (props.miniVariant ? `calc(${theme.spacing(8)} + 1px)` : theme.dimensions.drawerWidthDesktop),
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
@@ -66,13 +72,16 @@ const PageTitle = ({ breadcrumbs }) => {
 };
 
 const PageLayout = ({ menu, breadcrumbs, children }) => {
-  const classes = useStyles();
+  const [miniVariant, setMiniVariant] = useState(false);
+  const classes = useStyles({ miniVariant });
   const theme = useTheme();
   const navigate = useNavigate();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const [openDrawer, setOpenDrawer] = useState(false);
+
+  const toggleDrawer = () => setMiniVariant(!miniVariant);
 
   return desktop ? (
     <div className={classes.desktopRoot}>
@@ -82,10 +91,17 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
         classes={{ paper: classes.desktopDrawer }}
       >
         <Toolbar>
-          <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-            <ArrowBackIcon />
+          {!miniVariant && (
+            <>
+              <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
+                <ArrowBackIcon />
+              </IconButton>
+              <PageTitle breadcrumbs={breadcrumbs} />
+            </>
+          )}
+          <IconButton color="inherit" edge="start" sx={{ ml: miniVariant ? -2 : 'auto' }} onClick={toggleDrawer}>
+            {miniVariant ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
-          <PageTitle breadcrumbs={breadcrumbs} />
         </Toolbar>
         <Divider />
         {menu}

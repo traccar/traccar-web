@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, TextField,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  TextField,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
@@ -71,6 +77,10 @@ const GeofencePage = () => {
                 onChange={(event) => setItem({ ...item, calendarId: Number(event.target.value) })}
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}
+              />
+              <FormControlLabel
+                control={<Checkbox checked={item.attributes.hide} onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, hide: e.target.checked } })} />}
+                label={t('sharedFilterMap')}
               />
             </AccordionDetails>
           </Accordion>

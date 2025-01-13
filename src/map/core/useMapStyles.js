@@ -18,7 +18,7 @@ const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
     sources: {
       custom: source,
     },
-    glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
+    glyphs: 'https://api.mapbox.com/fonts/v1/mapbox/{fontstack}/{range}.pbf',
     layers: [{
       id: 'custom',
       type: 'raster',
@@ -40,6 +40,12 @@ export default () => {
   const customMapUrl = useSelector((state) => state.session.server.mapUrl);
 
   return useMemo(() => [
+    {
+      id: 'openFreeMap',
+      title: t('mapOpenFreeMap'),
+      style: 'https://tiles.openfreemap.org/styles/liberty',
+      available: true,
+    },
     {
       id: 'locationIqStreets',
       title: t('mapLocationIqStreets'),
@@ -260,7 +266,7 @@ export default () => {
     {
       id: 'custom',
       title: t('mapCustom'),
-      style: styleCustom({
+      style: !customMapUrl?.includes('{z}') ? customMapUrl : styleCustom({
         tiles: [customMapUrl],
       }),
       available: Boolean(customMapUrl),

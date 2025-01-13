@@ -186,7 +186,7 @@ const ReportFilter = ({
             disabled={disabled}
             onClick={() => handleClick('json')}
           >
-            <Typography variant="button" noWrap>{t('reportShow')}</Typography>
+            <Typography variant="button" noWrap>{t(loading ? 'sharedLoading' : 'reportShow')}</Typography>
           </Button>
         ) : (
           <SplitButton

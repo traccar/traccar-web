@@ -2,7 +2,7 @@ import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/styles';
 import { map } from './core/MapView';
-import { geofenceToFeature } from './core/mapUtil';
+import { findFonts, geofenceToFeature } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
 
 const MapGeofence = () => {
@@ -52,6 +52,7 @@ const MapGeofence = () => {
         type: 'symbol',
         layout: {
           'text-field': '{name}',
+          'text-font': findFonts(map),
           'text-size': 12,
         },
         paint: {
@@ -82,7 +83,9 @@ const MapGeofence = () => {
     if (mapGeofences) {
       map.getSource(id)?.setData({
         type: 'FeatureCollection',
-        features: Object.values(geofences).map((geofence) => geofenceToFeature(theme, geofence)),
+        features: Object.values(geofences)
+          .filter((geofence) => !geofence.attributes.hide)
+          .map((geofence) => geofenceToFeature(theme, geofence)),
       });
     }
   }, [mapGeofences, geofences]);

@@ -14,9 +14,10 @@ import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { formatTime } from '../common/util/formatter';
-import { useAdministrator, useDeviceReadonly } from '../common/util/permissions';
+import { useDeviceReadonly, useManager } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 import DeviceUsersValue from './components/DeviceUsersValue';
+import usePersistedState from '../common/util/usePersistedState';
 
 const DevicesPage = () => {
   const classes = useSettingsStyles();
@@ -25,13 +26,13 @@ const DevicesPage = () => {
 
   const groups = useSelector((state) => state.groups.items);
 
-  const admin = useAdministrator();
+  const manager = useManager();
   const deviceReadonly = useDeviceReadonly();
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = usePersistedState('showAllDevices', false);
   const [loading, setLoading] = useState(false);
 
   useEffectAsync(async () => {
@@ -73,7 +74,7 @@ const DevicesPage = () => {
             <TableCell>{t('deviceModel')}</TableCell>
             <TableCell>{t('deviceContact')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
-            {admin && <TableCell>{t('settingsUsers')}</TableCell>}
+            {manager && <TableCell>{t('settingsUsers')}</TableCell>}
             <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
@@ -87,7 +88,7 @@ const DevicesPage = () => {
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
-              {admin && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
+              {manager && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}
@@ -99,25 +100,25 @@ const DevicesPage = () => {
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={admin ? 8 : 7} endAction />)}
+          )) : (<TableShimmer columns={manager ? 8 : 7} endAction />)}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell>
               <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
             </TableCell>
-            <TableCell colSpan={admin ? 8 : 7} align="right">
+            <TableCell colSpan={manager ? 8 : 7} align="right">
               <FormControlLabel
                 control={(
                   <Switch
-                    value={showAll}
+                    checked={showAll}
                     onChange={(e) => setShowAll(e.target.checked)}
                     size="small"
                   />
                 )}
                 label={t('notificationAlways')}
                 labelPlacement="start"
-                disabled={!admin}
+                disabled={!manager}
               />
             </TableCell>
           </TableRow>
