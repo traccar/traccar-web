@@ -2,7 +2,6 @@ import { Autocomplete, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 
-
 const LinkField = ({
   label,
   endpointAll,
@@ -13,8 +12,6 @@ const LinkField = ({
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
 }) => {
-
-
   const localStorageKey = `linked_${baseId}_${keyLink}`;
 
   const [active, setActive] = useState(true);
