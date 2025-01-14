@@ -98,6 +98,11 @@ const ChartReportPage = () => {
     }
   });
 
+  // const DownSample = (data, maxPoints) => {
+  //   const factor = Math.ceil(data.length / maxPoints); // Determine downsampling factor
+  //   return data.filter((_, index) => index % factor === 0);
+  // };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly>
@@ -136,18 +141,28 @@ const ChartReportPage = () => {
         <div className={classes.chart}>
           <ResponsiveContainer>
             <LineChart
-              data={items}
+              data={items.slice(0, 10)}
               margin={{
                 top: 10, right: 40, left: 0, bottom: 10,
               }}
             >
-              <XAxis
+              {/* <XAxis
                 stroke={theme.palette.text.primary}
                 dataKey={timeType}
                 type="number"
                 tickFormatter={(value) => formatTime(value, 'time')}
                 domain={['dataMin', 'dataMax']}
                 scale="time"
+                tickCount={5}
+              /> */}
+              <XAxis
+                dataKey={timeType}
+                type="number"
+                tickFormatter={(value) => formatTime(value, 'time')}
+                domain={['dataMin', 'dataMax']}
+                scale="time"
+                tickCount={5}
+                interval="preserveStartEnd"
               />
               <YAxis
                 stroke={theme.palette.text.primary}
