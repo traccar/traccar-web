@@ -1,4 +1,6 @@
-import { Snackbar, Alert, Button, Link, Dialog, DialogContent, DialogContentText, DialogActions, Typography } from '@mui/material';
+import {
+  Snackbar, Alert, Button, Link, Dialog, DialogContent, DialogContentText, DialogActions, Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
@@ -27,7 +29,13 @@ const ErrorHandler = () => {
           severity="error"
           variant="filled"
         >
-          {displayMessage} | <Link color="inherit" href="#" onClick={() => setExpanded(true)}>{t('sharedShowDetails')}</Link>
+          {displayMessage}
+          {multiline && (
+            <>
+              {' | '}
+              <Link color="inherit" href="#" onClick={() => setExpanded(true)}>{t('sharedShowDetails')}</Link>
+            </>
+          )}
         </Alert>
       </Snackbar>
       <Dialog
