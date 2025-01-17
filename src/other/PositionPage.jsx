@@ -87,7 +87,6 @@ const PositionPage = () => {
         const positions = await response.json();
         if (positions.length > 0) {
           setItem(ExcludeItems(positions.at(0)));
-          console.log(positions.at(0));
         }
       } else {
         throw Error(await response.text());
