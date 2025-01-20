@@ -24,6 +24,50 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(2),
   },
 }));
+//! Implementation of how api is set up.
+//  {
+//   id: 92,
+//   attributes: {
+//     distance: 78.78110594267385,
+//     totalDistance: 6024.829574884233,
+//     motion: false,
+//   },
+//   deviceId: 1,
+//   protocol: 'osmand',
+//   serverTime: '2025-01-13T15:02:14.895+00:00',
+//   deviceTime: '2025-01-12T20:45:00.000+00:00',
+//   fixTime: '2025-01-12T20:45:00.000+00:00',
+//   outdated: false,
+//   valid: true,
+//   latitude: 59.9445,
+//   longitude: 30.358,
+//   altitude: 0,
+//   speed: 0,
+//   course: 0,
+//   address: null,
+//   accuracy: 0,
+//   network: null,
+//   geofenceIds: null,
+// };
+
+function ExcludeItems(Items) {
+  const filtered = { ...Items };
+  const EXCLUDED_ATTRIBUTES = ['adc2', 'adc3', 'output', 'input', 'protocol', 'Blocked', 'outdated', 'status', 'network', 'RSSI', 'door'];
+
+  EXCLUDED_ATTRIBUTES.forEach((attr) => {
+    delete filtered[attr];
+  });
+  if (filtered.attributes) {
+    filtered.attributes = Object.keys(filtered.attributes)
+      .filter((key) => !EXCLUDED_ATTRIBUTES.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = filtered.attributes[key];
+        return obj;
+      }, {});
+  }
+
+  return filtered;
+}
 
 const PositionPage = () => {
   const classes = useStyles();
@@ -42,7 +86,7 @@ const PositionPage = () => {
       if (response.ok) {
         const positions = await response.json();
         if (positions.length > 0) {
-          setItem(positions[0]);
+          setItem(ExcludeItems(positions.at(0)));
         }
       } else {
         throw Error(await response.text());
