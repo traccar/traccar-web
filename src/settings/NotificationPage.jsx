@@ -68,7 +68,10 @@ const NotificationPage = () => {
                 value={item.type}
                 onChange={(e) => setItem({ ...item, type: e.target.value })}
                 endpoint="/api/notifications/types"
-                keyGetter={(it) => it.type}
+                keyGetter={(it) => {
+                  console.log(it.type);
+                  return it.type;
+                }}
                 titleGetter={(it) => t(prefixString('event', it.type))}
                 label={t('sharedType')}
               />
