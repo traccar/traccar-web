@@ -14,6 +14,25 @@ export const nativePostMessage = (message) => {
   }
 };
 
+export const generateLoginToken = async () => {
+  if (nativeEnvironment) {
+    let token = '';
+    try {
+      const expiration = dayjs().add(6, 'months').toISOString();
+      const response = await fetch('/api/session/token', {
+        method: 'POST',
+        body: new URLSearchParams(`expiration=${expiration}`),
+      });
+      if (response.ok) {
+        token = await response.text();
+      }
+    } catch (error) {
+      token = '';
+    }
+    nativePostMessage(`login|${token}`);
+  }
+};
+
 export const handleLoginTokenListeners = new Set();
 window.handleLoginToken = (token) => {
   handleLoginTokenListeners.forEach((listener) => listener(token));
