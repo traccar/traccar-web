@@ -44,7 +44,6 @@ const filterEvents = (events, typesToExclude) => {
 };
 
 const columnsMap = new Map(columnsArray);
-console.log(columnsMap);
 
 const EventReportPage = () => {
   const navigate = useNavigate();
