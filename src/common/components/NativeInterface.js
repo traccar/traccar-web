@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffectAsync } from '../../reactHelper';
 import { sessionActions } from '../../store';
@@ -11,6 +12,25 @@ export const nativePostMessage = (message) => {
   }
   if (window.appInterface) {
     window.appInterface.postMessage(message);
+  }
+};
+
+export const generateLoginToken = async () => {
+  if (nativeEnvironment) {
+    let token = '';
+    try {
+      const expiration = dayjs().add(6, 'months').toISOString();
+      const response = await fetch('/api/session/token', {
+        method: 'POST',
+        body: new URLSearchParams(`expiration=${expiration}`),
+      });
+      if (response.ok) {
+        token = await response.text();
+      }
+    } catch (error) {
+      token = '';
+    }
+    nativePostMessage(`login|${token}`);
   }
 };
 
