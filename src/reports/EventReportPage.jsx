@@ -92,7 +92,7 @@ const EventReportPage = () => {
     if (response.ok) {
       const types = await response.json();
       setAllEventTypes([...allEventTypes, ...types.map((it) => [it.type, prefixString('event', it.type)])]);
-      console.log('Columns : ', columns.map((it) => columnsMap.get(it)));
+      // console.log('Columns : ', columns.map((it) => columnsMap.get(it)));
     } else {
       throw Error(await response.text());
     }
@@ -121,7 +121,11 @@ const EventReportPage = () => {
           const data = await response.json();
           const typesToExclude = ['deviceOnline', 'deviceUnknown'];
           // ? doing filteration here
-          const filteredEvents = filterEvents(data, typesToExclude);
+          const ModifiedData = data.map((item) => ({
+            ...item,
+            speedLimit: item.attributes?.speedLimit || null,
+          }));
+          const filteredEvents = filterEvents(ModifiedData, typesToExclude);
           setItems(filteredEvents);
         } else {
           throw Error(await response.text());
@@ -147,12 +151,14 @@ const EventReportPage = () => {
 
   const formatValue = (item, key) => {
     const value = item[key];
-    const limit = item.speedLimit || item.attributes?.speedLimit;
-    console.log('formatValue called with key:', key, 'item:', item);
-    console.log('Speed Limit Item:', item); // Debug the entire item
-    console.log('Speed Limit Value:', item.speedLimit); // Debug direct speedLimit
-    console.log('Speed Limit in Attributes:', item.attributes?.speedLimit); // Debug attributes.speedLimit
+    // const limit = item.speedLimit || item.attributes?.speedLimit;
+    // console.log('formatValue called with key:', key, 'item:', item);
+    // console.log('Speed Limit Item:', item); // Debug the entire item
+    // console.log('Speed Limit Value:', item.speedLimit); // Debug direct speedLimit
+    // console.log('Speed Limit in Attributes:', item.attributes?.speedLimit); // Debug attributes.speedLimit
 
+    // console.log(' key------->', key); // This will show us all keys being processed
+    // console.log(' value------->', value);
     switch (key) {
       case 'eventTime':
         return formatTime(value, 'seconds');
@@ -179,7 +185,15 @@ const EventReportPage = () => {
           case 'commandResult':
             return item.attributes.result;
           case 'speedLimit':
-            return limit ? formatSpeed(limit, speedUnit, t) : null;
+            // console.log('Processing speedLimit:', {
+            //   key,
+            //   attributes: item.attributes,
+            //   speedLimit: item.attributes?.speedLimit,
+            // });
+            if (item.type === 'deviceOverspeed' && item.attributes?.speedLimit) {
+              return formatSpeed(item.attributes.speedLimit, speedUnit, t);
+            }
+            return null;
           default:
             return '';
         }
