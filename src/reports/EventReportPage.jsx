@@ -147,6 +147,12 @@ const EventReportPage = () => {
 
   const formatValue = (item, key) => {
     const value = item[key];
+    const limit = item.speedLimit || item.attributes?.speedLimit;
+    console.log('formatValue called with key:', key, 'item:', item);
+    console.log('Speed Limit Item:', item); // Debug the entire item
+    console.log('Speed Limit Value:', item.speedLimit); // Debug direct speedLimit
+    console.log('Speed Limit in Attributes:', item.attributes?.speedLimit); // Debug attributes.speedLimit
+
     switch (key) {
       case 'eventTime':
         return formatTime(value, 'seconds');
@@ -173,7 +179,7 @@ const EventReportPage = () => {
           case 'commandResult':
             return item.attributes.result;
           case 'speedLimit':
-            return item.attributes?.speedLimit ? formatSpeed(item.attributes.speedLimit, speedUnit) : null;
+            return limit ? formatSpeed(limit, speedUnit, t) : null;
           default:
             return '';
         }
