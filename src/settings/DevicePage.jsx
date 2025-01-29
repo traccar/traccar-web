@@ -104,6 +104,16 @@ const DevicePage = () => {
                 label={t('sharedPhone')}
               />
               <TextField
+                value={item.licenseNumber || ''}
+                onChange={(event) => setItem({ ...item, licenseNumber: event.target.value })}
+                label={t('deviceLicenseNumber')}
+              />
+              <TextField
+                value={item.vinNumber || ''}
+                onChange={(event) => setItem({ ...item, vinNumber: event.target.value })}
+                label={t('deviceVinNumber')}
+              />
+              <TextField
                 value={item.model || ''}
                 onChange={(event) => setItem({ ...item, model: event.target.value })}
                 label={t('deviceModel')}
