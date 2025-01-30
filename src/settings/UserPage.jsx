@@ -116,7 +116,7 @@ const UserPage = () => {
       endpoint="users"
       item={item}
       setItem={setItem}
-      defaultItem={admin ? { deviceLimit: -1 } : {}}
+      // defaultItem={admin ? { deviceLimit: -1 } : {}}
       validate={validate}
       onItemSaved={onItemSaved}
       menu={<SettingsMenu />}
@@ -331,31 +331,36 @@ const UserPage = () => {
                 }}
                 disabled={!manager}
               />
-              <TextField
-                type="number"
-                value={item.deviceLimit || 0}
-                onChange={(e) => setItem({ ...item, deviceLimit: Number(e.target.value) })}
-                label={t('userDeviceLimit')}
-                disabled={!admin}
-              />
-              <TextField
-                type="number"
-                value={item.userLimit || 0}
-                onChange={(e) => setItem({ ...item, userLimit: Number(e.target.value) })}
-                label={t('userUserLimit')}
-                disabled={!admin}
-              />
+              {admin
+                && (
+                <>
+                  <TextField
+                    type="number"
+                    value={item.deviceLimit || 0}
+                    onChange={(e) => setItem({ ...item, deviceLimit: Number(e.target.value) })}
+                    label={t('userDeviceLimit')}
+                  />
+                  <TextField
+                    type="number"
+                    value={item.userLimit || 0}
+                    onChange={(e) => setItem({ ...item, userLimit: Number(e.target.value) })}
+                    label={t('userUserLimit')}
+
+                  />
+                </>
+                )}
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox checked={item.disabled} onChange={(e) => setItem({ ...item, disabled: e.target.checked })} />}
                   label={t('sharedDisabled')}
                   disabled={!manager}
                 />
+                {admin && (
                 <FormControlLabel
                   control={<Checkbox checked={item.administrator} onChange={(e) => setItem({ ...item, administrator: e.target.checked })} />}
                   label={t('userAdmin')}
-                  disabled={!admin}
                 />
+                )}
                 <FormControlLabel
                   control={<Checkbox checked={item.readonly} onChange={(e) => setItem({ ...item, readonly: e.target.checked })} />}
                   label={t('serverReadonly')}
