@@ -387,6 +387,7 @@
 	"mapOpenFreeMap": "OpenFreeMap",
 	"mapLocationIqStreets": "LocationIQ Streets",
 	"mapLocationIqDark": "LocationIQ Dark",
+	"mapLocationIqLight": "LocationIQ Light",
 	"mapLocationIqKey": "LocationIQ Access Token",
 	"mapTomTomBasic": "TomTom Basic",
 	"mapTomTomFlow": "TomTom Traffic Flow",
