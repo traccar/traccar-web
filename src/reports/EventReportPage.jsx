@@ -151,14 +151,6 @@ const EventReportPage = () => {
 
   const formatValue = (item, key) => {
     const value = item[key];
-    // const limit = item.speedLimit || item.attributes?.speedLimit;
-    // console.log('formatValue called with key:', key, 'item:', item);
-    // console.log('Speed Limit Item:', item); // Debug the entire item
-    // console.log('Speed Limit Value:', item.speedLimit); // Debug direct speedLimit
-    // console.log('Speed Limit in Attributes:', item.attributes?.speedLimit); // Debug attributes.speedLimit
-
-    // console.log(' key------->', key); // This will show us all keys being processed
-    // console.log(' value------->', value);
     switch (key) {
       case 'eventTime':
         return formatTime(value, 'seconds');
