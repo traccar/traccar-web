@@ -164,6 +164,11 @@ const EventReportPage = () => {
         return null;
       case 'maintenanceId':
         return value > 0 ? value : null;
+      case 'speedLimit':
+        if (item.type === 'deviceOverspeed' && item.attributes?.speedLimit) {
+          return formatSpeed(item.attributes.speedLimit, speedUnit, t);
+        }
+        return null;
       case 'attributes':
         switch (item.type) {
           case 'alarm':
@@ -176,16 +181,6 @@ const EventReportPage = () => {
             return (<Link href={`/api/media/${devices[item.deviceId]?.uniqueId}/${item.attributes.file}`} target="_blank">{item.attributes.file}</Link>);
           case 'commandResult':
             return item.attributes.result;
-          case 'speedLimit':
-            // console.log('Processing speedLimit:', {
-            //   key,
-            //   attributes: item.attributes,
-            //   speedLimit: item.attributes?.speedLimit,
-            // });
-            if (item.type === 'deviceOverspeed' && item.attributes?.speedLimit) {
-              return formatSpeed(item.attributes.speedLimit, speedUnit, t);
-            }
-            return null;
           default:
             return '';
         }
