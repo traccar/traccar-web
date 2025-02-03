@@ -30,7 +30,7 @@ import PendingIcon from '@mui/icons-material/Pending';
 import { useTranslation } from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
 import PositionValue from './PositionValue';
-import { useDeviceReadonly } from '../util/permissions';
+import { useAdministrator, useDeviceReadonly } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
@@ -120,6 +120,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
+
+  const admin = useAdministrator();
 
   const deviceReadonly = useDeviceReadonly();
 
@@ -277,6 +279,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     <EditIcon />
                   </IconButton>
                 </Tooltip>
+                {admin && (
                 <Tooltip title={t('sharedRemove')}>
                   <IconButton
                     color="error"
@@ -286,6 +289,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
+                )}
               </CardActions>
             </Card>
           </Draggable>
