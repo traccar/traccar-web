@@ -613,7 +613,7 @@
 	"categoryScooter": "Scooter",
 	"maintenanceStart": "Start",
 	"maintenancePeriod": "Period",
-	"eventTollRoute": "Toll Route Detection",
+	"eventDeviceTollRoute": "Toll Route Detection",
 	"notificationTollRoute": "Vehicle entered toll route",
 	"tollName": "Toll Road Name",
 	"tollCost": "Toll Cost",
