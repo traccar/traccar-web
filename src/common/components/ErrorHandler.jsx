@@ -1,22 +1,22 @@
 import {
-  Snackbar, Alert, Button, Link, Dialog, DialogContent, DialogContentText, DialogActions, Typography,
+  Snackbar, Alert, Dialog, DialogContent, DialogContentText, DialogActions, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
 import { errorsActions } from '../../store';
-import { useTranslation } from './LocalizationProvider';
+// import { useTranslation } from './LocalizationProvider';
 
 const ErrorHandler = () => {
   const dispatch = useDispatch();
-  const t = useTranslation();
+  // const t = useTranslation();
 
   const error = useSelector((state) => state.errors.errors.find(() => true));
   const cachedError = usePrevious(error);
 
   const message = error || cachedError;
-  const multiline = message?.includes('\n');
-  const displayMessage = multiline ? message.split('\n')[0] : message;
+  // const multiline = message?.includes('\n');
+  // const displayMessage = multiline ? message.split('\n')[0] : message;
 
   const [expanded, setExpanded] = useState(false);
 
@@ -29,13 +29,13 @@ const ErrorHandler = () => {
           severity="error"
           variant="filled"
         >
-          {displayMessage}
-          {multiline && (
+          Something went wrong
+          {/* {multiline && (
             <>
               {' | '}
               <Link color="inherit" href="#" onClick={() => setExpanded(true)}>{t('sharedShowDetails')}</Link>
             </>
-          )}
+          )} */}
         </Alert>
       </Snackbar>
       <Dialog
@@ -51,7 +51,7 @@ const ErrorHandler = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setExpanded(false)} autoFocus>{t('sharedHide')}</Button>
+          {/* <Button onClick={() => setExpanded(false)} autoFocus>{t('sharedHide')}</Button> */}
         </DialogActions>
       </Dialog>
     </>
