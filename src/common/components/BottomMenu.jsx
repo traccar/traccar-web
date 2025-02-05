@@ -93,6 +93,9 @@ const BottomMenu = () => {
       case 'logout':
         handleLogout();
         break;
+      case 'random':
+        alert('New option clicked');
+        break;
       default:
         break;
     }
@@ -109,6 +112,11 @@ const BottomMenu = () => {
             </Badge>
           )}
           value="map"
+        />
+        <BottomNavigationAction
+          label={t('mapTitle')}
+          icon={(<MapIcon />)}
+          value="random"
         />
         {!disableReports && (
           <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} value="reports" />

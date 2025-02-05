@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     pointerEvents: 'auto',
     zIndex: 5,
+    position: 'fixed',
+    left: '50%',
+    transform: 'translateX(-50%)',
   },
   middle: {
     flex: 1,
@@ -109,6 +112,7 @@ const MainPage = () => {
         />
       )}
       <div className={classes.sidebar}>
+        <div style={{ width: '100px', height: '56px', backgroundColor: 'gray', marginBottom: '10px' }} />
         <Paper square elevation={3} className={classes.header}>
           <MainToolbar
             filteredDevices={filteredDevices}
