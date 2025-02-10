@@ -22,6 +22,7 @@ export const usePreference = (key, defaultValue) => useSelector((state) => {
 });
 
 export const useAttributePreference = (key, defaultValue) => useSelector((state) => {
+  // server needs to enforce some settings.
   if (state.session.server.forceSettings) {
     if (containsProperty(state.session.server.attributes, key)) {
       return state.session.server.attributes[key];

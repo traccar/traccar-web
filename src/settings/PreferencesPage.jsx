@@ -327,7 +327,7 @@ const PreferencesPage = () => {
             </FormControl>
           </AccordionDetails>
         </Accordion>
-        {!readonly && (
+        { admin && (
           <>
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>

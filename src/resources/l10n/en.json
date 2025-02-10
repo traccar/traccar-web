@@ -387,6 +387,7 @@
 	"mapOpenFreeMap": "OpenFreeMap",
 	"mapLocationIqStreets": "LocationIQ Streets",
 	"mapLocationIqDark": "LocationIQ Dark",
+	"mapLocationIqLight": "LocationIQ Light",
 	"mapLocationIqKey": "LocationIQ Access Token",
 	"mapTomTomBasic": "TomTom Basic",
 	"mapTomTomFlow": "TomTom Traffic Flow",
@@ -620,4 +621,6 @@
 	"tollName": "Toll Road Name",
 	"tollCost": "Toll Cost",
 	"tollRef": "Toll Reference"
+	"deviceLicenseNumber": "License Number",
+	"deviceVinNumber": "VIN Number"
 }

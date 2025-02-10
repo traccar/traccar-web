@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import {
   useMediaQuery, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, Box,
 } from '@mui/material';
@@ -14,7 +13,9 @@ import { sessionActions } from '../store';
 import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
 import LoginLayout from './LoginLayout';
 import usePersistedState from '../common/util/usePersistedState';
-import { handleLoginTokenListeners, nativeEnvironment, nativePostMessage } from '../common/components/NativeInterface';
+import {
+  generateLoginToken, handleLoginTokenListeners, nativeEnvironment, nativePostMessage,
+} from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
 import Loader from '../common/components/Loader';
@@ -74,25 +75,6 @@ const LoginPage = () => {
 
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
-
-  const generateLoginToken = async () => {
-    if (nativeEnvironment) {
-      let token = '';
-      try {
-        const expiration = dayjs().add(6, 'months').toISOString();
-        const response = await fetch('/api/session/token', {
-          method: 'POST',
-          body: new URLSearchParams(`expiration=${expiration}`),
-        });
-        if (response.ok) {
-          token = await response.text();
-        }
-      } catch (error) {
-        token = '';
-      }
-      nativePostMessage(`login|${token}`);
-    }
-  };
 
   const handlePasswordLogin = async (event) => {
     event.preventDefault();

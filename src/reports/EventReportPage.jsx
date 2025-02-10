@@ -32,7 +32,17 @@ const columnsArray = [
   ['geofenceId', 'sharedGeofence'],
   ['maintenanceId', 'sharedMaintenance'],
   ['attributes', 'commandData'],
+  ['speedLimit', 'attributeSpeedLimit'],
 ];
+
+const filterEvents = (events, typesToExclude) => {
+  const excludeSet = new Set(typesToExclude);
+
+  const data = events.filter((event) => !excludeSet.has(event.type));
+
+  return data;
+};
+
 const columnsMap = new Map(columnsArray);
 
 const EventReportPage = () => {
@@ -53,7 +63,7 @@ const EventReportPage = () => {
     name: t(it),
   }));
 
-  const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'attributes']);
+  const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'attributes', 'speedLimit']);
   const [eventTypes, setEventTypes] = useState(['allEvents']);
   const [alarmTypes, setAlarmTypes] = useState([]);
   const [items, setItems] = useState([]);
@@ -66,6 +76,7 @@ const EventReportPage = () => {
       const response = await fetch(`/api/positions?id=${selectedItem.positionId}`);
       if (response.ok) {
         const positions = await response.json();
+
         if (positions.length > 0) {
           setPosition(positions[0]);
         }
@@ -82,6 +93,7 @@ const EventReportPage = () => {
     if (response.ok) {
       const types = await response.json();
       setAllEventTypes([...allEventTypes, ...types.map((it) => [it.type, prefixString('event', it.type)])]);
+      // console.log('Columns : ', columns.map((it) => columnsMap.get(it)));
     } else {
       throw Error(await response.text());
     }
@@ -107,7 +119,15 @@ const EventReportPage = () => {
           headers: { Accept: 'application/json' },
         });
         if (response.ok) {
-          setItems(await response.json());
+          const data = await response.json();
+          const typesToExclude = ['deviceOnline', 'deviceUnknown'];
+          // ? doing filteration here
+          const ModifiedData = data.map((item) => ({
+            ...item,
+            speedLimit: item.attributes?.speedLimit || null,
+          }));
+          const filteredEvents = filterEvents(ModifiedData, typesToExclude);
+          setItems(filteredEvents);
         } else {
           throw Error(await response.text());
         }
@@ -145,6 +165,11 @@ const EventReportPage = () => {
         return null;
       case 'maintenanceId':
         return value > 0 ? value : null;
+      case 'speedLimit':
+        if (item.type === 'deviceOverspeed' && item.attributes?.speedLimit) {
+          return formatSpeed(item.attributes.speedLimit, speedUnit, t);
+        }
+        return null;
       case 'attributes':
         switch (item.type) {
           case 'alarm':

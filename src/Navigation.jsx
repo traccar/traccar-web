@@ -58,6 +58,7 @@ import SharePage from './settings/SharePage';
 import AnnouncementPage from './settings/AnnouncementPage';
 import EmulatorPage from './other/EmulatorPage';
 import Loader from './common/components/Loader';
+import { generateLoginToken } from './common/components/NativeInterface';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -88,6 +89,11 @@ const Navigation = () => {
     } else if (query.get('eventId')) {
       const eventId = parseInt(query.get('eventId'), 10);
       navigate(`/event/${eventId}`);
+    } else if (query.get('openid')) {
+      if (query.get('openid') === 'success') {
+        generateLoginToken();
+      }
+      navigate('/');
     } else {
       setRedirectsHandled(true);
     }
