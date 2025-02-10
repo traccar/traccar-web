@@ -620,7 +620,7 @@
 	"notificationTollRouteExit": "Vehicle exited toll route",
 	"tollName": "Toll Road Name",
 	"tollCost": "Toll Cost",
-	"tollRef": "Toll Reference"
+	"tollRef": "Toll Reference",
 	"deviceLicenseNumber": "License Number",
 	"deviceVinNumber": "VIN Number"
 }
