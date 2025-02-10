@@ -6,7 +6,7 @@ import {
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
-import { formatSpeed, formatTime } from '../common/util/formatter';
+import { formatSpeed, formatTime, formatDistance } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
@@ -54,6 +54,7 @@ const EventReportPage = () => {
   const geofences = useSelector((state) => state.geofences.items);
 
   const speedUnit = useAttributePreference('speedUnit');
+  const distanceUnit = useAttributePreference('distanceUnit');
 
   const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
 
@@ -181,6 +182,21 @@ const EventReportPage = () => {
             return (<Link href={`/api/media/${devices[item.deviceId]?.uniqueId}/${item.attributes.file}`} target="_blank">{item.attributes.file}</Link>);
           case 'commandResult':
             return item.attributes.result;
+          case 'deviceTollRouteExit':
+            // eslint-disable-next-line vars-on-top, no-var
+            var tollDetails = '';
+            if ('tollName' in item.attributes) {
+              tollDetails = tollDetails.concat('Toll name: ');
+              tollDetails = tollDetails.concat(item.attributes.tollName);
+              tollDetails = tollDetails.concat(' | ');
+            }
+
+            if ('tollDistance' in item.attributes) {
+              tollDetails = tollDetails.concat('Toll Distance: ');
+              tollDetails = tollDetails.concat(formatDistance(item.attributes.tollDistance, distanceUnit, t));
+            }
+
+            return tollDetails;
           default:
             return '';
         }
