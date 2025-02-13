@@ -25,11 +25,29 @@ const BaseCommandView = ({ deviceId, item, setItem }) => {
     }
   }, [availableAttributes, item]);
 
+  const updateType = (type) => {
+    const defaults = {};
+    availableAttributes[type]?.forEach((attribute) => {
+      switch (attribute.type) {
+        case 'boolean':
+          defaults[attribute.key] = false;
+          break;
+        case 'number':
+          defaults[attribute.key] = 0;
+          break;
+        default:
+          defaults[attribute.key] = '';
+          break;
+      }
+    });
+    setItem({ ...item, type, attributes: defaults });
+  };
+
   return (
     <>
       <SelectField
         value={item.type}
-        onChange={(e) => setItem({ ...item, type: e.target.value, attributes: {} })}
+        onChange={(e) => updateType(e.target.value)}
         endpoint={deviceId ? `/api/commands/types?${new URLSearchParams({ deviceId }).toString()}` : '/api/commands/types'}
         keyGetter={(it) => it.type}
         titleGetter={(it) => t(prefixString('command', it.type))}

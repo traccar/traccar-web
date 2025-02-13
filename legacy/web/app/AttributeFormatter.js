@@ -181,11 +181,7 @@ Ext.define('Traccar.AttributeFormatter', {
         } else if (typeof value === 'boolean') {
             return value ? Ext.Msg.buttonText.yes : Ext.Msg.buttonText.no;
         } else if (value instanceof Date) {
-            if (Traccar.app.getPreference('twelveHourFormat', false)) {
-                return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
-            } else {
-                return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
-            }
+            return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
         }
         return value;
     },
