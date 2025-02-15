@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
+import { PostHogProvider } from 'posthog-js/react';
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
 import ErrorHandler from './common/components/ErrorHandler';
@@ -15,24 +16,34 @@ import AppThemeProvider from './AppThemeProvider';
 
 preloadImages();
 
+const options = {
+  api_host: import.meta.env.VITE_POSTHOG_API_HOST,
+  debug: true,
+};
+
 const root = createRoot(document.getElementById('root'));
 root.render(
   <ErrorBoundary>
     <Provider store={store}>
-      <LocalizationProvider>
-        <StyledEngineProvider injectFirst>
-          <AppThemeProvider>
-            <CssBaseline />
-            <ServerProvider>
-              <BrowserRouter>
-                <Navigation />
-              </BrowserRouter>
-              <ErrorHandler />
-              <NativeInterface />
-            </ServerProvider>
-          </AppThemeProvider>
-        </StyledEngineProvider>
-      </LocalizationProvider>
+      <PostHogProvider
+        options={options}
+        apiKey={import.meta.env.VITE_POSTHOG_API_KEY}
+      >
+        <LocalizationProvider>
+          <StyledEngineProvider injectFirst>
+            <AppThemeProvider>
+              <CssBaseline />
+              <ServerProvider>
+                <BrowserRouter>
+                  <Navigation />
+                </BrowserRouter>
+                <ErrorHandler />
+                <NativeInterface />
+              </ServerProvider>
+            </AppThemeProvider>
+          </StyledEngineProvider>
+        </LocalizationProvider>
+      </PostHogProvider>
     </Provider>
   </ErrorBoundary>,
 );
