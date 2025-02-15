@@ -53,8 +53,6 @@ const App = () => {
       const response = await fetch('/api/session');
       if (response.ok) {
         dispatch(sessionActions.updateUser(await response.json()));
-        posthog.capture('user_signed_up : Test');
-        console.log('User signed up');
       } else if (newServer) {
         navigate('/register');
       } else {
