@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery, useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import posthog from 'posthog-js';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
 import CachingController from './CachingController';
