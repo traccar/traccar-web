@@ -612,6 +612,14 @@
 	"categoryTruck": "Truck",
 	"categoryVan": "Van",
 	"categoryScooter": "Scooter",
+
+	"categorySuv": "SUV",
+	"categoryPanelvan": "Panel Van",
+	"categoryMinivan": "Minivan",
+	"categoryCubetruck": "Cube Truck",
+	"categoryShuttlebus": "Shuttle Bus",
+	"categorySpecialtyvehicle": "Specialty Vehicle",
+
 	"maintenanceStart": "Start",
 	"maintenancePeriod": "Period",
 	"eventDeviceTollRouteEnter": "Toll Route entered",

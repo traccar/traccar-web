@@ -1,6 +1,6 @@
 export default [
   'default',
-  'animal',
+  // 'animal',
   'bicycle',
   'boat',
   'bus',
@@ -19,4 +19,11 @@ export default [
   'truck',
   'van',
   'scooter',
+  'shuttlebus',
+  'specialtyvehicle',
+  'minivan',
+  'panelvan',
+  'cubetruck',
+  'suv',
+
 ];
