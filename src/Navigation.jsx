@@ -58,10 +58,13 @@ import SharePage from './settings/SharePage';
 import AnnouncementPage from './settings/AnnouncementPage';
 import EmulatorPage from './other/EmulatorPage';
 import Loader from './common/components/Loader';
+import { generateLoginToken } from './common/components/NativeInterface';
+import { useLocalization } from './common/components/LocalizationProvider';
 
 const Navigation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { setLanguage } = useLocalization();
 
   const [redirectsHandled, setRedirectsHandled] = useState(false);
 
@@ -69,6 +72,9 @@ const Navigation = () => {
   const query = useQuery();
 
   useEffectAsync(async () => {
+    if (query.get('locale')) {
+      setLanguage(query.get('locale'));
+    }
     if (query.get('token')) {
       const token = query.get('token');
       await fetch(`/api/session?token=${encodeURIComponent(token)}`);
@@ -88,6 +94,11 @@ const Navigation = () => {
     } else if (query.get('eventId')) {
       const eventId = parseInt(query.get('eventId'), 10);
       navigate(`/event/${eventId}`);
+    } else if (query.get('openid')) {
+      if (query.get('openid') === 'success') {
+        generateLoginToken();
+      }
+      navigate('/');
     } else {
       setRedirectsHandled(true);
     }
