@@ -54,7 +54,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
             }
             return filtered;
           }}
-          options={options}
+          options={options.sort((a, b) => a.name.localeCompare(b.name))}
           getOptionLabel={(option) => (option && typeof option === 'object' ? option.name : option)}
           renderOption={(props, option) => (
             <li {...props}>
