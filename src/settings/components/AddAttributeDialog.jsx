@@ -29,7 +29,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
     key,
     name: value.name,
     type: value.type,
-  }));
+  })).sort((a, b) => a.name.localeCompare(b.name));
 
   const [key, setKey] = useState();
   const [type, setType] = useState('string');
@@ -54,7 +54,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
             }
             return filtered;
           }}
-          options={options.sort((a, b) => a.name.localeCompare(b.name))}
+          options={options}
           getOptionLabel={(option) => (option && typeof option === 'object' ? option.name : option)}
           renderOption={(props, option) => (
             <li {...props}>
