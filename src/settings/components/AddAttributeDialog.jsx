@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField, Autocomplete,
 } from '@mui/material';
@@ -25,11 +25,11 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
     stringify: (option) => option.name,
   });
 
-  const options = Object.entries(definitions).map(([key, value]) => ({
+  const options = useMemo(() => Object.entries(definitions).map(([key, value]) => ({
     key,
     name: value.name,
     type: value.type,
-  }));
+  })).sort((a, b) => a.name.localeCompare(b.name)), [definitions]);
 
   const [key, setKey] = useState();
   const [type, setType] = useState('string');
