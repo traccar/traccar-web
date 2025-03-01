@@ -27,7 +27,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
 
   const options = useMemo(() => Object.entries(definitions).map(([key, value]) => ({
     key,
-    name: value.name,
+    name: value.name || key,
     type: value.type,
   })).sort((a, b) => a.name.localeCompare(b.name)), [definitions]);
 
