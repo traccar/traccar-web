@@ -59,6 +59,7 @@ import AnnouncementPage from './settings/AnnouncementPage';
 import EmulatorPage from './other/EmulatorPage';
 import Loader from './common/components/Loader';
 import { generateLoginToken } from './common/components/NativeInterface';
+import IgnitionReportPage from './reports/IgnitionReportPage.jsx';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -167,6 +168,7 @@ const Navigation = () => {
           <Route path="route" element={<RouteReportPage />} />
           <Route path="stop" element={<StopReportPage />} />
           <Route path="summary" element={<SummaryReportPage />} />
+          <Route path="ignition" element={<IgnitionReportPage />} />
           <Route path="trip" element={<TripReportPage />} />
           <Route path="scheduled" element={<ScheduledPage />} />
           <Route path="statistics" element={<StatisticsPage />} />

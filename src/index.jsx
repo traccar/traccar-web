@@ -12,6 +12,8 @@ import NativeInterface from './common/components/NativeInterface';
 import ServerProvider from './ServerProvider';
 import ErrorBoundary from './ErrorBoundary';
 import AppThemeProvider from './AppThemeProvider';
+import { DevSupport } from '@react-buddy/ide-toolbox';
+import { ComponentPreviews, useInitial } from './dev/index.js';
 
 preloadImages();
 
@@ -22,13 +24,17 @@ root.render(
       <LocalizationProvider>
         <StyledEngineProvider injectFirst>
           <AppThemeProvider>
-            <CssBaseline />
+            <CssBaseline/>
             <ServerProvider>
               <BrowserRouter>
-                <Navigation />
+                <Navigation/>
               </BrowserRouter>
-              <ErrorHandler />
-              <NativeInterface />
+              <ErrorHandler/>
+              <DevSupport ComponentPreviews={ComponentPreviews}
+                          useInitialHook={useInitial}
+              >
+                <NativeInterface/>
+              </DevSupport>
             </ServerProvider>
           </AppThemeProvider>
         </StyledEngineProvider>
