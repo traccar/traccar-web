@@ -15,6 +15,7 @@ import { prefixString } from '../common/util/stringUtils';
 import { calendarsActions } from '../store';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const formatCalendarTime = (time) => {
   const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -109,6 +110,9 @@ const CalendarPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedCalendar']}
     >
+      <Helmet>
+            <title>Tracktrack | Calendar</title>
+      </Helmet> 
       {item && (
         <>
           <Accordion defaultExpanded>

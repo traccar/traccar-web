@@ -25,6 +25,7 @@ import MapCamera from '../map/MapCamera';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import SelectField from '../common/components/SelectField';
+import { Helmet } from 'react-helmet';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -166,6 +167,9 @@ const EventReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
+      <Helmet>
+        <title>Tracktrack | EventReport</title>
+      </Helmet>
       <div className={classes.container}>
         {selectedItem && (
           <div className={classes.containerMap}>

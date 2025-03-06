@@ -16,6 +16,7 @@ import useGroupAttributes from '../common/attributes/useGroupAttributes';
 import { useCatch } from '../reactHelper';
 import { groupsActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const GroupPage = () => {
   const classes = useSettingsStyles();
@@ -48,6 +49,9 @@ const GroupPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'groupDialog']}
     >
+    <Helmet>
+      <title>Tracktrack | Group</title>
+    </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded>

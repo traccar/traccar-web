@@ -15,6 +15,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const GroupsPage = () => {
   const classes = useSettingsStyles();
@@ -58,6 +59,9 @@ const GroupsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsGroups']}>
+      <Helmet>
+      <title>Tracktrack | Groups</title>
+    </Helmet>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>

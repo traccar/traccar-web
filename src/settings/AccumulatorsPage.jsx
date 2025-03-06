@@ -18,6 +18,7 @@ import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
 import { distanceFromMeters, distanceToMeters, distanceUnitString } from '../common/util/converter';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const AccumulatorsPage = () => {
   const navigate = useNavigate();
@@ -57,6 +58,9 @@ const AccumulatorsPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['sharedDeviceAccumulators']}>
+    <Helmet>
+      <title>Tracktrack | Accumulators</title>
+    </Helmet>     
       {item && (
         <Container maxWidth="xs" className={classes.container}>
           <Accordion defaultExpanded>

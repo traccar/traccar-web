@@ -18,6 +18,7 @@ import { prefixString } from '../common/util/stringUtils';
 import MapMarkers from '../map/MapMarkers';
 import MapRouteCoordinates from '../map/MapRouteCoordinates';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const CombinedReportPage = () => {
   const classes = useReportStyles();
@@ -57,6 +58,9 @@ const CombinedReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
+      <Helmet>
+       <title>Tracktrack | CombinedReportPage</title>
+      </Helmet>
       <div className={classes.container}>
         {Boolean(items.length) && (
           <div className={classes.containerMap}>

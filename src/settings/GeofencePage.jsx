@@ -18,6 +18,7 @@ import SettingsMenu from './components/SettingsMenu';
 import SelectField from '../common/components/SelectField';
 import { geofencesActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const GeofencePage = () => {
   const classes = useSettingsStyles();
@@ -44,6 +45,9 @@ const GeofencePage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedGeofence']}
     >
+    <Helmet>
+      <title>Tracktrack | Geofence</title>
+    </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded>

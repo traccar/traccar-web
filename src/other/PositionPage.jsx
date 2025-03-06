@@ -11,6 +11,7 @@ import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +63,9 @@ const PositionPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Tracktrack | Position</title>
+      </Helmet>
       <AppBar position="sticky" color="inherit">
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>

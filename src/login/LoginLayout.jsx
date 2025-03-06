@@ -3,6 +3,7 @@ import { useMediaQuery, Paper } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTheme } from '@mui/material/styles';
 import LogoImage from './LogoImage';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,9 @@ const LoginLayout = ({ children }) => {
 
   return (
     <main className={classes.root}>
+      <Helmet>
+        <title>Tracktrack | Login</title>
+      </Helmet>
       <div className={classes.sidebar}>
         {!useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.secondary.contrastText} />}
       </div>

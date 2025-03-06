@@ -19,6 +19,7 @@ import {
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
 import Loader from '../common/components/Loader';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   options: {
@@ -131,6 +132,9 @@ const LoginPage = () => {
 
   return (
     <LoginLayout>
+      <Helmet>
+              <title>Tracktrack | Login</title>
+      </Helmet>
       <div className={classes.options}>
         {nativeEnvironment && changeEnabled && (
           <Tooltip title={t('settingsServer')}>

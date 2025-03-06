@@ -9,6 +9,7 @@ import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const DriverPage = () => {
   const classes = useSettingsStyles();
@@ -27,6 +28,9 @@ const DriverPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedDriver']}
     >
+    <Helmet>
+      <title>Tracktrack | Driver</title>
+    </Helmet> 
       {item && (
         <>
           <Accordion defaultExpanded>

@@ -17,6 +17,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import { errorsActions } from '../store';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,6 +99,9 @@ const GeofencesPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Tracktrack | Geofences</title>
+      </Helmet>
       <div className={classes.content}>
         <Paper square className={classes.drawer}>
           <Toolbar>

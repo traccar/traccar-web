@@ -18,6 +18,7 @@ import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
+import { Helmet } from 'react-helmet';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
@@ -115,6 +116,9 @@ const SummaryReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
+      <Helmet>
+              <title>Tracktrack | SummaryReport</title>
+      </Helmet>
       <div className={classes.header}>
         <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice includeGroups loading={loading}>
           <div className={classes.filterItem}>

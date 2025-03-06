@@ -16,6 +16,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import { useManager } from '../common/util/permissions';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const UsersPage = () => {
   const classes = useSettingsStyles();
@@ -69,6 +70,9 @@ const UsersPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
+      <Helmet>
+        <title>Tracktrack | Users</title>
+      </Helmet>
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>

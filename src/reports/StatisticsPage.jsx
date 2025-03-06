@@ -12,6 +12,7 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
+import { Helmet } from 'react-helmet';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -52,6 +53,9 @@ const StatisticsPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
+      <Helmet>
+        <title>Tracktrack | Statistics</title>
+      </Helmet>
       <div className={classes.header}>
         <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice loading={loading}>
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />

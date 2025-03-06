@@ -26,6 +26,7 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,6 +164,9 @@ const ReplayPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Tracktrack | Replay</title>
+      </Helmet>
       <MapView>
         <MapGeofence />
         <MapRoutePath positions={positions} />

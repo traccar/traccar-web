@@ -15,6 +15,7 @@ import { formatNotificationTitle } from '../common/util/formatter';
 import PageLayout from '../common/components/PageLayout';
 import useFeatures from '../common/util/useFeatures';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const DeviceConnectionsPage = () => {
   const classes = useSettingsStyles();
@@ -29,6 +30,9 @@ const DeviceConnectionsPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedDevice', 'sharedConnections']}
     >
+    <Helmet>
+      <title>Tracktrack | DeviceConnections</title>
+    </Helmet>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

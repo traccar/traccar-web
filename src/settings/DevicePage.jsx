@@ -22,6 +22,7 @@ import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttri
 import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const DevicePage = () => {
   const classes = useSettingsStyles();
@@ -62,6 +63,9 @@ const DevicePage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedDevice']}
     >
+      <Helmet>
+        <title>Tracktrack | Device</title>
+      </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded>

@@ -11,6 +11,7 @@ import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const DriversPage = () => {
   const classes = useSettingsStyles();
@@ -37,6 +38,9 @@ const DriversPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedDrivers']}>
+      <Helmet>
+            <title>Tracktrack | Drivers</title>
+      </Helmet> 
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>

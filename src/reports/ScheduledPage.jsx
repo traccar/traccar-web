@@ -11,6 +11,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import TableShimmer from '../common/components/TableShimmer';
 import RemoveDialog from '../common/components/RemoveDialog';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -63,6 +64,9 @@ const ScheduledPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['settingsTitle', 'reportScheduled']}>
+      <Helmet>
+          <title>Tracktrack | Scheduled</title>
+      </Helmet>
       <Table>
         <TableHead>
           <TableRow>

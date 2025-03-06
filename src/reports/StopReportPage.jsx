@@ -26,6 +26,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -110,6 +111,9 @@ const StopReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
+      <Helmet>
+        <title>Tracktrack | StopReport</title>
+      </Helmet>
       <div className={classes.container}>
         {selectedItem && (
           <div className={classes.containerMap}>

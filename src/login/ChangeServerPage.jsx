@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import { Helmet } from 'react-helmet';
 
 const currentServer = `${window.location.protocol}//${window.location.host}`;
 
@@ -54,6 +55,9 @@ const ChangeServerPage = () => {
 
   return (
     <Container maxWidth="xs" className={classes.container}>
+      <Helmet>
+        <title>Tracktrack | ChangeServer</title>
+      </Helmet>
       <ElectricalServicesIcon className={classes.icon} />
       <Autocomplete
         freeSolo

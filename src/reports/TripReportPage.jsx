@@ -26,6 +26,7 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -157,6 +158,9 @@ const TripReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportTrips']}>
+      <Helmet>
+        <title>Tracktrack | TripReport</title>
+      </Helmet>
       <div className={classes.container}>
         {selectedItem && (
           <div className={classes.containerMap}>

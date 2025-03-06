@@ -33,6 +33,7 @@ import useServerAttributes from '../common/attributes/useServerAttributes';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const ServerPage = () => {
   const classes = useSettingsStyles();
@@ -78,6 +79,9 @@ const ServerPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsServer']}>
+      <Helmet>
+        <title>Tracktrack | Server</title>
+      </Helmet>
       <Container maxWidth="xs" className={classes.container}>
         {item && (
           <>

@@ -22,6 +22,8 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
+
 
 const CommandDevicePage = () => {
   const navigate = useNavigate();
@@ -51,6 +53,9 @@ const CommandDevicePage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceCommand']}>
+       <Helmet>
+          <title>Tracktrack | CommandGroup</title>
+        </Helmet>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
