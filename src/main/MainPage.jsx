@@ -16,6 +16,7 @@ import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
 import MainMap from './MainMap';
 import { useAttributePreference } from '../common/util/preferences';
+import logo from './../resources/images/ocean-track-logo.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -112,7 +113,9 @@ const MainPage = () => {
         />
       )}
       <div className={classes.sidebar}>
-        <div style={{ width: '100px', height: '56px', backgroundColor: 'gray', marginBottom: '10px' }} />
+        <div style={{ width: '360px', height: '56px', backgroundColor: '#fff8f845',textAlign:'center', marginBottom: '10px' }} >
+          <img src={logo} alt={'Ocean Track'} style={{  height: '56px' }}></img>
+          </div>
         <Paper square elevation={3} className={classes.header}>
           <MainToolbar
             filteredDevices={filteredDevices}

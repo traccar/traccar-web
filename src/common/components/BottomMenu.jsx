@@ -9,12 +9,14 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MapIcon from '@mui/icons-material/Map';
 import PersonIcon from '@mui/icons-material/Person';
+import SetMealIcon from '@mui/icons-material/SetMeal';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
+import { addCatchestoMap } from './FishCatchPlot';
 
 const BottomMenu = () => {
   const navigate = useNavigate();
@@ -76,6 +78,10 @@ const BottomMenu = () => {
     dispatch(sessionActions.updateUser(null));
   };
 
+  const plotFishCatchData = () => {
+    addCatchestoMap();
+  }
+
   const handleSelection = (event, value) => {
     switch (value) {
       case 'map':
@@ -93,8 +99,8 @@ const BottomMenu = () => {
       case 'logout':
         handleLogout();
         break;
-      case 'random':
-        alert('New option clicked');
+      case 'fishCatch':
+        plotFishCatchData();
         break;
       default:
         break;
@@ -114,9 +120,9 @@ const BottomMenu = () => {
           value="map"
         />
         <BottomNavigationAction
-          label={t('mapTitle')}
-          icon={(<MapIcon />)}
-          value="random"
+          label={'Catch'}
+          icon={(<SetMealIcon />)}
+          value="fishCatch"
         />
         {!disableReports && (
           <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} value="reports" />
