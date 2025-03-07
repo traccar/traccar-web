@@ -266,7 +266,7 @@ export default () => {
     {
       id: 'custom',
       title: t('mapCustom'),
-      style: !customMapUrl?.includes('{z}') ? customMapUrl : styleCustom({
+      style: !customMapUrl?.includes('{z}') && !customMapUrl?.includes('{quadkey}') ? customMapUrl : styleCustom({
         tiles: [customMapUrl],
       }),
       available: Boolean(customMapUrl),
