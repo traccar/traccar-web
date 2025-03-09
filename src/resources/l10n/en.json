@@ -542,6 +542,7 @@
 	"notificatorTraccar": "Traccar",
 	"notificatorTelegram": "Telegram",
 	"notificatorPushover": "Pushover",
+
 	"reportReplay": "Replay",
 	"reportCombined": "Combined",
 	"reportRoute": "Route",
@@ -622,6 +623,13 @@
 
 	"maintenanceStart": "Start",
 	"maintenancePeriod": "Period",
+	"eventDeviceTollRouteEnter": "Toll Route entered",
+	"eventDeviceTollRouteExit": "Toll Route exited",
+	"notificationTollRouteEnter": "Vehicle entered toll route",
+	"notificationTollRouteExit": "Vehicle exited toll route",
+	"tollName": "Toll Road Name",
+	"tollCost": "Toll Cost",
+	"tollRef": "Toll Reference",
 	"deviceLicenseNumber": "License Number",
 	"deviceVinNumber": "VIN Number"
 }
