@@ -44,7 +44,10 @@ const MaintenancePage = () => {
         otherList.push({ key, name: value.name, type: value.type });
       }
     });
-    return otherList;
+
+    const filterationListKeys = ['serverTime', 'odometer', 'serviceOdometer', 'tripOdometer', 'distance', 'totalDistance', 'drivingTime'];
+
+    return otherList.filter((key) => filterationListKeys.includes(key.key));
   };
 
   useEffect(() => {
