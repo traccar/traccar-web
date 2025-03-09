@@ -1,15 +1,19 @@
 import {
-  Snackbar, Alert, Button, Link, Dialog, DialogContent, DialogContentText, DialogActions, Typography,
+  Snackbar, Alert, Dialog, DialogContent, DialogContentText, DialogActions, Typography,
+  Button,
+  Link,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
 import { errorsActions } from '../../store';
+import { useAdministrator } from '../util/permissions';
 import { useTranslation } from './LocalizationProvider';
 
 const ErrorHandler = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
+  const admin = useAdministrator();
 
   const error = useSelector((state) => state.errors.errors.find(() => true));
   const cachedError = usePrevious(error);
@@ -29,12 +33,11 @@ const ErrorHandler = () => {
           severity="error"
           variant="filled"
         >
-          {displayMessage}
-          {multiline && (
-            <>
-              {' | '}
-              <Link color="inherit" href="#" onClick={() => setExpanded(true)}>{t('sharedShowDetails')}</Link>
-            </>
+          Something went wrong
+          {' '}
+          { admin ?? `: ${displayMessage}`}
+          {(multiline && admin) && (
+            <Link color="inherit" href="#" onClick={() => setExpanded(true)}>{t('sharedShowDetails')}</Link>
           )}
         </Alert>
       </Snackbar>
