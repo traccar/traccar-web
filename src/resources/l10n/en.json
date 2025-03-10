@@ -542,6 +542,7 @@
 	"notificatorTraccar": "Traccar",
 	"notificatorTelegram": "Telegram",
 	"notificatorPushover": "Pushover",
+
 	"reportReplay": "Replay",
 	"reportCombined": "Combined",
 	"reportRoute": "Route",
