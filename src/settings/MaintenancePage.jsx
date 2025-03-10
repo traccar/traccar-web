@@ -45,7 +45,7 @@ const MaintenancePage = () => {
       }
     });
 
-    const filterationListKeys = ['serverTime', 'odometer', 'serviceOdometer', 'tripOdometer', 'distance', 'totalDistance', 'drivingTime'];
+    const filterationListKeys = ['odometer', 'totalDistance', 'hours'];
 
     return otherList.filter((key) => filterationListKeys.includes(key.key));
   };

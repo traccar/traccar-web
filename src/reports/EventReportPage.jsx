@@ -92,7 +92,9 @@ const EventReportPage = () => {
     const response = await fetch('/api/notifications/types');
     if (response.ok) {
       const types = await response.json();
-      setAllEventTypes([...allEventTypes, ...types.map((it) => [it.type, prefixString('event', it.type)])]);
+      const FilteredTypes = ['deviceFuelDrop', 'deviceFuelIncrease', 'textMessage', 'driverChanged', 'media'];
+      const typeFiltered = types.filter((item) => !FilteredTypes.includes(item.type));
+      setAllEventTypes([...allEventTypes, ...typeFiltered.map((it) => [it.type, prefixString('event', it.type)])]);
       // console.log('Columns : ', columns.map((it) => columnsMap.get(it)));
     } else {
       throw Error(await response.text());
