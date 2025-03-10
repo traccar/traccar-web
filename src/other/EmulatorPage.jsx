@@ -19,6 +19,7 @@ import { devicesActions } from '../store';
 import MapPositions from '../map/MapPositions';
 import { useCatch } from '../reactHelper';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -98,6 +99,9 @@ const EmulatorPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Tracktrack | Emulator</title>
+      </Helmet>
       <div className={classes.content}>
         <Drawer
           className={classes.drawer}

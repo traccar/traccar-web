@@ -11,6 +11,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { sessionActions } from '../store';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,6 +73,9 @@ const RegisterPage = () => {
 
   return (
     <LoginLayout>
+      <Helmet>
+        <title>Tracktrack | Register</title>
+      </Helmet>
       <div className={classes.container}>
         <div className={classes.header}>
           {!server.newServer && (

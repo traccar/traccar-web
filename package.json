@@ -28,6 +28,7 @@
     "react-country-flag": "3.1.0",
     "react-dom": "^18.3.1",
     "react-draggable": "^4.4.6",
+    "react-helmet": "^6.1.0",
     "react-mui-dropzone": "^4.0.7",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.28.1",

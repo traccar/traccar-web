@@ -11,6 +11,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import { sessionActions } from '../store';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   columnAction: {
@@ -39,6 +40,9 @@ const LogsPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'sharedLogs']}>
+      <Helmet>
+        <title>Tracktrack | Logs</title>
+      </Helmet>
       <Table>
         <TableHead>
           <TableRow>

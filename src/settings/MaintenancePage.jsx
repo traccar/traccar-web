@@ -23,6 +23,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const MaintenancePage = () => {
   const classes = useSettingsStyles();
@@ -127,6 +128,9 @@ const MaintenancePage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedMaintenance']}
     >
+    <Helmet>
+          <title>Tracktrack | Maintenance</title>
+    </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded>

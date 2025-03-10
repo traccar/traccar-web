@@ -8,6 +8,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import BaseCommandView from './components/BaseCommandView';
 import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const CommandPage = () => {
   const classes = useSettingsStyles();
@@ -26,6 +27,9 @@ const CommandPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedSavedCommand']}
     >
+      <Helmet>
+         <title>Tracktrack | Command</title>
+      </Helmet> 
       {item && (
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -20,6 +20,7 @@ import { useCatch } from '../reactHelper';
 import { sessionActions } from '../store';
 import { useAdministrator, useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const deviceFields = [
   { id: 'name', name: 'sharedName' },
@@ -94,6 +95,9 @@ const PreferencesPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedPreferences']}>
+      <Helmet>
+        <title>Tracktrack | Preferences</title>
+      </Helmet>
       <Container maxWidth="xs" className={classes.container}>
         {!readonly && (
           <>

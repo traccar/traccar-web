@@ -14,6 +14,7 @@ import SettingsMenu from './components/SettingsMenu';
 import { formatNotificationTitle } from '../common/util/formatter';
 import PageLayout from '../common/components/PageLayout';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const UserConnectionsPage = () => {
   const classes = useSettingsStyles();
@@ -26,6 +27,9 @@ const UserConnectionsPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'settingsUser', 'sharedConnections']}
     >
+      <Helmet>
+        <title>Tracktrack | UserConnections</title>
+      </Helmet>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -18,6 +18,7 @@ import {
   altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
 } from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
+import { Helmet } from 'react-helmet';
 
 const ChartReportPage = () => {
   const classes = useReportStyles();
@@ -100,6 +101,9 @@ const ChartReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
+      <Helmet>
+        <title>Tracktrack | ChartReport</title>
+      </Helmet>
       <ReportFilter handleSubmit={handleSubmit} showOnly>
         <div className={classes.filterItem}>
           <FormControl fullWidth>

@@ -19,6 +19,7 @@ import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const NotificationPage = () => {
   const classes = useSettingsStyles();
@@ -55,6 +56,9 @@ const NotificationPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedNotification']}
     >
+      <Helmet>
+        <title>Tracktrack | Notification</title>
+      </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded>

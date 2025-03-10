@@ -18,6 +18,7 @@ import { useDeviceReadonly, useManager } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 import DeviceUsersValue from './components/DeviceUsersValue';
 import usePersistedState from '../common/util/usePersistedState';
+import { Helmet } from 'react-helmet';
 
 const DevicesPage = () => {
   const classes = useSettingsStyles();
@@ -63,6 +64,9 @@ const DevicesPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'deviceTitle']}>
+     <Helmet>
+        <title>Tracktrack | Devices</title>
+      </Helmet> 
       <SearchHeader keyword={searchKeyword} setKeyword={setSearchKeyword} />
       <Table className={classes.table}>
         <TableHead>

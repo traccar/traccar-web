@@ -37,6 +37,7 @@ import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const UserPage = () => {
   const classes = useSettingsStyles();
@@ -122,6 +123,9 @@ const UserPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'settingsUser']}
     >
+      <Helmet>
+        <title>Tracktrack | User</title>
+      </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded={!attribute}>

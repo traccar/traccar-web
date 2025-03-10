@@ -23,6 +23,7 @@ import SelectField from '../common/components/SelectField';
 import { useCatch } from '../reactHelper';
 import { snackBarDurationLongMs } from '../common/util/duration';
 import useSettingsStyles from './common/useSettingsStyles';
+import { Helmet } from 'react-helmet';
 
 const allowedProperties = ['valid', 'latitude', 'longitude', 'altitude', 'speed', 'course', 'address', 'accuracy'];
 
@@ -72,6 +73,9 @@ const ComputedAttributePage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedComputedAttribute']}
     >
+      <Helmet>
+         <title>Tracktrack | ComputedAttribute</title>
+      </Helmet>
       {item && (
         <>
           <Accordion defaultExpanded>

@@ -15,6 +15,7 @@ import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
 import MapScale from '../map/MapScale';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -79,6 +80,9 @@ const EventPage = () => {
 
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Tracktrack | Event</title>
+      </Helmet>
       <AppBar color="inherit" position="static" className={classes.toolbar}>
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>

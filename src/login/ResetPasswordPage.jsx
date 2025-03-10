@@ -10,6 +10,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import useQuery from '../common/util/useQuery';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch } from '../reactHelper';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +65,9 @@ const ResetPasswordPage = () => {
 
   return (
     <LoginLayout>
+      <Helmet>
+        <title>Tracktrack | ResetPassword</title>
+      </Helmet>
       <div className={classes.container}>
         <div className={classes.header}>
           <IconButton color="primary" onClick={() => navigate('/login')}>

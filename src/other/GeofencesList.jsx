@@ -8,6 +8,7 @@ import {
 import { geofencesActions } from '../store';
 import CollectionActions from '../settings/components/CollectionActions';
 import { useCatchCallback } from '../reactHelper';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -38,6 +39,9 @@ const GeofencesList = ({ onGeofenceSelected }) => {
 
   return (
     <List className={classes.list}>
+      <Helmet>
+        <title>Tracktrack | GeofencesList</title>
+      </Helmet>
       {Object.values(items).map((item, index, list) => (
         <Fragment key={item.id}>
           <ListItemButton key={item.id} onClick={() => onGeofenceSelected(item.id)}>

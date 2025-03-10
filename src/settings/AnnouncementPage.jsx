@@ -17,6 +17,7 @@ import { useCatchCallback } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
 import SelectField from '../common/components/SelectField';
 import { prefixString } from '../common/util/stringUtils';
+import { Helmet } from 'react-helmet';
 
 const AnnouncementPage = () => {
   const navigate = useNavigate();
@@ -44,6 +45,9 @@ const AnnouncementPage = () => {
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['serverAnnouncement']}>
+      <Helmet>
+      <title>Tracktrack | Announcement</title>
+    </Helmet>  
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
