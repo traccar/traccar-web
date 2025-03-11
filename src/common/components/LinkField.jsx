@@ -1,6 +1,8 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Snackbar, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
+import { snackBarDurationShortMs } from '../util/duration';
+import { useTranslation } from './LocalizationProvider';
 
 const LinkField = ({
   label,
@@ -12,10 +14,12 @@ const LinkField = ({
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
 }) => {
+  const t = useTranslation();
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState();
   const [linked, setLinked] = useState();
+  const [updated, setUpdated] = useState(false);
 
   useEffectAsync(async () => {
     if (active) {
@@ -66,27 +70,36 @@ const LinkField = ({
         }));
       });
       await Promise.all(results);
+      setUpdated(results.length > 0);
       setLinked(value);
     }
   };
 
   return (
-    <Autocomplete
-      loading={active && !items}
-      isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
-      options={items || []}
-      getOptionLabel={(item) => titleGetter(item)}
-      renderInput={(params) => <TextField {...params} label={label} />}
-      value={(items && linked) || []}
-      onChange={(_, value) => onChange(value)}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-        setActive(true);
-      }}
-      onClose={() => setOpen(false)}
-      multiple
-    />
+    <>
+      <Autocomplete
+        loading={active && !items}
+        isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
+        options={items || []}
+        getOptionLabel={(item) => titleGetter(item)}
+        renderInput={(params) => <TextField {...params} label={label} />}
+        value={(items && linked) || []}
+        onChange={(_, value) => onChange(value)}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+          setActive(true);
+        }}
+        onClose={() => setOpen(false)}
+        multiple
+      />
+      <Snackbar
+        open={Boolean(updated)}
+        onClose={() => setUpdated(false)}
+        autoHideDuration={snackBarDurationShortMs}
+        message={t('sharedSaved')}
+      />
+    </>
   );
 };
 
