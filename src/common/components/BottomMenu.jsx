@@ -16,7 +16,7 @@ import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
-import { addCatchestoMap } from './FishCatchPlot';
+import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
 
 const BottomMenu = () => {
   const navigate = useNavigate();
@@ -28,8 +28,8 @@ const BottomMenu = () => {
   const disableReports = useRestriction('disableReports');
   const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
-
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isFishCatchSelected, setFishCatchSelected] = useState(false);
 
   const currentSelection = () => {
     if (location.pathname === `/settings/user/${user.id}`) {
@@ -79,7 +79,11 @@ const BottomMenu = () => {
   };
 
   const plotFishCatchData = () => {
-    addCatchestoMap();
+    if (!isFishCatchSelected)
+      addCatchestoMap();
+    else
+      removeFishCatchFromMap();
+    setFishCatchSelected((val) => !val);
   }
 
   const handleSelection = (event, value) => {
@@ -120,6 +124,7 @@ const BottomMenu = () => {
           value="map"
         />
         <BottomNavigationAction
+          style={{color:isFishCatchSelected&&'#1a237e'}}
           label={'Catch'}
           icon={(<SetMealIcon />)}
           value="fishCatch"

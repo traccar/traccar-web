@@ -1,5 +1,4 @@
 import { map } from '../../map/core/MapView';
-import fish from '../../resources/images/icon/fish.png';
 
 const data = {
     "type": "FeatureCollection",
@@ -717,6 +716,12 @@ const data = {
         }
     ]
 }
+export const removeFishCatchFromMap = () => {
+    if (map && map.getSource('fishcatches') && map.getLayer('fishcatches')) {
+        map.removeLayer('fishcatches');
+        map.removeSource('fishcatches');
+    }
+}
 
 export const addCatchestoMap=()=> {
     // console.log(position);
@@ -743,13 +748,10 @@ const drawCatchesLocations=(map,sourceDataId)=> {
         source: sourceDataId,
         layout: {
             'icon-size': 0.6,
-            'icon-image': 'background',
+            'icon-image': 'fish',
           'icon-rotation-alignment': 'map',
           'symbol-placement': 'point',
           'icon-allow-overlap': true,
-        },
-        paint: {
-          'icon-color': { type: 'identity', property: 'color' },
         },
       });
     //   map?.setLayoutProperty(sourceDataId, 'icon-image', 'fish');
