@@ -176,7 +176,7 @@ const ChartReportPage = () => {
                 connectNulls={false}
               />
               <Line
-                type="linear"
+                type="monotone"
                 dataKey={type}
                 stroke={theme.palette.primary.main}
                 strokeDasharray="3 3"
