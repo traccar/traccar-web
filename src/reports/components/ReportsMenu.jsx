@@ -26,31 +26,31 @@ const ReportsMenu = () => {
   return (
     <>
       <List>
-        <MenuItem
+        {/* <MenuItem
           title={t('reportCombined')}
           link="/reports/combined"
           icon={<StarIcon />}
           selected={location.pathname === '/reports/combined'}
-        />
+        /> */}
         <MenuItem
           title={t('reportRoute')}
           link="/reports/route"
           icon={<TimelineIcon />}
           selected={location.pathname === '/reports/route'}
         />
-        <MenuItem
+        {/* <MenuItem
           title={t('reportEvents')}
           link="/reports/event"
           icon={<NotificationsActiveIcon />}
           selected={location.pathname === '/reports/event'}
-        />
+        /> */}
         <MenuItem
           title={t('reportTrips')}
           link="/reports/trip"
           icon={<PlayCircleFilledIcon />}
           selected={location.pathname === '/reports/trip'}
         />
-        <MenuItem
+        {/* <MenuItem
           title={t('reportStops')}
           link="/reports/stop"
           icon={<PauseCircleFilledIcon />}
@@ -72,7 +72,7 @@ const ReportsMenu = () => {
           title={t('reportReplay')}
           link="/replay"
           icon={<RouteIcon />}
-        />
+        /> */}
       </List>
       <Divider />
       <List>
@@ -82,14 +82,14 @@ const ReportsMenu = () => {
           icon={<NotesIcon />}
           selected={location.pathname === '/reports/logs'}
         />
-        {!readonly && (
+        {/* {!readonly && (
           <MenuItem
             title={t('reportScheduled')}
             link="/reports/scheduled"
             icon={<EventRepeatIcon />}
             selected={location.pathname === '/reports/scheduled'}
           />
-        )}
+        )} */}
         {admin && (
           <MenuItem
             title={t('statisticsTitle')}

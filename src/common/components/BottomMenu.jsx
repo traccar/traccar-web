@@ -17,6 +17,7 @@ import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
 import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
+import { catchActions } from '../../store/catch';
 
 const BottomMenu = () => {
   const navigate = useNavigate();
@@ -78,9 +79,13 @@ const BottomMenu = () => {
     dispatch(sessionActions.updateUser(null));
   };
 
+  const onCatchClick = (catchDetails)=>{
+    dispatch(catchActions.catchDetails(catchDetails));
+  }
+
   const plotFishCatchData = () => {
     if (!isFishCatchSelected)
-      addCatchestoMap();
+      addCatchestoMap(onCatchClick);
     else
       removeFishCatchFromMap();
     setFishCatchSelected((val) => !val);
@@ -92,7 +97,7 @@ const BottomMenu = () => {
         navigate('/');
         break;
       case 'reports':
-        navigate('/reports/combined');
+        navigate('/reports/route');
         break;
       case 'settings':
         navigate('/settings/preferences');

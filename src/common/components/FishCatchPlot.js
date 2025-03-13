@@ -723,18 +723,18 @@ export const removeFishCatchFromMap = () => {
     }
 }
 
-export const addCatchestoMap=()=> {
+export const addCatchestoMap=(onCatchClick)=> {
     // console.log(position);
     if (!map?.getSource('fishcatches')) {
       map?.addSource('fishcatches', {
         type: 'geojson',
         data: data,
       });
-      drawCatchesLocations(map, 'fishcatches');
+      drawCatchesLocations(map, 'fishcatches', onCatchClick);
     }
 }
   
-const drawCatchesLocations=(map,sourceDataId)=> {
+const drawCatchesLocations=(map,sourceDataId,onCatchClick)=> {
     if (!map?.getLayer('fishcatches')) {
       if (!map?.hasImage('fish')) {
         map.loadImage(fish, (error, image) => {
@@ -753,7 +753,17 @@ const drawCatchesLocations=(map,sourceDataId)=> {
           'symbol-placement': 'point',
           'icon-allow-overlap': true,
         },
-      });
+      })
+       map?.on('click',(e) =>{
+        const features = map.queryRenderedFeatures(e.point, {
+            layers: [sourceDataId], 
+          });
+          if (features.length > 0) {
+            const feature = features[0];
+            onCatchClick(feature?.
+                properties)
+          }
+       })
     //   map?.setLayoutProperty(sourceDataId, 'icon-image', 'fish');
     }
   }

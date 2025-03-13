@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { errorsReducer as errors } from './errors';
 import { sessionReducer as session } from './session';
 import { devicesReducer as devices } from './devices';
+import {  catchReducer} from './catch';
 import { eventsReducer as events } from './events';
 import { geofencesReducer as geofences } from './geofences';
 import { groupsReducer as groups } from './groups';
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   maintenances,
   calendars,
   reports,
+  catch: catchReducer
 });
 
 export { errorsActions } from './errors';
@@ -35,6 +37,7 @@ export { driversActions } from './drivers';
 export { maintenancesActions } from './maintenances';
 export { calendarsActions } from './calendars';
 export { reportsActions } from './reports';
+export { catchActions } from './catch';
 
 export default configureStore({
   reducer,

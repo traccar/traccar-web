@@ -17,6 +17,7 @@ import MainToolbar from './MainToolbar';
 import MainMap from './MainMap';
 import { useAttributePreference } from '../common/util/preferences';
 import logo from './../resources/images/ocean-track-logo.png';
+import CatchCard from '../common/components/CatchCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +77,7 @@ const MainPage = () => {
   const mapOnSelect = useAttributePreference('mapOnSelect', true);
 
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+  const catchDetails = useSelector((state) => state.catch.catchDetails);
   const positions = useSelector((state) => state.session.positions);
   const [filteredPositions, setFilteredPositions] = useState([]);
   const selectedPosition = filteredPositions.find((position) => selectedDeviceId && position.deviceId === selectedDeviceId);
@@ -159,6 +161,9 @@ const MainPage = () => {
           onClose={() => dispatch(devicesActions.selectId(null))}
           desktopPadding={theme.dimensions.drawerWidthDesktop}
         />
+      )}
+       {catchDetails && (
+        <CatchCard />
       )}
     </div>
   );
