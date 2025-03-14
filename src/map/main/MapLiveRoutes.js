@@ -16,6 +16,9 @@ const MapLiveRoutes = () => {
 
   const history = useSelector((state) => state.session.history);
 
+  const mapLineWidth = useAttributePreference('mapLineWidth', 2);
+  const mapLineOpacity = useAttributePreference('mapLineOpacity', 1);
+
   useEffect(() => {
     if (type !== 'none') {
       map.addSource(id, {
@@ -38,7 +41,8 @@ const MapLiveRoutes = () => {
         },
         paint: {
           'line-color': ['get', 'color'],
-          'line-width': 2,
+          'line-width': ['get', 'width'],
+          'line-opacity': ['get', 'opacity'],
         },
       });
 
@@ -71,6 +75,8 @@ const MapLiveRoutes = () => {
           },
           properties: {
             color: devices[deviceId].attributes['web.reportColor'] || theme.palette.geometry.main,
+            width: mapLineWidth,
+            opacity: mapLineOpacity,
           },
         })),
       });
