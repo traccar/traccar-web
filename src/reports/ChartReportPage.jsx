@@ -173,14 +173,6 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 dot={false}
                 activeDot={{ r: 6 }}
-                connectNulls={false}
-              />
-              <Line
-                type="monotone"
-                dataKey={type}
-                stroke={theme.palette.primary.main}
-                strokeDasharray="3 3"
-                dot={false}
                 connectNulls={true}
               />
             </LineChart>
