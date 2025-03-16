@@ -173,7 +173,7 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 dot={false}
                 activeDot={{ r: 6 }}
-                connectNulls={true}
+                connectNulls
               />
             </LineChart>
           </ResponsiveContainer>
