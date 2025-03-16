@@ -36,9 +36,9 @@ const ChartReportPage = () => {
   const [type, setType] = useState('speed');
   const [timeType, setTimeType] = useState('fixTime');
 
-  const values = items.map((it) => it[type]);
-  const minValue = Math.min(...values);
-  const maxValue = Math.max(...values);
+  const values = items.map((it) => it[type]).filter((value) => value != null);
+  const minValue = values.length ? Math.min(...values) : 0;
+  const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
 
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
@@ -173,6 +173,7 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 dot={false}
                 activeDot={{ r: 6 }}
+                connectNulls
               />
             </LineChart>
           </ResponsiveContainer>
