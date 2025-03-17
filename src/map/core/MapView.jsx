@@ -50,7 +50,6 @@ const initMap = async () => {
       });
     });
   }
-  updateReadyValue(true);
 };
 
 map.addControl(new maplibregl.NavigationControl());
@@ -65,6 +64,7 @@ const switcher = new SwitcherControl(
           setTimeout(waiting, 33);
         } else {
           initMap();
+          updateReadyValue(true);
         }
       };
       waiting();
@@ -120,7 +120,12 @@ const MapView = ({ children }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={containerEl}>
-      {mapReady && children}
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child) && child.type.handlesMapReady) {
+          return React.cloneElement(child, { mapReady });
+        }
+        return mapReady ? child : null;
+      })}
     </div>
   );
 };
