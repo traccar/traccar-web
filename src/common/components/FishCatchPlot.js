@@ -1,5 +1,5 @@
 import { map } from '../../map/core/MapView';
-import { fishCatchData } from '../components/FishCatchMock';
+import { fishCatchDataGeoJSON } from '../components/FishCatchMock';
 
 export const removeFishCatchFromMap = () => {
     if (map && map.getSource('fishcatches') && map.getLayer('fishcatches')) {
@@ -12,7 +12,7 @@ export const addCatchestoMap=(onCatchClick)=> {
     if (!map?.getSource('fishcatches')) {
       map?.addSource('fishcatches', {
         type: 'geojson',
-        data: fishCatchData,
+        data: fishCatchDataGeoJSON,
       });
       drawCatchesLocations(map, 'fishcatches', onCatchClick);
     }
