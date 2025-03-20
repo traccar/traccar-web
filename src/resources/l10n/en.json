@@ -135,6 +135,8 @@
     "attributeProcessingCopyAttributes": "Processing: Copy Attributes",
     "attributeColor": "Color",
     "attributeWebLiveRouteLength": "Web: Live Route Length",
+    "attributeMapLineWidth": "Map Line Width",
+    "attributeMapLineOpacity": "Map Line Opacity (0.0 - 1.0)",
     "attributeWebSelectZoom": "Web: Zoom On Select",
     "attributeWebMaxZoom": "Web: Maximum Zoom",
     "attributeTelegramChatId": "Telegram Chat ID",
