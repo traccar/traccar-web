@@ -132,14 +132,24 @@ export default (t) => useMemo(() => ({
   mapLineOpacity: {
     name: t('attributeMapLineOpacity'),
     type: 'number',
+    subtype: 'range',
+    rangeMax: 1.0,
+    rangeMin: 0.0,
+    decimalPlaces: 1,
   },
   'web.selectZoom': {
     name: t('attributeWebSelectZoom'),
     type: 'number',
+    subtype: 'range',
+    rangeMax: 24,
+    rangeMin: 0,
   },
   'web.maxZoom': {
     name: t('attributeWebMaxZoom'),
     type: 'number',
+    subtype: 'range',
+    rangeMax: 24,
+    rangeMin: 0,
   },
   iconScale: {
     name: t('sharedIconScale'),

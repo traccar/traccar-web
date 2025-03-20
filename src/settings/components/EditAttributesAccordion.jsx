@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import {
   Button,
@@ -18,6 +18,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { SketchPicker } from 'react-color';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
@@ -26,6 +27,7 @@ import {
 } from '../../common/util/converter';
 import useFeatures from '../../common/util/useFeatures';
 import useSettingsStyles from '../common/useSettingsStyles';
+import SliderInput from './SliderInput';
 
 const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definitions, focusAttribute }) => {
   const classes = useSettingsStyles();
@@ -38,6 +40,8 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
   const volumeUnit = useAttributePreference('volumeUnit');
 
   const [addDialogShown, setAddDialogShown] = useState(false);
+  const [colorPickerOpen, setColorPickerOpen] = useState(null);
+  const colorPickerRef = useRef(null);
 
   const updateAttribute = (key, value, type, subtype) => {
     const updatedAttributes = { ...attributes };
@@ -147,6 +151,25 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
     }
   };
 
+  const handleColorChange = (color, key) => {
+    const updatedAttributes = { ...attributes };
+    updatedAttributes[key] = color.hex;
+    setAttributes(updatedAttributes);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (colorPickerOpen && colorPickerRef.current && !colorPickerRef.current.contains(event.target)) {
+        setColorPickerOpen(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [colorPickerOpen]);
+
   return features.disableAttributes ? '' : (
     <Accordion defaultExpanded={!!attribute}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -174,6 +197,74 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </Grid>
+            );
+          }
+          if (subtype === 'color') {
+            return (
+              <FormControl key={key}>
+                <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
+                <OutlinedInput
+                  label={getAttributeName(key, subtype)}
+                  value={value}
+                  onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
+                  endAdornment={(
+                    <InputAdornment position="end">
+                      {/* Color preview block */}
+                      <div
+                        style={{
+                          width: '24px',
+                          height: '24px',
+                          backgroundColor: value, // Use the current color value
+                          marginRight: '8px',
+                          border: '1px solid #ccc',
+                        }}
+                      />
+                      <IconButton size="small" onClick={() => setColorPickerOpen(key)}>
+                        ... {/* Your color picker icon */}
+                      </IconButton>
+                      <IconButton size="small" edge="end" onClick={() => deleteAttribute(key)}>
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                    </InputAdornment>
+                  )}
+                />
+                {colorPickerOpen === key && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      zIndex: 1000,
+                      right: 0,
+                      top: '100%',
+                    }}
+                    ref={colorPickerRef}
+                  >
+                    <div style={{ position: 'relative' }}>
+                      <SketchPicker
+                        color={value}
+                        onChange={(color) => handleColorChange(color, key)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </FormControl>
+            );
+          }
+          if (subtype === 'range') {
+            const definition = definitions[key];
+            const rangeMin = definition?.rangeMin || 0;
+            const rangeMax = definition?.rangeMax || 100;
+            const decimalPlaces = definition?.decimalPlaces || 0;
+            return (
+              <SliderInput
+                label={getAttributeName(key, subtype)}
+                value={value}
+                onChange={(event, newValue) => updateAttribute(key, newValue, 'number', subtype)}
+                min={rangeMin}
+                max={rangeMax}
+                decimalPlaces={decimalPlaces}
+                onDelete={() => deleteAttribute(key)}
+                key={key}
+              />
             );
           }
           return (

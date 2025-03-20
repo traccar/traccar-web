@@ -4,6 +4,7 @@ export default (t) => useMemo(() => ({
   color: {
     name: t('attributeColor'),
     type: 'string',
+    subtype: 'color',
   },
   mapLineWidth: {
     name: t('attributeMapLineWidth'),
