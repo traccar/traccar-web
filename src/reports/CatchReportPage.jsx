@@ -7,7 +7,7 @@ import {
 import { useDispatch } from 'react-redux';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
-import ReportFilter from './components/ReportFilter';
+import CatchFilter from './components/CatchFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -47,8 +47,8 @@ const CatchReportPage = () => {
         <>
         {'Catch Reports'}
         </>
-          {/*<div className={classes.header}>
-             <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice loading={loading}>
+          <div className={classes.header}>
+             <CatchFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice loading={loading}>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}
@@ -56,9 +56,9 @@ const CatchReportPage = () => {
                 rawValues
                 disabled={!items.length}
               />
-            </ReportFilter>
+            </CatchFilter>
           </div>
-          <Table>
+          {/* <Table>
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
@@ -93,7 +93,7 @@ const CatchReportPage = () => {
                 </TableRow>
               )) : (<TableShimmer columns={columns.length + 2} startAction />)}
             </TableBody>
-          </Table> */}
+          </Table>  */}
         </div>
       </div>
     </PageLayout>
