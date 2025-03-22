@@ -199,6 +199,22 @@ const EventReportPage = () => {
             }
 
             return tollDetails;
+          case 'deviceTollRouteEnter':
+            // eslint-disable-next-line vars-on-top, no-var, no-redeclare
+            var tollDetails = '';
+            if ('tollName' in item.attributes) {
+              tollDetails = tollDetails.concat('Toll name: ');
+              tollDetails = tollDetails.concat(item.attributes.tollName);
+              tollDetails = tollDetails.concat(' | ');
+            }
+
+            if ('tollRef' in item.attributes) {
+              tollDetails = tollDetails.concat('Toll Reference: ');
+              tollDetails = tollDetails.concat(item.attributes.tollRef);
+              tollDetails = tollDetails.concat(' | ');
+            }
+
+            return tollDetails;
           default:
             return '';
         }

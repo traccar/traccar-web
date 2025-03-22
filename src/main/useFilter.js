@@ -22,7 +22,7 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
       .filter((device) => !filter.groups.length || deviceGroups(device).some((id) => filter.groups.includes(id)))
       .filter((device) => {
         const lowerCaseKeyword = keyword.toLowerCase();
-        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(lowerCaseKeyword));
+        return [device.name, device.uniqueId, device.phone, device.model, device.contact, device.vin].some((s) => s && s.toLowerCase().includes(lowerCaseKeyword));
       });
     switch (filterSort) {
       case 'name':
