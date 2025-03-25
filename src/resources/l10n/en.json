@@ -206,6 +206,8 @@
     "devicesAndState": "Vessels and State",
     "deviceSelected": "Selected Vessel",
     "deviceTitle": "Vessels",
+    "catch": "Catch",
+    "catchReport": "Catch Report",
     "species": "Species",
     "catchDate": "Catch Date",
     "speciesTitle": "Species",

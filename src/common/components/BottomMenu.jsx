@@ -130,7 +130,7 @@ const BottomMenu = () => {
         />
         <BottomNavigationAction
           style={{color:isFishCatchSelected&&'#1a237e'}}
-          label={'Catch'}
+          label={t('catch')}
           icon={(<SetMealIcon />)}
           value="fishCatch"
         />
