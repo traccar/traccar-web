@@ -26,6 +26,7 @@ import trainSvg from '../../resources/images/icon/train.svg';
 import tramSvg from '../../resources/images/icon/tram.svg';
 import truckSvg from '../../resources/images/icon/truck.svg';
 import vanSvg from '../../resources/images/icon/van.svg';
+import fish from '../../resources/images/icon/fish.png';
 
 export const mapIcons = {
   animal: animalSvg,
@@ -68,12 +69,15 @@ export const mapImages = {};
 
 const mapPalette = createPalette({
   neutral: { main: grey[500] },
+  purpleColor: { main: 'purple'}
 });
 
 export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
+  mapImages.fish = await prepareIcon(background,await loadImage(fish),mapPalette.purpleColor.main);
+  
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];
     ['info', 'success', 'error', 'neutral'].forEach((color) => {

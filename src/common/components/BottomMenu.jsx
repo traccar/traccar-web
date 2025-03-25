@@ -9,12 +9,15 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MapIcon from '@mui/icons-material/Map';
 import PersonIcon from '@mui/icons-material/Person';
+import SetMealIcon from '@mui/icons-material/SetMeal';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
+import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
+import { catchActions } from '../../store/catch';
 
 const BottomMenu = () => {
   const navigate = useNavigate();
@@ -26,8 +29,8 @@ const BottomMenu = () => {
   const disableReports = useRestriction('disableReports');
   const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
-
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isFishCatchSelected, setFishCatchSelected] = useState(false);
 
   const currentSelection = () => {
     if (location.pathname === `/settings/user/${user.id}`) {
@@ -76,13 +79,25 @@ const BottomMenu = () => {
     dispatch(sessionActions.updateUser(null));
   };
 
+  const onCatchClick = (catchDetails)=>{
+    dispatch(catchActions.catchDetails(catchDetails));
+  }
+
+  const plotFishCatchData = () => {
+    if (!isFishCatchSelected)
+      addCatchestoMap(onCatchClick);
+    else
+      removeFishCatchFromMap();
+    setFishCatchSelected((val) => !val);
+  }
+
   const handleSelection = (event, value) => {
     switch (value) {
       case 'map':
         navigate('/');
         break;
       case 'reports':
-        navigate('/reports/combined');
+        navigate('/reports/route');
         break;
       case 'settings':
         navigate('/settings/preferences');
@@ -92,6 +107,9 @@ const BottomMenu = () => {
         break;
       case 'logout':
         handleLogout();
+        break;
+      case 'fishCatch':
+        plotFishCatchData();
         break;
       default:
         break;
@@ -109,6 +127,12 @@ const BottomMenu = () => {
             </Badge>
           )}
           value="map"
+        />
+        <BottomNavigationAction
+          style={{color:isFishCatchSelected&&'#1a237e'}}
+          label={'Catch'}
+          icon={(<SetMealIcon />)}
+          value="fishCatch"
         />
         {!disableReports && (
           <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} value="reports" />
