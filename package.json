@@ -36,7 +36,6 @@
     "react-virtualized-auto-sizer": "^1.0.24",
     "react-window": "^1.8.10",
     "recharts": "^2.12.7",
-    "recharts-to-png": "^2.4.0",
     "redux": "^5.0.1",
     "stylis": "^4.3.4",
     "stylis-plugin-rtl": "^2.1.1",
