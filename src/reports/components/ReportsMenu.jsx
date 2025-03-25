@@ -10,6 +10,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
+import SetMealIcon from '@mui/icons-material/SetMeal';
 import NotesIcon from '@mui/icons-material/Notes';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -38,12 +39,12 @@ const ReportsMenu = () => {
           icon={<TimelineIcon />}
           selected={location.pathname === '/reports/route'}
         />
-        {/* <MenuItem
+        <MenuItem
           title={t('reportEvents')}
           link="/reports/event"
           icon={<NotificationsActiveIcon />}
           selected={location.pathname === '/reports/event'}
-        /> */}
+        />
         <MenuItem
           title={t('reportTrips')}
           link="/reports/trip"
@@ -73,6 +74,12 @@ const ReportsMenu = () => {
           link="/replay"
           icon={<RouteIcon />}
         /> */}
+        <MenuItem
+          title={t('catchReport')}
+          link="/reports/catch"
+          icon={<SetMealIcon />}
+          selected={location.pathname === '/reports/catch'}
+        />
       </List>
       <Divider />
       <List>

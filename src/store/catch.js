@@ -1,17 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const { reducer, actions } = createSlice({
-  name: 'catch',
+  name: "catch",
   initialState: {
-   catchDetails:null
+    items: [],
+    catchDetails: null,
+    filters: {},
+    period: "",
   },
   reducers: {
+    catchRecords(state, action) {
+      state.items = action.payload;
+    },
     catchDetails(state, action) {
       state.catchDetails = action.payload;
     },
     clearDetails(state) {
-        state.catchDetails = null;
-      },
+      state.catchDetails = null;
+    },
+    setFilters(state, action) {
+      state.filters = action.payload;
+    },
+    updatePeriod(state, action) {
+      state.period = action.payload;
+    },
+    clearFilters(state){
+      state.filters ={}
+      state.period = "";
+    }
   },
 });
 

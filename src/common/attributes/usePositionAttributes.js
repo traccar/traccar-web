@@ -381,4 +381,24 @@ export default (t) => useMemo(() => ({
     name: t('positionAudio'),
     type: 'string',
   },
+  fishingTechnique: {
+    name: t('fishingTechnique'),
+    type: 'string',
+  },
+  catchDetails: {
+    name: t('species'),
+    type: 'string',
+  },
+  catchDate: {
+    name: t('catchDate'),
+    type: 'string',
+  },
+  vesselName: {
+    name: t('vesselName'),
+    type: 'string',
+  },
+  totalQuantity:{
+    name: t('totalQuantity'),
+    type: 'number',
+  },
 }), [t]);
