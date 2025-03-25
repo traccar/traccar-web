@@ -3127,7 +3127,7 @@ export const fishCatchData = [
         "catchDetails": {
             "0": {
                 "name": "Billfish",
-                "quantity": 1
+                "quantity": "1"
             }
         },
         "totalQuantity": 1,
@@ -3557,15 +3557,15 @@ export const fishCatchDataGeoJSON = {
                 "catchDetails": [
                     {
                         "name": "Bigeye Tuna",
-                        "quantity": 15
+                        "quantity": "15"
                     },
                     {
                         "name": "Swordfish",
-                        "quantity": 15
+                        "quantity": "15"
                     },
                     {
                         "name": "Skipjack Tuna",
-                        "quantity": 15
+                        "quantity": "15"
                     }
                 ],
                 "fishingTechnique": "Buoy_Fishing"

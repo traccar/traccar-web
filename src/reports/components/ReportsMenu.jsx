@@ -75,7 +75,7 @@ const ReportsMenu = () => {
           icon={<RouteIcon />}
         /> */}
         <MenuItem
-          title='Catch Reports'
+          title='Catch Report'
           link="/reports/catch"
           icon={<SetMealIcon />}
           selected={location.pathname === '/reports/catch'}
