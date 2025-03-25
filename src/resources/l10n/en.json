@@ -318,6 +318,7 @@
     "positionTemp": "Temperature",
     "positionDeviceTemp": "Device Temperature",
     "positionCoolantTemp": "Coolant Temperature",
+    "positionEngineTemp": "Engine Temperature",
     "positionOperator": "Operator",
     "positionCommand": "Command",
     "positionBlocked": "Blocked",
