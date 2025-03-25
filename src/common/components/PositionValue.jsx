@@ -63,7 +63,11 @@ const PositionValue = ({ position, property, attribute }) => {
         return formatAltitude(value, altitudeUnit, t);
       case 'power':
       case 'battery':
-        return value != null ? formatVoltage(value, t) : '';
+        if (value != null) {
+          const percentage = Math.min(100, Math.max(0, (value / 4.12) * 100));
+          return `${percentage.toFixed(1)}% (${formatVoltage(value, t)})`;
+        }
+        return '';
       case 'batteryLevel':
         return value != null ? formatPercentage(value) : '';
       case 'volume':
