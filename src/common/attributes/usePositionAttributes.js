@@ -108,6 +108,10 @@ export default (t) => useMemo(() => ({
     name: t('positionCoolantTemp'),
     type: 'number',
   },
+  engineTemp: {
+    name: t('positionEngineTemp'),
+    type: 'number',
+  },
   gps: {
     name: t('positionGps'),
     type: 'number',
