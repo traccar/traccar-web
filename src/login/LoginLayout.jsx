@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useMediaQuery, Paper } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTheme } from '@mui/material/styles';
@@ -39,9 +40,16 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5),
     width: '100%',
   },
+  version: {
+    right: '10px',
+    bottom: '10px',
+    position: 'absolute',
+  },
 }));
 
 const LoginLayout = ({ children }) => {
+  const versionEnabled = useSelector((state) => !state.session.server.attributes['ui.disableVersionOnLogin']);
+  const version = useSelector((state) => `v ${state.session.server.version}`);
   const classes = useStyles();
   const theme = useTheme();
 
@@ -55,6 +63,11 @@ const LoginLayout = ({ children }) => {
           {children}
         </form>
       </Paper>
+      {versionEnabled && (
+        <div className={classes.version}>
+          {version}
+        </div>
+      )}
     </main>
   );
 };
