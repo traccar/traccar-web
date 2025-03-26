@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
+  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell, Checkbox,
 } from '@mui/material';
 import {
   formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
@@ -20,16 +20,14 @@ import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
 
 const columnsArray = [
+  ['geofence', 'sharedGeofence'],
   ['startTime', 'reportStartDate'],
+  ['endTime', 'reportEndTime'],
   ['distance', 'sharedDistance'],
   ['startOdometer', 'reportStartOdometer'],
   ['endOdometer', 'reportEndOdometer'],
-  ['averageSpeed', 'reportAverageSpeed'],
-  ['maxSpeed', 'reportMaximumSpeed'],
-  ['engineHours', 'reportEngineHours'],
   ['startHours', 'reportStartEngineHours'],
   ['endHours', 'reportEndEngineHours'],
-  ['spentFuel', 'reportSpentFuel'],
 ];
 const columnsMap = new Map(columnsArray);
 
@@ -37,13 +35,12 @@ const IgnitionReportPage = () => {
   const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
-
   const devices = useSelector((state) => state.devices.items);
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
-  const [columns, setColumns] = usePersistedState('ignitionColumns', ['startTime', 'distance', 'averageSpeed']);
+  const [columns, setColumns] = usePersistedState('ignitionColumns', ['geofence', 'startTime', 'endTime']);
   const [daily, setDaily] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
