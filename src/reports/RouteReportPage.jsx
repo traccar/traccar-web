@@ -140,7 +140,7 @@ const RouteReportPage = () => {
             </TableHead>
             <TableBody>
               {!loading ? items.slice(0, 4000).map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item.id} attr-id={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
                       <IconButton size="small" onClick={() => setSelectedItem(null)}>
