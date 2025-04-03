@@ -1,4 +1,6 @@
-import React, { Fragment, useCallback, useState } from 'react';
+import React, {
+  Fragment, useCallback, useEffect, useRef, useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -42,6 +44,14 @@ const RouteReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const selectedIcon = useRef();
+
+  useEffect(() => {
+    if (selectedIcon.current) {
+      selectedIcon.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }, [selectedIcon.current]);
 
   const onMapPointClick = useCallback((positionId) => {
     setSelectedItem(items.find((it) => it.id === positionId));
@@ -147,7 +157,7 @@ const RouteReportPage = () => {
                 <TableRow key={item.id}>
                   <TableCell className={classes.columnAction} padding="none">
                     {selectedItem === item ? (
-                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
+                      <IconButton size="small" onClick={() => setSelectedItem(null)} ref={selectedIcon}>
                         <GpsFixedIcon fontSize="small" />
                       </IconButton>
                     ) : (
