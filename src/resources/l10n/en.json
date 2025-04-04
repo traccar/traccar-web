@@ -389,6 +389,7 @@
     "mapMapTilerHybrid": "MapTiler Hybrid",
     "mapMapTilerKey": "MapTiler API Key",
     "mapOpenFreeMap": "OpenFreeMap",
+    "mapOrdnanceSurveyKey": "Ordnance Survey API Key",
     "mapLocationIqStreets": "LocationIQ Streets",
     "mapLocationIqDark": "LocationIQ Dark",
     "mapLocationIqKey": "LocationIQ Access Token",
