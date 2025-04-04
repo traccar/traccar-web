@@ -5,10 +5,11 @@ import {
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+import RouteIcon from '@mui/icons-material/Route';
 import {
   formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { replayReportLocationState } from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -119,6 +120,16 @@ const TripReportPage = () => {
     }
   });
 
+  const navigateToReplay = (item) => {
+    navigate('/replay', {
+      state: replayReportLocationState({
+        from: item.startTime,
+        to: item.endTime,
+        deviceId: item.deviceId,
+      }),
+    });
+  };
+
   const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'trips';
     const error = await scheduleReport(deviceIds, groupIds, report);
@@ -183,6 +194,7 @@ const TripReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
+                <TableCell className={classes.columnAction} />
                 {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
               </TableRow>
             </TableHead>
@@ -199,6 +211,11 @@ const TripReportPage = () => {
                         <LocationSearchingIcon fontSize="small" />
                       </IconButton>
                     )}
+                  </TableCell>
+                  <TableCell className={classes.columnAction} padding="none">
+                    <IconButton size="small" onClick={() => navigateToReplay(item)}>
+                      <RouteIcon fontSize="small" />
+                    </IconButton>
                   </TableCell>
                   {columns.map((key) => (
                     <TableCell key={key}>
