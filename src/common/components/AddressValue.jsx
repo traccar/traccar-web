@@ -15,7 +15,8 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
     setAddress(originalAddress);
   }, [latitude, longitude, originalAddress]);
 
-  const showAddress = useCatch(async () => {
+  const showAddress = useCatch(async (event) => {
+    event.preventDefault();
     const query = new URLSearchParams({ latitude, longitude });
     const response = await fetch(`/api/server/geocode?${query.toString()}`);
     if (response.ok) {
