@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
 } from '@mui/material';
@@ -11,8 +11,21 @@ import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
+export const replayReportLocationState = ({ from, to, deviceId }) => {
+  // Add/subtract a minute, ensure start/finish point is included.
+  from = dayjs(from).locale('en').subtract(1, 'minute').format('YYYY-MM-DDTHH:mm');
+  to = dayjs(to).locale('en').add(1, 'minute').format('YYYY-MM-DDTHH:mm');
+  return {
+    from,
+    to,
+    deviceId,
+    deviceIds: [deviceId],
+    period: 'custom',
+  };
+};
+
 const ReportFilter = ({
-  children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups, loading,
+  children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups, loading, initialState,
 }) => {
   const classes = useReportStyles();
   const dispatch = useDispatch();
@@ -20,15 +33,23 @@ const ReportFilter = ({
 
   const readonly = useRestriction('readonly');
 
+  // On page load, prefer location over store state.
+  const initialInputValue = (state, store, storeKey, initialStateKey = storeKey) => {
+    if (initialState) {
+      return initialState[initialStateKey] || state[store][storeKey];
+    }
+    return state[store][storeKey];
+  };
+
   const devices = useSelector((state) => state.devices.items);
   const groups = useSelector((state) => state.groups.items);
 
-  const deviceId = useSelector((state) => state.devices.selectedId);
-  const deviceIds = useSelector((state) => state.devices.selectedIds);
-  const groupIds = useSelector((state) => state.reports.groupIds);
-  const period = useSelector((state) => state.reports.period);
-  const from = useSelector((state) => state.reports.from);
-  const to = useSelector((state) => state.reports.to);
+  const deviceId = useSelector((state) => initialInputValue(state, 'devices', 'selectedId', 'deviceId'));
+  const deviceIds = useSelector((state) => initialInputValue(state, 'devices', 'selectedIds', 'deviceIds'));
+  const groupIds = useSelector((state) => initialInputValue(state, 'reports', 'groupIds'));
+  const period = useSelector((state) => initialInputValue(state, 'reports', 'period'));
+  const from = useSelector((state) => initialInputValue(state, 'reports', 'from'));
+  const to = useSelector((state) => initialInputValue(state, 'reports', 'to'));
   const [button, setButton] = useState('json');
 
   const [description, setDescription] = useState();
@@ -89,6 +110,12 @@ const ReportFilter = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (initialState) {
+      handleClick();
+    }
+  }, []);
 
   return (
     <div className={classes.filter}>

@@ -12,7 +12,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
@@ -82,6 +82,8 @@ const ReplayPage = () => {
   const navigate = useNavigate();
   const timerRef = useRef();
 
+  const locationState = useLocation().state;
+
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [positions, setPositions] = useState([]);
@@ -93,6 +95,7 @@ const ReplayPage = () => {
   const [expanded, setExpanded] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initialState, setInitialState] = useState(locationState);
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -133,6 +136,7 @@ const ReplayPage = () => {
 
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
     setLoading(true);
+    setInitialState(null);
     setSelectedDeviceId(deviceId);
     setFrom(from);
     setTo(to);
@@ -219,7 +223,7 @@ const ReplayPage = () => {
               </div>
             </>
           ) : (
-            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly loading={loading} />
+            <ReportFilter handleSubmit={handleSubmit} fullScreen showOnly loading={loading} initialState={initialState} />
           )}
         </Paper>
       </div>
