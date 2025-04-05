@@ -1,0 +1,6 @@
+.maplibre-ctrl-background-icon {
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: auto;
+    display: block;
+}
