@@ -39,11 +39,11 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
   const features = useFeatures();
   const mapOverlays = useMapOverlays();
 
-  const selectedMapOverlay = useAttributePreference("selectedMapOverlay");
+  const selectedMapOverlay = useAttributePreference('selectedMapOverlay');
 
   const activeOverlay = mapOverlays
-		.filter((overlay) => overlay.available)
-		.find((overlay) => overlay.id === selectedMapOverlay);
+    .filter((overlay) => overlay.available)
+    .find((overlay) => overlay.id === selectedMapOverlay);
 
   const onMarkerClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.selectId(deviceId));
