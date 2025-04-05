@@ -79,7 +79,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapPanelButton
           enabled={overlayEnabled}
           onClick={onOverlayButtonClick}
-          iconClass={(status) => `maplibre-ctrl-background-icon maplibre-ctrl-overlay maplibre-ctrl-overlay-${status}`}
+          iconClass={(status) => `maplibre-ctrl-overlay maplibre-ctrl-overlay-${status}`}
         />
       )}
       <MapCurrentLocation />
@@ -89,7 +89,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapPanelButton
           enabled={eventsAvailable}
           onClick={onEventsClick}
-          iconClass={(status) => `maplibre-ctrl-background-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`}
+          iconClass={(status) => `maplibre-ctrl-notification maplibre-ctrl-notification-${status}`}
         />
       )}
       {desktop && (

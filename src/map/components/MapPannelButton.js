@@ -5,7 +5,7 @@ import './map-pannel-button.css';
 class PanelButton {
   constructor(eventHandler, iconClass) {
     this.eventHandler = eventHandler;
-    this.iconClass = iconClass;
+    this.iconClass = (status) => `maplibre-ctrl-icon ${iconClass(status)}`;
   }
 
   static getDefaultPosition() {
