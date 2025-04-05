@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, memo } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,13 @@ import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapNotification from '../map/notification/MapNotification';
 import useFeatures from '../common/util/useFeatures';
+import MapOverlayButton from '../map/overlay/MapOverlayButton';
+import usePersistedState from '../common/util/usePersistedState';
+import useMapOverlays from '../map/overlay/useMapOverlays';
+import { useAttributePreference } from '../common/util/preferences';
+
+// Memoize MapOverlay to avoid unnecessary re-renders
+const MemoizedMapOverlay = memo(MapOverlay);
 
 const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
   const theme = useTheme();
@@ -27,16 +34,29 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
 
   const eventsAvailable = useSelector((state) => !!state.events.items.length);
 
+  const [overlayEnabled, setOverlayEnabled] = usePersistedState('mapOverlayEnabled', true);
+
   const features = useFeatures();
+  const mapOverlays = useMapOverlays();
+
+  const selectedMapOverlay = useAttributePreference("selectedMapOverlay");
+
+  const activeOverlay = mapOverlays
+		.filter((overlay) => overlay.available)
+		.find((overlay) => overlay.id === selectedMapOverlay);
 
   const onMarkerClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.selectId(deviceId));
   }, [dispatch]);
 
+  const onOverlayButtonClick = useCallback(() => {
+    setOverlayEnabled((enabled) => !enabled);
+  }, [setOverlayEnabled]);
+
   return (
     <>
       <MapView>
-        <MapOverlay />
+        {overlayEnabled && <MemoizedMapOverlay activeOverlay={activeOverlay} />}
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
         <MapLiveRoutes />
@@ -51,6 +71,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <PoiMap />
       </MapView>
       <MapScale />
+      {activeOverlay && <MapOverlayButton enabled={overlayEnabled} onClick={onOverlayButtonClick} />}
       <MapCurrentLocation />
       <MapGeocoder />
       {!features.disableEvents && (
