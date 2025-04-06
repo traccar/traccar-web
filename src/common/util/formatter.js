@@ -85,6 +85,18 @@ export const formatNumericHours = (value, t) => {
   return `${hours} ${t('sharedHourAbbreviation')} ${minutes} ${t('sharedMinuteAbbreviation')}`;
 };
 
+export const formatNumericHoursWithSeconds = (value, t) => {
+  const MS_IN_A_DAY = 86400000; // 24 * 60 * 60 * 1000
+  const totalMilliseconds = value * MS_IN_A_DAY;
+
+  const hours = Math.floor(totalMilliseconds / 3600000);
+  const minutes = Math.floor((totalMilliseconds % 3600000) / 60000);
+  const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
+  return `${hours} ${t('sharedHourAbbreviation')} ${minutes} ${t('sharedMinuteAbbreviation')} ${seconds} ${t('sharedSecondAbbreviation')}`;
+};
+
+
+
 export const formatCoordinate = (key, value, unit) => {
   let hemisphere;
   let degrees;

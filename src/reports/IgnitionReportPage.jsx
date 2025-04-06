@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell, Checkbox,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
 } from '@mui/material';
 import {
-  formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
+  formatDistance,
+  formatNumericHours,
+  formatNumericHoursWithSeconds,
+  formatSpeed,
+  formatTime,
+  formatVolume,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
@@ -21,34 +37,48 @@ import scheduleReport from './common/scheduleReport';
 
 const columnsArray = [
   ['geofence', 'sharedGeofence'],
+  ['engineHours', 'reportEngineHours'],
   ['startTime', 'reportStartDate'],
-  ['endTime', 'reportEndTime'],
   ['distance', 'sharedDistance'],
   ['startOdometer', 'reportStartOdometer'],
   ['endOdometer', 'reportEndOdometer'],
-  ['startHours', 'reportStartEngineHours'],
-  ['endHours', 'reportEndEngineHours'],
 ];
 const columnsMap = new Map(columnsArray);
-
 const IgnitionReportPage = () => {
   const navigate = useNavigate();
   const classes = useReportStyles();
   const t = useTranslation();
   const devices = useSelector((state) => state.devices.items);
-
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
-  const [columns, setColumns] = usePersistedState('ignitionColumns', ['geofence', 'startTime', 'endTime']);
+  const [columns, setColumns] = usePersistedState('ignitionColumns', ['geofence', 'startTime', 'engineHours']);
   const [daily, setDaily] = useState(false);
+  const [grouped, setGrouped] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
-    const query = new URLSearchParams({ from, to, daily });
+  useEffect(() => {
+    setColumns(['geofence', 'startTime', 'engineHours']);
+  }, []);
+
+  const handleSubmit = useCatch(async ({
+    deviceIds,
+    groupIds,
+    from,
+    to,
+    type,
+    grouped
+  }) => {
+    const query = new URLSearchParams({
+      from,
+      to,
+      daily,
+      grouped
+    });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
+    query.append('grouped', grouped);
     if (type === 'export') {
       window.location.assign(`/api/reports/ignition/xlsx?${query.toString()}`);
     } else if (type === 'mail') {
@@ -99,6 +129,7 @@ const IgnitionReportPage = () => {
       case 'maxSpeed':
         return value > 0 ? formatSpeed(value, speedUnit, t) : null;
       case 'engineHours':
+        return value > 0 ? formatNumericHoursWithSeconds(value, t) : null;
       case 'startHours':
       case 'endHours':
         return value > 0 ? formatNumericHours(value, t) : null;
@@ -110,9 +141,12 @@ const IgnitionReportPage = () => {
   };
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportIgnition']}>
+    <PageLayout menu={<ReportsMenu/>} breadcrumbs={['reportTitle', 'reportIgnition']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice includeGroups loading={loading}>
+        <ReportFilter handleSubmit={(params) => handleSubmit({
+          ...params,
+          grouped
+        })} handleSchedule={handleSchedule} multiDevice includeGroups loading={loading}>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>
@@ -121,7 +155,19 @@ const IgnitionReportPage = () => {
               </Select>
             </FormControl>
           </div>
-          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+          <div className={classes.filterItem}>
+            <FormControl>
+              <FormGroup>
+                <FormControlLabel control={
+                  <Checkbox
+                    checked={grouped}
+                    onChange={(event) => setGrouped(event.target.checked)}
+                  />
+                } label="Grouped"/>
+              </FormGroup>
+            </FormControl>
+          </div>
+          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray}/>
         </ReportFilter>
       </div>
       <Table>
@@ -131,6 +177,7 @@ const IgnitionReportPage = () => {
             {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
           </TableRow>
         </TableHead>
+
         <TableBody>
           {!loading ? items.map((item) => (
             <TableRow key={(`${item.deviceId}_${Date.parse(item.startTime)}`)}>
@@ -141,8 +188,9 @@ const IgnitionReportPage = () => {
                 </TableCell>
               ))}
             </TableRow>
-          )) : (<TableShimmer columns={columns.length + 1} />)}
+          )) : (<TableShimmer columns={columns.length + 1}/>)}
         </TableBody>
+
       </Table>
     </PageLayout>
   );
