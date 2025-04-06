@@ -17,7 +17,7 @@ import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
 import useFeatures from '../common/util/useFeatures';
-import MapPanelButton from '../map/components/MapPannelButton';
+import MapButton from '../map/components/MapButton';
 
 import '../map/notification/notification.css';
 
@@ -57,11 +57,11 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
       <MapGeocoder />
       {/* Notifications */}
       {!features.disableEvents && (
-      <MapPanelButton
-        enabled={eventsAvailable}
-        onClick={onEventsClick}
-        iconClass={(status) => `maplibre-ctrl-notification maplibre-ctrl-notification-${status}`}
-      />
+        <MapButton
+          enabled={eventsAvailable}
+          onClick={onEventsClick}
+          type="notification"
+        />
       )}
       {desktop && (
         <MapPadding left={parseInt(theme.dimensions.drawerWidthDesktop, 10) + parseInt(theme.spacing(1.5), 10)} />

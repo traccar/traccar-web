@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from 'react';
 import { map } from '../core/MapView';
-import './map-pannel-button.css';
+import './map-button.css';
 
-class PanelButton {
-  constructor(eventHandler, iconClass) {
+class Button {
+  constructor(eventHandler, type) {
     this.eventHandler = eventHandler;
-    this.iconClass = (status) => `maplibre-ctrl-icon ${iconClass(status)}`;
+    this.type = type;
   }
 
   static getDefaultPosition() {
@@ -14,7 +14,7 @@ class PanelButton {
 
   onAdd() {
     this.button = document.createElement('button');
-    this.button.className = this.iconClass('off');
+    this.button.className = this.buildButtonClasses();
     this.button.type = 'button';
     this.button.onclick = () => this.eventHandler(this);
 
@@ -30,15 +30,21 @@ class PanelButton {
   }
 
   setEnabled(enabled) {
-    this.button.className = this.iconClass(enabled ? 'on' : 'off');
+    this.button.className = this.buildButtonClasses(enabled);
+  }
+
+  buildButtonClasses(enabled = false) {
+    const classes = [
+      'maplibre-ctrl-icon',
+      `maplibre-ctrl-${this.type}-${enabled ? 'on' : 'off'}`,
+    ];
+
+    return classes.join(' ');
   }
 }
 
-const MapPanelButton = ({ enabled, onClick, iconClass }) => {
-  const control = useMemo(
-    () => new PanelButton(onClick, iconClass),
-    [onClick, iconClass],
-  );
+const MapButton = ({ enabled, onClick, type }) => {
+  const control = useMemo(() => new Button(onClick, type), [onClick, type]);
 
   useEffect(() => {
     map.addControl(control);
@@ -52,4 +58,4 @@ const MapPanelButton = ({ enabled, onClick, iconClass }) => {
   return null;
 };
 
-export default MapPanelButton;
+export default MapButton;
