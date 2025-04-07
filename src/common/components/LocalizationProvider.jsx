@@ -144,6 +144,19 @@ const getDefaultLanguage = () => {
   return 'en';
 };
 
+const getDefaultDateLocale = () => {
+  let locale;
+  if (typeof Intl !== 'undefined' && typeof Intl.DateTimeFormat !== 'undefined') {
+    locale = Intl.DateTimeFormat().resolvedOptions().locale;
+  } else {
+    locale = getDefaultLanguage();
+  }
+  if (locale.length > 2) {
+    locale = `${locale.slice(0, 2)}-${locale.slice(-2).toLowerCase()}`;
+  }
+  return locale;
+};
+
 const LocalizationContext = createContext({
   languages,
   language: 'en',
@@ -154,18 +167,13 @@ export const LocalizationProvider = ({ children }) => {
   const [language, setLanguage] = usePersistedState('language', getDefaultLanguage());
   const direction = /^(ar|he|fa)$/.test(language) ? 'rtl' : 'ltr';
 
+  dayjs.locale(getDefaultDateLocale());
+
   const value = useMemo(() => ({ languages, language, setLanguage, direction }), [languages, language, setLanguage, direction]);
 
   useEffect(() => {
-    let selected;
-    if (language.length > 2) {
-      selected = `${language.slice(0, 2)}-${language.slice(-2).toLowerCase()}`;
-    } else {
-      selected = language;
-    }
-    dayjs.locale(selected);
     document.dir = direction;
-  }, [language, direction]);
+  }, [direction]);
 
   return (
     <LocalizationContext.Provider value={value}>
