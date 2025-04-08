@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
+import dayjs from 'dayjs';
 import CatchFilter from "./components/CatchFilter";
 import { useTranslation } from "../common/components/LocalizationProvider";
 import PageLayout from "../common/components/PageLayout";
@@ -15,13 +16,15 @@ import ReportsMenu from "./components/ReportsMenu";
 import PositionValue from "../common/components/PositionValue";
 import usePositionAttributes from "../common/attributes/usePositionAttributes";
 import useReportStyles from "./common/useReportStyles";
-import { fishCatchData } from "../common/components/FishCatchMock";
 import { catchActions } from "../store";
 import CatchPerVesselChart from "./CatchPerVesselChart";
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import logo from "../resources/images/ocean-track-logo.png";
 import html2canvas from "html2canvas";
+
+const FISHCATCH_API_BASE_URL = `http://localhost:3003`;
+const FISHCATCH_API_PATH = `/api/catch-record/getAll`;
 
 const CatchReportPage = () => {
   const dispatch = useDispatch();
@@ -36,7 +39,7 @@ const CatchReportPage = () => {
     "vesselName",
     "catchDetails",
     "totalQuantity",
-    "fishingTechnique",
+    // "fishingTechnique",
     "latitude",
     "longitude",
     "catchDate",
@@ -48,19 +51,43 @@ const CatchReportPage = () => {
   const [initialCatchList, setInitialCatchList] = useState([]);
   const [imageBase64, setImageBase64] = useState("");
   const [PDFDownloaded, setPDFDownloaded] = useState("");
+  const fishCatchData = useSelector((state) => state.catch.items);
 
   useEffect(() => {
     convertToBase64(logo, setImageBase64);
   }, []);
 
   useEffect(() => {
-    //This is to be added on success of get catches API call
-    dispatch(catchActions.catchRecords(fishCatchData));
-    setCatchesList(fishCatchData);
-    setInitialCatchList(fishCatchData);
+    if (fishCatchData.length === 0) {
+      getFishCatchData();
+    } else {
+      setCatchesList(fishCatchData);
+      setInitialCatchList(fishCatchData);
+    }
     return () => dispatch(catchActions.clearFilters());
   }, []);
 
+  const getFishCatchData =async () => {
+    const tokenExpiration = dayjs().add(5, 'minute').toISOString();
+      const tokenResponse = await fetch('/api/session/token', {
+        method: 'POST',
+        body: new URLSearchParams(`expiration=${tokenExpiration}`),
+      });
+      if (tokenResponse.ok) {
+        let token = await tokenResponse.text();
+        const fishRecordsResponse = await fetch(`${ FISHCATCH_API_BASE_URL }${FISHCATCH_API_PATH}`, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        if (fishRecordsResponse.ok) {
+          let records = await fishRecordsResponse.json();
+          records = records.map((r) => { return { ...r, ...{ vesselId: r.id, vesselName: r.vessel_name, catchDetails: r.details, catchDate: r.details[0].catch_date, longitude: Number(r.details[0].longitude), latitude: Number(r.details[0].latitude), totalQuantity:r.details.reduce((i,j)=>Number(i)+j.quantity,0)} } });
+          dispatch(catchActions.setCatchRecords(records));
+          setCatchesList(records);
+          setInitialCatchList(records);
+        }
+      }
+  }
   const convertToBase64 = (imagePath, callback) => {
     fetch(imagePath) // Fetch the image
       .then((response) => response.blob())
@@ -70,6 +97,7 @@ const CatchReportPage = () => {
         reader.readAsDataURL(blob);
       });
   };
+
   const captureChart = async () => {
     const chartElement = catchChartRef.current;
     if (chartElement) {
@@ -88,7 +116,7 @@ const CatchReportPage = () => {
           ?.length &&
         filters?.speciesIds?.filter((vessel) =>
           Object.keys(item.catchDetails)
-            ?.map((ele) => item.catchDetails[ele].name)
+            ?.map((ele) => item.catchDetails[ele].species_name)
             ?.some((ele1) => vessel === ele1)
         )?.length &&
         item?.catchDate >= filters?.from &&
@@ -103,6 +131,7 @@ const CatchReportPage = () => {
       pdfMake.createPdf(docDefinition).download("CatchReport.pdf");
     }
   }, [chartBase64, PDFDownloaded]);
+
   const createdocDefination = () => {
     const docDefinition = {
       content: [
@@ -181,7 +210,7 @@ const CatchReportPage = () => {
                 { text: "Vessel Name", style: "tableheader" },
                 { text: "Species", style: "tableheader" },
                 { text: "Total Quantity", style: "tableheader" },
-                { text: "Fishing Technique", style: "tableheader" },
+                // { text: "Fishing Technique", style: "tableheader" },
                 { text: "Latitude", style: "tableheader" },
                 { text: "Longitude", style: "tableheader" },
                 { text: "Catch Date", style: "tableheader" },
@@ -192,7 +221,7 @@ const CatchReportPage = () => {
                   text: Object.keys(item.catchDetails)
                     ?.map(
                       (ele) =>
-                        `${[item.catchDetails[ele].name]}: ${
+                        `${[item.catchDetails[ele].species_name]}: ${
                           item.catchDetails[ele].quantity
                         }`
                     )
@@ -201,7 +230,7 @@ const CatchReportPage = () => {
                   style: "tableCell",
                 },
                 { text: item.totalQuantity, style: "tableCell" },
-                { text: item.fishingTechnique, style: "tableCell" },
+                // { text: item.fishingTechnique, style: "tableCell" },
                 { text: item.latitude, style: "tableCell" },
                 { text: item.longitude, style: "tableCell" },
                 { text: item.catchDate, style: "tableCell" },
@@ -256,14 +285,14 @@ const CatchReportPage = () => {
       setPDFDownloaded(false);
       const filteredData = filteredCatches();
       setCatchesList(filteredData);
-      dispatch(catchActions.catchRecords(filteredData));
+      dispatch(catchActions.setCatchRecords(filteredData));
       setTimeout(() => {
         captureChart();
       }, 1000);
     } else {
       const filteredData = filteredCatches();
       setCatchesList(filteredData);
-      dispatch(catchActions.catchRecords(filteredData));
+      dispatch(catchActions.setCatchRecords(filteredData));
     }
   };
 

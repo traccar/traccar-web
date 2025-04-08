@@ -9,7 +9,7 @@ const { reducer, actions } = createSlice({
     period: "",
   },
   reducers: {
-    catchRecords(state, action) {
+    setCatchRecords(state, action) {
       state.items = action.payload;
     },
     catchDetails(state, action) {
