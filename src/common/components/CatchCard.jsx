@@ -79,8 +79,7 @@ const CatchCard = ({ desktopPadding = 0 }) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState([]);
-  const catchDetails = useSelector((state) => state.catch.details);
-  
+  const catchDetails = useSelector((state) => state.catch.catchDetails);
   useEffect(() => {
     if (catchDetails) {
       const fishCatch = JSON.parse(catchDetails?.catchDetails);
@@ -110,7 +109,7 @@ const CatchCard = ({ desktopPadding = 0 }) => {
             <Card elevation={3} className={classes.card}>
               <div className={classes.header}>
                 <Typography variant="body2" color="textPrimary">
-                  {catchDetails.id}
+                  {catchDetails.vessel_name}
                 </Typography>
                 <IconButton
                   size="small"
