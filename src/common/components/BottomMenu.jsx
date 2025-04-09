@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -20,7 +20,7 @@ import { nativePostMessage } from './NativeInterface';
 import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
 import { catchActions } from '../../store/catch';
 
-const FISHCATCH_API_BASE_URL = `http://localhost:3003`;
+const FISHCATCH_API_BASE_URL = ` https://eazcd0bzb2.execute-api.us-east-1.amazonaws.com/dev`;
 const FISHCATCH_API_PATH = `/api/catch-record/getAll`;
 
 const BottomMenu = () => {
@@ -36,6 +36,12 @@ const BottomMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFishCatchSelected, setFishCatchSelected] = useState(false);
 
+  useEffect(() => {
+    setFishCatchSelected(false);
+    removeFishCatchFromMap();
+    dispatch(dispatch(catchActions.clearDetails()));
+  }, []);
+  
   const currentSelection = () => {
     if (location.pathname === `/settings/user/${user.id}`) {
       return 'account';
