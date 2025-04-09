@@ -381,10 +381,10 @@ export default (t) => useMemo(() => ({
     name: t('positionAudio'),
     type: 'string',
   },
-  fishingTechnique: {
-    name: t('fishingTechnique'),
-    type: 'string',
-  },
+  // fishingTechnique: {
+  //   name: t('fishingTechnique'),
+  //   type: 'string',
+  // },
   catchDetails: {
     name: t('species'),
     type: 'string',

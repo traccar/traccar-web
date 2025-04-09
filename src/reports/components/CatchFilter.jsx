@@ -56,8 +56,8 @@ const CatchFilter = ({
     initialCatchList?.map((item) =>
       Object.keys(item?.catchDetails)?.map((element) =>
         tempSpecies.push({
-          name: item?.catchDetails[element].name,
-          id: item?.catchDetails[element].name,
+          name: item?.catchDetails[element].species_name,
+          id: item?.catchDetails[element].species_name,
         })
       )
     );
@@ -72,6 +72,13 @@ const CatchFilter = ({
   };
 
   const handleClick = (type) => {
+    handleSubmit({
+      filters,
+      type,
+    });
+  };
+
+  const setDateValue = (period) => {
     let selectedFrom;
     let selectedTo;
     switch (period) {
@@ -111,11 +118,8 @@ const CatchFilter = ({
         to: selectedTo.format('YYYY-MM-DDTHH:mm'),
       })
     );
-    handleSubmit({
-      filters,
-      type,
-    });
-  };
+  }
+
   return (
     <div className={classes.filter}>
       <div className={classes.filterItem}>
@@ -164,9 +168,7 @@ const CatchFilter = ({
                 value={period}
                 onChange={(e) => {
                   dispatch(catchActions.updatePeriod(e.target.value));
-                  dispatch(
-                    catchActions.setFilters({ ...filters, from: '', to: '' })
-                  );
+                  setDateValue(e.target.value);
                 }}
               >
                 <MenuItem value="today">{t('reportToday')}</MenuItem>

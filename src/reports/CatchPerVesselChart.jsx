@@ -19,7 +19,7 @@ const CatchPerVesselChart = forwardRef((props, ref) => {
       props.catchesList?.map((item) => {
         const tempCatches = Object.keys(item.catchDetails).map((ele) => {
           return {
-            [item.catchDetails[ele].name]: item.catchDetails[ele].quantity,
+            [item.catchDetails[ele].species_name]: item.catchDetails[ele].quantity,
           };
         });
         tempData.push({

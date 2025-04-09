@@ -84,7 +84,7 @@ const PositionValue = ({ position, property, attribute }) => {
       case 'hours':
         return value != null ? formatNumericHours(value, t) : '';
       case 'catchDetails':
-        return value != null ? Object.keys(value)?.map(item => `${[value[item].name]}: ${value[item].quantity}`)?.map(fish => fish)?.join(", ") : '';
+        return value != null ? Object.keys(value)?.map(item => `${[value[item].species_name]}: ${value[item].quantity}`)?.map(fish => fish)?.join(", ") : '';
       default:
         if (typeof value === 'number') {
           return formatNumber(value);

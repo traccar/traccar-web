@@ -1,5 +1,4 @@
 import { map } from '../../map/core/MapView';
-import { fishCatchDataGeoJSON } from '../components/FishCatchMock';
 
 export const removeFishCatchFromMap = () => {
     if (map && map.getSource('fishcatches') && map.getLayer('fishcatches')) {
@@ -8,11 +7,30 @@ export const removeFishCatchFromMap = () => {
     }
 }
 
-export const addCatchestoMap=(onCatchClick)=> {
-    if (!map?.getSource('fishcatches')) {
+export const addCatchestoMap = (catchData, onCatchClick) => {
+  
+  if (!map?.getSource('fishcatches')) {
+    let featureCollection = {
+      "type": "FeatureCollection",
+      "features": []
+    };
+    let fishCatchData = catchData.map((d) => {
+      return {
+        type: 'feature',
+        properties: d,
+        geometry: {
+                "type": "Point",
+                "coordinates": [
+                   d.details[0].longitude,
+                   d.details[0].latitude
+                ]
+            }
+      }
+    });
+    featureCollection.features = fishCatchData;
       map?.addSource('fishcatches', {
         type: 'geojson',
-        data: fishCatchDataGeoJSON,
+        data: featureCollection,
       });
       drawCatchesLocations(map, 'fishcatches', onCatchClick);
     }
@@ -41,13 +59,12 @@ const drawCatchesLocations=(map,sourceDataId,onCatchClick)=> {
        map?.on('click',(e) =>{
         const features = map.queryRenderedFeatures(e.point, {
             layers: [sourceDataId], 
-          });
+        });
           if (features.length > 0) {
             const feature = features[0];
             onCatchClick(feature?.
                 properties)
           }
        })
-    //   map?.setLayoutProperty(sourceDataId, 'icon-image', 'fish');
     }
   }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography, Badge,
 } from '@mui/material';
+import dayjs from 'dayjs';
 
 import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -19,6 +20,9 @@ import { nativePostMessage } from './NativeInterface';
 import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
 import { catchActions } from '../../store/catch';
 
+const FISHCATCH_API_BASE_URL = ` https://eazcd0bzb2.execute-api.us-east-1.amazonaws.com/dev`;
+const FISHCATCH_API_PATH = `/api/catch-record/getAll`;
+
 const BottomMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,6 +36,12 @@ const BottomMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFishCatchSelected, setFishCatchSelected] = useState(false);
 
+  useEffect(() => {
+    setFishCatchSelected(false);
+    removeFishCatchFromMap();
+    dispatch(dispatch(catchActions.clearDetails()));
+  }, []);
+  
   const currentSelection = () => {
     if (location.pathname === `/settings/user/${user.id}`) {
       return 'account';
@@ -79,13 +89,35 @@ const BottomMenu = () => {
     dispatch(sessionActions.updateUser(null));
   };
 
-  const onCatchClick = (catchDetails)=>{
+  const onCatchClick = (catchDetails) => {
     dispatch(catchActions.catchDetails(catchDetails));
   }
 
-  const plotFishCatchData = () => {
-    if (!isFishCatchSelected)
-      addCatchestoMap(onCatchClick);
+  const plotFishCatchData = async () => {
+    if (!isFishCatchSelected) {
+      const tokenExpiration = dayjs().add(5, 'minute').toISOString();
+      const tokenResponse = await fetch('/api/session/token', {
+        method: 'POST',
+        body: new URLSearchParams(`expiration=${tokenExpiration}`),
+      });
+      if (tokenResponse.ok) {
+        let token = await tokenResponse.text();
+        const fishRecordsResponse = await fetch(`${FISHCATCH_API_BASE_URL}${FISHCATCH_API_PATH}`, {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        if (fishRecordsResponse.ok) {
+          let records = await fishRecordsResponse.json();
+          records = records.map((r) => { return { ...r, ...{ vesselId: r.id,vesselName:r.vessel_name,catchDetails:r.details,catchDate: r.details[0].catch_date,longitude:Number(r.details[0].longitude),latitude:Number(r.details[0].latitude),totalQuantity:r.details.reduce((i,j)=>Number(i)+j.quantity,0) } } });
+          dispatch(catchActions.setCatchRecords(records));
+          addCatchestoMap(records,onCatchClick);
+        }
+      } else {
+        throw Error(await response1);
+      }
+              
+      
+    }
     else
       removeFishCatchFromMap();
     setFishCatchSelected((val) => !val);

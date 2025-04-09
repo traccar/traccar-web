@@ -8,7 +8,7 @@ import { catchActions } from '../../store/catch';
 import dayjs from 'dayjs';
 import PieChartComponent from './PieChart';
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme: any) => ({
   actions: {
     justifyContent: 'space-between',
   },
-  root: ({ desktopPadding }: any) => ({
+  root: ({ desktopPadding }) => ({
     pointerEvents: 'none',
     position: 'fixed',
     zIndex: 5,
@@ -78,14 +78,14 @@ const CatchCard = ({ desktopPadding = 0 }) => {
   const classes = useStyles({ desktopPadding });
   const dispatch = useDispatch();
 
-  const [data, setData] = useState<any[]>([]);
-  const catchDetails = useSelector((state: any) => state.catch.catchDetails);
+  const [data, setData] = useState([]);
+  const catchDetails = useSelector((state) => state.catch.catchDetails);
   useEffect(() => {
     if (catchDetails) {
       const fishCatch = JSON.parse(catchDetails?.catchDetails);
-      const tempData: any[] = [];
+      const tempData = [];
       fishCatch?.map((item) =>
-        tempData.push({ name: item.name, value: item.quantity })
+        tempData.push({ name: item.species_name, value: item.quantity })
       );
       setData(tempData);
     }
@@ -109,7 +109,7 @@ const CatchCard = ({ desktopPadding = 0 }) => {
             <Card elevation={3} className={classes.card}>
               <div className={classes.header}>
                 <Typography variant="body2" color="textPrimary">
-                  {catchDetails.vesselID}
+                  {catchDetails.vessel_name}
                 </Typography>
                 <IconButton
                   size="small"
@@ -127,11 +127,11 @@ const CatchCard = ({ desktopPadding = 0 }) => {
                     {dayjs(catchDetails.date).locale('en').format('YYYY-MM-DD')}
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                {/* <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography variant="body2" color="textSecondary">
                     Fishing Technique - {catchDetails.fishingTechnique}
                   </Typography>
-                </Box>
+                </Box>  */}
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Typography variant="body2" color="textSecondary">
                     Position -{' '}
