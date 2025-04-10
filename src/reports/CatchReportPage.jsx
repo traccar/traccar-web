@@ -23,7 +23,7 @@ import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import logo from "../resources/images/ocean-track-logo.png";
 import html2canvas from "html2canvas";
 
-const FISHCATCH_API_BASE_URL = ` https://eazcd0bzb2.execute-api.us-east-1.amazonaws.com/dev`;
+const FISHCATCH_API_BASE_URL = `https://api-track-dev.oceanbytes.com`;
 const FISHCATCH_API_PATH = `/api/catch-record/getAll`;
 
 const CatchReportPage = () => {
