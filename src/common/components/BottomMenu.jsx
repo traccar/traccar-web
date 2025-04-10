@@ -20,7 +20,7 @@ import { nativePostMessage } from './NativeInterface';
 import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
 import { catchActions } from '../../store/catch';
 
-const FISHCATCH_API_BASE_URL = ` https://eazcd0bzb2.execute-api.us-east-1.amazonaws.com/dev`;
+const FISHCATCH_API_BASE_URL = `https://api-track-dev.oceanbytes.com`;
 const FISHCATCH_API_PATH = `/api/catch-record/getAll`;
 
 const BottomMenu = () => {
