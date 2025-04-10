@@ -20,9 +20,6 @@ import { nativePostMessage } from './NativeInterface';
 import { addCatchestoMap ,removeFishCatchFromMap} from './FishCatchPlot';
 import { catchActions } from '../../store/catch';
 
-const FISHCATCH_API_BASE_URL = `https://api-track-dev.oceanbytes.com`;
-const FISHCATCH_API_PATH = `/api/catch-record/getAll`;
-
 const BottomMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -102,7 +99,7 @@ const BottomMenu = () => {
       });
       if (tokenResponse.ok) {
         let token = await tokenResponse.text();
-        const fishRecordsResponse = await fetch(`${FISHCATCH_API_BASE_URL}${FISHCATCH_API_PATH}`, {
+        const fishRecordsResponse = await fetch(`${import.meta.env.VITE_FISHCATCH_API_BASE_URL}${import.meta.env.VITE_FISHCATCH_API_PATH}`, {
           method: 'GET',
           headers: { Authorization: `Bearer ${token}` },
         })
