@@ -224,6 +224,10 @@ export default (t) => useMemo(() => ({
     name: t('positionFuelConsumption'),
     type: 'number',
   },
+  fuelUsed: {
+    name: t('positionFuelUsed'),
+    type: 'number',
+  },
   versionFw: {
     name: t('positionVersionFw'),
     type: 'string',
