@@ -33,10 +33,10 @@ const ChartReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState(['speed']);
-  const [type, setType] = useState('speed');
+  const [selectedTypes, setSelectedTypes] = useState(['speed']);
   const [timeType, setTimeType] = useState('fixTime');
 
-  const values = items.map((it) => it[type]).filter((value) => value != null);
+  const values = items.map((it) => selectedTypes.map((type) => it[type]).filter((value) => value != null));
   const minValue = values.length ? Math.min(...values) : 0;
   const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
@@ -98,6 +98,15 @@ const ChartReportPage = () => {
     }
   });
 
+  const chartColor = () => {
+    const letters = '4E5A76B829DF3C10';
+    let color = '#';
+    for (let i = 0; i < 6; i += 1) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
       <ReportFilter handleSubmit={handleSubmit} showOnly>
@@ -106,8 +115,10 @@ const ChartReportPage = () => {
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select
               label={t('reportChartType')}
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={selectedTypes}
+              onChange={(e) => setSelectedTypes(e.target.value)}
+              multiple
+              renderValue={(selected) => selected.join(', ')}
               disabled={!items.length}
             >
               {types.map((key) => (
@@ -167,14 +178,16 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 tickFormatter={() => ''}
               />
-              <Line
-                type="monotone"
-                dataKey={type}
-                stroke={theme.palette.primary.main}
-                dot={false}
-                activeDot={{ r: 6 }}
-                connectNulls
-              />
+              {selectedTypes.map((type) => (
+                <Line
+                  type="monotone"
+                  dataKey={type}
+                  stroke={chartColor()}
+                  dot={false}
+                  activeDot={{ r: 6 }}
+                  connectNulls
+                />
+              ))}
             </LineChart>
           </ResponsiveContainer>
         </div>
