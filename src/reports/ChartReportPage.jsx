@@ -98,14 +98,15 @@ const ChartReportPage = () => {
     }
   });
 
-  const chartColor = () => {
-    const letters = '4E5A76B829DF3C10';
-    let color = '#';
-    for (let i = 0; i < 6; i += 1) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
+  const colorPalette = [
+    theme.palette.primary.main,
+    theme.palette.secondary.main,
+    theme.palette.error.main,
+    theme.palette.warning.main,
+    theme.palette.info.main,
+    theme.palette.success.main,
+    theme.palette.text.secondary,
+  ];
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
@@ -178,11 +179,11 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 tickFormatter={() => ''}
               />
-              {selectedTypes.map((type) => (
+              {selectedTypes.map((type, index) => (
                 <Line
                   type="monotone"
                   dataKey={type}
-                  stroke={chartColor()}
+                  stroke={colorPalette[index % colorPalette.length]}
                   dot={false}
                   activeDot={{ r: 6 }}
                   connectNulls
