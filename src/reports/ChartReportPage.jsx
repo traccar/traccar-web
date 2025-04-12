@@ -119,7 +119,6 @@ const ChartReportPage = () => {
               value={selectedTypes}
               onChange={(e) => setSelectedTypes(e.target.value)}
               multiple
-              renderValue={(selected) => selected.join(', ')}
               disabled={!items.length}
             >
               {types.map((key) => (
