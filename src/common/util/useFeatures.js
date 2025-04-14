@@ -24,6 +24,7 @@ const featureSelector = createSelector(
     const disableDrivers = disableVehicleFeatures || get(server, user, 'ui.disableDrivers');
     const disableMaintenance = disableVehicleFeatures || get(server, user, 'ui.disableMaintenance');
     const disableGroups = get(server, user, 'ui.disableGroups');
+    const disableOrganization = get(server, user, 'ui.disableOrganization');
     const disableEvents = get(server, user, 'ui.disableEvents');
     const disableComputedAttributes = get(server, user, 'ui.disableComputedAttributes');
     const disableCalendars = get(server, user, 'ui.disableCalendars');
@@ -34,6 +35,7 @@ const featureSelector = createSelector(
       disableDrivers,
       disableMaintenance,
       disableGroups,
+      disableOrganization,
       disableEvents,
       disableComputedAttributes,
       disableCalendars,
