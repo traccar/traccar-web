@@ -42,7 +42,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapLiveRoutes />
         <MapPositions
           positions={filteredPositions}
-          onClick={onMarkerClick}
+          onMarkerClick={onMarkerClick}
           selectedPosition={selectedPosition}
           showStatus
         />
