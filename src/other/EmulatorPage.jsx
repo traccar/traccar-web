@@ -128,7 +128,7 @@ const EmulatorPage = () => {
           <MapView>
             <MapPositions
               positions={Object.values(positions)}
-              onClick={handleClick}
+              onMapClick={handleClick}
               showStatus
             />
           </MapView>
