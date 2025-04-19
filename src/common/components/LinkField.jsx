@@ -1,5 +1,5 @@
 import { Autocomplete, Snackbar, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
@@ -14,7 +14,6 @@ const LinkField = ({
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
 }) => {
-
   const localStorageKey = `linked_${baseId}_${keyLink}`;
 
   const t = useTranslation();
