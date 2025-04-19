@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
+import { useAdministrator } from '../../common/util/permissions';
 
 const useStyles = makeStyles(() => ({
   row: {
@@ -24,6 +25,8 @@ const CollectionActions = ({
   const classes = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
+
+  const admin = useAdministrator();
 
   const phone = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -66,7 +69,7 @@ const CollectionActions = ({
             {!readonly && (
               <>
                 {editPath && <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>}
-                <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
+                {admin && (<MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>)}
               </>
             )}
           </Menu>
@@ -82,6 +85,7 @@ const CollectionActions = ({
           ))}
           {!readonly && (
             <>
+
               {editPath && (
                 <Tooltip title={t('sharedEdit')}>
                   <IconButton size="small" onClick={handleEdit}>
@@ -89,11 +93,13 @@ const CollectionActions = ({
                   </IconButton>
                 </Tooltip>
               )}
-              <Tooltip title={t('sharedRemove')}>
-                <IconButton size="small" onClick={handleRemove}>
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              {admin && (
+                <Tooltip title={t('sharedRemove')}>
+                  <IconButton size="small" onClick={handleRemove}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
             </>
           )}
         </div>

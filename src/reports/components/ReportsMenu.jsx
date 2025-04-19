@@ -1,7 +1,7 @@
 import React from 'react';
 import { Divider, List } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import TimelineIcon from '@mui/icons-material/Timeline';
+// import TimelineIcon from '@mui/icons-material/Timeline';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -32,12 +32,12 @@ const ReportsMenu = () => {
           icon={<StarIcon />}
           selected={location.pathname === '/reports/combined'}
         />
-        <MenuItem
+        {/* <MenuItem
           title={t('reportRoute')}
           link="/reports/route"
           icon={<TimelineIcon />}
           selected={location.pathname === '/reports/route'}
-        />
+        /> */}
         <MenuItem
           title={t('reportEvents')}
           link="/reports/event"

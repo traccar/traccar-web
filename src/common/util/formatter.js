@@ -63,12 +63,12 @@ export const formatAlarm = (value, t) => {
 };
 
 export const formatCourse = (value) => {
-  const courseValues = ['\u2191', '\u2197', '\u2192', '\u2198', '\u2193', '\u2199', '\u2190', '\u2196'];
+  const courseValues = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
   let normalizedValue = (value + 45 / 2) % 360;
   if (normalizedValue < 0) {
     normalizedValue += 360;
   }
-  return courseValues[Math.floor(normalizedValue / 45)];
+  return `${courseValues[Math.floor(normalizedValue / 45)]} ${value}°`;
 };
 
 export const formatDistance = (value, unit, t) => `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
