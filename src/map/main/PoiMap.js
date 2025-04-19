@@ -6,7 +6,7 @@ import { useEffectAsync } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
 import { findFonts } from '../core/mapUtil';
 
-const PoiMap = () => {
+const PoiMap = ({ mapReady }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -24,7 +24,7 @@ const PoiMap = () => {
   }, [poiLayer]);
 
   useEffect(() => {
-    if (data) {
+    if (data && mapReady) {
       map.addSource(id, {
         type: 'geojson',
         data,
@@ -79,9 +79,11 @@ const PoiMap = () => {
       };
     }
     return () => {};
-  }, [data]);
+  }, [data, mapReady]);
 
   return null;
 };
+
+PoiMap.handlesMapReady = true;
 
 export default PoiMap;
