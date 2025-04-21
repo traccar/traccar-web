@@ -26,4 +26,8 @@ export default (t) => useMemo(() => ({
     name: t('attributeDeviceInactivityPeriod'),
     type: 'number',
   },
+  notificationTokens: {
+    name: t('attributeNotificationTokens'),
+    type: 'string',
+  },
 }), [t]);
