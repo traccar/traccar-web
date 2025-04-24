@@ -30,7 +30,7 @@
     "react-draggable": "^4.4.6",
     "react-mui-dropzone": "^4.0.7",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^6.28.1",
+    "react-router-dom": "^7.5.2",
     "react-virtualized-auto-sizer": "^1.0.25",
     "react-window": "^1.8.11",
     "recharts": "^2.15.0",
