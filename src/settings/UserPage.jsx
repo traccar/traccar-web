@@ -142,6 +142,11 @@ const UserPage = () => {
                 label={t('userEmail')}
                 disabled={fixedEmail && item.id === currentUser.id}
               />
+              <TextField
+                value={item.login || ''}
+                onChange={(e) => setItem({ ...item, login: e.target.value })}
+                label={'Login'}
+              />
               {!openIdForced && (
                 <TextField
                   type="password"

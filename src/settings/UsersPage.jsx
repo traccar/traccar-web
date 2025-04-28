@@ -75,6 +75,7 @@ const UsersPage = () => {
           <TableRow>
             <TableCell>{t('sharedName')}</TableCell>
             <TableCell>{t('userEmail')}</TableCell>
+            <TableCell>{'Login'}</TableCell>
             <TableCell>{t('userAdmin')}</TableCell>
             <TableCell>{t('sharedDisabled')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
@@ -86,6 +87,7 @@ const UsersPage = () => {
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.email}</TableCell>
+              <TableCell>{item.login}</TableCell>
               <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
               <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
@@ -99,11 +101,11 @@ const UsersPage = () => {
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={6} endAction />)}
+          )) : (<TableShimmer columns={7} endAction />)}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={6} align="right">
+            <TableCell colSpan={7} align="right">
               <FormControlLabel
                 control={(
                   <Switch
