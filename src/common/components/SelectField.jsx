@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
-} from '@mui/material';
+import { Autocomplete, CircularProgress, FormControl, TextField, } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
 
 const SelectField = ({
@@ -16,8 +14,10 @@ const SelectField = ({
   data,
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
+  groupBy,
 }) => {
-  const [items, setItems] = useState();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getOptionLabel = (option) => {
     if (typeof option !== 'object') {
@@ -26,54 +26,77 @@ const SelectField = ({
     return option ? titleGetter(option) : emptyTitle;
   };
 
-  useEffect(() => setItems(data), [data]);
+  useEffect(() => {
+    if (data) {
+      setItems(data);
+    }
+  }, [data]);
 
   useEffectAsync(async () => {
     if (endpoint) {
-      const response = await fetch(endpoint);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
+      setLoading(true);
+      try {
+        const response = await fetch(endpoint);
+        if (response.ok) {
+          setItems(await response.json());
+        } else {
+          throw new Error(await response.text());
+        }
+      } catch (error) {
+        console.error('Failed to load items:', error);
+      } finally {
+        setLoading(false);
       }
     }
   }, []);
 
-  if (items) {
-    return (
-      <FormControl fullWidth={fullWidth}>
-        {multiple ? (
-          <>
-            <InputLabel>{label}</InputLabel>
-            <Select
-              label={label}
-              multiple
-              value={value}
-              onChange={onChange}
-            >
-              {items.map((item) => (
-                <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
-              ))}
-            </Select>
-          </>
-        ) : (
-          <Autocomplete
-            size="small"
-            options={items}
-            getOptionLabel={getOptionLabel}
-            renderOption={(props, option) => (
-              <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
-            )}
-            isOptionEqualToValue={(option, value) => keyGetter(option) === value}
-            value={value}
-            onChange={(_, value) => onChange({ target: { value: value ? keyGetter(value) : emptyValue } })}
-            renderInput={(params) => <TextField {...params} label={label} />}
+  const handleChange = (_, newValue) => {
+    if (multiple) {
+      onChange({ target: { value: newValue.map((item) => keyGetter(item)) } });
+    } else {
+      onChange({ target: { value: newValue ? keyGetter(newValue) : emptyValue } });
+    }
+  };
+
+  if (!items.length && !loading) {
+    return null;
+  }
+
+  return (
+    <FormControl fullWidth={fullWidth}>
+      <Autocomplete
+        size="small"
+        multiple={multiple}
+        options={items}
+        groupBy={groupBy ? groupBy : undefined} // 🔥 Add grouping only if provided
+        getOptionLabel={getOptionLabel}
+        isOptionEqualToValue={(option, value) => keyGetter(option) === (typeof value === 'object' ? keyGetter(value) : value)}
+        value={
+          multiple
+            ? items.filter((item) => value?.includes(keyGetter(item)))
+            : items.find((item) => keyGetter(item) === value) || null
+        }
+        onChange={handleChange}
+        loading={loading}
+        noOptionsText="No options found"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? <CircularProgress color="inherit" size={20}/> : null}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
           />
         )}
-      </FormControl>
-    );
-  }
-  return null;
+      />
+    </FormControl>
+  );
 };
 
 export default SelectField;

@@ -163,7 +163,7 @@ const IgnitionReportPage = () => {
                     checked={grouped}
                     onChange={(event) => setGrouped(event.target.checked)}
                   />
-                } label="Grouped"/>
+                } label={t('grouped')}/>
               </FormGroup>
             </FormControl>
           </div>

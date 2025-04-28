@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import {
-  FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
-} from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -209,6 +207,27 @@ const ReportFilter = ({
             }}
           />
         )}
+        <div className={classes.filterItem}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="primary"
+            style={{ marginTop: 10 }}
+            onClick={() => {
+              dispatch(devicesActions.selectId(null));
+              dispatch(devicesActions.selectIds([]));
+              dispatch(reportsActions.updateGroupIds([]));
+              dispatch(reportsActions.updatePeriod('today'));
+              dispatch(reportsActions.updateFrom(''));
+              dispatch(reportsActions.updateTo(''));
+              setCalendarId(null);
+              setDescription('');
+            }}
+          >
+            <Typography variant="button" noWrap>{t('sharedClearFilters') || 'Clear Filters'}</Typography>
+          </Button>
+        </div>
+
       </div>
     </div>
   );
