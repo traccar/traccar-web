@@ -72,13 +72,16 @@ const EmulatorPage = () => {
     if (deviceId) {
       let response;
       if (window.location.protocol === 'https:') {
-        const formData = new FormData();
-        formData.append('id', devices[deviceId].uniqueId);
-        formData.append('lat', latitude);
-        formData.append('lon', longitude);
+        const params = new URLSearchParams();
+        params.append('id', devices[deviceId].uniqueId);
+        params.append('lat', latitude);
+        params.append('lon', longitude);
         response = await fetch(window.location.origin, {
           method: 'POST',
-          body: formData,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: params.toString(),
         });
       } else {
         const params = new URLSearchParams();
