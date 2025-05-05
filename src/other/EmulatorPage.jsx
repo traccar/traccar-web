@@ -101,7 +101,7 @@ const EmulatorPage = () => {
       <div className={classes.content}>
         <Drawer
           className={classes.drawer}
-          anchor={isPhone ? 'bottom' : 'left'}
+          anchor={isPhone ? 'top' : 'left'}
           variant="permanent"
           classes={{ paper: classes.drawerPaper }}
         >
