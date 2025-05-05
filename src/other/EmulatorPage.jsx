@@ -79,7 +79,7 @@ const EmulatorPage = () => {
         response = await fetch(window.location.origin, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: params.toString(),
         });
