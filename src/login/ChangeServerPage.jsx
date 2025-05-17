@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import { makeStyles } from '@mui/styles';
 import {
@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import Loader from '../common/components/Loader';
 
 const currentServer = `${window.location.protocol}//${window.location.host}`;
 
@@ -23,7 +24,7 @@ const officialServers = [
 const useStyles = makeStyles((theme) => ({
   icon: {
     textAlign: 'center',
-    fontSize: '128px',
+    fontSize: '10rem',
     color: theme.palette.neutral.main,
   },
   container: {
@@ -41,8 +42,10 @@ const ChangeServerPage = () => {
   const t = useTranslation();
 
   const filter = createFilterOptions();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (url) => {
+    setLoading(true);
     if (window.webkit && window.webkit.messageHandlers.appInterface) {
       window.webkit.messageHandlers.appInterface.postMessage(`server|${url}`);
     } else if (window.appInterface) {
@@ -52,6 +55,9 @@ const ChangeServerPage = () => {
     }
   };
 
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <Container maxWidth="xs" className={classes.container}>
       <ElectricalServicesIcon className={classes.icon} />
