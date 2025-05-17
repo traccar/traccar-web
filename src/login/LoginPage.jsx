@@ -134,7 +134,7 @@ const LoginPage = () => {
       <div className={classes.options}>
         {nativeEnvironment && changeEnabled && (
           <Tooltip title={t('settingsServer')}>
-            <IconButton onClick={() => navigate('/change-server')}>
+            <IconButton color="primary" onClick={() => navigate('/change-server')}>
               <VpnLockIcon />
             </IconButton>
           </Tooltip>
