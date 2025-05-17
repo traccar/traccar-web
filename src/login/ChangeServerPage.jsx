@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import VpnLockIcon from '@mui/icons-material/VpnLock';
 import { makeStyles } from '@mui/styles';
 import {
   Autocomplete, Button, Container, createFilterOptions, TextField,
@@ -60,7 +60,7 @@ const ChangeServerPage = () => {
   }
   return (
     <Container maxWidth="xs" className={classes.container}>
-      <ElectricalServicesIcon className={classes.icon} />
+      <VpnLockIcon className={classes.icon} />
       <Autocomplete
         freeSolo
         className={classes.field}

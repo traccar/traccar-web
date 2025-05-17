@@ -5,7 +5,7 @@ import {
 import ReactCountryFlag from 'react-country-flag';
 import makeStyles from '@mui/styles/makeStyles';
 import CloseIcon from '@mui/icons-material/Close';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import VpnLockIcon from '@mui/icons-material/VpnLock';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -135,7 +135,7 @@ const LoginPage = () => {
         {nativeEnvironment && changeEnabled && (
           <Tooltip title={t('settingsServer')}>
             <IconButton onClick={() => navigate('/change-server')}>
-              <LockOpenIcon />
+              <VpnLockIcon />
             </IconButton>
           </Tooltip>
         )}
