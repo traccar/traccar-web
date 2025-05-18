@@ -1,4 +1,3 @@
-import React from 'react';
 import { TextField, useTheme, useMediaQuery } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from '../../common/components/LocalizationProvider';

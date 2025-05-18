@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import { Snackbar } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';

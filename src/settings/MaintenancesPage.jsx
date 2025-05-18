@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,

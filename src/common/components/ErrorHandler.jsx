@@ -1,7 +1,7 @@
 import {
   Snackbar, Alert, Button, Link, Dialog, DialogContent, DialogContentText, DialogActions, Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
 import { errorsActions } from '../../store';

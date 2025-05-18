@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   IconButton, Menu, MenuItem, useMediaQuery, useTheme,
 } from '@mui/material';

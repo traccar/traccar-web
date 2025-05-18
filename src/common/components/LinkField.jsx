@@ -1,5 +1,5 @@
 import { Autocomplete, Snackbar, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useEffectAsync } from '../../reactHelper';
 import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
