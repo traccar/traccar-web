@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Rnd } from 'react-rnd';
 import {
   Card,
   CardContent,
@@ -34,7 +35,6 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
-import { Rnd } from 'react-rnd';
 
 const useStyles = makeStyles((theme) => ({
   card: {
