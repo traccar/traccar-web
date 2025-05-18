@@ -1,5 +1,5 @@
 /* eslint-disable import/no-relative-packages */
-import React, {
+import {
   createContext, useContext, useEffect, useMemo,
 } from 'react';
 import dayjs from 'dayjs';

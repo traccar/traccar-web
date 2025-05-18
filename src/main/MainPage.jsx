@@ -1,4 +1,4 @@
-import React, {
+import {
   useState, useCallback, useEffect,
 } from 'react';
 import { Paper } from '@mui/material';
