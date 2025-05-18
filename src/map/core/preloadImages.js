@@ -1,4 +1,5 @@
 import { grey } from '@mui/material/colors';
+import { createTheme } from '@mui/material';
 import { loadImage, prepareIcon } from './mapUtil';
 
 import directionSvg from '../../resources/images/direction.svg';
@@ -25,7 +26,6 @@ import trainSvg from '../../resources/images/icon/train.svg';
 import tramSvg from '../../resources/images/icon/tram.svg';
 import truckSvg from '../../resources/images/icon/truck.svg';
 import vanSvg from '../../resources/images/icon/van.svg';
-import { createTheme } from '@mui/material';
 
 export const mapIcons = {
   animal: animalSvg,
