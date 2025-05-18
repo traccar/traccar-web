@@ -35,6 +35,7 @@ import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
+import { Rnd } from 'react-rnd';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -181,13 +182,16 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     <>
       <div className={classes.root}>
         {device && (
-          <Draggable
-            handle={`.${classes.media}, .${classes.header}`}
+          <Rnd
+            default={{ x: 0, y: 0, width: 'auto', height: 'auto' }}
+            enableResizing={false}
+            dragHandleClassName="draggable-header"
+            style={{ position: 'relative' }}
           >
             <Card elevation={3} className={classes.card}>
               {deviceImage ? (
                 <CardMedia
-                  className={classes.media}
+                  className={`${classes.media} draggable-header`}
                   image={`/api/media/${device.uniqueId}/${deviceImage}`}
                 >
                   <IconButton
@@ -199,7 +203,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   </IconButton>
                 </CardMedia>
               ) : (
-                <div className={classes.header}>
+                <div className={`${classes.header} draggable-header`}>
                   <Typography variant="body2" color="textSecondary">
                     {device.name}
                   </Typography>
@@ -288,7 +292,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 </Tooltip>
               </CardActions>
             </Card>
-          </Draggable>
+          </Rnd>
         )}
       </div>
       {position && (
