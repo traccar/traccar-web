@@ -91,7 +91,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         opacity: mapLineOpacity,
       },
     });
-  }, [theme, coordinates, reportColor]);
+  }, [theme, coordinates, reportColor, mapLineWidth, mapLineOpacity]);
 
   return null;
 };

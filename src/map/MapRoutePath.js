@@ -92,7 +92,7 @@ const MapRoutePath = ({ positions }) => {
       type: 'FeatureCollection',
       features,
     });
-  }, [theme, positions, reportColor]);
+  }, [theme, positions, reportColor, mapLineWidth, mapLineOpacity]);
 
   return null;
 };
