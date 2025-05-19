@@ -4,7 +4,7 @@ import { map } from './core/MapView';
 
 const MapPadding = ({ left }) => {
   useEffect(() => {
-    const topLeft = document.querySelector('.maplibregl-ctrl-bottom-left');
+    const topLeft = document.querySelector('.maplibregl-ctrl-top-left');
     const bottomLeft = document.querySelector('.maplibregl-ctrl-bottom-left');
     topLeft.style.left = `${left}px`;
     bottomLeft.style.left = `${left}px`;
