@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery, useTheme } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
 import CachingController from './CachingController';
@@ -11,7 +11,7 @@ import UpdateController from './UpdateController';
 import TermsDialog from './common/components/TermsDialog';
 import Loader from './common/components/Loader';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
   page: {
     flexGrow: 1,
     overflow: 'auto',
@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const App = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();

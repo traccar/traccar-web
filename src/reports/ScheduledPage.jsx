@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   Table, TableRow, TableCell, TableHead, TableBody, IconButton,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -12,7 +12,7 @@ import ReportsMenu from './components/ReportsMenu';
 import TableShimmer from '../common/components/TableShimmer';
 import RemoveDialog from '../common/components/RemoveDialog';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   columnAction: {
     width: '1%',
     paddingRight: theme.spacing(1),
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ScheduledPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const t = useTranslation();
 
   const calendars = useSelector((state) => state.calendars.items);

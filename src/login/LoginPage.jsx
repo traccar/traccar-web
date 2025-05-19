@@ -3,7 +3,7 @@ import {
   useMediaQuery, Select, MenuItem, FormControl, Button, TextField, Link, Snackbar, IconButton, Tooltip, Box,
 } from '@mui/material';
 import ReactCountryFlag from 'react-country-flag';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
 import { useTheme } from '@mui/material/styles';
@@ -20,7 +20,7 @@ import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
 import Loader from '../common/components/Loader';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   options: {
     position: 'fixed',
     top: theme.spacing(2),
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();

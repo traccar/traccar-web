@@ -20,7 +20,7 @@ import useSettingsStyles from './common/useSettingsStyles';
 
 const SharePage = () => {
   const navigate = useNavigate();
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();

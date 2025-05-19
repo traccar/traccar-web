@@ -4,10 +4,10 @@ import {
 } from '@mui/material';
 
 import { createFilterOptions } from '@mui/material/useAutocomplete';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   details: {
     display: 'flex',
     flexDirection: 'column',
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddAttributeDialog = ({ open, onResult, definitions }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const t = useTranslation();
 
   const filter = createFilterOptions({

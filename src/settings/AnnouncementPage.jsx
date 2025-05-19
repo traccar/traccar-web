@@ -20,7 +20,7 @@ import { prefixString } from '../common/util/stringUtils';
 
 const AnnouncementPage = () => {
   const navigate = useNavigate();
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const [users, setUsers] = useState([]);

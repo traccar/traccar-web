@@ -15,7 +15,7 @@ import PageLayout from '../common/components/PageLayout';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const UserConnectionsPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();

@@ -40,7 +40,7 @@ const columnsMap = new Map(columnsArray);
 
 const StopReportPage = () => {
   const navigate = useNavigate();
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');

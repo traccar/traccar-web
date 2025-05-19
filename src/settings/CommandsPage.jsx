@@ -16,7 +16,7 @@ import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const CommandsPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const [timestamp, setTimestamp] = useState(Date.now());

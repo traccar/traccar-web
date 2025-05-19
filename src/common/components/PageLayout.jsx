@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme, { miniVariant }) => ({
   desktopRoot: {
     height: '100%',
     display: 'flex',
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   desktopDrawer: {
-    width: (props) => (props.miniVariant ? `calc(${theme.spacing(8)} + 1px)` : theme.dimensions.drawerWidthDesktop),
+    width: miniVariant ? `calc(${theme.spacing(8)} + 1px)` : theme.dimensions.drawerWidthDesktop,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -73,7 +73,7 @@ const PageTitle = ({ breadcrumbs }) => {
 
 const PageLayout = ({ menu, breadcrumbs, children }) => {
   const [miniVariant, setMiniVariant] = useState(false);
-  const classes = useStyles({ miniVariant });
+  const { classes } = useStyles({ miniVariant });
   const theme = useTheme();
   const navigate = useNavigate();
 

@@ -16,7 +16,7 @@ import useFeatures from '../common/util/useFeatures';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const DeviceConnectionsPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();

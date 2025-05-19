@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Button, TextField, Typography, Snackbar, IconButton,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
@@ -11,7 +11,7 @@ import useQuery from '../common/util/useQuery';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch } from '../reactHelper';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResetPasswordPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
   const query = useQuery();

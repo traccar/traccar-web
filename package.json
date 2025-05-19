@@ -37,6 +37,7 @@
     "redux": "^5.0.1",
     "stylis": "^4.3.6",
     "stylis-plugin-rtl": "^2.1.1",
+    "tss-react": "^4.9.18",
     "vite": "^6.3.5",
     "vite-plugin-pwa": "^1.0.0",
     "vite-plugin-svgr": "^4.3.0",

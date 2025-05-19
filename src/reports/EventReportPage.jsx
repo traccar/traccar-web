@@ -37,7 +37,7 @@ const columnsMap = new Map(columnsArray);
 
 const EventReportPage = () => {
   const navigate = useNavigate();
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
   const devices = useSelector((state) => state.devices.items);

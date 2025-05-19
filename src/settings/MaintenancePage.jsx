@@ -25,7 +25,7 @@ import SettingsMenu from './components/SettingsMenu';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const MaintenancePage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);

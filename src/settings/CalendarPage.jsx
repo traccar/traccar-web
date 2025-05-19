@@ -62,7 +62,7 @@ const simpleCalendar = () => window.btoa([
 ].join('\n'));
 
 const CalendarPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 

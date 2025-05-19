@@ -27,7 +27,7 @@ import useSettingsStyles from './common/useSettingsStyles';
 const allowedProperties = ['valid', 'latitude', 'longitude', 'altitude', 'speed', 'course', 'address', 'accuracy'];
 
 const ComputedAttributePage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);

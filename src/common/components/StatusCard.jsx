@@ -19,7 +19,7 @@ import {
   Link,
   Tooltip,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import ReplayIcon from '@mui/icons-material/Replay';
 import PublishIcon from '@mui/icons-material/Publish';
@@ -36,7 +36,7 @@ import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: 0,
       paddingRight: 0,
     },
-    '& .MuiTableCell-sizeSmall:first-child': {
+    '& .MuiTableCell-sizeSmall:first-of-type': {
       paddingRight: theme.spacing(1),
     },
   },
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     justifyContent: 'space-between',
   },
-  root: ({ desktopPadding }) => ({
+  root: {
     pointerEvents: 'none',
     position: 'fixed',
     zIndex: 5,
@@ -97,11 +97,11 @@ const useStyles = makeStyles((theme) => ({
       bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
     },
     transform: 'translateX(-50%)',
-  }),
+  },
 }));
 
 const StatusRow = ({ name, content }) => {
-  const classes = useStyles();
+  const { classes } = useStyles({ desktopPadding: 0 });
 
   return (
     <TableRow>
@@ -116,7 +116,7 @@ const StatusRow = ({ name, content }) => {
 };
 
 const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
-  const classes = useStyles({ desktopPadding });
+  const { classes } = useStyles({ desktopPadding });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();

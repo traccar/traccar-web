@@ -21,7 +21,7 @@ import useSettingsStyles from './common/useSettingsStyles';
 
 const AccumulatorsPage = () => {
   const navigate = useNavigate();
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   Toolbar, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText, Tooltip,
 } from '@mui/material';
-import { makeStyles, useTheme } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
+import { useTheme } from '@mui/material/styles';
 import MapIcon from '@mui/icons-material/Map';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,7 +14,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { useDeviceReadonly } from '../common/util/permissions';
 import DeviceRow from './DeviceRow';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   toolbar: {
     display: 'flex',
     gap: theme.spacing(1),
@@ -40,7 +41,7 @@ const MainToolbar = ({
   filterMap,
   setFilterMap,
 }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const theme = useTheme();
   const navigate = useNavigate();
   const t = useTranslation();

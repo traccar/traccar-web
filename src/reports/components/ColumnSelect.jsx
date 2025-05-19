@@ -7,7 +7,7 @@ import useReportStyles from '../common/useReportStyles';
 const ColumnSelect = ({
   columns, setColumns, columnsArray, rawValues, disabled,
 }) => {
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
   return (

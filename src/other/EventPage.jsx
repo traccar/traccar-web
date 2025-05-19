@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import {
   Typography, AppBar, Toolbar, IconButton,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
@@ -16,7 +16,7 @@ import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
 import MapScale from '../map/MapScale';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const EventPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 

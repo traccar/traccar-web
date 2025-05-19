@@ -31,7 +31,7 @@ import CollectionActions from '../settings/components/CollectionActions';
 
 const RouteReportPage = () => {
   const navigate = useNavigate();
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);

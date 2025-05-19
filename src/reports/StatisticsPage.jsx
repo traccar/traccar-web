@@ -28,7 +28,7 @@ const columnsArray = [
 const columnsMap = new Map(columnsArray);
 
 const StatisticsPage = () => {
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
   const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);

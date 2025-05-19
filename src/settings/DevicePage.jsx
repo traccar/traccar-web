@@ -24,7 +24,7 @@ import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const DevicePage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const admin = useAdministrator();

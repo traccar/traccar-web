@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import {
   Autocomplete, Button, Container, createFilterOptions, TextField,
 } from '@mui/material';
@@ -21,7 +21,7 @@ const officialServers = [
   'http://localhost:3000',
 ];
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   icon: {
     textAlign: 'center',
     fontSize: '10rem',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChangeServerPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
