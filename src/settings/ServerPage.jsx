@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
-
 import {
   Accordion,
   AccordionSummary,
@@ -19,7 +18,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { DropzoneArea } from 'react-mui-dropzone';
+import { MuiFileInput } from 'mui-file-input';
 import { sessionActions } from '../store';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -48,12 +47,11 @@ const ServerPage = () => {
   const original = useSelector((state) => state.session.server);
   const [item, setItem] = useState({ ...original });
 
-  const handleFiles = useCatch(async (files) => {
-    if (files.length > 0) {
-      const file = files[0];
-      const response = await fetch(`/api/server/file/${file.path}`, {
+  const handleFileChange = useCatch(async (newFile) => {
+    if (newFile) {
+      const response = await fetch(`/api/server/file/${newFile.name}`, {
         method: 'POST',
-        body: file,
+        body: newFile,
       });
       if (!response.ok) {
         throw Error(await response.text());
@@ -281,11 +279,10 @@ const ServerPage = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
-                <DropzoneArea
-                  dropzoneText={t('sharedDropzoneText')}
-                  filesLimit={1}
-                  onChange={handleFiles}
-                  showAlerts={false}
+                <MuiFileInput
+                  placeholder={t('sharedSelectFile')}
+                  value={null}
+                  onChange={handleFileChange}
                 />
               </AccordionDetails>
             </Accordion>
