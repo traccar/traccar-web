@@ -105,6 +105,7 @@ const Navigation = () => {
   return (
     <Routes>
       <Route path='/login' element={<LoginPage />} />
+
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/reset-password' element={<ResetPasswordPage />} />
       <Route path='/change-server' element={<ChangeServerPage />} />
