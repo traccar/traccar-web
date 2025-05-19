@@ -54,9 +54,6 @@ const MapRoutePath = ({ positions }) => {
     });
 
     return () => {
-      if (map.getLayer(`${id}-title`)) {
-        map.removeLayer(`${id}-title`);
-      }
       if (map.getLayer(`${id}-line`)) {
         map.removeLayer(`${id}-line`);
       }
