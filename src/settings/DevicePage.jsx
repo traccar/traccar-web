@@ -163,6 +163,17 @@ const DevicePage = () => {
                 label={t('sharedCalendar')}
               />
               {admin && (
+                <SelectField
+                  value={item.organization || ''}
+                  onChange={(event) =>
+                    setItem({ ...item, organization: event.target.value })
+                  }
+                  endpoint='/api/organization'
+                  label='Organization'
+                />
+              )}
+
+              {admin && (
                 <>
                   <TextField
                     label={t('userExpirationTime')}

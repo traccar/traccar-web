@@ -82,7 +82,7 @@ const GroupsPage = () => {
                   <CollectionActions
                     itemId={item.id}
                     editPath='/settings/organization'
-                    endpoint='organizations'
+                    endpoint='organization'
                     setTimestamp={setTimestamp}
                     // customActions={
                     //   limitCommands
