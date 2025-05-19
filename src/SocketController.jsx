@@ -56,7 +56,7 @@ const SocketController = () => {
           if (devicesResponse.status === 401 || positionsResponse.status === 401) {
             navigate('/login');
           }
-        } catch (error) {
+        } catch {
           // ignore errors
         }
         setTimeout(() => connectSocket(), 60000);

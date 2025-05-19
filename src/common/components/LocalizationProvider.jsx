@@ -1,4 +1,3 @@
-/* eslint-disable import/no-relative-packages */
 import {
   createContext, useContext, useEffect, useMemo,
 } from 'react';

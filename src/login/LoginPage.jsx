@@ -95,7 +95,7 @@ const LoginPage = () => {
       } else {
         throw Error(await response.text());
       }
-    } catch (error) {
+    } catch {
       setFailed(true);
       setPassword('');
     }

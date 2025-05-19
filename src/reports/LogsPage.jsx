@@ -49,7 +49,7 @@ const LogsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item, index) => /* eslint-disable react/no-array-index-key */ (
+          {items.map((item, index) => (
             <TableRow key={index}>
               <TableCell className={classes.columnAction} padding="none">
                 {item.deviceId ? (

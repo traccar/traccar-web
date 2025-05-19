@@ -27,7 +27,7 @@ export const generateLoginToken = async () => {
       if (response.ok) {
         token = await response.text();
       }
-    } catch (error) {
+    } catch {
       token = '';
     }
     nativePostMessage(`login|${token}`);

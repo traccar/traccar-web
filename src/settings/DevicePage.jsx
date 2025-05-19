@@ -51,6 +51,7 @@ const DevicePage = () => {
         throw Error(await response.text());
       }
     } else if (!newFile) {
+      // eslint-disable-next-line no-unused-vars
       const { deviceImage, ...remainingAttributes } = item.attributes || {};
       setItem({ ...item, attributes: remainingAttributes });
     }
