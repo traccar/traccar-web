@@ -43,7 +43,7 @@ const OrganizationPage = () => {
 
   return (
     <EditItemView
-      endpoint='organization'
+      endpoint="organization"
       item={item}
       setItem={setItem}
       validate={validate}
@@ -55,29 +55,25 @@ const OrganizationPage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant='subtitle1'>{t('sharedRequired')}</Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
                 value={item.name || ''}
-                onChange={(event) =>
-                  setItem({ ...item, name: event.target.value })
-                }
+                onChange={(event) => setItem({ ...item, name: event.target.value })}
                 label={t('sharedName')}
               />
             </AccordionDetails>
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant='subtitle1'>{t('sharedExtra')}</Typography>
+              <Typography variant="subtitle1">{t('sharedExtra')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
                 value={item.groupId}
-                onChange={(event) =>
-                  setItem({ ...item, groupId: Number(event.target.value) })
-                }
-                endpoint='/api/organization'
+                onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
+                endpoint="/api/organization"
                 label={t('groupParent')}
               />
             </AccordionDetails>
