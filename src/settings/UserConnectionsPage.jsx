@@ -26,97 +26,97 @@ const UserConnectionsPage = () => {
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'settingsUser', 'sharedConnections']}
     >
-      <Container maxWidth="xs" className={classes.container}>
+      <Container maxWidth='xs' className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
+            <Typography variant='subtitle1'>
               {t('sharedConnections')}
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <LinkField
-              endpointAll="/api/devices?all=true"
+              endpointAll='/api/devices?all=true'
               endpointLinked={`/api/devices?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="deviceId"
+              keyBase='userId'
+              keyLink='deviceId'
               titleGetter={(it) => `${it.name} (${it.uniqueId})`}
               label={t('deviceTitle')}
             />
             <LinkField
-              endpointAll="/api/groups?all=true"
+              endpointAll='/api/groups?all=true'
               endpointLinked={`/api/groups?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="groupId"
+              keyBase='userId'
+              keyLink='groupId'
               label={t('settingsGroups')}
             />
             <LinkField
-              endpointAll="/api/geofences?all=true"
+              endpointAll='/api/geofences?all=true'
               endpointLinked={`/api/geofences?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="geofenceId"
+              keyBase='userId'
+              keyLink='geofenceId'
               label={t('sharedGeofences')}
             />
             <LinkField
-              endpointAll="/api/notifications?all=true"
+              endpointAll='/api/notifications?all=true'
               endpointLinked={`/api/notifications?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="notificationId"
+              keyBase='userId'
+              keyLink='notificationId'
               titleGetter={(it) => formatNotificationTitle(t, it, true)}
               label={t('sharedNotifications')}
             />
             <LinkField
-              endpointAll="/api/calendars?all=true"
+              endpointAll='/api/calendars?all=true'
               endpointLinked={`/api/calendars?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="calendarId"
+              keyBase='userId'
+              keyLink='calendarId'
               label={t('sharedCalendars')}
             />
             <LinkField
-              endpointAll="/api/users?all=true"
+              endpointAll='/api/users?all=true'
               endpointLinked={`/api/users?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="managedUserId"
+              keyBase='userId'
+              keyLink='managedUserId'
               label={t('settingsUsers')}
             />
             <LinkField
-              endpointAll="/api/attributes/computed?all=true"
+              endpointAll='/api/attributes/computed?all=true'
               endpointLinked={`/api/attributes/computed?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="attributeId"
+              keyBase='userId'
+              keyLink='attributeId'
               titleGetter={(it) => it.description}
               label={t('sharedComputedAttributes')}
             />
             <LinkField
-              endpointAll="/api/drivers?all=true"
+              endpointAll='/api/drivers?all=true'
               endpointLinked={`/api/drivers?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="driverId"
+              keyBase='userId'
+              keyLink='driverId'
               titleGetter={(it) => `${it.name} (${it.uniqueId})`}
               label={t('sharedDrivers')}
             />
             <LinkField
-              endpointAll="/api/commands?all=true"
+              endpointAll='/api/commands?all=true'
               endpointLinked={`/api/commands?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="commandId"
+              keyBase='userId'
+              keyLink='commandId'
               titleGetter={(it) => it.description}
               label={t('sharedSavedCommands')}
             />
             <LinkField
-              endpointAll="/api/maintenance?all=true"
+              endpointAll='/api/maintenance?all=true'
               endpointLinked={`/api/maintenance?userId=${id}`}
               baseId={id}
-              keyBase="userId"
-              keyLink="maintenanceId"
+              keyBase='userId'
+              keyLink='maintenanceId'
               label={t('sharedMaintenance')}
             />
           </AccordionDetails>

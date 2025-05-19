@@ -35,7 +35,7 @@ const GroupsPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/groups');
+      const response = await fetch('/api/organization');
       if (response.ok) {
         setItems(await response.json());
       } else {
@@ -46,19 +46,19 @@ const GroupsPage = () => {
     }
   }, [timestamp]);
 
-  const actionCommand = {
-    key: 'command',
-    title: t('deviceCommand'),
-    icon: <PublishIcon fontSize='small' />,
-    handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
-  };
+  // const actionCommand = {
+  //   key: 'command',
+  //   title: t('deviceCommand'),
+  //   icon: <PublishIcon fontSize='small' />,
+  //   handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
+  // };
 
-  const actionConnections = {
-    key: 'connections',
-    title: t('sharedConnections'),
-    icon: <LinkIcon fontSize='small' />,
-    handler: (groupId) => navigate(`/settings/group/${groupId}/connections`),
-  };
+  // const actionConnections = {
+  //   key: 'connections',
+  //   title: t('sharedConnections'),
+  //   icon: <LinkIcon fontSize='small' />,
+  //   handler: (groupId) => navigate(`/settings/group/${groupId}/connections`),
+  // };
 
   return (
     <PageLayout
@@ -81,14 +81,14 @@ const GroupsPage = () => {
                 <TableCell className={classes.columnAction} padding='none'>
                   <CollectionActions
                     itemId={item.id}
-                    editPath='/settings/group'
-                    endpoint='groups'
+                    editPath='/settings/organization'
+                    endpoint='organizations'
                     setTimestamp={setTimestamp}
-                    customActions={
-                      limitCommands
-                        ? [actionConnections]
-                        : [actionConnections, actionCommand]
-                    }
+                    // customActions={
+                    //   limitCommands
+                    //     ? [actionConnections]
+                    //     : [actionConnections, actionCommand]
+                    // }
                   />
                 </TableCell>
               </TableRow>
@@ -98,7 +98,7 @@ const GroupsPage = () => {
           )}
         </TableBody>
       </Table>
-      <CollectionFab editPath='/settings/group' />
+      <CollectionFab editPath='/settings/organization' />
     </PageLayout>
   );
 };

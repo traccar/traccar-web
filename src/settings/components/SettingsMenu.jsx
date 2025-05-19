@@ -84,8 +84,8 @@ const SettingsMenu = () => {
             )}
             {!features.disableOrganization && (
               <MenuItem
-                title='Organization'
-                link='/settings/organization'
+                title='Organizations'
+                link='/settings/organizations'
                 icon={<CorporateFareIcon />}
                 selected={location.pathname.startsWith(
                   '/settings/organization'

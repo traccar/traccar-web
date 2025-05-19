@@ -12,7 +12,8 @@ import NotificationsPage from './settings/NotificationsPage';
 import NotificationPage from './settings/NotificationPage';
 import GroupsPage from './settings/GroupsPage';
 import GroupPage from './settings/GroupPage';
-import OrganizationPage from './settings/Organization';
+import OrganizationsPage from './settings/OrganizationsPage';
+import OrganizationPage from './settings/OrganizationPage';
 import PositionPage from './other/PositionPage';
 import NetworkPage from './other/NetworkPage';
 import EventReportPage from './reports/EventReportPage';
@@ -151,7 +152,11 @@ const Navigation = () => {
           <Route path='group/:id/command' element={<CommandGroupPage />} />
           <Route path='group/:id' element={<GroupPage />} />
           <Route path='group' element={<GroupPage />} />
+
+          <Route path='organizations' element={<OrganizationsPage />} />
+          <Route path='organization/:id' element={<OrganizationPage />} />
           <Route path='organization' element={<OrganizationPage />} />
+
           <Route path='maintenances' element={<MaintenancesPage />} />
           <Route path='maintenance/:id' element={<MaintenancePage />} />
           <Route path='maintenance' element={<MaintenancePage />} />
