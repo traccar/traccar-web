@@ -64,6 +64,7 @@ const LoginPage = () => {
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+  const [showServerTooltip, setShowServerTooltip] = useState(false);
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
   const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
@@ -124,6 +125,13 @@ const LoginPage = () => {
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
 
+  useEffect(() => {
+    if (window.localStorage.getItem('hostname') !== window.location.hostname) {
+      window.localStorage.setItem('hostname', window.location.hostname);
+      setShowServerTooltip(true);
+    }
+  }, []);
+
   if (openIdForced) {
     handleOpenIdLogin();
     return (<Loader />);
@@ -133,11 +141,15 @@ const LoginPage = () => {
     <LoginLayout>
       <div className={classes.options}>
         {nativeEnvironment && changeEnabled && (
-          <Tooltip title={t('settingsServer')}>
-            <IconButton color="primary" onClick={() => navigate('/change-server')}>
+          <IconButton color="primary" onClick={() => navigate('/change-server')}>
+            <Tooltip
+              title={`${t('settingsServer')}: ${window.location.hostname}`}
+              open={showServerTooltip}
+              arrow
+            >
               <VpnLockIcon />
-            </IconButton>
-          </Tooltip>
+            </Tooltip>
+          </IconButton>
         )}
         {languageEnabled && (
           <FormControl>
