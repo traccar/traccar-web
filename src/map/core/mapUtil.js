@@ -80,6 +80,8 @@ export const geofenceToFeature = (theme, item) => {
     properties: {
       name: item.name,
       color: item.attributes.color || theme.palette.geometry.main,
+      width: item.attributes.mapLineWidth || 2,
+      opacity: item.attributes.mapLineOpacity || 1,
     },
   };
 };

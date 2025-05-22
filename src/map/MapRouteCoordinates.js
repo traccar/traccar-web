@@ -3,6 +3,7 @@ import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import { findFonts } from './core/mapUtil';
+import { useAttributePreference } from '../common/util/preferences';
 
 const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
   const id = useId();
@@ -19,6 +20,9 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
     }
     return theme.palette.geometry.main;
   });
+
+  const mapLineWidth = useAttributePreference('mapLineWidth', 2);
+  const mapLineOpacity = useAttributePreference('mapLineOpacity', 1);
 
   useEffect(() => {
     map.addSource(id, {
@@ -41,7 +45,8 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
       },
       paint: {
         'line-color': ['get', 'color'],
-        'line-width': 2,
+        'line-width': ['get', 'width'],
+        'line-opacity': ['get', 'opacity'],
       },
     });
     map.addLayer({
@@ -82,6 +87,8 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
       properties: {
         name,
         color: reportColor,
+        width: mapLineWidth,
+        opacity: mapLineOpacity,
       },
     });
   }, [theme, coordinates, reportColor]);

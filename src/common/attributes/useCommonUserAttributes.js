@@ -125,6 +125,14 @@ export default (t) => useMemo(() => ({
     name: t('attributeWebLiveRouteLength'),
     type: 'number',
   },
+  mapLineWidth: {
+    name: t('attributeMapLineWidth'),
+    type: 'number',
+  },
+  mapLineOpacity: {
+    name: t('attributeMapLineOpacity'),
+    type: 'number',
+  },
   'web.selectZoom': {
     name: t('attributeWebSelectZoom'),
     type: 'number',
