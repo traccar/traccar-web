@@ -336,9 +336,10 @@ const UserPage = () => {
                 label={t('mapPoiLayer')}
               />
               {admin && (
-                <TextField
+                <SelectField
                   value={item.organizationId || ''}
                   onChange={(e) => setItem({ ...item, organizationId: e.target.value })}
+                  endpoint="/api/organization"
                   label="Organization"
                 />
               )}
