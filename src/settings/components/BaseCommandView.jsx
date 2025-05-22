@@ -86,8 +86,24 @@ const BaseCommandView = ({ deviceId, item, setItem }) => {
       })}
       {textEnabled && (
         <FormControlLabel
-          control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
+          control={(
+            <Checkbox
+              checked={item.textChannel}
+              onChange={(e) => setItem({ ...item, textChannel: e.target.checked })}
+            />
+          )}
           label={t('commandSendSms')}
+        />
+      )}
+      {!item.textChannel && (
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={item.attributes?.noQueue}
+              onChange={(e) => setItem({ ...item, attributes: { ...item?.attributes, noQueue: e.target.checked } })}
+            />
+          )}
+          label={t('commandNoQueue')}
         />
       )}
     </>

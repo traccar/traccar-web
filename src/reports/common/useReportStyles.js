@@ -46,4 +46,10 @@ export default makeStyles((theme) => ({
     flexGrow: 1,
     overflow: 'hidden',
   },
+  actionCellPadding: {
+    '&.MuiTableCell-body': {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+  },
 }));
