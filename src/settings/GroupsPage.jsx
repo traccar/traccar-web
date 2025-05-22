@@ -49,14 +49,14 @@ const GroupsPage = () => {
   const actionCommand = {
     key: 'command',
     title: t('deviceCommand'),
-    icon: <PublishIcon fontSize='small' />,
+    icon: <PublishIcon fontSize="small" />,
     handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
   };
 
   const actionConnections = {
     key: 'connections',
     title: t('sharedConnections'),
-    icon: <LinkIcon fontSize='small' />,
+    icon: <LinkIcon fontSize="small" />,
     handler: (groupId) => navigate(`/settings/group/${groupId}/connections`),
   };
 
@@ -78,11 +78,11 @@ const GroupsPage = () => {
             items.filter(filterByKeyword(searchKeyword)).map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell className={classes.columnAction} padding='none'>
+                <TableCell className={classes.columnAction} padding="none">
                   <CollectionActions
                     itemId={item.id}
-                    editPath='/settings/group'
-                    endpoint='groups'
+                    editPath="/settings/group"
+                    endpoint="groups"
                     setTimestamp={setTimestamp}
                     customActions={
                       limitCommands
@@ -98,7 +98,7 @@ const GroupsPage = () => {
           )}
         </TableBody>
       </Table>
-      <CollectionFab editPath='/settings/group' />
+      <CollectionFab editPath="/settings/group" />
     </PageLayout>
   );
 };

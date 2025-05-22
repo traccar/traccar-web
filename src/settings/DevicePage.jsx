@@ -144,8 +144,8 @@ const DevicePage = () => {
               />
               {admin && (
                 <SelectField
-                  value={item.organization || ''}
-                  onChange={(event) => setItem({ ...item, organization: event.target.value })}
+                  value={item.organizationId || ''}
+                  onChange={(event) => setItem({ ...item, organizationId: event.target.value })}
                   endpoint="/api/organization"
                   label="Organization"
                 />

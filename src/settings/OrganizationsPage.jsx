@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableRow,
@@ -7,8 +6,6 @@ import {
   TableHead,
   TableBody,
 } from '@mui/material';
-import LinkIcon from '@mui/icons-material/Link';
-import PublishIcon from '@mui/icons-material/Publish';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -17,15 +14,11 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const GroupsPage = () => {
   const classes = useSettingsStyles();
-  const navigate = useNavigate();
   const t = useTranslation();
-
-  const limitCommands = useRestriction('limitCommands');
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -78,11 +71,11 @@ const GroupsPage = () => {
             items.filter(filterByKeyword(searchKeyword)).map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
-                <TableCell className={classes.columnAction} padding='none'>
+                <TableCell className={classes.columnAction} padding="none">
                   <CollectionActions
                     itemId={item.id}
-                    editPath='/settings/organization'
-                    endpoint='organization'
+                    editPath="/settings/organization"
+                    endpoint="organization"
                     setTimestamp={setTimestamp}
                     // customActions={
                     //   limitCommands
@@ -98,7 +91,7 @@ const GroupsPage = () => {
           )}
         </TableBody>
       </Table>
-      <CollectionFab editPath='/settings/organization' />
+      <CollectionFab editPath="/settings/organization" />
     </PageLayout>
   );
 };

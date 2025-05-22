@@ -31,7 +31,7 @@ const OrganizationPage = () => {
   const [item, setItem] = useState();
 
   const onItemSaved = useCatch(async () => {
-    const response = await fetch('/api/organization');
+    const response = await fetch('/api/groups');
     if (response.ok) {
       dispatch(groupsActions.refresh(await response.json()));
     } else {
@@ -43,7 +43,7 @@ const OrganizationPage = () => {
 
   return (
     <EditItemView
-      endpoint="organization"
+      endpoint="groups"
       item={item}
       setItem={setItem}
       validate={validate}
@@ -73,7 +73,7 @@ const OrganizationPage = () => {
               <SelectField
                 value={item.groupId}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
-                endpoint="/api/organization"
+                endpoint="/api/groups"
                 label={t('groupParent')}
               />
             </AccordionDetails>
