@@ -620,7 +620,13 @@
 	"categoryCubetruck": "Cube Truck",
 	"categoryShuttlebus": "Shuttle Bus",
 	"categorySpecialtyvehicle": "Specialty Vehicle",
-
+	"commandNoQueue": "No queue",
+  "attributeMapLineOpacity": "Map Line Opacity",
+	"attributeMapLineWidth": "Map Line Width",
+  "positionEngineTemp": "Engine Temperature",
+  "positionFuelUsed": "Fuel Used",
+  "sharedSaved": "Saved",
+  
 	"maintenanceStart": "Start",
 	"maintenancePeriod": "Period",
 	"eventDeviceTollRouteEnter": "Toll Route entered",

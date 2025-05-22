@@ -33,12 +33,12 @@ const ChartReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState(['speed']);
-  const [type, setType] = useState('speed');
+  const [selectedTypes, setSelectedTypes] = useState(['speed']);
   const [timeType, setTimeType] = useState('fixTime');
 
-  const values = items.map((it) => it[type]);
-  const minValue = Math.min(...values);
-  const maxValue = Math.max(...values);
+  const values = items.map((it) => selectedTypes.map((type) => it[type]).filter((value) => value != null));
+  const minValue = values.length ? Math.min(...values) : 0;
+  const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
 
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
@@ -98,10 +98,15 @@ const ChartReportPage = () => {
     }
   });
 
-  // const DownSample = (data, maxPoints) => {
-  //   const factor = Math.ceil(data.length / maxPoints); // Determine downsampling factor
-  //   return data.filter((_, index) => index % factor === 0);
-  // };
+  const colorPalette = [
+    theme.palette.primary.main,
+    theme.palette.secondary.main,
+    theme.palette.error.main,
+    theme.palette.warning.main,
+    theme.palette.info.main,
+    theme.palette.success.main,
+    theme.palette.text.secondary,
+  ];
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
@@ -111,8 +116,10 @@ const ChartReportPage = () => {
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select
               label={t('reportChartType')}
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={selectedTypes}
+              onChange={(e) => setSelectedTypes(e.target.value)}
+              multiple
+              renderValue={(selected) => selected.join(', ')}
               disabled={!items.length}
             >
               {types.map((key) => (
@@ -141,28 +148,18 @@ const ChartReportPage = () => {
         <div className={classes.chart}>
           <ResponsiveContainer>
             <LineChart
-              data={items.slice(0, 10)}
+              data={items}
               margin={{
                 top: 10, right: 40, left: 0, bottom: 10,
               }}
             >
-              {/* <XAxis
+              <XAxis
                 stroke={theme.palette.text.primary}
                 dataKey={timeType}
                 type="number"
                 tickFormatter={(value) => formatTime(value, 'time')}
                 domain={['dataMin', 'dataMax']}
                 scale="time"
-                tickCount={5}
-              /> */}
-              <XAxis
-                dataKey={timeType}
-                type="number"
-                tickFormatter={(value) => formatTime(value, 'time')}
-                domain={['dataMin', 'dataMax']}
-                scale="time"
-                tickCount={5}
-                interval="preserveStartEnd"
               />
               <YAxis
                 stroke={theme.palette.text.primary}
@@ -182,13 +179,16 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 tickFormatter={() => ''}
               />
-              <Line
-                type="monotone"
-                dataKey={type}
-                stroke={theme.palette.primary.main}
-                dot={false}
-                activeDot={{ r: 6 }}
-              />
+              {selectedTypes.map((type, index) => (
+                <Line
+                  type="monotone"
+                  dataKey={type}
+                  stroke={colorPalette[index % colorPalette.length]}
+                  dot={false}
+                  activeDot={{ r: 6 }}
+                  connectNulls
+                />
+              ))}
             </LineChart>
           </ResponsiveContainer>
         </div>
