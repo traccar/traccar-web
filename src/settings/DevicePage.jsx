@@ -130,10 +130,8 @@ const DevicePage = () => {
                 onChange={(event) => setItem({ ...item, category: event.target.value })}
                 data={deviceCategories.map((category) => ({
                   id: category,
-                  name: t(
-                    `category${category.replace(/^\w/, (c) => c.toUpperCase())}`,
-                  ),
-                }))}
+                  name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
+                })).sort((a, b) => a.name.localeCompare(b.name))}
                 label={t('deviceCategory')}
               />
               <SelectField
@@ -144,8 +142,8 @@ const DevicePage = () => {
               />
               {admin && (
                 <SelectField
-                  value={item.organization || ''}
-                  onChange={(event) => setItem({ ...item, organization: event.target.value })}
+                  value={item.organizationId || ''}
+                  onChange={(event) => setItem({ ...item, organizationId: event.target.value })}
                   endpoint="/api/organization"
                   label="Organization"
                 />
