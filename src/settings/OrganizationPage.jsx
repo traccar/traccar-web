@@ -67,7 +67,7 @@ const OrganizationPage = () => {
               />
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          {/* <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography variant='subtitle1'>{t('sharedExtra')}</Typography>
             </AccordionSummary>
@@ -81,7 +81,7 @@ const OrganizationPage = () => {
                 label={t('organizationParent')}
               />
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           <EditAttributesAccordion
             attributes={item.attributes}
             setAttributes={(attributes) => setItem({ ...item, attributes })}
