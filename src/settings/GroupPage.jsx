@@ -3,7 +3,10 @@ import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
@@ -40,7 +43,7 @@ const GroupPage = () => {
 
   return (
     <EditItemView
-      endpoint="groups"
+      endpoint='groups'
       item={item}
       setItem={setItem}
       validate={validate}
@@ -52,29 +55,29 @@ const GroupPage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant='subtitle1'>{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
                 value={item.name || ''}
-                onChange={(event) => setItem({ ...item, name: event.target.value })}
+                onChange={(event) =>
+                  setItem({ ...item, name: event.target.value })
+                }
                 label={t('sharedName')}
               />
             </AccordionDetails>
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedExtra')}
-              </Typography>
+              <Typography variant='subtitle1'>{t('sharedExtra')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
                 value={item.groupId}
-                onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
-                endpoint="/api/groups"
+                onChange={(event) =>
+                  setItem({ ...item, groupId: Number(event.target.value) })
+                }
+                endpoint='/api/groups'
                 label={t('groupParent')}
               />
             </AccordionDetails>
