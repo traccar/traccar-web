@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
@@ -19,18 +19,30 @@ const SocketController = () => {
   const t = useTranslation();
 
   const authenticated = useSelector((state) => !!state.session.user);
-  const devices = useSelector((state) => state.devices.items);
   const includeLogs = useSelector((state) => state.session.includeLogs);
 
   const socketRef = useRef();
 
-  const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
 
   const soundEvents = useAttributePreference('soundEvents', '');
   const soundAlarms = useAttributePreference('soundAlarms', 'sos');
 
   const features = useFeatures();
+
+  const handleEvents = useCallback((events) => {
+    if (!features.disableEvents) {
+      dispatch(eventsActions.add(events));
+    }
+    if (events.some(e => soundEvents.includes(e.type) || (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)))) {
+      new Audio(alarm).play();
+    }
+    setNotifications(events.map((event) => ({
+      id: event.id,
+      message: event.attributes.message,
+      show: true,
+    })));
+  }, [features, dispatch, soundEvents, soundAlarms, setNotifications]);
 
   const connectSocket = () => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -72,10 +84,7 @@ const SocketController = () => {
         dispatch(sessionActions.updatePositions(data.positions));
       }
       if (data.events) {
-        if (!features.disableEvents) {
-          dispatch(eventsActions.add(data.events));
-        }
-        setEvents(data.events);
+        handleEvents(data.events);
       }
       if (data.logs) {
         dispatch(sessionActions.updateLogs(data.logs));
@@ -106,22 +115,6 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  useEffect(() => {
-    setNotifications(events.map((event) => ({
-      id: event.id,
-      message: event.attributes.message,
-      show: true,
-    })));
-  }, [events, devices, t]);
-
-  useEffect(() => {
-    events.forEach((event) => {
-      if (soundEvents.includes(event.type) || (event.type === 'alarm' && soundAlarms.includes(event.attributes.alarm))) {
-        new Audio(alarm).play();
-      }
-    });
-  }, [events, soundEvents, soundAlarms]);
-
   return (
     <>
       {notifications.map((notification) => (
@@ -130,7 +123,7 @@ const SocketController = () => {
           open={notification.show}
           message={notification.message}
           autoHideDuration={snackBarDurationLongMs}
-          onClose={() => setEvents(events.filter((e) => e.id !== notification.id))}
+          onClose={() => setNotifications(notifications.filter((e) => e.id !== notification.id))}
         />
       ))}
     </>
