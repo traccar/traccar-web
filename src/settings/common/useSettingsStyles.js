@@ -6,7 +6,7 @@ export default makeStyles()((theme) => ({
   },
   columnAction: {
     width: '1%',
-    paddingRight: theme.spacing(1),
+    paddingInlineEnd: theme.spacing(1),
   },
   container: {
     marginTop: theme.spacing(2),
