@@ -18,6 +18,7 @@ const useStyles = makeStyles()((theme) => ({
   toolbar: {
     display: 'flex',
     gap: theme.spacing(1),
+    flexDirection: theme.direction === 'rtl' ? 'row-reverse' : 'row',
   },
   filterPanel: {
     display: 'flex',
