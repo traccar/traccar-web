@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mapbox/mapbox-gl-draw": "^1.5.0",
@@ -30,6 +31,8 @@
     "react-virtualized-auto-sizer": "^1.0.26",
     "react-window": "^1.8.11",
     "recharts": "^2.15.3",
+    "stylis": "^4.3.6",
+    "stylis-plugin-rtl": "^2.1.1",
     "tss-react": "^4.9.18",
     "vite": "^6.3.5",
     "vite-plugin-pwa": "^1.0.0",
