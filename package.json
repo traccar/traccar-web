@@ -45,8 +45,7 @@
   },
   "browserslist": {
     "production": [
-      "defaults",
-      "not ie 11"
+      "defaults"
     ],
     "development": [
       "last 1 chrome version",
