@@ -55,14 +55,11 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBlockStart: theme.spacing(1),
-    paddingBlockEnd: 0,
-    paddingInlineStart: theme.spacing(2),
-    paddingInlineEnd: theme.spacing(1),
+    padding: theme.spacing(1, 1, 0, 2),
   },
   content: {
-    paddingBlockStart: theme.spacing(1),
-    paddingBlockEnd: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
   },
@@ -73,11 +70,11 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   },
   table: {
     '& .MuiTableCell-sizeSmall': {
-      paddingInlineStart: 0,
-      paddingInlineEnd: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
     },
     '& .MuiTableCell-sizeSmall:first-of-type': {
-      paddingInlineEnd: theme.spacing(1),
+      paddingRight: theme.spacing(1),
     },
   },
   cell: {
@@ -90,14 +87,14 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     pointerEvents: 'none',
     position: 'fixed',
     zIndex: 5,
-    insetInlineStart: '50%',
+    left: '50%',
     [theme.breakpoints.up('md')]: {
-      insetInlineStart: `calc(50% + ${desktopPadding} / 2)`,
-      insetBlockEnd: theme.spacing(3),
+      left: `calc(50% + ${desktopPadding} / 2)`,
+      bottom: theme.spacing(3),
     },
     [theme.breakpoints.down('md')]: {
-      insetInlineStart: '50%',
-      insetBlockEnd: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+      left: '50%',
+      bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
     },
     transform: 'translateX(-50%)',
   },
