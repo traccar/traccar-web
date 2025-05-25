@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import {
   IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton,
-  Typography,
 } from '@mui/material';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
@@ -92,15 +91,9 @@ const DeviceRow = ({ data, index, style }) => {
         </ListItemAvatar>
         <ListItemText
           primary={item[devicePrimary]}
+          primaryTypographyProps={{ noWrap: true }}
           secondary={secondaryText()}
-          slots={{
-            primary: Typography,
-            secondary: Typography,
-          }}
-          slotProps={{
-            primary: { noWrap: true },
-            secondary: { noWrap: true },
-          }}
+          secondaryTypographyProps={{ noWrap: true }}
         />
         {position && (
           <>

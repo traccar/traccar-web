@@ -24,7 +24,7 @@ const useStyles = makeStyles()((theme) => ({
   options: {
     position: 'fixed',
     top: theme.spacing(2),
-    insetInlineEnd: theme.spacing(2),
+    right: theme.spacing(2),
     display: 'flex',
     flexDirection: 'row',
     gap: theme.spacing(1),
