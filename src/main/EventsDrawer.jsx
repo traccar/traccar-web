@@ -64,7 +64,13 @@ const EventsDrawer = ({ open, onClose }) => {
               primary={`${devices[event.deviceId]?.name} • ${formatType(event)}`}
               secondary={formatTime(event.eventTime, 'seconds')}
             />
-            <IconButton size="small" onClick={() => dispatch(eventsActions.delete(event))}>
+            <IconButton
+              size="small"
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(eventsActions.delete(event));
+              }}
+            >
               <DeleteIcon fontSize="small" className={classes.delete} />
             </IconButton>
           </ListItemButton>
