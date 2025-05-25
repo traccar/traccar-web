@@ -5,12 +5,13 @@ import { useDispatch, useSelector, connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
 import { devicesActions, sessionActions } from './store';
-import { useEffectAsync } from './reactHelper';
+import { useCatchCallback, useEffectAsync } from './reactHelper';
 import { snackBarDurationLongMs } from './common/util/duration';
 import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
 import { useAttributePreference } from './common/util/preferences';
+import { handleNativeNotificationListeners } from './common/components/NativeInterface';
 
 const logoutCode = 4000;
 
@@ -114,6 +115,27 @@ const SocketController = () => {
     }
     return null;
   }, [authenticated]);
+
+  const handleNativeNotification = useCatchCallback(async (message) => {
+    const eventId = message.data.eventId;
+    if (eventId) {
+      const response = await fetch(`/api/events/${eventId}`);
+      if (response.ok) {
+        const event = await response.json();
+        const eventWithMessage = {
+          ...event,
+          attributes: { ...event.attributes, message: message.notification.body },
+        };
+        handleEvents([eventWithMessage]);
+      }
+    }
+  }, [handleEvents]);
+
+  useEffect(() => {
+    const listener = handleNativeNotification;
+    handleNativeNotificationListeners.add(listener);
+    return () => handleNativeNotificationListeners.delete(listener);
+  }, [handleNativeNotification]);
 
   return (
     <>

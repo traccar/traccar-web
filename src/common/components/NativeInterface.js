@@ -44,6 +44,11 @@ window.updateNotificationToken = (token) => {
   updateNotificationTokenListeners.forEach((listener) => listener(token));
 };
 
+export const handleNativeNotificationListeners = new Set();
+window.handleNativeNotification = (message) => {
+  handleNativeNotificationListeners.forEach((listener) => listener(message));
+};
+
 const NativeInterface = () => {
   const dispatch = useDispatch();
 
