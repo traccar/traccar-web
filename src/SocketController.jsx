@@ -1,5 +1,5 @@
 import {
- useCallback, useEffect, useRef, useState 
+ useCallback, useEffect, useRef, useState
 } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -66,6 +66,10 @@ const SocketController = () => {
           if (positionsResponse.ok) {
             dispatch(sessionActions.updatePositions(await positionsResponse.json()));
           }
+          const convertedPositionsResponse = await fetch('/api/convertedPositions');
+          if (convertedPositionsResponse.ok) {
+            dispatch(sessionActions.updateConvertedPositions(await convertedPositionsResponse.json()));
+          }
           if (devicesResponse.status === 401 || positionsResponse.status === 401) {
             navigate('/login');
           }
@@ -83,6 +87,9 @@ const SocketController = () => {
       }
       if (data.positions) {
         dispatch(sessionActions.updatePositions(data.positions));
+      }
+      if (data.convertedPositions) {
+        dispatch(sessionActions.updateConvertedPositions(data.convertedPositions));
       }
       if (data.events) {
         handleEvents(data.events);

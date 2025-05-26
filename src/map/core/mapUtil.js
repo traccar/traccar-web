@@ -1,5 +1,7 @@
 import { parse, stringify } from 'wellknown';
 import circle from '@turf/circle';
+import usePersistedState from "../../common/util/usePersistedState.js";
+import { usePreference } from "../../common/util/preferences.js";
 
 export const loadImage = (url) => new Promise((imageLoaded) => {
   const image = new Image();
@@ -95,3 +97,17 @@ export const findFonts = (map) => {
   }
   return ['Open Sans Regular', 'Arial Unicode MS Regular'];
 };
+
+export const useSelectedMapStyle = () => {
+  const [selectedMapStyle] = usePersistedState('selectedMapStyle', usePreference('map', 'locationIqStreets'));
+  console.log("selectedMapStyle hook: ", selectedMapStyle)
+  return [selectedMapStyle];
+};
+
+export const getCoordinateWithMapStyle = (position, convertedPosition, mapStyle) => {
+  if (mapStyle in convertedPosition) {
+    return [convertedPosition[mapStyle].longitude, convertedPosition[mapStyle].latitude];
+  } else {
+    return [position.longitude, position.latitude];
+  }
+}

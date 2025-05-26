@@ -7,10 +7,11 @@ import React, {
   useRef, useLayoutEffect, useEffect, useState,
 } from 'react';
 import { SwitcherControl } from '../switcher/switcher';
-import { useAttributePreference, usePreference } from '../../common/util/preferences';
-import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
+import { useAttributePreference } from '../../common/util/preferences';
+import  { savePersistedState } from '../../common/util/usePersistedState';
 import { mapImages } from './preloadImages';
 import useMapStyles from './useMapStyles';
+import { useSelectedMapStyle } from "./mapUtil.js";
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -81,7 +82,7 @@ const MapView = ({ children }) => {
 
   const mapStyles = useMapStyles();
   const activeMapStyles = useAttributePreference('activeMapStyles', 'locationIqStreets,locationIqDark,openFreeMap');
-  const [defaultMapStyle] = usePersistedState('selectedMapStyle', usePreference('map', 'locationIqStreets'));
+  const [defaultMapStyle] = useSelectedMapStyle();
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const maxZoom = useAttributePreference('web.maxZoom');
 

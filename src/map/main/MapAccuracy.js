@@ -2,11 +2,14 @@ import { useId, useEffect } from 'react';
 import circle from '@turf/circle';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
+import { getCoordinateWithMapStyle, useSelectedMapStyle } from "../core/mapUtil.js";
 
-const MapAccuracy = ({ positions }) => {
+const MapAccuracy = ({ positions, convertedPositions }) => {
   const id = useId();
 
   const theme = useTheme();
+
+  const [selectedMapStyle] = useSelectedMapStyle();
 
   useEffect(() => {
     map.addSource(id, {
@@ -46,7 +49,8 @@ const MapAccuracy = ({ positions }) => {
       type: 'FeatureCollection',
       features: positions
         .filter((position) => position.accuracy > 0)
-        .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
+        .filter((position) => position.id in convertedPositions)
+        .map((position) => circle(getCoordinateWithMapStyle(position, convertedPositions[position.id], selectedMapStyle), position.accuracy * 0.001)),
     });
   }, [positions]);
 

@@ -27,6 +27,8 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
 
   const eventsAvailable = useSelector((state) => !!state.events.items.length);
 
+  const convertedPositions = useSelector((state) => state.session.convertedPositions);
+
   const features = useFeatures();
 
   const onMarkerClick = useCallback((_, deviceId) => {
@@ -38,10 +40,14 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
       <MapView>
         <MapOverlay />
         <MapGeofence />
-        <MapAccuracy positions={filteredPositions} />
+        <MapAccuracy
+            positions={filteredPositions}
+            convertedPositions={convertedPositions}
+        />
         <MapLiveRoutes />
         <MapPositions
           positions={filteredPositions}
+          convertedPositions={convertedPositions}
           onMarkerClick={onMarkerClick}
           selectedPosition={selectedPosition}
           showStatus

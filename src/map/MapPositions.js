@@ -7,9 +7,9 @@ import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
-import { findFonts } from './core/mapUtil';
+import { findFonts, getCoordinateWithMapStyle, useSelectedMapStyle } from './core/mapUtil';
 
-const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, selectedPosition, titleField }) => {
+const MapPositions = ({ positions, convertedPositions, onMapClick, onMarkerClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
   const selected = `${id}-selected`;
@@ -20,6 +20,8 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
 
   const devices = useSelector((state) => state.devices.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+
+  const [selectedMapStyle] = useSelectedMapStyle();
 
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
@@ -60,6 +62,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
   }, [onMapClick]);
 
   const onMarkerClickCallback = useCallback((event) => {
+    console.log("event: ", event)
     event.preventDefault();
     const feature = event.features[0];
     if (onMarkerClick) {
@@ -195,11 +198,12 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
         type: 'FeatureCollection',
         features: positions.filter((it) => devices.hasOwnProperty(it.deviceId))
           .filter((it) => (source === id ? it.deviceId !== selectedDeviceId : it.deviceId === selectedDeviceId))
+          .filter((it) => it.id in convertedPositions)
           .map((position) => ({
             type: 'Feature',
             geometry: {
               type: 'Point',
-              coordinates: [position.longitude, position.latitude],
+              coordinates: getCoordinateWithMapStyle(position, convertedPositions[position.id], selectedMapStyle),
             },
             properties: createFeature(devices, position, selectedPosition && selectedPosition.id),
           })),
