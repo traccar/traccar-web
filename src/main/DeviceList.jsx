@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { useTheme } from '@mui/material/styles';
 import { devicesActions } from '../store';
 import { useEffectAsync } from '../reactHelper';
 import DeviceRow from './DeviceRow';
@@ -17,14 +18,25 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
+const OuterElement = forwardRef(function OuterElement(props, ref) {
+  const theme = useTheme();
+  const { className, style, ...rest } = props;
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        ...style,
+        direction: theme.direction, 
+      }}
+      {...rest}
+    />
+  );
+});
+
 const DeviceList = ({ devices }) => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const listInnerEl = useRef(null);
-
-  if (listInnerEl.current) {
-    listInnerEl.current.className = classes.listInner;
-  }
 
   const [, setTime] = useState(Date.now());
 
@@ -54,7 +66,7 @@ const DeviceList = ({ devices }) => {
           itemData={devices}
           itemSize={72}
           overscanCount={10}
-          innerRef={listInnerEl}
+          outerElementType={OuterElement}
         >
           {DeviceRow}
         </FixedSizeList>
