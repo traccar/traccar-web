@@ -4,7 +4,6 @@ import {
   Typography, AppBar, Toolbar, IconButton,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -15,6 +14,7 @@ import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
 import MapScale from '../map/MapScale';
+import BackIcon from '../common/components/BackIcon';
 
 const useStyles = makeStyles()(() => ({
   root: {
@@ -82,7 +82,7 @@ const EventPage = () => {
       <AppBar color="inherit" position="static" className={classes.toolbar}>
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-            <ArrowBackIcon />
+            <BackIcon />
           </IconButton>
           <Typography variant="h6">{event && formatType(event)}</Typography>
         </Toolbar>

@@ -11,12 +11,12 @@ import {
   useTheme,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
+import BackIcon from './BackIcon';
 
 const useStyles = makeStyles()((theme, { miniVariant }) => ({
   desktopRoot: {
@@ -94,13 +94,13 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
           {!miniVariant && (
             <>
               <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-                <ArrowBackIcon />
+                <BackIcon />
               </IconButton>
               <PageTitle breadcrumbs={breadcrumbs} />
             </>
           )}
           <IconButton color="inherit" edge="start" sx={{ ml: miniVariant ? -2 : 'auto' }} onClick={toggleDrawer}>
-            {miniVariant ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {(miniVariant !== (theme.direction === 'rtl')) ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </Toolbar>
         <Divider />

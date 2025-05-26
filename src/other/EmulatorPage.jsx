@@ -7,7 +7,6 @@ import {
 import { makeStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import MapView from '../map/core/MapView';
 import MapCurrentLocation from '../map/MapCurrentLocation';
@@ -18,6 +17,7 @@ import { devicesActions } from '../store';
 import MapPositions from '../map/MapPositions';
 import { useCatch } from '../reactHelper';
 import MapScale from '../map/MapScale';
+import BackIcon from '../common/components/BackIcon';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -109,7 +109,7 @@ const EmulatorPage = () => {
         >
           <Toolbar>
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
-              <ArrowBackIcon />
+              <BackIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('sharedEmulator')}</Typography>
           </Toolbar>

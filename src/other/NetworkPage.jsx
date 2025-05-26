@@ -5,9 +5,9 @@ import {
   Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
+import BackIcon from '../common/components/BackIcon';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -62,7 +62,7 @@ const NetworkPage = () => {
       <AppBar position="sticky" color="inherit">
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
-            <ArrowBackIcon />
+            <BackIcon />
           </IconButton>
           <Typography variant="h6">
             {deviceName}

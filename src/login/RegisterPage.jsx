@@ -5,12 +5,12 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { sessionActions } from '../store';
+import BackIcon from '../common/components/BackIcon';
 
 const useStyles = makeStyles()((theme) => ({
   container: {
@@ -76,7 +76,7 @@ const RegisterPage = () => {
         <div className={classes.header}>
           {!server.newServer && (
             <IconButton color="primary" onClick={() => navigate('/login')}>
-              <ArrowBackIcon />
+              <BackIcon />
             </IconButton>
           )}
           <Typography className={classes.title} color="primary">
