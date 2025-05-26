@@ -1,4 +1,5 @@
 import { useId, useCallback, useEffect } from 'react';
+import { useTheme } from '@mui/material';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
 import { findFonts } from './core/mapUtil';
@@ -8,6 +9,7 @@ import { useAttributePreference } from '../common/util/preferences';
 
 const MapRoutePoints = ({ positions, onClick }) => {
   const id = useId();
+  const theme = useTheme();
   const t = useTranslation();
   const speedUnit = useAttributePreference('speedUnit');
 
@@ -68,7 +70,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
 
     const control = new SpeedLegendControl(positions, speedUnit, t, maxSpeed, minSpeed);
-    map.addControl(control, 'bottom-left');
+    map.addControl(control, theme.direction === 'rtl' ? 'bottom-right' : 'bottom-left');
 
     map.getSource(id)?.setData({
       type: 'FeatureCollection',

@@ -5,7 +5,9 @@ import maplibregl from 'maplibre-gl';
 import { googleProtocol } from 'maplibre-google-maps';
 import React, {
   useRef, useLayoutEffect, useEffect, useState,
+  useMemo,
 } from 'react';
+import { useTheme } from '@mui/material';
 import { SwitcherControl } from '../switcher/switcher';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
 import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
@@ -22,6 +24,7 @@ maplibregl.addProtocol('google', googleProtocol);
 
 export const map = new maplibregl.Map({
   container: element,
+  attributionControl: false,
 });
 
 let ready = false;
@@ -52,29 +55,9 @@ const initMap = async () => {
   }
 };
 
-map.addControl(new maplibregl.NavigationControl());
-
-const switcher = new SwitcherControl(
-  () => updateReadyValue(false),
-  (styleId) => savePersistedState('selectedMapStyle', styleId),
-  () => {
-    map.once('styledata', () => {
-      const waiting = () => {
-        if (!map.loaded()) {
-          setTimeout(waiting, 33);
-        } else {
-          initMap();
-          updateReadyValue(true);
-        }
-      };
-      waiting();
-    });
-  },
-);
-
-map.addControl(switcher);
-
 const MapView = ({ children }) => {
+  const theme = useTheme();
+
   const containerEl = useRef(null);
 
   const [mapReady, setMapReady] = useState(false);
@@ -84,6 +67,37 @@ const MapView = ({ children }) => {
   const [defaultMapStyle] = usePersistedState('selectedMapStyle', usePreference('map', 'locationIqStreets'));
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const maxZoom = useAttributePreference('web.maxZoom');
+
+  const switcher = useMemo(() => new SwitcherControl(
+    () => updateReadyValue(false),
+    (styleId) => savePersistedState('selectedMapStyle', styleId),
+    () => {
+      map.once('styledata', () => {
+        const waiting = () => {
+          if (!map.loaded()) {
+            setTimeout(waiting, 33);
+          } else {
+            initMap();
+            updateReadyValue(true);
+          }
+        };
+        waiting();
+      });
+    },
+  ), []);
+
+  useEffect(() => {
+    const attribution = new maplibregl.AttributionControl({ compact: true });
+    const navigation = new maplibregl.NavigationControl();
+    map.addControl(attribution, theme.direction === 'rtl' ? 'bottom-left' : 'bottom-right');
+    map.addControl(navigation, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    map.addControl(switcher, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    return () => {
+      map.removeControl(switcher);
+      map.removeControl(navigation);
+      map.removeControl(attribution);
+    }
+  }, []);
 
   useEffect(() => {
     if (maxZoom) {

@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { useTheme } from '@mui/material';
 import { map } from '../core/MapView';
 import './notification.css';
 
@@ -32,10 +33,11 @@ class NotificationControl {
 }
 
 const MapNotification = ({ enabled, onClick }) => {
+  const theme = useTheme();
   const control = useMemo(() => new NotificationControl(onClick), [onClick]);
 
   useEffect(() => {
-    map.addControl(control);
+    map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
   }, [onClick]);
 
