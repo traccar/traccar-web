@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
 
-const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
+const styleCustom = ({ tiles, scheme, minZoom, maxZoom, attribution }) => {
   const source = {
     type: 'raster',
     tiles,
     attribution,
+    scheme,
     tileSize: 256,
     minzoom: minZoom,
     maxzoom: maxZoom,
@@ -209,6 +210,17 @@ export default () => {
       title: t('mapAutoNavi'),
       style: styleCustom({
         tiles: [1, 2, 3, 4].map((i) => `https://webrd0${i}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}`),
+        minZoom: 3,
+        maxZoom: 18,
+      }),
+      available: true,
+    },
+    {
+      id: 'tencent',
+      title: t('mapTencent'),
+      style: styleCustom({
+        tiles: [0, 1, 2, 3].map((i) => `https://rt${i}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}`),
+        scheme: 'tms',
         minZoom: 3,
         maxZoom: 18,
       }),
