@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
-import mapboxglRtlTextUrl from '@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min?url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 import { googleProtocol } from 'maplibre-google-maps';
@@ -13,13 +11,13 @@ import { useAttributePreference, usePreference } from '../../common/util/prefere
 import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
 import { mapImages } from './preloadImages';
 import useMapStyles from './useMapStyles';
+import { useEffectAsync } from '../../reactHelper';
 
 const element = document.createElement('div');
 element.style.width = '100%';
 element.style.height = '100%';
 element.style.boxSizing = 'initial';
 
-maplibregl.setRTLTextPlugin(mapboxglRtlTextUrl);
 maplibregl.addProtocol('google', googleProtocol);
 
 export const map = new maplibregl.Map({
@@ -86,6 +84,13 @@ const MapView = ({ children }) => {
     },
   ), []);
 
+  useEffectAsync(async () => {
+    if (theme.direction === 'rtl') {
+      const module = await import('@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min?url');
+      maplibregl.setRTLTextPlugin(module.default);
+    }
+  }, [theme.direction]);
+
   useEffect(() => {
     const attribution = new maplibregl.AttributionControl({ compact: true });
     const navigation = new maplibregl.NavigationControl();
@@ -96,8 +101,8 @@ const MapView = ({ children }) => {
       map.removeControl(switcher);
       map.removeControl(navigation);
       map.removeControl(attribution);
-    }
-  }, []);
+    };
+  }, [theme.direction, switcher]);
 
   useEffect(() => {
     if (maxZoom) {
@@ -113,7 +118,7 @@ const MapView = ({ children }) => {
     const filteredStyles = mapStyles.filter((s) => s.available && activeMapStyles.includes(s.id));
     const styles = filteredStyles.length ? filteredStyles : mapStyles.filter((s) => s.id === 'osm');
     switcher.updateStyles(styles, defaultMapStyle);
-  }, [mapStyles, defaultMapStyle]);
+  }, [mapStyles, defaultMapStyle, activeMapStyles, switcher]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);
