@@ -7,9 +7,10 @@ import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
-import { findFonts, getCoordinateWithMapStyle, useSelectedMapStyle } from './core/mapUtil';
+import { findFonts, getCoordinateWithMapStyle, positionReadyToShow } from './core/mapUtil';
+import { useSelectedMapStyle } from "./MapStyleProvider.jsx";
 
-const MapPositions = ({ positions, convertedPositions, onMapClick, onMarkerClick, showStatus, selectedPosition, titleField }) => {
+const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
   const selected = `${id}-selected`;
@@ -198,12 +199,12 @@ const MapPositions = ({ positions, convertedPositions, onMapClick, onMarkerClick
         type: 'FeatureCollection',
         features: positions.filter((it) => devices.hasOwnProperty(it.deviceId))
           .filter((it) => (source === id ? it.deviceId !== selectedDeviceId : it.deviceId === selectedDeviceId))
-          .filter((it) => it.id in convertedPositions)
+          .filter((position) => positionReadyToShow(position, selectedMapStyle))
           .map((position) => ({
             type: 'Feature',
             geometry: {
               type: 'Point',
-              coordinates: getCoordinateWithMapStyle(position, convertedPositions[position.id], selectedMapStyle),
+              coordinates: getCoordinateWithMapStyle(position, selectedMapStyle),
             },
             properties: createFeature(devices, position, selectedPosition && selectedPosition.id),
           })),

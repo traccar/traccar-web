@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import dimensions from '../../common/theme/dimensions';
 import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
+import { getCoordinateWithMapStyle } from "../core/mapUtil.js";
+import { useSelectedMapStyle } from "../MapStyleProvider.jsx";
 
 const MapSelectedDevice = ({ mapReady }) => {
   const currentTime = useSelector((state) => state.devices.selectTime);
@@ -14,9 +16,20 @@ const MapSelectedDevice = ({ mapReady }) => {
   const selectZoom = useAttributePreference('web.selectZoom', 10);
   const mapFollow = useAttributePreference('mapFollow', false);
 
-  const position = useSelector((state) => state.session.positions[currentId]);
-
+  const originPosition = useSelector((state) => state.session.positions[currentId]);
+  const [position, setPosition] = useState(originPosition)
   const previousPosition = usePrevious(position);
+
+  const [selectedMapStyle] = useSelectedMapStyle();
+
+  useEffect(() => {
+    if (!currentId) return;
+    const convertedPosition = getCoordinateWithMapStyle(originPosition, selectedMapStyle);
+    setPosition({
+      longitude: convertedPosition[0],
+      latitude: convertedPosition[1],
+    });
+  }, [currentId, selectedMapStyle])
 
   useEffect(() => {
     if (!mapReady) return;
@@ -30,7 +43,7 @@ const MapSelectedDevice = ({ mapReady }) => {
         offset: [0, -dimensions.popupMapOffset / 2],
       });
     }
-  }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom, mapReady]);
+  }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom, mapReady, selectedMapStyle]);
 
   return null;
 };

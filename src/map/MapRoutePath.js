@@ -4,11 +4,15 @@ import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
 import { useAttributePreference } from '../common/util/preferences';
+import { useSelectedMapStyle } from "./MapStyleProvider.jsx";
+import { getCoordinateWithMapStyle } from "./core/mapUtil.js";
 
 const MapRoutePath = ({ positions }) => {
   const id = useId();
 
   const theme = useTheme();
+
+  const [selectedMapStyle] = useSelectedMapStyle();
 
   const reportColor = useSelector((state) => {
     const position = positions?.find(() => true);
@@ -68,11 +72,13 @@ const MapRoutePath = ({ positions }) => {
     const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);
     const features = [];
     for (let i = 0; i < positions.length - 1; i += 1) {
+      const currentPosition = getCoordinateWithMapStyle(positions[i], selectedMapStyle);
+      const nextPosition = getCoordinateWithMapStyle(positions[i + 1], selectedMapStyle);
       features.push({
         type: 'Feature',
         geometry: {
           type: 'LineString',
-          coordinates: [[positions[i].longitude, positions[i].latitude], [positions[i + 1].longitude, positions[i + 1].latitude]],
+          coordinates: [[currentPosition[0], currentPosition[1]], [nextPosition[0], nextPosition[1]]],
         },
         properties: {
           color: reportColor || getSpeedColor(

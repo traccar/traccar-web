@@ -8,10 +8,9 @@ import React, {
 } from 'react';
 import { SwitcherControl } from '../switcher/switcher';
 import { useAttributePreference } from '../../common/util/preferences';
-import  { savePersistedState } from '../../common/util/usePersistedState';
 import { mapImages } from './preloadImages';
 import useMapStyles from './useMapStyles';
-import { useSelectedMapStyle } from "./mapUtil.js";
+import { saveSelectedMapStyle, useSelectedMapStyle } from "../MapStyleProvider.jsx";
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -57,7 +56,7 @@ map.addControl(new maplibregl.NavigationControl());
 
 const switcher = new SwitcherControl(
   () => updateReadyValue(false),
-  (styleId) => savePersistedState('selectedMapStyle', styleId),
+  (styleId) => saveSelectedMapStyle(styleId),
   () => {
     map.once('styledata', () => {
       const waiting = () => {
@@ -82,7 +81,7 @@ const MapView = ({ children }) => {
 
   const mapStyles = useMapStyles();
   const activeMapStyles = useAttributePreference('activeMapStyles', 'locationIqStreets,locationIqDark,openFreeMap');
-  const [defaultMapStyle] = useSelectedMapStyle();
+  const [selectedMapStyle] = useSelectedMapStyle();
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const maxZoom = useAttributePreference('web.maxZoom');
 
@@ -99,8 +98,8 @@ const MapView = ({ children }) => {
   useEffect(() => {
     const filteredStyles = mapStyles.filter((s) => s.available && activeMapStyles.includes(s.id));
     const styles = filteredStyles.length ? filteredStyles : mapStyles.filter((s) => s.id === 'osm');
-    switcher.updateStyles(styles, defaultMapStyle);
-  }, [mapStyles, defaultMapStyle]);
+    switcher.updateStyles(styles, selectedMapStyle);
+  }, [mapStyles, selectedMapStyle]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);

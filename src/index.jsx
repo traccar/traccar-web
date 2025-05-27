@@ -11,6 +11,7 @@ import NativeInterface from './common/components/NativeInterface';
 import ServerProvider from './ServerProvider';
 import ErrorBoundary from './ErrorBoundary';
 import AppThemeProvider from './AppThemeProvider';
+import { MapStyleProvider } from "./map/MapStyleProvider.jsx";
 
 preloadImages();
 
@@ -20,16 +21,18 @@ root.render(
     <Provider store={store}>
       <LocalizationProvider>
         <StyledEngineProvider injectFirst>
-          <AppThemeProvider>
-            <CssBaseline />
-            <ServerProvider>
-              <BrowserRouter>
-                <Navigation />
-              </BrowserRouter>
-              <ErrorHandler />
-              <NativeInterface />
-            </ServerProvider>
-          </AppThemeProvider>
+            <AppThemeProvider>
+              <CssBaseline />
+              <ServerProvider>
+                <MapStyleProvider>
+                  <BrowserRouter>
+                    <Navigation />
+                  </BrowserRouter>
+                  <ErrorHandler />
+                  <NativeInterface />
+                </MapStyleProvider>
+              </ServerProvider>
+            </AppThemeProvider>
         </StyledEngineProvider>
       </LocalizationProvider>
     </Provider>

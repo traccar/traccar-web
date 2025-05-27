@@ -1,7 +1,5 @@
 import { parse, stringify } from 'wellknown';
 import circle from '@turf/circle';
-import usePersistedState from "../../common/util/usePersistedState.js";
-import { usePreference } from "../../common/util/preferences.js";
 
 export const loadImage = (url) => new Promise((imageLoaded) => {
   const image = new Image();
@@ -98,16 +96,20 @@ export const findFonts = (map) => {
   return ['Open Sans Regular', 'Arial Unicode MS Regular'];
 };
 
-export const useSelectedMapStyle = () => {
-  const [selectedMapStyle] = usePersistedState('selectedMapStyle', usePreference('map', 'locationIqStreets'));
-  console.log("selectedMapStyle hook: ", selectedMapStyle)
-  return [selectedMapStyle];
-};
+export const positionReadyToShow = (position, mapStyle) => {
+  console.log("[positionReadyToShow] position:", position);
+  return position &&
+      !(mapStyle in ['autoNavi', 'tencent', 'baidu'])
+      || ('convertedPositions' in position.attributes && mapStyle in position.attributes.convertedPositions)
+}
 
-export const getCoordinateWithMapStyle = (position, convertedPosition, mapStyle) => {
-  if (mapStyle in convertedPosition) {
-    return [convertedPosition[mapStyle].longitude, convertedPosition[mapStyle].latitude];
-  } else {
-    return [position.longitude, position.latitude];
+export const getCoordinateWithMapStyle = (position, mapStyle) => {
+  console.log("[getCoordinateWithMapStyle] position:", position);
+  if ('convertedPositions' in position.attributes) {
+    const convertedPositions = position.attributes.convertedPositions;
+    if (mapStyle in convertedPositions) {
+      return [convertedPositions[mapStyle].longitude, convertedPositions[mapStyle].latitude];
+    }
   }
+  return [position.longitude, position.latitude];
 }

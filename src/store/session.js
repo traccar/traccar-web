@@ -9,7 +9,6 @@ const { reducer, actions } = createSlice({
     includeLogs: false,
     logs: [],
     positions: {},
-    convertedPositions: {},
     history: {},
   },
   reducers: {
@@ -48,10 +47,15 @@ const { reducer, actions } = createSlice({
       });
     },
     updateConvertedPositions(state, action) {
-      action.payload.forEach((position) => {
-        const convertedPositions = state.convertedPositions[position.id] || {};
-        convertedPositions[position.platform] = position;
-        state.convertedPositions[position.id] = convertedPositions;
+      action.payload.forEach((convertedPosition) => {
+        for (const position in state.positions[convertedPosition.deviceId]) {
+          if (position.id !== convertedPosition.id) {
+            continue;
+          }
+          const convertedPositions = position.convertedPositions || {};
+          convertedPositions[position.platform] = position;
+          position.convertedPositions = convertedPositions;
+        }
       });
     }
   },

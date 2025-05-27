@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import maplibregl from 'maplibre-gl';
 import { map } from './core/MapView';
+import { getCoordinateWithMapStyle } from "./core/mapUtil.js";
+import { useSelectedMapStyle } from "./MapStyleProvider.jsx";
 
 const MapCamera = ({
   latitude, longitude, positions, coordinates,
 }) => {
+  const [selectedMapStyle] = useSelectedMapStyle();
   useEffect(() => {
     if (coordinates || positions) {
       if (!coordinates) {
-        coordinates = positions.map((item) => [item.longitude, item.latitude]);
+        coordinates = positions.map((item) => getCoordinateWithMapStyle(item, selectedMapStyle));
       }
       if (coordinates.length) {
         const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
@@ -20,7 +23,7 @@ const MapCamera = ({
       }
     } else {
       map.jumpTo({
-        center: [longitude, latitude],
+        center: getCoordinateWithMapStyle({ latitude, longitude }, selectedMapStyle),
         zoom: Math.max(map.getZoom(), 10),
       });
     }
