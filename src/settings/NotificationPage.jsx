@@ -115,7 +115,7 @@ const NotificationPage = () => {
                       checked={item.always}
                       onChange={(e) => setItem({ ...item, always: e.target.checked })}
                     />
-                    )}
+                  )}
                   label={t('notificationAlways')}
                 />
               </FormGroup>
@@ -139,6 +139,17 @@ const NotificationPage = () => {
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}
               />
+              <FormGroup>
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={item.attributes && item.attributes.priority}
+                      onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, priority: e.target.checked } })}
+                    />
+                  )}
+                  label={t('sharedPriority')}
+                />
+              </FormGroup>
             </AccordionDetails>
           </Accordion>
         </>
