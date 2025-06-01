@@ -1,6 +1,7 @@
 const threshold = 5;
 const interval = 1500;
 
+// eslint-disable-next-line no-undef
 const debugMode = process.env.NODE_ENV === 'development';
 const debugLog = (message) => {
   if (debugMode) console.log(message);
