@@ -86,6 +86,7 @@ const MapView = ({ children }) => {
 
   useEffectAsync(async () => {
     if (theme.direction === 'rtl') {
+      // eslint-disable-next-line import/no-unresolved
       const module = await import('@mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min?url');
       maplibregl.setRTLTextPlugin(module.default);
     }
