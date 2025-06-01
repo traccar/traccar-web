@@ -49,7 +49,7 @@ const ChangeServerPage = () => {
     try {
       const parsed = new URL(url);
       return parsed.protocol === 'http:' || parsed.protocol === 'https:';
-    } catch (e) {
+    } catch (_) {
       return false;
     }
   };
@@ -80,15 +80,16 @@ const ChangeServerPage = () => {
             {...params}
             label={t('settingsServer')}
             error={invalid}
-            helperText={invalid && 'Invalid URL'}
           />
         )}
         value={currentServer}
         onChange={(_, value) => {
-          if (value && validateUrl(value)) {
-            handleSubmit(value);
-          } else if (value) {
-            setInvalid(true);
+          if (value) {
+            if (validateUrl(value)) {
+              handleSubmit(value);
+            } else {
+              setInvalid(true);
+            }
           }
         }}
         onInputChange={() => setInvalid(false)}
