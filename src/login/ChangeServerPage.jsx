@@ -43,6 +43,16 @@ const ChangeServerPage = () => {
 
   const filter = createFilterOptions();
   const [loading, setLoading] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+
+  const validateUrl = (url) => {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
 
   const handleSubmit = (url) => {
     setLoading(true);
@@ -65,9 +75,24 @@ const ChangeServerPage = () => {
         freeSolo
         className={classes.field}
         options={officialServers}
-        renderInput={(params) => <TextField {...params} label={t('settingsServer')} />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={t('settingsServer')}
+            error={invalid}
+          />
+        )}
         value={currentServer}
-        onChange={(_, value) => value && handleSubmit(value)}
+        onChange={(_, value) => {
+          if (value) {
+            if (validateUrl(value)) {
+              handleSubmit(value);
+            } else {
+              setInvalid(true);
+            }
+          }
+        }}
+        onInputChange={() => setInvalid(false)}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
           if (params.inputValue && !filtered.includes(params.inputValue)) {
