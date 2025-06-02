@@ -1,3 +1,6 @@
+import { sessionActions } from './session';
+import { devicesActions } from './devices';
+
 const threshold = 5;
 const interval = 1500;
 
@@ -24,7 +27,9 @@ export default () => (next) => {
   }, interval);
 
   return (action) => {
-    if (action.type !== 'devices/update' && action.type !== 'session/updatePositions') return next(action);
+    if (action.type !== devicesActions.update.type && action.type !== sessionActions.updatePositions.type) {
+      return next(action);
+    }
     if (throttled) {
       buffer.push(action);
       return;
