@@ -74,7 +74,6 @@ const EditItemView = ({
         )}
         <div className={classes.buttons}>
           <Button
-            type="button"
             color="primary"
             variant="outlined"
             onClick={() => navigate(-1)}
@@ -83,7 +82,6 @@ const EditItemView = ({
             {t('sharedCancel')}
           </Button>
           <Button
-            type="button"
             color="primary"
             variant="contained"
             onClick={handleSave}

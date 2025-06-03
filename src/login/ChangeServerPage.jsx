@@ -19,7 +19,7 @@ const officialServers = [
   'https://server.traccar.org',
   'http://localhost:8082',
   'http://localhost:3000',
-];
+].filter((value, index, self) => self.indexOf(value) === index);
 
 const useStyles = makeStyles()((theme) => ({
   icon: {
@@ -34,6 +34,15 @@ const useStyles = makeStyles()((theme) => ({
   field: {
     margin: theme.spacing(3, 0),
   },
+  buttons: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    '& > *': {
+      flexBasis: '33%',
+    },
+  },
 }));
 
 const ChangeServerPage = () => {
@@ -44,6 +53,7 @@ const ChangeServerPage = () => {
   const filter = createFilterOptions();
   const [loading, setLoading] = useState(false);
   const [invalid, setInvalid] = useState(false);
+  const [inputValue, setInputValue] = useState(currentServer);
 
   const validateUrl = (url) => {
     try {
@@ -75,38 +85,34 @@ const ChangeServerPage = () => {
         freeSolo
         className={classes.field}
         options={officialServers}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={t('settingsServer')}
-            error={invalid}
-          />
-        )}
+        renderInput={(params) => <TextField {...params} label={t('settingsServer')} error={invalid} />}
         value={currentServer}
-        onChange={(_, value) => {
-          if (value) {
-            if (validateUrl(value)) {
-              handleSubmit(value);
-            } else {
-              setInvalid(true);
-            }
-          }
+        onChange={(_, value) => value && validateUrl(value) ? handleSubmit(value) : setInvalid(true)}
+        inputValue={inputValue}
+        onInputChange={(_, value) => {
+          setInputValue(value);
+          setInvalid(false);
         }}
-        onInputChange={() => setInvalid(false)}
-        filterOptions={(options, params) => {
-          const filtered = filter(options, params);
-          if (params.inputValue && !filtered.includes(params.inputValue)) {
-            filtered.push(params.inputValue);
-          }
-          return filtered;
-        }}
+        filterOptions={filter}
       />
-      <Button
-        onClick={() => navigate(-1)}
-        color="secondary"
-      >
-        {t('sharedCancel')}
-      </Button>
+      <div className={classes.buttons}>
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={() => navigate(-1)}
+        >
+          {t('sharedCancel')}
+        </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => inputValue && validateUrl(inputValue) ? handleSubmit(inputValue) : setInvalid(true)}
+          disabled={!inputValue || invalid}
+        >
+          {t('sharedSave')}
+        </Button>
+      </div>
+
     </Container>
   );
 };
