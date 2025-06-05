@@ -88,7 +88,7 @@ const ComputedAttributePage = () => {
               />
               <Autocomplete
                 freeSolo
-                value={options.find((option) => option.key === item.attribute) || item.attribute}
+                value={options.find((option) => option.key === item.attribute) || item.attribute || null}
                 onChange={(_, option) => {
                   const attribute = option ? option.key || option.inputValue || option : null;
                   if (option && (option.type || option.inputValue)) {
