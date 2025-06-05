@@ -87,10 +87,11 @@ const ComputedAttributePage = () => {
                 label={t('sharedDescription')}
               />
               <Autocomplete
+                freeSolo
                 value={options.find((option) => option.key === item.attribute) || item.attribute}
                 onChange={(_, option) => {
-                  const attribute = option ? option.key || option : null;
-                  if (option && option.type) {
+                  const attribute = option ? option.key || option.inputValue || option : null;
+                  if (option && (option.type || option.inputValue)) {
                     setItem({ ...item, attribute, type: option.type });
                   } else {
                     setItem({ ...item, attribute });
@@ -98,25 +99,15 @@ const ComputedAttributePage = () => {
                 }}
                 filterOptions={(options, params) => {
                   const filtered = filter(options, params);
-                  if (params.inputValue) {
-                    filtered.push({
-                      key: params.inputValue,
-                      name: params.inputValue,
-                    });
+                  if (params.inputValue && !options.some((x) => (typeof x === 'object' ? x.key : x) === params.inputValue)) {
+                    filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
                   }
                   return filtered;
                 }}
                 options={options}
-                getOptionLabel={(option) => option.name || option}
-                renderOption={(props, option) => (
-                  <li {...props}>
-                    {option.name}
-                  </li>
-                )}
-                renderInput={(params) => (
-                  <TextField {...params} label={t('sharedAttribute')} />
-                )}
-                freeSolo
+                getOptionLabel={(option) => typeof option === 'object' ? option.inputValue || option.name : option }
+                renderOption={(props, option) => <li {...props}>{option.name || option}</li>}
+                renderInput={(params) => <TextField {...params} label={t('sharedAttribute')} />}
               />
               <TextField
                 value={item.expression || ''}

@@ -38,33 +38,26 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
     <Dialog open={open} fullWidth maxWidth="xs">
       <DialogContent className={classes.details}>
         <Autocomplete
+          freeSolo
           onChange={(_, option) => {
-            setKey(option && typeof option === 'object' ? option.key : option);
-            if (option && option.type) {
+            setKey(option && typeof option === 'object' ? (option.key ?? option.inputValue) : option);
+            if (option && (option.type || option.inputValue)) {
               setType(option.type);
             }
           }}
           filterOptions={(options, params) => {
             const filtered = filter(options, params);
-            if (params.inputValue) {
-              filtered.push({
-                key: params.inputValue,
-                name: params.inputValue,
-              });
+            if (params.inputValue && !options.some((x) => (typeof x === 'object' ? x.key : x) === params.inputValue)) {
+              filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
             }
             return filtered;
           }}
           options={options}
-          getOptionLabel={(option) => (option && typeof option === 'object' ? option.name : option)}
-          renderOption={(props, option) => (
-            <li {...props}>
-              {option.name}
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField {...params} label={t('sharedAttribute')} />
-          )}
-          freeSolo
+          getOptionLabel={(option) =>
+            option && typeof option === 'object' ? (option.inputValue || option.name) : option
+          }
+          renderOption={(props, option) => <li {...props}>{option.name || option}</li>}
+          renderInput={(params) => <TextField {...params} label={t('sharedAttribute')} />}
         />
         <FormControl
           fullWidth

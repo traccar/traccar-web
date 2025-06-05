@@ -154,24 +154,27 @@ const PreferencesPage = () => {
                   multiple
                   freeSolo
                   options={Object.keys(positionAttributes)}
-                  getOptionLabel={(option) => (positionAttributes[option]?.name || option)}
+                  getOptionLabel={(option) => {
+                    if (typeof option === 'object' && option.inputValue) {
+                      return option.inputValue;
+                    }
+                    return positionAttributes[option]?.name || option;
+                  }}
                   value={attributes.positionItems?.split(',') || ['fixTime', 'address', 'speed', 'totalDistance']}
-                  onChange={(_, option) => {
-                    setAttributes({ ...attributes, positionItems: option.join(',') });
+                  onChange={(_, newValue) => {
+                    setAttributes({ ...attributes, positionItems: newValue.map((x) => (typeof x === 'string' ? x : x.inputValue)).join(','), });
                   }}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
-                    if (params.inputValue && !filtered.includes(params.inputValue)) {
-                      filtered.push(params.inputValue);
+                    if (params.inputValue && !options.includes(params.inputValue)) {
+                      filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
                     }
                     return filtered;
                   }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={t('attributePopupInfo')}
-                    />
+                  renderOption={(props, option) => (
+                    <li {...props}>{option.name ? option.name : (positionAttributes[option]?.name || option)}</li>
                   )}
+                  renderInput={(params) => <TextField {...params} label={t('attributePopupInfo')} />}
                 />
                 <FormControl>
                   <InputLabel>{t('mapLiveRoutes')}</InputLabel>
