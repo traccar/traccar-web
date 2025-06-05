@@ -66,7 +66,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           <InputLabel>{t('sharedType')}</InputLabel>
           <Select
             label={t('sharedType')}
-            value={type}
+            value={type || 'string'}
             onChange={(e) => setType(e.target.value)}
           >
             <MenuItem value="string">{t('sharedTypeString')}</MenuItem>
