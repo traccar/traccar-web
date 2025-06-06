@@ -4,24 +4,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  translation:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-    - run: pip install transifex-python six
-    - name: Update translations
-      env:
-        TRANSIFEX_TOKEN: ${{ secrets.TRANSIFEX_TOKEN }}
-      run: ./tools/translate.py -t "$TRANSIFEX_TOKEN"
-    - name: Commit changes
-      run: |
-        git config --global user.name 'Traccar Bot'
-        git config --global user.email 'support@traccar.org'
-        git commit -am "Update localization files"
-        git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-        git push
+      - uses: actions/checkout@v4
+      - uses: transifex/cli-action@v2
+        with:
+          token: ${{ secrets.TRANSIFEX_TOKEN }}
+          args: pull -a
+      - run: |
+          git config --global user.name "Traccar Bot"
+          git config --global user.email "support@traccar.org"
+          for f in src/resources/l10n/*.json; do
+            [[ $f == *"/en.json" ]] && continue
+            diff -q "$f" src/resources/l10n/en.json || git add "$f"
+          done
+          git diff --cached --quiet || git commit -m "Update translations"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

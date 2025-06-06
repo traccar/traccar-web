@@ -1,22 +1,16 @@
-name: Legacy App Lint
+name: Legacy Lint
 
 on:
   push:
-    branches:
-      - master
-    paths:
-      - legacy/**
+    branches: [ master ]
+    paths: [ legacy/** ]
   pull_request:
-    branches:
-      - master
-    paths:
-      - legacy/**
+    branches: [ master ]
+    paths: [ legacy/** ]
 
 jobs:
-  build:
-
+  legacy:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
