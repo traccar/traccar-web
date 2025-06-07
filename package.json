@@ -8,7 +8,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mapbox/mapbox-gl-draw": "^1.5.0",
-    "@mapbox/mapbox-gl-rtl-text": "^0.2.3",
+    "@mapbox/mapbox-gl-rtl-text": "^0.3.0",
     "@maplibre/maplibre-gl-geocoder": "^1.8.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/lab": "^7.0.0-beta.12",
