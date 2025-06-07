@@ -11,7 +11,7 @@
     "@mapbox/mapbox-gl-rtl-text": "^0.3.0",
     "@maplibre/maplibre-gl-geocoder": "^1.8.0",
     "@mui/icons-material": "^7.1.0",
-    "@mui/lab": "^7.0.0-beta.12",
+    "@mui/lab": "^7.0.0-beta.13",
     "@mui/material": "^7.1.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@tmcw/togeojson": "^7.1.2",
