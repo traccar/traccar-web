@@ -19,7 +19,7 @@
     "@vitejs/plugin-react": "^4.4.1",
     "dayjs": "^1.11.13",
     "mapbox-gl": "^1.13.3",
-    "maplibre-gl": "^5.5.0",
+    "maplibre-gl": "^5.6.0",
     "maplibre-google-maps": "^1.1.0",
     "mui-file-input": "^7.0.0",
     "react": "^19.1.0",
