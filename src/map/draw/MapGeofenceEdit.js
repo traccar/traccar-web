@@ -2,7 +2,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { errorsActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
 import drawTheme from './theme';
 import { useTranslation } from '../../common/components/LocalizationProvider';
+import GeofenceUpdateHandler from '../../common/components/GeofenceUpdateHandler';
 
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
@@ -114,9 +115,25 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   useEffect(() => {
     const listener = async (event) => {
       const feature = event.features[0];
-      const item = Object.values(geofences).find((i) => i.id === feature.id);
-      if (item) {
-        const updatedItem = { ...item, area: geometryToArea(feature.geometry) };
+      const origItem = Object.values(geofences).find((i) => i.id === feature.id);
+
+      // 1️⃣ Ask for confirmation
+      const shouldSave = window.confirm('Do you want to save changes to this geofence?');
+      if (!shouldSave) {
+        if (origItem) {
+          draw.delete(feature.id);
+          draw.add(
+            geofenceToFeature(theme, origItem)
+          );
+        }
+        return;
+      }
+
+      if (origItem) {
+        const updatedItem = {
+          ...origItem,
+          area: geometryToArea(feature.geometry),
+        };
         try {
           const response = await fetch(`/api/geofences/${feature.id}`, {
             method: 'PUT',
@@ -124,11 +141,13 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
             body: JSON.stringify(updatedItem),
           });
           if (response.ok) {
+            console.log('🟢 Geofence successfully updated on server.');
             refreshGeofences();
           } else {
             throw Error(await response.text());
           }
         } catch (error) {
+          console.error('🔴 Geofence update error:', error.message);
           dispatch(errorsActions.push(error.message));
         }
       }
@@ -136,7 +155,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
 
     map.on('draw.update', listener);
     return () => map.off('draw.update', listener);
-  }, [dispatch, geofences, refreshGeofences]);
+  }, [dispatch, geofences, refreshGeofences, theme, draw]);
 
   useEffect(() => {
     draw.deleteAll();
