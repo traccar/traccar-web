@@ -1,4 +1,4 @@
-name: Modern Lint
+name: Run Lint
 
 on:
   push:
