@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Divider, Typography, IconButton, Toolbar,
-  Paper,
-} from '@mui/material';
+import { Divider, Typography, IconButton, Toolbar, Paper } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import makeStyles from '@mui/styles/makeStyles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -17,6 +14,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import { errorsActions } from '../store';
 import MapScale from '../map/MapScale';
+import GeofenceUpdateHandler from '../common/components/GeofenceUpdateHandler';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +57,7 @@ const GeofencesPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
-
+  const [updateDialogData, setUpdateDialogData] = useState(null);
   const [selectedGeofenceId, setSelectedGeofenceId] = useState();
 
   const handleFile = (event) => {
@@ -70,7 +68,9 @@ const GeofencesPage = () => {
       const xml = new DOMParser().parseFromString(reader.result, 'text/xml');
       const segment = xml.getElementsByTagName('trkseg')[0];
       const coordinates = Array.from(segment.getElementsByTagName('trkpt'))
-        .map((point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`)
+        .map(
+          (point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`
+        )
         .join(', ');
       const area = `LINESTRING (${coordinates})`;
       const newItem = { name: t('sharedGeofence'), area };
@@ -101,13 +101,25 @@ const GeofencesPage = () => {
       <div className={classes.content}>
         <Paper square className={classes.drawer}>
           <Toolbar>
-            <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
+            <IconButton
+              edge='start'
+              sx={{ mr: 2 }}
+              onClick={() => navigate(-1)}
+            >
               <ArrowBackIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>{t('sharedGeofences')}</Typography>
-            <label htmlFor="upload-gpx">
-              <input accept=".gpx" id="upload-gpx" type="file" className={classes.fileInput} onChange={handleFile} />
-              <IconButton edge="end" component="span" onClick={() => {}}>
+            <Typography variant='h6' className={classes.title}>
+              {t('sharedGeofences')}
+            </Typography>
+            <label htmlFor='upload-gpx'>
+              <input
+                accept='.gpx'
+                id='upload-gpx'
+                type='file'
+                className={classes.fileInput}
+                onChange={handleFile}
+              />
+              <IconButton edge='end' component='span' onClick={() => {}}>
                 <Tooltip title={t('sharedUpload')}>
                   <UploadFileIcon />
                 </Tooltip>
@@ -119,13 +131,22 @@ const GeofencesPage = () => {
         </Paper>
         <div className={classes.mapContainer}>
           <MapView>
-            <MapGeofenceEdit selectedGeofenceId={selectedGeofenceId} />
+            <MapGeofenceEdit
+              selectedGeofenceId={selectedGeofenceId}
+              onUpdateRequest={(data) => setUpdateDialogData(data)}
+            />
           </MapView>
           <MapScale />
           <MapCurrentLocation />
           <MapGeocoder />
         </div>
       </div>
+      {updateDialogData && (
+        <GeofenceUpdateHandler
+          {...updateDialogData}
+          onDone={() => setUpdateDialogData(null)}
+        />
+      )}
     </div>
   );
 };

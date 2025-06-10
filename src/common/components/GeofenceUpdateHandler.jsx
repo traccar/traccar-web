@@ -7,16 +7,16 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 
 const GeofenceUpdateHandler = ({
   draw,
-  theme,
   originalFeature,
   updatedFeature,
   onConfirm,
+  onDone,
 }) => {
-  const [open, setOpen] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(true);
   const [snackbar, setSnackbar] = useState({
     open: false,
     type: '',
@@ -32,23 +32,40 @@ const GeofenceUpdateHandler = ({
         message: 'Geofence updated successfully',
       });
     } catch (error) {
-      setSnackbar({ open: true, type: 'error', message: error.message });
       draw.delete(updatedFeature.id);
       draw.add(originalFeature);
-    } finally {
-      setOpen(false);
+      setSnackbar({
+        open: true,
+        type: 'error',
+        message: error.message || 'Something went wrong',
+      });
     }
+    setDialogOpen(false);
   };
 
   const handleCancel = () => {
     draw.delete(updatedFeature.id);
     draw.add(originalFeature);
-    setOpen(false);
+    setDialogOpen(false);
+    setSnackbar({
+      open: true,
+      type: 'info',
+      message: 'Update cancelled',
+    });
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+
+    // ✅ Close everything only after snackbar hides
+    if (!dialogOpen && onDone) {
+      onDone();
+    }
   };
 
   return (
     <>
-      <Dialog open={open} onClose={handleCancel}>
+      <Dialog open={dialogOpen} onClose={handleCancel}>
         <DialogTitle>Confirm Update</DialogTitle>
         <DialogContent>
           Do you want to save changes to this geofence?
@@ -66,9 +83,14 @@ const GeofenceUpdateHandler = ({
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert severity={snackbar.type} sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbar.type}
+          sx={{ width: '100%' }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

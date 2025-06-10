@@ -13,13 +13,12 @@ import { errorsActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
 import drawTheme from './theme';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import GeofenceUpdateHandler from '../../common/components/GeofenceUpdateHandler';
 
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
 MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
-const MapGeofenceEdit = ({ selectedGeofenceId }) => {
+const MapGeofenceEdit = ({ selectedGeofenceId, onUpdateRequest }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -117,45 +116,39 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
       const feature = event.features[0];
       const origItem = Object.values(geofences).find((i) => i.id === feature.id);
 
-      // 1️⃣ Ask for confirmation
-      const shouldSave = window.confirm('Do you want to save changes to this geofence?');
-      if (!shouldSave) {
-        if (origItem) {
-          draw.delete(feature.id);
-          draw.add(
-            geofenceToFeature(theme, origItem)
-          );
-        }
-        return;
-      }
-
       if (origItem) {
-        const updatedItem = {
-          ...origItem,
-          area: geometryToArea(feature.geometry),
-        };
-        try {
-          const response = await fetch(`/api/geofences/${feature.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedItem),
-          });
-          if (response.ok) {
-            console.log('🟢 Geofence successfully updated on server.');
+        const originalFeature = geofenceToFeature(theme, origItem);
+        const updatedFeature = feature;
+
+        onUpdateRequest({
+          draw,
+          theme,
+          originalFeature,
+          updatedFeature,
+          onConfirm: async () => {
+            const updatedItem = {
+              ...origItem,
+              area: geometryToArea(feature.geometry),
+            };
+            const response = await fetch(`/api/geofences/${feature.id}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(updatedItem),
+            });
+
+            if (!response.ok) {
+              throw new Error(await response.text());
+            }
+
             refreshGeofences();
-          } else {
-            throw Error(await response.text());
-          }
-        } catch (error) {
-          console.error('🔴 Geofence update error:', error.message);
-          dispatch(errorsActions.push(error.message));
-        }
+          },
+        });
       }
     };
 
     map.on('draw.update', listener);
     return () => map.off('draw.update', listener);
-  }, [dispatch, geofences, refreshGeofences, theme, draw]);
+  }, [dispatch, geofences, refreshGeofences, theme, draw, onUpdateRequest]);
 
   useEffect(() => {
     draw.deleteAll();
