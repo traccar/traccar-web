@@ -2,7 +2,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback, useEffect, useMemo, useRef, useState,
+} from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -104,7 +106,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
 
   const handleGeofenceUpdate = useCatchCallback((event) => {
     const feature = event.features[0];
-    const id = feature.id;
+    const { id } = feature;
 
     // If there's already an edited geofence and it's different from current
     if (editedGeofenceId && editedGeofenceId !== id && unsavedChangesRef.current) {
@@ -128,7 +130,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
   }, [editedGeofenceId, geofences, draw, theme, onUnsavedChange, onEditStateChange]);
 
   const focusSelectedGeofence = useCallback((selectedId) => {
-    if (!selectedId) return;
+    if (!selectedId) return null;
 
     // If there are unsaved changes to a different geofence, don't allow selection change
     if (editedGeofenceId && editedGeofenceId !== selectedId && unsavedChangesRef.current) {
@@ -146,16 +148,16 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       if (feature && feature.geometry) {
         try {
           // Calculate bounds for the feature
-          let bounds = new maplibregl.LngLatBounds();
+          const bounds = new maplibregl.LngLatBounds();
 
           if (feature.geometry.type === 'Polygon') {
             // For polygons, use all coordinates
-            feature.geometry.coordinates[0].forEach(coord => {
+            feature.geometry.coordinates[0].forEach((coord) => {
               bounds.extend(coord);
             });
           } else if (feature.geometry.type === 'LineString') {
             // For line strings, use all coordinates
-            feature.geometry.coordinates.forEach(coord => {
+            feature.geometry.coordinates.forEach((coord) => {
               bounds.extend(coord);
             });
           } else if (feature.geometry.type === 'Point') {
@@ -167,15 +169,12 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
           map.fitBounds(bounds, {
             padding: 50,
             maxZoom: 16, // Don't zoom in too much
-            duration: 1000 // Smooth animation
+            duration: 1000, // Smooth animation
           });
         } catch (error) {
-          console.warn('Error fitting bounds to geofence:', error);
-          // Fallback: try to get center from the geofence area
+          console.log('Error fitting bounds to geofence:', error);
           if (geofence.area) {
-            // You might need to parse the WKT area string here
-            // This is a basic fallback
-            console.log('Fallback: Could not fit bounds, geofence area:', geofence.area);
+            console.log(geofence.area);
           }
         }
       }
@@ -198,9 +197,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       },
       hasUnsavedChanges: () => unsavedChangesRef.current,
       getEditedGeofenceId: () => editedGeofenceId,
-      canSelectGeofence: (id) => {
-        return !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current;
-      }
+      canSelectGeofence: (id) => !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current,
     };
   }, [editedGeofenceId, saveChanges, discardChanges]);
 

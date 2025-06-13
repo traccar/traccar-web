@@ -178,7 +178,7 @@ const GeofencesPage = () => {
         open: true,
         message: `Save changes to ${geofenceNameMap[geofenceId]}`,
         type: 'prompt',
-        geofenceId: geofenceId,
+        geofenceId,
       });
     } else if (!hasChanges) {
       // Close snackbar if no more changes
@@ -195,7 +195,7 @@ const GeofencesPage = () => {
       const segment = xml.getElementsByTagName('trkseg')[0];
       const coordinates = Array.from(segment.getElementsByTagName('trkpt'))
         .map(
-          (point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`
+          (point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`,
         )
         .join(', ');
       const area = `LINESTRING (${coordinates})`;
@@ -225,10 +225,10 @@ const GeofencesPage = () => {
   // Effect to handle snackbar reappearing when navigating back to edited geofence
   useEffect(() => {
     if (
-      selectedGeofenceId &&
-      editedGeofenceId === selectedGeofenceId &&
-      unsavedChanges &&
-      !snackbar.open
+      selectedGeofenceId
+      && editedGeofenceId === selectedGeofenceId
+      && unsavedChanges
+      && !snackbar.open
     ) {
       setSnackbar({
         open: true,
