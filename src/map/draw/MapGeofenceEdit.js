@@ -182,7 +182,30 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
     return true;
   }, [editedGeofenceId, geofences, draw]);
 
-  // Expose methods to parent component
+  useEffect(() => {
+    const enableMapInteraction = () => {
+      if (map) {
+        map.dragPan.enable();
+        map.scrollZoom.enable();
+        map.boxZoom.enable();
+        map.doubleClickZoom.enable();
+        map.keyboard.enable();
+      }
+    };
+
+    const handleModeChange = () => {
+      setTimeout(enableMapInteraction, 100);
+    };
+
+    map.on('draw.modechange', handleModeChange);
+
+    enableMapInteraction();
+
+    return () => {
+      map.off('draw.modechange', handleModeChange);
+    };
+  }, []);
+
   useEffect(() => {
     window.geofenceEditor = {
       save: () => {
@@ -197,7 +220,19 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       },
       hasUnsavedChanges: () => unsavedChangesRef.current,
       getEditedGeofenceId: () => editedGeofenceId,
-      canSelectGeofence: (id) => !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current,
+      canSelectGeofence: (id) => {
+        return !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current;
+      },
+      resetMapInteraction: () => {
+        draw.changeMode('simple_select');
+        if (map) {
+          map.dragPan.enable();
+          map.scrollZoom.enable();
+          map.boxZoom.enable();
+          map.doubleClickZoom.enable();
+          map.keyboard.enable();
+        }
+      }
     };
   }, [editedGeofenceId, saveChanges, discardChanges]);
 
