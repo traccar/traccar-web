@@ -11,7 +11,7 @@ jobs:
       - uses: transifex/cli-action@v2
         with:
           token: ${{ secrets.TRANSIFEX_TOKEN }}
-          args: pull -a
+          args: pull -a --force
       - run: |
           git config --global user.name "Traccar Bot"
           git config --global user.email "support@traccar.org"
