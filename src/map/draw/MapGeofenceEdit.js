@@ -205,7 +205,11 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
   useEffect(() => {
     window.geofenceEditor = {
       save: () => {
-        if (editedGeofenceId && unsavedChangesRef.current && pendingFeatureRef.current) {
+        if (
+          editedGeofenceId &&
+          unsavedChangesRef.current &&
+          pendingFeatureRef.current
+        ) {
           saveChanges(editedGeofenceId, pendingFeatureRef.current);
         }
       },
@@ -216,9 +220,8 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       },
       hasUnsavedChanges: () => unsavedChangesRef.current,
       getEditedGeofenceId: () => editedGeofenceId,
-      canSelectGeofence: (id) => {
-        return !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current;
-      },
+      canSelectGeofence: (id) =>
+        !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current,
       resetMapInteraction: () => {
         draw.changeMode('simple_select');
         if (map) {
@@ -231,6 +234,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       },
     };
   }, [editedGeofenceId, saveChanges, discardChanges]);
+
 
   useEffect(() => {
     refreshGeofences();
