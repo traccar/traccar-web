@@ -89,7 +89,7 @@ const DeviceRow = ({ data, index, style }) => {
         onClick={() => dispatch(devicesActions.selectId(item.id))}
         disabled={!admin && item.disabled}
         selected={selectedDeviceId === item.id}
-        className={selectedDeviceId === item.id ? classes.selected : undefined}
+        className={selectedDeviceId === item.id ? classes.selected : null}
       >
         <ListItemAvatar>
           <Avatar>
