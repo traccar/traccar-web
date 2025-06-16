@@ -229,7 +229,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
           map.keyboard.enable();
         }
       },
-    }
+    };
   }, [editedGeofenceId, saveChanges, discardChanges]);
 
   useEffect(() => {
