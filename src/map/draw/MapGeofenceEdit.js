@@ -120,7 +120,6 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       return;
     }
 
-    // Mark as having unsaved changes
     unsavedChangesRef.current = true;
     setEditedGeofenceId(id);
     pendingFeatureRef.current = feature;
@@ -173,9 +172,6 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
           });
         } catch (error) {
           console.log('Error fitting bounds to geofence:', error);
-          if (geofence.area) {
-            console.log(geofence.area);
-          }
         }
       }
     }
@@ -232,8 +228,8 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
           map.doubleClickZoom.enable();
           map.keyboard.enable();
         }
-      }
-    };
+      },
+    }
   }, [editedGeofenceId, saveChanges, discardChanges]);
 
   useEffect(() => {
