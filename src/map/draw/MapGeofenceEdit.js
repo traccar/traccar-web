@@ -2,9 +2,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import {
-  useCallback, useEffect, useMemo, useRef, useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -20,35 +18,47 @@ MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
 MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
-const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditStateChange }) => {
+const MapGeofenceEdit = ({
+  selectedGeofenceId,
+  onUnsavedChange,
+  onSaved,
+  onEditStateChange,
+}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const draw = useMemo(() => new MapboxDraw({
-    displayControlsDefault: false,
-    controls: {
-      polygon: true,
-      line_string: true,
-      trash: true,
-    },
-    userProperties: true,
-    styles: [...drawTheme, {
-      id: 'gl-draw-title',
-      type: 'symbol',
-      filter: ['all'],
-      layout: {
-        'text-field': '{user_name}',
-        'text-font': findFonts(map),
-        'text-size': 12,
-      },
-      paint: {
-        'text-halo-color': 'white',
-        'text-halo-width': 1,
-      },
-    }],
-  }), []);
+  const draw = useMemo(
+    () =>
+      new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+          polygon: true,
+          line_string: true,
+          trash: true,
+        },
+        userProperties: true,
+        styles: [
+          ...drawTheme,
+          {
+            id: 'gl-draw-title',
+            type: 'symbol',
+            filter: ['all'],
+            layout: {
+              'text-field': '{user_name}',
+              'text-font': findFonts(map),
+              'text-size': 12,
+            },
+            paint: {
+              'text-halo-color': 'white',
+              'text-halo-width': 1,
+            },
+          },
+        ],
+      }),
+    []
+  );
 
   const geofences = useSelector((state) => state.geofences.items);
   const [editedGeofenceId, setEditedGeofenceId] = useState(null);
@@ -64,119 +74,146 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
     }
   }, [dispatch]);
 
-  const saveChanges = useCatchCallback(async (id, feature) => {
-    const item = Object.values(geofences).find((i) => i.id === id);
-    if (!item) return;
+  const saveChanges = useCatchCallback(
+    async (id, feature) => {
+      const item = Object.values(geofences).find((i) => i.id === id);
+      if (!item) return;
 
-    const updatedItem = { ...item, area: geometryToArea(feature.geometry) };
+      const updatedItem = { ...item, area: geometryToArea(feature.geometry) };
 
-    try {
-      const response = await fetch(`/api/geofences/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedItem),
-      });
+      try {
+        const response = await fetch(`/api/geofences/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedItem),
+        });
 
-      if (response.ok) {
-        unsavedChangesRef.current = false;
-        setEditedGeofenceId(null);
-        pendingFeatureRef.current = null;
-        await refreshGeofences();
-        if (onSaved) onSaved();
-        if (onEditStateChange) onEditStateChange(false, null);
-      } else {
-        throw Error(await response.text());
+        if (response.ok) {
+          unsavedChangesRef.current = false;
+          setEditedGeofenceId(null);
+          pendingFeatureRef.current = null;
+          await refreshGeofences();
+          if (onSaved) onSaved();
+          if (onEditStateChange) onEditStateChange(false, null);
+        } else {
+          throw Error(await response.text());
+        }
+      } catch (error) {
+        dispatch(errorsActions.push(error.message));
       }
-    } catch (error) {
-      dispatch(errorsActions.push(error.message));
-    }
-  }, [dispatch, geofences, refreshGeofences, onSaved, onEditStateChange]);
+    },
+    [dispatch, geofences, refreshGeofences, onSaved, onEditStateChange]
+  );
 
-  const discardChanges = useCatchCallback((id) => {
-    draw.delete(id);
-    const geofence = geofences[id];
-    if (geofence) {
-      draw.add(geofenceToFeature(theme, geofence));
-    }
-    unsavedChangesRef.current = false;
-    setEditedGeofenceId(null);
-    pendingFeatureRef.current = null;
-    if (onEditStateChange) onEditStateChange(false, null);
-  }, [draw, theme, geofences, onEditStateChange]);
-
-  const handleGeofenceUpdate = useCatchCallback((event) => {
-    const feature = event.features[0];
-    const { id } = feature;
-
-    // If there's already an edited geofence and it's different from current
-    if (editedGeofenceId && editedGeofenceId !== id && unsavedChangesRef.current) {
-      // Revert this change and focus back on the edited geofence
+  const discardChanges = useCatchCallback(
+    (id) => {
       draw.delete(id);
-      const originalGeofence = geofences[id];
-      if (originalGeofence) {
-        draw.add(geofenceToFeature(theme, originalGeofence));
+      const geofence = geofences[id];
+      if (geofence) {
+        draw.add(geofenceToFeature(theme, geofence));
       }
-      draw.changeMode('simple_select', { featureIds: [editedGeofenceId] });
-      return;
-    }
+      unsavedChangesRef.current = false;
+      setEditedGeofenceId(null);
+      pendingFeatureRef.current = null;
+      if (onEditStateChange) onEditStateChange(false, null);
+    },
+    [draw, theme, geofences, onEditStateChange]
+  );
 
-    unsavedChangesRef.current = true;
-    setEditedGeofenceId(id);
-    pendingFeatureRef.current = feature;
+  const handleGeofenceUpdate = useCatchCallback(
+    (event) => {
+      const feature = event.features[0];
+      const { id } = feature;
 
-    if (onUnsavedChange) onUnsavedChange();
-    if (onEditStateChange) onEditStateChange(true, id);
-  }, [editedGeofenceId, geofences, draw, theme, onUnsavedChange, onEditStateChange]);
+      // If there's already an edited geofence and it's different from current
+      if (
+        editedGeofenceId &&
+        editedGeofenceId !== id &&
+        unsavedChangesRef.current
+      ) {
+        // Revert this change and focus back on the edited geofence
+        draw.delete(id);
+        const originalGeofence = geofences[id];
+        if (originalGeofence) {
+          draw.add(geofenceToFeature(theme, originalGeofence));
+        }
+        draw.changeMode('simple_select', { featureIds: [editedGeofenceId] });
+        return;
+      }
 
-  const focusSelectedGeofence = useCallback((selectedId) => {
-    if (!selectedId) return null;
+      unsavedChangesRef.current = true;
+      setEditedGeofenceId(id);
+      pendingFeatureRef.current = feature;
 
-    // If there are unsaved changes to a different geofence, don't allow selection change
-    if (editedGeofenceId && editedGeofenceId !== selectedId && unsavedChangesRef.current) {
-      return false;
-    }
+      if (onUnsavedChange) onUnsavedChange();
+      if (onEditStateChange) onEditStateChange(true, id);
+    },
+    [
+      editedGeofenceId,
+      geofences,
+      draw,
+      theme,
+      onUnsavedChange,
+      onEditStateChange,
+    ]
+  );
 
-    // Focus on the selected geofence
-    const geofence = geofences[selectedId];
-    if (geofence) {
-      // Change selection mode
-      draw.changeMode('simple_select', { featureIds: [selectedId] });
+  const focusSelectedGeofence = useCallback(
+    (selectedId) => {
+      if (!selectedId) return null;
 
-      // Get the feature from the draw instance
-      const feature = draw.get(selectedId);
-      if (feature && feature.geometry) {
-        try {
-          // Calculate bounds for the feature
-          const bounds = new maplibregl.LngLatBounds();
+      // If there are unsaved changes to a different geofence, don't allow selection change
+      if (
+        editedGeofenceId &&
+        editedGeofenceId !== selectedId &&
+        unsavedChangesRef.current
+      ) {
+        return false;
+      }
 
-          if (feature.geometry.type === 'Polygon') {
-            // For polygons, use all coordinates
-            feature.geometry.coordinates[0].forEach((coord) => {
-              bounds.extend(coord);
+      // Focus on the selected geofence
+      const geofence = geofences[selectedId];
+      if (geofence) {
+        // Change selection mode
+        draw.changeMode('simple_select', { featureIds: [selectedId] });
+
+        // Get the feature from the draw instance
+        const feature = draw.get(selectedId);
+        if (feature && feature.geometry) {
+          try {
+            // Calculate bounds for the feature
+            const bounds = new maplibregl.LngLatBounds();
+
+            if (feature.geometry.type === 'Polygon') {
+              // For polygons, use all coordinates
+              feature.geometry.coordinates[0].forEach((coord) => {
+                bounds.extend(coord);
+              });
+            } else if (feature.geometry.type === 'LineString') {
+              // For line strings, use all coordinates
+              feature.geometry.coordinates.forEach((coord) => {
+                bounds.extend(coord);
+              });
+            } else if (feature.geometry.type === 'Point') {
+              // For points, center on the point
+              bounds.extend(feature.geometry.coordinates);
+            }
+
+            // Fit the map to the bounds with some padding
+            map.fitBounds(bounds, {
+              padding: 50,
+              maxZoom: 16, // Don't zoom in too much
+              duration: 1000, // Smooth animation
             });
-          } else if (feature.geometry.type === 'LineString') {
-            // For line strings, use all coordinates
-            feature.geometry.coordinates.forEach((coord) => {
-              bounds.extend(coord);
-            });
-          } else if (feature.geometry.type === 'Point') {
-            // For points, center on the point
-            bounds.extend(feature.geometry.coordinates);
+          } catch (error) {
+            console.log('Error fitting bounds to geofence:', error);
           }
-
-          // Fit the map to the bounds with some padding
-          map.fitBounds(bounds, {
-            padding: 50,
-            maxZoom: 16, // Don't zoom in too much
-            duration: 1000, // Smooth animation
-          });
-        } catch (error) {
-          console.log('Error fitting bounds to geofence:', error);
         }
       }
-    }
-    return true;
-  }, [editedGeofenceId, geofences, draw]);
+      return true;
+    },
+    [editedGeofenceId, geofences, draw]
+  );
 
   useEffect(() => {
     const enableMapInteraction = () => {
@@ -206,10 +243,8 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
     window.geofenceEditor = {
       save: () => {
         if (
-          editedGeofenceId &&
-          unsavedChangesRef.current &&
-          pendingFeatureRef.current
-        ) {
+          editedGeofenceId && unsavedChangesRef.current &&
+          pendingFeatureRef.current) {
           saveChanges(editedGeofenceId, pendingFeatureRef.current);
         }
       },
@@ -221,7 +256,9 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
       hasUnsavedChanges: () => unsavedChangesRef.current,
       getEditedGeofenceId: () => editedGeofenceId,
       canSelectGeofence: (id) =>
-        !editedGeofenceId || editedGeofenceId === id || !unsavedChangesRef.current,
+        !editedGeofenceId ||
+        editedGeofenceId === id ||
+        !unsavedChangesRef.current,
       resetMapInteraction: () => {
         draw.changeMode('simple_select');
         if (map) {
@@ -235,7 +272,6 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
     };
   }, [editedGeofenceId, saveChanges, discardChanges]);
 
-
   useEffect(() => {
     refreshGeofences();
     map.addControl(draw, 'top-left');
@@ -245,7 +281,10 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
   useEffect(() => {
     const listener = async (event) => {
       const feature = event.features[0];
-      const newItem = { name: t('sharedGeofence'), area: geometryToArea(feature.geometry) };
+      const newItem = {
+        name: t('sharedGeofence'),
+        area: geometryToArea(feature.geometry),
+      };
       draw.delete(feature.id);
       try {
         const response = await fetch('/api/geofences', {
@@ -276,7 +315,9 @@ const MapGeofenceEdit = ({ selectedGeofenceId, onUnsavedChange, onSaved, onEditS
     const listener = async (event) => {
       const feature = event.features[0];
       try {
-        const response = await fetch(`/api/geofences/${feature.id}`, { method: 'DELETE' });
+        const response = await fetch(`/api/geofences/${feature.id}`, {
+          method: 'DELETE',
+        });
         if (response.ok) {
           // If we're deleting the currently edited geofence, reset state
           if (feature.id === editedGeofenceId) {
