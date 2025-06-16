@@ -125,13 +125,11 @@ const MapGeofenceEdit = ({
       const feature = event.features[0];
       const { id } = feature;
 
-      // If there's already an edited geofence and it's different from current
       if (
         editedGeofenceId &&
         editedGeofenceId !== id &&
         unsavedChangesRef.current
       ) {
-        // Revert this change and focus back on the edited geofence
         draw.delete(id);
         const originalGeofence = geofences[id];
         if (originalGeofence) {
@@ -161,8 +159,6 @@ const MapGeofenceEdit = ({
   const focusSelectedGeofence = useCallback(
     (selectedId) => {
       if (!selectedId) return null;
-
-      // If there are unsaved changes to a different geofence, don't allow selection change
       if (
         editedGeofenceId &&
         editedGeofenceId !== selectedId &&
