@@ -191,44 +191,61 @@ const GeofencesPage = () => {
     const [file] = files;
     const reader = new FileReader();
     reader.onload = async () => {
-      const xml = new DOMParser().parseFromString(reader.result, 'text/xml');
-      const segment = xml.getElementsByTagName('trkseg')[0];
-      const coordinates = Array.from(segment.getElementsByTagName('trkpt'))
-        .map(
-          (point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`,
-        )
-        .join(', ');
-      const area = `LINESTRING (${coordinates})`;
-      const newItem = { name: t('sharedGeofence'), area };
       try {
+        const xml = new DOMParser().parseFromString(reader.result, 'text/xml');
+
+        const trkpts = Array.from(xml.getElementsByTagName('trkpt'));
+        if (trkpts.length === 0) {
+          throw new Error('No track points (trkpt) found in file.');
+        }
+
+        const coordsArray = trkpts.map(
+          (pt) => `${pt.getAttribute('lon')} ${pt.getAttribute('lat')}`
+        );
+
+        if (coordsArray.length === 0) {
+          throw new Error('No valid coordinates extracted.');
+        }
+
+        const isClosed =
+          coordsArray[0] === coordsArray[coordsArray.length - 1] &&
+          coordsArray.length >= 4;
+
+        const area = isClosed
+          ? `POLYGON ((${coordsArray.join(', ')}))`
+          : `LINESTRING (${coordsArray.join(', ')})`;
+
+        const newItem = { name: t('sharedGeofence'), area };
         const response = await fetch('/api/geofences', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newItem),
         });
-        if (response.ok) {
-          const item = await response.json();
-          navigate(`/settings/geofence/${item.id}`);
-        } else {
-          throw Error(await response.text());
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || 'Failed to save geofence.');
         }
+
+        const savedItem = await response.json();
+        navigate(`/settings/geofence/${savedItem.id}`);
       } catch (error) {
         dispatch(errorsActions.push(error.message));
       }
     };
+
     reader.onerror = (event) => {
       dispatch(errorsActions.push(event.target.error));
     };
     reader.readAsText(file);
   };
 
-  // Effect to handle snackbar reappearing when navigating back to edited geofence
   useEffect(() => {
     if (
-      selectedGeofenceId
-      && editedGeofenceId === selectedGeofenceId
-      && unsavedChanges
-      && !snackbar.open
+      selectedGeofenceId &&
+      editedGeofenceId === selectedGeofenceId &&
+      unsavedChanges &&
+      !snackbar.open
     ) {
       setSnackbar({
         open: true,
@@ -262,7 +279,7 @@ const GeofencesPage = () => {
             </Typography>
             <label htmlFor="upload-gpx">
               <input
-                accept=".gpx"
+                accept=".gpx,.kml,.txt"
                 id="upload-gpx"
                 type="file"
                 className={classes.fileInput}
