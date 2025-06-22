@@ -17,6 +17,7 @@
     "@tmcw/togeojson": "^7.1.2",
     "@turf/circle": "^7.2.0",
     "@vitejs/plugin-react": "^4.5.2",
+    "@yudiel/react-qr-scanner": "^2.3.1",
     "dayjs": "^1.11.13",
     "mapbox-gl": "^1.13.3",
     "maplibre-gl": "^5.6.0",
