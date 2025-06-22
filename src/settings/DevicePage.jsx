@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
+  Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MuiFileInput } from 'mui-file-input';
@@ -22,6 +23,7 @@ import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttri
 import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
+import QrCodeDialog from '../common/components/QrCodeDialog';
 
 const DevicePage = () => {
   const { classes } = useSettingsStyles();
@@ -36,6 +38,7 @@ const DevicePage = () => {
   const uniqueId = query.get('uniqueId');
 
   const [item, setItem] = useState(uniqueId ? { uniqueId } : null);
+  const [showQr, setShowQr] = useState(false);
   const [imageFile, setImageFile] = useState(null);
 
   const handleFileInput = useCatch(async (newFile) => {
@@ -150,6 +153,13 @@ const DevicePage = () => {
                 label={t('sharedDisabled')}
                 disabled={!admin}
               />
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setShowQr(true)}
+              >
+                {t('sharedQrCode')}
+              </Button>
             </AccordionDetails>
           </Accordion>
           {item.id && (
@@ -176,6 +186,7 @@ const DevicePage = () => {
           />
         </>
       )}
+      <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
     </EditItemView>
   );
 };
