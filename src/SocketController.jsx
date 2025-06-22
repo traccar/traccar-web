@@ -144,6 +144,7 @@ const SocketController = () => {
         try {
           socket.send('{}');
         } catch {
+          // test connection
         }
       }
     };
