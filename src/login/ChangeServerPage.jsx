@@ -129,9 +129,11 @@ const ChangeServerPage = () => {
           <Button color="primary" variant="outlined" onClick={() => navigate(-1)}>
             {t('sharedCancel')}
           </Button>
-          <Button color="primary" variant="outlined" onClick={() => setScannerOpen(true)}>
-            {t('sharedQrCode')}
-          </Button>
+          {Boolean(navigator?.mediaDevices?.getUserMedia) && (
+            <Button color="primary" variant="outlined" onClick={() => setScannerOpen(true)}>
+              {t('sharedQrCode')}
+            </Button>
+          )}
           <Button
             color="primary"
             variant="contained"
@@ -148,7 +150,7 @@ const ChangeServerPage = () => {
           <Scanner
             constraints={{ facingMode: 'environment' }}
             onScan={handleScanResult}
-            onError={(error) => dispatch(errorsActions.push(error))}
+            onError={(error) => dispatch(errorsActions.push(String(error)))}
             className={classes.scannerVideo}
           />
         </DialogContent>
