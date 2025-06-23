@@ -11,7 +11,7 @@ import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
 import { useAttributePreference } from './common/util/preferences';
-import { handleNativeNotificationListeners } from './common/components/NativeInterface';
+import { handleNativeNotificationListeners, nativePostMessage } from './common/components/NativeInterface';
 
 const logoutCode = 4000;
 
@@ -19,7 +19,7 @@ const SocketController = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const authenticated = useSelector((state) => !!state.session.user);
+  const authenticated = useSelector((state) => Boolean(state.session.user));
   const includeLogs = useSelector((state) => state.session.includeLogs);
 
   const socketRef = useRef();
@@ -106,6 +106,7 @@ const SocketController = () => {
       } else {
         throw Error(await response.text());
       }
+      nativePostMessage('authenticated');
       connectSocket();
       return () => {
         socketRef.current?.close(logoutCode);
