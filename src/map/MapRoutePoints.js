@@ -7,7 +7,7 @@ import { SpeedLegendControl } from './legend/MapSpeedLegend';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAttributePreference } from '../common/util/preferences';
 
-const MapRoutePoints = ({ positions, onClick }) => {
+const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
   const id = useId();
   const theme = useTheme();
   const t = useTranslation();
@@ -70,7 +70,9 @@ const MapRoutePoints = ({ positions, onClick }) => {
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
 
     const control = new SpeedLegendControl(positions, speedUnit, t, maxSpeed, minSpeed);
-    map.addControl(control, theme.direction === 'rtl' ? 'bottom-right' : 'bottom-left');
+    if (showSpeedControl) {
+      map.addControl(control, theme.direction === 'rtl' ? 'bottom-right' : 'bottom-left');
+    }
 
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
@@ -89,7 +91,7 @@ const MapRoutePoints = ({ positions, onClick }) => {
       })),
     });
     return () => map.removeControl(control);
-  }, [onMarkerClick, positions]);
+  }, [onMarkerClick, positions, showSpeedControl]);
 
   return null;
 };
