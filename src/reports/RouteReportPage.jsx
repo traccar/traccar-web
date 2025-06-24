@@ -57,9 +57,10 @@ const RouteReportPage = () => {
     setSelectedItem(items.find((it) => it.id === positionId));
   }, [items, setSelectedItem]);
 
-  const handleSubmit = useCatch(async ({ deviceIds, from, to, type }) => {
+  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
     if (type === 'export') {
       window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
     } else if (type === 'mail') {
@@ -133,7 +134,7 @@ const RouteReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice loading={loading}>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice includeGroups loading={loading}>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}
