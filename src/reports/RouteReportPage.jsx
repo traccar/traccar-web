@@ -89,7 +89,8 @@ const RouteReportPage = () => {
               keySet.delete(key);
             }
           });
-          setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
+          setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key])
+            .sort((a, b) => a[1].localeCompare(b[1])));
           setItems(data);
         } else {
           throw Error(await response.text());
