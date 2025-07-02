@@ -9,8 +9,7 @@ export const nativeEnvironment = window.appInterface || (window.webkit && window
 export const nativePostMessage = (message) => {
   if (window.webkit && window.webkit.messageHandlers.appInterface) {
     window.webkit.messageHandlers.appInterface.postMessage(message);
-  }
-  if (window.appInterface) {
+  } else if (window.appInterface) {
     window.appInterface.postMessage(message);
   }
 };
