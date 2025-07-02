@@ -20,7 +20,7 @@
     "@yudiel/react-qr-scanner": "^2.3.1",
     "dayjs": "^1.11.13",
     "mapbox-gl": "^1.13.3",
-    "maplibre-gl": "^5.6.0",
+    "maplibre-gl": "^5.6.1",
     "maplibre-google-maps": "^1.1.0",
     "mui-file-input": "^7.0.0",
     "react": "^19.1.0",
