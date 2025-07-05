@@ -217,6 +217,7 @@
     "deviceCategory": "Category",
     "deviceLastUpdate": "Last Update",
     "deviceCommand": "Command",
+    "deviceCommandSender": "Command Channel",
     "deviceFollow": "Follow",
     "deviceTotalDistance": "Total Distance",
     "deviceStatus": "Status",
