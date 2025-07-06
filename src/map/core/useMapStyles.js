@@ -18,7 +18,7 @@ const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
     sources: {
       custom: source,
     },
-    glyphs: 'https://api.mapbox.com/fonts/v1/mapbox/{fontstack}/{range}.pbf',
+    glyphs: 'https://cdn.traccar.com/map/fonts/{fontstack}/{range}.pbf',
     layers: [{
       id: 'custom',
       type: 'raster',
