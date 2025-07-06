@@ -30,7 +30,7 @@ import PendingIcon from '@mui/icons-material/Pending';
 import { useTranslation } from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
 import PositionValue from './PositionValue';
-import { useDeviceReadonly } from '../util/permissions';
+import { useDeviceReadonly, useRestriction } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
@@ -121,6 +121,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const dispatch = useDispatch();
   const t = useTranslation();
 
+  const readonly = useRestriction('readonly');
   const deviceReadonly = useDeviceReadonly();
 
   const shareDisabled = useSelector((state) => state.session.server.attributes.disableShare);
@@ -296,7 +297,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       </div>
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-          <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>
+          {!readonly && <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>}
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
           <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
