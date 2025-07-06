@@ -33,14 +33,6 @@ export const formatVoltage = (value, t) => `${value.toFixed(2)} ${t('sharedVoltA
 
 export const formatConsumption = (value, t) => `${value.toFixed(2)} ${t('sharedLiterPerHourAbbreviation')}`;
 
-export const formatLocalTimeToUTC = (value) => {
-  if (value) {
-    return dayjs(value).utc().toISOString();
-  }
-
-  return '';
-}
-
 export const formatDateTimeLocalInput = (value) => {
   if (value) {
     return dayjs.utc(value).local().format('YYYY-MM-DDTHH:mm');

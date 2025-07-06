@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MuiFileInput } from 'mui-file-input';
+import dayjs from 'dayjs';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
@@ -24,7 +25,7 @@ import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
 import QrCodeDialog from '../common/components/QrCodeDialog';
-import { formatDateTimeLocalInput, formatLocalTimeToUTC } from '../common/util/formatter';
+import { formatDateTimeLocalInput } from '../common/util/formatter';
 
 const DevicePage = () => {
   const { classes } = useSettingsStyles();
@@ -144,7 +145,7 @@ const DevicePage = () => {
                 value={item.expirationTime ? formatDateTimeLocalInput(item.expirationTime) : '2099-01-01T00:00'}
                 onChange={(e) => {
                   if (e.target.value) {
-                    setItem({ ...item, expirationTime: formatLocalTimeToUTC(e.target.value) });
+                    setItem({ ...item, expirationTime: dayjs(e.target.value).format() });
                   } else {
                     setItem({ ...item, expirationTime: null });
                   }

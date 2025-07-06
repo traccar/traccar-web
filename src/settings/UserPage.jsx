@@ -23,6 +23,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -37,7 +38,7 @@ import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
-import { formatDateTimeLocalInput, formatLocalTimeToUTC } from '../common/util/formatter';
+import { formatDateTimeLocalInput } from '../common/util/formatter';
 
 const UserPage = () => {
   const { classes } = useSettingsStyles();
@@ -327,7 +328,7 @@ const UserPage = () => {
                 value={item.expirationTime ? formatDateTimeLocalInput(item.expirationTime) : '2099-01-01T00:00'}
                 onChange={(e) => {
                   if (e.target.value) {
-                    setItem({ ...item, expirationTime: formatLocalTimeToUTC(e.target.value) });
+                    setItem({ ...item, expirationTime: dayjs(e.target.value).format() });
                   } else {
                     setItem({ ...item, expirationTime: null });
                   }
