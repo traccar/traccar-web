@@ -23,7 +23,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import CachedIcon from '@mui/icons-material/Cached';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -328,7 +327,7 @@ const UserPage = () => {
                 value={item.expirationTime ? formatDateTimeLocalInput(item.expirationTime) : '2099-01-01T00:00'}
                 onChange={(e) => {
                   if (e.target.value) {
-                    setItem({ ...item, expirationTime: dayjs(e.target.value).format() });
+                    setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
                   } else {
                     setItem({ ...item, expirationTime: null });
                   }

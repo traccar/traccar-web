@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MuiFileInput } from 'mui-file-input';
-import dayjs from 'dayjs';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
@@ -145,7 +144,7 @@ const DevicePage = () => {
                 value={item.expirationTime ? formatDateTimeLocalInput(item.expirationTime) : '2099-01-01T00:00'}
                 onChange={(e) => {
                   if (e.target.value) {
-                    setItem({ ...item, expirationTime: dayjs(e.target.value).format() });
+                    setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
                   } else {
                     setItem({ ...item, expirationTime: null });
                   }
