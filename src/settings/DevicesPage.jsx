@@ -87,7 +87,7 @@ const DevicesPage = () => {
               <TableCell>{item.phone}</TableCell>
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
-              <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+              <TableCell>{formatTime(item.expirationTime, 'minutes')}</TableCell>
               {manager && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions

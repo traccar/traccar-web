@@ -88,7 +88,7 @@ const UsersPage = () => {
               <TableCell>{item.email}</TableCell>
               <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
               <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
-              <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+              <TableCell>{formatTime(item.expirationTime, 'minutes')}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}
