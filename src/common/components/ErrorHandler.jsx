@@ -44,9 +44,9 @@ const ErrorHandler = () => {
         maxWidth={false}
       >
         <DialogContent>
-          <DialogContentText>
-            <Typography variant="caption">
-              <pre>{message}</pre>
+          <DialogContentText component="div">
+            <Typography component="pre" variant="caption">
+              {message}
             </Typography>
           </DialogContentText>
         </DialogContent>
