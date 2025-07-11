@@ -135,11 +135,6 @@ const LoginPage = () => {
     }
   }, []);
 
-  if (openIdForced) {
-    handleOpenIdLogin();
-    return (<Loader />);
-  }
-
   return (
     <LoginLayout>
       <div className={classes.options}>
@@ -176,48 +171,52 @@ const LoginPage = () => {
       </div>
       <div className={classes.container}>
         {useMediaQuery(theme.breakpoints.down('lg')) && <LogoImage color={theme.palette.primary.main} />}
-        <TextField
-          required
-          error={failed}
-          label={t('userEmail')}
-          name="email"
-          value={email}
-          autoComplete="email"
-          autoFocus={!email}
-          onChange={(e) => setEmail(e.target.value)}
-          helperText={failed && 'Invalid username or password'}
-        />
-        <TextField
-          required
-          error={failed}
-          label={t('userPassword')}
-          name="password"
-          value={password}
-          type="password"
-          autoComplete="current-password"
-          autoFocus={!!email}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {codeEnabled && (
-          <TextField
-            required
-            error={failed}
-            label={t('loginTotpCode')}
-            name="code"
-            value={code}
-            type="number"
-            onChange={(e) => setCode(e.target.value)}
-          />
+        {!openIdForced && (
+          <>
+            <TextField
+              required
+              error={failed}
+              label={t('userEmail')}
+              name="email"
+              value={email}
+              autoComplete="email"
+              autoFocus={!email}
+              onChange={(e) => setEmail(e.target.value)}
+              helperText={failed && 'Invalid username or password'}
+            />
+            <TextField
+              required
+              error={failed}
+              label={t('userPassword')}
+              name="password"
+              value={password}
+              type="password"
+              autoComplete="current-password"
+              autoFocus={!!email}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {codeEnabled && (
+              <TextField
+                required
+                error={failed}
+                label={t('loginTotpCode')}
+                name="code"
+                value={code}
+                type="number"
+                onChange={(e) => setCode(e.target.value)}
+              />
+            )}
+            <Button
+              onClick={handlePasswordLogin}
+              type="submit"
+              variant="contained"
+              color="secondary"
+              disabled={!email || !password || (codeEnabled && !code)}
+            >
+              {t('loginLogin')}
+            </Button>
+          </>
         )}
-        <Button
-          onClick={handlePasswordLogin}
-          type="submit"
-          variant="contained"
-          color="secondary"
-          disabled={!email || !password || (codeEnabled && !code)}
-        >
-          {t('loginLogin')}
-        </Button>
         {openIdEnabled && (
           <Button
             onClick={() => handleOpenIdLogin()}
@@ -227,28 +226,30 @@ const LoginPage = () => {
             {t('loginOpenId')}
           </Button>
         )}
-        <div className={classes.extraContainer}>
-          {registrationEnabled && (
-            <Link
-              onClick={() => navigate('/register')}
-              className={classes.link}
-              underline="none"
-              variant="caption"
-            >
-              {t('loginRegister')}
-            </Link>
-          )}
-          {emailEnabled && (
-            <Link
-              onClick={() => navigate('/reset-password')}
-              className={classes.link}
-              underline="none"
-              variant="caption"
-            >
-              {t('loginReset')}
-            </Link>
-          )}
-        </div>
+        {!openIdForced && (
+          <div className={classes.extraContainer}>
+            {registrationEnabled && (
+              <Link
+                onClick={() => navigate('/register')}
+                className={classes.link}
+                underline="none"
+                variant="caption"
+              >
+                {t('loginRegister')}
+              </Link>
+            )}
+            {emailEnabled && (
+              <Link
+                onClick={() => navigate('/reset-password')}
+                className={classes.link}
+                underline="none"
+                variant="caption"
+              >
+                {t('loginReset')}
+              </Link>
+            )}
+          </div>
+        )}
       </div>
       <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
       <Snackbar
