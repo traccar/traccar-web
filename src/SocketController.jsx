@@ -12,6 +12,7 @@ import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
 import { useAttributePreference } from './common/util/preferences';
 import { handleNativeNotificationListeners, nativePostMessage } from './common/components/NativeInterface';
+import { fetchOrThrow } from './common/util/fetchOrThrow';
 
 const logoutCode = 4000;
 
@@ -100,12 +101,8 @@ const SocketController = () => {
 
   useEffectAsync(async () => {
     if (authenticated) {
-      const response = await fetch('/api/devices');
-      if (response.ok) {
-        dispatch(devicesActions.refresh(await response.json()));
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow('/api/devices');
+      dispatch(devicesActions.refresh(await response.json()));
       nativePostMessage('authenticated');
       connectSocket();
       return () => {

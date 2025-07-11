@@ -10,6 +10,7 @@ import { sessionActions } from './store';
 import UpdateController from './UpdateController';
 import TermsDialog from './common/components/TermsDialog';
 import Loader from './common/components/Loader';
+import { fetchOrThrow } from './common/util/fetchOrThrow';
 
 const useStyles = makeStyles()(() => ({
   page: {
@@ -34,16 +35,12 @@ const App = () => {
   const user = useSelector((state) => state.session.user);
 
   const acceptTerms = useCatch(async () => {
-    const response = await fetch(`/api/users/${user.id}`, {
+    const response = await fetchOrThrow(`/api/users/${user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...user, attributes: { ...user.attributes, termsAccepted: true } }),
     });
-    if (response.ok) {
-      dispatch(sessionActions.updateUser(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
+    dispatch(sessionActions.updateUser(await response.json()));
   });
 
   useEffectAsync(async () => {

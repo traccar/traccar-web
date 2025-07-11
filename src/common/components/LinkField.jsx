@@ -24,23 +24,15 @@ const LinkField = ({
 
   useEffectAsync(async () => {
     if (active) {
-      const response = await fetch(endpointAll);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(endpointAll);
+      setItems(await response.json());
     }
   }, [active]);
 
   useEffectAsync(async () => {
     if (active) {
-      const response = await fetch(endpointLinked);
-      if (response.ok) {
-        setLinked(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(endpointLinked);
+      setLinked(await response.json());
     }
   }, [active]);
 
