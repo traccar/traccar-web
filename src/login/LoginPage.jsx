@@ -19,7 +19,6 @@ import {
 } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
-import Loader from '../common/components/Loader';
 import QrCodeDialog from '../common/components/QrCodeDialog';
 
 const useStyles = makeStyles()((theme) => ({
