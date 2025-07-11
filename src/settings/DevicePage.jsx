@@ -24,6 +24,7 @@ import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
 import QrCodeDialog from '../common/components/QrCodeDialog';
+import { formatDateTimeLocalInput } from '../common/util/formatter';
 
 const DevicePage = () => {
   const { classes } = useSettingsStyles();
@@ -139,11 +140,13 @@ const DevicePage = () => {
               />
               <TextField
                 label={t('userExpirationTime')}
-                type="date"
-                value={item.expirationTime ? item.expirationTime.split('T')[0] : '2099-01-01'}
+                type="datetime-local"
+                value={item.expirationTime ? formatDateTimeLocalInput(item.expirationTime) : '2099-01-01T00:00'}
                 onChange={(e) => {
                   if (e.target.value) {
                     setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
+                  } else {
+                    setItem({ ...item, expirationTime: null });
                   }
                 }}
                 disabled={!admin}

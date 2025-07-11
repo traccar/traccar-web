@@ -37,6 +37,7 @@ import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import { formatDateTimeLocalInput } from '../common/util/formatter';
 
 const UserPage = () => {
   const { classes } = useSettingsStyles();
@@ -322,11 +323,13 @@ const UserPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 label={t('userExpirationTime')}
-                type="date"
-                value={item.expirationTime ? item.expirationTime.split('T')[0] : '2099-01-01'}
+                type="datetime-local"
+                value={item.expirationTime ? formatDateTimeLocalInput(item.expirationTime) : '2099-01-01T00:00'}
                 onChange={(e) => {
                   if (e.target.value) {
                     setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
+                  } else {
+                    setItem({ ...item, expirationTime: null });
                   }
                 }}
                 disabled={!manager}

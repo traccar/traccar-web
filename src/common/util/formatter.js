@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
 
 import {
   altitudeFromMeters,
@@ -18,6 +19,7 @@ import { prefixString } from './stringUtils';
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
 
 export const formatBoolean = (value, t) => (value ? t('sharedYes') : t('sharedNo'));
 
@@ -30,6 +32,14 @@ export const formatTemperature = (value) => `${value.toFixed(1)}°C`;
 export const formatVoltage = (value, t) => `${value.toFixed(2)} ${t('sharedVoltAbbreviation')}`;
 
 export const formatConsumption = (value, t) => `${value.toFixed(2)} ${t('sharedLiterPerHourAbbreviation')}`;
+
+export const formatDateTimeLocalInput = (value) => {
+  if (value) {
+    return dayjs.utc(value).local().format('YYYY-MM-DDTHH:mm');
+  }
+
+  return '';
+}
 
 export const formatTime = (value, format) => {
   if (value) {
