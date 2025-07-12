@@ -18,6 +18,7 @@ import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
@@ -56,21 +57,14 @@ const SummaryReportPage = () => {
     if (type === 'export') {
       window.location.assign(`/api/reports/summary/xlsx?${query.toString()}`);
     } else if (type === 'mail') {
-      const response = await fetch(`/api/reports/summary/mail?${query.toString()}`);
-      if (!response.ok) {
-        throw Error(await response.text());
-      }
+      await fetchOrThrow(`/api/reports/summary/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {
-        const response = await fetch(`/api/reports/summary?${query.toString()}`, {
+        const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
-        if (response.ok) {
-          setItems(await response.json());
-        } else {
-          throw Error(await response.text());
-        }
+        setItems(await response.json());
       } finally {
         setLoading(false);
       }

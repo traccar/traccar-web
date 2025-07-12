@@ -18,6 +18,7 @@ import { useDeviceReadonly, useManager } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 import DeviceUsersValue from './components/DeviceUsersValue';
 import usePersistedState from '../common/util/usePersistedState';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const DevicesPage = () => {
   const { classes } = useSettingsStyles();
@@ -39,12 +40,8 @@ const DevicesPage = () => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ all: showAll });
-      const response = await fetch(`/api/devices?${query.toString()}`);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(`/api/devices?${query.toString()}`);
+      setItems(await response.json());
     } finally {
       setLoading(false);
     }

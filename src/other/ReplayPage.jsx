@@ -26,6 +26,7 @@ import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import MapScale from '../map/MapScale';
 import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -138,18 +139,14 @@ const ReplayPage = () => {
     setTo(to);
     const query = new URLSearchParams({ deviceId, from, to });
     try {
-      const response = await fetch(`/api/positions?${query.toString()}`);
-      if (response.ok) {
-        setIndex(0);
-        const positions = await response.json();
-        setPositions(positions);
-        if (positions.length) {
-          setExpanded(false);
-        } else {
-          throw Error(t('sharedNoData'));
-        }
+      const response = await fetchOrThrow(`/api/positions?${query.toString()}`);
+      setIndex(0);
+      const positions = await response.json();
+      setPositions(positions);
+      if (positions.length) {
+        setExpanded(false);
       } else {
-        throw Error(await response.text());
+        throw Error(t('sharedNoData'));
       }
     } finally {
       setLoading(false);

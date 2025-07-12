@@ -20,6 +20,7 @@ import { useCatch } from '../reactHelper';
 import { sessionActions } from '../store';
 import { useAdministrator, useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const deviceFields = [
   { id: 'name', name: 'sharedName' },
@@ -57,15 +58,11 @@ const PreferencesPage = () => {
 
   const generateToken = useCatch(async () => {
     const expiration = dayjs(tokenExpiration, 'YYYY-MM-DD').toISOString();
-    const response = await fetch('/api/session/token', {
+    const response = await fetchOrThrow('/api/session/token', {
       method: 'POST',
       body: new URLSearchParams(`expiration=${expiration}`),
     });
-    if (response.ok) {
-      setToken(await response.text());
-    } else {
-      throw Error(await response.text());
-    }
+    setToken(await response.text());
   });
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
@@ -74,17 +71,13 @@ const PreferencesPage = () => {
   }));
 
   const handleSave = useCatch(async () => {
-    const response = await fetch(`/api/users/${user.id}`, {
+    const response = await fetchOrThrow(`/api/users/${user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...user, attributes }),
     });
-    if (response.ok) {
-      dispatch(sessionActions.updateUser(await response.json()));
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    dispatch(sessionActions.updateUser(await response.json()));
+    navigate(-1);
   });
 
   const handleReboot = useCatch(async () => {

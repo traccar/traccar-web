@@ -11,6 +11,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -38,14 +39,10 @@ const PositionPage = () => {
 
   useEffectAsync(async () => {
     if (id) {
-      const response = await fetch(`/api/positions?id=${id}`);
-      if (response.ok) {
-        const positions = await response.json();
-        if (positions.length > 0) {
-          setItem(positions[0]);
-        }
-      } else {
-        throw Error(await response.text());
+      const response = await fetchOrThrow(`/api/positions?id=${id}`);
+      const positions = await response.json();
+      if (positions.length > 0) {
+        setItem(positions[0]);
       }
     }
   }, [id]);

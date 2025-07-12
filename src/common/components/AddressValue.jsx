@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from '@mui/material';
 import { useTranslation } from './LocalizationProvider';
 import { useCatch } from '../../reactHelper';
-import { fetchOrThrow } from '../util/fetchOrThrow';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 const AddressValue = ({ latitude, longitude, originalAddress }) => {
   const t = useTranslation();

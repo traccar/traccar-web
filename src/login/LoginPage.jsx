@@ -20,6 +20,7 @@ import {
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
 import QrCodeDialog from '../common/components/QrCodeDialog';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   options: {
@@ -105,14 +106,10 @@ const LoginPage = () => {
   };
 
   const handleTokenLogin = useCatch(async (token) => {
-    const response = await fetch(`/api/session?token=${encodeURIComponent(token)}`);
-    if (response.ok) {
-      const user = await response.json();
-      dispatch(sessionActions.updateUser(user));
-      navigate('/');
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow(`/api/session?token=${encodeURIComponent(token)}`);
+    const user = await response.json();
+    dispatch(sessionActions.updateUser(user));
+    navigate('/');
   });
 
   const handleOpenIdLogin = () => {

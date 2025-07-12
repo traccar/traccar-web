@@ -11,6 +11,7 @@ import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { sessionActions } from '../store';
 import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   container: {
@@ -47,27 +48,19 @@ const RegisterPage = () => {
 
   useEffectAsync(async () => {
     if (totpForce) {
-      const response = await fetch('/api/users/totp', { method: 'POST' });
-      if (response.ok) {
-        setTotpKey(await response.text());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
+      setTotpKey(await response.text());
     }
   }, [totpForce, setTotpKey]);
 
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
-    const response = await fetch('/api/users', {
+    await fetchOrThrow('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, totpKey }),
     });
-    if (response.ok) {
-      setSnackbarOpen(true);
-    } else {
-      throw Error(await response.text());
-    }
+    setSnackbarOpen(true);
   });
 
   return (

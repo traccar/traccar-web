@@ -8,6 +8,7 @@ import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -35,14 +36,10 @@ const NetworkPage = () => {
 
   useEffectAsync(async () => {
     if (positionId) {
-      const response = await fetch(`/api/positions?id=${positionId}`);
-      if (response.ok) {
-        const positions = await response.json();
-        if (positions.length > 0) {
-          setItem(positions[0]);
-        }
-      } else {
-        throw Error(await response.text());
+      const response = await fetchOrThrow(`/api/positions?id=${positionId}`);
+      const positions = await response.json();
+      if (positions.length > 0) {
+        setItem(positions[0]);
       }
     }
   }, [positionId]);

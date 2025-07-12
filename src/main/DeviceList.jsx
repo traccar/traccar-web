@@ -7,6 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import { devicesActions } from '../store';
 import { useEffectAsync } from '../reactHelper';
 import DeviceRow from './DeviceRow';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   list: {
@@ -48,12 +49,8 @@ const DeviceList = ({ devices }) => {
   }, []);
 
   useEffectAsync(async () => {
-    const response = await fetch('/api/devices');
-    if (response.ok) {
-      dispatch(devicesActions.refresh(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/devices');
+    dispatch(devicesActions.refresh(await response.json()));
   }, []);
 
   return (

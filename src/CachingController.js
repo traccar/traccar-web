@@ -3,7 +3,7 @@ import {
   geofencesActions, groupsActions, driversActions, maintenancesActions, calendarsActions,
 } from './store';
 import { useEffectAsync } from './reactHelper';
-import { fetchOrThrow } from './common/util/fetchOrThrow';
+import fetchOrThrow from './common/util/fetchOrThrow';
 
 const CachingController = () => {
   const authenticated = useSelector((state) => !!state.session.user);

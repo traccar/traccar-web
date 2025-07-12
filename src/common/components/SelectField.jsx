@@ -3,6 +3,7 @@ import {
   FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
 } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 const SelectField = ({
   label,
@@ -30,12 +31,8 @@ const SelectField = ({
 
   useEffectAsync(async () => {
     if (endpoint) {
-      const response = await fetch(endpoint);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(endpoint);
+      setItems(await response.json());
     }
   }, []);
 

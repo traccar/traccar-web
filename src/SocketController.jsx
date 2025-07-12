@@ -12,7 +12,7 @@ import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
 import { useAttributePreference } from './common/util/preferences';
 import { handleNativeNotificationListeners, nativePostMessage } from './common/components/NativeInterface';
-import { fetchOrThrow } from './common/util/fetchOrThrow';
+import fetchOrThrow from './common/util/fetchOrThrow';
 
 const logoutCode = 4000;
 

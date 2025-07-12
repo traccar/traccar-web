@@ -16,6 +16,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import { useManager } from '../common/util/permissions';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const UsersPage = () => {
   const { classes } = useSettingsStyles();
@@ -31,12 +32,8 @@ const UsersPage = () => {
   const [temporary, setTemporary] = useState(false);
 
   const handleLogin = useCatch(async (userId) => {
-    const response = await fetch(`/api/session/${userId}`);
-    if (response.ok) {
-      window.location.replace('/');
-    } else {
-      throw Error(await response.text());
-    }
+    await fetchOrThrow(`/api/session/${userId}`);
+    window.location.replace('/');
   });
 
   const actionLogin = {
@@ -56,12 +53,8 @@ const UsersPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/users');
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow('/api/users');
+      setItems(await response.json());
     } finally {
       setLoading(false);
     }

@@ -32,6 +32,7 @@ import useServerAttributes from '../common/attributes/useServerAttributes';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const ServerPage = () => {
   const { classes } = useSettingsStyles();
@@ -49,29 +50,21 @@ const ServerPage = () => {
 
   const handleFileChange = useCatch(async (newFile) => {
     if (newFile) {
-      const response = await fetch(`/api/server/file/${newFile.name}`, {
+      await fetchOrThrow(`/api/server/file/${newFile.name}`, {
         method: 'POST',
         body: newFile,
       });
-      if (!response.ok) {
-        throw Error(await response.text());
-      }
     }
   });
 
   const handleSave = useCatch(async () => {
-    const response = await fetch('/api/server', {
+    const response = await fetchOrThrow('/api/server', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-
-    if (response.ok) {
-      dispatch(sessionActions.updateServer(await response.json()));
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    dispatch(sessionActions.updateServer(await response.json()));
+    navigate(-1);
   });
 
   return (

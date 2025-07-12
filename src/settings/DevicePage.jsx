@@ -24,6 +24,7 @@ import { useCatch } from '../reactHelper';
 import useQuery from '../common/util/useQuery';
 import useSettingsStyles from './common/useSettingsStyles';
 import QrCodeDialog from '../common/components/QrCodeDialog';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const DevicePage = () => {
   const { classes } = useSettingsStyles();
@@ -44,15 +45,11 @@ const DevicePage = () => {
   const handleFileInput = useCatch(async (newFile) => {
     setImageFile(newFile);
     if (newFile && item?.id) {
-      const response = await fetch(`/api/devices/${item.id}/image`, {
+      const response = await fetchOrThrow(`/api/devices/${item.id}/image`, {
         method: 'POST',
         body: newFile,
       });
-      if (response.ok) {
-        setItem({ ...item, attributes: { ...item.attributes, deviceImage: await response.text() } });
-      } else {
-        throw Error(await response.text());
-      }
+      setItem({ ...item, attributes: { ...item.attributes, deviceImage: await response.text() } });
     } else if (!newFile) {
       // eslint-disable-next-line no-unused-vars
       const { deviceImage, ...remainingAttributes } = item.attributes || {};

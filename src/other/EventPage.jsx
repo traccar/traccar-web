@@ -15,6 +15,7 @@ import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
 import MapScale from '../map/MapScale';
 import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()(() => ({
   root: {
@@ -49,30 +50,22 @@ const EventPage = () => {
   });
 
   const onMarkerClick = useCallback((positionId) => {
-    setShowCard(!!positionId);
+    setShowCard(Boolean(positionId));
   }, [setShowCard]);
 
   useEffectAsync(async () => {
     if (id) {
-      const response = await fetch(`/api/events/${id}`);
-      if (response.ok) {
-        setEvent(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(`/api/events/${id}`);
+      setEvent(await response.json());
     }
   }, [id]);
 
   useEffectAsync(async () => {
     if (event && event.positionId) {
-      const response = await fetch(`/api/positions?id=${event.positionId}`);
-      if (response.ok) {
-        const positions = await response.json();
-        if (positions.length > 0) {
-          setPosition(positions[0]);
-        }
-      } else {
-        throw Error(await response.text());
+      const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`);
+      const positions = await response.json();
+      if (positions.length > 0) {
+        setPosition(positions[0]);
       }
     }
   }, [event]);

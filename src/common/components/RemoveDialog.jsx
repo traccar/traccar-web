@@ -4,6 +4,7 @@ import { makeStyles } from 'tss-react/mui';
 import { useTranslation } from './LocalizationProvider';
 import { useCatch } from '../../reactHelper';
 import { snackBarDurationLongMs } from '../util/duration';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -25,12 +26,8 @@ const RemoveDialog = ({
   const t = useTranslation();
 
   const handleRemove = useCatch(async () => {
-    const response = await fetch(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
-    if (response.ok) {
-      onResult(true);
-    } else {
-      throw Error(await response.text());
-    }
+    await fetchOrThrow(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
+    onResult(true);
   });
 
   return (

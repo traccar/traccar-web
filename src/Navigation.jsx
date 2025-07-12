@@ -60,6 +60,7 @@ import EmulatorPage from './other/EmulatorPage';
 import Loader from './common/components/Loader';
 import { generateLoginToken } from './common/components/NativeInterface';
 import { useLocalization } from './common/components/LocalizationProvider';
+import fetchOrThrow from './common/util/fetchOrThrow';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -81,14 +82,10 @@ const Navigation = () => {
       navigate(pathname);
     } else if (query.get('deviceId')) {
       const deviceId = query.get('deviceId');
-      const response = await fetch(`/api/devices?uniqueId=${deviceId}`);
-      if (response.ok) {
-        const items = await response.json();
-        if (items.length > 0) {
-          dispatch(devicesActions.selectId(items[0].id));
-        }
-      } else {
-        throw Error(await response.text());
+      const response = await fetchOrThrow(`/api/devices?uniqueId=${deviceId}`);
+      const items = await response.json();
+      if (items.length > 0) {
+        dispatch(devicesActions.selectId(items[0].id));
       }
       navigate('/');
     } else if (query.get('eventId')) {

@@ -23,6 +23,7 @@ import SelectField from '../common/components/SelectField';
 import { useCatch } from '../reactHelper';
 import { snackBarDurationLongMs } from '../common/util/duration';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const allowedProperties = ['valid', 'latitude', 'longitude', 'altitude', 'speed', 'course', 'address', 'accuracy'];
 
@@ -49,16 +50,12 @@ const ComputedAttributePage = () => {
   const testAttribute = useCatch(async () => {
     const query = new URLSearchParams({ deviceId });
     const url = `/api/attributes/computed/test?${query.toString()}`;
-    const response = await fetch(url, {
+    const response = await fetchOrThrow(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    if (response.ok) {
-      setResult(await response.text());
-    } else {
-      throw Error(await response.text());
-    }
+    setResult(await response.text());
   });
 
   const validate = () => item && item.description && item.expression;

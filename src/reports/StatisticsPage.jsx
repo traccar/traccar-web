@@ -12,6 +12,7 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const columnsArray = [
   ['captureTime', 'statisticsCaptureTime'],
@@ -39,12 +40,8 @@ const StatisticsPage = () => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ from, to });
-      const response = await fetch(`/api/statistics?${query.toString()}`);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(`/api/statistics?${query.toString()}`);
+      setItems(await response.json());
     } finally {
       setLoading(false);
     }

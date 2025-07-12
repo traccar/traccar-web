@@ -16,6 +16,7 @@ import useGroupAttributes from '../common/attributes/useGroupAttributes';
 import { useCatch } from '../reactHelper';
 import { groupsActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const GroupPage = () => {
   const { classes } = useSettingsStyles();
@@ -28,12 +29,8 @@ const GroupPage = () => {
   const [item, setItem] = useState();
 
   const onItemSaved = useCatch(async () => {
-    const response = await fetch('/api/groups');
-    if (response.ok) {
-      dispatch(groupsActions.refresh(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/groups');
+    dispatch(groupsActions.refresh(await response.json()));
   });
 
   const validate = () => item && item.name;

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useCatchCallback, useEffectAsync } from '../../reactHelper';
 import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
-import { fetchOrThrow } from '../util/fetchOrThrow';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 const LinkField = ({
   label,

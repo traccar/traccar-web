@@ -27,6 +27,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -61,21 +62,14 @@ const StopReportPage = () => {
     if (type === 'export') {
       window.location.assign(`/api/reports/stops/xlsx?${query.toString()}`);
     } else if (type === 'mail') {
-      const response = await fetch(`/api/reports/stops/mail?${query.toString()}`);
-      if (!response.ok) {
-        throw Error(await response.text());
-      }
+      await fetchOrThrow(`/api/reports/stops/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {
-        const response = await fetch(`/api/reports/stops?${query.toString()}`, {
+        const response = await fetchOrThrow(`/api/reports/stops?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
-        if (response.ok) {
-          setItems(await response.json());
-        } else {
-          throw Error(await response.text());
-        }
+        setItems(await response.json());
       } finally {
         setLoading(false);
       }

@@ -37,6 +37,7 @@ import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const UserPage = () => {
   const { classes } = useSettingsStyles();
@@ -67,25 +68,17 @@ const UserPage = () => {
   const handleDelete = useCatch(async () => {
     if (deleteEmail === currentUser.email) {
       setDeleteFailed(false);
-      const response = await fetch(`/api/users/${currentUser.id}`, { method: 'DELETE' });
-      if (response.ok) {
-        navigate('/login');
-        dispatch(sessionActions.updateUser(null));
-      } else {
-        throw Error(await response.text());
-      }
+      await fetchOrThrow(`/api/users/${currentUser.id}`, { method: 'DELETE' });
+      navigate('/login');
+      dispatch(sessionActions.updateUser(null));
     } else {
       setDeleteFailed(true);
     }
   });
 
   const handleGenerateTotp = useCatch(async () => {
-    const response = await fetch('/api/users/totp', { method: 'POST' });
-    if (response.ok) {
-      setItem({ ...item, totpKey: await response.text() });
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
+    setItem({ ...item, totpKey: await response.text() });
   });
 
   const query = useQuery();

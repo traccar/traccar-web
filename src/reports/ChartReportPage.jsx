@@ -18,6 +18,7 @@ import {
   altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
 } from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const ChartReportPage = () => {
   const { classes } = useReportStyles();
@@ -43,59 +44,55 @@ const ChartReportPage = () => {
 
   const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
     const query = new URLSearchParams({ deviceId, from, to });
-    const response = await fetch(`/api/reports/route?${query.toString()}`, {
+    const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
       headers: { Accept: 'application/json' },
     });
-    if (response.ok) {
-      const positions = await response.json();
-      const keySet = new Set();
-      const keyList = [];
-      const formattedPositions = positions.map((position) => {
-        const data = { ...position, ...position.attributes };
-        const formatted = {};
-        formatted.fixTime = dayjs(position.fixTime).valueOf();
-        formatted.deviceTime = dayjs(position.deviceTime).valueOf();
-        formatted.serverTime = dayjs(position.serverTime).valueOf();
-        Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
-          const value = data[key];
-          if (typeof value === 'number') {
-            keySet.add(key);
-            const definition = positionAttributes[key] || {};
-            switch (definition.dataType) {
-              case 'speed':
-                formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
-                break;
-              case 'altitude':
-                formatted[key] = altitudeFromMeters(value, altitudeUnit).toFixed(2);
-                break;
-              case 'distance':
-                formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);
-                break;
-              case 'volume':
-                formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
-                break;
-              case 'hours':
-                formatted[key] = (value / 1000).toFixed(2);
-                break;
-              default:
-                formatted[key] = value;
-                break;
-            }
+    const positions = await response.json();
+    const keySet = new Set();
+    const keyList = [];
+    const formattedPositions = positions.map((position) => {
+      const data = { ...position, ...position.attributes };
+      const formatted = {};
+      formatted.fixTime = dayjs(position.fixTime).valueOf();
+      formatted.deviceTime = dayjs(position.deviceTime).valueOf();
+      formatted.serverTime = dayjs(position.serverTime).valueOf();
+      Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
+        const value = data[key];
+        if (typeof value === 'number') {
+          keySet.add(key);
+          const definition = positionAttributes[key] || {};
+          switch (definition.dataType) {
+            case 'speed':
+              formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
+              break;
+            case 'altitude':
+              formatted[key] = altitudeFromMeters(value, altitudeUnit).toFixed(2);
+              break;
+            case 'distance':
+              formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);
+              break;
+            case 'volume':
+              formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
+              break;
+            case 'hours':
+              formatted[key] = (value / 1000).toFixed(2);
+              break;
+            default:
+              formatted[key] = value;
+              break;
           }
-        });
-        return formatted;
-      });
-      Object.keys(positionAttributes).forEach((key) => {
-        if (keySet.has(key)) {
-          keyList.push(key);
-          keySet.delete(key);
         }
       });
-      setTypes([...keyList, ...keySet]);
-      setItems(formattedPositions);
-    } else {
-      throw Error(await response.text());
-    }
+      return formatted;
+    });
+    Object.keys(positionAttributes).forEach((key) => {
+      if (keySet.has(key)) {
+        keyList.push(key);
+        keySet.delete(key);
+      }
+    });
+    setTypes([...keyList, ...keySet]);
+    setItems(formattedPositions);
   });
 
   const colorPalette = [

@@ -17,6 +17,7 @@ import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const CommandDevicePage = () => {
   const navigate = useNavigate();
@@ -33,29 +34,20 @@ const CommandDevicePage = () => {
   const handleSend = useCatch(async () => {
     let command;
     if (savedId) {
-      const response = await fetch(`/api/commands/${savedId}`);
-      if (response.ok) {
-        command = await response.json();
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(`/api/commands/${savedId}`);
+      command = await response.json();
     } else {
       command = item;
     }
 
     command.deviceId = parseInt(id, 10);
 
-    const response = await fetch('/api/commands/send', {
+    await fetchOrThrow('/api/commands/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(command),
     });
-
-    if (response.ok) {
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    navigate(-1);
   });
 
   const validate = () => savedId || (item && item.type);
