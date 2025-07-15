@@ -70,7 +70,10 @@ const LoginPage = () => {
   const [showQr, setShowQr] = useState(false);
 
   const registrationEnabled = useSelector((state) => state.session.server.registration);
-  const languageEnabled = useSelector((state) => !state.session.server.attributes['ui.disableLoginLanguage']);
+  const languageEnabled = useSelector((state) => {
+    const attributes = state.session.server.attributes;
+    return !attributes.language && !attributes['ui.disableLoginLanguage'];
+  });
   const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
   const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
   const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);

@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 
 export default (t) => useMemo(() => ({
+  language: {
+    name: t('loginLanguage'),
+    type: 'string',
+  },
   mapGeofences: {
     name: t('attributeShowGeofences'),
     type: 'boolean',

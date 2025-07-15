@@ -1,6 +1,7 @@
 import {
   createContext, useContext, useEffect, useMemo,
 } from 'react';
+import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import usePersistedState from '../util/usePersistedState';
 
@@ -150,10 +151,22 @@ const LocalizationContext = createContext({
 });
 
 export const LocalizationProvider = ({ children }) => {
-  const [language, setLanguage] = usePersistedState('language', getDefaultLanguage());
+  const remoteLanguage = useSelector((state) => {
+    const serverLanguage = state.session.server?.attributes?.language;
+    const userLanguage = state.session.user?.attributes?.language;
+    return userLanguage || serverLanguage;
+  });
+
+  const [localLanguage, setLocalLanguage] = usePersistedState('language', getDefaultLanguage());
+
+  const language = remoteLanguage || localLanguage;
+
   const direction = /^(ar|he|fa)$/.test(language) ? 'rtl' : 'ltr';
 
-  const value = useMemo(() => ({ languages, language, setLanguage, direction }), [languages, language, setLanguage, direction]);
+  const value = useMemo(
+    () => ({ languages, language, setLocalLanguage, direction }),
+    [languages, language, setLocalLanguage, direction],
+  );
 
   useEffect(() => {
     let selected;
