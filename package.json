@@ -36,7 +36,7 @@
     "stylis": "^4.3.6",
     "stylis-plugin-rtl": "^2.1.1",
     "tss-react": "^4.9.18",
-    "vite": "^7.0.4",
+    "vite": "^7.0.5",
     "vite-plugin-pwa": "^1.0.1",
     "vite-plugin-svgr": "^4.3.0",
     "wellknown": "^0.5.0"
