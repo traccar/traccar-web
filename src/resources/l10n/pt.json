@@ -614,5 +614,7 @@
     "maintenanceStart": "Iniciar",
     "maintenancePeriod": "Período",
     "grouped": "Agrupado",
-    "sharedClearFilters": "Limpar filtros"
+    "sharedClearFilters": "Limpar filtros",
+    "ignition": "Ignição",
+    "ignitionReport": "Relatório de Ignição"
 }

@@ -151,7 +151,7 @@ const IgnitionReportPage = () => {
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>
-                <MenuItem value={false}>Report Ignition</MenuItem>
+                <MenuItem value={false}>{t('ignitionReport')}</MenuItem>
               </Select>
             </FormControl>
           </div>
