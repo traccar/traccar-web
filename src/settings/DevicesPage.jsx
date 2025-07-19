@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
 import {
   Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
 } from '@mui/material';
@@ -48,7 +49,19 @@ const DevicesPage = () => {
   }, [timestamp, showAll]);
 
   const handleExport = () => {
-    window.location.assign('/api/reports/devices/xlsx');
+    const data = items.filter(filterByKeyword(searchKeyword)).map((item) => ({
+      [t('sharedName')]: item.name,
+      [t('deviceIdentifier')]: item.uniqueId,
+      [t('groupParent')]: item.groupId ? groups[item.groupId]?.name : null,
+      [t('sharedPhone')]: item.phone,
+      [t('deviceModel')]: item.model,
+      [t('deviceContact')]: item.contact,
+      [t('userExpirationTime')]: formatTime(item.expirationTime, 'date'),
+    }));
+    const sheet = XLSX.utils.json_to_sheet(data, { header: Object.keys(data[0]) });
+    const book = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, sheet, t('deviceTitle'));
+    XLSX.writeFile(book, 'devices.xlsx');
   };
 
   const actionConnections = {
