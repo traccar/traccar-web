@@ -19,6 +19,8 @@
     "@vitejs/plugin-react": "^4.7.0",
     "@yudiel/react-qr-scanner": "^2.3.1",
     "dayjs": "^1.11.13",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "mapbox-gl": "^1.13.3",
     "maplibre-gl": "^5.6.1",
     "maplibre-google-maps": "^1.1.0",
@@ -39,8 +41,7 @@
     "vite": "^7.0.5",
     "vite-plugin-pwa": "^1.0.1",
     "vite-plugin-svgr": "^4.3.0",
-    "wellknown": "^0.5.0",
-    "xlsx": "^0.18.5"
+    "wellknown": "^0.5.0"
   },
   "scripts": {
     "start": "vite --host",

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import {
   Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
 } from '@mui/material';
@@ -48,7 +49,7 @@ const DevicesPage = () => {
     }
   }, [timestamp, showAll]);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     const data = items.filter(filterByKeyword(searchKeyword)).map((item) => ({
       [t('sharedName')]: item.name,
       [t('deviceIdentifier')]: item.uniqueId,
@@ -58,10 +59,19 @@ const DevicesPage = () => {
       [t('deviceContact')]: item.contact,
       [t('userExpirationTime')]: formatTime(item.expirationTime, 'date'),
     }));
-    const sheet = XLSX.utils.json_to_sheet(data, { header: Object.keys(data[0]) });
-    const book = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(book, sheet, t('deviceTitle'));
-    XLSX.writeFile(book, 'devices.xlsx');
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(t('deviceTitle'));
+    const headers = Object.keys(data[0]);
+
+    worksheet.addRow(headers);
+    data.forEach((row) => worksheet.addRow(headers.map((h) => row[h])));
+
+    const blob = new Blob(
+      [await workbook.xlsx.writeBuffer()],
+      { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
+    );
+    saveAs(blob, 'devices.xlsx');
   };
 
   const actionConnections = {
