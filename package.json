@@ -16,7 +16,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tmcw/togeojson": "^7.1.2",
     "@turf/circle": "^7.2.0",
-    "@vitejs/plugin-react": "^4.6.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "@yudiel/react-qr-scanner": "^2.3.1",
     "dayjs": "^1.11.13",
     "mapbox-gl": "^1.13.3",
