@@ -7,6 +7,7 @@ import {
   Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
+import { useTheme } from '@mui/material/styles';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -24,6 +25,7 @@ import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const DevicesPage = () => {
   const { classes } = useSettingsStyles();
+  const theme = useTheme();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -64,8 +66,33 @@ const DevicesPage = () => {
     const worksheet = workbook.addWorksheet(t('deviceTitle'));
     const headers = Object.keys(data[0]);
 
-    worksheet.addRow(headers);
-    data.forEach((row) => worksheet.addRow(headers.map((h) => row[h])));
+    const titleRow = worksheet.addRow([t('deviceTitle')]);
+    worksheet.mergeCells(1, 1, 1, headers.length);
+    titleRow.font = { bold: true };
+
+    const border = {
+      top: { style: 'thin' },
+      left: { style: 'thin' },
+      bottom: { style: 'thin' },
+      right: { style: 'thin' },
+    };
+    const headerRow = worksheet.addRow(headers);
+    headerRow.eachCell((cell) => {
+      cell.border = border;
+      cell.font = {};
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}` },
+      };
+    });
+    data.forEach((item) => {
+      const row = worksheet.addRow(headers.map((h) => item[h]));
+      row.eachCell({ includeEmpty: true }, (cell) => {
+        cell.border = border;
+        cell.font = {};
+      });
+    });
 
     const blob = new Blob(
       [await workbook.xlsx.writeBuffer()],
