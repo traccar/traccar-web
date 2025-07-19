@@ -61,6 +61,7 @@ import Loader from './common/components/Loader';
 import { generateLoginToken } from './common/components/NativeInterface';
 import { useLocalization } from './common/components/LocalizationProvider';
 import fetchOrThrow from './common/util/fetchOrThrow';
+import AuditPage from './reports/AuditPage';
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -172,6 +173,7 @@ const Navigation = () => {
           <Route path="trip" element={<TripReportPage />} />
           <Route path="scheduled" element={<ScheduledPage />} />
           <Route path="statistics" element={<StatisticsPage />} />
+          <Route path="audit" element={<AuditPage />} />
           <Route path="logs" element={<LogsPage />} />
         </Route>
       </Route>

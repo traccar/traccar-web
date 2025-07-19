@@ -10,6 +10,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import NotesIcon from '@mui/icons-material/Notes';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAdministrator, useRestriction } from '../../common/util/permissions';
@@ -95,6 +96,14 @@ const ReportsMenu = () => {
             link="/reports/statistics"
             icon={<BarChartIcon />}
             selected={location.pathname === '/reports/statistics'}
+          />
+        )}
+        {admin && (
+          <MenuItem
+            title={t('reportAudit')}
+            link="/reports/audit"
+            icon={<VerifiedUserIcon />}
+            selected={location.pathname === '/reports/audit'}
           />
         )}
       </List>
