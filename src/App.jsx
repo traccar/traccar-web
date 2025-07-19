@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -27,6 +27,7 @@ const App = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname, search } = useLocation();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -48,20 +49,25 @@ const App = () => {
       const response = await fetch('/api/session');
       if (response.ok) {
         dispatch(sessionActions.updateUser(await response.json()));
-      } else if (newServer) {
-        navigate('/register');
       } else {
-        navigate('/login');
+        window.sessionStorage.setItem('postLogin', pathname + search);
+        navigate(newServer ? '/register' : '/login', { replace: true });
       }
     }
     return null;
-  }, [user]);
+  }, []);
 
   if (user == null) {
     return (<Loader />);
   }
   if (termsUrl && !user.attributes.termsAccepted) {
-    return (<TermsDialog open onCancel={() => navigate('/login')} onAccept={() => acceptTerms()} />);
+    return (
+      <TermsDialog
+        open
+        onCancel={() => navigate('/login')}
+        onAccept={() => acceptTerms()}
+      />
+    );
   }
   return (
     <>

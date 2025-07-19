@@ -96,7 +96,9 @@ const LoginPage = () => {
         const user = await response.json();
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
-        navigate('/');
+        const target = window.sessionStorage.getItem('postLogin') || '/';
+        window.sessionStorage.removeItem('postLogin');
+        navigate(target, { replace: true });
       } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
         setCodeEnabled(true);
       } else {

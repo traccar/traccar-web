@@ -80,7 +80,7 @@ const Navigation = () => {
     if (query.get('token')) {
       const token = query.get('token');
       await fetch(`/api/session?token=${encodeURIComponent(token)}`);
-      navigate(pathname);
+      navigate(pathname, { replace: true });
     } else if (query.get('deviceId')) {
       const deviceId = query.get('deviceId');
       const response = await fetchOrThrow(`/api/devices?uniqueId=${deviceId}`);
@@ -88,15 +88,15 @@ const Navigation = () => {
       if (items.length > 0) {
         dispatch(devicesActions.selectId(items[0].id));
       }
-      navigate('/');
+      navigate('/', { replace: true });
     } else if (query.get('eventId')) {
       const eventId = parseInt(query.get('eventId'), 10);
-      navigate(`/event/${eventId}`);
+      navigate(`/event/${eventId}`, { replace: true });
     } else if (query.get('openid')) {
       if (query.get('openid') === 'success') {
         generateLoginToken();
       }
-      navigate('/');
+      navigate('/', { replace: true });
     } else {
       setRedirectsHandled(true);
     }
