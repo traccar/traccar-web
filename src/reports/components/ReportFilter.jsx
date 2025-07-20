@@ -36,18 +36,29 @@ const ReportFilter = ({
   const [description, setDescription] = useState();
   const [calendarId, setCalendarId] = useState();
 
-  const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
-  const disabled = (deviceType !== 'none' && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
+  const evaluateDisabled = () => {
+    if (deviceType !== 'none' && !deviceIds.length && !groupIds.length) {
+      return true;
+    }
+    if (button === 'schedule' && (!description || !calendarId)) {
+      return true;
+    }
+    return loading;
+  }
+  const disabled = evaluateDisabled();
 
-  const options = {
-    json: t('reportShow'),
-  };
-  if (onExport) {
-    options.export = t('reportExport');
+  const evaluateOptions = () => {
+    const result = {
+      json: t('reportShow'),
+    };
+    if (onExport) {
+      result.export = t('reportExport');
+    }
+    if (onSchedule && !readonly) {
+      result.schedule = t('reportSchedule');
+    }
   }
-  if (onSchedule && !readonly) {
-    options.schedule = t('reportSchedule');
-  }
+  const options = evaluateOptions();
 
   useEffect(() => {
     if (from && to) {
@@ -105,14 +116,17 @@ const ReportFilter = ({
   }
 
   const onClick = (type) => {
-    if (type === 'schedule') {
-      onSchedule(deviceIds, groupIds, {
-        description,
-        calendarId,
-        attributes: {},
-      });
-    } else {
-      showReport(type);
+    switch (type) {
+      case 'json':
+        showReport();
+        break;
+      case 'schedule':
+        onSchedule(deviceIds, groupIds, {
+          description,
+          calendarId,
+          attributes: {},
+        });
+        break;
     }
   };
 
