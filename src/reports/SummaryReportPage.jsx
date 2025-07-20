@@ -71,7 +71,7 @@ const SummaryReportPage = () => {
     }
   });
 
-  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+  const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'summary';
     report.attributes.daily = daily;
     await scheduleReport(deviceIds, groupIds, report);
@@ -106,7 +106,7 @@ const SummaryReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} deviceType="multiple" loading={loading}>
+        <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>

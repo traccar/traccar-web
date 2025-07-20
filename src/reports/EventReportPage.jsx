@@ -104,7 +104,7 @@ const EventReportPage = () => {
     }
   });
 
-  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+  const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'events';
     if (eventTypes[0] !== 'allEvents') {
       report.attributes.types = eventTypes.join(',');
@@ -165,7 +165,7 @@ const EventReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} deviceType="multiple" loading={loading}>
+            <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
               <div className={classes.filterItem}>
                 <FormControl fullWidth>
                   <InputLabel>{t('reportEventTypes')}</InputLabel>

@@ -76,7 +76,7 @@ const StopReportPage = () => {
     }
   });
 
-  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+  const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'stops';
     await scheduleReport(deviceIds, groupIds, report);
     navigate('/reports/scheduled');
@@ -128,7 +128,7 @@ const StopReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} deviceType="multiple" loading={loading}>
+            <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
           </div>

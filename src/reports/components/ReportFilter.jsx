@@ -12,7 +12,7 @@ import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
 const ReportFilter = ({
-  children, handleSubmit, handleSchedule, showOnly, deviceType, loading,
+  children, handleSubmit, onSchedule, showOnly, deviceType, loading,
 }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
@@ -211,7 +211,7 @@ const ReportFilter = ({
             disabled={disabled}
             onClick={(type) => {
               if (type === 'schedule') {
-                handleSchedule(deviceIds, groupIds, {
+                onSchedule(deviceIds, groupIds, {
                   description,
                   calendarId,
                   attributes: {},
