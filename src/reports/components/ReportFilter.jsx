@@ -54,6 +54,7 @@ const ReportFilter = ({
     };
     if (onExport && loaded) {
       result.export = t('reportExport');
+      result.print = t('reportPrint');
     }
     if (onSchedule && !readonly) {
       result.schedule = t('reportSchedule');
@@ -118,10 +119,16 @@ const ReportFilter = ({
   }
 
   const onSelected = (type) => {
-    if (type === 'export') {
-      onExport({ deviceIds, groupIds, from, to });
-    } else {
-      setSelectedOption(type);
+    switch (type) {
+      case 'export':
+        onExport({ deviceIds, groupIds, from, to });
+        break;
+      case 'print':
+        window.print();
+        break;
+      default:
+        setSelectedOption(type);
+        break;
     }
   }
 

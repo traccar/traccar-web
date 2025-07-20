@@ -565,6 +565,7 @@
     "reportChartType": "Chart Type",
     "reportShowMarkers": "Show Markers",
     "reportExport": "Export",
+    "reportPrint": "Print",
     "reportEmail": "Email Report",
     "reportSchedule": "Schedule",
     "reportPeriod": "Period",
