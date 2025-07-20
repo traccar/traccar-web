@@ -89,8 +89,6 @@ const EventReportPage = () => {
     }
     if (type === 'export') {
       window.location.assign(`/api/reports/events/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
-      await fetchOrThrow(`/api/reports/events/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {

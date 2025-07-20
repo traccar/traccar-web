@@ -61,8 +61,6 @@ const StopReportPage = () => {
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     if (type === 'export') {
       window.location.assign(`/api/reports/stops/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
-      await fetchOrThrow(`/api/reports/stops/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {

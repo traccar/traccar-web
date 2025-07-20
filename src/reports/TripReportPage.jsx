@@ -97,8 +97,6 @@ const TripReportPage = () => {
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     if (type === 'export') {
       window.location.assign(`/api/reports/trips/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
-      await fetchOrThrow(`/api/reports/trips/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {

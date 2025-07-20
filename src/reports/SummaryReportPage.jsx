@@ -56,8 +56,6 @@ const SummaryReportPage = () => {
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     if (type === 'export') {
       window.location.assign(`/api/reports/summary/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
-      await fetchOrThrow(`/api/reports/summary/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {

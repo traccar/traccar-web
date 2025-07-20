@@ -44,7 +44,6 @@ const ReportFilter = ({
   };
   if (!showOnly) {
     options.export = t('reportExport');
-    options.mail = t('reportEmail');
     if (!readonly) {
       options.schedule = t('reportSchedule');
     }

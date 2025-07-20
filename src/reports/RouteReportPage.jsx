@@ -64,8 +64,6 @@ const RouteReportPage = () => {
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     if (type === 'export') {
       window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
-      await fetchOrThrow(`/api/reports/route/mail?${query.toString()}`);
     } else {
       setLoading(true);
       try {
