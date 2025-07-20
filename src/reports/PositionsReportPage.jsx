@@ -88,7 +88,7 @@ const PositionsReportPage = () => {
   const onExport = useCatch(async ({ deviceIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
+    window.location.assign(`/api/positions/csv?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
