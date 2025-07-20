@@ -55,23 +55,26 @@ const StopReportPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
-    if (type === 'export') {
-      window.location.assign(`/api/reports/stops/xlsx?${query.toString()}`);
-    } else {
-      setLoading(true);
-      try {
-        const response = await fetchOrThrow(`/api/reports/stops?${query.toString()}`, {
-          headers: { Accept: 'application/json' },
-        });
-        setItems(await response.json());
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    try {
+      const response = await fetchOrThrow(`/api/reports/stops?${query.toString()}`, {
+        headers: { Accept: 'application/json' },
+      });
+      setItems(await response.json());
+    } finally {
+      setLoading(false);
     }
+  });
+
+  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+    const query = new URLSearchParams({ from, to });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
+    window.location.assign(`/api/reports/stops/xlsx?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -126,7 +129,7 @@ const StopReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
+            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
           </div>

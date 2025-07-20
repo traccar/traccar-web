@@ -50,23 +50,26 @@ const SummaryReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to, daily });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
-    if (type === 'export') {
-      window.location.assign(`/api/reports/summary/xlsx?${query.toString()}`);
-    } else {
-      setLoading(true);
-      try {
-        const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
-          headers: { Accept: 'application/json' },
-        });
-        setItems(await response.json());
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    try {
+      const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
+        headers: { Accept: 'application/json' },
+      });
+      setItems(await response.json());
+    } finally {
+      setLoading(false);
     }
+  });
+
+  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+    const query = new URLSearchParams({ from, to, daily });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
+    window.location.assign(`/api/reports/summary/xlsx?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -104,7 +107,7 @@ const SummaryReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportSummary']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
+        <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>

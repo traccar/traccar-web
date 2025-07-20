@@ -79,7 +79,7 @@ const EventReportPage = () => {
     setAllEventTypes([...allEventTypes, ...types.map((it) => [it.type, prefixString('event', it.type)])]);
   }, []);
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -87,19 +87,26 @@ const EventReportPage = () => {
     if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
       alarmTypes.forEach((it) => query.append('alarm', it));
     }
-    if (type === 'export') {
-      window.location.assign(`/api/reports/events/xlsx?${query.toString()}`);
-    } else {
-      setLoading(true);
-      try {
-        const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
-          headers: { Accept: 'application/json' },
-        });
-        setItems(await response.json());
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    try {
+      const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
+        headers: { Accept: 'application/json' },
+      });
+      setItems(await response.json());
+    } finally {
+      setLoading(false);
     }
+  });
+
+  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+    const query = new URLSearchParams({ from, to });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
+    eventTypes.forEach((it) => query.append('type', it));
+    if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
+      alarmTypes.forEach((it) => query.append('alarm', it));
+    }
+    window.location.assign(`/api/reports/events/xlsx?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -163,7 +170,7 @@ const EventReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
+            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
               <div className={classes.filterItem}>
                 <FormControl fullWidth>
                   <InputLabel>{t('reportEventTypes')}</InputLabel>

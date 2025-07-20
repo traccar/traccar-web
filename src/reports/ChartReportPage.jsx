@@ -42,7 +42,7 @@ const ChartReportPage = () => {
   const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
 
-  const handleSubmit = useCatch(async ({ deviceIds, from, to }) => {
+  const onShow = useCatch(async ({ deviceIds, from, to }) => {
     const query = new URLSearchParams({ deviceId: deviceIds.find(() => true), from, to });
     const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
       headers: { Accept: 'application/json' },
@@ -107,7 +107,7 @@ const ChartReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
-      <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="single">
+      <ReportFilter onShow={onShow} deviceType="single">
         <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>

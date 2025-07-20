@@ -36,7 +36,7 @@ const StatisticsPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = useCatch(async ({ from, to }) => {
+  const onShow = useCatch(async ({ from, to }) => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ from, to });
@@ -50,7 +50,7 @@ const StatisticsPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="none" loading={loading}>
+        <ReportFilter onShow={onShow} deviceType="none" loading={loading}>
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
         </ReportFilter>
       </div>

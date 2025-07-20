@@ -39,7 +39,7 @@ const CombinedReportPage = () => {
       longitude: position.longitude,
     })));
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -75,7 +75,7 @@ const CombinedReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="multiple" loading={loading} />
+            <ReportFilter onShow={onShow} deviceType="multiple" loading={loading} />
           </div>
           <Table>
             <TableHead>

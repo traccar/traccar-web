@@ -58,38 +58,41 @@ const RouteReportPage = () => {
     setSelectedItem(items.find((it) => it.id === positionId));
   }, [items, setSelectedItem]);
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
-    if (type === 'export') {
-      window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
-    } else {
-      setLoading(true);
-      try {
-        const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
-          headers: { Accept: 'application/json' },
-        });
-        const data = await response.json();
-        const keySet = new Set();
-        const keyList = [];
-        data.forEach((position) => {
-          Object.keys(position).forEach((it) => keySet.add(it));
-          Object.keys(position.attributes).forEach((it) => keySet.add(it));
-        });
-        ['id', 'deviceId', 'outdated', 'network', 'attributes'].forEach((key) => keySet.delete(key));
-        Object.keys(positionAttributes).forEach((key) => {
-          if (keySet.has(key)) {
-            keyList.push(key);
-            keySet.delete(key);
-          }
-        });
-        setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
-        setItems(data);
-      } finally {
-        setLoading(false);
-      }
+    setLoading(true);
+    try {
+      const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
+        headers: { Accept: 'application/json' },
+      });
+      const data = await response.json();
+      const keySet = new Set();
+      const keyList = [];
+      data.forEach((position) => {
+        Object.keys(position).forEach((it) => keySet.add(it));
+        Object.keys(position.attributes).forEach((it) => keySet.add(it));
+      });
+      ['id', 'deviceId', 'outdated', 'network', 'attributes'].forEach((key) => keySet.delete(key));
+      Object.keys(positionAttributes).forEach((key) => {
+        if (keySet.has(key)) {
+          keyList.push(key);
+          keySet.delete(key);
+        }
+      });
+      setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
+      setItems(data);
+    } finally {
+      setLoading(false);
     }
+  });
+
+  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+    const query = new URLSearchParams({ from, to });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
+    window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -122,7 +125,7 @@ const RouteReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
+            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}

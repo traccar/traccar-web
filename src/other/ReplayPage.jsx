@@ -132,7 +132,7 @@ const ReplayPage = () => {
     setShowCard(!!positionId);
   }, [setShowCard]);
 
-  const handleSubmit = useCatch(async ({ deviceIds, from, to }) => {
+  const onShow = useCatch(async ({ deviceIds, from, to }) => {
     const deviceId = deviceIds.find(() => true);
     setLoading(true);
     setSelectedDeviceId(deviceId);
@@ -217,7 +217,7 @@ const ReplayPage = () => {
               </div>
             </>
           ) : (
-            <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="single" loading={loading} />
+            <ReportFilter onShow={onShow} deviceType="single" loading={loading} />
           )}
         </Paper>
       </div>

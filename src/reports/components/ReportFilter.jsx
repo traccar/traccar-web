@@ -12,7 +12,7 @@ import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
 const ReportFilter = ({
-  children, handleSubmit, onSchedule, showOnly, deviceType, loading,
+  children, onShow, onExport, onSchedule, deviceType, loading,
 }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
@@ -42,16 +42,16 @@ const ReportFilter = ({
   const options = {
     json: t('reportShow'),
   };
-  if (!showOnly) {
+  if (onExport) {
     options.export = t('reportExport');
-    if (!readonly) {
-      options.schedule = t('reportSchedule');
-    }
+  }
+  if (onSchedule && !readonly) {
+    options.schedule = t('reportSchedule');
   }
 
   useEffect(() => {
     if (from && to) {
-      handleSubmit({ deviceIds, groupIds, from, to, type: 'json' });
+      onShow({ deviceIds, groupIds, from, to });
     }
   }, [deviceIds, groupIds, from, to]);
 
