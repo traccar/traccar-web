@@ -55,7 +55,7 @@ const ReportFilter = ({
     }
   }, [deviceIds, groupIds, from, to]);
 
-  const handleReport = () => {
+  const showReport = () => {
     let selectedFrom;
     let selectedTo;
     switch (period) {
@@ -103,6 +103,18 @@ const ReportFilter = ({
     values.forEach((id) => newParams.append(key, id));
     setSearchParams(newParams, { replace: true });
   }
+
+  const onClick = (type) => {
+    if (type === 'schedule') {
+      onSchedule(deviceIds, groupIds, {
+        description,
+        calendarId,
+        attributes: {},
+      });
+    } else {
+      showReport(type);
+    }
+  };
 
   return (
     <div className={classes.filter}>
@@ -198,7 +210,7 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             disabled={disabled}
-            onClick={() => handleReport('json')}
+            onClick={onClick}
           >
             <Typography variant="button" noWrap>{t(loading ? 'sharedLoading' : 'reportShow')}</Typography>
           </Button>
@@ -208,17 +220,7 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             disabled={disabled}
-            onClick={(type) => {
-              if (type === 'schedule') {
-                onSchedule(deviceIds, groupIds, {
-                  description,
-                  calendarId,
-                  attributes: {},
-                });
-              } else {
-                handleReport(type);
-              }
-            }}
+            onClick={onClick}
             selected={button}
             setSelected={(value) => setButton(value)}
             options={options}
