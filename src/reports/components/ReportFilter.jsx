@@ -31,7 +31,7 @@ const ReportFilter = ({
   const [period, setPeriod] = useState('today');
   const [customFrom, setCustomFrom] = useState(dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'));
   const [customTo, setCustomTo] = useState(dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
-  const [button, setButton] = useState('json');
+  const [selectedOption, setSelectedOption] = useState('json');
 
   const [description, setDescription] = useState();
   const [calendarId, setCalendarId] = useState();
@@ -40,18 +40,19 @@ const ReportFilter = ({
     if (deviceType !== 'none' && !deviceIds.length && !groupIds.length) {
       return true;
     }
-    if (button === 'schedule' && (!description || !calendarId)) {
+    if (selectedOption === 'schedule' && (!description || !calendarId)) {
       return true;
     }
     return loading;
   }
   const disabled = evaluateDisabled();
+  const loaded = from && to && !loading;
 
   const evaluateOptions = () => {
     const result = {
       json: t('reportShow'),
     };
-    if (onExport) {
+    if (onExport && loaded) {
       result.export = t('reportExport');
     }
     if (onSchedule && !readonly) {
@@ -116,6 +117,14 @@ const ReportFilter = ({
     setSearchParams(newParams, { replace: true });
   }
 
+  const onSelected = (type) => {
+    if (type === 'export') {
+      onExport({ deviceIds, groupIds, from, to });
+    } else {
+      setSelectedOption(type);
+    }
+  }
+
   const onClick = (type) => {
     switch (type) {
       case 'json':
@@ -157,7 +166,7 @@ const ReportFilter = ({
           />
         </div>
       )}
-      {button !== 'schedule' ? (
+      {selectedOption !== 'schedule' ? (
         <>
           <div className={classes.filterItem}>
             <FormControl fullWidth>
@@ -236,8 +245,8 @@ const ReportFilter = ({
             color="secondary"
             disabled={disabled}
             onClick={onClick}
-            selected={button}
-            setSelected={(value) => setButton(value)}
+            selected={selectedOption}
+            setSelected={onSelected}
             options={options}
           />
         )}
