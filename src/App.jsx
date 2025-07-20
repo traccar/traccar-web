@@ -19,6 +19,9 @@ const useStyles = makeStyles()(() => ({
   },
   menu: {
     zIndex: 4,
+    '@media print': {
+      display: 'none',
+    },
   },
 }));
 

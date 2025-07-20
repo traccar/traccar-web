@@ -19,14 +19,12 @@ import { useTranslation } from './LocalizationProvider';
 import BackIcon from './BackIcon';
 
 const useStyles = makeStyles()((theme, { miniVariant }) => ({
-  desktopRoot: {
+  root: {
     height: '100%',
     display: 'flex',
-  },
-  mobileRoot: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+    },
   },
   desktopDrawer: {
     width: miniVariant ? `calc(${theme.spacing(8)} + 1px)` : theme.dimensions.drawerWidthDesktop,
@@ -34,12 +32,21 @@ const useStyles = makeStyles()((theme, { miniVariant }) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    '@media print': {
+      display: 'none',
+    },
   },
   mobileDrawer: {
     width: theme.dimensions.drawerWidthTablet,
+    '@media print': {
+      display: 'none',
+    },
   },
   mobileToolbar: {
     zIndex: 1,
+    '@media print': {
+      display: 'none',
+    },
   },
   content: {
     flexGrow: 1,
@@ -83,52 +90,53 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
 
   const toggleDrawer = () => setMiniVariant(!miniVariant);
 
-  return desktop ? (
-    <div className={classes.desktopRoot}>
-      <Drawer
-        variant="permanent"
-        className={classes.desktopDrawer}
-        classes={{ paper: classes.desktopDrawer }}
-      >
-        <Toolbar>
-          {!miniVariant && (
-            <>
-              <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-                <BackIcon />
-              </IconButton>
-              <PageTitle breadcrumbs={breadcrumbs} />
-            </>
-          )}
-          <IconButton color="inherit" edge="start" sx={{ ml: miniVariant ? -2 : 'auto' }} onClick={toggleDrawer}>
-            {(miniVariant !== (theme.direction === 'rtl')) ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </Toolbar>
-        <Divider />
-        {menu}
-      </Drawer>
+  return (
+    <div className={classes.root}>
+      {desktop ? (
+        <Drawer
+          variant="permanent"
+          className={classes.desktopDrawer}
+          classes={{ paper: classes.desktopDrawer }}
+        >
+          <Toolbar>
+            {!miniVariant && (
+              <>
+                <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
+                  <BackIcon />
+                </IconButton>
+                <PageTitle breadcrumbs={breadcrumbs} />
+              </>
+            )}
+            <IconButton color="inherit" edge="start" sx={{ ml: miniVariant ? -2 : 'auto' }} onClick={toggleDrawer}>
+              {(miniVariant !== (theme.direction === 'rtl')) ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </Toolbar>
+          <Divider />
+          {menu}
+        </Drawer>
+      ) : (
+        <Drawer
+          variant="temporary"
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+          classes={{ paper: classes.mobileDrawer }}
+        >
+          {menu}
+        </Drawer>
+      )}
+      {!desktop && (
+        <AppBar className={classes.mobileToolbar} position="static" color="inherit">
+          <Toolbar>
+            <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => setOpenDrawer(true)}>
+              <MenuIcon />
+            </IconButton>
+            <PageTitle breadcrumbs={breadcrumbs} />
+          </Toolbar>
+        </AppBar>
+      )}
       <div className={classes.content}>{children}</div>
     </div>
-  ) : (
-    <div className={classes.mobileRoot}>
-      <Drawer
-        variant="temporary"
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-        classes={{ paper: classes.mobileDrawer }}
-      >
-        {menu}
-      </Drawer>
-      <AppBar className={classes.mobileToolbar} position="static" color="inherit">
-        <Toolbar>
-          <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => setOpenDrawer(true)}>
-            <MenuIcon />
-          </IconButton>
-          <PageTitle breadcrumbs={breadcrumbs} />
-        </Toolbar>
-      </AppBar>
-      <div className={classes.content}>{children}</div>
-    </div>
-  );
+  )
 };
 
 export default PageLayout;
