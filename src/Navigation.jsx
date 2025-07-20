@@ -81,7 +81,7 @@ const Navigation = () => {
       const token = query.get('token');
       await fetch(`/api/session?token=${encodeURIComponent(token)}`);
       navigate(pathname, { replace: true });
-    } else if (query.get('deviceId')) {
+    } else if (pathname == '/' && query.get('deviceId')) {
       const deviceId = query.get('deviceId');
       const response = await fetchOrThrow(`/api/devices?uniqueId=${deviceId}`);
       const items = await response.json();

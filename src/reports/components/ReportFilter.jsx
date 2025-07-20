@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
-import { devicesActions, reportsActions } from '../../store';
 import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
@@ -15,27 +15,27 @@ const ReportFilter = ({
   children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups, loading,
 }) => {
   const { classes } = useReportStyles();
-  const dispatch = useDispatch();
   const t = useTranslation();
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const readonly = useRestriction('readonly');
 
   const devices = useSelector((state) => state.devices.items);
   const groups = useSelector((state) => state.groups.items);
 
-  const deviceId = useSelector((state) => state.devices.selectedId);
-  const deviceIds = useSelector((state) => state.devices.selectedIds);
-  const groupIds = useSelector((state) => state.reports.groupIds);
-  const period = useSelector((state) => state.reports.period);
-  const from = useSelector((state) => state.reports.from);
-  const to = useSelector((state) => state.reports.to);
+  const deviceIds = searchParams.getAll('deviceId').map((id) => Number(id));
+  const groupIds = searchParams.getAll('groupId').map((id) => Number(id));
+  const [period, setPeriod] = useState('today');
+  const [from, setFrom] = useState(dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'));
+  const [to, setTo] = useState(dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
   const [button, setButton] = useState('json');
 
   const [description, setDescription] = useState();
   const [calendarId, setCalendarId] = useState();
 
   const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
-  const disabled = (!ignoreDevice && !deviceId && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
+  const disabled = (!ignoreDevice && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
 
   const handleClick = (type) => {
     if (type === 'schedule') {
@@ -79,7 +79,6 @@ const ReportFilter = ({
       }
 
       handleSubmit({
-        deviceId,
         deviceIds,
         groupIds,
         from: selectedFrom.toISOString(),
@@ -97,8 +96,14 @@ const ReportFilter = ({
           <SelectField
             label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
-            value={multiDevice ? deviceIds : deviceId}
-            onChange={(e) => dispatch(multiDevice ? devicesActions.selectIds(e.target.value) : devicesActions.selectId(e.target.value))}
+            value={multiDevice ? deviceIds : deviceIds.find(() => true)}
+            onChange={(e) => {
+              const newParams = new URLSearchParams(searchParams);
+              newParams.delete('deviceId');
+              const value = multiDevice ? e.target.value : [e.target.value];
+              value.forEach((id) => newParams.append('deviceId', id));
+              setSearchParams(newParams, { replace: true });
+            }}
             multiple={multiDevice}
             fullWidth
           />
@@ -110,7 +115,12 @@ const ReportFilter = ({
             label={t('settingsGroups')}
             data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
             value={groupIds}
-            onChange={(e) => dispatch(reportsActions.updateGroupIds(e.target.value))}
+            onChange={(e) => {
+              const newParams = new URLSearchParams(searchParams);
+              newParams.delete('groupId');
+              e.target.value.forEach((id) => newParams.append('groupId', id));
+              setSearchParams(newParams, { replace: true });
+            }}
             multiple
             fullWidth
           />
@@ -121,7 +131,7 @@ const ReportFilter = ({
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('reportPeriod')}</InputLabel>
-              <Select label={t('reportPeriod')} value={period} onChange={(e) => dispatch(reportsActions.updatePeriod(e.target.value))}>
+              <Select label={t('reportPeriod')} value={period} onChange={(e) => setPeriod(e.target.value)}>
                 <MenuItem value="today">{t('reportToday')}</MenuItem>
                 <MenuItem value="yesterday">{t('reportYesterday')}</MenuItem>
                 <MenuItem value="thisWeek">{t('reportThisWeek')}</MenuItem>
@@ -138,7 +148,7 @@ const ReportFilter = ({
                 label={t('reportFrom')}
                 type="datetime-local"
                 value={from}
-                onChange={(e) => dispatch(reportsActions.updateFrom(e.target.value))}
+                onChange={(e) => setFrom(e.target.value)}
                 fullWidth
               />
             </div>
@@ -149,7 +159,7 @@ const ReportFilter = ({
                 label={t('reportTo')}
                 type="datetime-local"
                 value={to}
-                onChange={(e) => dispatch(reportsActions.updateTo(e.target.value))}
+                onChange={(e) => setTo(e.target.value)}
                 fullWidth
               />
             </div>
