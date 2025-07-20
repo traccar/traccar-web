@@ -57,6 +57,7 @@ const ReportFilter = ({
     if (onSchedule && !readonly) {
       result.schedule = t('reportSchedule');
     }
+    return result;
   }
   const options = evaluateOptions();
 
