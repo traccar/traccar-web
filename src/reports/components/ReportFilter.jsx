@@ -127,15 +127,16 @@ const ReportFilter = ({
 
   const onClick = (type) => {
     switch (type) {
-      case 'json':
-        showReport();
-        break;
       case 'schedule':
         onSchedule(deviceIds, groupIds, {
           description,
           calendarId,
           attributes: {},
         });
+        break;
+      case 'json':
+      default:
+        showReport();
         break;
     }
   };
