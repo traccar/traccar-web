@@ -1,7 +1,6 @@
 import {
   Fragment, useCallback, useEffect, useRef, useState,
 } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
@@ -37,7 +36,6 @@ const PositionsReportPage = () => {
 
   const positionAttributes = usePositionAttributes(t);
 
-  const devices = useSelector((state) => state.devices.items);
   const readonly = useRestriction('readonly');
 
   const [available, setAvailable] = useState([]);
@@ -58,10 +56,9 @@ const PositionsReportPage = () => {
     setSelectedItem(items.find((it) => it.id === positionId));
   }, [items, setSelectedItem]);
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatch(async ({ deviceIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
     setLoading(true);
     try {
       const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
@@ -88,10 +85,9 @@ const PositionsReportPage = () => {
     }
   });
 
-  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onExport = useCatch(async ({ deviceIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
     window.location.assign(`/api/reports/route/xlsx?${query.toString()}`);
   });
 
@@ -125,7 +121,7 @@ const PositionsReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
+            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="single" loading={loading}>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}
@@ -139,7 +135,6 @@ const PositionsReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
-                <TableCell>{t('sharedDevice')}</TableCell>
                 {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
                 <TableCell className={classes.columnAction} />
               </TableRow>
@@ -158,7 +153,6 @@ const PositionsReportPage = () => {
                       </IconButton>
                     )}
                   </TableCell>
-                  <TableCell>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
                     <TableCell key={key}>
                       <PositionValue
@@ -179,7 +173,7 @@ const PositionsReportPage = () => {
                     />
                   </TableCell>
                 </TableRow>
-              )) : (<TableShimmer columns={columns.length + 2} startAction />)}
+              )) : (<TableShimmer columns={columns.length + 1} startAction />)}
             </TableBody>
           </Table>
         </div>
