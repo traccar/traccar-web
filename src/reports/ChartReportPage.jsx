@@ -42,8 +42,8 @@ const ChartReportPage = () => {
   const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
-    const query = new URLSearchParams({ deviceId, from, to });
+  const handleSubmit = useCatch(async ({ deviceIds, from, to }) => {
+    const query = new URLSearchParams({ deviceId: deviceIds.find(() => true), from, to });
     const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
       headers: { Accept: 'application/json' },
     });

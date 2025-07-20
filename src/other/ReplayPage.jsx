@@ -132,7 +132,8 @@ const ReplayPage = () => {
     setShowCard(!!positionId);
   }, [setShowCard]);
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
+  const handleSubmit = useCatch(async ({ deviceIds, from, to }) => {
+    const deviceId = deviceIds.find(() => true);
     setLoading(true);
     setSelectedDeviceId(deviceId);
     setFrom(from);

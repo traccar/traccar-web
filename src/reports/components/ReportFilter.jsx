@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
@@ -24,11 +24,13 @@ const ReportFilter = ({
   const devices = useSelector((state) => state.devices.items);
   const groups = useSelector((state) => state.groups.items);
 
-  const deviceIds = searchParams.getAll('deviceId').map((id) => Number(id));
-  const groupIds = searchParams.getAll('groupId').map((id) => Number(id));
+  const deviceIds = useMemo(() => searchParams.getAll('deviceId').map(Number), [searchParams]);
+  const groupIds = useMemo(() => searchParams.getAll('groupId').map(Number), [searchParams]);
+  const from = searchParams.get('from');
+  const to = searchParams.get('to');
   const [period, setPeriod] = useState('today');
-  const [from, setFrom] = useState(dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'));
-  const [to, setTo] = useState(dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
+  const [customFrom, setCustomFrom] = useState(dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'));
+  const [customTo, setCustomTo] = useState(dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
   const [button, setButton] = useState('json');
 
   const [description, setDescription] = useState();
@@ -37,7 +39,13 @@ const ReportFilter = ({
   const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
   const disabled = (!ignoreDevice && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
 
-  const handleClick = (type) => {
+  useEffect(() => {
+    if (from && to) {
+      handleSubmit({ deviceIds, groupIds, from, to, type: 'json' });
+    }
+  }, [deviceIds, groupIds, from, to]);
+
+  const handleReport = (type) => {
     if (type === 'schedule') {
       handleSchedule(deviceIds, groupIds, {
         description,
@@ -73,21 +81,26 @@ const ReportFilter = ({
           selectedTo = dayjs().subtract(1, 'month').endOf('month');
           break;
         default:
-          selectedFrom = dayjs(from, 'YYYY-MM-DDTHH:mm');
-          selectedTo = dayjs(to, 'YYYY-MM-DDTHH:mm');
+          selectedFrom = dayjs(customFrom, 'YYYY-MM-DDTHH:mm');
+          selectedTo = dayjs(customTo, 'YYYY-MM-DDTHH:mm');
           break;
       }
 
-      handleSubmit({
-        deviceIds,
-        groupIds,
-        from: selectedFrom.toISOString(),
-        to: selectedTo.toISOString(),
-        calendarId,
-        type,
-      });
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set('from', selectedFrom.toISOString());
+      newParams.set('to', selectedTo.toISOString());
+      setSearchParams(newParams, { replace: true });
     }
   };
+
+  const updateParams = (key, values) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(key);
+    newParams.delete('from');
+    newParams.delete('to');
+    values.forEach((id) => newParams.append(key, id));
+    setSearchParams(newParams, { replace: true });
+  }
 
   return (
     <div className={classes.filter}>
@@ -97,13 +110,7 @@ const ReportFilter = ({
             label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
             value={multiDevice ? deviceIds : deviceIds.find(() => true)}
-            onChange={(e) => {
-              const newParams = new URLSearchParams(searchParams);
-              newParams.delete('deviceId');
-              const value = multiDevice ? e.target.value : [e.target.value].filter((id) => id);
-              value.forEach((id) => newParams.append('deviceId', id));
-              setSearchParams(newParams, { replace: true });
-            }}
+            onChange={(e) => updateParams('deviceId', multiDevice ? e.target.value : [e.target.value].filter((id) => id))}
             multiple={multiDevice}
             fullWidth
           />
@@ -115,12 +122,7 @@ const ReportFilter = ({
             label={t('settingsGroups')}
             data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
             value={groupIds}
-            onChange={(e) => {
-              const newParams = new URLSearchParams(searchParams);
-              newParams.delete('groupId');
-              e.target.value.forEach((id) => newParams.append('groupId', id));
-              setSearchParams(newParams, { replace: true });
-            }}
+            onChange={(e) => updateParams('deviceId', e.target.value)}
             multiple
             fullWidth
           />
@@ -147,8 +149,8 @@ const ReportFilter = ({
               <TextField
                 label={t('reportFrom')}
                 type="datetime-local"
-                value={from}
-                onChange={(e) => setFrom(e.target.value)}
+                value={customFrom}
+                onChange={(e) => setCustomFrom(e.target.value)}
                 fullWidth
               />
             </div>
@@ -158,8 +160,8 @@ const ReportFilter = ({
               <TextField
                 label={t('reportTo')}
                 type="datetime-local"
-                value={to}
-                onChange={(e) => setTo(e.target.value)}
+                value={customTo}
+                onChange={(e) => setCustomTo(e.target.value)}
                 fullWidth
               />
             </div>
@@ -194,7 +196,7 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             disabled={disabled}
-            onClick={() => handleClick('json')}
+            onClick={() => handleReport('json')}
           >
             <Typography variant="button" noWrap>{t(loading ? 'sharedLoading' : 'reportShow')}</Typography>
           </Button>
@@ -204,7 +206,7 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             disabled={disabled}
-            onClick={handleClick}
+            onClick={handleReport}
             selected={button}
             setSelected={(value) => setButton(value)}
             options={readonly ? {
