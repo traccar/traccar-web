@@ -46,7 +46,7 @@ const AuditPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportAudit']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice loading={loading}>
+        <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="none" loading={loading}>
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
         </ReportFilter>
       </div>

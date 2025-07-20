@@ -50,7 +50,7 @@ const StatisticsPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <div className={classes.header}>
-        <ReportFilter handleSubmit={handleSubmit} showOnly ignoreDevice loading={loading}>
+        <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="none" loading={loading}>
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
         </ReportFilter>
       </div>

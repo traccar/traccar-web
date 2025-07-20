@@ -12,7 +12,7 @@ import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
 const ReportFilter = ({
-  children, handleSubmit, handleSchedule, showOnly, ignoreDevice, multiDevice, includeGroups, loading,
+  children, handleSubmit, handleSchedule, showOnly, deviceType, loading,
 }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
@@ -37,7 +37,7 @@ const ReportFilter = ({
   const [calendarId, setCalendarId] = useState();
 
   const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
-  const disabled = (!ignoreDevice && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
+  const disabled = (deviceType !== 'none' && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
 
   useEffect(() => {
     if (from && to) {
@@ -46,51 +46,43 @@ const ReportFilter = ({
   }, [deviceIds, groupIds, from, to]);
 
   const handleReport = (type) => {
-    if (type === 'schedule') {
-      handleSchedule(deviceIds, groupIds, {
-        description,
-        calendarId,
-        attributes: {},
-      });
-    } else {
-      let selectedFrom;
-      let selectedTo;
-      switch (period) {
-        case 'today':
-          selectedFrom = dayjs().startOf('day');
-          selectedTo = dayjs().endOf('day');
-          break;
-        case 'yesterday':
-          selectedFrom = dayjs().subtract(1, 'day').startOf('day');
-          selectedTo = dayjs().subtract(1, 'day').endOf('day');
-          break;
-        case 'thisWeek':
-          selectedFrom = dayjs().startOf('week');
-          selectedTo = dayjs().endOf('week');
-          break;
-        case 'previousWeek':
-          selectedFrom = dayjs().subtract(1, 'week').startOf('week');
-          selectedTo = dayjs().subtract(1, 'week').endOf('week');
-          break;
-        case 'thisMonth':
-          selectedFrom = dayjs().startOf('month');
-          selectedTo = dayjs().endOf('month');
-          break;
-        case 'previousMonth':
-          selectedFrom = dayjs().subtract(1, 'month').startOf('month');
-          selectedTo = dayjs().subtract(1, 'month').endOf('month');
-          break;
-        default:
-          selectedFrom = dayjs(customFrom, 'YYYY-MM-DDTHH:mm');
-          selectedTo = dayjs(customTo, 'YYYY-MM-DDTHH:mm');
-          break;
-      }
-
-      const newParams = new URLSearchParams(searchParams);
-      newParams.set('from', selectedFrom.toISOString());
-      newParams.set('to', selectedTo.toISOString());
-      setSearchParams(newParams, { replace: true });
+    let selectedFrom;
+    let selectedTo;
+    switch (period) {
+      case 'today':
+        selectedFrom = dayjs().startOf('day');
+        selectedTo = dayjs().endOf('day');
+        break;
+      case 'yesterday':
+        selectedFrom = dayjs().subtract(1, 'day').startOf('day');
+        selectedTo = dayjs().subtract(1, 'day').endOf('day');
+        break;
+      case 'thisWeek':
+        selectedFrom = dayjs().startOf('week');
+        selectedTo = dayjs().endOf('week');
+        break;
+      case 'previousWeek':
+        selectedFrom = dayjs().subtract(1, 'week').startOf('week');
+        selectedTo = dayjs().subtract(1, 'week').endOf('week');
+        break;
+      case 'thisMonth':
+        selectedFrom = dayjs().startOf('month');
+        selectedTo = dayjs().endOf('month');
+        break;
+      case 'previousMonth':
+        selectedFrom = dayjs().subtract(1, 'month').startOf('month');
+        selectedTo = dayjs().subtract(1, 'month').endOf('month');
+        break;
+      default:
+        selectedFrom = dayjs(customFrom, 'YYYY-MM-DDTHH:mm');
+        selectedTo = dayjs(customTo, 'YYYY-MM-DDTHH:mm');
+        break;
     }
+
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('from', selectedFrom.toISOString());
+    newParams.set('to', selectedTo.toISOString());
+    setSearchParams(newParams, { replace: true });
   };
 
   const updateParams = (key, values) => {
@@ -104,19 +96,19 @@ const ReportFilter = ({
 
   return (
     <div className={classes.filter}>
-      {!ignoreDevice && (
+      {deviceType !== 'none' && (
         <div className={classes.filterItem}>
           <SelectField
-            label={t(multiDevice ? 'deviceTitle' : 'reportDevice')}
+            label={t(deviceType === 'multiple' ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
-            value={multiDevice ? deviceIds : deviceIds.find(() => true)}
-            onChange={(e) => updateParams('deviceId', multiDevice ? e.target.value : [e.target.value].filter((id) => id))}
-            multiple={multiDevice}
+            value={deviceType === 'multiple' ? deviceIds : deviceIds.find(() => true)}
+            onChange={(e) => updateParams('deviceId', deviceType === 'multiple' ? e.target.value : [e.target.value].filter((id) => id))}
+            multiple={deviceType === 'multiple'}
             fullWidth
           />
         </div>
       )}
-      {includeGroups && (
+      {deviceType === 'multiple' && (
         <div className={classes.filterItem}>
           <SelectField
             label={t('settingsGroups')}
@@ -206,7 +198,17 @@ const ReportFilter = ({
             variant="outlined"
             color="secondary"
             disabled={disabled}
-            onClick={handleReport}
+            onClick={(type) => {
+              if (type === 'schedule') {
+                handleSchedule(deviceIds, groupIds, {
+                  description,
+                  calendarId,
+                  attributes: {},
+                });
+              } else {
+                handleReport(type);
+              }
+            }}
             selected={button}
             setSelected={(value) => setButton(value)}
             options={readonly ? {

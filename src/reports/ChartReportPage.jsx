@@ -107,7 +107,7 @@ const ChartReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
-      <ReportFilter handleSubmit={handleSubmit} showOnly>
+      <ReportFilter handleSubmit={handleSubmit} showOnly deviceType="single">
         <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>

@@ -96,12 +96,8 @@ const RouteReportPage = () => {
 
   const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'route';
-    const error = await scheduleReport(deviceIds, groupIds, report);
-    if (error) {
-      throw Error(error);
-    } else {
-      navigate('/reports/scheduled');
-    }
+    await scheduleReport(deviceIds, groupIds, report);
+    navigate('/reports/scheduled');
   });
 
   return (
@@ -128,7 +124,7 @@ const RouteReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice includeGroups loading={loading}>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} deviceType="multiple" loading={loading}>
               <ColumnSelect
                 columns={columns}
                 setColumns={setColumns}

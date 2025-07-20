@@ -109,12 +109,8 @@ const EventReportPage = () => {
     if (eventTypes[0] !== 'allEvents') {
       report.attributes.types = eventTypes.join(',');
     }
-    const error = await scheduleReport(deviceIds, groupIds, report);
-    if (error) {
-      throw Error(error);
-    } else {
-      navigate('/reports/scheduled');
-    }
+    await scheduleReport(deviceIds, groupIds, report);
+    navigate('/reports/scheduled');
   });
 
   const formatValue = (item, key) => {
@@ -169,7 +165,7 @@ const EventReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} multiDevice includeGroups loading={loading}>
+            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} deviceType="multiple" loading={loading}>
               <div className={classes.filterItem}>
                 <FormControl fullWidth>
                   <InputLabel>{t('reportEventTypes')}</InputLabel>
