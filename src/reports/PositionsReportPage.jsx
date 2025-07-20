@@ -174,7 +174,6 @@ const PositionsReportPage = () => {
                       endpoint="positions"
                       readonly={readonly}
                       setTimestamp={() => {
-                        // NOTE: Gets called when an item was removed
                         setItems(items.filter((position) => position.id !== item.id));
                       }}
                     />
