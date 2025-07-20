@@ -40,21 +40,21 @@ const ReportsMenu = () => {
         />
         <MenuItem
           title={t('reportEvents')}
-          link="/reports/event"
+          link="/reports/events"
           icon={<NotificationsActiveIcon />}
-          selected={location.pathname === '/reports/event'}
+          selected={location.pathname === '/reports/events'}
         />
         <MenuItem
           title={t('reportTrips')}
-          link="/reports/trip"
+          link="/reports/trips"
           icon={<PlayCircleFilledIcon />}
-          selected={location.pathname === '/reports/trip'}
+          selected={location.pathname === '/reports/trips'}
         />
         <MenuItem
           title={t('reportStops')}
-          link="/reports/stop"
+          link="/reports/stops"
           icon={<PauseCircleFilledIcon />}
-          selected={location.pathname === '/reports/stop'}
+          selected={location.pathname === '/reports/stops'}
         />
         <MenuItem
           title={t('reportSummary')}
