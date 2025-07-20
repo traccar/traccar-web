@@ -100,7 +100,7 @@ const ReportFilter = ({
             onChange={(e) => {
               const newParams = new URLSearchParams(searchParams);
               newParams.delete('deviceId');
-              const value = multiDevice ? e.target.value : [e.target.value];
+              const value = multiDevice ? e.target.value : [e.target.value].filter((id) => id);
               value.forEach((id) => newParams.append('deviceId', id));
               setSearchParams(newParams, { replace: true });
             }}
