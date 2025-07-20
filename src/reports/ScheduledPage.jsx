@@ -46,7 +46,7 @@ const ScheduledPage = () => {
       case 'events':
         return t('reportEvents');
       case 'route':
-        return t('reportRoute');
+        return t('reportPositions');
       case 'summary':
         return t('reportSummary');
       case 'trips':

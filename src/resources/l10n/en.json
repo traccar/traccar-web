@@ -552,7 +552,7 @@
     "notificatorPushover": "Pushover",
     "reportReplay": "Replay",
     "reportCombined": "Combined",
-    "reportRoute": "Route",
+    "reportPositions": "Positions",
     "reportEvents": "Events",
     "reportTrips": "Trips",
     "reportStops": "Stops",

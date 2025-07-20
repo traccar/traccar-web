@@ -30,7 +30,7 @@ import { useRestriction } from '../common/util/permissions';
 import CollectionActions from '../settings/components/CollectionActions';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const RouteReportPage = () => {
+const PositionsReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
@@ -102,7 +102,7 @@ const RouteReportPage = () => {
   });
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportRoute']}>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportPositions']}>
       <div className={classes.container}>
         {selectedItem && (
           <div className={classes.containerMap}>
@@ -189,4 +189,4 @@ const RouteReportPage = () => {
   );
 };
 
-export default RouteReportPage;
+export default PositionsReportPage;

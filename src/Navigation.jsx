@@ -5,7 +5,7 @@ import {
 import { useDispatch } from 'react-redux';
 import MainPage from './main/MainPage';
 import CombinedReportPage from './reports/CombinedReportPage';
-import RouteReportPage from './reports/RouteReportPage';
+import PositionsReportPage from './reports/PositionsReportPage';
 import ServerPage from './settings/ServerPage';
 import UsersPage from './settings/UsersPage';
 import DevicePage from './settings/DevicePage';
@@ -167,7 +167,7 @@ const Navigation = () => {
           <Route path="combined" element={<CombinedReportPage />} />
           <Route path="chart" element={<ChartReportPage />} />
           <Route path="events" element={<EventReportPage />} />
-          <Route path="route" element={<RouteReportPage />} />
+          <Route path="route" element={<PositionsReportPage />} />
           <Route path="stops" element={<StopReportPage />} />
           <Route path="summary" element={<SummaryReportPage />} />
           <Route path="trips" element={<TripReportPage />} />
