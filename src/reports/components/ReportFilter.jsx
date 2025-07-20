@@ -39,6 +39,17 @@ const ReportFilter = ({
   const scheduleDisabled = button === 'schedule' && (!description || !calendarId);
   const disabled = (deviceType !== 'none' && !deviceIds.length && !groupIds.length) || scheduleDisabled || loading;
 
+  const options = {
+    json: t('reportShow'),
+  };
+  if (!showOnly) {
+    options.export = t('reportExport');
+    options.mail = t('reportEmail');
+    if (!readonly) {
+      options.schedule = t('reportSchedule');
+    }
+  }
+
   useEffect(() => {
     if (from && to) {
       handleSubmit({ deviceIds, groupIds, from, to, type: 'json' });
@@ -182,7 +193,7 @@ const ReportFilter = ({
       )}
       {children}
       <div className={classes.filterItem}>
-        {showOnly ? (
+        {Object.keys(options).length === 1 ? (
           <Button
             fullWidth
             variant="outlined"
@@ -211,16 +222,7 @@ const ReportFilter = ({
             }}
             selected={button}
             setSelected={(value) => setButton(value)}
-            options={readonly ? {
-              json: t('reportShow'),
-              export: t('reportExport'),
-              mail: t('reportEmail'),
-            } : {
-              json: t('reportShow'),
-              export: t('reportExport'),
-              mail: t('reportEmail'),
-              schedule: t('reportSchedule'),
-            }}
+            options={options}
           />
         )}
       </div>
