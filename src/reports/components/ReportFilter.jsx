@@ -45,7 +45,7 @@ const ReportFilter = ({
     }
   }, [deviceIds, groupIds, from, to]);
 
-  const handleReport = (type) => {
+  const handleReport = () => {
     let selectedFrom;
     let selectedTo;
     switch (period) {
