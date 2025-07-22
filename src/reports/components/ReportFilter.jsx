@@ -168,7 +168,7 @@ const ReportFilter = ({
             label={t('settingsGroups')}
             data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
             value={groupIds}
-            onChange={(e) => updateParams('deviceId', e.target.value)}
+            onChange={(e) => updateParams('groupId', e.target.value)}
             multiple
             fullWidth
           />
