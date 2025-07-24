@@ -13,6 +13,7 @@ import TodayIcon from '@mui/icons-material/Today';
 import PublishIcon from '@mui/icons-material/Publish';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import HelpIcon from '@mui/icons-material/Help';
+import PaymentIcon from '@mui/icons-material/Payment';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -32,6 +33,7 @@ const SettingsMenu = () => {
   const manager = useManager();
   const userId = useSelector((state) => state.session.user.id);
   const supportLink = useSelector((state) => state.session.server.attributes.support);
+  const billingLink = useSelector((state) => state.session.user.attributes.billingLink);
 
   const features = useFeatures();
 
@@ -118,14 +120,21 @@ const SettingsMenu = () => {
                 selected={location.pathname.startsWith('/settings/command')}
               />
             )}
-            {supportLink && (
-              <MenuItem
-                title={t('settingsSupport')}
-                link={supportLink}
-                icon={<HelpIcon />}
-              />
-            )}
           </>
+        )}
+        {billingLink && (
+          <MenuItem
+            title={t('userBilling')}
+            link={billingLink}
+            icon={<PaymentIcon />}
+          />
+        )}
+        {supportLink && (
+          <MenuItem
+            title={t('settingsSupport')}
+            link={supportLink}
+            icon={<HelpIcon />}
+          />
         )}
       </List>
       {manager && (
