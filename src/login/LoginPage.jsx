@@ -58,7 +58,7 @@ const LoginPage = () => {
   const theme = useTheme();
   const t = useTranslation();
 
-  const { languages, language, setLanguage } = useLocalization();
+  const { languages, language, setLocalLanguage } = useLocalization();
   const languageList = Object.entries(languages).map((values) => ({ code: values[0], country: values[1].country, name: values[1].name }));
 
   const [failed, setFailed] = useState(false);
@@ -157,7 +157,7 @@ const LoginPage = () => {
         )}
         {languageEnabled && (
           <FormControl>
-            <Select value={language} onChange={(e) => setLanguage(e.target.value)}>
+            <Select value={language} onChange={(e) => setLocalLanguage(e.target.value)}>
               {languageList.map((it) => (
                 <MenuItem key={it.code} value={it.code}>
                   <Box component="span" sx={{ mr: 1 }}>

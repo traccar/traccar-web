@@ -147,7 +147,7 @@ const getDefaultLanguage = () => {
 const LocalizationContext = createContext({
   languages,
   language: 'en',
-  setLanguage: () => {},
+  setLocalLanguage: () => {},
 });
 
 export const LocalizationProvider = ({ children }) => {

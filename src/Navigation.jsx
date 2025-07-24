@@ -66,7 +66,7 @@ import AuditPage from './reports/AuditPage';
 const Navigation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setLanguage } = useLocalization();
+  const { setLocalLanguage } = useLocalization();
 
   const [redirectsHandled, setRedirectsHandled] = useState(false);
 
@@ -75,7 +75,7 @@ const Navigation = () => {
 
   useEffectAsync(async () => {
     if (query.get('locale')) {
-      setLanguage(query.get('locale'));
+      setLocalLanguage(query.get('locale'));
     }
     if (query.get('token')) {
       const token = query.get('token');
