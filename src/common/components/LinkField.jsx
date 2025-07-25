@@ -75,7 +75,14 @@ const LinkField = ({
         isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
         options={items || []}
         getOptionLabel={(item) => titleGetter(item)}
-        renderInput={(params) => <TextField {...params} label={label} />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            slotProps={{ inputLabel: { shrink: true } }}
+            placeholder={!active ? t('reportShow') : null}
+          />
+        )}
         value={(items && linked) || []}
         onChange={(_, value) => onChange(value)}
         open={open}
