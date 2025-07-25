@@ -16,7 +16,9 @@ const ErrorHandler = () => {
 
   const message = error || cachedError;
   const multiline = message?.includes('\n');
-  const displayMessage = multiline ? message.split('\n')[0] : message;
+  const displayMessage = multiline
+    ? message.split('\n')[0].replace(/^(?:(?:[\w$]+\.)*[\w$]+(?:Exception|Error)?:\s*)+/i, '')
+    : message;
 
   const [expanded, setExpanded] = useState(false);
 
