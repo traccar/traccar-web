@@ -65,9 +65,9 @@ const ChartReportPage = () => {
           switch (definition.dataType) {
             case 'speed':
               if (key == 'obdSpeed') {
-                formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
-              } else {
                 formatted[key] = speedFromKnots(speedToKnots(value, 'kmh'), speedUnit).toFixed(2);
+              } else {
+                formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
               }
               break;
             case 'altitude':
