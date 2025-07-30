@@ -15,7 +15,7 @@ import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
 import {
-  altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
+  altitudeFromMeters, distanceFromMeters, speedFromKnots, speedToKnots, volumeFromLiters,
 } from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
