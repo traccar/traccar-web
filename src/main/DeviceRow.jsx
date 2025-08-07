@@ -70,6 +70,8 @@ const DeviceRow = ({ data, index, style }) => {
   //console.log(position);
 
   const secondaryText = () => {
+
+
     let status;
     if (item.status === 'online' || !item.lastUpdate) {
       status = formatStatus(item.status, t);
@@ -78,12 +80,12 @@ const DeviceRow = ({ data, index, style }) => {
     }
     return (
       <>
-        {deviceSecondary === 'address' ? `${position.address} • ` : deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        {deviceSecondary === 'address' && position ? `${position.address.slice(0, 22)}... • ` : deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
       </>
     );
   };
-  //console.log(position.attributes.status);
+
   const getIcone = item.category === 'dynamic' ? getStatusIcone(position ? position.attributes.status : item.category) : item.category;
   return (
     <div style={style}>
