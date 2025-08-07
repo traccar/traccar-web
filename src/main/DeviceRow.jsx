@@ -15,13 +15,14 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
 import {
-  formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
+  formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor, getStatusIcone,
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
+
 
 dayjs.extend(relativeTime);
 
@@ -66,6 +67,7 @@ const DeviceRow = ({ data, index, style }) => {
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
+  //console.log(position);
 
   const secondaryText = () => {
     let status;
@@ -76,12 +78,13 @@ const DeviceRow = ({ data, index, style }) => {
     }
     return (
       <>
-        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        {deviceSecondary === 'address' ? `${position.address} • ` : deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
       </>
     );
   };
-
+  //console.log(position.attributes.status);
+  const getIcone = item.category === 'dynamic' ? getStatusIcone(position ? position.attributes.status : item.category) : item.category;
   return (
     <div style={style}>
       <ListItemButton
@@ -93,9 +96,12 @@ const DeviceRow = ({ data, index, style }) => {
       >
         <ListItemAvatar>
           <Avatar>
-            <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
+
+            <img className={classes.icon} src={mapIcons[mapIconKey(getIcone)]} />
+
           </Avatar>
         </ListItemAvatar>
+
         <ListItemText
           primary={item[devicePrimary]}
           secondary={secondaryText()}
@@ -140,10 +146,10 @@ const DeviceRow = ({ data, index, style }) => {
                       ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
                       : (<Battery60Icon fontSize="small" className={classes.warning} />)
                   )) || (
-                    position.attributes.charge
-                      ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
-                      : (<Battery20Icon fontSize="small" className={classes.error} />)
-                  )}
+                      position.attributes.charge
+                        ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
+                        : (<Battery20Icon fontSize="small" className={classes.error} />)
+                    )}
                 </IconButton>
               </Tooltip>
             )}

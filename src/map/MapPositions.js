@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { map } from './core/MapView';
-import { formatTime, getStatusColor } from '../common/util/formatter';
+import { formatTime, getStatusColor, getStatusIcone } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
 import { findFonts } from './core/mapUtil';
 
 const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, selectedPosition, titleField }) => {
+
   const id = useId();
   const clusters = `${id}-clusters`;
   const selected = `${id}-selected`;
@@ -26,26 +27,36 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
 
   const createFeature = (devices, position, selectedPositionId) => {
     const device = devices[position.deviceId];
-    let showDirection;
-    switch (directionType) {
-      case 'none':
-        showDirection = false;
-        break;
-      case 'all':
-        showDirection = position.course > 0;
-        break;
-      default:
-        showDirection = selectedPositionId === position.id && position.course > 0;
-        break;
+
+    let showDirection = false; // assigned false by default
+    if (device.category !== 'dynamic') { //add the direction layer only if its not dynamic
+
+      switch (directionType) {
+        /*case 'none':
+          showDirection = false;
+          break;*/
+        case 'all':
+          showDirection = position.course > 0;
+          break;
+        default:
+          showDirection = selectedPositionId === position.id && position.course > 0;
+          break;
+      }
+
     }
+
+
+    const getCategory = device.category === 'dynamic' ? mapIconKey(getStatusIcone(position.attributes.status)) : device.category; //updating the icon dynamically based on the status
+
     return {
       id: position.id,
       deviceId: position.deviceId,
       name: device.name,
       fixTime: formatTime(position.fixTime, 'seconds'),
-      category: mapIconKey(device.category),
+      category: mapIconKey(getCategory),
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
-      rotation: position.course,
+      rotation: position.course > 0 ? position.course : 0,
+      iconRotation: position.course > 0 && device.category === 'dynamic' ? position.course : 0, //rotation of the icon if it is dynamic
       direction: showDirection,
     };
   };
@@ -108,6 +119,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'icon-image': '{category}-{color}',
           'icon-size': iconScale,
           'icon-allow-overlap': true,
+          'icon-rotate': ['get', 'iconRotation'],
           'text-field': `{${titleField || 'name'}}`,
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
@@ -116,10 +128,12 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'text-size': 12,
         },
         paint: {
-          'text-halo-color': 'white',
-          'text-halo-width': 1,
+          'text-halo-color': 'rgba(110, 110, 110, 0.9)',
+          'text-halo-width': 10,
+          'text-color': 'white',
         },
       });
+
       map.addLayer({
         id: `direction-${source}`,
         type: 'symbol',
@@ -138,6 +152,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
         },
       });
 
+
       map.on('mouseenter', source, onMouseEnter);
       map.on('mouseleave', source, onMouseLeave);
       map.on('click', source, onMarkerClickCallback);
@@ -152,7 +167,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
         'icon-size': iconScale,
         'text-field': '{point_count_abbreviated}',
         'text-font': findFonts(map),
-        'text-size': 14,
+        'text-size': 16,
       },
     });
 

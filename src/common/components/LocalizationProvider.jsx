@@ -21,7 +21,6 @@ import fa from '../../resources/l10n/fa.json'; import 'dayjs/locale/fa';
 import fi from '../../resources/l10n/fi.json'; import 'dayjs/locale/fi';
 import fr from '../../resources/l10n/fr.json'; import 'dayjs/locale/fr';
 import gl from '../../resources/l10n/gl.json'; import 'dayjs/locale/gl';
-import he from '../../resources/l10n/he.json'; import 'dayjs/locale/he';
 import hi from '../../resources/l10n/hi.json'; import 'dayjs/locale/hi';
 import hr from '../../resources/l10n/hr.json'; import 'dayjs/locale/hr';
 import hu from '../../resources/l10n/hu.json'; import 'dayjs/locale/hu';
@@ -80,7 +79,6 @@ const languages = {
   fi: { data: fi, country: 'FI', name: 'Suomi' },
   fr: { data: fr, country: 'FR', name: 'Français' },
   gl: { data: gl, country: 'ES', name: 'Galego' },
-  he: { data: he, country: 'IL', name: 'עברית' },
   hi: { data: hi, country: 'IN', name: 'हिन्दी' },
   hr: { data: hr, country: 'HR', name: 'Hrvatski' },
   hu: { data: hu, country: 'HU', name: 'Magyar' },
@@ -147,7 +145,7 @@ const getDefaultLanguage = () => {
 const LocalizationContext = createContext({
   languages,
   language: 'en',
-  setLocalLanguage: () => {},
+  setLocalLanguage: () => { },
 });
 
 export const LocalizationProvider = ({ children }) => {

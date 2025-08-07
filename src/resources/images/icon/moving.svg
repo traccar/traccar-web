@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 0 24 24" fill="#5f6368">
+  <!-- Thicker Tail -->
+  <line x1="12" y1="18" x2="12" y2="10" stroke="#5f6368" stroke-width="3"/>
+  <!-- Thicker Arrowhead -->
+  <polygon points="5,10 12,3 19,10" fill="#5f6368"/>
+</svg>
