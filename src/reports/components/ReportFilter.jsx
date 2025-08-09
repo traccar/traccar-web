@@ -16,7 +16,7 @@ export const updateReportParams = (searchParams, setSearchParams, key, values) =
   newParams.delete(key);
   newParams.delete('from');
   newParams.delete('to');
-  values.forEach((id) => newParams.append(key, id));
+  values.forEach((value) => newParams.append(key, value));
   setSearchParams(newParams, { replace: true });
 };
 

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
 import {
   formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -39,6 +39,8 @@ const SummaryReportPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const devices = useSelector((state) => state.devices.items);
 
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -46,7 +48,7 @@ const SummaryReportPage = () => {
   const volumeUnit = useAttributePreference('volumeUnit');
 
   const [columns, setColumns] = usePersistedState('summaryColumns', ['startTime', 'distance', 'averageSpeed']);
-  const [daily, setDaily] = useState(false);
+  const daily = searchParams.get('daily') === 'true';
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -111,7 +113,11 @@ const SummaryReportPage = () => {
           <div className={classes.filterItem}>
             <FormControl fullWidth>
               <InputLabel>{t('sharedType')}</InputLabel>
-              <Select label={t('sharedType')} value={daily} onChange={(e) => setDaily(e.target.value)}>
+              <Select
+                label={t('sharedType')}
+                value={daily}
+                onChange={(e) => updateReportParams(searchParams, setSearchParams, 'daily', [String(e.target.value)])}
+              >
                 <MenuItem value={false}>{t('reportSummary')}</MenuItem>
                 <MenuItem value>{t('reportDaily')}</MenuItem>
               </Select>
