@@ -128,11 +128,11 @@ export const getStatusColor = (status) => {
 
 export const getStatusIcone = (status) => {
   switch (status) {
-    case 'moving':
+    case 'moving-success':
       return 'moving';
-    case 'parked':
+    case 'parcked-error':
       return 'stop';
-    case 'idling':
+    case 'idling-info':
       return 'idling';
     default:
       return 'stop';

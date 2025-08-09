@@ -271,7 +271,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     <EditIcon />
                   </IconButton>
                 </Tooltip>
-                {/*<Tooltip title={t('sharedRemove')}>
+                <Tooltip title={t('sharedRemove')}>
                   <IconButton
                     color="error"
                     onClick={() => setRemoving(true)}
@@ -279,7 +279,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   >
                     <DeleteIcon />
                   </IconButton>
-                </Tooltip>*/}
+                </Tooltip>
               </CardActions>
             </Card>
           </Rnd>
