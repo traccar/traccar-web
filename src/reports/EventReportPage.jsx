@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton,
 } from '@mui/material';
@@ -7,7 +7,7 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
 import { formatSpeed, formatTime } from '../common/util/formatter';
-import ReportFilter from './components/ReportFilter';
+import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -41,6 +41,8 @@ const EventReportPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const devices = useSelector((state) => state.devices.items);
   const geofences = useSelector((state) => state.geofences.items);
 
@@ -54,12 +56,18 @@ const EventReportPage = () => {
   }));
 
   const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'attributes']);
-  const [eventTypes, setEventTypes] = useState(['allEvents']);
-  const [alarmTypes, setAlarmTypes] = useState([]);
+  const eventTypes = useMemo(() => searchParams.getAll('eventType'), [searchParams]);
+  const alarmTypes = useMemo(() => searchParams.getAll('alarmType'), [searchParams]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [position, setPosition] = useState(null);
+
+  useEffect(() => {
+    if (!eventTypes.length) {
+      updateReportParams(searchParams, setSearchParams, 'eventType', ['allEvents']);
+    }
+  }, [searchParams, setSearchParams, eventTypes])
 
   useEffectAsync(async () => {
     if (selectedItem) {
@@ -183,7 +191,7 @@ const EventReportPage = () => {
                       if (values.includes('allEvents') && values.length > 1) {
                         values = [clicked];
                       }
-                      setEventTypes(values);
+                      updateReportParams(searchParams, setSearchParams, 'eventType', values)
                     }}
                     multiple
                   >
@@ -198,7 +206,7 @@ const EventReportPage = () => {
                   <SelectField
                     multiple
                     value={alarmTypes}
-                    onChange={(e) => setAlarmTypes(e.target.value)}
+                    onChange={(e) => updateReportParams(searchParams, setSearchParams, 'alarmType', e.target.value)}
                     data={alarms}
                     keyGetter={(it) => it.key}
                     label={t('sharedAlarms')}
