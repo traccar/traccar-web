@@ -11,6 +11,15 @@ import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 
+export const updateReportParams = (searchParams, setSearchParams, key, values) => {
+  const newParams = new URLSearchParams(searchParams);
+  newParams.delete(key);
+  newParams.delete('from');
+  newParams.delete('to');
+  values.forEach((id) => newParams.append(key, id));
+  setSearchParams(newParams, { replace: true });
+};
+
 const ReportFilter = ({
   children, onShow, onExport, onSchedule, deviceType, loading,
 }) => {
@@ -109,15 +118,6 @@ const ReportFilter = ({
     setSearchParams(newParams, { replace: true });
   };
 
-  const updateParams = (key, values) => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.delete(key);
-    newParams.delete('from');
-    newParams.delete('to');
-    values.forEach((id) => newParams.append(key, id));
-    setSearchParams(newParams, { replace: true });
-  }
-
   const onSelected = (type) => {
     switch (type) {
       case 'export':
@@ -156,7 +156,10 @@ const ReportFilter = ({
             label={t(deviceType === 'multiple' ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
             value={deviceType === 'multiple' ? deviceIds : deviceIds.find(() => true)}
-            onChange={(e) => updateParams('deviceId', deviceType === 'multiple' ? e.target.value : [e.target.value].filter((id) => id))}
+            onChange={(e) => {
+              const values = deviceType === 'multiple' ? e.target.value : [e.target.value].filter((id) => id);
+              updateReportParams(searchParams, setSearchParams, 'deviceId', values);
+            }}
             multiple={deviceType === 'multiple'}
             fullWidth
           />
@@ -168,7 +171,10 @@ const ReportFilter = ({
             label={t('settingsGroups')}
             data={Object.values(groups).sort((a, b) => a.name.localeCompare(b.name))}
             value={groupIds}
-            onChange={(e) => updateParams('groupId', e.target.value)}
+            onChange={(e) => {
+              const values = e.target.value;
+              updateReportParams(searchParams, setSearchParams, 'groupId', values);
+            }}
             multiple
             fullWidth
           />
