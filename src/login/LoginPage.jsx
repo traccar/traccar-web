@@ -51,9 +51,6 @@ const useStyles = makeStyles()((theme) => ({
   link: {
     cursor: 'pointer',
   },
-  passwordVisibilityIcon: {
-    color: theme.palette.neutral.main,
-  }, 
 }));
 
 const LoginPage = () => {
@@ -209,7 +206,6 @@ const LoginPage = () => {
                         onClick={() => setShowPassword(!showPassword)}
                         edge="end"
                         size="small"
-                        className={classes.passwordVisibilityIcon}
                       >
                         {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                       </IconButton>
