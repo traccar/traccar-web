@@ -214,6 +214,7 @@
     "deviceIdentifier": "Identifiant",
     "deviceModel": "Modèle",
     "deviceContact": "Contact",
+    "deviceAddress": "Adresse",
     "deviceCategory": "Catégorie",
     "deviceLastUpdate": "Dernière mise à jour",
     "deviceCommand": "Commande",
@@ -618,6 +619,7 @@
     "categoryTruck": "Camion",
     "categoryVan": "Van",
     "categoryScooter": "Scooter",
+    "categoryDynamic": "Dynamique",
     "maintenanceStart": "Départ",
     "maintenancePeriod": "Période"
 }

@@ -72,6 +72,7 @@ const MainToolbar = ({
         onBlur={() => setDevicesAnchorEl(null)}
         endAdornment={(
           <InputAdornment position="end">
+            {filteredDevices.length} {/* added total number of devices*/}
             <IconButton size="small" edge="end" onClick={() => setFilterAnchorEl(inputRef.current)}>
               <Badge color="info" variant="dot" invisible={!filter.statuses.length && !filter.groups.length}>
                 <TuneIcon fontSize="small" />
