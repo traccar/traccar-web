@@ -63,7 +63,7 @@ const DevicesPage = () => {
       [t('deviceModel')]: item.model,
       [t('deviceContact')]: item.contact,
       [t('userExpirationTime')]: formatTime(item.expirationTime, 'date'),
-      [t('positionAddress')]: positions[item.id].address,
+      [t('positionAddress')]: positions[item.id]?.address || '',
     }));
 
     const workbook = new ExcelJS.Workbook();
@@ -145,7 +145,7 @@ const DevicesPage = () => {
                   <AddressValue
                     latitude={positions[item.id].latitude}
                     longitude={positions[item.id].longitude}
-                    originalAddress={positions[item.id].address}
+                    originalAddress={positions[item.id]?.address}
                   />
                 )}
               </TableCell>
