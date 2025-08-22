@@ -61,7 +61,7 @@
     ]
   },
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
+    "@eslint/js": "^9.34.0",
     "@vite-pwa/assets-generator": "^1.0.0",
     "eslint": "^9.33.0",
     "eslint-config-airbnb": "^19.0.4",
