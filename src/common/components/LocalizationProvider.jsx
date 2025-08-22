@@ -45,7 +45,7 @@ import nl from '../../resources/l10n/nl.json'; import 'dayjs/locale/nl';
 import nn from '../../resources/l10n/nn.json'; import 'dayjs/locale/nn';
 import pl from '../../resources/l10n/pl.json'; import 'dayjs/locale/pl';
 import pt from '../../resources/l10n/pt.json'; import 'dayjs/locale/pt';
-import ptBR from '../../resources/l10n/pt_BR.json'; import 'dayjs/locale/pt-br';
+import pt_BR from '../../resources/l10n/pt_BR.json'; import 'dayjs/locale/pt-br';
 import ro from '../../resources/l10n/ro.json'; import 'dayjs/locale/ro';
 import ru from '../../resources/l10n/ru.json'; import 'dayjs/locale/ru';
 import si from '../../resources/l10n/si.json'; import 'dayjs/locale/si';
@@ -61,7 +61,7 @@ import uk from '../../resources/l10n/uk.json'; import 'dayjs/locale/uk';
 import uz from '../../resources/l10n/uz.json'; import 'dayjs/locale/uz';
 import vi from '../../resources/l10n/vi.json'; import 'dayjs/locale/vi';
 import zh from '../../resources/l10n/zh.json'; import 'dayjs/locale/zh';
-import zhTW from '../../resources/l10n/zh_TW.json'; import 'dayjs/locale/zh-tw';
+import zh_TW from '../../resources/l10n/zh_TW.json'; import 'dayjs/locale/zh-tw';
 
 const languages = {
   af: { data: af, country: 'ZA', name: 'Afrikaans' },
@@ -104,7 +104,7 @@ const languages = {
   nn: { data: nn, country: 'NO', name: 'Norsk nynorsk' },
   pl: { data: pl, country: 'PL', name: 'Polski' },
   pt: { data: pt, country: 'PT', name: 'Português' },
-  ptBR: { data: ptBR, country: 'BR', name: 'Português (Brasil)' },
+  pt_BR: { data: pt_BR, country: 'BR', name: 'Português (Brasil)' },
   ro: { data: ro, country: 'RO', name: 'Română' },
   ru: { data: ru, country: 'RU', name: 'Русский' },
   si: { data: si, country: 'LK', name: 'සිංහල' },
@@ -120,7 +120,7 @@ const languages = {
   uz: { data: uz, country: 'UZ', name: 'Oʻzbekcha' },
   vi: { data: vi, country: 'VN', name: 'Tiếng Việt' },
   zh: { data: zh, country: 'CN', name: '中文' },
-  zhTW: { data: zhTW, country: 'TW', name: '中文 (Taiwan)' },
+  zh_TW: { data: zh_TW, country: 'TW', name: '中文 (Taiwan)' },
 };
 
 const getDefaultLanguage = () => {
@@ -130,7 +130,7 @@ const getDefaultLanguage = () => {
   browserLanguages.push(browserLanguage.substring(0, 2));
 
   for (let i = 0; i < browserLanguages.length; i += 1) {
-    let language = browserLanguages[i].replace('-', '');
+    let language = browserLanguages[i].replace('-', '_');
     if (language in languages) {
       return language;
     }
