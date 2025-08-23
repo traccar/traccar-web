@@ -61,4 +61,9 @@ export default makeStyles()((theme) => ({
       display: 'none',
     },
   },
+  tableCell: {
+    '@media print': {
+      color: 'black',
+    },
+  },
 }));

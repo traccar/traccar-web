@@ -137,8 +137,8 @@ const StopReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
-                <TableCell>{t('sharedDevice')}</TableCell>
-                {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+                <TableCell className={classes.tableCell}>{t('sharedDevice')}</TableCell>
+                {columns.map((key) => (<TableCell key={key} className={classes.tableCell}>{t(columnsMap.get(key))}</TableCell>))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -155,9 +155,9 @@ const StopReportPage = () => {
                       </IconButton>
                     )}
                   </TableCell>
-                  <TableCell>{devices[item.deviceId].name}</TableCell>
+                  <TableCell className={classes.tableCell}>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
-                    <TableCell key={key}>
+                    <TableCell key={key} className={classes.tableCell}>
                       {formatValue(item, key)}
                     </TableCell>
                   ))}
