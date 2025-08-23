@@ -11,14 +11,14 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapRoutePoints from '../map/MapRoutePoints';
 import MapPositions from '../map/MapPositions';
 import { formatTime } from '../common/util/formatter';
-import ReportFilter from '../reports/components/ReportFilter';
+import ReportFilter, { updateReportParams } from '../reports/components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatch } from '../reactHelper';
 import MapCamera from '../map/MapCamera';
@@ -83,6 +83,8 @@ const ReplayPage = () => {
   const navigate = useNavigate();
   const timerRef = useRef();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [positions, setPositions] = useState([]);
@@ -91,9 +93,10 @@ const ReplayPage = () => {
   const [showCard, setShowCard] = useState(false);
   const [from, setFrom] = useState();
   const [to, setTo] = useState();
-  const [expanded, setExpanded] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const loaded = searchParams.get('from') && searchParams.get('to') && !loading;
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -144,9 +147,7 @@ const ReplayPage = () => {
       setIndex(0);
       const positions = await response.json();
       setPositions(positions);
-      if (positions.length) {
-        setExpanded(false);
-      } else {
+      if (!positions.length) {
         throw Error(t('sharedNoData'));
       }
     } finally {
@@ -178,12 +179,12 @@ const ReplayPage = () => {
               <BackIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
-            {!expanded && (
+            {loaded && (
               <>
                 <IconButton onClick={handleDownload}>
                   <DownloadIcon />
                 </IconButton>
-                <IconButton edge="end" onClick={() => setExpanded(true)}>
+                <IconButton edge="end" onClick={() => updateReportParams(searchParams, setSearchParams, 'ignore', [])}>
                   <TuneIcon />
                 </IconButton>
               </>
@@ -191,7 +192,7 @@ const ReplayPage = () => {
           </Toolbar>
         </Paper>
         <Paper className={classes.content} square>
-          {!expanded ? (
+          {loaded ? (
             <>
               <Typography variant="subtitle1" align="center">{deviceName}</Typography>
               <Slider
