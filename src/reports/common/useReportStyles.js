@@ -63,7 +63,7 @@ export default makeStyles()((theme) => ({
   },
   tableCell: {
     '@media print': {
-      color: 'black',
+      color: theme.palette.text.main,
     },
   },
 }));

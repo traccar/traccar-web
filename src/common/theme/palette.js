@@ -19,4 +19,7 @@ export default (server, darkMode) => ({
   geometry: {
     main: '#3bb2d0',
   },
+  text: {
+    main: '#000000',
+  }
 });
