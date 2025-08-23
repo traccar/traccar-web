@@ -61,7 +61,7 @@ const PositionsReportPage = () => {
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     setLoading(true);
     try {
-      const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
+      const response = await fetchOrThrow(`/api/positions?${query.toString()}`, {
         headers: { Accept: 'application/json' },
       });
       const data = await response.json();
