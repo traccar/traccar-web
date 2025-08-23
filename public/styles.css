@@ -12,3 +12,9 @@ body {
   flex-direction: column;
   height: 100%;
 }
+
+@media print {
+  * {
+    overflow: visible !important;
+  }
+}
