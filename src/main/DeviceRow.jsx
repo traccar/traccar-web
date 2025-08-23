@@ -67,6 +67,11 @@ const DeviceRow = ({ data, index, style }) => {
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
 
+  let dynamicStatus = item.category; //creating a variable for dynamic Status
+  if (item.category === 'dynamic') {
+    dynamicStatus = position ? position.attributes.dynamicStatus : 'default';
+  }
+
   const secondaryText = () => {
     let status;
     if (item.status === 'online' || !item.lastUpdate) {
@@ -76,7 +81,8 @@ const DeviceRow = ({ data, index, style }) => {
     }
     return (
       <>
-        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        {/* displaying address as secondary text if available */}
+        {deviceSecondary && position && (item[deviceSecondary] || position[deviceSecondary]) && `${item[deviceSecondary] || position[deviceSecondary].slice(0, 22)} • `}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
       </>
     );
@@ -93,7 +99,8 @@ const DeviceRow = ({ data, index, style }) => {
       >
         <ListItemAvatar>
           <Avatar>
-            <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
+            {/*displaying dynamic icon*/}
+            <img className={classes.icon} src={mapIcons[mapIconKey(dynamicStatus)]} alt="" />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -140,10 +147,10 @@ const DeviceRow = ({ data, index, style }) => {
                       ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
                       : (<Battery60Icon fontSize="small" className={classes.warning} />)
                   )) || (
-                    position.attributes.charge
-                      ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
-                      : (<Battery20Icon fontSize="small" className={classes.error} />)
-                  )}
+                      position.attributes.charge
+                        ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
+                        : (<Battery20Icon fontSize="small" className={classes.error} />)
+                    )}
                 </IconButton>
               </Tooltip>
             )}
