@@ -96,7 +96,7 @@ const ReplayPage = () => {
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const loaded = searchParams.get('from') && searchParams.get('to') && !loading;
+  const loaded = searchParams.get('from') && searchParams.get('to') && !loading && positions.length;
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
