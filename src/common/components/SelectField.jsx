@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
+  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField, Chip,
 } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
@@ -17,6 +17,7 @@ const SelectField = ({
   data,
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
+  searchable = false, // New prop to enable search for multiple
 }) => {
   const [items, setItems] = useState();
 
@@ -40,20 +41,61 @@ const SelectField = ({
     return (
       <FormControl fullWidth={fullWidth}>
         {multiple ? (
-          <>
-            <InputLabel>{label}</InputLabel>
-            <Select
-              label={label}
+          searchable ? (
+            // Use Autocomplete for multiple with search
+            <Autocomplete
               multiple
-              value={value}
-              onChange={onChange}
-            >
-              {items.map((item) => (
-                <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
-              ))}
-            </Select>
-          </>
+              size="small"
+              options={items}
+              getOptionLabel={(option) => titleGetter(option)}
+              renderOption={(props, option) => (
+                <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>
+                  {titleGetter(option)}
+                </MenuItem>
+              )}
+              isOptionEqualToValue={(option, value) => keyGetter(option) === keyGetter(value)}
+              value={items.filter(item => value.includes(keyGetter(item)))}
+              onChange={(_, newValue) => {
+                const selectedIds = newValue.map(item => keyGetter(item));
+                onChange({ target: { value: selectedIds } });
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label={label} placeholder="Search..." />
+              )}
+              slots={{
+                tag: Chip,
+              }}
+              slotProps={{
+                tag: {
+                  variant: "outlined",
+                  size: "small",
+                },
+              }}
+              filterOptions={(options, { inputValue }) =>
+                options.filter(option =>
+                  titleGetter(option).toLowerCase().includes(inputValue.toLowerCase())
+                )
+              }
+              noOptionsText="No results found"
+            />
+          ) : (
+            // Use traditional Select for multiple without search
+            <>
+              <InputLabel>{label}</InputLabel>
+              <Select
+                label={label}
+                multiple
+                value={value}
+                onChange={onChange}
+              >
+                {items.map((item) => (
+                  <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
+                ))}
+              </Select>
+            </>
+          )
         ) : (
+          // Single selection always uses Autocomplete (with search)
           <Autocomplete
             size="small"
             options={items}
