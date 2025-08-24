@@ -175,8 +175,8 @@ const TripReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
-                <TableCell className={classes.tableCell}>{t('sharedDevice')}</TableCell>
-                {columns.map((key) => (<TableCell key={key} className={classes.tableCell}>{t(columnsMap.get(key))}</TableCell>))}
+                <TableCell>{t('sharedDevice')}</TableCell>
+                {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -193,9 +193,9 @@ const TripReportPage = () => {
                       </IconButton>
                     )}
                   </TableCell>
-                  <TableCell className={classes.tableCell}>{devices[item.deviceId].name}</TableCell>
+                  <TableCell>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
-                    <TableCell key={key} className={classes.tableCell}>
+                    <TableCell key={key}>
                       {formatValue(item, key)}
                     </TableCell>
                   ))}

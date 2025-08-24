@@ -135,7 +135,7 @@ const PositionsReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
-                {columns.map((key) => (<TableCell className={classes.tableCell} key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
+                {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
                 <TableCell className={classes.columnAction} />
               </TableRow>
             </TableHead>
@@ -154,7 +154,7 @@ const PositionsReportPage = () => {
                     )}
                   </TableCell>
                   {columns.map((key) => (
-                    <TableCell className={classes.tableCell} key={key}>
+                    <TableCell key={key}>
                       <PositionValue
                         position={item}
                         property={item.hasOwnProperty(key) ? key : null}
