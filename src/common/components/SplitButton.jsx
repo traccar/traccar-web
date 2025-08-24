@@ -2,13 +2,23 @@ import { useRef, useState } from 'react';
 import {
   Button, ButtonGroup, Menu, MenuItem, Typography,
 } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+const useStyles = makeStyles()(() => ({
+  buttonMenu: {
+    '@media print': {
+      display: 'none !important',
+    },
+  },
+}));
 
 const SplitButton = ({
   fullWidth, variant, color, disabled, onClick, options, selected, setSelected,
 }) => {
   const anchorRef = useRef();
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+  const { classes } = useStyles();
 
   return (
     <>
@@ -21,6 +31,7 @@ const SplitButton = ({
         </Button>
       </ButtonGroup>
       <Menu
+        className={classes.buttonMenu}
         open={!!menuAnchorEl}
         anchorEl={menuAnchorEl}
         onClose={() => setMenuAnchorEl(null)}
