@@ -161,6 +161,7 @@ const ReportFilter = ({
               updateReportParams(searchParams, setSearchParams, 'deviceId', values);
             }}
             multiple={deviceType === 'multiple'}
+            searchable={deviceType === 'multiple'}
             fullWidth
           />
         </div>
