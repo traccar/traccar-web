@@ -91,12 +91,12 @@ const ReplayPage = () => {
   const [index, setIndex] = useState(0);
   const [selectedDeviceId, setSelectedDeviceId] = useState(defaultDeviceId);
   const [showCard, setShowCard] = useState(false);
-  const [from, setFrom] = useState();
-  const [to, setTo] = useState();
+  const from = searchParams.get('from');
+  const to = searchParams.get('to');
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const loaded = searchParams.get('from') && searchParams.get('to') && !loading && positions.length;
+  const loaded = Boolean(from && to && !loading && positions.length);
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -107,6 +107,12 @@ const ReplayPage = () => {
     }
     return null;
   });
+
+  useEffect(() => {
+    if (!from && !to) {
+      setPositions([]);
+    }
+  }, [from, to, setPositions]);
 
   useEffect(() => {
     if (playing && positions.length > 0) {
@@ -139,8 +145,6 @@ const ReplayPage = () => {
     const deviceId = deviceIds.find(() => true);
     setLoading(true);
     setSelectedDeviceId(deviceId);
-    setFrom(from);
-    setTo(to);
     const query = new URLSearchParams({ deviceId, from, to });
     try {
       const response = await fetchOrThrow(`/api/positions?${query.toString()}`);
