@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField, Chip,
+  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
 } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
