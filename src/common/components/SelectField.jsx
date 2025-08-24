@@ -60,16 +60,12 @@ const SelectField = ({
                 onChange({ target: { value: selectedIds } });
               }}
               renderInput={(params) => (
-                <TextField {...params} label={label} placeholder="Search..." />
+                <TextField {...params} label={label} placeholder={`Search... (${value.length} selected)`} />
               )}
-              slots={{
-                tag: Chip,
-              }}
               slotProps={{
-                tag: {
-                  variant: "outlined",
-                  size: "small",
-                },
+                chip: {
+                  style: { display: 'none' }
+                }
               }}
               filterOptions={(options, { inputValue }) =>
                 options.filter(option =>
@@ -77,6 +73,7 @@ const SelectField = ({
                 )
               }
               noOptionsText="No results found"
+              disableCloseOnSelect
             />
           ) : (
             // Use traditional Select for multiple without search
