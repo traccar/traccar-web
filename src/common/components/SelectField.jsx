@@ -34,8 +34,7 @@ const SelectField = ({
     if (!multiple || value.length === 0) {
       return t('sharedSearch');
     }
-    const selectedTitles = items.filter(item => value.includes(keyGetter(item))).map(item => titleGetter(item)).join(', ');
-    return selectedTitles;
+    return items.filter(item => value.includes(keyGetter(item))).map(item => titleGetter(item)).join(', ');
   };
 
   useEffect(() => setItems(data), [data]);
