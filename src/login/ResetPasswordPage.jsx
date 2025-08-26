@@ -3,10 +3,9 @@ import {
   Button, TextField, Typography, Snackbar, IconButton,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import useQuery from '../common/util/useQuery';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
@@ -34,9 +33,9 @@ const ResetPasswordPage = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
-  const query = useQuery();
 
-  const token = query.get('passwordReset');
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('passwordReset');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
