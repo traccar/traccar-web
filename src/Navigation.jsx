@@ -68,7 +68,7 @@ const Navigation = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const hasQueryParams = ['locale', 'token', 'deviceId', 'openid'].some(key => searchParams.has(key));
+  const hasQueryParams = ['locale', 'token', 'uniqueId', 'openid'].some(key => searchParams.has(key));
 
   useEffectAsync(async () => {
     if (!hasQueryParams) {
@@ -88,13 +88,13 @@ const Navigation = () => {
       newParams.delete('token');
     }
 
-    if (searchParams.has('deviceId')) {
-      const response = await fetchOrThrow(`/api/devices?uniqueId=${searchParams.get('deviceId')}`);
+    if (searchParams.has('uniqueId')) {
+      const response = await fetchOrThrow(`/api/devices?uniqueId=${searchParams.get('uniqueId')}`);
       const items = await response.json();
       if (items.length > 0) {
         dispatch(devicesActions.selectId(items[0].id));
       }
-      newParams.delete('deviceId');
+      newParams.delete('uniqueId');
     }
 
     if (searchParams.has('openid')) {
