@@ -4,15 +4,6 @@ export default {
       noSsr: true,
     },
   },
-  MuiCssBaseline: {
-    styleOverrides: () => ({
-      '#root': {
-        '@media print': {
-          height: 'auto',
-        },
-      },
-    }),
-  },
   MuiOutlinedInput: {
     styleOverrides: {
       root: ({ theme }) => ({
