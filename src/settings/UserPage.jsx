@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Accordion,
   AccordionSummary,
@@ -32,7 +32,6 @@ import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
-import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
@@ -81,20 +80,20 @@ const UserPage = () => {
     setItem({ ...item, totpKey: await response.text() });
   });
 
-  const query = useQuery();
-  const [queryHandled, setQueryHandled] = useState(false);
-  const attribute = query.get('attribute');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const attribute = searchParams.get('attribute');
 
   useEffect(() => {
-    if (!queryHandled && item && attribute) {
-      if (!item.attributes.hasOwnProperty('attribute')) {
-        const updatedAttributes = { ...item.attributes };
-        updatedAttributes[attribute] = '';
-        setItem({ ...item, attributes: updatedAttributes });
-      }
-      setQueryHandled(true);
+    if (item && attribute && !item.attributes.hasOwnProperty('attribute')) {
+      const updatedAttributes = { ...item.attributes };
+      updatedAttributes[attribute] = '';
+      setItem({ ...item, attributes: updatedAttributes });
+
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('attribute');
+      setSearchParams(newParams, { replace: true });
     }
-  }, [item, queryHandled, setQueryHandled, attribute]);
+  }, [item, searchParams, setSearchParams, attribute]);
 
   const onItemSaved = (result) => {
     if (result.id === currentUser.id) {
