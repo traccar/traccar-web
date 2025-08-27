@@ -154,7 +154,8 @@ export const LocalizationProvider = ({ children }) => {
   const remoteLanguage = useSelector((state) => {
     const serverLanguage = state.session.server?.attributes?.language;
     const userLanguage = state.session.user?.attributes?.language;
-    return userLanguage || serverLanguage;
+    const targetLanguage = userLanguage || serverLanguage;
+    return (targetLanguage && targetLanguage in languages) ? targetLanguage : null;
   });
 
   const [localLanguage, setLocalLanguage] = usePersistedState('language', getDefaultLanguage());
