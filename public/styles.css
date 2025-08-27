@@ -14,7 +14,7 @@ body {
 }
 
 @media print {
-  body, .root {
+  .root {
     height: auto;
   }
 }
