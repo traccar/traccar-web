@@ -18,7 +18,7 @@
     "@turf/circle": "^7.2.0",
     "@vitejs/plugin-react": "^5.0.1",
     "@yudiel/react-qr-scanner": "^2.3.1",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.14",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "mapbox-gl": "^1.13.3",
