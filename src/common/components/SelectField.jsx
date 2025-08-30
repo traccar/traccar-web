@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import {
-  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
+  FormControl, MenuItem, Autocomplete, TextField,
 } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
+import { useTranslation } from './LocalizationProvider';
 
 const SelectField = ({
   label,
@@ -20,11 +21,20 @@ const SelectField = ({
 }) => {
   const [items, setItems] = useState();
 
+  const t = useTranslation();
+
   const getOptionLabel = (option) => {
     if (typeof option !== 'object') {
       option = items.find((obj) => keyGetter(obj) === option);
     }
     return option ? titleGetter(option) : emptyTitle;
+  };
+
+  const getPlaceholder = () => {
+    if (!multiple || value.length === 0) {
+      return t('sharedSearch');
+    }
+    return items.filter(item => value.includes(keyGetter(item))).map(item => titleGetter(item)).join(', ');
   };
 
   useEffect(() => setItems(data), [data]);
@@ -39,34 +49,32 @@ const SelectField = ({
   if (items) {
     return (
       <FormControl fullWidth={fullWidth}>
-        {multiple ? (
-          <>
-            <InputLabel>{label}</InputLabel>
-            <Select
-              label={label}
-              multiple
-              value={value}
-              onChange={onChange}
-            >
-              {items.map((item) => (
-                <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
-              ))}
-            </Select>
-          </>
-        ) : (
           <Autocomplete
+            multiple={multiple}
             size="small"
             options={items}
             getOptionLabel={getOptionLabel}
             renderOption={(props, option) => (
               <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
             )}
-            isOptionEqualToValue={(option, value) => keyGetter(option) === value}
-            value={value}
-            onChange={(_, value) => onChange({ target: { value: value ? keyGetter(value) : emptyValue } })}
-            renderInput={(params) => <TextField {...params} label={label} />}
+            isOptionEqualToValue={(option, value) => keyGetter(option) === (multiple ? keyGetter(value) : value)}
+            value={multiple ? items.filter(item => value.includes(keyGetter(item))) : value}
+            onChange={(_, value) => {
+              if (multiple) {
+                const selectedIds = value.map(item => keyGetter(item));
+                onChange({ target: { value: selectedIds } });
+              } else {
+                onChange({ target: { value: value ? keyGetter(value) : emptyValue } });
+              }
+            }}
+            renderInput={(params) => <TextField {...params} label={label} placeholder={getPlaceholder()}/>}
+            disableCloseOnSelect={multiple}
+            slotProps={{
+              chip: {
+                style: { display: 'none' }
+              }
+            }}
           />
-        )}
       </FormControl>
     );
   }
