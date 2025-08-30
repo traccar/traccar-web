@@ -50,6 +50,7 @@ const useStyles = makeStyles()((theme) => ({
   middle: {
     flex: 1,
     display: 'grid',
+    minHeight: 0,
   },
   contentMap: {
     pointerEvents: 'auto',
@@ -59,6 +60,8 @@ const useStyles = makeStyles()((theme) => ({
     pointerEvents: 'auto',
     gridArea: '1 / 1',
     zIndex: 4,
+    display: 'flex',
+    minHeight: 0,
   },
 }));
 

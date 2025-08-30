@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import { List } from 'react-window';
-import { useTheme } from '@mui/material/styles';
 import { devicesActions } from '../store';
 import { useEffectAsync } from '../reactHelper';
 import DeviceRow from './DeviceRow';
@@ -10,7 +9,8 @@ import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
   list: {
-    maxHeight: '100%',
+    height: '100%',
+    direction: theme.direction,
   },
   listInner: {
     position: 'relative',
@@ -21,7 +21,6 @@ const useStyles = makeStyles()((theme) => ({
 const DeviceList = ({ devices }) => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   const [, setTime] = useState(Date.now());
 
@@ -38,16 +37,14 @@ const DeviceList = ({ devices }) => {
   }, []);
 
   return (
-    <div className={classes.list}>
-      <List
-        style={{ direction: theme.direction }}
-        rowComponent={DeviceRow}
-        rowCount={devices.length}
-        rowHeight={72}
-        rowProps={{ devices }}
-        overscanCount={10}
-      />
-    </div>
+    <List
+      className={classes.list}
+      rowComponent={DeviceRow}
+      rowCount={devices.length}
+      rowHeight={72}
+      rowProps={{ devices }}
+      overscanCount={5}
+    />
   );
 };
 
