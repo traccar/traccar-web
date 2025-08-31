@@ -34,8 +34,8 @@ const UserConnectionsPage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <LinkField
-              endpointAll="/api/devices?all=true"
-              endpointLinked={`/api/devices?userId=${id}`}
+              endpointAll="/api/devices?all=true&excludeAttributes=true"
+              endpointLinked={`/api/devices?userId=${id}&excludeAttributes=true`}
               baseId={id}
               keyBase="userId"
               keyLink="deviceId"
@@ -76,8 +76,8 @@ const UserConnectionsPage = () => {
               label={t('sharedCalendars')}
             />
             <LinkField
-              endpointAll="/api/users?all=true"
-              endpointLinked={`/api/users?userId=${id}`}
+              endpointAll="/api/users?all=true&excludeAttributes=true"
+              endpointLinked={`/api/users?userId=${id}&excludeAttributes=true`}
               baseId={id}
               keyBase="userId"
               keyLink="managedUserId"

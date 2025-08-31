@@ -53,7 +53,7 @@ const UsersPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetchOrThrow('/api/users');
+      const response = await fetchOrThrow('/api/users?excludeAttributes=true');
       setItems(await response.json());
     } finally {
       setLoading(false);
