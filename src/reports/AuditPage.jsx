@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Table, TableRow, TableCell, TableHead, TableBody,
 } from '@mui/material';
@@ -28,9 +28,20 @@ const AuditPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
-  const [columns, setColumns] = usePersistedState('auditColumns', ['actionTime', 'userId', 'actionType', 'objectType']);
+  const [columns, setColumns] = usePersistedState('auditColumns', ['actionTime', 'userId', 'actionType', 'objectType', 'objectId', 'address']);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [users, setUsers] = useState({});
+  useEffect(() => {
+    fetchOrThrow('/api/users')
+      .then(res => res.json())
+      .then(data => {
+        const usersMap = {};
+        data.forEach(u => { usersMap[u.id] = u.name; });
+        setUsers(usersMap);
+      });
+  }, []);
 
   const onShow = useCatch(async ({ from, to }) => {
     setLoading(true);
@@ -61,7 +72,11 @@ const AuditPage = () => {
             <TableRow key={item.id}>
               {columns.map((key) => (
                 <TableCell key={key}>
-                  {key === 'actionTime' ? formatTime(item[key], 'minutes') : item[key]}
+                  {key === 'actionTime'
+                    ? formatTime(item[key], 'minutes')
+                    : key === 'userId'
+                      ? users[item[key]] || item[key]
+                      : item[key]}
                 </TableCell>
               ))}
             </TableRow>
