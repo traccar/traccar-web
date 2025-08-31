@@ -32,7 +32,9 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
   const onMarkerClick = useCallback((_, deviceId) => {
     dispatch(devicesActions.selectId(deviceId));
   }, [dispatch]);
-
+  const onMapClick = useCallback(() => {
+    dispatch(devicesActions.selectId(null));
+  }, [dispatch]);
   return (
     <>
       <MapView>
@@ -43,6 +45,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapPositions
           positions={filteredPositions}
           onMarkerClick={onMarkerClick}
+          onMapClick={onMapClick}
           selectedPosition={selectedPosition}
           showStatus
         />
