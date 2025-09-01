@@ -210,11 +210,18 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 <CardContent className={classes.content}>
                   <Table size="small" classes={{ root: classes.table }}>
                     <TableBody>
-                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key) || key === 'licenseExpiry').map((key) => (
                         <StatusRow
                           key={key}
                           name={positionAttributes[key]?.name || key}
-                          content={(
+                          content={
+                            key === 'licenseExpiry' ? (
+                              <span style={{
+                                color: device.expirationTime && new Date(device.expirationTime) < new Date() ? 'red' : 'inherit'
+                              }}>
+                                {device.expirationTime ? new Date(device.expirationTime).toLocaleDateString() : t('sharedNever')}
+                              </span>
+                            ) : (
                             <PositionValue
                               position={position}
                               property={position.hasOwnProperty(key) ? key : null}
