@@ -23,8 +23,18 @@ import {
 } from '../../common/util/permissions';
 import useFeatures from '../../common/util/useFeatures';
 import MenuItem from '../../common/components/MenuItem';
+import { clearSiteData } from "../../util/clearSiteData";
+import CookieRoundedIcon from '@mui/icons-material/CookieRounded';
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 const SettingsMenu = () => {
+
+    const handleClear = () => {
+    if (window.confirm("Are you sure you want to delete cookies & cache?")) {
+      clearSiteData();
+    }
+  };
+  
   const t = useTranslation();
   const location = useLocation();
 
@@ -136,6 +146,12 @@ const SettingsMenu = () => {
             icon={<HelpIcon />}
           />
         )}
+        <ListItemButton onClick={() => {
+          if (window.confirm(t('confirmClearCache'))) clearSiteData();
+        }}>
+          <ListItemIcon><CookieRoundedIcon fontSize="small" /></ListItemIcon>
+          <ListItemText primary="Cookies" />
+        </ListItemButton>
       </List>
       {manager && (
         <>
