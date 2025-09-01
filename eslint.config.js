@@ -11,6 +11,7 @@ export default [
       'build/**',
       'switcher.js',
       'theme.js',
+      'vite.config.js',
     ],
   },
   js.configs.recommended,
