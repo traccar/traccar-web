@@ -389,4 +389,8 @@ export default (t) => useMemo(() => ({
     name: t('positionAudio'),
     type: 'string',
   },
+  licenseExpiry: {
+    name: t('deviceLicenseExpiry'),
+    type: 'string',
+  },
 }), [t]);
