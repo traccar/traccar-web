@@ -11,11 +11,9 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import BaseCommandView from './components/BaseCommandView';
-import SelectField from '../common/components/SelectField';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
-import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -28,8 +26,6 @@ const CommandDevicePage = () => {
 
   const [savedId, setSavedId] = useState(0);
   const [item, setItem] = useState({});
-
-  const limitCommands = useRestriction('limitCommands');
 
   const handleSend = useCatch(async () => {
     let command;
@@ -62,18 +58,14 @@ const CommandDevicePage = () => {
             </Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <SelectField
-              value={savedId}
-              emptyValue={limitCommands ? null : 0}
-              emptyTitle={t('sharedNew')}
-              onChange={(e) => setSavedId(e.target.value)}
-              endpoint={`/api/commands/send?deviceId=${id}`}
-              titleGetter={(it) => it.description}
-              label={t('sharedSavedCommand')}
+            <BaseCommandView
+              deviceId={id}
+              item={item}
+              setItem={setItem}
+              includeSaved
+              savedId={savedId}
+              setSavedId={setSavedId}
             />
-            {!limitCommands && !savedId && (
-              <BaseCommandView deviceId={id} item={item} setItem={setItem} />
-            )}
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
