@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Button, TextField, Typography,
@@ -27,6 +27,16 @@ const ReportFilter = ({
   const t = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
+  
+  const selectedId  = useSelector((s) => s.devices.selectedId);
+  const selectedIds = useSelector((s) => s.devices.selectedIds || []);
+
+  const effectiveIds = selectedIds.length ? selectedIds
+                      : selectedId       ? [selectedId]
+                      : [];
+
+  const deviceIdsUrl = useMemo(() => searchParams.getAll('deviceId').map(Number), [searchParams]);
+  const [didSync, setDidSync] = useState(false);
 
   const readonly = useRestriction('readonly');
 
@@ -44,6 +54,21 @@ const ReportFilter = ({
 
   const [description, setDescription] = useState();
   const [calendarId, setCalendarId] = useState();
+
+  useLayoutEffect(() => {
+    if (didSync) return;
+    if (deviceIdsUrl.length) {
+      setDidSync(true);
+      return;
+    }
+    if (!effectiveIds.length) return;
+
+    const params = new URLSearchParams(searchParams);
+    params.delete('deviceId');
+    effectiveIds.forEach((id) => params.append('deviceId', id));
+    setSearchParams(params, { replace: true });
+    setDidSync(true);
+  }, []);
 
   const evaluateDisabled = () => {
     if (deviceType !== 'none' && !deviceIds.length && !groupIds.length) {
@@ -117,6 +142,15 @@ const ReportFilter = ({
     newParams.set('to', selectedTo.toISOString());
     setSearchParams(newParams, { replace: true });
   };
+
+  const updateParams = (key, values) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(key);
+    newParams.delete('from');
+    newParams.delete('to');
+    values.forEach((id) => newParams.append(key, id));
+    setSearchParams(newParams, { replace: true });
+  }
 
   const onSelected = (type) => {
     switch (type) {
