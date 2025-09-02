@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Rnd } from 'react-rnd';
@@ -118,6 +119,7 @@ const StatusRow = ({ name, content }) => {
 
 const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
   const { classes } = useStyles({ desktopPadding });
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -217,7 +219,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                           content={
                             key === 'licenseExpiry' ? (
                               <span style={{
-                                color: device.expirationTime && new Date(device.expirationTime) < new Date() ? 'red' : 'inherit'
+                                color: device.expirationTime && new Date(device.expirationTime) < new Date() ? theme.palette.error.main : 'inherit'
                               }}>
                                 {device.expirationTime ? new Date(device.expirationTime).toLocaleDateString() : t('sharedNever')}
                               </span>
