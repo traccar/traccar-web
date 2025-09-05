@@ -58,7 +58,7 @@
     "@eslint/js": "^9.33.0",
     "@vite-pwa/assets-generator": "^1.0.0",
     "@vitejs/plugin-react-swc": "^4.0.1",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
