@@ -55,7 +55,7 @@
     ]
   },
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
+    "@eslint/js": "^9.35.0",
     "@vite-pwa/assets-generator": "^1.0.0",
     "@vitejs/plugin-react-swc": "^4.0.1",
     "eslint": "^9.35.0",
