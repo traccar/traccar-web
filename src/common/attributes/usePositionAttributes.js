@@ -390,7 +390,7 @@ export default (t) => useMemo(() => ({
     type: 'string',
   },
   licenseExpiry: {
-    name: t('deviceLicenseExpiry'),
+    name: t('userExpirationTime'),
     type: 'string',
   },
 }), [t]);
