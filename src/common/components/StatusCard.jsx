@@ -221,7 +221,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                               <span style={{
                                 color: device.expirationTime && new Date(device.expirationTime) < new Date() ? theme.palette.error.main : 'inherit'
                               }}>
-                                {device.expirationTime ? new Date(device.expirationTime).toLocaleDateString() : t('sharedNever')}
+                                {device.expirationTime ? new Date(device.expirationTime).toLocaleDateString() : t('sharedNo')}
                               </span>
                             ) : (
                             <PositionValue
