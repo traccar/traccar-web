@@ -19,4 +19,5 @@ export default [
   'truck',
   'van',
   'scooter',
+  'dynamic', //adding dynamic category
 ];

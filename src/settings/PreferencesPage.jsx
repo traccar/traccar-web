@@ -28,6 +28,7 @@ const deviceFields = [
   { id: 'phone', name: 'sharedPhone' },
   { id: 'model', name: 'deviceModel' },
   { id: 'contact', name: 'deviceContact' },
+  { id: 'address', name: 'deviceAddress' }, //adding the address as device attribute
 ];
 
 const PreferencesPage = () => {
