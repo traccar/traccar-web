@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Rnd } from 'react-rnd';
@@ -118,6 +119,7 @@ const StatusRow = ({ name, content }) => {
 
 const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
   const { classes } = useStyles({ desktopPadding });
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -210,11 +212,18 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 <CardContent className={classes.content}>
                   <Table size="small" classes={{ root: classes.table }}>
                     <TableBody>
-                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
+                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key) || key === 'licenseExpiry').map((key) => (
                         <StatusRow
                           key={key}
                           name={positionAttributes[key]?.name || key}
-                          content={(
+                          content={
+                            key === 'licenseExpiry' ? (
+                              <span style={{
+                                color: device.expirationTime && new Date(device.expirationTime) < new Date() ? theme.palette.error.main : 'inherit'
+                              }}>
+                                {device.expirationTime ? new Date(device.expirationTime).toLocaleDateString() : t('sharedNo')}
+                              </span>
+                            ) : (
                             <PositionValue
                               position={position}
                               property={position.hasOwnProperty(key) ? key : null}
