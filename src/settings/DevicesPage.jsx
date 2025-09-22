@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import ExcelJS from 'exceljs';
-import { saveAs } from 'file-saver';
 import {
   Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
 } from '@mui/material';
@@ -23,6 +21,7 @@ import DeviceUsersValue from './components/DeviceUsersValue';
 import usePersistedState from '../common/util/usePersistedState';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import AddressValue from '../common/components/AddressValue';
+import exportExcel from '../common/util/exportExcel';
 
 const DevicesPage = () => {
   const { classes } = useSettingsStyles();
@@ -67,44 +66,9 @@ const DevicesPage = () => {
       [t('deviceLastUpdate')]: formatTime(item.lastUpdate, 'minutes'),
       [t('positionAddress')]: positions[item.id]?.address || '',
     }));
-
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet(t('deviceTitle'));
-    const headers = Object.keys(data[0]);
-
-    const titleRow = worksheet.addRow([t('deviceTitle')]);
-    worksheet.mergeCells(1, 1, 1, headers.length);
-    titleRow.font = { bold: true };
-
-    const border = {
-      top: { style: 'thin' },
-      left: { style: 'thin' },
-      bottom: { style: 'thin' },
-      right: { style: 'thin' },
-    };
-    const headerRow = worksheet.addRow(headers);
-    headerRow.eachCell((cell) => {
-      cell.border = border;
-      cell.font = {};
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}` },
-      };
-    });
-    data.forEach((item) => {
-      const row = worksheet.addRow(headers.map((h) => item[h]));
-      row.eachCell({ includeEmpty: true }, (cell) => {
-        cell.border = border;
-        cell.font = {};
-      });
-    });
-
-    const blob = new Blob(
-      [await workbook.xlsx.writeBuffer()],
-      { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
-    );
-    saveAs(blob, 'devices.xlsx');
+    const sheets = new Map();
+    sheets.set(t('deviceTitle'), data);
+    await exportExcel(t('deviceTitle'), 'devices.xlsx', sheets, theme);
   };
 
   const actionConnections = {
