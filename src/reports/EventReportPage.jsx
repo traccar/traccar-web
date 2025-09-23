@@ -6,6 +6,7 @@ import {
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/material/styles';
 import { formatSpeed, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
@@ -26,6 +27,7 @@ import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import SelectField from '../common/components/SelectField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import exportExcel from '../common/util/exportExcel';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -40,6 +42,7 @@ const EventReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
+  const theme = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -106,15 +109,25 @@ const EventReportPage = () => {
     }
   });
 
-  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    eventTypes.forEach((it) => query.append('type', it));
-    if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
-      alarmTypes.forEach((it) => query.append('alarm', it));
-    }
-    window.location.assign(`/api/reports/events/xlsx?${query.toString()}`);
+  const onExport = useCatch(async () => {
+    const sheets = new Map();
+    items.forEach((item) => {
+      const deviceName = devices[item.deviceId].name;
+      if (!sheets.has(deviceName)) {
+        sheets.set(deviceName, []);
+      }
+      const row = {};
+      columns.forEach((key) => {
+        const header = t(columnsMap.get(key));
+        if (key === 'attributes' && item.type === 'media') {
+          row[header] = item.attributes.file;
+        } else {
+          row[header] = formatValue(item, key);
+        }
+      });
+      sheets.get(deviceName).push(row);
+    });
+    await exportExcel(t('reportEvents'), 'events.xlsx', sheets, theme);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
