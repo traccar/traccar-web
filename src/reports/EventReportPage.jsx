@@ -28,12 +28,14 @@ import MapScale from '../map/MapScale';
 import SelectField from '../common/components/SelectField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import exportExcel from '../common/util/exportExcel';
+import AddressValue from '../common/components/AddressValue';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
   ['type', 'sharedType'],
   ['geofenceId', 'sharedGeofence'],
   ['maintenanceId', 'sharedMaintenance'],
+  ['address', 'positionAddress'],
   ['attributes', 'commandData'],
 ];
 const columnsMap = new Map(columnsArray);
@@ -58,10 +60,11 @@ const EventReportPage = () => {
     name: t(it),
   }));
 
-  const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'attributes']);
+  const [columns, setColumns] = usePersistedState('eventColumns', ['eventTime', 'type', 'address', 'attributes']);
   const eventTypes = useMemo(() => searchParams.getAll('eventType'), [searchParams]);
   const alarmTypes = useMemo(() => searchParams.getAll('alarmType'), [searchParams]);
   const [items, setItems] = useState([]);
+  const [positions, setPositions] = useState({});
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [position, setPosition] = useState(null);
@@ -72,17 +75,13 @@ const EventReportPage = () => {
     }
   }, [searchParams, setSearchParams, eventTypes])
 
-  useEffectAsync(async () => {
-    if (selectedItem) {
-      const response = await fetchOrThrow(`/api/positions?id=${selectedItem.positionId}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setPosition(positions[0]);
-      }
+  useEffect(() => {
+    if (selectedItem?.positionId) {
+      setPosition(positions[selectedItem.positionId] || null);
     } else {
       setPosition(null);
     }
-  }, [selectedItem]);
+  }, [selectedItem, positions]);
 
   useEffectAsync(async () => {
     const response = await fetchOrThrow('/api/notifications/types');
@@ -98,12 +97,27 @@ const EventReportPage = () => {
     if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
       alarmTypes.forEach((it) => query.append('alarm', it));
     }
+    setSelectedItem(null);
+    setPosition(null);
     setLoading(true);
     try {
       const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
         headers: { Accept: 'application/json' },
       });
-      setItems(await response.json());
+      const events = await response.json();
+      setItems(events);
+      const positionIds = Array.from(new Set(events
+        .map((event) => event.positionId)
+        .filter((id) => id)));
+      const positionsMap = {};
+      if (positionIds.length > 0) {
+        const positionsQuery = new URLSearchParams();
+        positionIds.forEach((id) => positionsQuery.append('id', id));
+        const positionsResponse = await fetchOrThrow(`/api/positions?${positionsQuery.toString()}`);
+        const positionsArray = await positionsResponse.json();
+        positionsArray.forEach((p) => positionsMap[p.id] = p);
+      }
+      setPositions(positionsMap);
     } finally {
       setLoading(false);
     }
@@ -121,6 +135,8 @@ const EventReportPage = () => {
         const header = t(columnsMap.get(key));
         if (key === 'attributes' && item.type === 'media') {
           row[header] = item.attributes.file;
+        } else if (key === 'address') {
+          row[header] = positions[item.positionId]?.address || '';
         } else {
           row[header] = formatValue(item, key);
         }
@@ -156,6 +172,19 @@ const EventReportPage = () => {
         return null;
       case 'maintenanceId':
         return value > 0 ? value : null;
+      case 'address': {
+        const position = positions[item.positionId];
+        if (position) {
+          return (
+            <AddressValue
+              latitude={position.latitude}
+              longitude={position.longitude}
+              originalAddress={position.address}
+            />
+          );
+        }
+        return '';
+      }
       case 'attributes':
         switch (item.type) {
           case 'alarm':

@@ -45,6 +45,18 @@ const exportExcel = async (title, fileName, sheets, theme) => {
         cell.font = {};
       });
     });
+
+    headers.forEach((header, index) => {
+      let maxLength = String(header).length;
+      rows.forEach((item) => {
+        const value = item[header];
+        if (value !== null && value !== undefined) {
+          const text = typeof value === 'string' ? value : String(value);
+          maxLength = Math.max(maxLength, text.length);
+        }
+      });
+      worksheet.getColumn(index + 1).width = Math.max(maxLength + 2, 10);
+    });
   });
 
   const blob = new Blob(
