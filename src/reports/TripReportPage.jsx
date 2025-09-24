@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/material/styles';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
@@ -28,6 +29,7 @@ import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import exportExcel from '../common/util/exportExcel';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -49,6 +51,7 @@ const TripReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
+  const theme = useTheme();
 
   const devices = useSelector((state) => state.devices.items);
 
@@ -106,11 +109,27 @@ const TripReportPage = () => {
     }
   });
 
-  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    window.location.assign(`/api/reports/trips/xlsx?${query.toString()}`);
+  const onExport = useCatch(async () => {
+    const sheets = new Map();
+    items.forEach((item) => {
+      const deviceName = devices[item.deviceId].name;
+      if (!sheets.has(deviceName)) {
+        sheets.set(deviceName, []);
+      }
+      const row = {};
+      columns.forEach((key) => {
+        const header = t(columnsMap.get(key));
+        if (key === 'startAddress') {
+          row[header] = item.startAddress || '';
+        } else if (key === 'endAddress') {
+          row[header] = item.endAddress || '';
+        } else {
+          row[header] = formatValue(item, key);
+        }
+      });
+      sheets.get(deviceName).push(row);
+    });
+    await exportExcel(t('reportTrips'), 'trips.xlsx', sheets, theme);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {

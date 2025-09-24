@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   FormControl, InputLabel, Select, MenuItem, Table, TableHead, TableRow, TableBody, TableCell,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import {
   formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
@@ -19,6 +20,7 @@ import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import exportExcel from '../common/util/exportExcel';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
@@ -38,6 +40,7 @@ const SummaryReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
+  const theme = useTheme();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -67,11 +70,24 @@ const SummaryReportPage = () => {
     }
   });
 
-  const onExport = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to, daily });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    window.location.assign(`/api/reports/summary/xlsx?${query.toString()}`);
+  const onExport = useCatch(async () => {
+    const rows = [];
+    const deviceHeader = t('sharedDevice');
+    items.forEach((item) => {
+      const row = { [deviceHeader]: devices[item.deviceId].name };
+      columns.forEach((key) => {
+        const header = t(columnsMap.get(key));
+        row[header] = formatValue(item, key);
+      });
+      rows.push(row);
+    });
+    if (rows.length === 0) {
+      return;
+    }
+    const titleKey = daily ? 'reportDaily' : 'reportSummary';
+    const title = t(titleKey);
+    const sheets = new Map([[title, rows]]);
+    await exportExcel(title, 'summary.xlsx', sheets, theme);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
