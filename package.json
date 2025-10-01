@@ -12,7 +12,7 @@
     "@maplibre/maplibre-gl-geocoder": "^1.9.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/lab": "^7.0.0-beta.17",
-    "@mui/material": "^7.3.2",
+    "@mui/material": "^7.3.3",
     "@reduxjs/toolkit": "^2.9.0",
     "@tmcw/togeojson": "^7.1.2",
     "@turf/circle": "^7.2.0",
