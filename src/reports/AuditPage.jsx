@@ -1,26 +1,31 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
-import { formatTime } from '../common/util/formatter';
-import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import ReportsMenu from './components/ReportsMenu';
-import ReportFilter from './components/ReportFilter';
-import usePersistedState from '../common/util/usePersistedState';
-import ColumnSelect from './components/ColumnSelect';
-import { useCatch } from '../reactHelper';
-import useReportStyles from './common/useReportStyles';
-import TableShimmer from '../common/components/TableShimmer';
-import fetchOrThrow from '../common/util/fetchOrThrow';
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  Paper,
+} from "@mui/material";
+import { formatTime } from "../common/util/formatter";
+import { useTranslation } from "../common/components/LocalizationProvider";
+import PageLayout from "../common/components/PageLayout";
+import ReportsMenu from "./components/ReportsMenu";
+import ReportFilter from "./components/ReportFilter";
+import usePersistedState from "../common/util/usePersistedState";
+import ColumnSelect from "./components/ColumnSelect";
+import { useCatch } from "../reactHelper";
+import useReportStyles from "./common/useReportStyles";
+import TableShimmer from "../common/components/TableShimmer";
+import fetchOrThrow from "../common/util/fetchOrThrow";
 
 const columnsArray = [
-  ['actionTime', 'positionServerTime'],
-  ['address', 'positionAddress'],
-  ['userId', 'settingsUser'],
-  ['actionType', 'sharedActionType'],
-  ['objectType', 'sharedQbjectType'],
-  ['objectId', 'deviceIdentifier'],
+  ["actionTime", "positionServerTime"],
+  ["address", "positionAddress"],
+  ["userId", "settingsUser"],
+  ["actionType", "sharedActionType"],
+  ["objectType", "sharedQbjectType"],
+  ["objectId", "deviceIdentifier"],
 ];
 const columnsMap = new Map(columnsArray);
 
@@ -28,7 +33,12 @@ const AuditPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
-  const [columns, setColumns] = usePersistedState('auditColumns', ['actionTime', 'userId', 'actionType', 'objectType']);
+  const [columns, setColumns] = usePersistedState("auditColumns", [
+    "actionTime",
+    "userId",
+    "actionType",
+    "objectType",
+  ]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -44,30 +54,54 @@ const AuditPage = () => {
   });
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportAudit']}>
+    <PageLayout
+      menu={<ReportsMenu />}
+      breadcrumbs={["reportTitle", "reportAudit"]}>
       <div className={classes.header}>
         <ReportFilter onShow={onShow} deviceType="none" loading={loading}>
-          <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+          <ColumnSelect
+            columns={columns}
+            setColumns={setColumns}
+            columnsArray={columnsArray}
+          />
         </ReportFilter>
       </div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {!loading ? items.map((item) => (
-            <TableRow key={item.id}>
+      <Paper
+        square
+        style={{
+          width: "100%",
+          height: "100%",
+          padding: "16px",
+          display: "flex",
+          flexDirection: "column",
+        }}>
+        <Table>
+          <TableHead>
+            <TableRow>
               {columns.map((key) => (
-                <TableCell key={key}>
-                  {key === 'actionTime' ? formatTime(item[key], 'minutes') : item[key]}
-                </TableCell>
+                <TableCell key={key}>{t(columnsMap.get(key))}</TableCell>
               ))}
             </TableRow>
-          )) : (<TableShimmer columns={columns.length} />)}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {!loading ? (
+              items.map((item) => (
+                <TableRow key={item.id}>
+                  {columns.map((key) => (
+                    <TableCell key={key}>
+                      {key === "actionTime"
+                        ? formatTime(item[key], "minutes")
+                        : item[key]}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableShimmer columns={columns.length} />
+            )}
+          </TableBody>
+        </Table>
+      </Paper>
     </PageLayout>
   );
 };

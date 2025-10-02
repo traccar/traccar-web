@@ -1,48 +1,54 @@
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  useState, useEffect, useRef, useCallback,
-} from 'react';
-import {
-  IconButton, Paper, Slider, Toolbar, Typography,
-} from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
-import TuneIcon from '@mui/icons-material/Tune';
-import DownloadIcon from '@mui/icons-material/Download';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import MapView from '../map/core/MapView';
-import MapRoutePath from '../map/MapRoutePath';
-import MapRoutePoints from '../map/MapRoutePoints';
-import MapPositions from '../map/MapPositions';
-import { formatTime } from '../common/util/formatter';
-import ReportFilter, { updateReportParams } from '../reports/components/ReportFilter';
-import { useTranslation } from '../common/components/LocalizationProvider';
-import { useCatch } from '../reactHelper';
-import MapCamera from '../map/MapCamera';
-import MapGeofence from '../map/MapGeofence';
-import StatusCard from '../common/components/StatusCard';
-import MapScale from '../map/MapScale';
-import BackIcon from '../common/components/BackIcon';
-import fetchOrThrow from '../common/util/fetchOrThrow';
+  IconButton,
+  Paper,
+  Slider,
+  Toolbar,
+  FormControlLabel,
+  Checkbox,
+  Typography,
+} from "@mui/material";
+import { makeStyles } from "tss-react/mui";
+import TuneIcon from "@mui/icons-material/Tune";
+import DownloadIcon from "@mui/icons-material/Download";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import FastForwardIcon from "@mui/icons-material/FastForward";
+import FastRewindIcon from "@mui/icons-material/FastRewind";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import MapView from "../map/core/MapView";
+import MapRoutePath from "../map/MapRoutePath";
+import MapRoutePoints from "../map/MapRoutePoints";
+import MapPositions from "../map/MapPositions";
+import { formatTime } from "../common/util/formatter";
+import ReportFilter, {
+  updateReportParams,
+} from "../reports/components/ReportFilter";
+import { useTranslation } from "../common/components/LocalizationProvider";
+import { useCatch } from "../reactHelper";
+import MapCamera from "../map/MapCamera";
+import MapGeofence from "../map/MapGeofence";
+import StatusCard from "../common/components/StatusCard";
+import MapScale from "../map/MapScale";
+import BackIcon from "../common/components/BackIcon";
+import fetchOrThrow from "../common/util/fetchOrThrow";
 
 const useStyles = makeStyles()((theme) => ({
   root: {
-    height: '100%',
+    height: "100%",
   },
   sidebar: {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'fixed',
+    display: "flex",
+    flexDirection: "column",
+    position: "fixed",
     zIndex: 3,
     left: 0,
     top: 0,
     margin: theme.spacing(1.5),
     width: theme.dimensions.drawerWidthDesktop,
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
       margin: 0,
     },
   },
@@ -50,28 +56,32 @@ const useStyles = makeStyles()((theme) => ({
     flexGrow: 1,
   },
   slider: {
-    width: '100%',
+    width: "100%",
   },
   controls: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  filterItem: {
+    width: "100%",
   },
   formControlLabel: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     paddingRight: theme.spacing(1),
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   content: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     padding: theme.spacing(2),
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       margin: theme.spacing(1),
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up("md")]: {
       marginTop: theme.spacing(1),
     },
   },
@@ -91,12 +101,14 @@ const ReplayPage = () => {
   const [index, setIndex] = useState(0);
   const [selectedDeviceId, setSelectedDeviceId] = useState(defaultDeviceId);
   const [showCard, setShowCard] = useState(false);
-  const from = searchParams.get('from');
-  const to = searchParams.get('to');
+  const from = searchParams.get("from");
+  const to = searchParams.get("to");
   const [playing, setPlaying] = useState(false);
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
   const loaded = Boolean(from && to && !loading && positions.length);
+  const [showingPositions, setShowingPositions] = useState([]);
+  const [withImageOnly, setWithImageOnly] = useState(false);
 
   const deviceName = useSelector((state) => {
     if (selectedDeviceId) {
@@ -108,6 +120,14 @@ const ReplayPage = () => {
     return null;
   });
 
+  useEffect(
+    (e) => {
+      withImageOnly
+        ? setShowingPositions(positions.filter((e) => e.protocol == "dualcam"))
+        : setShowingPositions(positions);
+    },
+    [withImageOnly, positions]
+  );
   useEffect(() => {
     if (!from && !to) {
       setPositions([]);
@@ -133,13 +153,19 @@ const ReplayPage = () => {
     }
   }, [index, positions]);
 
-  const onPointClick = useCallback((_, index) => {
-    setIndex(index);
-  }, [setIndex]);
+  const onPointClick = useCallback(
+    (_, index) => {
+      setIndex(index);
+    },
+    [setIndex]
+  );
 
-  const onMarkerClick = useCallback((positionId) => {
-    setShowCard(!!positionId);
-  }, [setShowCard]);
+  const onMarkerClick = useCallback(
+    (positionId) => {
+      setShowCard(!!positionId);
+    },
+    [setShowCard]
+  );
 
   const onShow = useCatch(async ({ deviceIds, from, to }) => {
     const deviceId = deviceIds.find(() => true);
@@ -152,7 +178,7 @@ const ReplayPage = () => {
       const positions = await response.json();
       setPositions(positions);
       if (!positions.length) {
-        throw Error(t('sharedNoData'));
+        throw Error(t("sharedNoData"));
       }
     } finally {
       setLoading(false);
@@ -169,26 +195,49 @@ const ReplayPage = () => {
       <MapView>
         <MapGeofence />
         <MapRoutePath positions={positions} />
-        <MapRoutePoints positions={positions} onClick={onPointClick} showSpeedControl />
-        {index < positions.length && (
-          <MapPositions positions={[positions[index]]} onMarkerClick={onMarkerClick} titleField="fixTime" />
+        <MapRoutePoints
+          positions={showingPositions}
+          onClick={onPointClick}
+          withImageOnly={withImageOnly}
+          showSpeedControl
+        />
+        {index < showingPositions.length && (
+          <MapPositions
+            positions={[showingPositions[index]]}
+            onMarkerClick={onMarkerClick}
+            titleField="fixTime"
+          />
         )}
       </MapView>
       <MapScale />
-      <MapCamera positions={positions} />
+      <MapCamera positions={showingPositions} />
       <div className={classes.sidebar}>
         <Paper elevation={3} square>
           <Toolbar>
-            <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
+            <IconButton
+              edge="start"
+              sx={{ mr: 2 }}
+              onClick={() => navigate(-1)}>
               <BackIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>{t('reportReplay')}</Typography>
+            <Typography variant="h6" className={classes.title}>
+              {t("reportReplay")}
+            </Typography>
             {loaded && (
               <>
                 <IconButton onClick={handleDownload}>
                   <DownloadIcon />
                 </IconButton>
-                <IconButton edge="end" onClick={() => updateReportParams(searchParams, setSearchParams, 'ignore', [])}>
+                <IconButton
+                  edge="end"
+                  onClick={() =>
+                    updateReportParams(
+                      searchParams,
+                      setSearchParams,
+                      "ignore",
+                      []
+                    )
+                  }>
                   <TuneIcon />
                 </IconButton>
               </>
@@ -198,38 +247,64 @@ const ReplayPage = () => {
         <Paper className={classes.content} square>
           {loaded ? (
             <>
-              <Typography variant="subtitle1" align="center">{deviceName}</Typography>
+              <Typography variant="subtitle1" align="center">
+                {deviceName}
+              </Typography>
               <Slider
                 className={classes.slider}
-                max={positions.length - 1}
+                max={showingPositions.length - 1}
                 step={null}
-                marks={positions.map((_, index) => ({ value: index }))}
+                marks={showingPositions.map((_, index) => ({ value: index }))}
                 value={index}
                 onChange={(_, index) => setIndex(index)}
               />
               <div className={classes.controls}>
-                {`${index + 1}/${positions.length}`}
-                <IconButton onClick={() => setIndex((index) => index - 1)} disabled={playing || index <= 0}>
+                {`${index + 1}/${showingPositions.length}`}
+                <IconButton
+                  onClick={() => setIndex((index) => index - 1)}
+                  disabled={playing || index <= 0}>
                   <FastRewindIcon />
                 </IconButton>
-                <IconButton onClick={() => setPlaying(!playing)} disabled={index >= positions.length - 1}>
-                  {playing ? <PauseIcon /> : <PlayArrowIcon /> }
+                <IconButton
+                  onClick={() => setPlaying(!playing)}
+                  disabled={index >= showingPositions.length - 1}>
+                  {playing ? <PauseIcon /> : <PlayArrowIcon />}
                 </IconButton>
-                <IconButton onClick={() => setIndex((index) => index + 1)} disabled={playing || index >= positions.length - 1}>
+                <IconButton
+                  onClick={() => setIndex((index) => index + 1)}
+                  disabled={playing || index >= showingPositions.length - 1}>
                   <FastForwardIcon />
                 </IconButton>
-                {formatTime(positions[index].fixTime, 'seconds')}
+                {formatTime(showingPositions[index]?.fixTime, "seconds")}
+              </div>
+              <div className={classes.filterItem}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={withImageOnly}
+                      onChange={(e) => setWithImageOnly(e.target.checked)}
+                      color="primary"
+                    />
+                  }
+                  label={t("onlyMedia")}
+                />
               </div>
             </>
           ) : (
-            <ReportFilter onShow={onShow} deviceType="single" loading={loading} />
+            <ReportFilter
+              withImageOnly={withImageOnly}
+              setWithImageOnly={setWithImageOnly}
+              onShow={onShow}
+              deviceType="single"
+              loading={loading}
+            />
           )}
         </Paper>
       </div>
       {showCard && index < positions.length && (
         <StatusCard
           deviceId={selectedDeviceId}
-          position={positions[index]}
+          position={showingPositions[index]}
           onClose={() => setShowCard(false)}
           disableActions
         />

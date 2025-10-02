@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { makeStyles } from 'tss-react/mui';
-import { List } from 'react-window';
-import { devicesActions } from '../store';
-import { useEffectAsync } from '../reactHelper';
-import DeviceRow from './DeviceRow';
-import fetchOrThrow from '../common/util/fetchOrThrow';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { makeStyles } from "tss-react/mui";
+import { List } from "react-window";
+import { devicesActions } from "../store";
+import { useEffectAsync } from "../reactHelper";
+import DeviceRow from "./DeviceRow";
+import fetchOrThrow from "../common/util/fetchOrThrow";
 
 const useStyles = makeStyles()((theme) => ({
   list: {
-    height: '100%',
+    height: "100%",
     direction: theme.direction,
   },
   listInner: {
-    position: 'relative',
+    position: "relative",
     margin: theme.spacing(1.5, 0),
+    direction: theme.direction,
   },
 }));
 
@@ -32,18 +33,18 @@ const DeviceList = ({ devices }) => {
   }, []);
 
   useEffectAsync(async () => {
-    const response = await fetchOrThrow('/api/devices');
+    const response = await fetchOrThrow("/api/devices");
     dispatch(devicesActions.refresh(await response.json()));
   }, []);
 
   return (
     <List
-      className={classes.list}
+      className={classes.listScroll}
       rowComponent={DeviceRow}
       rowCount={devices.length}
       rowHeight={72}
       rowProps={{ devices }}
-      overscanCount={5}
+      overscanCount={10}
     />
   );
 };

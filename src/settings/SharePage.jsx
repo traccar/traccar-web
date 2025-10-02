@@ -90,7 +90,7 @@ const SharePage = () => {
           </Button>
           <Button
             type="button"
-            color="primary"
+            color="success"
             variant="contained"
             onClick={() => navigator.clipboard?.writeText(link)}
             disabled={!link}

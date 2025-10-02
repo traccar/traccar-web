@@ -1,20 +1,27 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, IconButton, Tooltip,
-} from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { useTranslation } from '../common/components/LocalizationProvider';
-import PageLayout from '../common/components/PageLayout';
-import ReportsMenu from './components/ReportsMenu';
-import { sessionActions } from '../store';
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  IconButton,
+  Tooltip,
+  Paper,
+} from "@mui/material";
+import { makeStyles } from "tss-react/mui";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { useTranslation } from "../common/components/LocalizationProvider";
+import PageLayout from "../common/components/PageLayout";
+import ReportsMenu from "./components/ReportsMenu";
+import { sessionActions } from "../store";
 
 const useStyles = makeStyles()((theme) => ({
   columnAction: {
-    width: '1%',
+    width: "1%",
     paddingLeft: theme.spacing(1),
   },
 }));
@@ -38,39 +45,54 @@ const LogsPage = () => {
   };
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'sharedLogs']}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.columnAction} />
-            <TableCell>{t('deviceIdentifier')}</TableCell>
-            <TableCell>{t('positionProtocol')}</TableCell>
-            <TableCell>{t('commandData')}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {items.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell className={classes.columnAction} padding="none">
-                {item.deviceId ? (
-                  <IconButton color="success" size="small" disabled>
-                    <CheckCircleOutlineIcon fontSize="small" />
-                  </IconButton>
-                ) : (
-                  <Tooltip title={t('loginRegister')}>
-                    <IconButton color="error" size="small" onClick={() => registerDevice(item.uniqueId)}>
-                      <HelpOutlineIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </TableCell>
-              <TableCell>{item.uniqueId}</TableCell>
-              <TableCell>{item.protocol}</TableCell>
-              <TableCell>{item.data}</TableCell>
+    <PageLayout
+      menu={<ReportsMenu />}
+      breadcrumbs={["reportTitle", "sharedLogs"]}>
+      <Paper
+        square
+        style={{
+          width: "100%",
+          height: "100%",
+          padding: "16px",
+          display: "flex",
+          flexDirection: "column",
+        }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.columnAction} />
+              <TableCell>{t("deviceIdentifier")}</TableCell>
+              <TableCell>{t("positionProtocol")}</TableCell>
+              <TableCell>{t("commandData")}</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {items.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className={classes.columnAction} padding="none">
+                  {item.deviceId ? (
+                    <IconButton color="success" size="small" disabled>
+                      <CheckCircleOutlineIcon fontSize="small" />
+                    </IconButton>
+                  ) : (
+                    <Tooltip title={t("loginRegister")}>
+                      <IconButton
+                        color="error"
+                        size="small"
+                        onClick={() => registerDevice(item.uniqueId)}>
+                        <HelpOutlineIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </TableCell>
+                <TableCell>{item.uniqueId}</TableCell>
+                <TableCell>{item.protocol}</TableCell>
+                <TableCell>{item.data}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     </PageLayout>
   );
 };

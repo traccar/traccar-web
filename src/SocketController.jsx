@@ -1,18 +1,19 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector, connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Snackbar } from "@mui/material";
+import { devicesActions, sessionActions } from "./store";
+import { useCatchCallback, useEffectAsync } from "./reactHelper";
+import { snackBarDurationLongMs } from "./common/util/duration";
+import alarm from "./resources/alarm.mp3";
+import { eventsActions } from "./store/events";
+import useFeatures from "./common/util/useFeatures";
+import { useAttributePreference } from "./common/util/preferences";
 import {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
-import { useDispatch, useSelector, connect } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Snackbar } from '@mui/material';
-import { devicesActions, sessionActions } from './store';
-import { useCatchCallback, useEffectAsync } from './reactHelper';
-import { snackBarDurationLongMs } from './common/util/duration';
-import alarm from './resources/alarm.mp3';
-import { eventsActions } from './store/events';
-import useFeatures from './common/util/useFeatures';
-import { useAttributePreference } from './common/util/preferences';
-import { handleNativeNotificationListeners, nativePostMessage } from './common/components/NativeInterface';
-import fetchOrThrow from './common/util/fetchOrThrow';
+  handleNativeNotificationListeners,
+  nativePostMessage,
+} from "./common/components/NativeInterface";
+import fetchOrThrow from "./common/util/fetchOrThrow";
 
 const logoutCode = 4000;
 
@@ -27,29 +28,41 @@ const SocketController = () => {
 
   const [notifications, setNotifications] = useState([]);
 
-  const soundEvents = useAttributePreference('soundEvents', '');
-  const soundAlarms = useAttributePreference('soundAlarms', 'sos');
+  const soundEvents = useAttributePreference("soundEvents", "");
+  const soundAlarms = useAttributePreference("soundAlarms", "sos");
 
   const features = useFeatures();
 
-  const handleEvents = useCallback((events) => {
-    if (!features.disableEvents) {
-      dispatch(eventsActions.add(events));
-    }
-    if (events.some((e) => soundEvents.includes(e.type)
-        || (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)))) {
-      new Audio(alarm).play();
-    }
-    setNotifications(events.map((event) => ({
-      id: event.id,
-      message: event.attributes.message,
-      show: true,
-    })));
-  }, [features, dispatch, soundEvents, soundAlarms]);
+  const handleEvents = useCallback(
+    (events) => {
+      if (!features.disableEvents) {
+        dispatch(eventsActions.add(events));
+      }
+      if (
+        events.some(
+          (e) =>
+            soundEvents.includes(e.type) ||
+            (e.type === "alarm" && soundAlarms.includes(e.attributes.alarm))
+        )
+      ) {
+        new Audio(alarm).play();
+      }
+      setNotifications(
+        events.map((event) => ({
+          id: event.id,
+          message: event.attributes.message,
+          show: true,
+        }))
+      );
+    },
+    [features, dispatch, soundEvents, soundAlarms]
+  );
 
   const connectSocket = () => {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const socket = new WebSocket(`${protocol}//${window.location.host}/api/socket`);
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const socket = new WebSocket(
+      `${protocol}//${window.location.host}/api/socket`
+    );
     socketRef.current = socket;
 
     socket.onopen = () => {
@@ -60,16 +73,21 @@ const SocketController = () => {
       dispatch(sessionActions.updateSocket(false));
       if (event.code !== logoutCode) {
         try {
-          const devicesResponse = await fetch('/api/devices');
+          const devicesResponse = await fetch("/api/devices");
           if (devicesResponse.ok) {
             dispatch(devicesActions.update(await devicesResponse.json()));
           }
-          const positionsResponse = await fetch('/api/positions');
+          const positionsResponse = await fetch("/api/positions");
           if (positionsResponse.ok) {
-            dispatch(sessionActions.updatePositions(await positionsResponse.json()));
+            dispatch(
+              sessionActions.updatePositions(await positionsResponse.json())
+            );
           }
-          if (devicesResponse.status === 401 || positionsResponse.status === 401) {
-            navigate('/login');
+          if (
+            devicesResponse.status === 401 ||
+            positionsResponse.status === 401
+          ) {
+            navigate("/login");
           }
         } catch {
           // ignore errors
@@ -101,9 +119,9 @@ const SocketController = () => {
 
   useEffectAsync(async () => {
     if (authenticated) {
-      const response = await fetchOrThrow('/api/devices');
+      const response = await fetchOrThrow("/api/devices");
       dispatch(devicesActions.refresh(await response.json()));
-      nativePostMessage('authenticated');
+      nativePostMessage("authenticated");
       connectSocket();
       return () => {
         socketRef.current?.close(logoutCode);
@@ -112,24 +130,31 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  const handleNativeNotification = useCatchCallback(async (message) => {
-    const eventId = message.data.eventId;
-    if (eventId) {
-      const response = await fetch(`/api/events/${eventId}`);
-      if (response.ok) {
-        const event = await response.json();
-        const eventWithMessage = {
-          ...event,
-          attributes: { ...event.attributes, message: message.notification.body },
-        };
-        handleEvents([eventWithMessage]);
+  const handleNativeNotification = useCatchCallback(
+    async (message) => {
+      const eventId = message.data.eventId;
+      if (eventId) {
+        const response = await fetch(`/api/events/${eventId}`);
+        if (response.ok) {
+          const event = await response.json();
+          const eventWithMessage = {
+            ...event,
+            attributes: {
+              ...event.attributes,
+              message: message.notification.body,
+            },
+          };
+          handleEvents([eventWithMessage]);
+        }
       }
-    }
-  }, [handleEvents]);
+    },
+    [handleEvents]
+  );
 
   useEffect(() => {
     handleNativeNotificationListeners.add(handleNativeNotification);
-    return () => handleNativeNotificationListeners.delete(handleNativeNotification);
+    return () =>
+      handleNativeNotificationListeners.delete(handleNativeNotification);
   }, [handleNativeNotification]);
 
   useEffect(() => {
@@ -140,7 +165,7 @@ const SocketController = () => {
         connectSocket();
       } else if (socket.readyState === WebSocket.OPEN) {
         try {
-          socket.send('{}');
+          socket.send("{}");
         } catch {
           // test connection
         }
@@ -151,11 +176,11 @@ const SocketController = () => {
         reconnectIfNeeded();
       }
     };
-    window.addEventListener('online', reconnectIfNeeded);
-    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener("online", reconnectIfNeeded);
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      window.removeEventListener('online', reconnectIfNeeded);
-      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener("online", reconnectIfNeeded);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [authenticated]);
 
@@ -167,7 +192,11 @@ const SocketController = () => {
           open={notification.show}
           message={notification.message}
           autoHideDuration={snackBarDurationLongMs}
-          onClose={() => setNotifications(notifications.filter((e) => e.id !== notification.id))}
+          onClose={() =>
+            setNotifications(
+              notifications.filter((e) => e.id !== notification.id)
+            )
+          }
         />
       ))}
     </>

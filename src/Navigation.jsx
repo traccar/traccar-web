@@ -1,66 +1,64 @@
-import {
-  Route, Routes,
-  useSearchParams,
-} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import MainPage from './main/MainPage';
-import CombinedReportPage from './reports/CombinedReportPage';
-import PositionsReportPage from './reports/PositionsReportPage';
-import ServerPage from './settings/ServerPage';
-import UsersPage from './settings/UsersPage';
-import DevicePage from './settings/DevicePage';
-import UserPage from './settings/UserPage';
-import NotificationsPage from './settings/NotificationsPage';
-import NotificationPage from './settings/NotificationPage';
-import GroupsPage from './settings/GroupsPage';
-import GroupPage from './settings/GroupPage';
-import PositionPage from './other/PositionPage';
-import NetworkPage from './other/NetworkPage';
-import EventReportPage from './reports/EventReportPage';
-import ReplayPage from './other/ReplayPage';
-import TripReportPage from './reports/TripReportPage';
-import StopReportPage from './reports/StopReportPage';
-import SummaryReportPage from './reports/SummaryReportPage';
-import ChartReportPage from './reports/ChartReportPage';
-import DriversPage from './settings/DriversPage';
-import DriverPage from './settings/DriverPage';
-import CalendarsPage from './settings/CalendarsPage';
-import CalendarPage from './settings/CalendarPage';
-import ComputedAttributesPage from './settings/ComputedAttributesPage';
-import ComputedAttributePage from './settings/ComputedAttributePage';
-import MaintenancesPage from './settings/MaintenancesPage';
-import MaintenancePage from './settings/MaintenancePage';
-import CommandsPage from './settings/CommandsPage';
-import CommandPage from './settings/CommandPage';
-import StatisticsPage from './reports/StatisticsPage';
-import LoginPage from './login/LoginPage';
-import RegisterPage from './login/RegisterPage';
-import ResetPasswordPage from './login/ResetPasswordPage';
-import GeofencesPage from './other/GeofencesPage';
-import GeofencePage from './settings/GeofencePage';
-import { useEffectAsync } from './reactHelper';
-import { devicesActions } from './store';
-import EventPage from './other/EventPage';
-import PreferencesPage from './settings/PreferencesPage';
-import AccumulatorsPage from './settings/AccumulatorsPage';
-import CommandDevicePage from './settings/CommandDevicePage';
-import CommandGroupPage from './settings/CommandGroupPage';
-import App from './App';
-import ChangeServerPage from './login/ChangeServerPage';
-import DevicesPage from './settings/DevicesPage';
-import ScheduledPage from './reports/ScheduledPage';
-import DeviceConnectionsPage from './settings/DeviceConnectionsPage';
-import GroupConnectionsPage from './settings/GroupConnectionsPage';
-import UserConnectionsPage from './settings/UserConnectionsPage';
-import LogsPage from './reports/LogsPage';
-import SharePage from './settings/SharePage';
-import AnnouncementPage from './settings/AnnouncementPage';
-import EmulatorPage from './other/EmulatorPage';
-import Loader from './common/components/Loader';
-import { generateLoginToken } from './common/components/NativeInterface';
-import { useLocalization } from './common/components/LocalizationProvider';
-import fetchOrThrow from './common/util/fetchOrThrow';
-import AuditPage from './reports/AuditPage';
+import { Route, Routes, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import MainPage from "./main/MainPage";
+import CombinedReportPage from "./reports/CombinedReportPage";
+import PositionsReportPage from "./reports/PositionsReportPage";
+import MediaReportPage from "./reports/MediaReportPage";
+import ServerPage from "./settings/ServerPage";
+import UsersPage from "./settings/UsersPage";
+import DevicePage from "./settings/DevicePage";
+import UserPage from "./settings/UserPage";
+import NotificationsPage from "./settings/NotificationsPage";
+import NotificationPage from "./settings/NotificationPage";
+import GroupsPage from "./settings/GroupsPage";
+import GroupPage from "./settings/GroupPage";
+import PositionPage from "./other/PositionPage";
+import NetworkPage from "./other/NetworkPage";
+import EventReportPage from "./reports/EventReportPage";
+import ReplayPage from "./other/ReplayPage";
+import TripReportPage from "./reports/TripReportPage";
+import StopReportPage from "./reports/StopReportPage";
+import SummaryReportPage from "./reports/SummaryReportPage";
+import ChartReportPage from "./reports/ChartReportPage";
+import DriversPage from "./settings/DriversPage";
+import DriverPage from "./settings/DriverPage";
+import CalendarsPage from "./settings/CalendarsPage";
+import CalendarPage from "./settings/CalendarPage";
+import ComputedAttributesPage from "./settings/ComputedAttributesPage";
+import ComputedAttributePage from "./settings/ComputedAttributePage";
+import MaintenancesPage from "./settings/MaintenancesPage";
+import MaintenancePage from "./settings/MaintenancePage";
+import CommandsPage from "./settings/CommandsPage";
+import CommandPage from "./settings/CommandPage";
+import StatisticsPage from "./reports/StatisticsPage";
+import LoginPage from "./login/LoginPage";
+import RegisterPage from "./login/RegisterPage";
+import ResetPasswordPage from "./login/ResetPasswordPage";
+import GeofencesPage from "./other/GeofencesPage";
+import GeofencePage from "./settings/GeofencePage";
+import { useEffectAsync } from "./reactHelper";
+import { devicesActions } from "./store";
+import EventPage from "./other/EventPage";
+import PreferencesPage from "./settings/PreferencesPage";
+import AccumulatorsPage from "./settings/AccumulatorsPage";
+import CommandDevicePage from "./settings/CommandDevicePage";
+import CommandGroupPage from "./settings/CommandGroupPage";
+import App from "./App";
+import ChangeServerPage from "./login/ChangeServerPage";
+import DevicesPage from "./settings/DevicesPage";
+import ScheduledPage from "./reports/ScheduledPage";
+import DeviceConnectionsPage from "./settings/DeviceConnectionsPage";
+import GroupConnectionsPage from "./settings/GroupConnectionsPage";
+import UserConnectionsPage from "./settings/UserConnectionsPage";
+import LogsPage from "./reports/LogsPage";
+import SharePage from "./settings/SharePage";
+import AnnouncementPage from "./settings/AnnouncementPage";
+import EmulatorPage from "./other/EmulatorPage";
+import Loader from "./common/components/Loader";
+import { generateLoginToken } from "./common/components/NativeInterface";
+import { useLocalization } from "./common/components/LocalizationProvider";
+import fetchOrThrow from "./common/util/fetchOrThrow";
+import AuditPage from "./reports/AuditPage";
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -68,7 +66,9 @@ const Navigation = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const hasQueryParams = ['locale', 'token', 'uniqueId', 'openid'].some(key => searchParams.has(key));
+  const hasQueryParams = ["locale", "token", "uniqueId", "openid"].some((key) =>
+    searchParams.has(key)
+  );
 
   useEffectAsync(async () => {
     if (!hasQueryParams) {
@@ -77,38 +77,40 @@ const Navigation = () => {
 
     const newParams = new URLSearchParams(searchParams);
 
-    if (searchParams.has('locale')) {
-      setLocalLanguage(searchParams.get('locale'));
-      newParams.delete('locale');
+    if (searchParams.has("locale")) {
+      setLocalLanguage(searchParams.get("locale"));
+      newParams.delete("locale");
     }
 
-    if (searchParams.has('token')) {
-      const token = searchParams.get('token');
+    if (searchParams.has("token")) {
+      const token = searchParams.get("token");
       await fetch(`/api/session?token=${encodeURIComponent(token)}`);
-      newParams.delete('token');
+      newParams.delete("token");
     }
 
-    if (searchParams.has('uniqueId')) {
-      const response = await fetchOrThrow(`/api/devices?uniqueId=${searchParams.get('uniqueId')}`);
+    if (searchParams.has("uniqueId")) {
+      const response = await fetchOrThrow(
+        `/api/devices?uniqueId=${searchParams.get("uniqueId")}`
+      );
       const items = await response.json();
       if (items.length > 0) {
         dispatch(devicesActions.selectId(items[0].id));
       }
-      newParams.delete('uniqueId');
+      newParams.delete("uniqueId");
     }
 
-    if (searchParams.has('openid')) {
-      if (searchParams.get('openid') === 'success') {
+    if (searchParams.has("openid")) {
+      if (searchParams.get("openid") === "success") {
         generateLoginToken();
       }
-      newParams.delete('openid');
+      newParams.delete("openid");
     }
 
     setSearchParams(newParams, { replace: true });
   }, [hasQueryParams, searchParams, setSearchParams]);
 
   if (hasQueryParams) {
-    return (<Loader />);
+    return <Loader />;
   }
   return (
     <Routes>
@@ -139,7 +141,10 @@ const Navigation = () => {
           <Route path="attribute/:id" element={<ComputedAttributePage />} />
           <Route path="attribute" element={<ComputedAttributePage />} />
           <Route path="devices" element={<DevicesPage />} />
-          <Route path="device/:id/connections" element={<DeviceConnectionsPage />} />
+          <Route
+            path="device/:id/connections"
+            element={<DeviceConnectionsPage />}
+          />
           <Route path="device/:id/command" element={<CommandDevicePage />} />
           <Route path="device/:id/share" element={<SharePage />} />
           <Route path="device/:id" element={<DevicePage />} />
@@ -150,7 +155,10 @@ const Navigation = () => {
           <Route path="geofence/:id" element={<GeofencePage />} />
           <Route path="geofence" element={<GeofencePage />} />
           <Route path="groups" element={<GroupsPage />} />
-          <Route path="group/:id/connections" element={<GroupConnectionsPage />} />
+          <Route
+            path="group/:id/connections"
+            element={<GroupConnectionsPage />}
+          />
           <Route path="group/:id/command" element={<CommandGroupPage />} />
           <Route path="group/:id" element={<GroupPage />} />
           <Route path="group" element={<GroupPage />} />
@@ -163,7 +171,10 @@ const Navigation = () => {
           <Route path="preferences" element={<PreferencesPage />} />
           <Route path="server" element={<ServerPage />} />
           <Route path="users" element={<UsersPage />} />
-          <Route path="user/:id/connections" element={<UserConnectionsPage />} />
+          <Route
+            path="user/:id/connections"
+            element={<UserConnectionsPage />}
+          />
           <Route path="user/:id" element={<UserPage />} />
           <Route path="user" element={<UserPage />} />
         </Route>
@@ -172,7 +183,8 @@ const Navigation = () => {
           <Route path="combined" element={<CombinedReportPage />} />
           <Route path="chart" element={<ChartReportPage />} />
           <Route path="events" element={<EventReportPage />} />
-          <Route path="route" element={<PositionsReportPage />} />
+          <Route path="route" element={<PositionsReportPage />} />{" "}
+          <Route path="media" element={<MediaReportPage />} />
           <Route path="stops" element={<StopReportPage />} />
           <Route path="summary" element={<SummaryReportPage />} />
           <Route path="trips" element={<TripReportPage />} />

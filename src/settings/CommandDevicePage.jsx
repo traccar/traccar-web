@@ -79,7 +79,7 @@ const CommandDevicePage = () => {
           </Button>
           <Button
             type="button"
-            color="primary"
+            color="success"
             variant="contained"
             onClick={handleSend}
             disabled={!validate()}

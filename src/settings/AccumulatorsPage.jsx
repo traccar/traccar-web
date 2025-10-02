@@ -87,7 +87,7 @@ const AccumulatorsPage = () => {
             </Button>
             <Button
               type="button"
-              color="primary"
+              color="success"
               variant="contained"
               onClick={handleSave}
             >

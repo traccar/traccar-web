@@ -1,3 +1,10 @@
+import {
+  borderBottom,
+  borderBottomColor,
+  borderColor,
+  darken,
+} from "@mui/system";
+
 export default {
   MuiUseMediaQuery: {
     defaultProps: {
@@ -7,27 +14,42 @@ export default {
   MuiOutlinedInput: {
     styleOverrides: {
       root: ({ theme }) => ({
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: theme.palette.background.paper,
       }),
     },
   },
   MuiButton: {
     styleOverrides: {
       sizeMedium: {
-        height: '40px',
+        height: "40px",
       },
     },
   },
   MuiFormControl: {
     defaultProps: {
-      size: 'small',
+      size: "large",
+    },
+  },
+  MuiSelect: {
+    defaultProps: {},
+  },
+  MuiMenuItem: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        "&.Mui-selected": {
+          backgroundColor: darken(theme.palette.background.paper, 0.1),
+        },
+        "&.Mui-selected:hover": {
+          backgroundColor: darken(theme.palette.background.paper, 0.4),
+        },
+      }),
     },
   },
   MuiSnackbar: {
     defaultProps: {
       anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'center',
+        vertical: "bottom",
+        horizontal: "center",
       },
     },
   },
@@ -37,12 +59,17 @@ export default {
       enterNextDelay: 500,
     },
   },
+  MuiSvgIcon: {
+    styleOverrides: {
+      fontSizeLarge: {
+        fontSize: "40px",
+      },
+    },
+  },
   MuiTableCell: {
     styleOverrides: {
       root: ({ theme }) => ({
-        '@media print': {
-          color: theme.palette.alwaysDark.main,
-        },
+        borderBottomColor: theme.palette.secondary.main,
       }),
     },
   },

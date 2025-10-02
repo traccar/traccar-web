@@ -2,12 +2,12 @@ import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Paper,
 } from "@mui/material";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
@@ -34,7 +34,7 @@ import CollectionActions from "../settings/components/CollectionActions";
 import fetchOrThrow from "../common/util/fetchOrThrow";
 import SelectField from "../common/components/SelectField";
 
-const PositionsReportPage = () => {
+const MediaReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
@@ -48,6 +48,7 @@ const PositionsReportPage = () => {
   const [available, setAvailable] = useState([]);
   const [columns, setColumns] = useState([
     "fixTime",
+    "image",
     "latitude",
     "longitude",
     "speed",
@@ -92,7 +93,8 @@ const PositionsReportPage = () => {
           headers: { Accept: "application/json" },
         }
       );
-      const data = await response.json();
+      const allPoses = await response.json();
+      const data = allPoses.filter((e) => e.protocol == "dualcam");
       const keySet = new Set();
       const keyList = [];
       data.forEach((position) => {
@@ -130,7 +132,7 @@ const PositionsReportPage = () => {
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
-    report.type = "route";
+    report.type = "media";
     await scheduleReport(deviceIds, groupIds, report);
     navigate("/reports/scheduled");
   });
@@ -138,7 +140,7 @@ const PositionsReportPage = () => {
   return (
     <PageLayout
       menu={<ReportsMenu />}
-      breadcrumbs={["reportTitle", "reportPositions"]}>
+      breadcrumbs={["reportTitle", "reportMedia"]}>
       <Paper
         square
         style={{
@@ -213,6 +215,7 @@ const PositionsReportPage = () => {
               <TableHead>
                 <TableRow>
                   <TableCell className={classes.columnAction} />
+                  <TableCell>{t("sharedDevice")}</TableCell>
                   {columns.map((key) => (
                     <TableCell key={key}>
                       {positionAttributes[key]?.name || key}
@@ -269,7 +272,7 @@ const PositionsReportPage = () => {
                     </TableRow>
                   ))
                 ) : (
-                  <TableShimmer columns={columns.length + 1} startAction />
+                  <TableShimmer columns={columns.length + 5} startAction />
                 )}
               </TableBody>
             </Table>
@@ -280,4 +283,4 @@ const PositionsReportPage = () => {
   );
 };
 
-export default PositionsReportPage;
+export default MediaReportPage;
