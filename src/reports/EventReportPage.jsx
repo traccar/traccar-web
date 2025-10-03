@@ -112,7 +112,7 @@ const EventReportPage = () => {
       const positionsMap = {};
       if (positionIds.length > 0) {
         const positionsQuery = new URLSearchParams();
-        positionIds.forEach((id) => positionsQuery.append('id', id));
+        positionIds.slice(0, 128).forEach((id) => positionsQuery.append('id', id));
         const positionsResponse = await fetchOrThrow(`/api/positions?${positionsQuery.toString()}`);
         const positionsArray = await positionsResponse.json();
         positionsArray.forEach((p) => positionsMap[p.id] = p);
