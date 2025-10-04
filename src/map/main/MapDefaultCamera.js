@@ -39,7 +39,7 @@ const MapDefaultCamera = ({ mapReady }) => {
           const [individual] = coordinates;
           map.jumpTo({
             center: individual,
-            zoom: Math.max(map.getZoom(), 10),
+            zoom: Math.max(defaultZoom > 0 ? defaultZoom : map.getZoom(), 10),
           });
           setInitialized(true);
         }
