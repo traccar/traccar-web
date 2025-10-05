@@ -21,8 +21,8 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
-import ReplayIcon from '@mui/icons-material/Replay';
-import PublishIcon from '@mui/icons-material/Publish';
+import RouteIcon from '@mui/icons-material/Route';
+import SendIcon from '@mui/icons-material/Send';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PendingIcon from '@mui/icons-material/Pending';
@@ -252,7 +252,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     onClick={() => navigate(`/replay?deviceId=${deviceId}`)}
                     disabled={disableActions || !position}
                   >
-                    <ReplayIcon />
+                    <RouteIcon />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title={t('commandTitle')}>
@@ -260,7 +260,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                     onClick={() => navigate(`/settings/device/${deviceId}/command`)}
                     disabled={disableActions}
                   >
-                    <PublishIcon />
+                    <SendIcon />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title={t('sharedEdit')}>
