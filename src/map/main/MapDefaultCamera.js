@@ -15,10 +15,17 @@ const MapDefaultCamera = ({ mapReady }) => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (!mapReady) return;
+    if (!mapReady || initialized) return;
     if (selectedDeviceId) {
-      setInitialized(true);
-    } else if (!initialized) {
+      const position = positions[selectedDeviceId];
+      if (position) {
+        map.jumpTo({
+          center: [position.longitude, position.latitude],
+          zoom: Math.max(defaultZoom > 0 ? defaultZoom : map.getZoom(), 10),
+        });
+        setInitialized(true);
+      }
+    } else {
       if (defaultLatitude && defaultLongitude) {
         map.jumpTo({
           center: [defaultLongitude, defaultLatitude],
