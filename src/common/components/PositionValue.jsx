@@ -93,7 +93,7 @@ const PositionValue = ({ position, property, attribute }) => {
   };
 
   if (key === 'address') {
-    return <AddressValue latitude={position.latitude} longitude={position.longitude} originalAddress={value} />;
+    return <AddressValue geofenceIds={position.geofenceIds} latitude={position.latitude} longitude={position.longitude} originalAddress={value} />;
   }
 
   if (value === undefined || value === null) {
