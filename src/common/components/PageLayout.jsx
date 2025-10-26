@@ -14,7 +14,7 @@ import { makeStyles } from 'tss-react/mui';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from './LocalizationProvider';
 import BackIcon from './BackIcon';
 
@@ -86,7 +86,9 @@ const PageLayout = ({ menu, breadcrumbs, children }) => {
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  const [openDrawer, setOpenDrawer] = useState(!desktop && searchParams.has('menu'));
 
   const toggleDrawer = () => setMiniVariant(!miniVariant);
 

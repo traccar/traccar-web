@@ -90,7 +90,7 @@ const BottomMenu = () => {
         }
         break;
       case 'settings':
-        navigate('/settings/preferences');
+        navigate('/settings/preferences?menu=true');
         break;
       case 'account':
         setAnchorEl(event.currentTarget);
