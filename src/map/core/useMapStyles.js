@@ -180,7 +180,11 @@ export default () => {
     {
       id: 'hereBasic',
       title: t('mapHereBasic'),
-      style: `https://assets.vector.hereapi.com/styles/berlin/base/mapbox/tilezen?apikey=${hereKey}`,
+      style: styleCustom({
+        tiles: [`https://maps.hereapi.com/v3/base/mc/{z}/{x}/{y}/png8?apiKey=${hereKey}&size=512`],
+        maxZoom: 20,
+        attribution: '© HERE',
+      }),
       available: Boolean(hereKey),
       attribute: 'hereKey',
     },
@@ -188,8 +192,9 @@ export default () => {
       id: 'hereHybrid',
       title: t('mapHereHybrid'),
       style: styleCustom({
-        tiles: [1, 2, 3, 4].map((i) => `https://${i}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/hybrid.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
+        tiles: [`https://maps.hereapi.com/v3/base/mc/{z}/{x}/{y}/jpeg?style=explore.satellite.day&apiKey=${hereKey}&size=512`],
         maxZoom: 20,
+        attribution: '© HERE',
       }),
       available: Boolean(hereKey),
       attribute: 'hereKey',
@@ -198,8 +203,9 @@ export default () => {
       id: 'hereSatellite',
       title: t('mapHereSatellite'),
       style: styleCustom({
-        tiles: [1, 2, 3, 4].map((i) => `https://${i}.aerial.maps.ls.hereapi.com/maptile/2.1/maptile/newest/satellite.day/{z}/{x}/{y}/256/png8?apiKey=${hereKey}`),
-        maxZoom: 19,
+        tiles: [`https://maps.hereapi.com/v3/base/mc/{z}/{x}/{y}/jpeg?style=satellite.day&apiKey=${hereKey}&size=512`],
+        maxZoom: 20,
+        attribution: '© HERE',
       }),
       available: Boolean(hereKey),
       attribute: 'hereKey',
