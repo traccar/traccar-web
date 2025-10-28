@@ -69,6 +69,7 @@ const NotificationPage = () => {
                 keyGetter={(it) => it.type}
                 titleGetter={(it) => t(prefixString('event', it.type))}
                 label={t('sharedType')}
+                helperText={['geofenceEnter', 'geofenceExit'].includes(item.type) ? t('notificationGeofenceLabel') : null}
               />
               {item.type === 'alarm' && (
                 <SelectField

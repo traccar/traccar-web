@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import {
-  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Autocomplete,
+  TextField,
+  FormHelperText,
 } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
@@ -17,6 +23,7 @@ const SelectField = ({
   data,
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
+  helperText,
 }) => {
   const [items, setItems] = useState();
 
@@ -52,6 +59,7 @@ const SelectField = ({
                 <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
               ))}
             </Select>
+            {helperText && <FormHelperText>{helperText}</FormHelperText>}
           </>
         ) : (
           <Autocomplete
@@ -64,7 +72,7 @@ const SelectField = ({
             isOptionEqualToValue={(option, value) => keyGetter(option) === value}
             value={value}
             onChange={(_, value) => onChange({ target: { value: value ? keyGetter(value) : emptyValue } })}
-            renderInput={(params) => <TextField {...params} label={label} />}
+            renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
           />
         )}
       </FormControl>
