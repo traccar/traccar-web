@@ -77,6 +77,10 @@ export default (t) => useMemo(() => ({
     name: t('mapOpenWeatherKey'),
     type: 'string',
   },
+  ordnanceSurveyKey: {
+    name: t('mapOrdnanceSurveyKey'),
+    type: 'string',
+  },
   tomTomKey: {
     name: t('mapTomTomKey'),
     type: 'string',
