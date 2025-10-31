@@ -39,7 +39,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapOverlay />
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
-        <MapLiveRoutes />
+        <MapLiveRoutes deviceIds={filteredPositions.map((p) => p.deviceId)} />
         <MapPositions
           positions={filteredPositions}
           onMarkerClick={onMarkerClick}
