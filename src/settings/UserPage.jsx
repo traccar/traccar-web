@@ -17,6 +17,9 @@ import {
   InputAdornment,
   IconButton,
   OutlinedInput,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -63,6 +66,8 @@ const UserPage = () => {
 
   const [deleteEmail, setDeleteEmail] = useState();
   const [deleteFailed, setDeleteFailed] = useState(false);
+  const [revokeDialogOpen, setRevokeDialogOpen] = useState(false);
+  const [revokeToken, setRevokeToken] = useState('');
 
   const handleDelete = useCatch(async () => {
     if (deleteEmail === currentUser.email) {
@@ -78,6 +83,20 @@ const UserPage = () => {
   const handleGenerateTotp = useCatch(async () => {
     const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
     setItem({ ...item, totpKey: await response.text() });
+  });
+
+  const closeRevokeDialog = () => {
+    setRevokeDialogOpen(false);
+    setRevokeToken('');
+  };
+
+  const handleRevokeToken = useCatch(async () => {
+    await fetchOrThrow('/api/session/token/revoke', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ token: revokeToken }).toString(),
+    });
+    closeRevokeDialog();
   });
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -337,6 +356,13 @@ const UserPage = () => {
                 label={t('userUserLimit')}
                 disabled={!admin}
               />
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setRevokeDialogOpen(true)}
+              >
+                {t('userRevokeToken')}
+              </Button>
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox checked={item.disabled} onChange={(e) => setItem({ ...item, disabled: e.target.checked })} />}
@@ -410,6 +436,23 @@ const UserPage = () => {
           )}
         </>
       )}
+      <Dialog open={revokeDialogOpen} onClose={closeRevokeDialog} fullWidth maxWidth="xs">
+        <DialogContent className={classes.details}>
+          <TextField
+            value={revokeToken}
+            onChange={(e) => setRevokeToken(e.target.value)}
+            label={t('userToken')}
+            autoFocus
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeRevokeDialog}>{t('sharedCancel')}</Button>
+          <Button onClick={handleRevokeToken} disabled={!revokeToken} variant="contained">
+            {t('userRevokeToken')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </EditItemView>
   );
 };
