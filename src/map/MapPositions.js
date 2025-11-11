@@ -114,10 +114,11 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'text-offset': [0, -2 * iconScale],
           'text-font': findFonts(map),
           'text-size': 12,
+          'symbol-sort-key': ['get', 'id'],
         },
         paint: {
           'text-halo-color': 'white',
-          'text-halo-width': 1,
+          'text-halo-width': 2,
         },
       });
       map.addLayer({
