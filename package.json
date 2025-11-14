@@ -20,7 +20,7 @@
     "dayjs": "^1.11.19",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
-    "maplibre-gl": "^5.12.0",
+    "maplibre-gl": "^5.13.0",
     "maplibre-google-maps": "^1.1.0",
     "mui-file-input": "^7.0.0",
     "react": "^19.2.0",
