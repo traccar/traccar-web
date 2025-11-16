@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem, useTheme,
 } from '@mui/material';
@@ -15,12 +15,13 @@ import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
 import {
-  altitudeFromMeters, distanceFromMeters, speedFromKnots, volumeFromLiters,
+  altitudeFromMeters, distanceFromMeters, speedFromKnots, speedToKnots, volumeFromLiters,
 } from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const ChartReportPage = () => {
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const theme = useTheme();
   const t = useTranslation();
 
@@ -33,81 +34,93 @@ const ChartReportPage = () => {
 
   const [items, setItems] = useState([]);
   const [types, setTypes] = useState(['speed']);
-  const [type, setType] = useState('speed');
+  const [selectedTypes, setSelectedTypes] = useState(['speed']);
   const [timeType, setTimeType] = useState('fixTime');
 
-  const values = items.map((it) => it[type]).filter((value) => value != null);
+  const values = items.map((it) => selectedTypes.map((type) => it[type]).filter((value) => value != null));
   const minValue = values.length ? Math.min(...values) : 0;
   const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to }) => {
-    const query = new URLSearchParams({ deviceId, from, to });
-    const response = await fetch(`/api/reports/route?${query.toString()}`, {
+  const onShow = useCatch(async ({ deviceIds, from, to }) => {
+    const query = new URLSearchParams({ from, to });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
       headers: { Accept: 'application/json' },
     });
-    if (response.ok) {
-      const positions = await response.json();
-      const keySet = new Set();
-      const keyList = [];
-      const formattedPositions = positions.map((position) => {
-        const data = { ...position, ...position.attributes };
-        const formatted = {};
-        formatted.fixTime = dayjs(position.fixTime).valueOf();
-        formatted.deviceTime = dayjs(position.deviceTime).valueOf();
-        formatted.serverTime = dayjs(position.serverTime).valueOf();
-        Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
-          const value = data[key];
-          if (typeof value === 'number') {
-            keySet.add(key);
-            const definition = positionAttributes[key] || {};
-            switch (definition.dataType) {
-              case 'speed':
+    const positions = await response.json();
+    const keySet = new Set();
+    const keyList = [];
+    const formattedPositions = positions.map((position) => {
+      const data = { ...position, ...position.attributes };
+      const formatted = {};
+      formatted.fixTime = dayjs(position.fixTime).valueOf();
+      formatted.deviceTime = dayjs(position.deviceTime).valueOf();
+      formatted.serverTime = dayjs(position.serverTime).valueOf();
+      Object.keys(data).filter((key) => !['id', 'deviceId'].includes(key)).forEach((key) => {
+        const value = data[key];
+        if (typeof value === 'number') {
+          keySet.add(key);
+          const definition = positionAttributes[key] || {};
+          switch (definition.dataType) {
+            case 'speed':
+              if (key == 'obdSpeed') {
+                formatted[key] = speedFromKnots(speedToKnots(value, 'kmh'), speedUnit).toFixed(2);
+              } else {
                 formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
-                break;
-              case 'altitude':
-                formatted[key] = altitudeFromMeters(value, altitudeUnit).toFixed(2);
-                break;
-              case 'distance':
-                formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);
-                break;
-              case 'volume':
-                formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
-                break;
-              case 'hours':
-                formatted[key] = (value / 1000).toFixed(2);
-                break;
-              default:
-                formatted[key] = value;
-                break;
-            }
+              }
+              break;
+            case 'altitude':
+              formatted[key] = altitudeFromMeters(value, altitudeUnit).toFixed(2);
+              break;
+            case 'distance':
+              formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);
+              break;
+            case 'volume':
+              formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
+              break;
+            case 'hours':
+              formatted[key] = (value / 1000).toFixed(2);
+              break;
+            default:
+              formatted[key] = value;
+              break;
           }
-        });
-        return formatted;
-      });
-      Object.keys(positionAttributes).forEach((key) => {
-        if (keySet.has(key)) {
-          keyList.push(key);
-          keySet.delete(key);
         }
       });
-      setTypes([...keyList, ...keySet]);
-      setItems(formattedPositions);
-    } else {
-      throw Error(await response.text());
-    }
+      return formatted;
+    });
+    Object.keys(positionAttributes).forEach((key) => {
+      if (keySet.has(key)) {
+        keyList.push(key);
+        keySet.delete(key);
+      }
+    });
+    setTypes([...keyList, ...keySet]);
+    setItems(formattedPositions);
   });
+
+  const colorPalette = [
+    theme.palette.primary.main,
+    theme.palette.secondary.main,
+    theme.palette.error.main,
+    theme.palette.warning.main,
+    theme.palette.info.main,
+    theme.palette.success.main,
+    theme.palette.text.secondary,
+  ];
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
-      <ReportFilter handleSubmit={handleSubmit} showOnly>
+      <ReportFilter onShow={onShow} deviceType="single">
         <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
             <Select
               label={t('reportChartType')}
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={selectedTypes}
+              onChange={(e) => setSelectedTypes(e.target.value)}
+              multiple
               disabled={!items.length}
             >
               {types.map((key) => (
@@ -157,7 +170,7 @@ const ChartReportPage = () => {
               />
               <CartesianGrid stroke={theme.palette.divider} strokeDasharray="3 3" />
               <Tooltip
-                contentStyle={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
+                wrapperStyle={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                 formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
                 labelFormatter={(value) => formatTime(value, 'seconds')}
               />
@@ -167,14 +180,16 @@ const ChartReportPage = () => {
                 stroke={theme.palette.primary.main}
                 tickFormatter={() => ''}
               />
-              <Line
-                type="monotone"
-                dataKey={type}
-                stroke={theme.palette.primary.main}
-                dot={false}
-                activeDot={{ r: 6 }}
-                connectNulls
-              />
+              {selectedTypes.map((type, index) => (
+                <Line
+                  type="monotone"
+                  dataKey={type}
+                  stroke={colorPalette[index % colorPalette.length]}
+                  dot={false}
+                  activeDot={{ r: 6 }}
+                  connectNulls
+                />
+              ))}
             </LineChart>
           </ResponsiveContainer>
         </div>

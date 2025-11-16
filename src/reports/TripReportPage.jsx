@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/material/styles';
 import {
   IconButton, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@mui/material';
@@ -26,6 +28,8 @@ import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
+import fetchOrThrow from '../common/util/fetchOrThrow';
+import exportExcel from '../common/util/exportExcel';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -45,8 +49,11 @@ const columnsMap = new Map(columnsArray);
 
 const TripReportPage = () => {
   const navigate = useNavigate();
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
+  const theme = useTheme();
+
+  const devices = useSelector((state) => state.devices.items);
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
@@ -78,60 +85,64 @@ const TripReportPage = () => {
         from: selectedItem.startTime,
         to: selectedItem.endTime,
       });
-      const response = await fetch(`/api/reports/route?${query.toString()}`, {
-        headers: {
-          Accept: 'application/json',
-        },
+      const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
+        headers: { Accept: 'application/json' },
       });
-      if (response.ok) {
-        setRoute(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      setRoute(await response.json());
     } else {
       setRoute(null);
     }
   }, [selectedItem]);
 
-  const handleSubmit = useCatch(async ({ deviceId, from, to, type }) => {
-    const query = new URLSearchParams({ deviceId, from, to });
-    if (type === 'export') {
-      window.location.assign(`/api/reports/trips/xlsx?${query.toString()}`);
-    } else if (type === 'mail') {
-      const response = await fetch(`/api/reports/trips/mail?${query.toString()}`);
-      if (!response.ok) {
-        throw Error(await response.text());
-      }
-    } else {
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/reports/trips?${query.toString()}`, {
-          headers: { Accept: 'application/json' },
-        });
-        if (response.ok) {
-          setItems(await response.json());
-        } else {
-          throw Error(await response.text());
-        }
-      } finally {
-        setLoading(false);
-      }
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+    const query = new URLSearchParams({ from, to });
+    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+    groupIds.forEach((groupId) => query.append('groupId', groupId));
+    setLoading(true);
+    try {
+      const response = await fetchOrThrow(`/api/reports/trips?${query.toString()}`, {
+        headers: { Accept: 'application/json' },
+      });
+      setItems(await response.json());
+    } finally {
+      setLoading(false);
     }
   });
 
-  const handleSchedule = useCatch(async (deviceIds, groupIds, report) => {
+  const onExport = useCatch(async () => {
+    const sheets = new Map();
+    items.forEach((item) => {
+      const deviceName = devices[item.deviceId].name;
+      if (!sheets.has(deviceName)) {
+        sheets.set(deviceName, []);
+      }
+      const row = {};
+      columns.forEach((key) => {
+        const header = t(columnsMap.get(key));
+        if (key === 'startAddress') {
+          row[header] = item.startAddress || '';
+        } else if (key === 'endAddress') {
+          row[header] = item.endAddress || '';
+        } else {
+          row[header] = formatValue(item, key);
+        }
+      });
+      sheets.get(deviceName).push(row);
+    });
+    await exportExcel(t('reportTrips'), 'trips.xlsx', sheets, theme);
+  });
+
+  const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'trips';
-    const error = await scheduleReport(deviceIds, groupIds, report);
-    if (error) {
-      throw Error(error);
-    } else {
-      navigate('/reports/scheduled');
-    }
+    await scheduleReport(deviceIds, groupIds, report);
+    navigate('/reports/scheduled');
   });
 
   const formatValue = (item, key) => {
     const value = item[key];
     switch (key) {
+      case 'deviceId':
+        return devices[value].name;
       case 'startTime':
       case 'endTime':
         return formatTime(value, 'minutes');
@@ -175,7 +186,7 @@ const TripReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} handleSchedule={handleSchedule} loading={loading}>
+            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="multiple" loading={loading}>
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
           </div>
@@ -183,6 +194,7 @@ const TripReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
+                <TableCell>{t('sharedDevice')}</TableCell>
                 {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
               </TableRow>
             </TableHead>
@@ -200,13 +212,14 @@ const TripReportPage = () => {
                       </IconButton>
                     )}
                   </TableCell>
+                  <TableCell>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
                     <TableCell key={key}>
                       {formatValue(item, key)}
                     </TableCell>
                   ))}
                 </TableRow>
-              )) : (<TableShimmer columns={columns.length + 1} startAction />)}
+              )) : (<TableShimmer columns={columns.length + 2} startAction />)}
             </TableBody>
           </Table>
         </div>

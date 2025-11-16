@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Accordion,
   AccordionSummary,
@@ -23,11 +23,12 @@ import SelectField from '../common/components/SelectField';
 import { useCatch } from '../reactHelper';
 import { snackBarDurationLongMs } from '../common/util/duration';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const allowedProperties = ['valid', 'latitude', 'longitude', 'altitude', 'speed', 'course', 'address', 'accuracy'];
 
 const ComputedAttributePage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
@@ -49,16 +50,12 @@ const ComputedAttributePage = () => {
   const testAttribute = useCatch(async () => {
     const query = new URLSearchParams({ deviceId });
     const url = `/api/attributes/computed/test?${query.toString()}`;
-    const response = await fetch(url, {
+    const response = await fetchOrThrow(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    if (response.ok) {
-      setResult(await response.text());
-    } else {
-      throw Error(await response.text());
-    }
+    setResult(await response.text());
   });
 
   const validate = () => item && item.description && item.expression;
@@ -87,10 +84,11 @@ const ComputedAttributePage = () => {
                 label={t('sharedDescription')}
               />
               <Autocomplete
-                value={options.find((option) => option.key === item.attribute) || item.attribute}
+                freeSolo
+                value={options.find((option) => option.key === item.attribute) || item.attribute || null}
                 onChange={(_, option) => {
-                  const attribute = option ? option.key || option : null;
-                  if (option && option.type) {
+                  const attribute = option ? option.key || option.inputValue || option : null;
+                  if (option && (option.type || option.inputValue)) {
                     setItem({ ...item, attribute, type: option.type });
                   } else {
                     setItem({ ...item, attribute });
@@ -98,25 +96,15 @@ const ComputedAttributePage = () => {
                 }}
                 filterOptions={(options, params) => {
                   const filtered = filter(options, params);
-                  if (params.inputValue) {
-                    filtered.push({
-                      key: params.inputValue,
-                      name: params.inputValue,
-                    });
+                  if (params.inputValue && !options.some((x) => (typeof x === 'object' ? x.key : x) === params.inputValue)) {
+                    filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
                   }
                   return filtered;
                 }}
                 options={options}
-                getOptionLabel={(option) => option.name || option}
-                renderOption={(props, option) => (
-                  <li {...props}>
-                    {option.name}
-                  </li>
-                )}
-                renderInput={(params) => (
-                  <TextField {...params} label={t('sharedAttribute')} />
-                )}
-                freeSolo
+                getOptionLabel={(option) => typeof option === 'object' ? option.inputValue || option.name : option }
+                renderOption={(props, option) => <li {...props}>{option.name || option}</li>}
+                renderInput={(params) => <TextField {...params} label={t('sharedAttribute')} />}
               />
               <TextField
                 value={item.expression || ''}

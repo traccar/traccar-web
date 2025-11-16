@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button, TextField, Typography, Snackbar, IconButton,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import { sessionActions } from '../store';
+import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
@@ -47,27 +48,19 @@ const RegisterPage = () => {
 
   useEffectAsync(async () => {
     if (totpForce) {
-      const response = await fetch('/api/users/totp', { method: 'POST' });
-      if (response.ok) {
-        setTotpKey(await response.text());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
+      setTotpKey(await response.text());
     }
   }, [totpForce, setTotpKey]);
 
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
-    const response = await fetch('/api/users', {
+    await fetchOrThrow('/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, totpKey }),
     });
-    if (response.ok) {
-      setSnackbarOpen(true);
-    } else {
-      throw Error(await response.text());
-    }
+    setSnackbarOpen(true);
   });
 
   return (
@@ -76,7 +69,7 @@ const RegisterPage = () => {
         <div className={classes.header}>
           {!server.newServer && (
             <IconButton color="primary" onClick={() => navigate('/login')}>
-              <ArrowBackIcon />
+              <BackIcon />
             </IconButton>
           )}
           <Typography className={classes.title} color="primary">

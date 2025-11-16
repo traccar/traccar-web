@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import {
   Accordion, AccordionSummary, AccordionDetails, Typography, FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DropzoneArea } from 'react-mui-dropzone';
+import { MuiFileInput } from 'mui-file-input';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -15,6 +15,7 @@ import { prefixString } from '../common/util/stringUtils';
 import { calendarsActions } from '../store';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const formatCalendarTime = (time) => {
   const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -62,11 +63,12 @@ const simpleCalendar = () => window.btoa([
 ].join('\n'));
 
 const CalendarPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 
   const [item, setItem] = useState();
+  const [file, setFile] = useState(null);
 
   const decoded = item && item.data && window.atob(item.data);
 
@@ -76,24 +78,21 @@ const CalendarPage = () => {
 
   const rule = simple && parseRule(lines[7]);
 
-  const handleFiles = (files) => {
-    if (files.length > 0) {
+  const handleFileChange = (newFile) => {
+    setFile(newFile);
+    if (newFile) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const { result } = event.target;
         setItem({ ...item, data: result.substr(result.indexOf(',') + 1) });
       };
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(newFile);
     }
   };
 
   const onItemSaved = useCatch(async () => {
-    const response = await fetch('/api/calendars');
-    if (response.ok) {
-      dispatch(calendarsActions.refresh(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/calendars');
+    dispatch(calendarsActions.refresh(await response.json()));
   });
 
   const validate = () => item && item.name && item.data;
@@ -185,11 +184,10 @@ const CalendarPage = () => {
                   )}
                 </>
               ) : (
-                <DropzoneArea
-                  dropzoneText={t('sharedDropzoneText')}
-                  filesLimit={1}
-                  onChange={handleFiles}
-                  showAlerts={false}
+                <MuiFileInput
+                  placeholder={t('sharedSelectFile')}
+                  value={file}
+                  onChange={handleFileChange}
                 />
               )}
             </AccordionDetails>

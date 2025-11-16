@@ -1,7 +1,7 @@
 import { useId, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { map } from './core/MapView';
 import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
@@ -9,7 +9,7 @@ import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
 import { findFonts } from './core/mapUtil';
 
-const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleField }) => {
+const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, selectedPosition, titleField }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
   const selected = `${id}-selected`;
@@ -53,19 +53,19 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
   const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
   const onMouseLeave = () => map.getCanvas().style.cursor = '';
 
-  const onMapClick = useCallback((event) => {
-    if (!event.defaultPrevented && onClick) {
-      onClick(event.lngLat.lat, event.lngLat.lng);
+  const onMapClickCallback = useCallback((event) => {
+    if (!event.defaultPrevented && onMapClick) {
+      onMapClick(event.lngLat.lat, event.lngLat.lng);
     }
-  }, [onClick]);
+  }, [onMapClick]);
 
-  const onMarkerClick = useCallback((event) => {
+  const onMarkerClickCallback = useCallback((event) => {
     event.preventDefault();
     const feature = event.features[0];
-    if (onClick) {
-      onClick(feature.properties.id, feature.properties.deviceId);
+    if (onMarkerClick) {
+      onMarkerClick(feature.properties.id, feature.properties.deviceId);
     }
-  }, [onClick]);
+  }, [onMarkerClick]);
 
   const onClusterClick = useCatchCallback(async (event) => {
     event.preventDefault();
@@ -114,10 +114,11 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
           'text-offset': [0, -2 * iconScale],
           'text-font': findFonts(map),
           'text-size': 12,
+          'symbol-sort-key': ['get', 'id'],
         },
         paint: {
           'text-halo-color': 'white',
-          'text-halo-width': 1,
+          'text-halo-width': 2,
         },
       });
       map.addLayer({
@@ -140,7 +141,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
 
       map.on('mouseenter', source, onMouseEnter);
       map.on('mouseleave', source, onMouseLeave);
-      map.on('click', source, onMarkerClick);
+      map.on('click', source, onMarkerClickCallback);
     });
     map.addLayer({
       id: clusters,
@@ -159,13 +160,13 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
     map.on('mouseenter', clusters, onMouseEnter);
     map.on('mouseleave', clusters, onMouseLeave);
     map.on('click', clusters, onClusterClick);
-    map.on('click', onMapClick);
+    map.on('click', onMapClickCallback);
 
     return () => {
       map.off('mouseenter', clusters, onMouseEnter);
       map.off('mouseleave', clusters, onMouseLeave);
       map.off('click', clusters, onClusterClick);
-      map.off('click', onMapClick);
+      map.off('click', onMapClickCallback);
 
       if (map.getLayer(clusters)) {
         map.removeLayer(clusters);
@@ -174,7 +175,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
       [id, selected].forEach((source) => {
         map.off('mouseenter', source, onMouseEnter);
         map.off('mouseleave', source, onMouseLeave);
-        map.off('click', source, onMarkerClick);
+        map.off('click', source, onMarkerClickCallback);
 
         if (map.getLayer(source)) {
           map.removeLayer(source);
@@ -187,7 +188,7 @@ const MapPositions = ({ positions, onClick, showStatus, selectedPosition, titleF
         }
       });
     };
-  }, [mapCluster, clusters, onMarkerClick, onClusterClick]);
+  }, [mapCluster, clusters, onMarkerClickCallback, onClusterClick]);
 
   useEffect(() => {
     [id, selected].forEach((source) => {

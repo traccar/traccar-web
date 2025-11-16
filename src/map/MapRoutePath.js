@@ -1,4 +1,4 @@
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
@@ -54,9 +54,6 @@ const MapRoutePath = ({ positions }) => {
     });
 
     return () => {
-      if (map.getLayer(`${id}-title`)) {
-        map.removeLayer(`${id}-title`);
-      }
       if (map.getLayer(`${id}-line`)) {
         map.removeLayer(`${id}-line`);
       }
@@ -92,7 +89,7 @@ const MapRoutePath = ({ positions }) => {
       type: 'FeatureCollection',
       features,
     });
-  }, [theme, positions, reportColor]);
+  }, [theme, positions, reportColor, mapLineWidth, mapLineOpacity]);
 
   return null;
 };

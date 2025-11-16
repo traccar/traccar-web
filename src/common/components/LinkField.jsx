@@ -1,8 +1,9 @@
 import { Autocomplete, Snackbar, TextField } from '@mui/material';
-import React, { useState } from 'react';
-import { useEffectAsync } from '../../reactHelper';
+import { useState } from 'react';
+import { useCatchCallback, useEffectAsync } from '../../reactHelper';
 import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 const LinkField = ({
   label,
@@ -23,23 +24,15 @@ const LinkField = ({
 
   useEffectAsync(async () => {
     if (active) {
-      const response = await fetch(endpointAll);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(endpointAll);
+      setItems(await response.json());
     }
   }, [active]);
 
   useEffectAsync(async () => {
     if (active) {
-      const response = await fetch(endpointLinked);
-      if (response.ok) {
-        setLinked(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(endpointLinked);
+      setLinked(await response.json());
     }
   }, [active]);
 
@@ -50,20 +43,20 @@ const LinkField = ({
     return body;
   };
 
-  const onChange = async (value) => {
+  const onChange = useCatchCallback(async (value) => {
     const oldValue = linked.map((it) => keyGetter(it));
     const newValue = value.map((it) => keyGetter(it));
     if (!newValue.find((it) => it < 0)) {
       const results = [];
       newValue.filter((it) => !oldValue.includes(it)).forEach((added) => {
-        results.push(fetch('/api/permissions', {
+        results.push(fetchOrThrow('/api/permissions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(createBody(added)),
         }));
       });
       oldValue.filter((it) => !newValue.includes(it)).forEach((removed) => {
-        results.push(fetch('/api/permissions', {
+        results.push(fetchOrThrow('/api/permissions', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(createBody(removed)),
@@ -73,7 +66,7 @@ const LinkField = ({
       setUpdated(results.length > 0);
       setLinked(value);
     }
-  };
+  }, [linked, setUpdated, setLinked]);
 
   return (
     <>
@@ -82,7 +75,14 @@ const LinkField = ({
         isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
         options={items || []}
         getOptionLabel={(item) => titleGetter(item)}
-        renderInput={(params) => <TextField {...params} label={label} />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            slotProps={{ inputLabel: { shrink: true } }}
+            placeholder={!active ? t('reportShow') : null}
+          />
+        )}
         value={(items && linked) || []}
         onChange={(_, value) => onChange(value)}
         open={open}

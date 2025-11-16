@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Accordion,
@@ -17,7 +16,7 @@ import useFeatures from '../common/util/useFeatures';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const GroupConnectionsPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();

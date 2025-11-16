@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Accordion,
@@ -20,7 +20,7 @@ import { geofencesActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const GeofencePage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 

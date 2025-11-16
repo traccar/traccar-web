@@ -61,4 +61,8 @@ export default (t) => useMemo(() => ({
     name: t('userTermsAccepted'),
     type: 'boolean',
   },
+  billingLink: {
+    name: t('userBilling'),
+    type: 'string',
+  },
 }), [t]);
