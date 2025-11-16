@@ -10,7 +10,6 @@ export const usePrevious = (value) => {
   return ref.current;
 };
 
-/* eslint-disable */
 export const useEffectAsync = (effect, deps) => {
   const dispatch = useDispatch();
   const ref = useRef();

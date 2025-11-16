@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
 import {
-  Route, Routes, useLocation, useNavigate,
+  Route, Routes,
+  useSearchParams,
 } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MainPage from './main/MainPage';
 import CombinedReportPage from './reports/CombinedReportPage';
-import RouteReportPage from './reports/RouteReportPage';
+import PositionsReportPage from './reports/PositionsReportPage';
 import ServerPage from './settings/ServerPage';
 import UsersPage from './settings/UsersPage';
 import DevicePage from './settings/DevicePage';
@@ -38,7 +38,6 @@ import RegisterPage from './login/RegisterPage';
 import ResetPasswordPage from './login/ResetPasswordPage';
 import GeofencesPage from './other/GeofencesPage';
 import GeofencePage from './settings/GeofencePage';
-import useQuery from './common/util/useQuery';
 import { useEffectAsync } from './reactHelper';
 import { devicesActions } from './store';
 import EventPage from './other/EventPage';
@@ -60,51 +59,55 @@ import EmulatorPage from './other/EmulatorPage';
 import Loader from './common/components/Loader';
 import { generateLoginToken } from './common/components/NativeInterface';
 import { useLocalization } from './common/components/LocalizationProvider';
+import fetchOrThrow from './common/util/fetchOrThrow';
+import AuditPage from './reports/AuditPage';
 
 const Navigation = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setLanguage } = useLocalization();
+  const { setLocalLanguage } = useLocalization();
 
-  const [redirectsHandled, setRedirectsHandled] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { pathname } = useLocation();
-  const query = useQuery();
+  const hasQueryParams = ['locale', 'token', 'uniqueId', 'openid'].some(key => searchParams.has(key));
 
   useEffectAsync(async () => {
-    if (query.get('locale')) {
-      setLanguage(query.get('locale'));
+    if (!hasQueryParams) {
+      return;
     }
-    if (query.get('token')) {
-      const token = query.get('token');
+
+    const newParams = new URLSearchParams(searchParams);
+
+    if (searchParams.has('locale')) {
+      setLocalLanguage(searchParams.get('locale'));
+      newParams.delete('locale');
+    }
+
+    if (searchParams.has('token')) {
+      const token = searchParams.get('token');
       await fetch(`/api/session?token=${encodeURIComponent(token)}`);
-      navigate(pathname);
-    } else if (query.get('deviceId')) {
-      const deviceId = query.get('deviceId');
-      const response = await fetch(`/api/devices?uniqueId=${deviceId}`);
-      if (response.ok) {
-        const items = await response.json();
-        if (items.length > 0) {
-          dispatch(devicesActions.selectId(items[0].id));
-        }
-      } else {
-        throw Error(await response.text());
+      newParams.delete('token');
+    }
+
+    if (searchParams.has('uniqueId')) {
+      const response = await fetchOrThrow(`/api/devices?uniqueId=${searchParams.get('uniqueId')}`);
+      const items = await response.json();
+      if (items.length > 0) {
+        dispatch(devicesActions.selectId(items[0].id));
       }
-      navigate('/');
-    } else if (query.get('eventId')) {
-      const eventId = parseInt(query.get('eventId'), 10);
-      navigate(`/event/${eventId}`);
-    } else if (query.get('openid')) {
-      if (query.get('openid') === 'success') {
+      newParams.delete('uniqueId');
+    }
+
+    if (searchParams.has('openid')) {
+      if (searchParams.get('openid') === 'success') {
         generateLoginToken();
       }
-      navigate('/');
-    } else {
-      setRedirectsHandled(true);
+      newParams.delete('openid');
     }
-  }, [query]);
 
-  if (!redirectsHandled) {
+    setSearchParams(newParams, { replace: true });
+  }, [hasQueryParams, searchParams, setSearchParams]);
+
+  if (hasQueryParams) {
     return (<Loader />);
   }
   return (
@@ -168,13 +171,14 @@ const Navigation = () => {
         <Route path="reports">
           <Route path="combined" element={<CombinedReportPage />} />
           <Route path="chart" element={<ChartReportPage />} />
-          <Route path="event" element={<EventReportPage />} />
-          <Route path="route" element={<RouteReportPage />} />
-          <Route path="stop" element={<StopReportPage />} />
+          <Route path="events" element={<EventReportPage />} />
+          <Route path="route" element={<PositionsReportPage />} />
+          <Route path="stops" element={<StopReportPage />} />
           <Route path="summary" element={<SummaryReportPage />} />
-          <Route path="trip" element={<TripReportPage />} />
+          <Route path="trips" element={<TripReportPage />} />
           <Route path="scheduled" element={<ScheduledPage />} />
           <Route path="statistics" element={<StatisticsPage />} />
+          <Route path="audit" element={<AuditPage />} />
           <Route path="logs" element={<LogsPage />} />
         </Route>
       </Route>

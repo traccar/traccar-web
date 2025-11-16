@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   IconButton, Menu, MenuItem, useMediaQuery, useTheme,
 } from '@mui/material';
@@ -7,11 +7,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import RemoveDialog from '../../common/components/RemoveDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
   row: {
     display: 'flex',
   },
@@ -21,7 +21,7 @@ const CollectionActions = ({
   itemId, editPath, endpoint, setTimestamp, customActions, readonly,
 }) => {
   const theme = useTheme();
-  const classes = useStyles();
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -65,7 +65,7 @@ const CollectionActions = ({
             ))}
             {!readonly && (
               <>
-                <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>
+                {editPath && <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>}
                 <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
               </>
             )}
@@ -82,11 +82,13 @@ const CollectionActions = ({
           ))}
           {!readonly && (
             <>
-              <Tooltip title={t('sharedEdit')}>
-                <IconButton size="small" onClick={handleEdit}>
-                  <EditIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
+              {editPath && (
+                <Tooltip title={t('sharedEdit')}>
+                  <IconButton size="small" onClick={handleEdit}>
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
               <Tooltip title={t('sharedRemove')}>
                 <IconButton size="small" onClick={handleRemove}>
                   <DeleteIcon fontSize="small" />

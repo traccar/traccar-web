@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   FormControl, InputLabel, MenuItem, Select,
 } from '@mui/material';
@@ -8,7 +7,7 @@ import useReportStyles from '../common/useReportStyles';
 const ColumnSelect = ({
   columns, setColumns, columnsArray, rawValues, disabled,
 }) => {
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
   return (

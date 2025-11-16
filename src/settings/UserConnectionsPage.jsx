@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Accordion,
@@ -16,7 +15,7 @@ import PageLayout from '../common/components/PageLayout';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const UserConnectionsPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();
@@ -35,8 +34,8 @@ const UserConnectionsPage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <LinkField
-              endpointAll="/api/devices?all=true"
-              endpointLinked={`/api/devices?userId=${id}`}
+              endpointAll="/api/devices?all=true&excludeAttributes=true"
+              endpointLinked={`/api/devices?userId=${id}&excludeAttributes=true`}
               baseId={id}
               keyBase="userId"
               keyLink="deviceId"
@@ -77,8 +76,8 @@ const UserConnectionsPage = () => {
               label={t('sharedCalendars')}
             />
             <LinkField
-              endpointAll="/api/users?all=true"
-              endpointLinked={`/api/users?userId=${id}`}
+              endpointAll="/api/users?all=true&excludeAttributes=true"
+              endpointLinked={`/api/users?userId=${id}&excludeAttributes=true`}
               baseId={id}
               keyBase="userId"
               keyLink="managedUserId"

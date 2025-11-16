@@ -1,10 +1,9 @@
-import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import Logo from '../resources/images/logo.svg?react';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   image: {
     alignSelf: 'center',
     maxWidth: '240px',
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LogoImage = ({ color }) => {
   const theme = useTheme();
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   const expanded = !useMediaQuery(theme.breakpoints.down('lg'));
 

@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  FormControl, InputLabel, MenuItem, Select, Autocomplete, TextField,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Autocomplete,
+  TextField,
+  FormHelperText,
 } from '@mui/material';
 import { useEffectAsync } from '../../reactHelper';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 const SelectField = ({
   label,
@@ -16,6 +23,7 @@ const SelectField = ({
   data,
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
+  helperText,
 }) => {
   const [items, setItems] = useState();
 
@@ -30,12 +38,8 @@ const SelectField = ({
 
   useEffectAsync(async () => {
     if (endpoint) {
-      const response = await fetch(endpoint);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(endpoint);
+      setItems(await response.json());
     }
   }, []);
 
@@ -55,6 +59,7 @@ const SelectField = ({
                 <MenuItem key={keyGetter(item)} value={keyGetter(item)}>{titleGetter(item)}</MenuItem>
               ))}
             </Select>
+            {helperText && <FormHelperText>{helperText}</FormHelperText>}
           </>
         ) : (
           <Autocomplete
@@ -67,7 +72,7 @@ const SelectField = ({
             isOptionEqualToValue={(option, value) => keyGetter(option) === value}
             value={value}
             onChange={(_, value) => onChange({ target: { value: value ? keyGetter(value) : emptyValue } })}
-            renderInput={(params) => <TextField {...params} label={label} />}
+            renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
           />
         )}
       </FormControl>

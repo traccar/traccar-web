@@ -13,7 +13,6 @@ class ErrorBoundary extends React.Component {
     return { error };
   }
 
-  /* eslint-disable react/no-danger */
   render() {
     const { error } = this.state;
     if (error) {

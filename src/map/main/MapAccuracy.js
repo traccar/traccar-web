@@ -1,6 +1,6 @@
 import { useId, useEffect } from 'react';
 import circle from '@turf/circle';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 
 const MapAccuracy = ({ positions }) => {

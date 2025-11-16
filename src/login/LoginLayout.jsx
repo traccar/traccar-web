@@ -1,10 +1,9 @@
-import React from 'react';
 import { useMediaQuery, Paper } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
 import LogoImage from './LogoImage';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     display: 'flex',
     height: '100%',
@@ -42,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginLayout = ({ children }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const theme = useTheme();
 
   return (

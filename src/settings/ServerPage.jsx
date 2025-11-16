@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import TextField from '@mui/material/TextField';
-
 import {
   Accordion,
   AccordionSummary,
@@ -19,7 +18,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { DropzoneArea } from 'react-mui-dropzone';
+import { MuiFileInput } from 'mui-file-input';
 import { sessionActions } from '../store';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -33,9 +32,10 @@ import useServerAttributes from '../common/attributes/useServerAttributes';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const ServerPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -48,32 +48,23 @@ const ServerPage = () => {
   const original = useSelector((state) => state.session.server);
   const [item, setItem] = useState({ ...original });
 
-  const handleFiles = useCatch(async (files) => {
-    if (files.length > 0) {
-      const file = files[0];
-      const response = await fetch(`/api/server/file/${file.path}`, {
+  const handleFileChange = useCatch(async (newFile) => {
+    if (newFile) {
+      await fetchOrThrow(`/api/server/file/${newFile.name}`, {
         method: 'POST',
-        body: file,
+        body: newFile,
       });
-      if (!response.ok) {
-        throw Error(await response.text());
-      }
     }
   });
 
   const handleSave = useCatch(async () => {
-    const response = await fetch('/api/server', {
+    const response = await fetchOrThrow('/api/server', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-
-    if (response.ok) {
-      dispatch(sessionActions.updateServer(await response.json()));
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    dispatch(sessionActions.updateServer(await response.json()));
+    navigate(-1);
   });
 
   return (
@@ -281,11 +272,10 @@ const ServerPage = () => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
-                <DropzoneArea
-                  dropzoneText={t('sharedDropzoneText')}
-                  filesLimit={1}
-                  onChange={handleFiles}
-                  showAlerts={false}
+                <MuiFileInput
+                  placeholder={t('sharedSelectFile')}
+                  value={null}
+                  onChange={handleFileChange}
                 />
               </AccordionDetails>
             </Accordion>

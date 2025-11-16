@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Accordion,
   AccordionSummary,
@@ -17,6 +17,9 @@ import {
   InputAdornment,
   IconButton,
   OutlinedInput,
+  Dialog,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -32,14 +35,14 @@ import SelectField from '../common/components/SelectField';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
-import useQuery from '../common/util/useQuery';
 import { useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const UserPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -63,45 +66,53 @@ const UserPage = () => {
 
   const [deleteEmail, setDeleteEmail] = useState();
   const [deleteFailed, setDeleteFailed] = useState(false);
+  const [revokeDialogOpen, setRevokeDialogOpen] = useState(false);
+  const [revokeToken, setRevokeToken] = useState('');
 
   const handleDelete = useCatch(async () => {
     if (deleteEmail === currentUser.email) {
       setDeleteFailed(false);
-      const response = await fetch(`/api/users/${currentUser.id}`, { method: 'DELETE' });
-      if (response.ok) {
-        navigate('/login');
-        dispatch(sessionActions.updateUser(null));
-      } else {
-        throw Error(await response.text());
-      }
+      await fetchOrThrow(`/api/users/${currentUser.id}`, { method: 'DELETE' });
+      navigate('/login');
+      dispatch(sessionActions.updateUser(null));
     } else {
       setDeleteFailed(true);
     }
   });
 
   const handleGenerateTotp = useCatch(async () => {
-    const response = await fetch('/api/users/totp', { method: 'POST' });
-    if (response.ok) {
-      setItem({ ...item, totpKey: await response.text() });
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
+    setItem({ ...item, totpKey: await response.text() });
   });
 
-  const query = useQuery();
-  const [queryHandled, setQueryHandled] = useState(false);
-  const attribute = query.get('attribute');
+  const closeRevokeDialog = () => {
+    setRevokeDialogOpen(false);
+    setRevokeToken('');
+  };
+
+  const handleRevokeToken = useCatch(async () => {
+    await fetchOrThrow('/api/session/token/revoke', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ token: revokeToken }).toString(),
+    });
+    closeRevokeDialog();
+  });
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const attribute = searchParams.get('attribute');
 
   useEffect(() => {
-    if (!queryHandled && item && attribute) {
-      if (!item.attributes.hasOwnProperty('attribute')) {
-        const updatedAttributes = { ...item.attributes };
-        updatedAttributes[attribute] = '';
-        setItem({ ...item, attributes: updatedAttributes });
-      }
-      setQueryHandled(true);
+    if (item && attribute && !item.attributes.hasOwnProperty('attribute')) {
+      const updatedAttributes = { ...item.attributes };
+      updatedAttributes[attribute] = '';
+      setItem({ ...item, attributes: updatedAttributes });
+
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('attribute');
+      setSearchParams(newParams, { replace: true });
     }
-  }, [item, queryHandled, setQueryHandled, attribute]);
+  }, [item, searchParams, setSearchParams, attribute]);
 
   const onItemSaved = (result) => {
     if (result.id === currentUser.id) {
@@ -345,6 +356,13 @@ const UserPage = () => {
                 label={t('userUserLimit')}
                 disabled={!admin}
               />
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => setRevokeDialogOpen(true)}
+              >
+                {t('userRevokeToken')}
+              </Button>
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox checked={item.disabled} onChange={(e) => setItem({ ...item, disabled: e.target.checked })} />}
@@ -418,6 +436,23 @@ const UserPage = () => {
           )}
         </>
       )}
+      <Dialog open={revokeDialogOpen} onClose={closeRevokeDialog} fullWidth maxWidth="xs">
+        <DialogContent className={classes.details}>
+          <TextField
+            value={revokeToken}
+            onChange={(e) => setRevokeToken(e.target.value)}
+            label={t('userToken')}
+            autoFocus
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeRevokeDialog}>{t('sharedCancel')}</Button>
+          <Button onClick={handleRevokeToken} disabled={!revokeToken} variant="contained">
+            {t('userRevokeToken')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </EditItemView>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -26,6 +26,7 @@ const BottomMenu = () => {
   const disableReports = useRestriction('disableReports');
   const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -82,10 +83,14 @@ const BottomMenu = () => {
         navigate('/');
         break;
       case 'reports':
-        navigate('/reports/combined');
+        if (selectedDeviceId != null) {
+          navigate(`/reports/combined?deviceId=${selectedDeviceId}`);
+        } else {
+          navigate('/reports/combined');
+        }
         break;
       case 'settings':
-        navigate('/settings/preferences');
+        navigate('/settings/preferences?menu=true');
         break;
       case 'account':
         setAnchorEl(event.currentTarget);

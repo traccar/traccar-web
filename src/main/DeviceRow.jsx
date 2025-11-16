@@ -1,8 +1,8 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import {
   IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton,
+  Typography,
 } from '@mui/material';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
@@ -25,7 +25,7 @@ import { useAttributePreference } from '../common/util/preferences';
 
 dayjs.extend(relativeTime);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   icon: {
     width: '25px',
     height: '25px',
@@ -48,16 +48,20 @@ const useStyles = makeStyles((theme) => ({
   neutral: {
     color: theme.palette.neutral.main,
   },
+  selected: {
+    backgroundColor: theme.palette.action.selected,
+  },
 }));
 
-const DeviceRow = ({ data, index, style }) => {
-  const classes = useStyles();
+const DeviceRow = ({ devices, index, style }) => {
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 
   const admin = useAdministrator();
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
-  const item = data[index];
+  const item = devices[index];
   const position = useSelector((state) => state.session.positions[item.id]);
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
@@ -84,6 +88,8 @@ const DeviceRow = ({ data, index, style }) => {
         key={item.id}
         onClick={() => dispatch(devicesActions.selectId(item.id))}
         disabled={!admin && item.disabled}
+        selected={selectedDeviceId === item.id}
+        className={selectedDeviceId === item.id ? classes.selected : null}
       >
         <ListItemAvatar>
           <Avatar>
@@ -92,9 +98,15 @@ const DeviceRow = ({ data, index, style }) => {
         </ListItemAvatar>
         <ListItemText
           primary={item[devicePrimary]}
-          primaryTypographyProps={{ noWrap: true }}
           secondary={secondaryText()}
-          secondaryTypographyProps={{ noWrap: true }}
+          slots={{
+            primary: Typography,
+            secondary: Typography,
+          }}
+          slotProps={{
+            primary: { noWrap: true },
+            secondary: { noWrap: true },
+          }}
         />
         {position && (
           <>

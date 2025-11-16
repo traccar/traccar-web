@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ import { useCatch } from '../reactHelper';
 import { sessionActions } from '../store';
 import { useAdministrator, useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const deviceFields = [
   { id: 'name', name: 'sharedName' },
@@ -30,7 +31,7 @@ const deviceFields = [
 ];
 
 const PreferencesPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
@@ -41,7 +42,7 @@ const PreferencesPage = () => {
   const user = useSelector((state) => state.session.user);
   const [attributes, setAttributes] = useState(user.attributes);
 
-  const versionApp = import.meta.env.VITE_APP_VERSION.slice(0, -2);
+  const versionApp = import.meta.env.VITE_APP_VERSION;
   const versionServer = useSelector((state) => state.session.server.version);
   const socket = useSelector((state) => state.session.socket);
 
@@ -57,15 +58,11 @@ const PreferencesPage = () => {
 
   const generateToken = useCatch(async () => {
     const expiration = dayjs(tokenExpiration, 'YYYY-MM-DD').toISOString();
-    const response = await fetch('/api/session/token', {
+    const response = await fetchOrThrow('/api/session/token', {
       method: 'POST',
       body: new URLSearchParams(`expiration=${expiration}`),
     });
-    if (response.ok) {
-      setToken(await response.text());
-    } else {
-      throw Error(await response.text());
-    }
+    setToken(await response.text());
   });
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
@@ -74,17 +71,13 @@ const PreferencesPage = () => {
   }));
 
   const handleSave = useCatch(async () => {
-    const response = await fetch(`/api/users/${user.id}`, {
+    const response = await fetchOrThrow(`/api/users/${user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...user, attributes }),
     });
-    if (response.ok) {
-      dispatch(sessionActions.updateUser(await response.json()));
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    dispatch(sessionActions.updateUser(await response.json()));
+    navigate(-1);
   });
 
   const handleReboot = useCatch(async () => {
@@ -154,24 +147,27 @@ const PreferencesPage = () => {
                   multiple
                   freeSolo
                   options={Object.keys(positionAttributes)}
-                  getOptionLabel={(option) => (positionAttributes[option]?.name || option)}
+                  getOptionLabel={(option) => {
+                    if (typeof option === 'object' && option.inputValue) {
+                      return option.inputValue;
+                    }
+                    return positionAttributes[option]?.name || option;
+                  }}
                   value={attributes.positionItems?.split(',') || ['fixTime', 'address', 'speed', 'totalDistance']}
-                  onChange={(_, option) => {
-                    setAttributes({ ...attributes, positionItems: option.join(',') });
+                  onChange={(_, newValue) => {
+                    setAttributes({ ...attributes, positionItems: newValue.map((x) => (typeof x === 'string' ? x : x.inputValue)).join(','), });
                   }}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
-                    if (params.inputValue && !filtered.includes(params.inputValue)) {
-                      filtered.push(params.inputValue);
+                    if (params.inputValue && !options.includes(params.inputValue)) {
+                      filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
                     }
                     return filtered;
                   }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label={t('attributePopupInfo')}
-                    />
+                  renderOption={(props, option) => (
+                    <li {...props}>{option.name ? option.name : (positionAttributes[option]?.name || option)}</li>
                   )}
+                  renderInput={(params) => <TextField {...params} label={t('attributePopupInfo')} />}
                 />
                 <FormControl>
                   <InputLabel>{t('mapLiveRoutes')}</InputLabel>

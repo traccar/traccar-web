@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import {
   Divider, List, ListItemButton, ListItemText,
 } from '@mui/material';
@@ -8,8 +8,9 @@ import {
 import { geofencesActions } from '../store';
 import CollectionActions from '../settings/components/CollectionActions';
 import { useCatchCallback } from '../reactHelper';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
   list: {
     flexGrow: 1,
     overflow: 'auto',
@@ -22,18 +23,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 const GeofencesList = ({ onGeofenceSelected }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const dispatch = useDispatch();
 
   const items = useSelector((state) => state.geofences.items);
 
   const refreshGeofences = useCatchCallback(async () => {
-    const response = await fetch('/api/geofences');
-    if (response.ok) {
-      dispatch(geofencesActions.refresh(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/geofences');
+    dispatch(geofencesActions.refresh(await response.json()));
   }, [dispatch]);
 
   return (

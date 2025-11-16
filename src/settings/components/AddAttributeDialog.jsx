@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, MenuItem, Select, TextField, Autocomplete,
 } from '@mui/material';
 
 import { createFilterOptions } from '@mui/material/useAutocomplete';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from 'tss-react/mui';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   details: {
     display: 'flex',
     flexDirection: 'column',
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddAttributeDialog = ({ open, onResult, definitions }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const t = useTranslation();
 
   const filter = createFilterOptions({
@@ -38,33 +38,26 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
     <Dialog open={open} fullWidth maxWidth="xs">
       <DialogContent className={classes.details}>
         <Autocomplete
+          freeSolo
           onChange={(_, option) => {
-            setKey(option && typeof option === 'object' ? option.key : option);
-            if (option && option.type) {
+            setKey(option && typeof option === 'object' ? (option.key ?? option.inputValue) : option);
+            if (option && (option.type || option.inputValue)) {
               setType(option.type);
             }
           }}
           filterOptions={(options, params) => {
             const filtered = filter(options, params);
-            if (params.inputValue) {
-              filtered.push({
-                key: params.inputValue,
-                name: params.inputValue,
-              });
+            if (params.inputValue && !options.some((x) => (typeof x === 'object' ? x.key : x) === params.inputValue)) {
+              filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
             }
             return filtered;
           }}
           options={options}
-          getOptionLabel={(option) => (option && typeof option === 'object' ? option.name : option)}
-          renderOption={(props, option) => (
-            <li {...props}>
-              {option.name}
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField {...params} label={t('sharedAttribute')} />
-          )}
-          freeSolo
+          getOptionLabel={(option) =>
+            option && typeof option === 'object' ? (option.inputValue || option.name) : option
+          }
+          renderOption={(props, option) => <li {...props}>{option.name || option}</li>}
+          renderInput={(params) => <TextField {...params} label={t('sharedAttribute')} />}
         />
         <FormControl
           fullWidth
@@ -73,7 +66,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
           <InputLabel>{t('sharedType')}</InputLabel>
           <Select
             label={t('sharedType')}
-            value={type}
+            value={type || 'string'}
             onChange={(e) => setType(e.target.value)}
           >
             <MenuItem value="string">{t('sharedTypeString')}</MenuItem>
