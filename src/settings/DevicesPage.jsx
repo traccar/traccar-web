@@ -109,6 +109,7 @@ const DevicesPage = () => {
               <TableCell>
                 {positions[item.id] && (
                   <AddressValue
+                    geofenceIds={positions[item.id].geofenceIds}
                     latitude={positions[item.id].latitude}
                     longitude={positions[item.id].longitude}
                     originalAddress={positions[item.id]?.address}
