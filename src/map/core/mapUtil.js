@@ -93,5 +93,8 @@ export const findFonts = (map) => {
   if (glyphs.startsWith('https://tiles.openfreemap.org')) {
     return ['Noto Sans Regular'];
   }
+  if (glyphs.startsWith('https://api.os.uk')) {
+    return ['Source Sans Pro Regular'];
+  }
   return ['Open Sans Regular', 'Arial Unicode MS Regular'];
 };
