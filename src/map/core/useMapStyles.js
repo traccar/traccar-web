@@ -211,6 +211,15 @@ export default () => {
       attribute: 'hereKey',
     },
     {
+      id: 'yandexMap',
+      title: t('mapYandexMap'),
+      style: styleCustom({
+        tiles: ['https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&projection=web_mercator'],
+        maxZoom: 19,
+      }),
+      available: true,
+    },
+    {
       id: 'autoNavi',
       title: t('mapAutoNavi'),
       style: styleCustom({
