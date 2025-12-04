@@ -217,6 +217,7 @@
     "deviceIdentifier": "المعرف",
     "deviceModel": "الطراز",
     "deviceContact": "بيانات التواصل",
+    "deviceAddress": "العنوان",
     "deviceCategory": "الصنف",
     "deviceLastUpdate": "آخر تحديث",
     "deviceCommand": "أمر",
@@ -623,6 +624,7 @@
     "categoryTruck": "شاحنة",
     "categoryVan": "نقل",
     "categoryScooter": "سكوتر",
+    "categoryDynamic": "ديناميكي",
     "maintenanceStart": "بداية",
     "maintenancePeriod": "فترة"
 }

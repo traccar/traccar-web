@@ -43,10 +43,11 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
       deviceId: position.deviceId,
       name: device.name,
       fixTime: formatTime(position.fixTime, 'seconds'),
-      category: mapIconKey(device.category),
+      category: device.category === 'dynamic' ? mapIconKey(position.attributes.dynamicStatus) : mapIconKey(device.category), // Map icon depending on device category
       color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
       rotation: position.course,
       direction: showDirection,
+      dynamicDirection: (position.attributes.dynamicStatus === 'moving' && device.category === 'dynamic'), //show direction for the moving icone and hide the direction layer
     };
   };
 
@@ -108,6 +109,12 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'icon-image': '{category}-{color}',
           'icon-size': iconScale,
           'icon-allow-overlap': true,
+          'icon-rotate': [
+            'case',
+            ['==', ['get', 'dynamicDirection'], true],
+            ['get', 'rotation'],
+            0
+          ],
           'text-field': `{${titleField || 'name'}}`,
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
@@ -129,6 +136,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'all',
           ['!has', 'point_count'],
           ['==', 'direction', true],
+          ['==', 'dynamicDirection', false], // do not show direction for the dynamic category
         ],
         layout: {
           'icon-image': 'direction',
