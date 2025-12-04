@@ -22,7 +22,7 @@ const AddAttributeDialog = ({ open, onResult, definitions }) => {
   const t = useTranslation();
 
   const filter = createFilterOptions({
-    stringify: (option) => option.name,
+    stringify: (option) => (typeof option === 'object' ? `${option.name} ${option.key || ''}` : option),
   });
 
   const options = useMemo(() => Object.entries(definitions).map(([key, value]) => ({
