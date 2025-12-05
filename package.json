@@ -34,7 +34,7 @@
     "recharts": "^3.5.1",
     "stylis": "^4.3.6",
     "stylis-plugin-rtl": "^2.1.1",
-    "tss-react": "^4.9.19",
+    "tss-react": "^4.9.20",
     "wellknown": "^0.5.0"
   },
   "scripts": {
