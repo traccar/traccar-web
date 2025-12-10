@@ -1,37 +1,41 @@
-import { useId, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAttributePreference } from '../../common/util/preferences';
 import { map } from '../core/MapView';
 import useMapOverlays from './useMapOverlays';
 
 const MapOverlay = () => {
-  const id = useId();
-
   const mapOverlays = useMapOverlays();
-  const selectedMapOverlay = useAttributePreference('selectedMapOverlay');
-
-  const activeOverlay = mapOverlays.filter((overlay) => overlay.available).find((overlay) => overlay.id === selectedMapOverlay);
+  const activeMapOverlays = useAttributePreference('activeMapOverlays');
+  const availableActiveMapOverlays = mapOverlays.filter((overlay) => overlay.available && activeMapOverlays.includes(overlay.id));
 
   useEffect(() => {
-    if (activeOverlay) {
-      map.addSource(id, activeOverlay.source);
-      map.addLayer({
-        id,
-        type: 'raster',
-        source: id,
-        layout: {
-          visibility: 'visible',
-        },
+    if (availableActiveMapOverlays) {
+      availableActiveMapOverlays.forEach((mapOverlay) => {
+        const { id } = mapOverlay;
+        map.addSource(id, mapOverlay.source);
+        map.addLayer({
+          id,
+          type: 'raster',
+          source: id,
+          layout: {
+            visibility: 'visible',
+          },
+        });
       });
     }
     return () => {
-      if (map.getLayer(id)) {
-        map.removeLayer(id);
-      }
-      if (map.getSource(id)) {
-        map.removeSource(id);
+      if (availableActiveMapOverlays) {
+        availableActiveMapOverlays.forEach((mapOverlay) => {
+          if (map.getLayer(mapOverlay.id)) {
+            map.removeLayer(mapOverlay.id);
+          }
+          if (map.getSource(mapOverlay.id)) {
+            map.removeSource(mapOverlay.id);
+          }
+        });
       }
     };
-  }, [id, activeOverlay]);
+  }, [id, availableActiveMapOverlays]);
 
   return null;
 };
