@@ -170,7 +170,7 @@ const ChartReportPage = () => {
               />
               <CartesianGrid stroke={theme.palette.divider} strokeDasharray="3 3" />
               <Tooltip
-                wrapperStyle={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
+                contentStyle={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                 formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
                 labelFormatter={(value) => formatTime(value, 'seconds')}
               />
