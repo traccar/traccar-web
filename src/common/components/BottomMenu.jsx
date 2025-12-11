@@ -24,6 +24,7 @@ const BottomMenu = () => {
 
   const readonly = useRestriction('readonly');
   const disableReports = useRestriction('disableReports');
+  const devices = useSelector((state) => state.devices.items);
   const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -82,13 +83,22 @@ const BottomMenu = () => {
       case 'map':
         navigate('/');
         break;
-      case 'reports':
-        if (selectedDeviceId != null) {
-          navigate(`/reports/combined?deviceId=${selectedDeviceId}`);
+      case 'reports': {
+        let id = selectedDeviceId;
+        if (id == null) {
+          const deviceIds = Object.keys(devices);
+          if (deviceIds.length === 1) {
+            id = deviceIds[0];
+          }
+        }
+        
+        if (id != null) {
+          navigate(`/reports/combined?deviceId=${id}`);
         } else {
           navigate('/reports/combined');
         }
         break;
+      }
       case 'settings':
         navigate('/settings/preferences?menu=true');
         break;
