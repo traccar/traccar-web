@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
+import RouteIcon from '@mui/icons-material/Route';
 import {
   formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
@@ -138,6 +139,17 @@ const TripReportPage = () => {
     navigate('/reports/scheduled');
   });
 
+  const navigateToReplay = (item) => {
+    navigate({
+      pathname: '/replay',
+      search: new URLSearchParams({
+        from: item.startTime,
+        to: item.endTime,
+        deviceId: item.deviceId,
+      }).toString(),
+    });
+  };
+
   const formatValue = (item, key) => {
     const value = item[key];
     switch (key) {
@@ -202,15 +214,20 @@ const TripReportPage = () => {
               {!loading ? items.map((item) => (
                 <TableRow key={item.startPositionId}>
                   <TableCell className={classes.columnAction} padding="none">
-                    {selectedItem === item ? (
-                      <IconButton size="small" onClick={() => setSelectedItem(null)}>
-                        <GpsFixedIcon fontSize="small" />
+                    <div className={classes.columnActionContainer}>
+                      {selectedItem === item ? (
+                        <IconButton size="small" onClick={() => setSelectedItem(null)}>
+                          <GpsFixedIcon fontSize="small" />
+                        </IconButton>
+                      ) : (
+                        <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                          <LocationSearchingIcon fontSize="small" />
+                        </IconButton>
+                      )}
+                      <IconButton size="small" onClick={() => navigateToReplay(item)}>
+                        <RouteIcon fontSize="small" />
                       </IconButton>
-                    ) : (
-                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
-                        <LocationSearchingIcon fontSize="small" />
-                      </IconButton>
-                    )}
+                    </div>
                   </TableCell>
                   <TableCell>{devices[item.deviceId].name}</TableCell>
                   {columns.map((key) => (
