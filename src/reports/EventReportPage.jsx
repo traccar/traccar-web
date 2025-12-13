@@ -177,6 +177,7 @@ const EventReportPage = () => {
         if (position) {
           return (
             <AddressValue
+              geofenceIds={position.geofenceIds}
               latitude={position.latitude}
               longitude={position.longitude}
               originalAddress={position.address}
