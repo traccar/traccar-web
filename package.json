@@ -9,7 +9,7 @@
     "@emotion/styled": "^11.14.1",
     "@mapbox/mapbox-gl-draw": "^1.5.1",
     "@mapbox/mapbox-gl-rtl-text": "^0.3.0",
-    "@maplibre/maplibre-gl-geocoder": "^1.9.1",
+    "@maplibre/maplibre-gl-geocoder": "^1.9.3",
     "@mui/icons-material": "^7.3.6",
     "@mui/lab": "^7.0.0-beta.17",
     "@mui/material": "^7.3.6",
