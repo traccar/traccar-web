@@ -49,7 +49,7 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     alignItems: 'flex-start',
   },
   mediaButton: {
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.common.white,
     mixBlendMode: 'difference',
   },
   header: {
