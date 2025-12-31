@@ -103,14 +103,14 @@ const UserPage = () => {
   const attribute = searchParams.get('attribute');
 
   useEffect(() => {
-    if (item && attribute && !item.attributes.hasOwnProperty('attribute')) {
-      const updatedAttributes = { ...item.attributes };
-      updatedAttributes[attribute] = '';
-      setItem({ ...item, attributes: updatedAttributes });
+    if (item && attribute) {
+      if (!item.attributes.hasOwnProperty(attribute)) {
+        setItem({ ...item, attributes: { ...item.attributes, [attribute]: '' } });
 
-      const newParams = new URLSearchParams(searchParams);
-      newParams.delete('attribute');
-      setSearchParams(newParams, { replace: true });
+        const newParams = new URLSearchParams(searchParams);
+        newParams.delete('attribute');
+        setSearchParams(newParams, { replace: true });
+      }
     }
   }, [item, searchParams, setSearchParams, attribute]);
 
