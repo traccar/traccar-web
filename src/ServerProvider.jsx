@@ -15,19 +15,27 @@ const ServerProvider = ({
   const [error, setError] = useState(null);
 
   useEffectAsync(async () => {
-    if (!error) {
-      try {
-        const response = await fetch('/api/server');
-        if (response.ok) {
-          dispatch(sessionActions.updateServer(await response.json()));
-        } else {
-          const message = await response.text();
-          throw Error(message || response.statusText);
+      if (!error) {
+        try {
+          const response = await fetch('/api/server');
+          if (response.ok) {
+            const server = await response.json();
+            dispatch(sessionActions.updateServer(server));
+            // Set the page title based on the server attribute configuration (fixes ${title} in index.html)
+            try {
+              const title = server.title || server.attributes?.title || server.attributes?.name;
+              if (title) document.title = title;
+            } catch (e) {
+              // Silently ignore errors related to document title update
+            }
+          } else {
+            const message = await response.text();
+            throw Error(message || response.statusText);
+          }
+        } catch (error) {
+          setError(error.message);
         }
-      } catch (error) {
-        setError(error.message);
       }
-    }
   }, [error]);
 
   if (error) {
