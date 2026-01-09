@@ -22,6 +22,7 @@ import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
+import MapRoutePoints from '../map/MapRoutePoints';
 import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapMarkers from '../map/MapMarkers';
@@ -188,6 +189,7 @@ const TripReportPage = () => {
               {route && (
                 <>
                   <MapRoutePath positions={route} />
+                  <MapRoutePoints positions={route} />
                   <MapMarkers markers={createMarkers()} />
                   <MapCamera positions={route} />
                 </>
