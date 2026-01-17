@@ -27,4 +27,12 @@ export default (t) => useMemo(() => ({
     name: t('sharedFilterMap'),
     type: 'boolean',
   },
+  floor: {
+    name: t('attributeGeofenceFloor'),
+    type: 'number',
+  },
+  ceiling: {
+    name: t('attributeGeofenceCeiling'),
+    type: 'number',
+  },
 }), [t]);
