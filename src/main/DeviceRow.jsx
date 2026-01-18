@@ -22,6 +22,8 @@ import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
+import GeofencesValue from '../common/components/GeofencesValue';
+import DriverValue from '../common/components/DriverValue';
 
 dayjs.extend(relativeTime);
 
@@ -67,6 +69,21 @@ const DeviceRow = ({ devices, index, style }) => {
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
 
+  const resolveFieldValue = (field) => {
+    if (field === 'geofenceIds') {
+      const geofenceIds = position?.geofenceIds;
+      return geofenceIds?.length ? <GeofencesValue geofenceIds={geofenceIds} /> : null;
+    }
+    if (field === 'driverUniqueId') {
+      const driverUniqueId = position?.attributes?.driverUniqueId;
+      return driverUniqueId ? <DriverValue driverUniqueId={driverUniqueId} /> : null;
+    }
+    return item[field];
+  };
+
+  const primaryValue = resolveFieldValue(devicePrimary);
+  const secondaryValue = resolveFieldValue(deviceSecondary);
+
   const secondaryText = () => {
     let status;
     if (item.status === 'online' || !item.lastUpdate) {
@@ -76,7 +93,7 @@ const DeviceRow = ({ devices, index, style }) => {
     }
     return (
       <>
-        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        {secondaryValue && (<>{secondaryValue}{' • '}</>)}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
       </>
     );
@@ -97,7 +114,7 @@ const DeviceRow = ({ devices, index, style }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={item[devicePrimary]}
+          primary={primaryValue}
           secondary={secondaryText()}
           slots={{
             primary: Typography,
