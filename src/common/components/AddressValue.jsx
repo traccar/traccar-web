@@ -4,8 +4,9 @@ import { Link } from '@mui/material';
 import { useTranslation } from './LocalizationProvider';
 import { useCatch } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
+import GeofencesValue from './GeofencesValue.js';
 
-const AddressValue = ({ latitude, longitude, originalAddress }) => {
+const AddressValue = ({ geofenceIds, latitude, longitude, originalAddress }) => {
   const t = useTranslation();
 
   const addressEnabled = useSelector((state) => state.session.server.geocoderEnabled);
@@ -23,6 +24,9 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
     setAddress(await response.text());
   });
 
+  if (geofenceIds) {
+    return <GeofencesValue geofenceIds={geofenceIds} />;
+  }
   if (address) {
     return address;
   }
