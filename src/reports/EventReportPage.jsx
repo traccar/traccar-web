@@ -7,7 +7,7 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { formatSpeed, formatTime } from '../common/util/formatter';
+import { formatAddress, formatSpeed, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
@@ -18,7 +18,7 @@ import ColumnSelect from './components/ColumnSelect';
 import { useCatch, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import MapView from '../map/core/MapView';
 import MapGeofence from '../map/MapGeofence';
 import MapPositions from '../map/MapPositions';
@@ -52,6 +52,7 @@ const EventReportPage = () => {
   const geofences = useSelector((state) => state.geofences.items);
 
   const speedUnit = useAttributePreference('speedUnit');
+  const coordinateFormat = usePreference('coordinateFormat');
 
   const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
 
@@ -136,7 +137,8 @@ const EventReportPage = () => {
         if (key === 'attributes' && item.type === 'media') {
           row[header] = item.attributes.file;
         } else if (key === 'address') {
-          row[header] = positions[item.positionId]?.address || '';
+          const position = positions[item.positionId];
+          row[header] = position ? formatAddress(position, coordinateFormat) : '';
         } else {
           row[header] = formatValue(item, key);
         }

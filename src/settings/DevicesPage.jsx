@@ -14,8 +14,9 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-import { formatStatus, formatTime } from '../common/util/formatter';
+import { formatAddress, formatStatus, formatTime } from '../common/util/formatter';
 import { useDeviceReadonly, useManager } from '../common/util/permissions';
+import { usePreference } from '../common/util/preferences';
 import useSettingsStyles from './common/useSettingsStyles';
 import DeviceUsersValue from './components/DeviceUsersValue';
 import usePersistedState from '../common/util/usePersistedState';
@@ -33,6 +34,7 @@ const DevicesPage = () => {
 
   const manager = useManager();
   const deviceReadonly = useDeviceReadonly();
+  const coordinateFormat = usePreference('coordinateFormat');
 
   const positions = useSelector((state) => state.session.positions);
 
@@ -64,7 +66,7 @@ const DevicesPage = () => {
       [t('userExpirationTime')]: formatTime(item.expirationTime, 'date'),
       [t('deviceStatus')]: formatStatus(item.status, t),
       [t('deviceLastUpdate')]: formatTime(item.lastUpdate, 'minutes'),
-      [t('positionAddress')]: positions[item.id]?.address || '',
+      [t('positionAddress')]: positions[item.id] ? formatAddress(positions[item.id], coordinateFormat) : '',
     }));
     const sheets = new Map();
     sheets.set(t('deviceTitle'), data);

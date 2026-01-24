@@ -9,10 +9,10 @@ import {
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import {
-  formatDistance, formatVolume, formatTime, formatNumericHours,
+  formatAddress, formatDistance, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -52,6 +52,7 @@ const StopReportPage = () => {
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
+  const coordinateFormat = usePreference('coordinateFormat');
 
   const [columns, setColumns] = usePersistedState('stopColumns', ['startTime', 'endTime', 'startOdometer', 'address']);
   const [items, setItems] = useState([]);
@@ -84,7 +85,7 @@ const StopReportPage = () => {
       columns.forEach((key) => {
         const header = t(columnsMap.get(key));
         if (key === 'address') {
-          row[header] = item.address || '';
+          row[header] = formatAddress(item, coordinateFormat);
         } else {
           row[header] = formatValue(item, key);
         }

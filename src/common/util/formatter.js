@@ -102,7 +102,7 @@ export const formatCoordinate = (key, value, unit) => {
       value = Math.abs(value);
       degrees = Math.floor(value);
       minutes = (value - degrees) * 60;
-      return `${degrees}° ${minutes.toFixed(6)}' ${hemisphere}`;
+      return `${degrees}° ${minutes.toFixed(3)}' ${hemisphere}`;
     case 'dms':
       value = Math.abs(value);
       degrees = Math.floor(value);
@@ -110,8 +110,17 @@ export const formatCoordinate = (key, value, unit) => {
       seconds = Math.round((value - degrees - minutes / 60) * 3600);
       return `${degrees}° ${minutes}' ${seconds}" ${hemisphere}`;
     default:
-      return `${value.toFixed(6)}°`;
+      return `${value.toFixed(5)}°`;
   }
+};
+
+export const formatAddress = (position, unit) => {
+  if (position.address) {
+    return position.address;
+  }
+  const formattedLatitude = formatCoordinate('latitude', position.latitude, unit);
+  const formattedLongitude = formatCoordinate('longitude', position.longitude, unit);
+  return `${formattedLatitude}, ${formattedLongitude}`;
 };
 
 export const getStatusColor = (status) => {
