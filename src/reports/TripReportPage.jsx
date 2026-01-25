@@ -9,10 +9,10 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import RouteIcon from '@mui/icons-material/Route';
 import {
-  formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
+  formatAddress, formatDistance, formatSpeed, formatVolume, formatTime, formatNumericHours,
 } from '../common/util/formatter';
 import ReportFilter from './components/ReportFilter';
-import { useAttributePreference } from '../common/util/preferences';
+import { useAttributePreference, usePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -59,6 +59,7 @@ const TripReportPage = () => {
   const distanceUnit = useAttributePreference('distanceUnit');
   const speedUnit = useAttributePreference('speedUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
+  const coordinateFormat = usePreference('coordinateFormat');
 
   const [columns, setColumns] = usePersistedState('tripColumns', ['startTime', 'endTime', 'distance', 'averageSpeed']);
   const [items, setItems] = useState([]);
@@ -121,9 +122,17 @@ const TripReportPage = () => {
       columns.forEach((key) => {
         const header = t(columnsMap.get(key));
         if (key === 'startAddress') {
-          row[header] = item.startAddress || '';
+          row[header] = formatAddress({
+            address: item.startAddress,
+            latitude: item.startLat,
+            longitude: item.startLon,
+          }, coordinateFormat);
         } else if (key === 'endAddress') {
-          row[header] = item.endAddress || '';
+          row[header] = formatAddress({
+            address: item.endAddress,
+            latitude: item.endLat,
+            longitude: item.endLon,
+          }, coordinateFormat);
         } else {
           row[header] = formatValue(item, key);
         }
