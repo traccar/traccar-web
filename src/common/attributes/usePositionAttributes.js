@@ -389,4 +389,9 @@ export default (t) => useMemo(() => ({
     name: t('positionAudio'),
     type: 'string',
   },
+    speedLimit: {
+    name: t('attributeSpeedLimit'),
+    type: 'number',
+    subtype: 'speed',
+  },
 }), [t]);
