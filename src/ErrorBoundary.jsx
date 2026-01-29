@@ -16,17 +16,11 @@ class ErrorBoundary extends React.Component {
   render() {
     const { error } = this.state;
     if (error) {
-      const escaped = error.stack
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('\n', '<br>')
-        .replaceAll(' ', '&nbsp;');
       return (
         <Alert severity="error">
-          <code
-            dangerouslySetInnerHTML={{ __html: escaped }}
-          />
+          <code style={{ whiteSpace: 'pre-wrap' }}>
+            {error.stack}
+          </code>
         </Alert>
       );
     }
