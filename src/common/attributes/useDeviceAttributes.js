@@ -30,4 +30,12 @@ export default (t) => useMemo(() => ({
     name: t('attributeForwardUrl'),
     type: 'string',
   },
+  enablePositionForwarding: {
+    name: t('attributeDeviceAllowPositionForwarding'),
+    type: 'boolean',
+  },
+  enableEventForwarding: {
+    name: t('attributeDeviceAllowEventForwarding'),
+    type: 'boolean',
+  },
 }), [t]);
