@@ -21,6 +21,7 @@ const SelectField = ({
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
   helperText,
+  placeholder,
 }) => {
   const [items, setItems] = useState();
 
@@ -83,7 +84,20 @@ const SelectField = ({
             </>
           ) : null
         ) : undefined}
-        renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={label}
+            helperText={helperText}
+            placeholder={multiple && !autocompleteValue.length ? placeholder : undefined}
+            slotProps={{
+              inputLabel: {
+                ...params.InputLabelProps,
+                shrink: multiple && !autocompleteValue.length && Boolean(placeholder) || params.InputLabelProps?.shrink,
+              },
+            }}
+          />
+        )}
       />
     );
   }

@@ -46,7 +46,7 @@ const ReportFilter = ({
   const [calendarId, setCalendarId] = useState();
 
   const evaluateDisabled = () => {
-    if (deviceType !== 'none' && !deviceIds.length && !groupIds.length) {
+    if (deviceType === 'single' && !deviceIds.length) {
       return true;
     }
     if (selectedOption === 'schedule' && (!description || !calendarId)) {
@@ -156,6 +156,7 @@ const ReportFilter = ({
             label={t(deviceType === 'multiple' ? 'deviceTitle' : 'reportDevice')}
             data={Object.values(devices).sort((a, b) => a.name.localeCompare(b.name))}
             value={deviceType === 'multiple' ? deviceIds : deviceIds.find(() => true)}
+            placeholder={deviceType === 'multiple' ? t('notificationAlways') : null}
             onChange={(e) => {
               const values = deviceType === 'multiple' ? e.target.value : [e.target.value].filter((id) => id);
               updateReportParams(searchParams, setSearchParams, 'deviceId', values);
