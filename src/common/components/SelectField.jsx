@@ -9,7 +9,7 @@ import { makeStyles } from 'tss-react/mui';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(() => ({
   autocompleteMultiple: {
     '& .MuiAutocomplete-inputRoot': {
       flexWrap: 'nowrap',
