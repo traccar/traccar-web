@@ -3,10 +3,27 @@ import {
   MenuItem,
   Autocomplete,
   TextField,
-  Chip,
 } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
+
+const useStyles = makeStyles()((theme) => ({
+  autocompleteMultiple: {
+    '& .MuiAutocomplete-inputRoot': {
+      flexWrap: 'nowrap',
+      overflow: 'hidden',
+    },
+    '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {
+      backgroundColor: theme.palette.background.paper,
+    },
+    '& .MuiAutocomplete-tag .MuiChip-label': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+  },
+}));
 
 const SelectField = ({
   label,
@@ -23,6 +40,7 @@ const SelectField = ({
   helperText,
   placeholder,
 }) => {
+  const { classes } = useStyles();
   const [items, setItems] = useState();
 
   const findOption = (option) => {
@@ -55,6 +73,8 @@ const SelectField = ({
       <Autocomplete
         size="small"
         multiple={multiple}
+        limitTags={multiple ? 1 : -1}
+        className={multiple ? classes.autocompleteMultiple : undefined}
         options={items}
         getOptionLabel={getOptionLabel}
         renderOption={(props, option) => (
@@ -71,19 +91,6 @@ const SelectField = ({
         }}
         fullWidth={fullWidth}
         disableCloseOnSelect={multiple}
-        renderValue={multiple ? (selectedOptions, getItemProps) => (
-          selectedOptions.length ? (
-            <>
-              <Chip
-                {...getItemProps({ index: 0 })}
-                key={keyGetter(selectedOptions[0])}
-                label={titleGetter(selectedOptions[0])}
-                size="small"
-              />
-              {selectedOptions.length > 1 && <Chip label={`+${selectedOptions.length - 1}`} size="small" />}
-            </>
-          ) : null
-        ) : undefined}
         renderInput={(params) => (
           <TextField
             {...params}
