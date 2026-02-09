@@ -3,6 +3,7 @@ import {
   MenuItem,
   Autocomplete,
   TextField,
+  Chip,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useEffectAsync } from '../../reactHelper';
@@ -14,8 +15,8 @@ const useStyles = makeStyles()((theme) => ({
       flexWrap: 'nowrap',
       overflow: 'hidden',
     },
-    '& .MuiAutocomplete-clearIndicator, & .MuiAutocomplete-popupIndicator': {
-      backgroundColor: theme.palette.background.paper,
+    '& .MuiAutocomplete-input': {
+      minWidth: '1px !important',
     },
     '& .MuiAutocomplete-tag .MuiChip-label': {
       overflow: 'hidden',
@@ -73,7 +74,6 @@ const SelectField = ({
       <Autocomplete
         size="small"
         multiple={multiple}
-        limitTags={multiple ? 1 : -1}
         className={multiple ? classes.autocompleteMultiple : undefined}
         options={items}
         getOptionLabel={getOptionLabel}
@@ -89,6 +89,29 @@ const SelectField = ({
             onChange({ target: { value: selectedValue ? keyGetter(selectedValue) : emptyValue } });
           }
         }}
+        renderValue={multiple ? (tagValue, getItemProps) => {
+          if (!tagValue.length) {
+            return null;
+          }
+          return (
+            <>
+              <Chip
+                {...getItemProps({ index: 0 })}
+                key={keyGetter(tagValue[0])}
+                label={titleGetter(tagValue[0])}
+                size="small"
+                sx={{ minWidth: 0 }}
+              />
+              {tagValue.length > 1 && (
+                <Chip
+                  label={`${tagValue.length - 1}`}
+                  size="small"
+                  sx={{ flexShrink: 0 }}
+                />
+              )}
+            </>
+          );
+        } : undefined}
         fullWidth={fullWidth}
         disableCloseOnSelect={multiple}
         renderInput={(params) => (
