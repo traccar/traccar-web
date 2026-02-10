@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Button, TextField, Typography, Snackbar, IconButton,
-} from '@mui/material';
+import { Button, TextField, Typography, Snackbar, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
 import LoginLayout from './LoginLayout';

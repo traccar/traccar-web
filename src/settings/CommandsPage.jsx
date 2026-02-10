@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatBoolean } from '../common/util/formatter';
@@ -49,18 +47,27 @@ const CommandsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{t(prefixString('command', item.type))}</TableCell>
-              <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
-              {!limitCommands && (
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/command" endpoint="commands" setTimestamp={setTimestamp} />
-                </TableCell>
-              )}
-            </TableRow>
-          )) : (<TableShimmer columns={limitCommands ? 3 : 4} endAction />)}
+          {!loading ? (
+            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{t(prefixString('command', item.type))}</TableCell>
+                <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
+                {!limitCommands && (
+                  <TableCell className={classes.columnAction} padding="none">
+                    <CollectionActions
+                      itemId={item.id}
+                      editPath="/settings/command"
+                      endpoint="commands"
+                      setTimestamp={setTimestamp}
+                    />
+                  </TableCell>
+                )}
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={limitCommands ? 3 : 4} endAction />
+          )}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/command" disabled={limitCommands} />

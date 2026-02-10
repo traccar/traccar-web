@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync } from '../reactHelper';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { formatDistance, formatSpeed } from '../common/util/formatter';
@@ -78,17 +76,26 @@ const MaintenacesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.type}</TableCell>
-              <TableCell>{convertAttribute(item.type, true, item.start)}</TableCell>
-              <TableCell>{convertAttribute(item.type, false, item.period)}</TableCell>
-              <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/maintenance" endpoint="maintenance" setTimestamp={setTimestamp} />
-              </TableCell>
-            </TableRow>
-          )) : (<TableShimmer columns={5} endAction />)}
+          {!loading ? (
+            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.type}</TableCell>
+                <TableCell>{convertAttribute(item.type, true, item.start)}</TableCell>
+                <TableCell>{convertAttribute(item.type, false, item.period)}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/maintenance"
+                    endpoint="maintenance"
+                    setTimestamp={setTimestamp}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={5} endAction />
+          )}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/maintenance" />

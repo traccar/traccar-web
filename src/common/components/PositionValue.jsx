@@ -85,7 +85,8 @@ const PositionValue = ({ position, property, attribute }) => {
       default:
         if (typeof value === 'number') {
           return formatNumber(value);
-        } if (typeof value === 'boolean') {
+        }
+        if (typeof value === 'boolean') {
           return formatBoolean(value, t);
         }
         return value || '';
@@ -93,7 +94,13 @@ const PositionValue = ({ position, property, attribute }) => {
   };
 
   if (key === 'address') {
-    return <AddressValue latitude={position.latitude} longitude={position.longitude} originalAddress={value} />;
+    return (
+      <AddressValue
+        latitude={position.latitude}
+        longitude={position.longitude}
+        originalAddress={value}
+      />
+    );
   }
 
   if (value === undefined || value === null) {
@@ -104,18 +111,34 @@ const PositionValue = ({ position, property, attribute }) => {
     case 'image':
     case 'video':
     case 'audio':
-      return <Link href={`/api/media/${device.uniqueId}/${value}`} target="_blank">{value}</Link>;
+      return (
+        <Link href={`/api/media/${device.uniqueId}/${value}`} target="_blank">
+          {value}
+        </Link>
+      );
     case 'totalDistance':
     case 'hours':
       return (
         <>
           {formatValue(value)}
           &nbsp;&nbsp;
-          {!deviceReadonly && <Link component={RouterLink} underline="none" to={`/settings/accumulators/${position.deviceId}`}>&#9881;</Link>}
+          {!deviceReadonly && (
+            <Link
+              component={RouterLink}
+              underline="none"
+              to={`/settings/accumulators/${position.deviceId}`}
+            >
+              &#9881;
+            </Link>
+          )}
         </>
       );
     case 'network':
-      return <Link component={RouterLink} underline="none" to={`/network/${position.id}`}>{t('sharedInfoTitle')}</Link>;
+      return (
+        <Link component={RouterLink} underline="none" to={`/network/${position.id}`}>
+          {t('sharedInfoTitle')}
+        </Link>
+      );
     case 'geofenceIds':
       return <GeofencesValue geofenceIds={value} />;
     case 'driverUniqueId':

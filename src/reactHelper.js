@@ -15,9 +15,9 @@ export const useEffectAsync = (effect, deps) => {
   const ref = useRef();
   useEffect(() => {
     effect()
-      .then((result) => ref.current = result)
+      .then((result) => (ref.current = result))
       .catch((error) => dispatch(errorsActions.push(error.message)));
-      
+
     return () => {
       const result = ref.current;
       if (result) {

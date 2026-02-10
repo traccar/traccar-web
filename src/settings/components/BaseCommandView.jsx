@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Autocomplete,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Autocomplete, Checkbox, FormControlLabel, MenuItem, TextField } from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useRestriction } from '../../common/util/permissions';
 import { useEffectAsync } from '../../reactHelper';
@@ -38,9 +32,13 @@ const BaseCommandView = ({
       const saved = await savedResponse.json();
       let combined = saved.map((it) => ({ ...it, optionType: 'saved', key: `saved-${it.id}` }));
       if (!limitCommands) {
-        const typesResponse = await fetchOrThrow(`/api/commands/types?${new URLSearchParams({ deviceId }).toString()}`);
+        const typesResponse = await fetchOrThrow(
+          `/api/commands/types?${new URLSearchParams({ deviceId }).toString()}`,
+        );
         const types = await typesResponse.json();
-        combined = combined.concat(types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })));
+        combined = combined.concat(
+          types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })),
+        );
       }
       setOptions(combined);
     } else {
@@ -89,7 +87,8 @@ const BaseCommandView = ({
         options={options}
         groupBy={
           includeSaved
-            ? (option) => option.optionType === 'saved' ? t('sharedSavedCommands') : t('sharedType')
+            ? (option) =>
+                option.optionType === 'saved' ? t('sharedSavedCommands') : t('sharedType')
             : null
         }
         getOptionLabel={(option) =>

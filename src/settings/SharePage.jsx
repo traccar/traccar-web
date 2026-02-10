@@ -28,7 +28,9 @@ const SharePage = () => {
 
   const device = useSelector((state) => state.devices.items[id]);
 
-  const [expiration, setExpiration] = useState(dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'));
+  const [expiration, setExpiration] = useState(
+    dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'),
+  );
   const [link, setLink] = useState();
 
   const handleShare = useCatchCallback(async () => {
@@ -46,27 +48,17 @@ const SharePage = () => {
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedRequired')}
-            </Typography>
+            <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <TextField
-              value={device.name}
-              label={t('sharedDevice')}
-              disabled
-            />
+            <TextField value={device.name} label={t('sharedDevice')} disabled />
             <TextField
               label={t('userExpirationTime')}
               type="date"
               value={expiration}
               onChange={(e) => setExpiration(e.target.value)}
             />
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={handleShare}
-            >
+            <Button variant="outlined" color="primary" onClick={handleShare}>
               {t('reportShow')}
             </Button>
             <TextField
@@ -80,12 +72,7 @@ const SharePage = () => {
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
-          <Button
-            type="button"
-            color="primary"
-            variant="outlined"
-            onClick={() => navigate(-1)}
-          >
+          <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
             {t('sharedCancel')}
           </Button>
           <Button

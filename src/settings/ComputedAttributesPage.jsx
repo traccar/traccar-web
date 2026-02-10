@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAdministrator } from '../common/util/permissions';
@@ -48,19 +46,28 @@ const ComputedAttributesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{item.attribute}</TableCell>
-              <TableCell>{item.expression}</TableCell>
-              <TableCell>{item.type}</TableCell>
-              {administrator && (
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" setTimestamp={setTimestamp} />
-                </TableCell>
-              )}
-            </TableRow>
-          )) : (<TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />)}
+          {!loading ? (
+            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{item.attribute}</TableCell>
+                <TableCell>{item.expression}</TableCell>
+                <TableCell>{item.type}</TableCell>
+                {administrator && (
+                  <TableCell className={classes.columnAction} padding="none">
+                    <CollectionActions
+                      itemId={item.id}
+                      editPath="/settings/attribute"
+                      endpoint="attributes/computed"
+                      setTimestamp={setTimestamp}
+                    />
+                  </TableCell>
+                )}
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />
+          )}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/attribute" disabled={!administrator} />

@@ -61,16 +61,10 @@ const App = () => {
   }, []);
 
   if (user == null) {
-    return (<Loader />);
+    return <Loader />;
   }
   if (termsUrl && !user.attributes.termsAccepted) {
-    return (
-      <TermsDialog
-        open
-        onCancel={() => navigate('/login')}
-        onAccept={() => acceptTerms()}
-      />
-    );
+    return <TermsDialog open onCancel={() => navigate('/login')} onAccept={() => acceptTerms()} />;
   }
   return (
     <>

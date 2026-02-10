@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Button, TextField, Typography, Snackbar, IconButton,
-} from '@mui/material';
+import { Button, TextField, Typography, Snackbar, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoginLayout from './LoginLayout';
@@ -51,7 +49,9 @@ const ResetPasswordPage = () => {
     } else {
       await fetchOrThrow('/api/password/update', {
         method: 'POST',
-        body: new URLSearchParams(`token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`),
+        body: new URLSearchParams(
+          `token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`,
+        ),
       });
     }
     setSnackbarOpen(true);

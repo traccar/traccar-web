@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, IconButton, Tooltip,
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -58,7 +64,11 @@ const LogsPage = () => {
                   </IconButton>
                 ) : (
                   <Tooltip title={t('loginRegister')}>
-                    <IconButton color="error" size="small" onClick={() => registerDevice(item.uniqueId)}>
+                    <IconButton
+                      color="error"
+                      size="small"
+                      onClick={() => registerDevice(item.uniqueId)}
+                    >
                       <HelpOutlineIcon fontSize="small" />
                     </IconButton>
                   </Tooltip>

@@ -76,13 +76,21 @@ export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
-  await Promise.all(Object.keys(mapIcons).map(async (category) => {
-    const results = [];
-    ['info', 'success', 'error', 'neutral'].forEach((color) => {
-      results.push(loadImage(mapIcons[category]).then((icon) => {
-        mapImages[`${category}-${color}`] = prepareIcon(background, icon, theme.palette[color].main);
-      }));
-    });
-    await Promise.all(results);
-  }));
+  await Promise.all(
+    Object.keys(mapIcons).map(async (category) => {
+      const results = [];
+      ['info', 'success', 'error', 'neutral'].forEach((color) => {
+        results.push(
+          loadImage(mapIcons[category]).then((icon) => {
+            mapImages[`${category}-${color}`] = prepareIcon(
+              background,
+              icon,
+              theme.palette[color].main,
+            );
+          }),
+        );
+      });
+      await Promise.all(results);
+    }),
+  );
 };

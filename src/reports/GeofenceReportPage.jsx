@@ -1,9 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-  Table, TableBody, TableCell, TableHead, TableRow,
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { formatNumericHours, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -35,7 +33,11 @@ const GeofenceReportPage = () => {
   const devices = useSelector((state) => state.devices.items);
   const geofences = useSelector((state) => state.geofences.items);
 
-  const [columns, setColumns] = usePersistedState('geofenceColumns', ['geofenceId', 'startTime', 'endTime']);
+  const [columns, setColumns] = usePersistedState('geofenceColumns', [
+    'geofenceId',
+    'startTime',
+    'endTime',
+  ]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -77,7 +79,9 @@ const GeofenceReportPage = () => {
             <SelectField
               label={t('sharedGeofences')}
               value={geofenceIds}
-              onChange={(e) => updateReportParams(searchParams, setSearchParams, 'geofenceId', e.target.value)}
+              onChange={(e) =>
+                updateReportParams(searchParams, setSearchParams, 'geofenceId', e.target.value)
+              }
               endpoint="/api/geofences"
               multiple
               fullWidth
@@ -90,20 +94,26 @@ const GeofenceReportPage = () => {
         <TableHead>
           <TableRow>
             <TableCell>{t('sharedDevice')}</TableCell>
-            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+            {columns.map((key) => (
+              <TableCell key={key}>{t(columnsMap.get(key))}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
-            <TableRow key={`${item.deviceId}_${item.geofenceId}_${item.startTime}_${item.endTime}`}>
-              <TableCell>{devices[item.deviceId]?.name || item.deviceId}</TableCell>
-              {columns.map((key) => (
-                <TableCell key={key}>
-                  {formatValue(item, key)}
-                </TableCell>
-              ))}
-            </TableRow>
-          )) : (<TableShimmer columns={columns.length + 1} />)}
+          {!loading ? (
+            items.map((item) => (
+              <TableRow
+                key={`${item.deviceId}_${item.geofenceId}_${item.startTime}_${item.endTime}`}
+              >
+                <TableCell>{devices[item.deviceId]?.name || item.deviceId}</TableCell>
+                {columns.map((key) => (
+                  <TableCell key={key}>{formatValue(item, key)}</TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={columns.length + 1} />
+          )}
         </TableBody>
       </Table>
     </PageLayout>

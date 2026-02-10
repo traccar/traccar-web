@@ -2,7 +2,17 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
+  Typography,
+  Container,
+  Paper,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -64,9 +74,7 @@ const PositionPage = () => {
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
             <BackIcon />
           </IconButton>
-          <Typography variant="h6">
-            {deviceName}
-          </Typography>
+          <Typography variant="h6">{deviceName}</Typography>
         </Toolbar>
       </AppBar>
       <div className={classes.content}>
@@ -81,20 +89,32 @@ const PositionPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
-                  <TableRow key={property}>
-                    <TableCell>{property}</TableCell>
-                    <TableCell><strong>{positionAttributes[property]?.name}</strong></TableCell>
-                    <TableCell><PositionValue position={item} property={property} /></TableCell>
-                  </TableRow>
-                ))}
-                {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
-                  <TableRow key={attribute}>
-                    <TableCell>{attribute}</TableCell>
-                    <TableCell><strong>{positionAttributes[attribute]?.name}</strong></TableCell>
-                    <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
-                  </TableRow>
-                ))}
+                {item &&
+                  Object.getOwnPropertyNames(item)
+                    .filter((it) => it !== 'attributes')
+                    .map((property) => (
+                      <TableRow key={property}>
+                        <TableCell>{property}</TableCell>
+                        <TableCell>
+                          <strong>{positionAttributes[property]?.name}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <PositionValue position={item} property={property} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                {item &&
+                  Object.getOwnPropertyNames(item.attributes).map((attribute) => (
+                    <TableRow key={attribute}>
+                      <TableCell>{attribute}</TableCell>
+                      <TableCell>
+                        <strong>{positionAttributes[attribute]?.name}</strong>
+                      </TableCell>
+                      <TableCell>
+                        <PositionValue position={item} attribute={attribute} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </Paper>

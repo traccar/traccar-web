@@ -59,10 +59,9 @@ const exportExcel = async (title, fileName, sheets, theme) => {
     });
   });
 
-  const blob = new Blob(
-    [await workbook.xlsx.writeBuffer()],
-    { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
-  );
+  const blob = new Blob([await workbook.xlsx.writeBuffer()], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  });
   saveAs(blob, fileName);
 };
 

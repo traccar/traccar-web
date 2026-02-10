@@ -1,7 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Drawer, IconButton, List, ListItemButton, ListItemText, Toolbar, Typography,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -32,24 +38,25 @@ const EventsDrawer = ({ open, onClose }) => {
 
   const events = useSelector((state) => state.events.items);
 
-  const formatType = (event) => formatNotificationTitle(t, {
-    type: event.type,
-    attributes: {
-      alarms: event.attributes.alarm,
-    },
-  });
+  const formatType = (event) =>
+    formatNotificationTitle(t, {
+      type: event.type,
+      attributes: {
+        alarms: event.attributes.alarm,
+      },
+    });
 
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={onClose}
-    >
+    <Drawer anchor="right" open={open} onClose={onClose}>
       <Toolbar className={classes.toolbar} disableGutters>
         <Typography variant="h6" className={classes.title}>
           {t('reportEvents')}
         </Typography>
-        <IconButton size="small" color="inherit" onClick={() => dispatch(eventsActions.deleteAll())}>
+        <IconButton
+          size="small"
+          color="inherit"
+          onClick={() => dispatch(eventsActions.deleteAll())}
+        >
           <DeleteIcon fontSize="small" />
         </IconButton>
       </Toolbar>

@@ -110,7 +110,9 @@ const StatusRow = ({ name, content }) => {
         <Typography variant="body2">{name}</Typography>
       </TableCell>
       <TableCell className={classes.cell}>
-        <Typography variant="body2" color="textSecondary">{content}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          {content}
+        </Typography>
       </TableCell>
     </TableRow>
   );
@@ -132,7 +134,10 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
-  const positionItems = useAttributePreference('positionItems', 'fixTime,address,speed,totalDistance');
+  const positionItems = useAttributePreference(
+    'positionItems',
+    'fixTime,address,speed,totalDistance',
+  );
 
   const navigationAppLink = useAttributePreference('navigationAppLink');
   const navigationAppTitle = useAttributePreference('navigationAppTitle');
@@ -184,11 +189,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   className={`${classes.media} draggable-header`}
                   image={`/api/media/${device.uniqueId}/${deviceImage}`}
                 >
-                  <IconButton
-                    size="small"
-                    onClick={onClose}
-                    onTouchStart={onClose}
-                  >
+                  <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
                     <CloseIcon fontSize="small" className={classes.mediaButton} />
                   </IconButton>
                 </CardMedia>
@@ -197,11 +198,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   <Typography variant="body2" color="textSecondary">
                     {device.name}
                   </Typography>
-                  <IconButton
-                    size="small"
-                    onClick={onClose}
-                    onTouchStart={onClose}
-                  >
+                  <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
                 </div>
@@ -210,26 +207,33 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                 <CardContent className={classes.content}>
                   <Table size="small" classes={{ root: classes.table }}>
                     <TableBody>
-                      {positionItems.split(',').filter((key) => position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key)).map((key) => (
-                        <StatusRow
-                          key={key}
-                          name={positionAttributes[key]?.name || key}
-                          content={(
-                            <PositionValue
-                              position={position}
-                              property={position.hasOwnProperty(key) ? key : null}
-                              attribute={position.hasOwnProperty(key) ? null : key}
-                            />
-                          )}
-                        />
-                      ))}
-
+                      {positionItems
+                        .split(',')
+                        .filter(
+                          (key) =>
+                            position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key),
+                        )
+                        .map((key) => (
+                          <StatusRow
+                            key={key}
+                            name={positionAttributes[key]?.name || key}
+                            content={
+                              <PositionValue
+                                position={position}
+                                property={position.hasOwnProperty(key) ? key : null}
+                                attribute={position.hasOwnProperty(key) ? null : key}
+                              />
+                            }
+                          />
+                        ))}
                     </TableBody>
                     <TableFooter>
                       <TableRow>
                         <TableCell colSpan={2} className={classes.cell}>
                           <Typography variant="body2">
-                            <Link component={RouterLink} to={`/position/${position.id}`}>{t('sharedShowDetails')}</Link>
+                            <Link component={RouterLink} to={`/position/${position.id}`}>
+                              {t('sharedShowDetails')}
+                            </Link>
                           </Typography>
                         </TableCell>
                       </TableRow>
@@ -288,12 +292,42 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
           {!readonly && <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>}
-          <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}>{t('linkGoogleMaps')}</MenuItem>
-          <MenuItem component="a" target="_blank" href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}>{t('linkAppleMaps')}</MenuItem>
-          <MenuItem component="a" target="_blank" href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}>{t('linkStreetView')}</MenuItem>
-          {navigationAppTitle && <MenuItem component="a" target="_blank" href={navigationAppLink.replace('{latitude}', position.latitude).replace('{longitude}', position.longitude)}>{navigationAppTitle}</MenuItem>}
+          <MenuItem
+            component="a"
+            target="_blank"
+            href={`https://www.google.com/maps/search/?api=1&query=${position.latitude}%2C${position.longitude}`}
+          >
+            {t('linkGoogleMaps')}
+          </MenuItem>
+          <MenuItem
+            component="a"
+            target="_blank"
+            href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}
+          >
+            {t('linkAppleMaps')}
+          </MenuItem>
+          <MenuItem
+            component="a"
+            target="_blank"
+            href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${position.latitude}%2C${position.longitude}&heading=${position.course}`}
+          >
+            {t('linkStreetView')}
+          </MenuItem>
+          {navigationAppTitle && (
+            <MenuItem
+              component="a"
+              target="_blank"
+              href={navigationAppLink
+                .replace('{latitude}', position.latitude)
+                .replace('{longitude}', position.longitude)}
+            >
+              {navigationAppTitle}
+            </MenuItem>
+          )}
           {!shareDisabled && !user.temporary && (
-            <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}><Typography color="secondary">{t('deviceShare')}</Typography></MenuItem>
+            <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
+              <Typography color="secondary">{t('deviceShare')}</Typography>
+            </MenuItem>
           )}
         </Menu>
       )}

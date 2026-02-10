@@ -43,30 +43,41 @@ const LinkField = ({
     return body;
   };
 
-  const onChange = useCatchCallback(async (value) => {
-    const oldValue = linked.map((it) => keyGetter(it));
-    const newValue = value.map((it) => keyGetter(it));
-    if (!newValue.find((it) => it < 0)) {
-      const results = [];
-      newValue.filter((it) => !oldValue.includes(it)).forEach((added) => {
-        results.push(fetchOrThrow('/api/permissions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(createBody(added)),
-        }));
-      });
-      oldValue.filter((it) => !newValue.includes(it)).forEach((removed) => {
-        results.push(fetchOrThrow('/api/permissions', {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(createBody(removed)),
-        }));
-      });
-      await Promise.all(results);
-      setUpdated(results.length > 0);
-      setLinked(value);
-    }
-  }, [linked, setUpdated, setLinked]);
+  const onChange = useCatchCallback(
+    async (value) => {
+      const oldValue = linked.map((it) => keyGetter(it));
+      const newValue = value.map((it) => keyGetter(it));
+      if (!newValue.find((it) => it < 0)) {
+        const results = [];
+        newValue
+          .filter((it) => !oldValue.includes(it))
+          .forEach((added) => {
+            results.push(
+              fetchOrThrow('/api/permissions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(createBody(added)),
+              }),
+            );
+          });
+        oldValue
+          .filter((it) => !newValue.includes(it))
+          .forEach((removed) => {
+            results.push(
+              fetchOrThrow('/api/permissions', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(createBody(removed)),
+              }),
+            );
+          });
+        await Promise.all(results);
+        setUpdated(results.length > 0);
+        setLinked(value);
+      }
+    },
+    [linked, setUpdated, setLinked],
+  );
 
   return (
     <>

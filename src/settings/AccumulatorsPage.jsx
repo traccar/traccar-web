@@ -57,40 +57,35 @@ const AccumulatorsPage = () => {
         <Container maxWidth="xs" className={classes.container}>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
                 type="number"
                 value={item.hours / 3600000}
-                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) * 3600000 })}
+                onChange={(event) =>
+                  setItem({ ...item, hours: Number(event.target.value) * 3600000 })
+                }
                 label={t('positionHours')}
               />
               <TextField
                 type="number"
                 value={distanceFromMeters(item.totalDistance, distanceUnit)}
-                onChange={(event) => setItem({ ...item, totalDistance: distanceToMeters(Number(event.target.value), distanceUnit) })}
+                onChange={(event) =>
+                  setItem({
+                    ...item,
+                    totalDistance: distanceToMeters(Number(event.target.value), distanceUnit),
+                  })
+                }
                 label={`${t('deviceTotalDistance')} (${distanceUnitString(distanceUnit, t)})`}
               />
             </AccordionDetails>
           </Accordion>
           <div className={classes.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              variant="outlined"
-              onClick={() => navigate(-1)}
-            >
+            <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
               {t('sharedCancel')}
             </Button>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={handleSave}
-            >
+            <Button type="button" color="primary" variant="contained" onClick={handleSave}>
               {t('sharedSave')}
             </Button>
           </div>

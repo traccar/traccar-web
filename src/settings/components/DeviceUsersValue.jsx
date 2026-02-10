@@ -18,7 +18,11 @@ const DeviceUsersValue = ({ deviceId }) => {
   if (users) {
     return users.map((user) => user.name).join(', ');
   }
-  return (<Link href="#" onClick={loadUsers}>{t('reportShow')}</Link>);
+  return (
+    <Link href="#" onClick={loadUsers}>
+      {t('reportShow')}
+    </Link>
+  );
 };
 
 export default DeviceUsersValue;

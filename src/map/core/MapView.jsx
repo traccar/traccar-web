@@ -1,10 +1,7 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 import { googleProtocol } from 'maplibre-google-maps';
-import React, {
-  useRef, useLayoutEffect, useEffect, useState,
-  useMemo,
-} from 'react';
+import React, { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import { SwitcherControl } from '../switcher/switcher';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
@@ -61,28 +58,38 @@ const MapView = ({ children }) => {
   const [mapReady, setMapReady] = useState(false);
 
   const mapStyles = useMapStyles();
-  const activeMapStyles = useAttributePreference('activeMapStyles', 'locationIqStreets,locationIqDark,openFreeMap');
-  const [defaultMapStyle] = usePersistedState('selectedMapStyle', usePreference('map', 'locationIqStreets'));
+  const activeMapStyles = useAttributePreference(
+    'activeMapStyles',
+    'locationIqStreets,locationIqDark,openFreeMap',
+  );
+  const [defaultMapStyle] = usePersistedState(
+    'selectedMapStyle',
+    usePreference('map', 'locationIqStreets'),
+  );
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const maxZoom = useAttributePreference('web.maxZoom');
 
-  const switcher = useMemo(() => new SwitcherControl(
-    () => updateReadyValue(false),
-    (styleId) => savePersistedState('selectedMapStyle', styleId),
-    () => {
-      map.once('styledata', () => {
-        const waiting = () => {
-          if (!map.loaded()) {
-            setTimeout(waiting, 33);
-          } else {
-            initMap();
-            updateReadyValue(true);
-          }
-        };
-        waiting();
-      });
-    },
-  ), []);
+  const switcher = useMemo(
+    () =>
+      new SwitcherControl(
+        () => updateReadyValue(false),
+        (styleId) => savePersistedState('selectedMapStyle', styleId),
+        () => {
+          map.once('styledata', () => {
+            const waiting = () => {
+              if (!map.loaded()) {
+                setTimeout(waiting, 33);
+              } else {
+                initMap();
+                updateReadyValue(true);
+              }
+            };
+            waiting();
+          });
+        },
+      ),
+    [],
+  );
 
   useEffectAsync(async () => {
     if (theme.direction === 'rtl') {

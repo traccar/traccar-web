@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync } from '../reactHelper';
 import { prefixString } from '../common/util/stringUtils';
 import { formatBoolean } from '../common/util/formatter';
@@ -60,18 +58,27 @@ const NotificationsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{t(prefixString('event', item.type))}</TableCell>
-              <TableCell>{formatBoolean(item.always, t)}</TableCell>
-              <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
-              <TableCell>{formatList('notificator', item.notificators)}</TableCell>
-              <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/notification" endpoint="notifications" setTimestamp={setTimestamp} />
-              </TableCell>
-            </TableRow>
-          )) : (<TableShimmer columns={5} endAction />)}
+          {!loading ? (
+            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{t(prefixString('event', item.type))}</TableCell>
+                <TableCell>{formatBoolean(item.always, t)}</TableCell>
+                <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
+                <TableCell>{formatList('notificator', item.notificators)}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/notification"
+                    endpoint="notifications"
+                    setTimestamp={setTimestamp}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={5} endAction />
+          )}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/notification" />

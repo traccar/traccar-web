@@ -27,10 +27,7 @@ const MapGeofence = () => {
         source: id,
         id: 'geofences-fill',
         type: 'fill',
-        filter: [
-          'all',
-          ['==', '$type', 'Polygon'],
-        ],
+        filter: ['all', ['==', '$type', 'Polygon']],
         paint: {
           'fill-color': ['get', 'color'],
           'fill-outline-color': ['get', 'color'],

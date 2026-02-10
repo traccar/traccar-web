@@ -35,7 +35,10 @@ const MapDefaultCamera = ({ mapReady }) => {
       } else {
         const coordinates = Object.values(positions).map((item) => [item.longitude, item.latitude]);
         if (coordinates.length > 1) {
-          const bounds = coordinates.reduce((bounds, item) => bounds.extend(item), new maplibregl.LngLatBounds(coordinates[0], coordinates[1]));
+          const bounds = coordinates.reduce(
+            (bounds, item) => bounds.extend(item),
+            new maplibregl.LngLatBounds(coordinates[0], coordinates[1]),
+          );
           const canvas = map.getCanvas();
           map.fitBounds(bounds, {
             duration: 0,
@@ -52,7 +55,15 @@ const MapDefaultCamera = ({ mapReady }) => {
         }
       }
     }
-  }, [selectedDeviceId, initialized, defaultLatitude, defaultLongitude, defaultZoom, positions, mapReady]);
+  }, [
+    selectedDeviceId,
+    initialized,
+    defaultLatitude,
+    defaultLongitude,
+    defaultZoom,
+    positions,
+    mapReady,
+  ]);
 
   return null;
 };

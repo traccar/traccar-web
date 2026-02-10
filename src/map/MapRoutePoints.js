@@ -13,16 +13,19 @@ const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
   const t = useTranslation();
   const speedUnit = useAttributePreference('speedUnit');
 
-  const onMouseEnter = () => map.getCanvas().style.cursor = 'pointer';
-  const onMouseLeave = () => map.getCanvas().style.cursor = '';
+  const onMouseEnter = () => (map.getCanvas().style.cursor = 'pointer');
+  const onMouseLeave = () => (map.getCanvas().style.cursor = '');
 
-  const onMarkerClick = useCallback((event) => {
-    event.preventDefault();
-    const feature = event.features[0];
-    if (onClick) {
-      onClick(feature.properties.id, feature.properties.index);
-    }
-  }, [onClick]);
+  const onMarkerClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      const feature = event.features[0];
+      if (onClick) {
+        onClick(feature.properties.id, feature.properties.index);
+      }
+    },
+    [onClick],
+  );
 
   useEffect(() => {
     map.addSource(id, {

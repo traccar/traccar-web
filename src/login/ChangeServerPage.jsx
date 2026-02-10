@@ -115,9 +115,13 @@ const ChangeServerPage = () => {
           freeSolo
           className={classes.field}
           options={officialServers}
-          renderInput={(params) => <TextField {...params} label={t('settingsServer')} error={invalid} />}
+          renderInput={(params) => (
+            <TextField {...params} label={t('settingsServer')} error={invalid} />
+          )}
           value={currentServer}
-          onChange={(_, value) => (value && validateUrl(value) ? handleSubmit(value) : setInvalid(true))}
+          onChange={(_, value) =>
+            value && validateUrl(value) ? handleSubmit(value) : setInvalid(true)
+          }
           inputValue={inputValue}
           onInputChange={(_, value) => {
             setInputValue(value);
@@ -137,7 +141,9 @@ const ChangeServerPage = () => {
           <Button
             color="primary"
             variant="contained"
-            onClick={() => (inputValue && validateUrl(inputValue) ? handleSubmit(inputValue) : setInvalid(true))}
+            onClick={() =>
+              inputValue && validateUrl(inputValue) ? handleSubmit(inputValue) : setInvalid(true)
+            }
             disabled={!inputValue || invalid}
           >
             {t('sharedSave')}

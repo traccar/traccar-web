@@ -9,10 +9,10 @@ const { reducer, actions } = createSlice({
   reducers: {
     refresh(state, action) {
       state.items = {};
-      action.payload.forEach((item) => state.items[item.id] = item);
+      action.payload.forEach((item) => (state.items[item.id] = item));
     },
     update(state, action) {
-      action.payload.forEach((item) => state.items[item.id] = item);
+      action.payload.forEach((item) => (state.items[item.id] = item));
     },
     selectId(state, action) {
       state.selectTime = Date.now();

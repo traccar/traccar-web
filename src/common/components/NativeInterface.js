@@ -5,7 +5,8 @@ import { useEffectAsync } from '../../reactHelper';
 import { sessionActions } from '../../store';
 import fetchOrThrow from '../util/fetchOrThrow';
 
-export const nativeEnvironment = window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface);
+export const nativeEnvironment =
+  window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface);
 
 export const nativePostMessage = (message) => {
   if (window.webkit && window.webkit.messageHandlers.appInterface) {

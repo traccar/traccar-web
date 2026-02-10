@@ -3,7 +3,14 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, FormControl, InputLabel, Select, MenuItem,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MuiFileInput } from 'mui-file-input';
@@ -46,21 +53,25 @@ const formatRule = (rule) => {
   }
 };
 
-const updateCalendar = (lines, index, element) => window.btoa(lines.map((e, i) => (i !== index ? e : element)).join('\n'));
+const updateCalendar = (lines, index, element) =>
+  window.btoa(lines.map((e, i) => (i !== index ? e : element)).join('\n'));
 
-const simpleCalendar = () => window.btoa([
-  'BEGIN:VCALENDAR',
-  'VERSION:2.0',
-  'PRODID:-//Traccar//NONSGML Traccar//EN',
-  'BEGIN:VEVENT',
-  'UID:00000000-0000-0000-0000-000000000000',
-  `DTSTART;${formatCalendarTime(dayjs())}`,
-  `DTEND;${formatCalendarTime(dayjs().add(1, 'hours'))}`,
-  'RRULE:FREQ=DAILY',
-  'SUMMARY:Event',
-  'END:VEVENT',
-  'END:VCALENDAR',
-].join('\n'));
+const simpleCalendar = () =>
+  window.btoa(
+    [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Traccar//NONSGML Traccar//EN',
+      'BEGIN:VEVENT',
+      'UID:00000000-0000-0000-0000-000000000000',
+      `DTSTART;${formatCalendarTime(dayjs())}`,
+      `DTEND;${formatCalendarTime(dayjs().add(1, 'hours'))}`,
+      'RRULE:FREQ=DAILY',
+      'SUMMARY:Event',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\n'),
+  );
 
 const CalendarPage = () => {
   const { classes } = useSettingsStyles();
@@ -112,9 +123,7 @@ const CalendarPage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -127,7 +136,12 @@ const CalendarPage = () => {
                 <Select
                   label={t('sharedType')}
                   value={simple ? 'simple' : 'custom'}
-                  onChange={(e) => setItem({ ...item, data: (e.target.value === 'simple' ? simpleCalendar() : null) })}
+                  onChange={(e) =>
+                    setItem({
+                      ...item,
+                      data: e.target.value === 'simple' ? simpleCalendar() : null,
+                    })
+                  }
                 >
                   <MenuItem value="simple">{t('calendarSimple')}</MenuItem>
                   <MenuItem value="custom">{t('reportCustom')}</MenuItem>
@@ -158,10 +172,17 @@ const CalendarPage = () => {
                     <Select
                       label={t('calendarRecurrence')}
                       value={rule.frequency}
-                      onChange={(e) => setItem({ ...item, data: updateCalendar(lines, 7, formatRule({ frequency: e.target.value })) })}
+                      onChange={(e) =>
+                        setItem({
+                          ...item,
+                          data: updateCalendar(lines, 7, formatRule({ frequency: e.target.value })),
+                        })
+                      }
                     >
                       {['ONCE', 'DAILY', 'WEEKLY', 'MONTHLY'].map((it) => (
-                        <MenuItem key={it} value={it}>{t(prefixString('calendar', it.toLowerCase()))}</MenuItem>
+                        <MenuItem key={it} value={it}>
+                          {t(prefixString('calendar', it.toLowerCase()))}
+                        </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -172,13 +193,36 @@ const CalendarPage = () => {
                         multiple
                         label={t('calendarDays')}
                         value={rule.by}
-                        onChange={(e) => setItem({ ...item, data: updateCalendar(lines, 7, formatRule({ ...rule, by: e.target.value })) })}
+                        onChange={(e) =>
+                          setItem({
+                            ...item,
+                            data: updateCalendar(
+                              lines,
+                              7,
+                              formatRule({ ...rule, by: e.target.value }),
+                            ),
+                          })
+                        }
                       >
-                        {rule.frequency === 'WEEKLY' ? ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map((it) => (
-                          <MenuItem key={it} value={it.substring(0, 2).toUpperCase()}>{t(prefixString('calendar', it))}</MenuItem>
-                        )) : Array.from({ length: 31 }, (_, i) => i + 1).map((it) => (
-                          <MenuItem key={it} value={String(it)}>{it}</MenuItem>
-                        ))}
+                        {rule.frequency === 'WEEKLY'
+                          ? [
+                              'sunday',
+                              'monday',
+                              'tuesday',
+                              'wednesday',
+                              'thursday',
+                              'friday',
+                              'saturday',
+                            ].map((it) => (
+                              <MenuItem key={it} value={it.substring(0, 2).toUpperCase()}>
+                                {t(prefixString('calendar', it))}
+                              </MenuItem>
+                            ))
+                          : Array.from({ length: 31 }, (_, i) => i + 1).map((it) => (
+                              <MenuItem key={it} value={String(it)}>
+                                {it}
+                              </MenuItem>
+                            ))}
                       </Select>
                     </FormControl>
                   )}

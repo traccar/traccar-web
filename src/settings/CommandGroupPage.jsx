@@ -50,9 +50,7 @@ const CommandDevicePage = () => {
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedRequired')}
-            </Typography>
+            <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <FormControl fullWidth>
@@ -63,24 +61,26 @@ const CommandDevicePage = () => {
             </FormControl>
             <TextField
               value={item.attributes.data}
-              onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, data: e.target.value } })}
+              onChange={(e) =>
+                setItem({ ...item, attributes: { ...item.attributes, data: e.target.value } })
+              }
               label={t('commandData')}
             />
             {textEnabled && (
               <FormControlLabel
-                control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
+                control={
+                  <Checkbox
+                    checked={item.textChannel}
+                    onChange={(event) => setItem({ ...item, textChannel: event.target.checked })}
+                  />
+                }
                 label={t('commandSendSms')}
               />
             )}
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
-          <Button
-            type="button"
-            color="primary"
-            variant="outlined"
-            onClick={() => navigate(-1)}
-          >
+          <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
             {t('sharedCancel')}
           </Button>
           <Button

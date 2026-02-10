@@ -21,9 +21,18 @@ const MapSelectedDevice = ({ mapReady }) => {
   useEffect(() => {
     if (!mapReady) return;
 
-    const positionChanged = position && (!previousPosition || position.latitude !== previousPosition.latitude || position.longitude !== previousPosition.longitude);
+    const positionChanged =
+      position &&
+      (!previousPosition ||
+        position.latitude !== previousPosition.latitude ||
+        position.longitude !== previousPosition.longitude);
 
-    if ((currentId !== previousId || currentTime !== previousTime || (mapFollow && positionChanged)) && position) {
+    if (
+      (currentId !== previousId ||
+        currentTime !== previousTime ||
+        (mapFollow && positionChanged)) &&
+      position
+    ) {
       map.easeTo({
         center: [position.longitude, position.latitude],
         zoom: Math.max(map.getZoom(), selectZoom),

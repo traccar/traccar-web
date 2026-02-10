@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Table, TableBody, TableCell, TableHead, TableRow,
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -31,13 +29,16 @@ const CombinedReportPage = () => {
 
   const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
 
-  const createMarkers = () => items.flatMap((item) => item.events
-    .map((event) => item.positions.find((p) => event.positionId === p.id))
-    .filter((position) => position != null)
-    .map((position) => ({
-      latitude: position.latitude,
-      longitude: position.longitude,
-    })));
+  const createMarkers = () =>
+    items.flatMap((item) =>
+      item.events
+        .map((event) => item.positions.find((p) => event.positionId === p.id))
+        .filter((position) => position != null)
+        .map((position) => ({
+          latitude: position.latitude,
+          longitude: position.longitude,
+        })),
+    );
 
   const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
@@ -86,13 +87,19 @@ const CombinedReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.flatMap((item) => item.events.map((event, index) => (
-                <TableRow key={event.id}>
-                  <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
-                  <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
-                  <TableCell>{t(prefixString('event', event.type))}</TableCell>
-                </TableRow>
-              ))) : (<TableShimmer columns={3} />)}
+              {!loading ? (
+                items.flatMap((item) =>
+                  item.events.map((event, index) => (
+                    <TableRow key={event.id}>
+                      <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
+                      <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
+                      <TableCell>{t(prefixString('event', event.type))}</TableCell>
+                    </TableRow>
+                  )),
+                )
+              ) : (
+                <TableShimmer columns={3} />
+              )}
             </TableBody>
           </Table>
         </div>

@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Divider, Typography, IconButton, useMediaQuery, Toolbar,
+  Divider,
+  Typography,
+  IconButton,
+  useMediaQuery,
+  Toolbar,
   List,
   ListItem,
 } from '@mui/material';
@@ -108,7 +112,9 @@ const EmulatorPage = () => {
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
               <BackIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>{t('sharedEmulator')}</Typography>
+            <Typography variant="h6" className={classes.title}>
+              {t('sharedEmulator')}
+            </Typography>
           </Toolbar>
           <Divider />
           <List>

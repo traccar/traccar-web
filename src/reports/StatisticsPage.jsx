@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -32,7 +30,12 @@ const StatisticsPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
-  const [columns, setColumns] = usePersistedState('statisticsColumns', ['captureTime', 'activeUsers', 'activeDevices', 'messagesStored']);
+  const [columns, setColumns] = usePersistedState('statisticsColumns', [
+    'captureTime',
+    'activeUsers',
+    'activeDevices',
+    'messagesStored',
+  ]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -57,19 +60,25 @@ const StatisticsPage = () => {
       <Table>
         <TableHead>
           <TableRow>
-            {columns.map((key) => (<TableCell key={key}>{t(columnsMap.get(key))}</TableCell>))}
+            {columns.map((key) => (
+              <TableCell key={key}>{t(columnsMap.get(key))}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
-            <TableRow key={item.id}>
-              {columns.map((key) => (
-                <TableCell key={key}>
-                  {key === 'captureTime' ? formatTime(item[key], 'date') : item[key]}
-                </TableCell>
-              ))}
-            </TableRow>
-          )) : (<TableShimmer columns={columns.length} />)}
+          {!loading ? (
+            items.map((item) => (
+              <TableRow key={item.id}>
+                {columns.map((key) => (
+                  <TableCell key={key}>
+                    {key === 'captureTime' ? formatTime(item[key], 'date') : item[key]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={columns.length} />
+          )}
         </TableBody>
       </Table>
     </PageLayout>

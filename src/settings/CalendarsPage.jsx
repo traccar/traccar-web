@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -43,14 +41,23 @@ const CalendarsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions itemId={item.id} editPath="/settings/calendar" endpoint="calendars" setTimestamp={setTimestamp} />
-              </TableCell>
-            </TableRow>
-          )) : (<TableShimmer columns={2} endAction />)}
+          {!loading ? (
+            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/calendar"
+                    endpoint="calendars"
+                    setTimestamp={setTimestamp}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={2} endAction />
+          )}
         </TableBody>
       </Table>
       <CollectionFab editPath="/settings/calendar" />

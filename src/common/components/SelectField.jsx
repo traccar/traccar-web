@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  MenuItem,
-  Autocomplete,
-  TextField,
-  Chip,
-} from '@mui/material';
+import { MenuItem, Autocomplete, TextField, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
@@ -78,9 +73,13 @@ const SelectField = ({
         options={items}
         getOptionLabel={getOptionLabel}
         renderOption={(props, option) => (
-          <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>{titleGetter(option)}</MenuItem>
+          <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>
+            {titleGetter(option)}
+          </MenuItem>
         )}
-        isOptionEqualToValue={(option, selectedOption) => keyGetter(option) === keyGetter(selectedOption)}
+        isOptionEqualToValue={(option, selectedOption) =>
+          keyGetter(option) === keyGetter(selectedOption)
+        }
         value={autocompleteValue}
         onChange={(_, selectedValue) => {
           if (multiple) {
@@ -89,29 +88,29 @@ const SelectField = ({
             onChange({ target: { value: selectedValue ? keyGetter(selectedValue) : emptyValue } });
           }
         }}
-        renderValue={multiple ? (tagValue, getItemProps) => {
-          if (!tagValue.length) {
-            return null;
-          }
-          return (
-            <>
-              <Chip
-                {...getItemProps({ index: 0 })}
-                key={keyGetter(tagValue[0])}
-                label={titleGetter(tagValue[0])}
-                size="small"
-                sx={{ minWidth: 0 }}
-              />
-              {tagValue.length > 1 && (
-                <Chip
-                  label={`${tagValue.length - 1}`}
-                  size="small"
-                  sx={{ flexShrink: 0 }}
-                />
-              )}
-            </>
-          );
-        } : undefined}
+        renderValue={
+          multiple
+            ? (tagValue, getItemProps) => {
+                if (!tagValue.length) {
+                  return null;
+                }
+                return (
+                  <>
+                    <Chip
+                      {...getItemProps({ index: 0 })}
+                      key={keyGetter(tagValue[0])}
+                      label={titleGetter(tagValue[0])}
+                      size="small"
+                      sx={{ minWidth: 0 }}
+                    />
+                    {tagValue.length > 1 && (
+                      <Chip label={`${tagValue.length - 1}`} size="small" sx={{ flexShrink: 0 }} />
+                    )}
+                  </>
+                );
+              }
+            : undefined
+        }
         fullWidth={fullWidth}
         disableCloseOnSelect={multiple}
         renderInput={(params) => (
@@ -123,7 +122,9 @@ const SelectField = ({
             slotProps={{
               inputLabel: {
                 ...params.InputLabelProps,
-                shrink: multiple && !autocompleteValue.length && Boolean(placeholder) || params.InputLabelProps?.shrink,
+                shrink:
+                  (multiple && !autocompleteValue.length && Boolean(placeholder)) ||
+                  params.InputLabelProps?.shrink,
               },
             }}
           />

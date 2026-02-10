@@ -4,7 +4,7 @@ const Loader = () => {
   useEffect(() => {
     const loader = document.querySelector('.loader');
     loader.style.display = '';
-    return () => loader.style.display = 'none';
+    return () => (loader.style.display = 'none');
   }, []);
   return null;
 };

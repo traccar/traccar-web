@@ -27,9 +27,9 @@ export default () => (next) => {
 
       flushed.forEach((action) => {
         if (action.type === devicesActions.update.type) {
-          action.payload.forEach(item => deviceUpdates[item.id] = item);
+          action.payload.forEach((item) => (deviceUpdates[item.id] = item));
         } else if (action.type === sessionActions.updatePositions.type) {
-          action.payload.forEach(item => positionUpdates[item.deviceId] = item);
+          action.payload.forEach((item) => (positionUpdates[item.deviceId] = item));
         }
       });
 
@@ -44,11 +44,13 @@ export default () => (next) => {
       }
 
       const totalTime = performance.now() - start;
-      debugLog(`Flushed ${mergedDeviceUpdates.length + mergedPositionUpdates.length} / ${flushed.length} events in ${totalTime.toFixed(2)} ms`);
+      debugLog(
+        `Flushed ${mergedDeviceUpdates.length + mergedPositionUpdates.length} / ${flushed.length} events in ${totalTime.toFixed(2)} ms`,
+      );
       currentInterval = Math.min(Math.max(totalTime * scaleFactor, minInterval), maxInterval);
     }
 
-    const shouldThrottle = (counter * 1000 / currentInterval) > threshold;
+    const shouldThrottle = (counter * 1000) / currentInterval > threshold;
     if (throttled != shouldThrottle) {
       debugLog(`Throttling ${shouldThrottle}`);
       throttled = shouldThrottle;
@@ -61,7 +63,10 @@ export default () => (next) => {
   setTimeout(tick, currentInterval);
 
   return (action) => {
-    if (action.type !== devicesActions.update.type && action.type !== sessionActions.updatePositions.type) {
+    if (
+      action.type !== devicesActions.update.type &&
+      action.type !== sessionActions.updatePositions.type
+    ) {
       return next(action);
     }
 
@@ -72,7 +77,7 @@ export default () => (next) => {
       return;
     }
 
-    if ((counter * 1000 / currentInterval) > threshold) {
+    if ((counter * 1000) / currentInterval > threshold) {
       if (!throttled) debugLog(`Throttling started`);
       throttled = true;
     }

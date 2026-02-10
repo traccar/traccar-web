@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography, Badge,
+  Paper,
+  BottomNavigation,
+  BottomNavigationAction,
+  Menu,
+  MenuItem,
+  Typography,
+  Badge,
 } from '@mui/material';
 
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -34,11 +40,14 @@ const BottomMenu = () => {
   const currentSelection = () => {
     if (location.pathname === `/settings/user/${user.id}`) {
       return 'account';
-    } if (location.pathname.startsWith('/settings')) {
+    }
+    if (location.pathname.startsWith('/settings')) {
       return 'settings';
-    } if (location.pathname.startsWith('/reports')) {
+    }
+    if (location.pathname.startsWith('/reports')) {
       return 'reports';
-    } if (location.pathname === '/') {
+    }
+    if (location.pathname === '/') {
       return 'map';
     }
     return null;
@@ -61,7 +70,10 @@ const BottomMenu = () => {
           ...user,
           attributes: {
             ...user.attributes,
-            notificationTokens: tokens.length > 1 ? tokens.filter((it) => it !== notificationToken).join(',') : undefined,
+            notificationTokens:
+              tokens.length > 1
+                ? tokens.filter((it) => it !== notificationToken).join(',')
+                : undefined,
           },
         };
         await fetch(`/api/users/${user.id}`, {
@@ -91,7 +103,7 @@ const BottomMenu = () => {
             id = deviceIds[0];
           }
         }
-        
+
         if (id != null) {
           navigate(`/reports/combined?deviceId=${id}`);
         } else {
@@ -118,19 +130,31 @@ const BottomMenu = () => {
       <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
         <BottomNavigationAction
           label={t('mapTitle')}
-          icon={(
+          icon={
             <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
               <MapIcon />
             </Badge>
-          )}
+          }
           value="map"
         />
         {!disableReports && (
-          <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} value="reports" />
+          <BottomNavigationAction
+            label={t('reportTitle')}
+            icon={<DescriptionIcon />}
+            value="reports"
+          />
         )}
-        <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} value="settings" />
+        <BottomNavigationAction
+          label={t('settingsTitle')}
+          icon={<SettingsIcon />}
+          value="settings"
+        />
         {readonly ? (
-          <BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} value="logout" />
+          <BottomNavigationAction
+            label={t('loginLogout')}
+            icon={<ExitToAppIcon />}
+            value="logout"
+          />
         ) : (
           <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} value="account" />
         )}

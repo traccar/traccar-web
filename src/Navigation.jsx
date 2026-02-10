@@ -1,7 +1,4 @@
-import {
-  Route, Routes,
-  useSearchParams,
-} from 'react-router-dom';
+import { Route, Routes, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MainPage from './main/MainPage';
 import CombinedReportPage from './reports/CombinedReportPage';
@@ -69,7 +66,9 @@ const Navigation = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const hasQueryParams = ['locale', 'token', 'uniqueId', 'openid'].some(key => searchParams.has(key));
+  const hasQueryParams = ['locale', 'token', 'uniqueId', 'openid'].some((key) =>
+    searchParams.has(key),
+  );
 
   useEffectAsync(async () => {
     if (!hasQueryParams) {
@@ -109,7 +108,7 @@ const Navigation = () => {
   }, [hasQueryParams, searchParams, setSearchParams]);
 
   if (hasQueryParams) {
-    return (<Loader />);
+    return <Loader />;
   }
   return (
     <Routes>

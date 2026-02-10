@@ -3,7 +3,8 @@ import { useTheme } from '@mui/material';
 import { map } from '../core/MapView';
 import './notification.css';
 
-const statusClass = (status) => `maplibregl-ctrl-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`;
+const statusClass = (status) =>
+  `maplibregl-ctrl-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`;
 
 class NotificationControl {
   constructor(eventHandler) {

@@ -2,7 +2,17 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
+  Typography,
+  Container,
+  Paper,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -61,9 +71,7 @@ const NetworkPage = () => {
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
             <BackIcon />
           </IconButton>
-          <Typography variant="h6">
-            {deviceName}
-          </Typography>
+          <Typography variant="h6">{deviceName}</Typography>
         </Toolbar>
       </AppBar>
       <div className={classes.content}>

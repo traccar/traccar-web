@@ -24,29 +24,36 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const draw = useMemo(() => new MapboxDraw({
-    displayControlsDefault: false,
-    controls: {
-      polygon: true,
-      line_string: true,
-      trash: true,
-    },
-    userProperties: true,
-    styles: [...drawTheme, {
-      id: 'gl-draw-title',
-      type: 'symbol',
-      filter: ['all'],
-      layout: {
-        'text-field': '{user_name}',
-        'text-font': findFonts(map),
-        'text-size': 12,
-      },
-      paint: {
-        'text-halo-color': 'white',
-        'text-halo-width': 1,
-      },
-    }],
-  }), []);
+  const draw = useMemo(
+    () =>
+      new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+          polygon: true,
+          line_string: true,
+          trash: true,
+        },
+        userProperties: true,
+        styles: [
+          ...drawTheme,
+          {
+            id: 'gl-draw-title',
+            type: 'symbol',
+            filter: ['all'],
+            layout: {
+              'text-field': '{user_name}',
+              'text-font': findFonts(map),
+              'text-size': 12,
+            },
+            paint: {
+              'text-halo-color': 'white',
+              'text-halo-width': 1,
+            },
+          },
+        ],
+      }),
+    [],
+  );
 
   const geofences = useSelector((state) => state.geofences.items);
 

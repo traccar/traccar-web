@@ -28,7 +28,11 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
   }
   const coordinates = formatAddress({ latitude, longitude }, coordinateFormat);
   if (addressEnabled) {
-    return (<Link href="#" onClick={showAddress}>{coordinates}</Link>);
+    return (
+      <Link href="#" onClick={showAddress}>
+        {coordinates}
+      </Link>
+    );
   }
   return coordinates;
 };

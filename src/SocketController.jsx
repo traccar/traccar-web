@@ -1,6 +1,4 @@
-import {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
@@ -11,7 +9,10 @@ import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
 import useFeatures from './common/util/useFeatures';
 import { useAttributePreference } from './common/util/preferences';
-import { handleNativeNotificationListeners, nativePostMessage } from './common/components/NativeInterface';
+import {
+  handleNativeNotificationListeners,
+  nativePostMessage,
+} from './common/components/NativeInterface';
 import fetchOrThrow from './common/util/fetchOrThrow';
 
 const logoutCode = 4000;
@@ -40,20 +41,30 @@ const SocketController = () => {
 
   const features = useFeatures();
 
-  const handleEvents = useCallback((events) => {
-    if (!features.disableEvents) {
-      dispatch(eventsActions.add(events));
-    }
-    if (events.some((e) => soundEvents.includes(e.type)
-        || (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)))) {
-      new Audio(alarm).play();
-    }
-    setNotifications(events.map((event) => ({
-      id: event.id,
-      message: event.attributes.message,
-      show: true,
-    })));
-  }, [features, dispatch, soundEvents, soundAlarms]);
+  const handleEvents = useCallback(
+    (events) => {
+      if (!features.disableEvents) {
+        dispatch(eventsActions.add(events));
+      }
+      if (
+        events.some(
+          (e) =>
+            soundEvents.includes(e.type) ||
+            (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)),
+        )
+      ) {
+        new Audio(alarm).play();
+      }
+      setNotifications(
+        events.map((event) => ({
+          id: event.id,
+          message: event.attributes.message,
+          show: true,
+        })),
+      );
+    },
+    [features, dispatch, soundEvents, soundAlarms],
+  );
 
   const connectSocket = () => {
     clearReconnectTimeout();
@@ -129,20 +140,23 @@ const SocketController = () => {
     return null;
   }, [authenticated]);
 
-  const handleNativeNotification = useCatchCallback(async (message) => {
-    const eventId = message.data.eventId;
-    if (eventId) {
-      const response = await fetch(`/api/events/${eventId}`);
-      if (response.ok) {
-        const event = await response.json();
-        const eventWithMessage = {
-          ...event,
-          attributes: { ...event.attributes, message: message.notification.body },
-        };
-        handleEvents([eventWithMessage]);
+  const handleNativeNotification = useCatchCallback(
+    async (message) => {
+      const eventId = message.data.eventId;
+      if (eventId) {
+        const response = await fetch(`/api/events/${eventId}`);
+        if (response.ok) {
+          const event = await response.json();
+          const eventWithMessage = {
+            ...event,
+            attributes: { ...event.attributes, message: message.notification.body },
+          };
+          handleEvents([eventWithMessage]);
+        }
       }
-    }
-  }, [handleEvents]);
+    },
+    [handleEvents],
+  );
 
   useEffect(() => {
     handleNativeNotificationListeners.add(handleNativeNotification);

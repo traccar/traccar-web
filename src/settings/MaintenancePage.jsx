@@ -17,7 +17,10 @@ import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useAttributePreference } from '../common/util/preferences';
 import {
-  speedFromKnots, speedToKnots, distanceFromMeters, distanceToMeters,
+  speedFromKnots,
+  speedToKnots,
+  distanceFromMeters,
+  distanceToMeters,
 } from '../common/util/converter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -54,10 +57,18 @@ const MaintenancePage = () => {
     } else if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
-          setLabels({ ...labels, start: t(prefixString('shared', speedUnit)), period: t(prefixString('shared', speedUnit)) });
+          setLabels({
+            ...labels,
+            start: t(prefixString('shared', speedUnit)),
+            period: t(prefixString('shared', speedUnit)),
+          });
           break;
         case 'distance':
-          setLabels({ ...labels, start: t(prefixString('shared', distanceUnit)), period: t(prefixString('shared', distanceUnit)) });
+          setLabels({
+            ...labels,
+            start: t(prefixString('shared', distanceUnit)),
+            period: t(prefixString('shared', distanceUnit)),
+          });
           break;
         case 'hours':
           setLabels({ ...labels, start: t('sharedHours'), period: t('sharedHours') });
@@ -101,7 +112,8 @@ const MaintenancePage = () => {
         return dayjs(value, 'YYYY-MM-DD').valueOf();
       }
       return value * 86400000;
-    } if (attribute && attribute.dataType) {
+    }
+    if (attribute && attribute.dataType) {
       switch (attribute.dataType) {
         case 'speed':
           return speedToKnots(value, speedUnit);
@@ -131,9 +143,7 @@ const MaintenancePage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -149,7 +159,9 @@ const MaintenancePage = () => {
                   onChange={(e) => setItem({ ...item, type: e.target.value, start: 0, period: 0 })}
                 >
                   {convertToList(positionAttributes).map(({ key, name }) => (
-                    <MenuItem key={key} value={key}>{name}</MenuItem>
+                    <MenuItem key={key} value={key}>
+                      {name}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -157,13 +169,21 @@ const MaintenancePage = () => {
                 type={item.type?.endsWith('Time') ? 'date' : 'number'}
                 value={rawToValue(true, item.start) || ''}
                 onChange={(e) => setItem({ ...item, start: valueToRaw(true, e.target.value) })}
-                label={labels.start ? `${t('maintenanceStart')} (${labels.start})` : t('maintenanceStart')}
+                label={
+                  labels.start
+                    ? `${t('maintenanceStart')} (${labels.start})`
+                    : t('maintenanceStart')
+                }
               />
               <TextField
                 type="number"
                 value={rawToValue(false, item.period) || ''}
                 onChange={(e) => setItem({ ...item, period: valueToRaw(false, e.target.value) })}
-                label={labels.period ? `${t('maintenancePeriod')} (${labels.period})` : t('maintenancePeriod')}
+                label={
+                  labels.period
+                    ? `${t('maintenancePeriod')} (${labels.period})`
+                    : t('maintenancePeriod')
+                }
               />
             </AccordionDetails>
           </Accordion>

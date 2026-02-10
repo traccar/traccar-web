@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  Button,
+  TableFooter,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import { useTheme } from '@mui/material/styles';
@@ -66,7 +74,9 @@ const DevicesPage = () => {
       [t('userExpirationTime')]: formatTime(item.expirationTime, 'date'),
       [t('deviceStatus')]: formatStatus(item.status, t),
       [t('deviceLastUpdate')]: formatTime(item.lastUpdate, 'minutes'),
-      [t('positionAddress')]: positions[item.id] ? formatAddress(positions[item.id], coordinateFormat) : '',
+      [t('positionAddress')]: positions[item.id]
+        ? formatAddress(positions[item.id], coordinateFormat)
+        : '',
     }));
     const sheets = new Map();
     sheets.set(t('deviceTitle'), data);
@@ -99,52 +109,62 @@ const DevicesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.uniqueId}</TableCell>
-              <TableCell>{item.groupId ? groups[item.groupId]?.name : null}</TableCell>
-              <TableCell>{item.phone}</TableCell>
-              <TableCell>{item.model}</TableCell>
-              <TableCell>{item.contact}</TableCell>
-              <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
-              <TableCell>
-                {positions[item.id] && (
-                  <AddressValue
-                    latitude={positions[item.id].latitude}
-                    longitude={positions[item.id].longitude}
-                    originalAddress={positions[item.id]?.address}
-                  />
+          {!loading ? (
+            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.uniqueId}</TableCell>
+                <TableCell>{item.groupId ? groups[item.groupId]?.name : null}</TableCell>
+                <TableCell>{item.phone}</TableCell>
+                <TableCell>{item.model}</TableCell>
+                <TableCell>{item.contact}</TableCell>
+                <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+                <TableCell>
+                  {positions[item.id] && (
+                    <AddressValue
+                      latitude={positions[item.id].latitude}
+                      longitude={positions[item.id].longitude}
+                      originalAddress={positions[item.id]?.address}
+                    />
+                  )}
+                </TableCell>
+                {manager && (
+                  <TableCell>
+                    <DeviceUsersValue deviceId={item.id} />
+                  </TableCell>
                 )}
-              </TableCell>
-              {manager && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
-              <TableCell className={classes.columnAction} padding="none">
-                <CollectionActions
-                  itemId={item.id}
-                  editPath="/settings/device"
-                  endpoint="devices"
-                  setTimestamp={setTimestamp}
-                  customActions={[actionConnections]}
-                  readonly={deviceReadonly}
-                />
-              </TableCell>
-            </TableRow>
-          )) : (<TableShimmer columns={manager ? 9 : 8} endAction />)}
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/device"
+                    endpoint="devices"
+                    setTimestamp={setTimestamp}
+                    customActions={[actionConnections]}
+                    readonly={deviceReadonly}
+                  />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={manager ? 9 : 8} endAction />
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell>
-              <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
+              <Button onClick={handleExport} variant="text">
+                {t('reportExport')}
+              </Button>
             </TableCell>
             <TableCell colSpan={manager ? 9 : 8} align="right">
               <FormControlLabel
-                control={(
+                control={
                   <Switch
                     checked={showAll}
                     onChange={(e) => setShowAll(e.target.checked)}
                     size="small"
                   />
-                )}
+                }
                 label={t('notificationAlways')}
                 labelPlacement="start"
                 disabled={!manager}

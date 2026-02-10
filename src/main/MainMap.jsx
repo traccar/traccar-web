@@ -29,9 +29,12 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
 
   const features = useFeatures();
 
-  const onMarkerClick = useCallback((_, deviceId) => {
-    dispatch(devicesActions.selectId(deviceId));
-  }, [dispatch]);
+  const onMarkerClick = useCallback(
+    (_, deviceId) => {
+      dispatch(devicesActions.selectId(deviceId));
+    },
+    [dispatch],
+  );
 
   return (
     <>
@@ -57,7 +60,11 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapNotification enabled={eventsAvailable} onClick={onEventsClick} />
       )}
       {desktop && (
-        <MapPadding start={parseInt(theme.dimensions.drawerWidthDesktop, 10) + parseInt(theme.spacing(1.5), 10)} />
+        <MapPadding
+          start={
+            parseInt(theme.dimensions.drawerWidthDesktop, 10) + parseInt(theme.spacing(1.5), 10)
+          }
+        />
       )}
     </>
   );

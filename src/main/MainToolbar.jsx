@@ -2,7 +2,22 @@ import { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Toolbar, IconButton, OutlinedInput, InputAdornment, Popover, FormControl, InputLabel, Select, MenuItem, FormGroup, FormControlLabel, Checkbox, Badge, ListItemButton, ListItemText, Tooltip,
+  Toolbar,
+  IconButton,
+  OutlinedInput,
+  InputAdornment,
+  Popover,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Badge,
+  ListItemButton,
+  ListItemText,
+  Tooltip,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
@@ -56,7 +71,8 @@ const MainToolbar = ({
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [devicesAnchorEl, setDevicesAnchorEl] = useState(null);
 
-  const deviceStatusCount = (status) => Object.values(devices).filter((d) => d.status === status).length;
+  const deviceStatusCount = (status) =>
+    Object.values(devices).filter((d) => d.status === status).length;
 
   return (
     <Toolbar ref={toolbarRef} className={classes.toolbar}>
@@ -70,15 +86,19 @@ const MainToolbar = ({
         onChange={(e) => setKeyword(e.target.value)}
         onFocus={() => setDevicesAnchorEl(toolbarRef.current)}
         onBlur={() => setDevicesAnchorEl(null)}
-        endAdornment={(
+        endAdornment={
           <InputAdornment position="end">
             <IconButton size="small" edge="end" onClick={() => setFilterAnchorEl(inputRef.current)}>
-              <Badge color="info" variant="dot" invisible={!filter.statuses.length && !filter.groups.length}>
+              <Badge
+                color="info"
+                variant="dot"
+                invisible={!filter.statuses.length && !filter.groups.length}
+              >
                 <TuneIcon fontSize="small" />
               </Badge>
             </IconButton>
           </InputAdornment>
-        )}
+        }
         size="small"
         fullWidth
       />
@@ -105,10 +125,7 @@ const MainToolbar = ({
         ))}
         {filteredDevices.length > 3 && (
           <ListItemButton alignItems="center" onClick={() => setDevicesOpen(true)}>
-            <ListItemText
-              primary={t('notificationAlways')}
-              style={{ textAlign: 'center' }}
-            />
+            <ListItemText primary={t('notificationAlways')} style={{ textAlign: 'center' }} />
           </ListItemButton>
         )}
       </Popover>
@@ -143,9 +160,13 @@ const MainToolbar = ({
               onChange={(e) => setFilter({ ...filter, groups: e.target.value })}
               multiple
             >
-              {Object.values(groups).sort((a, b) => a.name.localeCompare(b.name)).map((group) => (
-                <MenuItem key={group.id} value={group.id}>{group.name}</MenuItem>
-              ))}
+              {Object.values(groups)
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((group) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    {group.name}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
           <FormControl>
@@ -163,14 +184,20 @@ const MainToolbar = ({
           </FormControl>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox checked={filterMap} onChange={(e) => setFilterMap(e.target.checked)} />}
+              control={
+                <Checkbox checked={filterMap} onChange={(e) => setFilterMap(e.target.checked)} />
+              }
               label={t('sharedFilterMap')}
             />
           </FormGroup>
         </div>
       </Popover>
       <IconButton edge="end" onClick={() => navigate('/settings/device')} disabled={deviceReadonly}>
-        <Tooltip open={!deviceReadonly && Object.keys(devices).length === 0} title={t('deviceRegisterFirst')} arrow>
+        <Tooltip
+          open={!deviceReadonly && Object.keys(devices).length === 0}
+          title={t('deviceRegisterFirst')}
+          arrow
+        >
           <AddIcon />
         </Tooltip>
       </IconButton>
