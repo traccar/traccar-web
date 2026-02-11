@@ -84,6 +84,7 @@ const GeofenceReportPage = () => {
               }
               endpoint="/api/geofences"
               multiple
+              singleLine
               fullWidth
             />
           </div>

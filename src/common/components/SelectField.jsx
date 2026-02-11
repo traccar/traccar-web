@@ -35,6 +35,7 @@ const SelectField = ({
   titleGetter = (item) => item.name,
   helperText,
   placeholder,
+  singleLine,
 }) => {
   const { classes } = useStyles();
   const [items, setItems] = useState();
@@ -67,9 +68,9 @@ const SelectField = ({
 
     return (
       <Autocomplete
-        size="small"
+        size={singleLine ? 'small' : 'medium'}
         multiple={multiple}
-        className={multiple ? classes.autocompleteMultiple : undefined}
+        className={multiple && singleLine ? classes.autocompleteMultiple : undefined}
         options={items}
         getOptionLabel={getOptionLabel}
         renderOption={(props, option) => (
@@ -89,7 +90,7 @@ const SelectField = ({
           }
         }}
         renderValue={
-          multiple
+          multiple && singleLine
             ? (tagValue, getItemProps) => {
                 if (!tagValue.length) {
                   return null;

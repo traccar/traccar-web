@@ -179,6 +179,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
               updateReportParams(searchParams, setSearchParams, 'deviceId', values);
             }}
             multiple={deviceType === 'multiple'}
+            singleLine={deviceType === 'multiple'}
             fullWidth
           />
         </div>
@@ -194,6 +195,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
               updateReportParams(searchParams, setSearchParams, 'groupId', values);
             }}
             multiple
+            singleLine
             fullWidth
           />
         </div>

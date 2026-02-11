@@ -282,6 +282,7 @@ const EventReportPage = () => {
                 <div className={classes.filterItem}>
                   <SelectField
                     multiple
+                    singleLine
                     value={alarmTypes}
                     onChange={(e) =>
                       updateReportParams(searchParams, setSearchParams, 'alarmType', e.target.value)
