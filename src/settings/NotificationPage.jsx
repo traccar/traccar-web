@@ -153,6 +153,25 @@ const NotificationPage = () => {
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}
               />
+              {['geofenceEnter', 'geofenceExit'].includes(item.type) && (
+                <SelectField
+                  multiple
+                  value={item.attributes?.geofenceIds ? item.attributes.geofenceIds.split(',') : []}
+                  onChange={(e) => {
+                    const geofenceIds = e.target.value.join();
+                    const attributes = { ...item.attributes };
+                    if (geofenceIds) {
+                      attributes.geofenceIds = geofenceIds;
+                    } else {
+                      delete attributes.geofenceIds;
+                    }
+                    setItem({ ...item, attributes });
+                  }}
+                  endpoint="/api/geofences"
+                  keyGetter={(it) => String(it.id)}
+                  label={t('sharedGeofences')}
+                />
+              )}
               <FormGroup>
                 <FormControlLabel
                   control={
