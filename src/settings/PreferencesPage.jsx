@@ -48,6 +48,7 @@ const deviceFields = [
   { id: 'contact', name: 'deviceContact' },
   { id: 'geofenceIds', name: 'sharedGeofence' },
   { id: 'driverUniqueId', name: 'sharedDriver' },
+  { id: 'motion', name: 'positionMotion' },
 ];
 
 const PreferencesPage = () => {

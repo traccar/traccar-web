@@ -4,6 +4,7 @@ import { errorsReducer as errors } from './errors';
 import { sessionReducer as session } from './session';
 import { devicesReducer as devices } from './devices';
 import { eventsReducer as events } from './events';
+import { motionReducer as motion } from './motion';
 import { geofencesReducer as geofences } from './geofences';
 import { groupsReducer as groups } from './groups';
 import { driversReducer as drivers } from './drivers';
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   session,
   devices,
   events,
+  motion,
   geofences,
   groups,
   drivers,
@@ -27,6 +29,7 @@ export { errorsActions } from './errors';
 export { sessionActions } from './session';
 export { devicesActions } from './devices';
 export { eventsActions } from './events';
+export { motionActions } from './motion';
 export { geofencesActions } from './geofences';
 export { groupsActions } from './groups';
 export { driversActions } from './drivers';
