@@ -62,7 +62,8 @@ const MapLiveRoutes = ({ deviceIds }) => {
     if (type !== 'none') {
       const visibleIds = deviceIds
         .filter((id) => (type === 'selected' ? id === selectedDeviceId : true))
-        .filter((id) => history.hasOwnProperty(id));
+        .filter((id) => history.hasOwnProperty(id))
+        .filter((id) => devices[id]);
 
       map.getSource(id)?.setData({
         type: 'FeatureCollection',
@@ -73,7 +74,8 @@ const MapLiveRoutes = ({ deviceIds }) => {
             coordinates: history[deviceId],
           },
           properties: {
-            color: devices[deviceId].attributes['web.reportColor'] || theme.palette.geometry.main,
+            color:
+              devices[deviceId]?.attributes?.['web.reportColor'] || theme.palette.geometry.main,
             width: mapLineWidth,
             opacity: mapLineOpacity,
           },
