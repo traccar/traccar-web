@@ -203,6 +203,7 @@ const ChartReportPage = () => {
               />
               {selectedTypes.map((type, index) => (
                 <Line
+                  key={type}
                   type="monotone"
                   dataKey={type}
                   stroke={colorPalette[index % colorPalette.length]}
