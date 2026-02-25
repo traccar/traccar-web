@@ -209,7 +209,7 @@ const ReplayPage = () => {
           </Toolbar>
         </Paper>
         <Paper className={classes.content} square>
-          {loaded ? (
+          {loaded && (
             <>
               <Typography variant="subtitle1" align="center">
                 {deviceName}
@@ -245,9 +245,10 @@ const ReplayPage = () => {
                 {formatTime(positions[index].fixTime, 'seconds')}
               </div>
             </>
-          ) : (
-            <ReportFilter onShow={onShow} deviceType="single" loading={loading} />
           )}
+          <div style={{ display: loaded ? 'none' : 'block' }}>
+            <ReportFilter onShow={onShow} deviceType="single" loading={loading} />
+          </div>
         </Paper>
       </div>
       {showCard && index < positions.length && (
