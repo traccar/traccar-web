@@ -16,6 +16,7 @@ import useReportStyles from '../common/useReportStyles';
 import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
+import { deviceEquality } from '../../common/util/deviceEquality';
 
 export const updateReportParams = (searchParams, setSearchParams, key, values) => {
   const newParams = new URLSearchParams(searchParams);
@@ -34,7 +35,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
 
   const readonly = useRestriction('readonly');
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
   const groups = useSelector((state) => state.groups.items);
   const deviceList = useMemo(
     () => Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)),

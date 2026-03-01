@@ -31,6 +31,7 @@ import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import exportExcel from '../common/util/exportExcel';
+import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
   ['startTime', 'reportStartTime'],
@@ -49,7 +50,7 @@ const StopReportPage = () => {
   const t = useTranslation();
   const theme = useTheme();
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const volumeUnit = useAttributePreference('volumeUnit');

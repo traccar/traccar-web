@@ -14,6 +14,7 @@ import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import SelectField from '../common/components/SelectField';
+import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
   ['geofenceId', 'sharedGeofence'],
@@ -30,7 +31,7 @@ const GeofenceReportPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const geofenceIds = useMemo(() => searchParams.getAll('geofenceId').map(Number), [searchParams]);
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
   const geofences = useSelector((state) => state.geofences.items);
 
   const [columns, setColumns] = usePersistedState('geofenceColumns', [

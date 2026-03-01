@@ -39,6 +39,7 @@ import SelectField from '../common/components/SelectField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import exportExcel from '../common/util/exportExcel';
 import AddressValue from '../common/components/AddressValue';
+import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
   ['eventTime', 'positionFixTime'],
@@ -58,7 +59,10 @@ const EventReportPage = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector(
+    (state) => state.devices.items,
+    deviceEquality(['id', 'name', 'uniqueId']),
+  );
   const geofences = useSelector((state) => state.geofences.items);
 
   const speedUnit = useAttributePreference('speedUnit');
