@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Adres URL przekierowania",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Błąd",
     "errorGeneral": "Nieprawidłowe parametry lub naruszenie ograniczeń",
     "errorConnection": "Błąd przy połączeniu",

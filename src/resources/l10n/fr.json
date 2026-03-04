@@ -173,7 +173,6 @@
     "attributeForwardUrl": "URL de transfert",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Erreur",
     "errorGeneral": "Paramètres invalides ou violation de contrainte",
     "errorConnection": "Erreur de connexion",

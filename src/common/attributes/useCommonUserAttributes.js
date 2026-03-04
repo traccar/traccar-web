@@ -159,10 +159,6 @@ export default (t) =>
         name: t('attributeNavigationAppTitle'),
         type: 'string',
       },
-      'coordinatesAddress': {
-        name: t('attributeCoordinatesAddress'),
-        type: 'boolean',
-      },
     }),
     [t],
   );

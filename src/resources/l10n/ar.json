@@ -173,7 +173,6 @@
     "attributeForwardUrl": "إعادة توجيه الرابط",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "خطأ",
     "errorGeneral": "معطيات غير صحيحة او مخالفة للصلاحيات",
     "errorConnection": "خطأ في الاتصال",

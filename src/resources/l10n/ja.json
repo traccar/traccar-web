@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "エラー",
     "errorGeneral": "無効なパラメータまたは制約違反",
     "errorConnection": "接続エラー",

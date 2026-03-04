@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Bermasalah",
     "errorGeneral": "Semua Parameter Salah Atau Salah Aturan",
     "errorConnection": "Koneksi Bermasalah",

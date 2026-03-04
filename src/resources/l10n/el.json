@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Προώθηση URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Σφάλμα",
     "errorGeneral": "Μη έγκυρες παράμετροι ή παραβίαση περιορισμών",
     "errorConnection": "Σφάλμα σύνδεσης",

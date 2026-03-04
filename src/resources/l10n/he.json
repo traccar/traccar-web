@@ -173,7 +173,6 @@
     "attributeForwardUrl": "כתובת URL להעברה",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "שגיאה",
     "errorGeneral": "גורם לא בתוקף או הפרת אילוצים ",
     "errorConnection": "בעייה בחיבור",

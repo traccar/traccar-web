@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Pārsūtīšanas URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Kļūda",
     "errorGeneral": "Kļūdaini parametri vai satur kļūdas",
     "errorConnection": "Savienojuma kļūda",

@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "දෝෂයකි",
     "errorGeneral": "වලංගු නොවන පරාමිති හෝ සීමාවන් උල්ලංඝනය කිරීම",
     "errorConnection": "සම්බන්ධතාවේ දෝෂයකි",

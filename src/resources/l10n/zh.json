@@ -173,7 +173,6 @@
     "attributeForwardUrl": "转发链接",
     "attributeGeofenceFloor": "地理围栏底高",
     "attributeGeofenceCeiling": "地理围栏顶高",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "错误",
     "errorGeneral": "无效参数",
     "errorConnection": "连接错误",

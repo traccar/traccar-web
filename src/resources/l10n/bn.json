@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "ত্রুটি",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "সংযোগ ত্রুটি",

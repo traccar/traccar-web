@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Xəta",
     "errorGeneral": "Yanlış parametrlər və ya məhdudiyyətlərin pozulması",
     "errorConnection": "Bağlantı xətası",

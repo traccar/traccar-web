@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Inoltra URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Errore",
     "errorGeneral": "Parametri non validi o violazione dei vincoli",
     "errorConnection": "Errore di connessione",

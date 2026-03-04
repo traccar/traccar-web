@@ -4,7 +4,7 @@ import { Link } from '@mui/material';
 import { useTranslation } from './LocalizationProvider';
 import { useCatch } from '../../reactHelper';
 import { formatAddress } from '../util/formatter';
-import { usePreference, useAttributePreference } from '../util/preferences';
+import { usePreference } from '../util/preferences';
 import fetchOrThrow from '../util/fetchOrThrow';
 
 const AddressValue = ({ latitude, longitude, originalAddress }) => {
@@ -12,7 +12,6 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
 
   const addressEnabled = useSelector((state) => state.session.server.geocoderEnabled);
   const coordinateFormat = usePreference('coordinateFormat');
-  const coordinatesAddress = useAttributePreference('coordinatesAddress');
 
   const [address, setAddress] = useState();
 
@@ -30,11 +29,11 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
   if (address) {
     return address;
   }
-  const coordinates = coordinatesAddress ? t('sharedShowAddress') : formatAddress({ latitude, longitude }, coordinateFormat);
+  const coordinates = formatAddress({ latitude, longitude }, coordinateFormat);
   if (addressEnabled) {
     return (
       <Link href="#" onClick={showAddress}>
-        {coordinates}
+        {t('sharedShowAddress')}
       </Link>
     );
   }

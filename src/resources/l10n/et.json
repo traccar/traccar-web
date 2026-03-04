@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Edastamise URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Viga",
     "errorGeneral": "Kehtetud parameetrid või piirangu rikkumine",
     "errorConnection": "Ühenduse viga",

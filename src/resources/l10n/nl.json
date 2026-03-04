@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Fout",
     "errorGeneral": "Ongeldige parameters of overschrijding van beperkingen",
     "errorConnection": "Verbindingsfout",

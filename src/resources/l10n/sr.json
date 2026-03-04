@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Prosleđi URL",
     "attributeGeofenceFloor": "Sprat geozone",
     "attributeGeofenceCeiling": "Gornja granica geozone",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Greška",
     "errorGeneral": "Nevažeći parametri ili kršenje ograničenja",
     "errorConnection": "Greška u konekciji",

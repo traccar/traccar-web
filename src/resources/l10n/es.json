@@ -173,7 +173,6 @@
     "attributeForwardUrl": "Reenviar URL",
     "attributeGeofenceFloor": "Suelo de la Geo-Zona",
     "attributeGeofenceCeiling": "Techo de la Geo-Zona",
-    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Error",
     "errorGeneral": "Parámetros no válidos o fuera de los límites",
     "errorConnection": "Error en la conexión",
