@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "შეცდომა",
     "errorGeneral": "პარამეტრების ან შეზღუდვების არასწორი დარღვევა",
     "errorConnection": "კავშირის შეცდომა",

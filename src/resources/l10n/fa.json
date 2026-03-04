@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "خطا",
     "errorGeneral": "نقض پارامترها یا محدودیت ها نامعتبر است",
     "errorConnection": "خطا در اتصال",

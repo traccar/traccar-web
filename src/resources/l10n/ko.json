@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "오류",
     "errorGeneral": "부적절한 매개변수 또는 범위 초과",
     "errorConnection": "연결 오류",

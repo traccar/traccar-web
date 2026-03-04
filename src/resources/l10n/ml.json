@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "എറർ !",
     "errorGeneral": "പാരാമീറ്റർ  എറർ !",
     "errorConnection": "കണക്ഷൻ എറർ !",

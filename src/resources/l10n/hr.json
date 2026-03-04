@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Adresa",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Greška",
     "errorGeneral": "Nevažeći parametri ili kršenje ograničenja",
     "errorConnection": "Greška konekcije",

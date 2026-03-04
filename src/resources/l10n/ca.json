@@ -173,6 +173,7 @@
     "attributeForwardUrl": "URL de reenviament",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Error",
     "errorGeneral": "Paràmetres no vàlids o fora dels límits",
     "errorConnection": "Error en la connexió",

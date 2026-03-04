@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Napaka",
     "errorGeneral": "Neveljavni parametri ali kršitev omejitve",
     "errorConnection": "Napaka v povezavi",

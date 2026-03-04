@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "பிழை",
     "errorGeneral": "தவறான அளவுருக்கள் அல்லது தடைகள் மீறல்",
     "errorConnection": "இணைப்புப் பிழை",

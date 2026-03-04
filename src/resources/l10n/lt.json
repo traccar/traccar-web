@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Nukreipimo URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Klaida",
     "errorGeneral": "Netinkami parametrai ar apribojimų pažeidimas",
     "errorConnection": "Ryšio klaida",

@@ -173,6 +173,7 @@
     "attributeForwardUrl": "URL ส่งต่อ",
     "attributeGeofenceFloor": "ชั้นของพื้นที่กำหนด",
     "attributeGeofenceCeiling": "เพดานของพื้นที่กำหนด",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "ผิดพลาด",
     "errorGeneral": "ไม่ถูกต้องพารามิเตอร์หรือ จำกัด การละเมิด",
     "errorConnection": "การเชื่อมต่อผิดพลาด",

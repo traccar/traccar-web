@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Eroare",
     "errorGeneral": "Parametri invalizi sau încălcare a restricțiilor",
     "errorConnection": "Eroare de conectare",

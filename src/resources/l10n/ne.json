@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "त्रुटी",
     "errorGeneral": "अवैध प्यारामिटर वा बाधा उल्लङ्घन",
     "errorConnection": "जडान मा त्रुटी भयो ",

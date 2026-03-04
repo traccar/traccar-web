@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Edelleenlähetys URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Virhe",
     "errorGeneral": "Epäkelvot parametrit tai rajoitteiden rikkomus",
     "errorConnection": "Yhteysvirhe",

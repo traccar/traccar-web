@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "ຜິດພາດ",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "ການເຊື່ອມຕໍ່ຜິດພາດ",

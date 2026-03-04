@@ -173,6 +173,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeCoordinatesAddress": "Revert Show Address Link",
     "errorTitle": "Feil",
     "errorGeneral": "ugyldige parameterar eller avgrensingsbrot",
     "errorConnection": "Forbindelse feila",
