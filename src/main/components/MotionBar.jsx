@@ -8,9 +8,6 @@ const useStyles = makeStyles()((theme) => ({
     height: theme.spacing(1),
     backgroundColor: theme.palette.action.disabledBackground,
   },
-  segment: {
-    minWidth: theme.spacing(0.5),
-  },
   moving: {
     backgroundColor: theme.palette.success.light,
   },
@@ -28,8 +25,8 @@ const MotionBar = ({ deviceId }) => {
       {segments.map((segment, segmentIndex) => (
         <span
           key={segmentIndex}
-          style={{ flexGrow: segment.value }}
-          className={`${classes.segment} ${classes[segment.type]}`}
+          style={{ flexGrow: segment.value, minWidth: segments.length > 16 ? 0 : 4 }}
+          className={classes[segment.type]}
         />
       ))}
     </span>
