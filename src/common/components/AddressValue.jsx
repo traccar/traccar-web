@@ -29,7 +29,6 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
   if (address) {
     return address;
   }
-  const coordinates = formatAddress({ latitude, longitude }, coordinateFormat);
   if (addressEnabled) {
     return (
       <Link href="#" onClick={showAddress}>
@@ -37,7 +36,7 @@ const AddressValue = ({ latitude, longitude, originalAddress }) => {
       </Link>
     );
   }
-  return coordinates;
+  return formatAddress({ latitude, longitude }, coordinateFormat);
 };
 
 export default AddressValue;
