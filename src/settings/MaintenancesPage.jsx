@@ -11,7 +11,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -31,12 +31,16 @@ const MaintenacesPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetchOrThrow('/api/maintenance');
+      const query = new URLSearchParams();
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
+      }
+      const response = await fetchOrThrow(`/api/maintenance?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, searchKeyword]);
 
   const convertAttribute = (key, start, value) => {
     const attribute = positionAttributes[key];
@@ -77,7 +81,7 @@ const MaintenacesPage = () => {
         </TableHead>
         <TableBody>
           {!loading ? (
-            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+            items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.type}</TableCell>

@@ -10,7 +10,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -30,12 +30,16 @@ const GroupsPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetchOrThrow('/api/groups');
+      const query = new URLSearchParams();
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
+      }
+      const response = await fetchOrThrow(`/api/groups?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, searchKeyword]);
 
   const actionCommand = {
     key: 'command',
@@ -63,7 +67,7 @@ const GroupsPage = () => {
         </TableHead>
         <TableBody>
           {!loading ? (
-            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+            items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell className={classes.columnAction} padding="none">

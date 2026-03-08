@@ -8,7 +8,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -25,12 +25,16 @@ const ComputedAttributesPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetchOrThrow('/api/attributes/computed');
+      const query = new URLSearchParams();
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
+      }
+      const response = await fetchOrThrow(`/api/attributes/computed?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, searchKeyword]);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
@@ -47,7 +51,7 @@ const ComputedAttributesPage = () => {
         </TableHead>
         <TableBody>
           {!loading ? (
-            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+            items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{item.attribute}</TableCell>

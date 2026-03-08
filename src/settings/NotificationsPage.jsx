@@ -9,7 +9,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -25,12 +25,16 @@ const NotificationsPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetchOrThrow('/api/notifications');
+      const query = new URLSearchParams();
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
+      }
+      const response = await fetchOrThrow(`/api/notifications?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, searchKeyword]);
 
   const formatList = (prefix, value) => {
     if (value) {
@@ -59,7 +63,7 @@ const NotificationsPage = () => {
         </TableHead>
         <TableBody>
           {!loading ? (
-            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+            items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.description}</TableCell>
                 <TableCell>{t(prefixString('event', item.type))}</TableCell>

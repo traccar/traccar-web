@@ -21,7 +21,7 @@ import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import { useManager } from '../common/util/permissions';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -60,12 +60,16 @@ const UsersPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetchOrThrow('/api/users?excludeAttributes=true');
+      const query = new URLSearchParams({ excludeAttributes: true });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
+      }
+      const response = await fetchOrThrow(`/api/users?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [timestamp, searchKeyword]);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
@@ -85,7 +89,6 @@ const UsersPage = () => {
           {!loading ? (
             items
               .filter((u) => temporary || !u.temporary)
-              .filter(filterByKeyword(searchKeyword))
               .map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>{item.name}</TableCell>

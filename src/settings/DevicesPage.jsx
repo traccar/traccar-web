@@ -21,7 +21,7 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import { formatAddress, formatStatus, formatTime } from '../common/util/formatter';
 import { useDeviceReadonly, useManager } from '../common/util/permissions';
 import { usePreference } from '../common/util/preferences';
@@ -56,15 +56,18 @@ const DevicesPage = () => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ all: showAll });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
+      }
       const response = await fetchOrThrow(`/api/devices?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);
     }
-  }, [timestamp, showAll]);
+  }, [timestamp, showAll, searchKeyword]);
 
   const handleExport = async () => {
-    const data = items.filter(filterByKeyword(searchKeyword)).map((item) => ({
+    const data = items.map((item) => ({
       [t('sharedName')]: item.name,
       [t('deviceIdentifier')]: item.uniqueId,
       [t('groupParent')]: item.groupId ? groups[item.groupId]?.name : null,
@@ -110,7 +113,7 @@ const DevicesPage = () => {
         </TableHead>
         <TableBody>
           {!loading ? (
-            items.filter(filterByKeyword(searchKeyword)).map((item) => (
+            items.map((item) => (
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.uniqueId}</TableCell>
