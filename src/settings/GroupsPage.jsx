@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PublishIcon from '@mui/icons-material/Publish';
-import { useEffectAsync } from '../reactHelper';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
@@ -27,18 +27,27 @@ const GroupsPage = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams();
+      const query = new URLSearchParams({ limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
       const response = await fetchOrThrow(`/api/groups?${query.toString()}`);
-      setItems(await response.json());
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
   }, [timestamp, searchKeyword]);
 
   const actionCommand = {
@@ -66,28 +75,26 @@ const GroupsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? (
-            items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions
-                    itemId={item.id}
-                    editPath="/settings/group"
-                    endpoint="groups"
-                    setTimestamp={setTimestamp}
-                    customActions={
-                      limitCommands ? [actionConnections] : [actionConnections, actionCommand]
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableShimmer columns={2} endAction />
-          )}
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/group"
+                  endpoint="groups"
+                  setTimestamp={setTimestamp}
+                  customActions={
+                    limitCommands ? [actionConnections] : [actionConnections, actionCommand]
+                  }
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+          {loading && <TableShimmer columns={2} endAction />}
         </TableBody>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/group" />
     </PageLayout>
   );

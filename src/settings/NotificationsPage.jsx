@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
-import { useEffectAsync } from '../reactHelper';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { prefixString } from '../common/util/stringUtils';
 import { formatBoolean } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -22,18 +22,27 @@ const NotificationsPage = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams();
+      const query = new URLSearchParams({ limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
       const response = await fetchOrThrow(`/api/notifications?${query.toString()}`);
-      setItems(await response.json());
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
   }, [timestamp, searchKeyword]);
 
   const formatList = (prefix, value) => {
@@ -62,29 +71,27 @@ const NotificationsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? (
-            items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{t(prefixString('event', item.type))}</TableCell>
-                <TableCell>{formatBoolean(item.always, t)}</TableCell>
-                <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
-                <TableCell>{formatList('notificator', item.notificators)}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions
-                    itemId={item.id}
-                    editPath="/settings/notification"
-                    endpoint="notifications"
-                    setTimestamp={setTimestamp}
-                  />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableShimmer columns={5} endAction />
-          )}
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>{t(prefixString('event', item.type))}</TableCell>
+              <TableCell>{formatBoolean(item.always, t)}</TableCell>
+              <TableCell>{formatList('alarm', item.attributes.alarms)}</TableCell>
+              <TableCell>{formatList('notificator', item.notificators)}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/notification"
+                  endpoint="notifications"
+                  setTimestamp={setTimestamp}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+          {loading && <TableShimmer columns={5} endAction />}
         </TableBody>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/notification" />
     </PageLayout>
   );

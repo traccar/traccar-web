@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
-import { useEffectAsync } from '../reactHelper';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { formatDistance, formatSpeed } from '../common/util/formatter';
 import { useAttributePreference } from '../common/util/preferences';
@@ -28,18 +28,27 @@ const MaintenacesPage = () => {
   const speedUnit = useAttributePreference('speedUnit');
   const distanceUnit = useAttributePreference('distanceUnit');
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams();
+      const query = new URLSearchParams({ limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
       const response = await fetchOrThrow(`/api/maintenance?${query.toString()}`);
-      setItems(await response.json());
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
   }, [timestamp, searchKeyword]);
 
   const convertAttribute = (key, start, value) => {
@@ -80,28 +89,26 @@ const MaintenacesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? (
-            items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.type}</TableCell>
-                <TableCell>{convertAttribute(item.type, true, item.start)}</TableCell>
-                <TableCell>{convertAttribute(item.type, false, item.period)}</TableCell>
-                <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions
-                    itemId={item.id}
-                    editPath="/settings/maintenance"
-                    endpoint="maintenance"
-                    setTimestamp={setTimestamp}
-                  />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableShimmer columns={5} endAction />
-          )}
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.type}</TableCell>
+              <TableCell>{convertAttribute(item.type, true, item.start)}</TableCell>
+              <TableCell>{convertAttribute(item.type, false, item.period)}</TableCell>
+              <TableCell className={classes.columnAction} padding="none">
+                <CollectionActions
+                  itemId={item.id}
+                  editPath="/settings/maintenance"
+                  endpoint="maintenance"
+                  setTimestamp={setTimestamp}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+          {loading && <TableShimmer columns={5} endAction />}
         </TableBody>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/maintenance" />
     </PageLayout>
   );

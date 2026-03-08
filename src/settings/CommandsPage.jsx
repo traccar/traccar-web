@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
-import { useEffectAsync } from '../reactHelper';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatBoolean } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
@@ -24,18 +24,27 @@ const CommandsPage = () => {
   const [loading, setLoading] = useState(false);
   const limitCommands = useRestriction('limitCommands');
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams();
+      const query = new URLSearchParams({ limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
       const response = await fetchOrThrow(`/api/commands?${query.toString()}`);
-      setItems(await response.json());
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
   }, [timestamp, searchKeyword]);
 
   return (
@@ -51,29 +60,27 @@ const CommandsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? (
-            items.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{t(prefixString('command', item.type))}</TableCell>
-                <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
-                {!limitCommands && (
-                  <TableCell className={classes.columnAction} padding="none">
-                    <CollectionActions
-                      itemId={item.id}
-                      editPath="/settings/command"
-                      endpoint="commands"
-                      setTimestamp={setTimestamp}
-                    />
-                  </TableCell>
-                )}
-              </TableRow>
-            ))
-          ) : (
-            <TableShimmer columns={limitCommands ? 3 : 4} endAction />
-          )}
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.description}</TableCell>
+              <TableCell>{t(prefixString('command', item.type))}</TableCell>
+              <TableCell>{formatBoolean(item.textChannel, t)}</TableCell>
+              {!limitCommands && (
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/command"
+                    endpoint="commands"
+                    setTimestamp={setTimestamp}
+                  />
+                </TableCell>
+              )}
+            </TableRow>
+          ))}
+          {loading && <TableShimmer columns={limitCommands ? 3 : 4} endAction />}
         </TableBody>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/command" disabled={limitCommands} />
     </PageLayout>
   );

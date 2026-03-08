@@ -1,6 +1,8 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { errorsActions } from './store';
+
+export const pageSize = 50;
 
 export const usePrevious = (value) => {
   const ref = useRef();
@@ -36,4 +38,32 @@ export const useCatch = (method) => {
 
 export const useCatchCallback = (method, deps) => {
   return useCallback(useCatch(method), deps);
+};
+
+export const useScrollToLoad = (loadMore) => {
+  const [hasMore, setHasMore] = useState(true);
+  const sentinelRef = useRef();
+  const loadingRef = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && loadMore && !loadingRef.current) {
+        loadingRef.current = true;
+        Promise.resolve(loadMore()).finally(() => {
+          loadingRef.current = false;
+        });
+      }
+    });
+    const sentinel = sentinelRef.current;
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+    return () => {
+      if (sentinel) {
+        observer.unobserve(sentinel);
+      }
+    };
+  }, [loadMore]);
+
+  return { sentinelRef, hasMore, setHasMore };
 };

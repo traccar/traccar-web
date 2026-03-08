@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LinkIcon from '@mui/icons-material/Link';
-import { useCatch, useEffectAsync } from '../reactHelper';
+import { useCatch, useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { formatBoolean, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -57,18 +57,27 @@ const UsersPage = () => {
     handler: (userId) => navigate(`/settings/user/${userId}/connections`),
   };
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams({ excludeAttributes: true });
+      const query = new URLSearchParams({ excludeAttributes: true, limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
       const response = await fetchOrThrow(`/api/users?${query.toString()}`);
-      setItems(await response.json());
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
   }, [timestamp, searchKeyword]);
 
   return (
@@ -86,32 +95,27 @@ const UsersPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? (
-            items
-              .filter((u) => temporary || !u.temporary)
-              .map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
-                  <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
-                  <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
-                  <TableCell className={classes.columnAction} padding="none">
-                    <CollectionActions
-                      itemId={item.id}
-                      editPath="/settings/user"
-                      endpoint="users"
-                      setTimestamp={setTimestamp}
-                      customActions={
-                        manager ? [actionLogin, actionConnections] : [actionConnections]
-                      }
-                    />
-                  </TableCell>
-                </TableRow>
-              ))
-          ) : (
-            <TableShimmer columns={6} endAction />
-          )}
+          {items
+            .filter((u) => temporary || !u.temporary)
+            .map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
+                <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
+                <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/user"
+                    endpoint="users"
+                    setTimestamp={setTimestamp}
+                    customActions={manager ? [actionLogin, actionConnections] : [actionConnections]}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          {loading && <TableShimmer columns={6} endAction />}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -131,6 +135,7 @@ const UsersPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/user" />
     </PageLayout>
   );
