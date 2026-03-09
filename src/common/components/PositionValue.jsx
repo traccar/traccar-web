@@ -45,9 +45,6 @@ const PositionValue = ({ position, property, attribute }) => {
   const coordinateFormat = usePreference('coordinateFormat');
 
   const formatValue = () => {
-    if (value == null) {
-      return '';
-    }
     switch (key) {
       case 'fixTime':
       case 'deviceTime':
@@ -105,7 +102,7 @@ const PositionValue = ({ position, property, attribute }) => {
     );
   }
 
-  if (value === undefined || value === null) {
+  if (value == null) {
     return '';
   }
 
