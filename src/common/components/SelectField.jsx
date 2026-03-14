@@ -131,8 +131,9 @@ const SelectField = ({
           />
         )}
       />
-    </FormControl>
-  );
+    );
+  }
+  return null;
 };
 
 export default SelectField;
