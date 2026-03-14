@@ -97,7 +97,7 @@ const BaseCommandView = ({
             : t(prefixString('command', option.type))
         }
         renderOption={(props, option) => (
-          <MenuItem {...props} key={option.key} value={option.key}>
+          <MenuItem key={option.key} {...props} value={option.key}>
             {option.optionType === 'saved'
               ? option.description
               : t(prefixString('command', option.type))}

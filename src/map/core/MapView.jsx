@@ -53,7 +53,7 @@ const initMap = async () => {
 const MapView = ({ children }) => {
   const theme = useTheme();
 
-  const containerEl = useRef(null);
+  const containerRef = useRef(null);
 
   const [mapReady, setMapReady] = useState(false);
 
@@ -135,16 +135,16 @@ const MapView = ({ children }) => {
   }, []);
 
   useLayoutEffect(() => {
-    const currentEl = containerEl.current;
+    const currentEl = containerRef.current;
     currentEl.appendChild(element);
     map.resize();
     return () => {
       currentEl.removeChild(element);
     };
-  }, [containerEl]);
+  }, [containerRef]);
 
   return (
-    <div style={{ width: '100%', height: '100%' }} ref={containerEl}>
+    <div style={{ width: '100%', height: '100%' }} ref={containerRef}>
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.type.handlesMapReady) {
           return React.cloneElement(child, { mapReady });

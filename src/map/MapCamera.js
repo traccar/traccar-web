@@ -5,13 +5,11 @@ import { map } from './core/MapView';
 const MapCamera = ({ latitude, longitude, positions, coordinates }) => {
   useEffect(() => {
     if (coordinates || positions) {
-      if (!coordinates) {
-        coordinates = positions.map((item) => [item.longitude, item.latitude]);
-      }
-      if (coordinates.length) {
-        const bounds = coordinates.reduce(
+      const coords = coordinates || positions.map((item) => [item.longitude, item.latitude]);
+      if (coords.length) {
+        const bounds = coords.reduce(
           (bounds, item) => bounds.extend(item),
-          new maplibregl.LngLatBounds(coordinates[0], coordinates[0]),
+          new maplibregl.LngLatBounds(coords[0], coords[0]),
         );
         const canvas = map.getCanvas();
         map.fitBounds(bounds, {

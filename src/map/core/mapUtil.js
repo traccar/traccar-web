@@ -1,5 +1,5 @@
 import { parse, stringify } from 'wellknown';
-import circle from '@turf/circle';
+import turfCircle from '@turf/circle';
 
 export const loadImage = (url) =>
   new Promise((imageLoaded) => {
@@ -79,7 +79,7 @@ export const geofenceToFeature = (theme, item) => {
       .trim()
       .split(/ +/);
     const options = { steps: 32, units: 'meters' };
-    const polygon = circle(
+    const polygon = turfCircle(
       [Number(coordinates[1]), Number(coordinates[0])],
       Number(coordinates[2]),
       options,

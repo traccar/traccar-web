@@ -74,7 +74,7 @@ const SelectField = ({
         options={items}
         getOptionLabel={getOptionLabel}
         renderOption={(props, option) => (
-          <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>
+          <MenuItem key={keyGetter(option)} {...props} value={keyGetter(option)}>
             {titleGetter(option)}
           </MenuItem>
         )}
@@ -98,8 +98,8 @@ const SelectField = ({
                 return (
                   <>
                     <Chip
-                      {...getItemProps({ index: 0 })}
                       key={keyGetter(tagValue[0])}
+                      {...getItemProps({ index: 0 })}
                       label={titleGetter(tagValue[0])}
                       size="small"
                       sx={{ minWidth: 0 }}

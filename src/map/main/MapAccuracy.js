@@ -1,5 +1,5 @@
 import { useId, useEffect } from 'react';
-import circle from '@turf/circle';
+import turfCircle from '@turf/circle';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 
@@ -44,7 +44,7 @@ const MapAccuracy = ({ positions }) => {
       features: positions
         .filter((position) => position.accuracy > 0)
         .map((position) =>
-          circle([position.longitude, position.latitude], position.accuracy * 0.001),
+          turfCircle([position.longitude, position.latitude], position.accuracy * 0.001),
         ),
     });
   }, [positions]);

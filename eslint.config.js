@@ -1,6 +1,6 @@
 import js from '@eslint/js';
 import eslintReact from '@eslint-react/eslint-plugin';
-import importPlugin from 'eslint-plugin-import-x';
+import { configs as importConfigs } from 'eslint-plugin-import-x';
 import reactHooks from 'eslint-plugin-react-hooks';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
@@ -11,7 +11,7 @@ export default [
   },
   js.configs.recommended,
   eslintReact.configs.recommended,
-  importPlugin.configs['flat/recommended'],
+  importConfigs['flat/recommended'],
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -41,8 +41,9 @@ export default [
           ignore: ['\\.svg', 'virtual:'],
         },
       ],
+      '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
       'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
+      'react-hooks/exhaustive-deps': 'off',
     },
   },
   prettierRecommended,

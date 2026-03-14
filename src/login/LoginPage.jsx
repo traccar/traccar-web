@@ -13,7 +13,7 @@ import {
   Box,
   InputAdornment,
 } from '@mui/material';
-import ReactCountryFlag from 'react-country-flag';
+import CountryFlag from 'react-country-flag';
 import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
@@ -184,7 +184,7 @@ const LoginPage = () => {
               {languageList.map((it) => (
                 <MenuItem key={it.code} value={it.code}>
                   <Box component="span" sx={{ mr: 1 }}>
-                    <ReactCountryFlag countryCode={it.country} svg />
+                    <CountryFlag countryCode={it.country} svg />
                   </Box>
                   {it.name}
                 </MenuItem>
