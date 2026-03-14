@@ -117,6 +117,7 @@ const BaseCommandView = ({
           if (type === 'boolean') {
             return (
               <FormControlLabel
+                key={key}
                 control={
                   <Checkbox
                     checked={item.attributes[key]}
@@ -133,6 +134,7 @@ const BaseCommandView = ({
           }
           return (
             <TextField
+              key={key}
               type={type === 'number' ? 'number' : 'text'}
               value={item.attributes[key]}
               onChange={(e) => {
