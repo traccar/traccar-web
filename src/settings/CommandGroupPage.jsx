@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -22,10 +22,11 @@ import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const CommandDevicePage = () => {
   const navigate = useNavigate();
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const { id } = useParams();
@@ -36,17 +37,12 @@ const CommandDevicePage = () => {
 
   const handleSend = useCatch(async () => {
     const query = new URLSearchParams({ groupId: id });
-    const response = await fetch(`/api/commands/send?${query.toString()}`, {
+    await fetchOrThrow(`/api/commands/send?${query.toString()}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-
-    if (response.ok) {
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    navigate(-1);
   });
 
   return (
@@ -54,9 +50,7 @@ const CommandDevicePage = () => {
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedRequired')}
-            </Typography>
+            <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <FormControl fullWidth>
@@ -67,24 +61,26 @@ const CommandDevicePage = () => {
             </FormControl>
             <TextField
               value={item.attributes.data}
-              onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, data: e.target.value } })}
+              onChange={(e) =>
+                setItem({ ...item, attributes: { ...item.attributes, data: e.target.value } })
+              }
               label={t('commandData')}
             />
             {textEnabled && (
               <FormControlLabel
-                control={<Checkbox checked={item.textChannel} onChange={(event) => setItem({ ...item, textChannel: event.target.checked })} />}
+                control={
+                  <Checkbox
+                    checked={item.textChannel}
+                    onChange={(event) => setItem({ ...item, textChannel: event.target.checked })}
+                  />
+                }
                 label={t('commandSendSms')}
               />
             )}
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
-          <Button
-            type="button"
-            color="primary"
-            variant="outlined"
-            onClick={() => navigate(-1)}
-          >
+          <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
             {t('sharedCancel')}
           </Button>
           <Button

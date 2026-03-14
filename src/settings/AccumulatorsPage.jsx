@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -18,10 +18,11 @@ import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
 import { distanceFromMeters, distanceToMeters, distanceUnitString } from '../common/util/converter';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const AccumulatorsPage = () => {
   const navigate = useNavigate();
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -42,17 +43,12 @@ const AccumulatorsPage = () => {
   }, [deviceId, position]);
 
   const handleSave = useCatch(async () => {
-    const response = await fetch(`/api/devices/${deviceId}/accumulators`, {
+    await fetchOrThrow(`/api/devices/${deviceId}/accumulators`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-
-    if (response.ok) {
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    navigate(-1);
   });
 
   return (
@@ -61,40 +57,35 @@ const AccumulatorsPage = () => {
         <Container maxWidth="xs" className={classes.container}>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
                 type="number"
                 value={item.hours / 3600000}
-                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) * 3600000 })}
+                onChange={(event) =>
+                  setItem({ ...item, hours: Number(event.target.value) * 3600000 })
+                }
                 label={t('positionHours')}
               />
               <TextField
                 type="number"
                 value={distanceFromMeters(item.totalDistance, distanceUnit)}
-                onChange={(event) => setItem({ ...item, totalDistance: distanceToMeters(Number(event.target.value), distanceUnit) })}
+                onChange={(event) =>
+                  setItem({
+                    ...item,
+                    totalDistance: distanceToMeters(Number(event.target.value), distanceUnit),
+                  })
+                }
                 label={`${t('deviceTotalDistance')} (${distanceUnitString(distanceUnit, t)})`}
               />
             </AccordionDetails>
           </Accordion>
           <div className={classes.buttons}>
-            <Button
-              type="button"
-              color="primary"
-              variant="outlined"
-              onClick={() => navigate(-1)}
-            >
+            <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
               {t('sharedCancel')}
             </Button>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={handleSave}
-            >
+            <Button type="button" color="primary" variant="contained" onClick={handleSave}>
               {t('sharedSave')}
             </Button>
           </div>

@@ -1,12 +1,12 @@
 import { useId, useEffect, useState } from 'react';
 import { kml } from '@tmcw/togeojson';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { useEffectAsync } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
 import { findFonts } from '../core/mapUtil';
 
-const PoiMap = () => {
+const PoiMap = ({ mapReady }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -24,7 +24,7 @@ const PoiMap = () => {
   }, [poiLayer]);
 
   useEffect(() => {
-    if (data) {
+    if (data && mapReady) {
       map.addSource(id, {
         type: 'geojson',
         data,
@@ -79,9 +79,11 @@ const PoiMap = () => {
       };
     }
     return () => {};
-  }, [data]);
+  }, [data, mapReady]);
 
   return null;
 };
+
+PoiMap.handlesMapReady = true;
 
 export default PoiMap;

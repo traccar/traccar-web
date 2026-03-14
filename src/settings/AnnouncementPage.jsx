@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Accordion,
@@ -17,10 +17,11 @@ import { useCatchCallback } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
 import SelectField from '../common/components/SelectField';
 import { prefixString } from '../common/util/stringUtils';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const AnnouncementPage = () => {
   const navigate = useNavigate();
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const [users, setUsers] = useState([]);
@@ -30,16 +31,12 @@ const AnnouncementPage = () => {
   const handleSend = useCatchCallback(async () => {
     const query = new URLSearchParams();
     users.forEach((userId) => query.append('userId', userId));
-    const response = await fetch(`/api/notifications/send/${notificator}?${query.toString()}`, {
+    await fetchOrThrow(`/api/notifications/send/${notificator}?${query.toString()}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(message),
     });
-    if (response.ok) {
-      navigate(-1);
-    } else {
-      throw Error(await response.text());
-    }
+    navigate(-1);
   }, [users, notificator, message, navigate]);
 
   return (
@@ -47,9 +44,7 @@ const AnnouncementPage = () => {
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedRequired')}
-            </Typography>
+            <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <SelectField
@@ -80,12 +75,7 @@ const AnnouncementPage = () => {
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
-          <Button
-            type="button"
-            color="primary"
-            variant="outlined"
-            onClick={() => navigate(-1)}
-          >
+          <Button type="button" color="primary" variant="outlined" onClick={() => navigate(-1)}>
             {t('sharedCancel')}
           </Button>
           <Button

@@ -1,26 +1,40 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  Table, TableRow, TableCell, TableHead, TableBody, Button, TableFooter, FormControlLabel, Switch,
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  Button,
+  TableFooter,
+  FormControlLabel,
+  Switch,
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
-import { useEffectAsync } from '../reactHelper';
+import { useTheme } from '@mui/material/styles';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
-import { formatTime } from '../common/util/formatter';
+import SearchHeader from './components/SearchHeader';
+import { formatAddress, formatStatus, formatTime } from '../common/util/formatter';
 import { useDeviceReadonly, useManager } from '../common/util/permissions';
+import { usePreference } from '../common/util/preferences';
 import useSettingsStyles from './common/useSettingsStyles';
 import DeviceUsersValue from './components/DeviceUsersValue';
 import usePersistedState from '../common/util/usePersistedState';
+import fetchOrThrow from '../common/util/fetchOrThrow';
+import AddressValue from '../common/components/AddressValue';
+import exportExcel from '../common/util/exportExcel';
 
 const DevicesPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
+  const theme = useTheme();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -28,6 +42,9 @@ const DevicesPage = () => {
 
   const manager = useManager();
   const deviceReadonly = useDeviceReadonly();
+  const coordinateFormat = usePreference('coordinateFormat');
+
+  const positions = useSelector((state) => state.session.positions);
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -35,23 +52,47 @@ const DevicesPage = () => {
   const [showAll, setShowAll] = usePersistedState('showAllDevices', false);
   const [loading, setLoading] = useState(false);
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams({ all: showAll });
-      const response = await fetch(`/api/devices?${query.toString()}`);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
+      const query = new URLSearchParams({ all: showAll, limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/devices?${query.toString()}`);
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
-  }, [timestamp, showAll]);
+  };
 
-  const handleExport = () => {
-    window.location.assign('/api/reports/devices/xlsx');
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
+  }, [timestamp, showAll, searchKeyword]);
+
+  const handleExport = async () => {
+    const data = items.map((item) => ({
+      [t('sharedName')]: item.name,
+      [t('deviceIdentifier')]: item.uniqueId,
+      [t('groupParent')]: item.groupId ? groups[item.groupId]?.name : null,
+      [t('sharedPhone')]: item.phone,
+      [t('deviceModel')]: item.model,
+      [t('deviceContact')]: item.contact,
+      [t('userExpirationTime')]: formatTime(item.expirationTime, 'date'),
+      [t('deviceStatus')]: formatStatus(item.status, t),
+      [t('deviceLastUpdate')]: formatTime(item.lastUpdate, 'minutes'),
+      [t('positionAddress')]: positions[item.id]
+        ? formatAddress(positions[item.id], coordinateFormat)
+        : '',
+    }));
+    const sheets = new Map();
+    sheets.set(t('deviceTitle'), data);
+    await exportExcel(t('deviceTitle'), 'devices.xlsx', sheets, theme);
   };
 
   const actionConnections = {
@@ -74,12 +115,13 @@ const DevicesPage = () => {
             <TableCell>{t('deviceModel')}</TableCell>
             <TableCell>{t('deviceContact')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
+            <TableCell>{t('positionAddress')}</TableCell>
             {manager && <TableCell>{t('settingsUsers')}</TableCell>}
             <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
+          {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.uniqueId}</TableCell>
@@ -88,7 +130,20 @@ const DevicesPage = () => {
               <TableCell>{item.model}</TableCell>
               <TableCell>{item.contact}</TableCell>
               <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
-              {manager && <TableCell><DeviceUsersValue deviceId={item.id} /></TableCell>}
+              <TableCell>
+                {positions[item.id] && (
+                  <AddressValue
+                    latitude={positions[item.id].latitude}
+                    longitude={positions[item.id].longitude}
+                    originalAddress={positions[item.id]?.address}
+                  />
+                )}
+              </TableCell>
+              {manager && (
+                <TableCell>
+                  <DeviceUsersValue deviceId={item.id} />
+                </TableCell>
+              )}
               <TableCell className={classes.columnAction} padding="none">
                 <CollectionActions
                   itemId={item.id}
@@ -100,22 +155,25 @@ const DevicesPage = () => {
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={manager ? 8 : 7} endAction />)}
+          ))}
+          {loading && <TableShimmer columns={manager ? 9 : 8} endAction />}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell>
-              <Button onClick={handleExport} variant="text">{t('reportExport')}</Button>
+              <Button onClick={handleExport} variant="text">
+                {t('reportExport')}
+              </Button>
             </TableCell>
-            <TableCell colSpan={manager ? 8 : 7} align="right">
+            <TableCell colSpan={manager ? 9 : 8} align="right">
               <FormControlLabel
-                control={(
+                control={
                   <Switch
                     checked={showAll}
                     onChange={(e) => setShowAll(e.target.checked)}
                     size="small"
                   />
-                )}
+                }
                 label={t('notificationAlways')}
                 labelPlacement="start"
                 disabled={!manager}
@@ -124,6 +182,7 @@ const DevicesPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/device" />
     </PageLayout>
   );

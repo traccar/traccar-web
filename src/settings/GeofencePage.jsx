@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Accordion,
@@ -20,7 +20,7 @@ import { geofencesActions } from '../store';
 import useSettingsStyles from './common/useSettingsStyles';
 
 const GeofencePage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -48,9 +48,7 @@ const GeofencePage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -62,9 +60,7 @@ const GeofencePage = () => {
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedExtra')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedExtra')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -79,7 +75,17 @@ const GeofencePage = () => {
                 label={t('sharedCalendar')}
               />
               <FormControlLabel
-                control={<Checkbox checked={item.attributes.hide} onChange={(e) => setItem({ ...item, attributes: { ...item.attributes, hide: e.target.checked } })} />}
+                control={
+                  <Checkbox
+                    checked={item.attributes.hide}
+                    onChange={(e) =>
+                      setItem({
+                        ...item,
+                        attributes: { ...item.attributes, hide: e.target.checked },
+                      })
+                    }
+                  />
+                }
                 label={t('sharedFilterMap')}
               />
             </AccordionDetails>

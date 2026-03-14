@@ -1,8 +1,13 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from 'tss-react/mui';
 import {
-  IconButton, Tooltip, Avatar, ListItemAvatar, ListItemText, ListItemButton,
+  IconButton,
+  Tooltip,
+  Avatar,
+  ListItemAvatar,
+  ListItemText,
+  ListItemButton,
+  Typography,
 } from '@mui/material';
 import BatteryFullIcon from '@mui/icons-material/BatteryFull';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
@@ -15,17 +20,24 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
 import {
-  formatAlarm, formatBoolean, formatPercentage, formatStatus, getStatusColor,
+  formatAlarm,
+  formatBoolean,
+  formatPercentage,
+  formatStatus,
+  getStatusColor,
 } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
 import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
+import GeofencesValue from '../common/components/GeofencesValue';
+import DriverValue from '../common/components/DriverValue';
+import MotionBar from './components/MotionBar';
 
 dayjs.extend(relativeTime);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   icon: {
     width: '25px',
     height: '25px',
@@ -48,20 +60,42 @@ const useStyles = makeStyles((theme) => ({
   neutral: {
     color: theme.palette.neutral.main,
   },
+  selected: {
+    backgroundColor: theme.palette.action.selected,
+  },
 }));
 
-const DeviceRow = ({ data, index, style }) => {
-  const classes = useStyles();
+const DeviceRow = ({ devices, index, style }) => {
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 
   const admin = useAdministrator();
+  const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
-  const item = data[index];
+  const item = devices[index];
   const position = useSelector((state) => state.session.positions[item.id]);
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
+
+  const resolveFieldValue = (field) => {
+    if (field === 'geofenceIds') {
+      const geofenceIds = position?.geofenceIds;
+      return geofenceIds?.length ? <GeofencesValue geofenceIds={geofenceIds} /> : null;
+    }
+    if (field === 'driverUniqueId') {
+      const driverUniqueId = position?.attributes?.driverUniqueId;
+      return driverUniqueId ? <DriverValue driverUniqueId={driverUniqueId} /> : null;
+    }
+    if (field === 'motion') {
+      return <MotionBar deviceId={item.id} />;
+    }
+    return item[field];
+  };
+
+  const primaryValue = resolveFieldValue(devicePrimary);
+  const secondaryValue = resolveFieldValue(deviceSecondary);
 
   const secondaryText = () => {
     let status;
@@ -72,7 +106,12 @@ const DeviceRow = ({ data, index, style }) => {
     }
     return (
       <>
-        {deviceSecondary && item[deviceSecondary] && `${item[deviceSecondary]} • `}
+        {secondaryValue && (
+          <>
+            {secondaryValue}
+            {' • '}
+          </>
+        )}
         <span className={classes[getStatusColor(item.status)]}>{status}</span>
       </>
     );
@@ -84,6 +123,8 @@ const DeviceRow = ({ data, index, style }) => {
         key={item.id}
         onClick={() => dispatch(devicesActions.selectId(item.id))}
         disabled={!admin && item.disabled}
+        selected={selectedDeviceId === item.id}
+        className={selectedDeviceId === item.id ? classes.selected : null}
       >
         <ListItemAvatar>
           <Avatar>
@@ -91,10 +132,16 @@ const DeviceRow = ({ data, index, style }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText
-          primary={item[devicePrimary]}
-          primaryTypographyProps={{ noWrap: true }}
+          primary={primaryValue}
           secondary={secondaryText()}
-          secondaryTypographyProps={{ noWrap: true }}
+          slots={{
+            primary: Typography,
+            secondary: Typography,
+          }}
+          slotProps={{
+            primary: { noWrap: true },
+            secondary: { noWrap: true },
+          }}
         />
         {position && (
           <>
@@ -106,7 +153,9 @@ const DeviceRow = ({ data, index, style }) => {
               </Tooltip>
             )}
             {position.attributes.hasOwnProperty('ignition') && (
-              <Tooltip title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}>
+              <Tooltip
+                title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}
+              >
                 <IconButton size="small">
                   {position.attributes.ignition ? (
                     <EngineIcon width={20} height={20} className={classes.success} />
@@ -117,21 +166,27 @@ const DeviceRow = ({ data, index, style }) => {
               </Tooltip>
             )}
             {position.attributes.hasOwnProperty('batteryLevel') && (
-              <Tooltip title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}>
+              <Tooltip
+                title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}
+              >
                 <IconButton size="small">
-                  {(position.attributes.batteryLevel > 70 && (
-                    position.attributes.charge
-                      ? (<BatteryChargingFullIcon fontSize="small" className={classes.success} />)
-                      : (<BatteryFullIcon fontSize="small" className={classes.success} />)
-                  )) || (position.attributes.batteryLevel > 30 && (
-                    position.attributes.charge
-                      ? (<BatteryCharging60Icon fontSize="small" className={classes.warning} />)
-                      : (<Battery60Icon fontSize="small" className={classes.warning} />)
-                  )) || (
-                    position.attributes.charge
-                      ? (<BatteryCharging20Icon fontSize="small" className={classes.error} />)
-                      : (<Battery20Icon fontSize="small" className={classes.error} />)
-                  )}
+                  {(position.attributes.batteryLevel > 70 &&
+                    (position.attributes.charge ? (
+                      <BatteryChargingFullIcon fontSize="small" className={classes.success} />
+                    ) : (
+                      <BatteryFullIcon fontSize="small" className={classes.success} />
+                    ))) ||
+                    (position.attributes.batteryLevel > 30 &&
+                      (position.attributes.charge ? (
+                        <BatteryCharging60Icon fontSize="small" className={classes.warning} />
+                      ) : (
+                        <Battery60Icon fontSize="small" className={classes.warning} />
+                      ))) ||
+                    (position.attributes.charge ? (
+                      <BatteryCharging20Icon fontSize="small" className={classes.error} />
+                    ) : (
+                      <Battery20Icon fontSize="small" className={classes.error} />
+                    ))}
                 </IconButton>
               </Tooltip>
             )}

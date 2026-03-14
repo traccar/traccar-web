@@ -2,7 +2,15 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 
-export default (keyword, filter, filterSort, filterMap, positions, setFilteredDevices, setFilteredPositions) => {
+export default (
+  keyword,
+  filter,
+  filterSort,
+  filterMap,
+  positions,
+  setFilteredDevices,
+  setFilteredPositions,
+) => {
   const groups = useSelector((state) => state.groups.items);
   const devices = useSelector((state) => state.devices.items);
 
@@ -19,10 +27,15 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
 
     const filtered = Object.values(devices)
       .filter((device) => !filter.statuses.length || filter.statuses.includes(device.status))
-      .filter((device) => !filter.groups.length || deviceGroups(device).some((id) => filter.groups.includes(id)))
+      .filter(
+        (device) =>
+          !filter.groups.length || deviceGroups(device).some((id) => filter.groups.includes(id)),
+      )
       .filter((device) => {
         const lowerCaseKeyword = keyword.toLowerCase();
-        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some((s) => s && s.toLowerCase().includes(lowerCaseKeyword));
+        return [device.name, device.uniqueId, device.phone, device.model, device.contact].some(
+          (s) => s && s.toLowerCase().includes(lowerCaseKeyword),
+        );
       });
     switch (filterSort) {
       case 'name':
@@ -39,8 +52,20 @@ export default (keyword, filter, filterSort, filterMap, positions, setFilteredDe
         break;
     }
     setFilteredDevices(filtered);
-    setFilteredPositions(filterMap
-      ? filtered.map((device) => positions[device.id]).filter(Boolean)
-      : Object.values(positions));
-  }, [keyword, filter, filterSort, filterMap, groups, devices, positions, setFilteredDevices, setFilteredPositions]);
+    setFilteredPositions(
+      filterMap
+        ? filtered.map((device) => positions[device.id]).filter(Boolean)
+        : Object.values(positions),
+    );
+  }, [
+    keyword,
+    filter,
+    filterSort,
+    filterMap,
+    groups,
+    devices,
+    positions,
+    setFilteredDevices,
+    setFilteredPositions,
+  ]);
 };

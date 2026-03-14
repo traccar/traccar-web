@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
+  Typography,
+  Container,
+  Paper,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -26,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PositionPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -38,14 +49,10 @@ const PositionPage = () => {
 
   useEffectAsync(async () => {
     if (id) {
-      const response = await fetch(`/api/positions?id=${id}`);
-      if (response.ok) {
-        const positions = await response.json();
-        if (positions.length > 0) {
-          setItem(positions[0]);
-        }
-      } else {
-        throw Error(await response.text());
+      const response = await fetchOrThrow(`/api/positions?id=${id}`);
+      const positions = await response.json();
+      if (positions.length > 0) {
+        setItem(positions[0]);
       }
     }
   }, [id]);
@@ -65,11 +72,9 @@ const PositionPage = () => {
       <AppBar position="sticky" color="inherit">
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
-            <ArrowBackIcon />
+            <BackIcon />
           </IconButton>
-          <Typography variant="h6">
-            {deviceName}
-          </Typography>
+          <Typography variant="h6">{deviceName}</Typography>
         </Toolbar>
       </AppBar>
       <div className={classes.content}>
@@ -84,20 +89,32 @@ const PositionPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
-                  <TableRow key={property}>
-                    <TableCell>{property}</TableCell>
-                    <TableCell><strong>{positionAttributes[property]?.name}</strong></TableCell>
-                    <TableCell><PositionValue position={item} property={property} /></TableCell>
-                  </TableRow>
-                ))}
-                {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
-                  <TableRow key={attribute}>
-                    <TableCell>{attribute}</TableCell>
-                    <TableCell><strong>{positionAttributes[attribute]?.name}</strong></TableCell>
-                    <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
-                  </TableRow>
-                ))}
+                {item &&
+                  Object.getOwnPropertyNames(item)
+                    .filter((it) => it !== 'attributes')
+                    .map((property) => (
+                      <TableRow key={property}>
+                        <TableCell>{property}</TableCell>
+                        <TableCell>
+                          <strong>{positionAttributes[property]?.name}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <PositionValue position={item} property={property} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                {item &&
+                  Object.getOwnPropertyNames(item.attributes).map((attribute) => (
+                    <TableRow key={attribute}>
+                      <TableCell>{attribute}</TableCell>
+                      <TableCell>
+                        <strong>{positionAttributes[attribute]?.name}</strong>
+                      </TableCell>
+                      <TableCell>
+                        <PositionValue position={item} attribute={attribute} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </Paper>

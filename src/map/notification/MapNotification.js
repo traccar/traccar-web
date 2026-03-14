@@ -1,8 +1,10 @@
 import { useEffect, useMemo } from 'react';
+import { useTheme } from '@mui/material';
 import { map } from '../core/MapView';
 import './notification.css';
 
-const statusClass = (status) => `maplibregl-ctrl-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`;
+const statusClass = (status) =>
+  `maplibregl-ctrl-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`;
 
 class NotificationControl {
   constructor(eventHandler) {
@@ -32,10 +34,11 @@ class NotificationControl {
 }
 
 const MapNotification = ({ enabled, onClick }) => {
+  const theme = useTheme();
   const control = useMemo(() => new NotificationControl(onClick), [onClick]);
 
   useEffect(() => {
-    map.addControl(control);
+    map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
   }, [onClick]);
 

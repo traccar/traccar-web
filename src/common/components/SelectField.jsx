@@ -1,6 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Autocomplete, CircularProgress, FormControl, TextField, } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { MenuItem, Autocomplete, TextField, Chip } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import { useEffectAsync } from '../../reactHelper';
+import fetchOrThrow from '../util/fetchOrThrow';
+
+const useStyles = makeStyles()(() => ({
+  autocompleteMultiple: {
+    '& .MuiAutocomplete-inputRoot': {
+      flexWrap: 'nowrap',
+      overflow: 'hidden',
+    },
+    '& .MuiAutocomplete-input': {
+      minWidth: '1px !important',
+    },
+    '& .MuiAutocomplete-tag .MuiChip-label': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+    },
+  },
+}));
 
 const SelectField = ({
   label,
@@ -14,83 +33,100 @@ const SelectField = ({
   data,
   keyGetter = (item) => item.id,
   titleGetter = (item) => item.name,
-  groupBy,
+  helperText,
+  placeholder,
+  singleLine,
 }) => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { classes } = useStyles();
+  const [items, setItems] = useState();
+
+  const findOption = (option) => {
+    if (typeof option === 'object') {
+      return option;
+    }
+    return items.find((obj) => keyGetter(obj) === option);
+  };
 
   const getOptionLabel = (option) => {
-    if (typeof option !== 'object') {
-      option = items.find((obj) => keyGetter(obj) === option);
-    }
+    option = findOption(option);
     return option ? titleGetter(option) : emptyTitle;
   };
 
-  useEffect(() => {
-    if (data) {
-      setItems(data);
-    }
-  }, [data]);
+  useEffect(() => setItems(data), [data]);
 
   useEffectAsync(async () => {
     if (endpoint) {
-      setLoading(true);
-      try {
-        const response = await fetch(endpoint);
-        if (response.ok) {
-          setItems(await response.json());
-        } else {
-          throw new Error(await response.text());
-        }
-      } catch (error) {
-        console.error('Failed to load items:', error);
-      } finally {
-        setLoading(false);
-      }
+      const response = await fetchOrThrow(endpoint);
+      setItems(await response.json());
     }
   }, []);
 
-  const handleChange = (_, newValue) => {
-    if (multiple) {
-      onChange({ target: { value: newValue.map((item) => keyGetter(item)) } });
-    } else {
-      onChange({ target: { value: newValue ? keyGetter(newValue) : emptyValue } });
-    }
-  };
+  if (items) {
+    const autocompleteValue = multiple
+      ? (value || []).map((it) => findOption(it)).filter((it) => it != null)
+      : findOption(value) || null;
 
-  if (!items.length && !loading) {
-    return null;
-  }
-
-  return (
-    <FormControl fullWidth={fullWidth}>
+    return (
       <Autocomplete
-        size="small"
+        size={singleLine ? 'small' : 'medium'}
         multiple={multiple}
+        className={multiple && singleLine ? classes.autocompleteMultiple : undefined}
         options={items}
-        groupBy={groupBy ? groupBy : undefined} // 🔥 Add grouping only if provided
         getOptionLabel={getOptionLabel}
-        isOptionEqualToValue={(option, value) => keyGetter(option) === (typeof value === 'object' ? keyGetter(value) : value)}
-        value={
-          multiple
-            ? items.filter((item) => value?.includes(keyGetter(item)))
-            : items.find((item) => keyGetter(item) === value) || null
+        renderOption={(props, option) => (
+          <MenuItem {...props} key={keyGetter(option)} value={keyGetter(option)}>
+            {titleGetter(option)}
+          </MenuItem>
+        )}
+        isOptionEqualToValue={(option, selectedOption) =>
+          keyGetter(option) === keyGetter(selectedOption)
         }
-        onChange={handleChange}
-        loading={loading}
-        noOptionsText="No options found"
+        value={autocompleteValue}
+        onChange={(_, selectedValue) => {
+          if (multiple) {
+            onChange({ target: { value: selectedValue.map((item) => keyGetter(item)) } });
+          } else {
+            onChange({ target: { value: selectedValue ? keyGetter(selectedValue) : emptyValue } });
+          }
+        }}
+        renderValue={
+          multiple && singleLine
+            ? (tagValue, getItemProps) => {
+                if (!tagValue.length) {
+                  return null;
+                }
+                return (
+                  <>
+                    <Chip
+                      {...getItemProps({ index: 0 })}
+                      key={keyGetter(tagValue[0])}
+                      label={titleGetter(tagValue[0])}
+                      size="small"
+                      sx={{ minWidth: 0 }}
+                    />
+                    {tagValue.length > 1 && (
+                      <Chip label={`${tagValue.length - 1}`} size="small" sx={{ flexShrink: 0 }} />
+                    )}
+                  </>
+                );
+              }
+            : undefined
+        }
+        fullWidth={fullWidth}
+        disableCloseOnSelect={multiple}
         renderInput={(params) => (
           <TextField
             {...params}
             label={label}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loading ? <CircularProgress color="inherit" size={20}/> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
+            helperText={helperText}
+            placeholder={multiple && !autocompleteValue.length ? placeholder : undefined}
+            slotProps={{
+              inputLabel: {
+                ...params.InputLabelProps,
+                shrink:
+                  (multiple && !autocompleteValue.length && Boolean(placeholder)) ||
+                  params.InputLabelProps?.shrink,
+              },
             }}
           />
         )}

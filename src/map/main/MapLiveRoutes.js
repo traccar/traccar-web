@@ -1,10 +1,10 @@
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { useAttributePreference } from '../../common/util/preferences';
 
-const MapLiveRoutes = () => {
+const MapLiveRoutes = ({ deviceIds }) => {
   const id = useId();
 
   const theme = useTheme();
@@ -15,6 +15,9 @@ const MapLiveRoutes = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const history = useSelector((state) => state.session.history);
+
+  const mapLineWidth = useAttributePreference('mapLineWidth', 2);
+  const mapLineOpacity = useAttributePreference('mapLineOpacity', 1);
 
   useEffect(() => {
     if (type !== 'none') {
@@ -38,7 +41,8 @@ const MapLiveRoutes = () => {
         },
         paint: {
           'line-color': ['get', 'color'],
-          'line-width': 2,
+          'line-width': ['get', 'width'],
+          'line-opacity': ['get', 'opacity'],
         },
       });
 
@@ -56,26 +60,29 @@ const MapLiveRoutes = () => {
 
   useEffect(() => {
     if (type !== 'none') {
-      const deviceIds = Object.values(devices)
-        .map((device) => device.id)
+      const visibleIds = deviceIds
         .filter((id) => (type === 'selected' ? id === selectedDeviceId : true))
-        .filter((id) => history.hasOwnProperty(id));
+        .filter((id) => history.hasOwnProperty(id))
+        .filter((id) => devices[id]);
 
       map.getSource(id)?.setData({
         type: 'FeatureCollection',
-        features: deviceIds.map((deviceId) => ({
+        features: visibleIds.map((deviceId) => ({
           type: 'Feature',
           geometry: {
             type: 'LineString',
             coordinates: history[deviceId],
           },
           properties: {
-            color: devices[deviceId].attributes['web.reportColor'] || theme.palette.geometry.main,
+            color:
+              devices[deviceId]?.attributes?.['web.reportColor'] || theme.palette.geometry.main,
+            width: mapLineWidth,
+            opacity: mapLineOpacity,
           },
         })),
       });
     }
-  }, [theme, type, devices, selectedDeviceId, history]);
+  }, [theme, type, devices, selectedDeviceId, history, deviceIds]);
 
   return null;
 };

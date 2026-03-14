@@ -29,7 +29,8 @@ export const formatTemperature = (value) => `${value.toFixed(1)}°C`;
 
 export const formatVoltage = (value, t) => `${value.toFixed(2)} ${t('sharedVoltAbbreviation')}`;
 
-export const formatConsumption = (value, t) => `${value.toFixed(2)} ${t('sharedLiterPerHourAbbreviation')}`;
+export const formatConsumption = (value, t) =>
+  `${value.toFixed(2)} ${t('sharedLiterPerHourAbbreviation')}`;
 
 export const formatTime = (value, format) => {
   if (value) {
@@ -55,7 +56,8 @@ export const formatStatus = (value, t) => t(prefixString('deviceStatus', value))
 
 export const formatAlarm = (value, t) => {
   if (value) {
-    return value.split(',')
+    return value
+      .split(',')
       .map((alarm) => t(prefixString('alarm', alarm)))
       .join(', ');
   }
@@ -63,7 +65,16 @@ export const formatAlarm = (value, t) => {
 };
 
 export const formatCourse = (value) => {
-  const courseValues = ['\u2191', '\u2197', '\u2192', '\u2198', '\u2193', '\u2199', '\u2190', '\u2196'];
+  const courseValues = [
+    '\u2191',
+    '\u2197',
+    '\u2192',
+    '\u2198',
+    '\u2193',
+    '\u2199',
+    '\u2190',
+    '\u2196',
+  ];
   let normalizedValue = (value + 45 / 2) % 360;
   if (normalizedValue < 0) {
     normalizedValue += 360;
@@ -71,13 +82,17 @@ export const formatCourse = (value) => {
   return courseValues[Math.floor(normalizedValue / 45)];
 };
 
-export const formatDistance = (value, unit, t) => `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
+export const formatDistance = (value, unit, t) =>
+  `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
 
-export const formatAltitude = (value, unit, t) => `${altitudeFromMeters(value, unit).toFixed(2)} ${altitudeUnitString(unit, t)}`;
+export const formatAltitude = (value, unit, t) =>
+  `${altitudeFromMeters(value, unit).toFixed(2)} ${altitudeUnitString(unit, t)}`;
 
-export const formatSpeed = (value, unit, t) => `${speedFromKnots(value, unit).toFixed(2)} ${speedUnitString(unit, t)}`;
+export const formatSpeed = (value, unit, t) =>
+  `${speedFromKnots(value, unit).toFixed(2)} ${speedUnitString(unit, t)}`;
 
-export const formatVolume = (value, unit, t) => `${volumeFromLiters(value, unit).toFixed(2)} ${volumeUnitString(unit, t)}`;
+export const formatVolume = (value, unit, t) =>
+  `${volumeFromLiters(value, unit).toFixed(2)} ${volumeUnitString(unit, t)}`;
 
 export const formatNumericHours = (value, t) => {
   const hours = Math.floor(value / 3600000);
@@ -114,7 +129,7 @@ export const formatCoordinate = (key, value, unit) => {
       value = Math.abs(value);
       degrees = Math.floor(value);
       minutes = (value - degrees) * 60;
-      return `${degrees}° ${minutes.toFixed(6)}' ${hemisphere}`;
+      return `${degrees}° ${minutes.toFixed(3)}' ${hemisphere}`;
     case 'dms':
       value = Math.abs(value);
       degrees = Math.floor(value);
@@ -122,8 +137,17 @@ export const formatCoordinate = (key, value, unit) => {
       seconds = Math.round((value - degrees - minutes / 60) * 3600);
       return `${degrees}° ${minutes}' ${seconds}" ${hemisphere}`;
     default:
-      return `${value.toFixed(6)}°`;
+      return `${value.toFixed(5)}°`;
   }
+};
+
+export const formatAddress = (position, unit) => {
+  if (position.address) {
+    return position.address;
+  }
+  const formattedLatitude = formatCoordinate('latitude', position.latitude, unit);
+  const formattedLongitude = formatCoordinate('longitude', position.longitude, unit);
+  return `${formattedLatitude}, ${formattedLongitude}`;
 };
 
 export const getStatusColor = (status) => {

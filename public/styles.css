@@ -7,6 +7,12 @@ body {
   padding: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+    background: black;
+  }
+}
+
 .root {
   display: flex;
   flex-direction: column;

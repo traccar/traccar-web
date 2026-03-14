@@ -1,10 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import {
-  Typography, AppBar, Toolbar, IconButton,
-} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Typography, AppBar, Toolbar, IconButton } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -15,8 +12,10 @@ import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
 import MapScale from '../map/MapScale';
+import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -31,7 +30,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const EventPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -41,38 +40,34 @@ const EventPage = () => {
   const [position, setPosition] = useState();
   const [showCard, setShowCard] = useState(false);
 
-  const formatType = (event) => formatNotificationTitle(t, {
-    type: event.type,
-    attributes: {
-      alarms: event.attributes.alarm,
-    },
-  });
+  const formatType = (event) =>
+    formatNotificationTitle(t, {
+      type: event.type,
+      attributes: {
+        alarms: event.attributes.alarm,
+      },
+    });
 
-  const onMarkerClick = useCallback((positionId) => {
-    setShowCard(!!positionId);
-  }, [setShowCard]);
+  const onMarkerClick = useCallback(
+    (positionId) => {
+      setShowCard(Boolean(positionId));
+    },
+    [setShowCard],
+  );
 
   useEffectAsync(async () => {
     if (id) {
-      const response = await fetch(`/api/events/${id}`);
-      if (response.ok) {
-        setEvent(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(`/api/events/${id}`);
+      setEvent(await response.json());
     }
   }, [id]);
 
   useEffectAsync(async () => {
     if (event && event.positionId) {
-      const response = await fetch(`/api/positions?id=${event.positionId}`);
-      if (response.ok) {
-        const positions = await response.json();
-        if (positions.length > 0) {
-          setPosition(positions[0]);
-        }
-      } else {
-        throw Error(await response.text());
+      const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`);
+      const positions = await response.json();
+      if (positions.length > 0) {
+        setPosition(positions[0]);
       }
     }
   }, [event]);
@@ -82,7 +77,7 @@ const EventPage = () => {
       <AppBar color="inherit" position="static" className={classes.toolbar}>
         <Toolbar>
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate('/')}>
-            <ArrowBackIcon />
+            <BackIcon />
           </IconButton>
           <Typography variant="h6">{event && formatType(event)}</Typography>
         </Toolbar>
@@ -90,7 +85,13 @@ const EventPage = () => {
       <div className={classes.mapContainer}>
         <MapView>
           <MapGeofence />
-          {position && <MapPositions positions={[position]} onClick={onMarkerClick} titleField="fixTime" />}
+          {position && (
+            <MapPositions
+              positions={[position]}
+              onMarkerClick={onMarkerClick}
+              titleField="fixTime"
+            />
+          )}
         </MapView>
         <MapScale />
         {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}

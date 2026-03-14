@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PublishIcon from '@mui/icons-material/Publish';
-import { useEffectAsync } from '../reactHelper';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import { useRestriction } from '../common/util/permissions';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const GroupsPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const navigate = useNavigate();
   const t = useTranslation();
 
@@ -28,19 +27,28 @@ const GroupsPage = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const response = await fetch('/api/groups');
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
+      const query = new URLSearchParams({ limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/groups?${query.toString()}`);
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
+  }, [timestamp, searchKeyword]);
 
   const actionCommand = {
     key: 'command',
@@ -67,7 +75,7 @@ const GroupsPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
+          {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
               <TableCell className={classes.columnAction} padding="none">
@@ -76,13 +84,17 @@ const GroupsPage = () => {
                   editPath="/settings/group"
                   endpoint="groups"
                   setTimestamp={setTimestamp}
-                  customActions={limitCommands ? [actionConnections] : [actionConnections, actionCommand]}
+                  customActions={
+                    limitCommands ? [actionConnections] : [actionConnections, actionCommand]
+                  }
                 />
               </TableCell>
             </TableRow>
-          )) : (<TableShimmer columns={2} endAction />)}
+          ))}
+          {loading && <TableShimmer columns={2} endAction />}
         </TableBody>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/group" />
     </PageLayout>
   );

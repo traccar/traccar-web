@@ -1,5 +1,5 @@
 import { useId, useEffect } from 'react';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 import { map } from './core/MapView';
 import { useAttributePreference } from '../common/util/preferences';

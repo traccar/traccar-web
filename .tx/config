@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[o:traccar:p:traccar:r:web]
+source_file = src/resources/l10n/en.json
+file_filter = src/resources/l10n/<lang>.json
+type = KEYVALUEJSON
+resource_name = web

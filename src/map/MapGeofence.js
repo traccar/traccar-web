@@ -1,6 +1,6 @@
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { map } from './core/MapView';
 import { findFonts, geofenceToFeature } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
@@ -27,10 +27,7 @@ const MapGeofence = () => {
         source: id,
         id: 'geofences-fill',
         type: 'fill',
-        filter: [
-          'all',
-          ['==', '$type', 'Polygon'],
-        ],
+        filter: ['all', ['==', '$type', 'Polygon']],
         paint: {
           'fill-color': ['get', 'color'],
           'fill-outline-color': ['get', 'color'],
@@ -43,7 +40,8 @@ const MapGeofence = () => {
         type: 'line',
         paint: {
           'line-color': ['get', 'color'],
-          'line-width': 2,
+          'line-width': ['get', 'width'],
+          'line-opacity': ['get', 'opacity'],
         },
       });
       map.addLayer({

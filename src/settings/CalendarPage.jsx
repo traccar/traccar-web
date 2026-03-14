@@ -1,12 +1,19 @@
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import {
-  Accordion, AccordionSummary, AccordionDetails, Typography, FormControl, InputLabel, Select, MenuItem,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { DropzoneArea } from 'react-mui-dropzone';
+import { MuiFileInput } from 'mui-file-input';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -15,6 +22,7 @@ import { prefixString } from '../common/util/stringUtils';
 import { calendarsActions } from '../store';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const formatCalendarTime = (time) => {
   const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -45,28 +53,33 @@ const formatRule = (rule) => {
   }
 };
 
-const updateCalendar = (lines, index, element) => window.btoa(lines.map((e, i) => (i !== index ? e : element)).join('\n'));
+const updateCalendar = (lines, index, element) =>
+  window.btoa(lines.map((e, i) => (i !== index ? e : element)).join('\n'));
 
-const simpleCalendar = () => window.btoa([
-  'BEGIN:VCALENDAR',
-  'VERSION:2.0',
-  'PRODID:-//Traccar//NONSGML Traccar//EN',
-  'BEGIN:VEVENT',
-  'UID:00000000-0000-0000-0000-000000000000',
-  `DTSTART;${formatCalendarTime(dayjs())}`,
-  `DTEND;${formatCalendarTime(dayjs().add(1, 'hours'))}`,
-  'RRULE:FREQ=DAILY',
-  'SUMMARY:Event',
-  'END:VEVENT',
-  'END:VCALENDAR',
-].join('\n'));
+const simpleCalendar = () =>
+  window.btoa(
+    [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Traccar//NONSGML Traccar//EN',
+      'BEGIN:VEVENT',
+      'UID:00000000-0000-0000-0000-000000000000',
+      `DTSTART;${formatCalendarTime(dayjs())}`,
+      `DTEND;${formatCalendarTime(dayjs().add(1, 'hours'))}`,
+      'RRULE:FREQ=DAILY',
+      'SUMMARY:Event',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\n'),
+  );
 
 const CalendarPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 
   const [item, setItem] = useState();
+  const [file, setFile] = useState(null);
 
   const decoded = item && item.data && window.atob(item.data);
 
@@ -76,24 +89,21 @@ const CalendarPage = () => {
 
   const rule = simple && parseRule(lines[7]);
 
-  const handleFiles = (files) => {
-    if (files.length > 0) {
+  const handleFileChange = (newFile) => {
+    setFile(newFile);
+    if (newFile) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const { result } = event.target;
         setItem({ ...item, data: result.substr(result.indexOf(',') + 1) });
       };
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(newFile);
     }
   };
 
   const onItemSaved = useCatch(async () => {
-    const response = await fetch('/api/calendars');
-    if (response.ok) {
-      dispatch(calendarsActions.refresh(await response.json()));
-    } else {
-      throw Error(await response.text());
-    }
+    const response = await fetchOrThrow('/api/calendars');
+    dispatch(calendarsActions.refresh(await response.json()));
   });
 
   const validate = () => item && item.name && item.data;
@@ -113,9 +123,7 @@ const CalendarPage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -128,7 +136,12 @@ const CalendarPage = () => {
                 <Select
                   label={t('sharedType')}
                   value={simple ? 'simple' : 'custom'}
-                  onChange={(e) => setItem({ ...item, data: (e.target.value === 'simple' ? simpleCalendar() : null) })}
+                  onChange={(e) =>
+                    setItem({
+                      ...item,
+                      data: e.target.value === 'simple' ? simpleCalendar() : null,
+                    })
+                  }
                 >
                   <MenuItem value="simple">{t('calendarSimple')}</MenuItem>
                   <MenuItem value="custom">{t('reportCustom')}</MenuItem>
@@ -159,10 +172,17 @@ const CalendarPage = () => {
                     <Select
                       label={t('calendarRecurrence')}
                       value={rule.frequency}
-                      onChange={(e) => setItem({ ...item, data: updateCalendar(lines, 7, formatRule({ frequency: e.target.value })) })}
+                      onChange={(e) =>
+                        setItem({
+                          ...item,
+                          data: updateCalendar(lines, 7, formatRule({ frequency: e.target.value })),
+                        })
+                      }
                     >
                       {['ONCE', 'DAILY', 'WEEKLY', 'MONTHLY'].map((it) => (
-                        <MenuItem key={it} value={it}>{t(prefixString('calendar', it.toLowerCase()))}</MenuItem>
+                        <MenuItem key={it} value={it}>
+                          {t(prefixString('calendar', it.toLowerCase()))}
+                        </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
@@ -173,23 +193,45 @@ const CalendarPage = () => {
                         multiple
                         label={t('calendarDays')}
                         value={rule.by}
-                        onChange={(e) => setItem({ ...item, data: updateCalendar(lines, 7, formatRule({ ...rule, by: e.target.value })) })}
+                        onChange={(e) =>
+                          setItem({
+                            ...item,
+                            data: updateCalendar(
+                              lines,
+                              7,
+                              formatRule({ ...rule, by: e.target.value }),
+                            ),
+                          })
+                        }
                       >
-                        {rule.frequency === 'WEEKLY' ? ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].map((it) => (
-                          <MenuItem key={it} value={it.substring(0, 2).toUpperCase()}>{t(prefixString('calendar', it))}</MenuItem>
-                        )) : Array.from({ length: 31 }, (_, i) => i + 1).map((it) => (
-                          <MenuItem key={it} value={String(it)}>{it}</MenuItem>
-                        ))}
+                        {rule.frequency === 'WEEKLY'
+                          ? [
+                              'sunday',
+                              'monday',
+                              'tuesday',
+                              'wednesday',
+                              'thursday',
+                              'friday',
+                              'saturday',
+                            ].map((it) => (
+                              <MenuItem key={it} value={it.substring(0, 2).toUpperCase()}>
+                                {t(prefixString('calendar', it))}
+                              </MenuItem>
+                            ))
+                          : Array.from({ length: 31 }, (_, i) => i + 1).map((it) => (
+                              <MenuItem key={it} value={String(it)}>
+                                {it}
+                              </MenuItem>
+                            ))}
                       </Select>
                     </FormControl>
                   )}
                 </>
               ) : (
-                <DropzoneArea
-                  dropzoneText={t('sharedDropzoneText')}
-                  filesLimit={1}
-                  onChange={handleFiles}
-                  showAlerts={false}
+                <MuiFileInput
+                  placeholder={t('sharedSelectFile')}
+                  value={file}
+                  onChange={handleFileChange}
                 />
               )}
             </AccordionDetails>

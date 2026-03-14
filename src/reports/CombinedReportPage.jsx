@@ -1,8 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Table, TableBody, TableCell, TableHead, TableRow,
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -18,38 +16,39 @@ import { prefixString } from '../common/util/stringUtils';
 import MapMarkers from '../map/MapMarkers';
 import MapRouteCoordinates from '../map/MapRouteCoordinates';
 import MapScale from '../map/MapScale';
+import fetchOrThrow from '../common/util/fetchOrThrow';
+import { deviceEquality } from '../common/util/deviceEquality';
 
 const CombinedReportPage = () => {
-  const classes = useReportStyles();
+  const { classes } = useReportStyles();
   const t = useTranslation();
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
 
-  const createMarkers = () => items.flatMap((item) => item.events
-    .map((event) => item.positions.find((p) => event.positionId === p.id))
-    .filter((position) => position != null)
-    .map((position) => ({
-      latitude: position.latitude,
-      longitude: position.longitude,
-    })));
+  const createMarkers = () =>
+    items.flatMap((item) =>
+      item.events
+        .map((event) => item.positions.find((p) => event.positionId === p.id))
+        .filter((position) => position != null)
+        .map((position) => ({
+          latitude: position.latitude,
+          longitude: position.longitude,
+        })),
+    );
 
-  const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     setLoading(true);
     try {
-      const response = await fetch(`/api/reports/combined?${query.toString()}`);
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow(`/api/reports/combined?${query.toString()}`);
+      setItems(await response.json());
     } finally {
       setLoading(false);
     }
@@ -78,7 +77,7 @@ const CombinedReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter handleSubmit={handleSubmit} showOnly multiDevice includeGroups loading={loading} />
+            <ReportFilter onShow={onShow} deviceType="multiple" loading={loading} />
           </div>
           <Table>
             <TableHead>
@@ -89,13 +88,19 @@ const CombinedReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.flatMap((item) => item.events.map((event, index) => (
-                <TableRow key={event.id}>
-                  <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
-                  <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
-                  <TableCell>{t(prefixString('event', event.type))}</TableCell>
-                </TableRow>
-              ))) : (<TableShimmer columns={3} />)}
+              {!loading ? (
+                items.flatMap((item) =>
+                  item.events.map((event, index) => (
+                    <TableRow key={event.id}>
+                      <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
+                      <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
+                      <TableCell>{t(prefixString('event', event.type))}</TableCell>
+                    </TableRow>
+                  )),
+                )
+              ) : (
+                <TableShimmer columns={3} />
+              )}
             </TableBody>
           </Table>
         </div>

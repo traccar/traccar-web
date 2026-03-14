@@ -1,6 +1,6 @@
 import { useId, useEffect } from 'react';
 import circle from '@turf/circle';
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 
 const MapAccuracy = ({ positions }) => {
@@ -20,10 +20,7 @@ const MapAccuracy = ({ positions }) => {
       source: id,
       id,
       type: 'fill',
-      filter: [
-        'all',
-        ['==', '$type', 'Polygon'],
-      ],
+      filter: ['all', ['==', '$type', 'Polygon']],
       paint: {
         'fill-color': theme.palette.geometry.main,
         'fill-outline-color': theme.palette.geometry.main,
@@ -46,7 +43,9 @@ const MapAccuracy = ({ positions }) => {
       type: 'FeatureCollection',
       features: positions
         .filter((position) => position.accuracy > 0)
-        .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
+        .map((position) =>
+          circle([position.longitude, position.latitude], position.accuracy * 0.001),
+        ),
     });
   }, [positions]);
 

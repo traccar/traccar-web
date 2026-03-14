@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody,
-} from '@mui/material';
-import { useEffectAsync } from '../reactHelper';
+import { useState } from 'react';
+import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
+import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAdministrator } from '../common/util/permissions';
 import PageLayout from '../common/components/PageLayout';
@@ -10,11 +8,12 @@ import SettingsMenu from './components/SettingsMenu';
 import CollectionFab from './components/CollectionFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
-import SearchHeader, { filterByKeyword } from './components/SearchHeader';
+import SearchHeader from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const ComputedAttributesPage = () => {
-  const classes = useSettingsStyles();
+  const { classes } = useSettingsStyles();
   const t = useTranslation();
 
   const [timestamp, setTimestamp] = useState(Date.now());
@@ -23,19 +22,28 @@ const ComputedAttributesPage = () => {
   const [loading, setLoading] = useState(false);
   const administrator = useAdministrator();
 
-  useEffectAsync(async () => {
+  const loadItems = async (offset) => {
     setLoading(true);
     try {
-      const response = await fetch('/api/attributes/computed');
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
+      const query = new URLSearchParams({ limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/attributes/computed?${query.toString()}`);
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  };
+
+  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+
+  useEffectAsync(async () => {
+    setItems([]);
+    await loadItems(0);
+  }, [timestamp, searchKeyword]);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
@@ -51,7 +59,7 @@ const ComputedAttributesPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.filter(filterByKeyword(searchKeyword)).map((item) => (
+          {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.description}</TableCell>
               <TableCell>{item.attribute}</TableCell>
@@ -59,13 +67,20 @@ const ComputedAttributesPage = () => {
               <TableCell>{item.type}</TableCell>
               {administrator && (
                 <TableCell className={classes.columnAction} padding="none">
-                  <CollectionActions itemId={item.id} editPath="/settings/attribute" endpoint="attributes/computed" setTimestamp={setTimestamp} />
+                  <CollectionActions
+                    itemId={item.id}
+                    editPath="/settings/attribute"
+                    endpoint="attributes/computed"
+                    setTimestamp={setTimestamp}
+                  />
                 </TableCell>
               )}
             </TableRow>
-          )) : (<TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />)}
+          ))}
+          {loading && <TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />}
         </TableBody>
       </Table>
+      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/attribute" disabled={!administrator} />
     </PageLayout>
   );

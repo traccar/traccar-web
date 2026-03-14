@@ -1,7 +1,6 @@
 import './switcher.css';
 
 export class SwitcherControl {
-
   constructor(onBeforeSwitch, onSwitch, onAfterSwitch) {
     this.onBeforeSwitch = onBeforeSwitch;
     this.onSwitch = onSwitch;
@@ -105,7 +104,12 @@ export class SwitcherControl {
   }
 
   onRemove() {
-    if (!this.controlContainer || !this.controlContainer.parentNode || !this.map || !this.styleButton) {
+    if (
+      !this.controlContainer ||
+      !this.controlContainer.parentNode ||
+      !this.map ||
+      !this.styleButton
+    ) {
       return;
     }
     this.styleButton.removeEventListener('click', this.onDocumentClick);
@@ -115,7 +119,12 @@ export class SwitcherControl {
   }
 
   onDocumentClick(event) {
-    if (this.controlContainer && !this.controlContainer.contains(event.target) && this.mapStyleContainer && this.styleButton) {
+    if (
+      this.controlContainer &&
+      !this.controlContainer.contains(event.target) &&
+      this.mapStyleContainer &&
+      this.styleButton
+    ) {
       this.mapStyleContainer.style.display = 'none';
       this.styleButton.style.display = 'block';
     }

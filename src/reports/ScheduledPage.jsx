@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody, IconButton,
-} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { Table, TableRow, TableCell, TableHead, TableBody, IconButton } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -11,8 +9,9 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import TableShimmer from '../common/components/TableShimmer';
 import RemoveDialog from '../common/components/RemoveDialog';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
   columnAction: {
     width: '1%',
     paddingRight: theme.spacing(1),
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ScheduledPage = () => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const t = useTranslation();
 
   const calendars = useSelector((state) => state.calendars.items);
@@ -33,12 +32,8 @@ const ScheduledPage = () => {
   useEffectAsync(async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/reports');
-      if (response.ok) {
-        setItems(await response.json());
-      } else {
-        throw Error(await response.text());
-      }
+      const response = await fetchOrThrow('/api/reports');
+      setItems(await response.json());
     } finally {
       setLoading(false);
     }
@@ -49,7 +44,7 @@ const ScheduledPage = () => {
       case 'events':
         return t('reportEvents');
       case 'route':
-        return t('reportRoute');
+        return t('reportPositions');
       case 'summary':
         return t('reportSummary');
       case 'trips':
@@ -73,18 +68,22 @@ const ScheduledPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{formatType(item.type)}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{calendars[item.calendarId].name}</TableCell>
-              <TableCell className={classes.columnAction} padding="none">
-                <IconButton size="small" onClick={() => setRemovingId(item.id)}>
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          )) : (<TableShimmer columns={4} endAction />)}
+          {!loading ? (
+            items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{formatType(item.type)}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{calendars[item.calendarId].name}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <IconButton size="small" onClick={() => setRemovingId(item.id)}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={4} endAction />
+          )}
         </TableBody>
       </Table>
       <RemoveDialog

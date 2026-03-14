@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-/* eslint-disable no-template-curly-in-string */
 export default defineConfig(() => ({
   server: {
     port: 3000,
@@ -48,6 +48,11 @@ export default defineConfig(() => ({
           },
         ],
       },
+    }),
+    viteStaticCopy({
+      targets: [
+        { src: 'node_modules/@mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js', dest: '' },
+      ],
     }),
   ],
 }));
