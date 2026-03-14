@@ -1,47 +1,22 @@
 import { Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from 'tss-react/mui';
-import { Divider, List, ListItemButton, ListItemText } from '@mui/material';
-
-import { geofencesActions } from '../store';
+import { List, ListItemButton, ListItemText, Divider } from '@mui/material';
 import CollectionActions from '../settings/components/CollectionActions';
-import { useCatchCallback } from '../reactHelper';
-import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const useStyles = makeStyles()(() => ({
-  list: {
-    flexGrow: 1,
-    overflow: 'auto',
-  },
-  icon: {
-    width: '25px',
-    height: '25px',
-    filter: 'brightness(0) invert(1)',
-  },
-}));
-
-const GeofencesList = ({ onGeofenceSelected }) => {
-  const { classes } = useStyles();
-  const dispatch = useDispatch();
-
-  const items = useSelector((state) => state.geofences.items);
-
-  const refreshGeofences = useCatchCallback(async () => {
-    const response = await fetchOrThrow('/api/geofences');
-    dispatch(geofencesActions.refresh(await response.json()));
-  }, [dispatch]);
-
+const GeofencesList = ({ geofences = [], selectedGeofenceId, onGeofenceSelected }) => {
   return (
-    <List className={classes.list}>
-      {Object.values(items).map((item, index, list) => (
+    <List>
+      {geofences.map((item, index, list) => (
         <Fragment key={item.id}>
-          <ListItemButton key={item.id} onClick={() => onGeofenceSelected(item.id)}>
+          <ListItemButton
+            selected={item.id === selectedGeofenceId}
+            onClick={() => onGeofenceSelected(item.id)}
+          >
             <ListItemText primary={item.name} />
             <CollectionActions
               itemId={item.id}
               editPath="/settings/geofence"
               endpoint="geofences"
-              setTimestamp={refreshGeofences}
+              setTimestamp={() => {}}
             />
           </ListItemButton>
           {index < list.length - 1 ? <Divider /> : null}

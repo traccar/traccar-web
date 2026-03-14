@@ -1,6 +1,15 @@
 import { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Divider, Typography, IconButton, Toolbar, Paper, TextField } from '@mui/material';
+import {
+  Divider,
+  Typography,
+  IconButton,
+  Toolbar,
+  Paper,
+  TextField,
+  Button,
+  Box,
+} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from 'tss-react/mui';
@@ -22,38 +31,28 @@ import { errorsActions } from '../store';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
-  root: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
+  root: { height: '100%', display: 'flex', flexDirection: 'column' },
   content: {
     flexGrow: 1,
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'row',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column-reverse',
-    },
+    [theme.breakpoints.down('sm')]: { flexDirection: 'column-reverse' },
   },
   drawer: {
     display: 'flex',
     flexDirection: 'column',
-    [theme.breakpoints.up('sm')]: {
-      width: theme.dimensions.drawerWidthDesktop,
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: theme.dimensions.drawerHeightPhone,
-    },
+    [theme.breakpoints.up('sm')]: { width: theme.dimensions.drawerWidthDesktop },
+    [theme.breakpoints.down('sm')]: { height: theme.dimensions.drawerHeightPhone },
   },
-  mapContainer: {
-    flexGrow: 1,
-  },
-  title: {
-    flexGrow: 1,
-  },
-  fileInput: {
-    display: 'none',
+  mapContainer: { flexGrow: 1 },
+  title: { flexGrow: 1 },
+  fileInput: { display: 'none' },
+  sortBox: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    gap: theme.spacing(1),
+    margin: theme.spacing(1, 1, 1, 1), // margem inferior
   },
 }));
 
@@ -63,110 +62,64 @@ const GeofencesPage = () => {
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const geofences = useSelector((state) => Object.values(state.geofences.items || {}));
-
+  const geofencesItems = useSelector((state) => state.geofences.items);
   const [selectedGeofenceId, setSelectedGeofenceId] = useState();
-  const [setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [sortOrderAsc, setSortOrderAsc] = useState(true);
 
-  const parseCoordinates = (text) => {
-    const match = text.match(/(-?\d+(\.\d+)?)[,\s]+(-?\d+(\.\d+)?)/);
-    if (!match) return null;
+  const geofences = useMemo(() => {
+    const list = Object.values(geofencesItems || {});
 
-    return {
-      lat: parseFloat(match[1]),
-      lon: parseFloat(match[3]),
-    };
-  };
+    const sorted = [...list].sort((a, b) => {
+      if (!a.name) return 1;
+      if (!b.name) return -1;
+      return sortOrderAsc ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+    });
 
-  const geofenceOptions = useMemo(() => {
-    return geofences.map((g) => ({
-      type: 'geofence',
-      id: g.id,
-      label: g.name,
-    }));
-  }, [geofences]);
+    if (searchInput.trim() === '') return sorted;
 
-  const searchAddress = async (query) => {
-    try {
-      const response = await fetchOrThrow(
-        `/api/geocoder/search?query=${encodeURIComponent(query)}`,
-      );
-      const data = await response.json();
+    return sorted.filter((g) => g.name.toLowerCase().includes(searchInput.toLowerCase()));
+  }, [geofencesItems, sortOrderAsc, searchInput]);
 
-      return data.map((item) => ({
-        type: 'address',
-        label: item.displayName,
-        lat: item.lat,
-        lon: item.lon,
-      }));
-    } catch (error) {
-      dispatch(errorsActions.push(error.message));
-      return [];
-    }
-  };
+  const geofenceOptions = useMemo(
+    () => geofences.map((g) => ({ type: 'geofence', id: g.id, label: g.name })),
+    [geofences],
+  );
 
-  const [addressOptions, setAddressOptions] = useState([]);
 
-  const handleSearchChange = async (value) => {
-    setSearchInput(value);
-
-    if (!value || value.length < 3) {
-      setAddressOptions([]);
-      return;
-    }
-
-    const coords = parseCoordinates(value);
-
-    if (coords) {
-      setAddressOptions([
-        {
-          type: 'coords',
-          label: `${coords.lat}, ${coords.lon}`,
-          lat: coords.lat,
-          lon: coords.lon,
-        },
-      ]);
-      return;
-    }
-
-    const results = await searchAddress(value);
-    setAddressOptions(results);
-  };
-
-  const options = [...geofenceOptions, ...addressOptions];
+  const handleSearchChange = (value) => setSearchInput(value);
 
   const handleSelect = (value) => {
     if (!value) return;
 
     if (value.type === 'geofence') {
       setSelectedGeofenceId(value.id);
-    }
-
-    if (value.type === 'coords' || value.type === 'address') {
+      const selected = geofences.find((g) => g.id === value.id);
+      if (selected?.area) {
+        window.dispatchEvent(
+          new CustomEvent('map.fitGeofence', { detail: { area: selected.area } }),
+        );
+      }
+    } else if (value.type === 'coords') {
       window.dispatchEvent(
-        new CustomEvent('map.panTo', {
-          detail: {
-            lat: value.lat,
-            lon: value.lon,
-            zoom: 16,
-          },
-        }),
+        new CustomEvent('map.panTo', { detail: { lat: value.lat, lon: value.lon, zoom: 16 } }),
       );
+      setSelectedGeofenceId(null);
     }
   };
+
+  const options = [...geofenceOptions];
 
   const handleFile = (event) => {
     const files = Array.from(event.target.files);
     const [file] = files;
-
     const reader = new FileReader();
 
     reader.onload = async () => {
       const xml = new DOMParser().parseFromString(reader.result, 'text/xml');
       const segment = xml.getElementsByTagName('trkseg')[0];
-
       const coordinates = Array.from(segment.getElementsByTagName('trkpt'))
-        .map((point) => `${point.getAttribute('lat')} ${point.getAttribute('lon')}`)
+        .map((p) => `${p.getAttribute('lat')} ${p.getAttribute('lon')}`)
         .join(', ');
 
       const area = `LINESTRING (${coordinates})`;
@@ -178,7 +131,6 @@ const GeofencesPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newItem),
         });
-
         const item = await response.json();
         navigate(`/settings/geofence/${item.id}`);
       } catch (error) {
@@ -189,6 +141,8 @@ const GeofencesPage = () => {
     reader.readAsText(file);
   };
 
+  const toggleSortOrder = () => setSortOrderAsc((prev) => !prev);
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -197,11 +151,9 @@ const GeofencesPage = () => {
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
               <BackIcon />
             </IconButton>
-
             <Typography variant="h6" className={classes.title}>
               {t('sharedGeofences')}
             </Typography>
-
             <label htmlFor="upload-gpx">
               <input
                 accept=".gpx"
@@ -238,16 +190,25 @@ const GeofencesPage = () => {
             sx={{ m: 1 }}
           />
 
+          <Box className={classes.sortBox}>
+            <Button variant="outlined" size="small" onClick={toggleSortOrder}>
+              {sortOrderAsc ? 'A → Z' : 'Z → A'}
+            </Button>
+          </Box>
+
           <Divider />
 
-          <GeofencesList onGeofenceSelected={setSelectedGeofenceId} />
+          <GeofencesList
+            geofences={geofences}
+            selectedGeofenceId={selectedGeofenceId}
+            onGeofenceSelected={setSelectedGeofenceId}
+          />
         </Paper>
 
         <div className={classes.mapContainer}>
           <MapView>
             <MapGeofenceEdit selectedGeofenceId={selectedGeofenceId} />
           </MapView>
-
           <MapScale />
           <MapCurrentLocation />
           <MapGeocoder />
