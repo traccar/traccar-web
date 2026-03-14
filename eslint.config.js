@@ -44,6 +44,7 @@ export default [
       '@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'off',
+      '@eslint-react/no-array-index-key': 'off',
     },
   },
   prettierRecommended,

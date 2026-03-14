@@ -1,7 +1,7 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 import { googleProtocol } from 'maplibre-google-maps';
-import React, { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
+import { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import { SwitcherControl } from '../switcher/switcher';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
@@ -145,12 +145,7 @@ const MapView = ({ children }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={containerRef}>
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.type.handlesMapReady) {
-          return React.cloneElement(child, { mapReady });
-        }
-        return mapReady ? child : null;
-      })}
+      {mapReady && children}
     </div>
   );
 };

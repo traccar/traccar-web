@@ -5,7 +5,7 @@ import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
 
-const MapSelectedDevice = ({ mapReady }) => {
+const MapSelectedDevice = () => {
   const currentTime = useSelector((state) => state.devices.selectTime);
   const currentId = useSelector((state) => state.devices.selectedId);
   const previousTime = usePrevious(currentTime);
@@ -19,8 +19,6 @@ const MapSelectedDevice = ({ mapReady }) => {
   const previousPosition = usePrevious(position);
 
   useEffect(() => {
-    if (!mapReady) return;
-
     const positionChanged =
       position &&
       (!previousPosition ||
@@ -39,11 +37,9 @@ const MapSelectedDevice = ({ mapReady }) => {
         offset: [0, -dimensions.popupMapOffset / 2],
       });
     }
-  }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom, mapReady]);
+  }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom]);
 
   return null;
 };
-
-MapSelectedDevice.handlesMapReady = true;
 
 export default MapSelectedDevice;
