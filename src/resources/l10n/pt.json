@@ -629,5 +629,9 @@
     "categoryVan": "Caravana",
     "categoryScooter": "Scooter",
     "maintenanceStart": "Iniciar",
-    "maintenancePeriod": "Período"
+    "maintenancePeriod": "Período",
+    "grouped": "Agrupado",
+    "sharedClearFilters": "Limpar filtros",
+    "ignition": "Ignição",
+    "ignitionReport": "Relatório de Ignição"
 }
