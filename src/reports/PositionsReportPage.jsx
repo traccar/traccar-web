@@ -46,13 +46,13 @@ const PositionsReportPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const selectedIcon = useRef();
+  const selectedRef = useRef();
 
   useEffect(() => {
-    if (selectedIcon.current) {
-      selectedIcon.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (selectedRef.current) {
+      selectedRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
-  }, [selectedIcon.current]);
+  }, [selectedItem]);
 
   const onMapPointClick = useCallback(
     (positionId) => {
@@ -181,7 +181,7 @@ const PositionsReportPage = () => {
                         <IconButton
                           size="small"
                           onClick={() => setSelectedItem(null)}
-                          ref={selectedIcon}
+                          ref={selectedRef}
                         >
                           <GpsFixedIcon fontSize="small" />
                         </IconButton>

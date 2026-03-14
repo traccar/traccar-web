@@ -1,7 +1,7 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 import { googleProtocol } from 'maplibre-google-maps';
-import React, { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
+import { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import { SwitcherControl } from '../switcher/switcher';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
@@ -53,7 +53,7 @@ const initMap = async () => {
 const MapView = ({ children }) => {
   const theme = useTheme();
 
-  const containerEl = useRef(null);
+  const containerRef = useRef(null);
 
   const [mapReady, setMapReady] = useState(false);
 
@@ -135,22 +135,17 @@ const MapView = ({ children }) => {
   }, []);
 
   useLayoutEffect(() => {
-    const currentEl = containerEl.current;
+    const currentEl = containerRef.current;
     currentEl.appendChild(element);
     map.resize();
     return () => {
       currentEl.removeChild(element);
     };
-  }, [containerEl]);
+  }, [containerRef]);
 
   return (
-    <div style={{ width: '100%', height: '100%' }} ref={containerEl}>
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child) && child.type.handlesMapReady) {
-          return React.cloneElement(child, { mapReady });
-        }
-        return mapReady ? child : null;
-      })}
+    <div style={{ width: '100%', height: '100%' }} ref={containerRef}>
+      {mapReady && children}
     </div>
   );
 };

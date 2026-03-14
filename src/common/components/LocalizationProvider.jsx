@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo } from 'react';
+import { createContext, use, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import usePersistedState from '../util/usePersistedState';
@@ -221,7 +221,7 @@ export const LocalizationProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({ languages, language, setLocalLanguage, direction }),
-    [languages, language, setLocalLanguage, direction],
+    [language, setLocalLanguage, direction],
   );
 
   useEffect(() => {
@@ -235,19 +235,19 @@ export const LocalizationProvider = ({ children }) => {
     document.dir = direction;
   }, [language, direction]);
 
-  return <LocalizationContext.Provider value={value}>{children}</LocalizationContext.Provider>;
+  return <LocalizationContext value={value}>{children}</LocalizationContext>;
 };
 
-export const useLocalization = () => useContext(LocalizationContext);
+export const useLocalization = () => use(LocalizationContext);
 
 export const useTranslation = () => {
-  const context = useContext(LocalizationContext);
+  const context = use(LocalizationContext);
   const { data } = context.languages[context.language];
   return useMemo(() => (key) => data[key], [data]);
 };
 
 export const useTranslationKeys = (predicate) => {
-  const context = useContext(LocalizationContext);
+  const context = use(LocalizationContext);
   const { data } = context.languages[context.language];
   return Object.keys(data).filter(predicate);
 };

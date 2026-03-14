@@ -34,7 +34,7 @@ const LogsPage = () => {
   useEffect(() => {
     dispatch(sessionActions.enableLogs(true));
     return () => dispatch(sessionActions.enableLogs(false));
-  }, []);
+  }, [dispatch]);
 
   const items = useSelector((state) => state.session.logs);
 

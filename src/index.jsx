@@ -21,13 +21,13 @@ root.render(
       <LocalizationProvider>
         <StyledEngineProvider injectFirst>
           <AppThemeProvider>
-            <CssBaseline />
+            <CssBaseline/>
             <ServerProvider>
               <BrowserRouter>
-                <Navigation />
+                <Navigation/>
               </BrowserRouter>
-              <ErrorHandler />
-              <NativeInterface />
+              <ErrorHandler/>
+                <NativeInterface/>
             </ServerProvider>
           </AppThemeProvider>
         </StyledEngineProvider>

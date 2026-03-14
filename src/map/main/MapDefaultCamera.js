@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { usePreference } from '../../common/util/preferences';
 import { map } from '../core/MapView';
 
-const MapDefaultCamera = ({ mapReady }) => {
+const MapDefaultCamera = () => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.session.positions);
 
@@ -15,7 +15,7 @@ const MapDefaultCamera = ({ mapReady }) => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    if (!mapReady || initialized) return;
+    if (initialized) return;
     if (selectedDeviceId) {
       const position = positions[selectedDeviceId];
       if (position) {
@@ -55,19 +55,9 @@ const MapDefaultCamera = ({ mapReady }) => {
         }
       }
     }
-  }, [
-    selectedDeviceId,
-    initialized,
-    defaultLatitude,
-    defaultLongitude,
-    defaultZoom,
-    positions,
-    mapReady,
-  ]);
+  }, [selectedDeviceId, initialized, defaultLatitude, defaultLongitude, defaultZoom, positions]);
 
   return null;
 };
-
-MapDefaultCamera.handlesMapReady = true;
 
 export default MapDefaultCamera;
