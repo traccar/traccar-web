@@ -67,7 +67,7 @@
     "globals": "^17.4.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
-    "vite": "^8.0.1",
+    "vite": "^8.0.2",
     "vite-plugin-pwa": "^1.2.0",
     "vite-plugin-static-copy": "^3.3.0",
     "vite-plugin-svgr": "^4.5.0"
