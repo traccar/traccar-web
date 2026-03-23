@@ -69,7 +69,7 @@
     "typescript": "^6.0.2",
     "vite": "^8.0.2",
     "vite-plugin-pwa": "^1.2.0",
-    "vite-plugin-static-copy": "^3.3.0",
+    "vite-plugin-static-copy": "^4.0.0",
     "vite-plugin-svgr": "^4.5.0"
   },
   "overrides": {
