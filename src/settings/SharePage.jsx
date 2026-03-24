@@ -26,7 +26,9 @@ const SharePage = () => {
 
   const { type, id } = useParams();
 
-  const item = useSelector((state) => (type === 'group' ? state.groups.items[id] : state.devices.items[id]));
+  const item = useSelector((state) =>
+    type === 'group' ? state.groups.items[id] : state.devices.items[id],
+  );
 
   const [expiration, setExpiration] = useState(
     dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'),
@@ -51,7 +53,11 @@ const SharePage = () => {
             <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <TextField value={item.name} label={t(type === 'group' ? 'groupDialog' : 'sharedDevice')} disabled />
+            <TextField
+              value={item.name}
+              label={t(type === 'group' ? 'groupDialog' : 'sharedDevice')}
+              disabled
+            />
             <TextField
               label={t('userExpirationTime')}
               type="date"
