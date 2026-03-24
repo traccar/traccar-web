@@ -326,7 +326,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           )}
           {!shareDisabled && !user.temporary && (
             <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
-              <Typography color="secondary">{t('deviceShare')}</Typography>
+              <Typography color="secondary">{t('sharedShare')}</Typography>
             </MenuItem>
           )}
         </Menu>

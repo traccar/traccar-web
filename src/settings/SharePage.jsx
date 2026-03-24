@@ -24,9 +24,9 @@ const SharePage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
-  const { id } = useParams();
+  const { type, id } = useParams();
 
-  const device = useSelector((state) => state.devices.items[id]);
+  const item = useSelector((state) => (type === 'group' ? state.groups.items[id] : state.devices.items[id]));
 
   const [expiration, setExpiration] = useState(
     dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'),
@@ -35,23 +35,23 @@ const SharePage = () => {
 
   const handleShare = useCatchCallback(async () => {
     const expirationTime = dayjs(expiration).toISOString();
-    const response = await fetchOrThrow('/api/devices/share', {
+    const response = await fetchOrThrow(`/api/share/${type}`, {
       method: 'POST',
-      body: new URLSearchParams(`deviceId=${id}&expiration=${expirationTime}`),
+      body: new URLSearchParams(`${type}Id=${id}&expiration=${expirationTime}`),
     });
     const token = await response.text();
     setLink(`${window.location.origin}?token=${token}`);
-  }, [id, expiration, setLink]);
+  }, [id, expiration, type, setLink]);
 
   return (
-    <PageLayout menu={<SettingsMenu />} breadcrumbs={['deviceShare']}>
+    <PageLayout menu={<SettingsMenu />} breadcrumbs={['sharedShare']}>
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
-            <TextField value={device.name} label={t('sharedDevice')} disabled />
+            <TextField value={item.name} label={t(type === 'group' ? 'groupDialog' : 'sharedDevice')} disabled />
             <TextField
               label={t('userExpirationTime')}
               type="date"
@@ -65,9 +65,7 @@ const SharePage = () => {
               value={link || ''}
               onChange={(e) => setLink(e.target.value)}
               label={t('sharedLink')}
-              InputProps={{
-                readOnly: true,
-              }}
+              slotProps={{ input: { readOnly: true } }}
             />
           </AccordionDetails>
         </Accordion>

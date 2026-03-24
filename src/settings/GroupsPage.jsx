@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import PublishIcon from '@mui/icons-material/Publish';
+import ShareIcon from '@mui/icons-material/Share';
 import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -21,6 +23,8 @@ const GroupsPage = () => {
   const t = useTranslation();
 
   const limitCommands = useRestriction('limitCommands');
+  const shareDisabled = useSelector((state) => state.session.server.attributes.disableShare);
+  const user = useSelector((state) => state.session.user);
 
   const [timestamp, setTimestamp] = useState(Date.now());
   const [items, setItems] = useState([]);
@@ -57,6 +61,13 @@ const GroupsPage = () => {
     handler: (groupId) => navigate(`/settings/group/${groupId}/command`),
   };
 
+  const actionShare = {
+    key: 'share',
+    title: t('sharedShare'),
+    icon: <ShareIcon fontSize="small" />,
+    handler: (groupId) => navigate(`/settings/group/${groupId}/share`),
+  };
+
   const actionConnections = {
     key: 'connections',
     title: t('sharedConnections'),
@@ -84,9 +95,11 @@ const GroupsPage = () => {
                   editPath="/settings/group"
                   endpoint="groups"
                   setTimestamp={setTimestamp}
-                  customActions={
-                    limitCommands ? [actionConnections] : [actionConnections, actionCommand]
-                  }
+                  customActions={[
+                    actionConnections,
+                    ...(!limitCommands ? [actionCommand] : []),
+                    ...(!shareDisabled && !user.temporary ? [actionShare] : []),
+                  ]}
                 />
               </TableCell>
             </TableRow>

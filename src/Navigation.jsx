@@ -127,6 +127,7 @@ const Navigation = () => {
         <Route path="emulator" element={<EmulatorPage />} />
 
         <Route path="settings">
+          <Route path=":type/:id/share" element={<SharePage />} />
           <Route path="accumulators/:deviceId" element={<AccumulatorsPage />} />
           <Route path="announcement" element={<AnnouncementPage />} />
           <Route path="calendars" element={<CalendarsPage />} />
@@ -141,7 +142,6 @@ const Navigation = () => {
           <Route path="devices" element={<DevicesPage />} />
           <Route path="device/:id/connections" element={<DeviceConnectionsPage />} />
           <Route path="device/:id/command" element={<CommandDevicePage />} />
-          <Route path="device/:id/share" element={<SharePage />} />
           <Route path="device/:id" element={<DevicePage />} />
           <Route path="device" element={<DevicePage />} />
           <Route path="drivers" element={<DriversPage />} />
