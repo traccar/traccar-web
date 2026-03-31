@@ -31,9 +31,10 @@ export default () => {
       {
         id: 'googleTraffic',
         title: t('mapGoogleTraffic'),
-        source: sourceCustom([
-          `google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerTraffic&overlay=true`,
-        ], 20),
+        source: sourceCustom(
+          [`google://satellite/{z}/{x}/{y}?key=${googleKey}&layerType=layerTraffic&overlay=true`],
+          20,
+        ),
         available: Boolean(googleKey),
         attribute: 'googleKey',
       },
@@ -87,18 +88,24 @@ export default () => {
       {
         id: 'tomTomFlow',
         title: t('mapTomTomFlow'),
-        source: sourceCustom([
-          `https://api.tomtom.com/traffic/map/4/tile/flow/absolute/{z}/{x}/{y}.png?key=${tomTomKey}`,
-        ], 22),
+        source: sourceCustom(
+          [
+            `https://api.tomtom.com/traffic/map/4/tile/flow/absolute/{z}/{x}/{y}.png?key=${tomTomKey}`,
+          ],
+          22,
+        ),
         available: Boolean(tomTomKey),
         attribute: 'tomTomKey',
       },
       {
         id: 'tomTomIncidents',
         title: t('mapTomTomIncidents'),
-        source: sourceCustom([
-          `https://api.tomtom.com/traffic/map/4/tile/incidents/s3/{z}/{x}/{y}.png?key=${tomTomKey}`,
-        ], 22),
+        source: sourceCustom(
+          [
+            `https://api.tomtom.com/traffic/map/4/tile/incidents/s3/{z}/{x}/{y}.png?key=${tomTomKey}`,
+          ],
+          22,
+        ),
         available: Boolean(tomTomKey),
         attribute: 'tomTomKey',
       },
