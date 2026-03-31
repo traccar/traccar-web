@@ -18,7 +18,7 @@ import SelectField from '../common/components/SelectField';
 import deviceCategories from '../common/util/deviceCategories';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
-import { useAdministrator } from '../common/util/permissions';
+import { useManager } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
@@ -30,7 +30,7 @@ const DevicePage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
-  const admin = useAdministrator();
+  const manager = useManager();
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
@@ -141,7 +141,7 @@ const DevicePage = () => {
                     setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
                   }
                 }}
-                disabled={!admin}
+                disabled={!manager}
               />
               <FormControlLabel
                 control={
@@ -151,7 +151,7 @@ const DevicePage = () => {
                   />
                 }
                 label={t('sharedDisabled')}
-                disabled={!admin}
+                disabled={!manager}
               />
               <Button variant="outlined" color="primary" onClick={() => setShowQr(true)}>
                 {t('sharedQrCode')}
