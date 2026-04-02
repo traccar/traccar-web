@@ -22,7 +22,7 @@
     "file-saver": "^2.0.5",
     "maplibre-gl": "^5.21.1",
     "maplibre-google-maps": "^1.1.0",
-    "mui-file-input": "^8.0.0",
+    "mui-file-input": "^8.0.1",
     "react": "^19.2.4",
     "react-country-flag": "3.1.0",
     "react-dom": "^19.2.4",
