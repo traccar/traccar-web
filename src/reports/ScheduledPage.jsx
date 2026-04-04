@@ -57,7 +57,7 @@ const ScheduledPage = () => {
   };
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['settingsTitle', 'reportScheduled']}>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportScheduled']}>
       <Table>
         <TableHead>
           <TableRow>
