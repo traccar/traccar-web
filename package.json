@@ -20,6 +20,7 @@
     "dayjs": "^1.11.20",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
+    "hls.js": "^1.6.16",
     "maplibre-gl": "^5.23.0",
     "maplibre-google-maps": "^1.1.0",
     "mui-file-input": "^8.0.1",

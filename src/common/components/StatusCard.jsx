@@ -324,6 +324,9 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
               {navigationAppTitle}
             </MenuItem>
           )}
+          <MenuItem onClick={() => navigate(`/stream?deviceId=${deviceId}`)}>
+            {t('linkLiveVideo')}
+          </MenuItem>
           {!shareDisabled && !user.temporary && (
             <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
               <Typography color="secondary">{t('sharedShare')}</Typography>
