@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { Typography, IconButton, Toolbar, Paper } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Hls from 'hls.js/light';
+import { default as Hls, Events } from 'hls.js/light';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import BackIcon from '../common/components/BackIcon';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(() => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -50,10 +50,10 @@ const StreamPage = () => {
     hlsRef.current = hls;
     hls.loadSource(url);
     hls.attachMedia(videoRef.current);
-    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+    hls.on(Events.MANIFEST_PARSED, () => {
       videoRef.current.play();
     });
-    hls.on(Hls.Events.ERROR, (_, data) => {
+    hls.on(Events.ERROR, (_, data) => {
       if (data.fatal) {
         setError(true);
       }
