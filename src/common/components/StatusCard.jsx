@@ -32,6 +32,7 @@ import RemoveDialog from './RemoveDialog';
 import PositionValue from './PositionValue';
 import { useDeviceReadonly, useRestriction } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
+import useComputedAttributes from '../attributes/useComputedAttributes';
 import { devicesActions } from '../../store';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
@@ -134,6 +135,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const deviceImage = device?.attributes?.deviceImage;
 
   const positionAttributes = usePositionAttributes(t);
+  const computedAttributes = useComputedAttributes();
   const positionItems = useAttributePreference(
     'positionItems',
     'fixTime,address,speed,totalDistance',
@@ -216,7 +218,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                         .map((key) => (
                           <StatusRow
                             key={key}
-                            name={positionAttributes[key]?.name || key}
+                            name={computedAttributes[key] || positionAttributes[key]?.name || key}
                             content={
                               <PositionValue
                                 position={position}

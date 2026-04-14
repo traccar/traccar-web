@@ -20,6 +20,7 @@ import { useEffectAsync } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import useComputedAttributes from '../common/attributes/useComputedAttributes';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -42,6 +43,7 @@ const PositionPage = () => {
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
+  const computedAttributes = useComputedAttributes();
 
   const { id } = useParams();
 
@@ -96,7 +98,7 @@ const PositionPage = () => {
                       <TableRow key={property}>
                         <TableCell>{property}</TableCell>
                         <TableCell>
-                          <strong>{positionAttributes[property]?.name}</strong>
+                          <strong>{computedAttributes[property] || positionAttributes[property]?.name}</strong>
                         </TableCell>
                         <TableCell>
                           <PositionValue position={item} property={property} />
@@ -108,7 +110,7 @@ const PositionPage = () => {
                     <TableRow key={attribute}>
                       <TableCell>{attribute}</TableCell>
                       <TableCell>
-                        <strong>{positionAttributes[attribute]?.name}</strong>
+                        <strong>{computedAttributes[attribute] || positionAttributes[attribute]?.name}</strong>
                       </TableCell>
                       <TableCell>
                         <PositionValue position={item} attribute={attribute} />

@@ -17,6 +17,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import useComputedAttributes from '../common/attributes/useComputedAttributes';
 import { useCatch } from '../reactHelper';
 import { useAttributePreference } from '../common/util/preferences';
 import {
@@ -35,6 +36,7 @@ const ChartReportPage = () => {
   const t = useTranslation();
 
   const positionAttributes = usePositionAttributes(t);
+  const computedAttributes = useComputedAttributes();
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const altitudeUnit = useAttributePreference('altitudeUnit');
@@ -138,7 +140,7 @@ const ChartReportPage = () => {
             >
               {types.map((key) => (
                 <MenuItem key={key} value={key}>
-                  {positionAttributes[key]?.name || key}
+                  {computedAttributes[key] || positionAttributes[key]?.name || key}
                 </MenuItem>
               ))}
             </Select>
@@ -192,7 +194,7 @@ const ChartReportPage = () => {
                   backgroundColor: theme.palette.background.default,
                   color: theme.palette.text.primary,
                 }}
-                formatter={(value, key) => [value, positionAttributes[key]?.name || key]}
+                formatter={(value, key) => [value, computedAttributes[key] || positionAttributes[key]?.name || key]}
                 labelFormatter={(value) => formatTime(value, 'seconds')}
               />
               <Brush

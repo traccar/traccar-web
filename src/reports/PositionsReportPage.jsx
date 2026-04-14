@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
@@ -10,6 +10,7 @@ import ReportsMenu from './components/ReportsMenu';
 import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
+import useComputedAttributes from '../common/attributes/useComputedAttributes';
 import { useCatch } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
@@ -34,11 +35,17 @@ const PositionsReportPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const positionAttributes = usePositionAttributes(t);
+  const computedAttributes = useComputedAttributes();
 
   const readonly = useRestriction('readonly');
 
-  const [available, setAvailable] = useState([]);
+  const [availableKeys, setAvailableKeys] = useState([]);
   const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
+
+  const available = useMemo(
+    () => availableKeys.map((key) => [key, computedAttributes[key] || positionAttributes[key]?.name || key]),
+    [availableKeys, computedAttributes, positionAttributes],
+  );
   const [items, setItems] = useState([]);
   const geofenceId = searchParams.has('geofenceId')
     ? parseInt(searchParams.get('geofenceId'))
@@ -86,9 +93,7 @@ const PositionsReportPage = () => {
           keySet.delete(key);
         }
       });
-      setAvailable(
-        [...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]),
-      );
+      setAvailableKeys([...keyList, ...keySet]);
       setItems(data);
     } finally {
       setLoading(false);
@@ -167,7 +172,7 @@ const PositionsReportPage = () => {
               <TableRow>
                 <TableCell className={classes.columnAction} />
                 {columns.map((key) => (
-                  <TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>
+                  <TableCell key={key}>{computedAttributes[key] || positionAttributes[key]?.name || key}</TableCell>
                 ))}
                 <TableCell className={classes.columnAction} />
               </TableRow>
