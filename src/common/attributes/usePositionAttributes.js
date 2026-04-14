@@ -396,6 +396,34 @@ export default (t) =>
         type: 'number',
         subtype: 'speed',
       },
+      dataMode: {
+        name: t('positionDataMode'),
+        type: 'number',
+      },
+      sleepMode: {
+        name: t('positionSleepMode'),
+        type: 'number',
+      },
+      io69: {
+        name: t('positionIo69'),
+        type: 'number',
+      },
+      batteryCurrent: {
+        name: t('positionBatteryCurrent'),
+        type: 'number',
+      },
+      adc1: {
+        name: `${t('positionAdc')} 1`,
+        type: 'number',
+      },
+      priority: {
+        name: t('positionPriority'),
+        type: 'number',
+      },
+      network: {
+        name: t('positionNetwork'),
+        type: 'string',
+      },
     }),
     [t],
   );
