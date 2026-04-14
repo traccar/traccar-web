@@ -46,14 +46,20 @@ const PositionPage = () => {
   const { id } = useParams();
 
   const [item, setItem] = useState();
+  const [computedAttributes, setComputedAttributes] = useState(new Set());
 
   useEffectAsync(async () => {
     if (id) {
-      const response = await fetchOrThrow(`/api/positions?id=${id}`);
-      const positions = await response.json();
+      const [positionsResponse, attributesResponse] = await Promise.all([
+        fetchOrThrow(`/api/positions?id=${id}`),
+        fetchOrThrow('/api/attributes/computed'),
+      ]);
+      const positions = await positionsResponse.json();
       if (positions.length > 0) {
         setItem(positions[0]);
       }
+      const attributes = await attributesResponse.json();
+      setComputedAttributes(new Set(attributes.map((a) => a.attribute)));
     }
   }, [id]);
 
@@ -108,7 +114,7 @@ const PositionPage = () => {
                     <TableRow key={attribute}>
                       <TableCell>{attribute}</TableCell>
                       <TableCell>
-                        <strong>{positionAttributes[attribute]?.name}</strong>
+                        <strong>{positionAttributes[attribute]?.name || (computedAttributes.has(attribute) ? attribute : '')}</strong>
                       </TableCell>
                       <TableCell>
                         <PositionValue position={item} attribute={attribute} />
