@@ -145,6 +145,7 @@
     "attributeTelegramChatId": "Telegram Chat ID",
     "attributePushoverUserKey": "Pushover User Key",
     "attributePushoverDeviceNames": "Pushover Device Names",
+    "attributePushoverNotificationSound": "Pushover Notification Sound",
     "attributeMailSmtpHost": "Email: SMTP Host",
     "attributeMailSmtpPort": "Email: SMTP Port",
     "attributeMailSmtpStarttlsEnable": "Email: SMTP STARTTLS Enable",

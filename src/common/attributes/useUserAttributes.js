@@ -15,6 +15,10 @@ export default (t) =>
         name: t('attributePushoverDeviceNames'),
         type: 'string',
       },
+      pushoverNotificationSound: {
+        name: t('attributePushoverNotificationSound'),
+        type: 'string',
+      },
       'mail.smtp.host': {
         name: t('attributeMailSmtpHost'),
         type: 'string',
