@@ -5,6 +5,7 @@ import {
   driversActions,
   maintenancesActions,
   calendarsActions,
+  computedAttributesActions,
 } from './store';
 import { useEffectAsync } from './reactHelper';
 import fetchOrThrow from './common/util/fetchOrThrow';
@@ -45,6 +46,13 @@ const CachingController = () => {
     if (authenticated) {
       const response = await fetchOrThrow('/api/calendars');
       dispatch(calendarsActions.refresh(await response.json()));
+    }
+  }, [authenticated]);
+
+  useEffectAsync(async () => {
+    if (authenticated) {
+      const response = await fetchOrThrow('/api/attributes/computed');
+      dispatch(computedAttributesActions.refresh(await response.json()));
     }
   }, [authenticated]);
 

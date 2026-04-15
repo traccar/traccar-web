@@ -76,6 +76,12 @@ const PositionsReportPage = () => {
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     setLoading(true);
     try {
+      const linkedQueries = deviceIds.map((deviceId) =>
+        fetchOrThrow(`/api/attributes/computed?deviceId=${deviceId}`).then((r) => r.json()),
+      );
+      const linkedResults = await Promise.all(linkedQueries);
+      const linkedAttributes = new Set(linkedResults.flat().map((item) => item.attribute));
+
       const response = await fetchOrThrow(`/api/positions?${query.toString()}`, {
         headers: { Accept: 'application/json' },
       });
@@ -84,7 +90,11 @@ const PositionsReportPage = () => {
       const keyList = [];
       data.forEach((position) => {
         Object.keys(position).forEach((it) => keySet.add(it));
-        Object.keys(position.attributes).forEach((it) => keySet.add(it));
+        Object.keys(position.attributes).forEach((it) => {
+          if (it in positionAttributes || linkedAttributes.has(it)) {
+            keySet.add(it);
+          }
+        });
       });
       ['id', 'deviceId', 'outdated', 'network', 'attributes'].forEach((key) => keySet.delete(key));
       Object.keys(positionAttributes).forEach((key) => {

@@ -58,6 +58,13 @@ const ChartReportPage = () => {
   const onShow = useCatch(async ({ deviceIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+
+    const linkedQueries = deviceIds.map((deviceId) =>
+      fetchOrThrow(`/api/attributes/computed?deviceId=${deviceId}`).then((r) => r.json()),
+    );
+    const linkedResults = await Promise.all(linkedQueries);
+    const linkedAttributes = new Set(linkedResults.flat().map((item) => item.attribute));
+
     const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
       headers: { Accept: 'application/json' },
     });
@@ -74,7 +81,7 @@ const ChartReportPage = () => {
         .filter((key) => !['id', 'deviceId'].includes(key))
         .forEach((key) => {
           const value = data[key];
-          if (typeof value === 'number') {
+          if (typeof value === 'number' && (key in positionAttributes || linkedAttributes.has(key))) {
             keySet.add(key);
             const definition = positionAttributes[key] || {};
             switch (definition.dataType) {

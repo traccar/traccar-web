@@ -1,23 +1,16 @@
-import { useEffect, useState } from 'react';
-import fetchOrThrow from '../util/fetchOrThrow';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 export default () => {
-  const [descriptions, setDescriptions] = useState({});
+  const items = useSelector((state) => state.computedAttributes.items);
 
-  useEffect(() => {
-    fetchOrThrow('/api/attributes/computed')
-      .then((response) => response.json())
-      .then((items) => {
-        const map = {};
-        items.forEach((item) => {
-          if (item.description && item.attribute) {
-            map[item.attribute] = item.description;
-          }
-        });
-        setDescriptions(map);
-      })
-      .catch(() => {});
-  }, []);
-
-  return descriptions;
+  return useMemo(() => {
+    const map = {};
+    Object.values(items).forEach((item) => {
+      if (item.description && item.attribute) {
+        map[item.attribute] = item.description;
+      }
+    });
+    return map;
+  }, [items]);
 };
