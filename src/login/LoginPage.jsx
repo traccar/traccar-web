@@ -130,7 +130,7 @@ const LoginPage = () => {
               return;
             }
           }
-        } catch (e) {
+        } catch {
           // Resume unavailable or no pending OIDC auth — continue normal login flow.
         }
         const target = window.sessionStorage.getItem('postLogin') || '/';
