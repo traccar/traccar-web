@@ -119,6 +119,20 @@ const LoginPage = () => {
         const user = await response.json();
         generateLoginToken();
         dispatch(sessionActions.updateUser(user));
+        try {
+          // Check for a pending OIDC authorization stored server-side before
+          // the user was authenticated. On success, redirect to complete the flow.
+          const resumeResponse = await fetch('/api/oidc/authorize/resume');
+          if (resumeResponse.ok && resumeResponse.status !== 204) {
+            const data = await resumeResponse.json();
+            if (data?.location) {
+              window.location.href = data.location;
+              return;
+            }
+          }
+        } catch (e) {
+          // Resume unavailable or no pending OIDC auth — continue normal login flow.
+        }
         const target = window.sessionStorage.getItem('postLogin') || '/';
         window.sessionStorage.removeItem('postLogin');
         navigate(target, { replace: true });
