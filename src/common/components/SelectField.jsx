@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MenuItem, Autocomplete, TextField, Chip } from '@mui/material';
+import { Autocomplete, TextField, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useEffectAsync } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
@@ -74,9 +74,9 @@ const SelectField = ({
         options={items}
         getOptionLabel={getOptionLabel}
         renderOption={(props, option) => (
-          <MenuItem key={keyGetter(option)} {...props} value={keyGetter(option)}>
+          <li key={keyGetter(option)} {...props}>
             {titleGetter(option)}
-          </MenuItem>
+          </li>
         )}
         isOptionEqualToValue={(option, selectedOption) =>
           keyGetter(option) === keyGetter(selectedOption)
@@ -121,11 +121,12 @@ const SelectField = ({
             helperText={helperText}
             placeholder={multiple && !autocompleteValue.length ? placeholder : undefined}
             slotProps={{
+              ...params.slotProps,
               inputLabel: {
-                ...params.InputLabelProps,
+                ...params.slotProps?.inputLabel,
                 shrink:
                   (multiple && !autocompleteValue.length && Boolean(placeholder)) ||
-                  params.InputLabelProps?.shrink,
+                  params.slotProps?.inputLabel?.shrink,
               },
             }}
           />

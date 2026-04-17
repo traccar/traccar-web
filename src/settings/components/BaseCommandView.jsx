@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Autocomplete, Checkbox, FormControlLabel, MenuItem, TextField } from '@mui/material';
+import { Autocomplete, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useRestriction } from '../../common/util/permissions';
 import { useEffectAsync } from '../../reactHelper';
@@ -97,11 +97,11 @@ const BaseCommandView = ({
             : t(prefixString('command', option.type))
         }
         renderOption={(props, option) => (
-          <MenuItem key={option.key} {...props} value={option.key}>
+          <li key={option.key} {...props}>
             {option.optionType === 'saved'
               ? option.description
               : t(prefixString('command', option.type))}
-          </MenuItem>
+          </li>
         )}
         isOptionEqualToValue={(option, value) => option.key === value.key}
         value={

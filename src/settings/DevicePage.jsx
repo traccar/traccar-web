@@ -168,7 +168,7 @@ const DevicePage = () => {
                   placeholder={t('attributeDeviceImage')}
                   value={imageFile}
                   onChange={handleFileInput}
-                  inputProps={{ accept: 'image/*' }}
+                  slotProps={{ htmlInput: { accept: 'image/*' } }}
                 />
               </AccordionDetails>
             </Accordion>
