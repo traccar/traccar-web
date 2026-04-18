@@ -200,7 +200,7 @@ const MapPositions = ({
         }
       });
     };
-  }, [mapCluster, clusters, onMarkerClickCallback, onClusterClick]);
+  }, [mapCluster, clusters, onMarkerClickCallback, onClusterClick, onMapClickCallback]);
 
   useEffect(() => {
     [id, selected].forEach((source) => {
