@@ -73,7 +73,7 @@ const SelectField = ({
         className={multiple && singleLine ? classes.autocompleteMultiple : undefined}
         options={items}
         getOptionLabel={getOptionLabel}
-        renderOption={(props, option) => (
+        renderOption={({ key, ...props }, option) => (
           <li key={keyGetter(option)} {...props}>
             {titleGetter(option)}
           </li>
