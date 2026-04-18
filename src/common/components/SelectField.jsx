@@ -74,7 +74,7 @@ const SelectField = ({
         options={items}
         getOptionLabel={getOptionLabel}
         renderOption={({ key, ...props }, option) => (
-          <li key={keyGetter(option)} {...props}>
+          <li key={keyGetter(option) || key} {...props}>
             {titleGetter(option)}
           </li>
         )}
