@@ -49,7 +49,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
           selectedPosition={selectedPosition}
           showStatus
         />
-        <MapDefaultCamera />
+        <MapDefaultCamera filteredPositions={filteredPositions} />
         <MapSelectedDevice />
         <PoiMap />
       </MapView>
