@@ -15,7 +15,7 @@
     "@mui/material": "^9.0.0",
     "@reduxjs/toolkit": "^2.11.2",
     "@tmcw/togeojson": "^7.1.2",
-    "@turf/circle": "^7.3.4",
+    "@turf/circle": "^7.3.5",
     "@yudiel/react-qr-scanner": "^2.5.1",
     "dayjs": "^1.11.20",
     "exceljs": "^4.4.0",
