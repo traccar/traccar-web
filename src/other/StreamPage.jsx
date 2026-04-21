@@ -5,7 +5,9 @@ import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { default as Hls, Events } from 'hls.js/light';
 import { useTranslation } from '../common/components/LocalizationProvider';
+import { useCatch } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
+import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()(() => ({
   root: {
@@ -43,7 +45,17 @@ const StreamPage = () => {
 
   const device = useSelector((state) => state.devices.items[deviceId]);
 
+  const sendCommand = useCatch(async (type) => {
+    await fetchOrThrow('/api/commands/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId: device.id, type }),
+    });
+  });
+
   useEffect(() => {
+    sendCommand('videoStart');
+
     const url = `/api/stream/${device.uniqueId}/live.m3u8`;
 
     const hls = new Hls();
@@ -64,8 +76,9 @@ const StreamPage = () => {
         hlsRef.current.destroy();
         hlsRef.current = null;
       }
+      sendCommand('videoStop');
     };
-  }, [device]);
+  }, [deviceId]);
 
   return (
     <div className={classes.root}>
