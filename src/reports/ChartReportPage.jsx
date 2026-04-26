@@ -168,7 +168,7 @@ const ChartReportPage = () => {
               margin={{
                 top: 10,
                 right: 40,
-                left: 0,
+                left: 10,
                 bottom: 10,
               }}
             >
@@ -183,7 +183,7 @@ const ChartReportPage = () => {
               <YAxis
                 stroke={theme.palette.text.primary}
                 type="number"
-                tickFormatter={(value) => value.toFixed(2)}
+                tickFormatter={(value) => parseFloat(value.toFixed(2))}
                 domain={[minValue - valueRange / 5, maxValue + valueRange / 5]}
               />
               <CartesianGrid stroke={theme.palette.divider} strokeDasharray="3 3" />
