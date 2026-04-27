@@ -121,6 +121,14 @@ const LoginPage = () => {
         dispatch(sessionActions.updateUser(user));
         const target = window.sessionStorage.getItem('postLogin') || '/';
         window.sessionStorage.removeItem('postLogin');
+        const returnMatch = target.match(/[?&]return=([^&]+)/);
+        if (returnMatch) {
+          const returnUrl = decodeURIComponent(returnMatch[1]);
+          if (returnUrl.startsWith('/api/oidc/authorize')) {
+            window.location.href = returnUrl;
+            return;
+          }
+        }
         navigate(target, { replace: true });
       } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
         setCodeEnabled(true);
