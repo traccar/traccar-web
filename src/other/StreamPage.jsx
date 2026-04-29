@@ -49,14 +49,14 @@ const StreamPage = () => {
     await fetchOrThrow('/api/commands/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ deviceId: device.id, type }),
+      body: JSON.stringify({ deviceId, type }),
     });
   });
 
   useEffect(() => {
     sendCommand('videoStart');
 
-    const url = `/api/stream/${device.uniqueId}/live.m3u8`;
+    const url = `/api/stream/${deviceId}/live.m3u8`;
 
     const hls = new Hls();
     hlsRef.current = hls;
