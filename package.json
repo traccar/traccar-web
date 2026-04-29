@@ -27,7 +27,7 @@
     "react": "^19.2.5",
     "react-country-flag": "3.1.0",
     "react-dom": "^19.2.5",
-    "react-qr-code": "^2.0.18",
+    "react-qr-code": "^2.0.21",
     "react-redux": "^9.2.0",
     "react-rnd": "^10.5.3",
     "react-router-dom": "^7.14.2",
