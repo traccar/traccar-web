@@ -8,6 +8,21 @@ export default (t) =>
         type: 'number',
         subtype: 'speed',
       },
+      proximityEnterDistance: {
+        name: t('attributeProximityEnterDistance'),
+        type: 'number',
+        subtype: 'distance',
+      },
+      proximityExitDistance: {
+        name: t('attributeProximityExitDistance'),
+        type: 'number',
+        subtype: 'distance',
+      },
+      unaccompaniedDistance: {
+        name: t('attributeUnaccompaniedDistance'),
+        type: 'number',
+        subtype: 'distance',
+      },
       fuelDropThreshold: {
         name: t('attributeFuelDropThreshold'),
         type: 'number',
