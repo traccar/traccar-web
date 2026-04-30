@@ -17,7 +17,6 @@ const LinkField = ({
 }) => {
   const t = useTranslation();
   const [active, setActive] = useState(false);
-  const [open, setOpen] = useState(false);
   const [items, setItems] = useState();
   const [linked, setLinked] = useState();
   const [updated, setUpdated] = useState(false);
@@ -82,26 +81,29 @@ const LinkField = ({
   return (
     <>
       <Autocomplete
+        size="small"
         loading={active && !items}
         isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
         options={items || []}
         getOptionLabel={(item) => titleGetter(item)}
+        slotProps={{ chip: { size: 'small' } }}
         renderInput={(params) => (
           <TextField
             {...params}
             label={label}
-            slotProps={{ inputLabel: { shrink: true } }}
             placeholder={!active ? t('reportShow') : null}
+            onFocus={() => setActive(true)}
+            slotProps={{
+              ...params.slotProps,
+              inputLabel: {
+                ...params.slotProps?.inputLabel,
+                shrink: !active || params.slotProps?.inputLabel?.shrink,
+              },
+            }}
           />
         )}
         value={(items && linked) || []}
         onChange={(_, value) => onChange(value)}
-        open={open}
-        onOpen={() => {
-          setOpen(true);
-          setActive(true);
-        }}
-        onClose={() => setOpen(false)}
         multiple
       />
       <Snackbar
