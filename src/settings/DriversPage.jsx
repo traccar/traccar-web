@@ -72,7 +72,7 @@ const DriversPage = () => {
           {loading && <TableShimmer columns={3} endAction />}
         </TableBody>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/driver" />
     </PageLayout>
   );

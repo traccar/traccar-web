@@ -91,7 +91,7 @@ const NotificationsPage = () => {
           {loading && <TableShimmer columns={5} endAction />}
         </TableBody>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/notification" />
     </PageLayout>
   );

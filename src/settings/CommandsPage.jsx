@@ -80,7 +80,7 @@ const CommandsPage = () => {
           {loading && <TableShimmer columns={limitCommands ? 3 : 4} endAction />}
         </TableBody>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/command" disabled={limitCommands} />
     </PageLayout>
   );

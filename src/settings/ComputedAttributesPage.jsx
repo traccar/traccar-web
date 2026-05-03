@@ -80,7 +80,7 @@ const ComputedAttributesPage = () => {
           {loading && <TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />}
         </TableBody>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/attribute" disabled={!administrator} />
     </PageLayout>
   );

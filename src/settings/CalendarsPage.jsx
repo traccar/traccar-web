@@ -70,7 +70,7 @@ const CalendarsPage = () => {
           {loading && <TableShimmer columns={2} endAction />}
         </TableBody>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/calendar" />
     </PageLayout>
   );

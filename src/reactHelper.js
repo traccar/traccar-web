@@ -42,28 +42,24 @@ export const useCatchCallback = (method, deps) => {
 
 export const useScrollToLoad = (loadMore) => {
   const [hasMore, setHasMore] = useState(true);
-  const sentinelRef = useRef();
+  const [sentinel, setSentinel] = useState(null);
   const loadingRef = useRef(false);
+  const loadMoreRef = useRef(loadMore);
+  loadMoreRef.current = loadMore;
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && loadMore && !loadingRef.current) {
+    if (!sentinel) return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !loadingRef.current) {
         loadingRef.current = true;
-        Promise.resolve(loadMore()).finally(() => {
+        Promise.resolve(loadMoreRef.current?.()).finally(() => {
           loadingRef.current = false;
         });
       }
     });
-    const sentinel = sentinelRef.current;
-    if (sentinel) {
-      observer.observe(sentinel);
-    }
-    return () => {
-      if (sentinel) {
-        observer.unobserve(sentinel);
-      }
-    };
-  }, [loadMore]);
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [sentinel]);
 
-  return { sentinelRef, hasMore, setHasMore };
+  return { sentinelRef: setSentinel, hasMore, setHasMore };
 };

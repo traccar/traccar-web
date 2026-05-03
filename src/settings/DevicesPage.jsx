@@ -182,7 +182,7 @@ const DevicesPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
+      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/device" />
     </PageLayout>
   );
