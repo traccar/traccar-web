@@ -6,13 +6,16 @@ const useStyles = makeStyles()(() => ({
   menuItemText: {
     whiteSpace: 'nowrap',
   },
+  menuItemIcon: {
+    minWidth: '55px',
+  },
 }));
 
 const MenuItem = ({ title, link, icon, selected }) => {
   const { classes } = useStyles();
   return (
     <ListItemButton key={link} component={Link} to={link} selected={selected}>
-      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemIcon className={classes.menuItemIcon}>{icon}</ListItemIcon>
       <ListItemText primary={title} className={classes.menuItemText} />
     </ListItemButton>
   );
