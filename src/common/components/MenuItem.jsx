@@ -15,7 +15,7 @@ const MenuItem = ({ title, link, icon, selected }) => {
   const { classes } = useStyles();
   return (
     <ListItemButton key={link} component={Link} to={link} selected={selected}>
-      <ListItemIcon className={classes.menuItemIcon}>{icon}</ListItemIcon>
+      <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={title} className={classes.menuItemText} />
     </ListItemButton>
   );

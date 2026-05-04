@@ -27,7 +27,7 @@ const useStyles = makeStyles()((theme, { miniVariant }) => ({
     },
   },
   desktopDrawer: {
-    width: miniVariant ? `calc(${theme.spacing(8)} + 1px)` : theme.dimensions.drawerWidthDesktop,
+    width: miniVariant ? `calc(${theme.spacing(6)} + 5px)` : theme.dimensions.drawerWidthDesktop,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
