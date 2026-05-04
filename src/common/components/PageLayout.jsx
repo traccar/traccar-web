@@ -27,10 +27,19 @@ const useStyles = makeStyles()((theme, { miniVariant }) => ({
     },
   },
   desktopDrawer: {
-    width: miniVariant ? `calc(${theme.spacing(6)} + 5px)` : theme.dimensions.drawerWidthDesktop,
+    width: miniVariant ? theme.spacing(7) : theme.dimensions.drawerWidthDesktop,
+    overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
+    }),
+    ...(miniVariant && {
+      '& .MuiListItemButton-root': {
+        minHeight: 48,
+      },
+      '& .MuiListItemText-root': {
+        display: 'none',
+      },
     }),
     '@media print': {
       display: 'none',
