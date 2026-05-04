@@ -6,9 +6,6 @@ const useStyles = makeStyles()(() => ({
   menuItemText: {
     whiteSpace: 'nowrap',
   },
-  menuItemIcon: {
-    minWidth: '55px',
-  },
 }));
 
 const MenuItem = ({ title, link, icon, selected }) => {
