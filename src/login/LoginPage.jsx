@@ -10,7 +10,6 @@ import {
   Snackbar,
   IconButton,
   Tooltip,
-  Box,
   InputAdornment,
 } from '@mui/material';
 import CountryFlag from 'react-country-flag';
@@ -64,6 +63,9 @@ const useStyles = makeStyles()((theme) => ({
   },
   link: {
     cursor: 'pointer',
+  },
+  flag: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -183,9 +185,9 @@ const LoginPage = () => {
             <Select value={language} onChange={(e) => setLocalLanguage(e.target.value)}>
               {languageList.map((it) => (
                 <MenuItem key={it.code} value={it.code}>
-                  <Box component="span" sx={{ mr: 1 }}>
+                  <span className={classes.flag}>
                     <CountryFlag countryCode={it.country} svg />
-                  </Box>
+                  </span>
                   {it.name}
                 </MenuItem>
               ))}
