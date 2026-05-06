@@ -24,7 +24,7 @@
     "maplibre-gl": "^5.24.0",
     "maplibre-google-maps": "^1.1.0",
     "mui-file-input": "^9.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "react-country-flag": "3.1.0",
     "react-dom": "^19.2.5",
     "react-qr-code": "^2.0.21",
