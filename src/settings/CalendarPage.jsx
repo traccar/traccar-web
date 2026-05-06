@@ -13,7 +13,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MuiFileInput } from 'mui-file-input';
+import FileInput from '../common/components/FileInput';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -228,7 +228,7 @@ const CalendarPage = () => {
                   )}
                 </>
               ) : (
-                <MuiFileInput
+                <FileInput
                   placeholder={t('sharedSelectFile')}
                   value={file}
                   onChange={handleFileChange}

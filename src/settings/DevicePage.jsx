@@ -11,7 +11,7 @@ import {
   Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MuiFileInput } from 'mui-file-input';
+import FileInput from '../common/components/FileInput';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
@@ -164,7 +164,7 @@ const DevicePage = () => {
                 <Typography variant="subtitle1">{t('attributeDeviceImage')}</Typography>
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
-                <MuiFileInput
+                <FileInput
                   placeholder={t('attributeDeviceImage')}
                   value={imageFile}
                   onChange={handleFileInput}
