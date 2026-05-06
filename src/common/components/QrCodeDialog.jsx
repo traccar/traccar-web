@@ -23,7 +23,7 @@ const QrCodeDialog = ({ open, onClose }) => {
   const fullUrl = queryParams ? `${serverUrl}?${queryParams}` : serverUrl;
 
   return (
-    <Dialog oarepen={open} onClose={onClose} maxWidth="xs" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogContent>
         <div className={classes.qrCode}>
           <QRCode value={fullUrl} size={theme.dimensions.qrCodeSize} />
