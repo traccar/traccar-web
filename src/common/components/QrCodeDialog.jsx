@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogActions,
-  TextField,
-  Button,
-  Box,
-  useTheme,
-} from '@mui/material';
-import QRCode from 'react-qr-code';
+import { Dialog, DialogContent, DialogActions, TextField, Button, useTheme } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
+import { QRCode } from 'react-qr-code';
 import { useTranslation } from './LocalizationProvider';
 
+const useStyles = makeStyles()((theme) => ({
+  qrCode: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: theme.spacing(2),
+  },
+}));
+
 const QrCodeDialog = ({ open, onClose }) => {
+  const { classes } = useStyles();
   const theme = useTheme();
   const t = useTranslation();
 
@@ -21,11 +23,11 @@ const QrCodeDialog = ({ open, onClose }) => {
   const fullUrl = queryParams ? `${serverUrl}?${queryParams}` : serverUrl;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+    <Dialog oarepen={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogContent>
-        <Box display="flex" justifyContent="center" mb={2}>
+        <div className={classes.qrCode}>
           <QRCode value={fullUrl} size={theme.dimensions.qrCodeSize} />
-        </Box>
+        </div>
 
         <TextField
           label={t('settingsServer')}
