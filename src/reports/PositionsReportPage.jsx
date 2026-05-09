@@ -140,7 +140,7 @@ const PositionsReportPage = () => {
               onSchedule={onSchedule}
               deviceType="single"
               loading={loading}
-              formats={['csv', 'gpx', 'kml']}
+              formats={['csv', 'gpx', 'kml', 'kmz']}
             >
               <div className={classes.filterItem}>
                 <SelectField
