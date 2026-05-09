@@ -236,6 +236,7 @@ const TripReportPage = () => {
               onSchedule={onSchedule}
               deviceType="multiple"
               loading={loading}
+              formats={['xlsx']}
             >
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>

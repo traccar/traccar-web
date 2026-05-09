@@ -27,7 +27,7 @@ export const updateReportParams = (searchParams, setSearchParams, key, values) =
   setSearchParams(newParams, { replace: true });
 };
 
-const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, loading }) => {
+const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, loading, formats }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
@@ -77,7 +77,9 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
       json: t('reportShow'),
     };
     if (onExport && loaded) {
-      result.export = t('reportExport');
+      formats.forEach((format) => {
+        result[format] = `${t('reportExport')} (${format.toUpperCase()})`;
+      });
       result.print = t('reportPrint');
     }
     if (onSchedule && !readonly) {
@@ -135,8 +137,10 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
 
   const onSelected = (type) => {
     switch (type) {
-      case 'export':
-        onExport({ deviceIds, groupIds, from, to });
+      case 'xlsx':
+      case 'csv':
+      case 'gpx':
+        onExport({ deviceIds, groupIds, from, to, format: type });
         break;
       case 'print':
         window.print();

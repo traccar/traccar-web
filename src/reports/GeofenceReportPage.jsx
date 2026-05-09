@@ -95,7 +95,13 @@ const GeofenceReportPage = () => {
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'sharedGeofences']}>
       <div className={classes.header}>
-        <ReportFilter onShow={onShow} onExport={onExport} deviceType="multiple" loading={loading}>
+        <ReportFilter
+          onShow={onShow}
+          onExport={onExport}
+          deviceType="multiple"
+          loading={loading}
+          formats={['xlsx']}
+        >
           <div className={classes.filterItem}>
             <SelectField
               label={t('sharedGeofences')}

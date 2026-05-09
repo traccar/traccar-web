@@ -148,6 +148,7 @@ const SummaryReportPage = () => {
           onSchedule={onSchedule}
           deviceType="multiple"
           loading={loading}
+          formats={['xlsx']}
         >
           <div className={classes.filterItem}>
             <FormControl fullWidth>

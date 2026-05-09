@@ -95,13 +95,13 @@ const PositionsReportPage = () => {
     }
   });
 
-  const onExport = useCatch(async ({ deviceIds, from, to }) => {
+  const onExport = useCatch(async ({ deviceIds, from, to, format }) => {
     const query = new URLSearchParams({ from, to });
     if (geofenceId) {
       query.append('geofenceId', geofenceId);
     }
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    window.location.assign(`/api/positions/csv?${query.toString()}`);
+    window.location.assign(`/api/positions/${format}?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -140,6 +140,7 @@ const PositionsReportPage = () => {
               onSchedule={onSchedule}
               deviceType="single"
               loading={loading}
+              formats={['csv', 'gpx']}
             >
               <div className={classes.filterItem}>
                 <SelectField
