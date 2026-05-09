@@ -140,6 +140,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
       case 'xlsx':
       case 'csv':
       case 'gpx':
+      case 'kml':
         onExport({ deviceIds, groupIds, from, to, format: type });
         break;
       case 'print':
