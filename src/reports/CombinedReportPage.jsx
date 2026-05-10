@@ -5,7 +5,7 @@ import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import { useCatch } from '../reactHelper';
+import { useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
@@ -41,7 +41,7 @@ const CombinedReportPage = () => {
         })),
     );
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -52,7 +52,7 @@ const CombinedReportPage = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>

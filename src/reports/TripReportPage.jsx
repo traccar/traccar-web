@@ -21,7 +21,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
-import { useCatch, useEffectAsync } from '../reactHelper';
+import { useCatch, useCatchCallback, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
@@ -109,7 +109,7 @@ const TripReportPage = () => {
     [selectedItem],
   );
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -122,7 +122,7 @@ const TripReportPage = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   const onExport = useCatch(async () => {
     const sheets = new Map();

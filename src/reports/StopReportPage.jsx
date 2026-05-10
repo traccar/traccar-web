@@ -19,7 +19,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
-import { useCatch } from '../reactHelper';
+import { useCatch, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import MapPositions from '../map/MapPositions';
 import MapView from '../map/core/MapView';
@@ -66,7 +66,7 @@ const StopReportPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -79,7 +79,7 @@ const StopReportPage = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   const onExport = useCatch(async () => {
     const sheets = new Map();

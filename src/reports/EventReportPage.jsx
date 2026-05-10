@@ -25,7 +25,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatch, useEffectAsync } from '../reactHelper';
+import { useCatch, useCatchCallback, useEffectAsync } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
@@ -112,39 +112,44 @@ const EventReportPage = () => {
     ]);
   }, []);
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    eventTypes.forEach((it) => query.append('type', it));
-    if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
-      alarmTypes.forEach((it) => query.append('alarm', it));
-    }
-    setSelectedItem(null);
-    setPosition(null);
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      const events = await response.json();
-      setItems(events);
-      const positionIds = Array.from(
-        new Set(events.map((event) => event.positionId).filter((id) => id)),
-      );
-      const positionsMap = {};
-      if (positionIds.length > 0) {
-        const positionsQuery = new URLSearchParams();
-        positionIds.slice(0, 128).forEach((id) => positionsQuery.append('id', id));
-        const positionsResponse = await fetchOrThrow(`/api/positions?${positionsQuery.toString()}`);
-        const positionsArray = await positionsResponse.json();
-        positionsArray.forEach((p) => (positionsMap[p.id] = p));
+  const onShow = useCatchCallback(
+    async ({ deviceIds, groupIds, from, to }) => {
+      const query = new URLSearchParams({ from, to });
+      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+      groupIds.forEach((groupId) => query.append('groupId', groupId));
+      eventTypes.forEach((it) => query.append('type', it));
+      if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
+        alarmTypes.forEach((it) => query.append('alarm', it));
       }
-      setPositions(positionsMap);
-    } finally {
-      setLoading(false);
-    }
-  });
+      setSelectedItem(null);
+      setPosition(null);
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        const events = await response.json();
+        setItems(events);
+        const positionIds = Array.from(
+          new Set(events.map((event) => event.positionId).filter((id) => id)),
+        );
+        const positionsMap = {};
+        if (positionIds.length > 0) {
+          const positionsQuery = new URLSearchParams();
+          positionIds.slice(0, 128).forEach((id) => positionsQuery.append('id', id));
+          const positionsResponse = await fetchOrThrow(
+            `/api/positions?${positionsQuery.toString()}`,
+          );
+          const positionsArray = await positionsResponse.json();
+          positionsArray.forEach((p) => (positionsMap[p.id] = p));
+        }
+        setPositions(positionsMap);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [eventTypes, alarmTypes],
+  );
 
   const onExport = useCatch(async () => {
     const sheets = new Map();

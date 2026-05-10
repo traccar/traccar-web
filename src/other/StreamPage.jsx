@@ -7,7 +7,7 @@ import { default as Hls, Events } from 'hls.js/light';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { useCatch } from '../reactHelper';
+import { useCatchCallback } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -52,13 +52,16 @@ const StreamPage = () => {
 
   const playing = activeChannel !== null;
 
-  const sendCommand = useCatch(async (type, attributes) => {
-    await fetchOrThrow('/api/commands/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ deviceId, type, attributes }),
-    });
-  });
+  const sendCommand = useCatchCallback(
+    async (type, attributes) => {
+      await fetchOrThrow('/api/commands/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deviceId, type, attributes }),
+      });
+    },
+    [deviceId],
+  );
 
   useEffect(() => {
     if (activeChannel !== null) {
@@ -75,7 +78,7 @@ const StreamPage = () => {
         sendCommand('videoStop', { index: activeChannel });
       };
     }
-  }, [deviceId, activeChannel]);
+  }, [deviceId, activeChannel, sendCommand]);
 
   return (
     <div className={classes.root}>

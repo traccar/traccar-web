@@ -41,27 +41,30 @@ const SocketController = () => {
 
   const features = useFeatures();
 
-  const handleEvents = (events) => {
-    if (!features.disableEvents) {
-      dispatch(eventsActions.add(events));
-    }
-    if (
-      events.some(
-        (e) =>
-          soundEvents.includes(e.type) ||
-          (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)),
-      )
-    ) {
-      new Audio(alarm).play();
-    }
-    setNotifications(
-      events.map((event) => ({
-        id: event.id,
-        message: event.attributes.message,
-        show: true,
-      })),
-    );
-  };
+  const handleEvents = useCallback(
+    (events) => {
+      if (!features.disableEvents) {
+        dispatch(eventsActions.add(events));
+      }
+      if (
+        events.some(
+          (e) =>
+            soundEvents.includes(e.type) ||
+            (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)),
+        )
+      ) {
+        new Audio(alarm).play();
+      }
+      setNotifications(
+        events.map((event) => ({
+          id: event.id,
+          message: event.attributes.message,
+          show: true,
+        })),
+      );
+    },
+    [features, dispatch, soundEvents, soundAlarms],
+  );
 
   const handleEventsRef = useRef(handleEvents);
   handleEventsRef.current = handleEvents;

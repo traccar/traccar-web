@@ -93,7 +93,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
     if (from && to) {
       onShow({ deviceIds, groupIds, from, to });
     }
-  }, [deviceIds, groupIds, from, to]);
+  }, [deviceIds, groupIds, from, to, onShow]);
 
   const showReport = () => {
     let selectedFrom;

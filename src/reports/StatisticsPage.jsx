@@ -7,7 +7,7 @@ import ReportsMenu from './components/ReportsMenu';
 import ReportFilter from './components/ReportFilter';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatch } from '../reactHelper';
+import { useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -39,7 +39,7 @@ const StatisticsPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const onShow = useCatch(async ({ from, to }) => {
+  const onShow = useCatchCallback(async ({ from, to }) => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ from, to });
@@ -48,7 +48,7 @@ const StatisticsPage = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>

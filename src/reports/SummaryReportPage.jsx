@@ -27,7 +27,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatch } from '../reactHelper';
+import { useCatch, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
@@ -72,20 +72,23 @@ const SummaryReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to, daily });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      setItems(await response.json());
-    } finally {
-      setLoading(false);
-    }
-  });
+  const onShow = useCatchCallback(
+    async ({ deviceIds, groupIds, from, to }) => {
+      const query = new URLSearchParams({ from, to, daily });
+      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+      groupIds.forEach((groupId) => query.append('groupId', groupId));
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        setItems(await response.json());
+      } finally {
+        setLoading(false);
+      }
+    },
+    [daily],
+  );
 
   const onExport = useCatch(async () => {
     const rows = [];

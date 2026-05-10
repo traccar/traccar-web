@@ -10,7 +10,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
-import { useCatch } from '../reactHelper';
+import { useCatch, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -45,21 +45,24 @@ const GeofenceReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    geofenceIds.forEach((geofenceId) => query.append('geofenceId', geofenceId));
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow(`/api/reports/geofences?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      setItems(await response.json());
-    } finally {
-      setLoading(false);
-    }
-  });
+  const onShow = useCatchCallback(
+    async ({ deviceIds, groupIds, from, to }) => {
+      const query = new URLSearchParams({ from, to });
+      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+      groupIds.forEach((groupId) => query.append('groupId', groupId));
+      geofenceIds.forEach((geofenceId) => query.append('geofenceId', geofenceId));
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow(`/api/reports/geofences?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        setItems(await response.json());
+      } finally {
+        setLoading(false);
+      }
+    },
+    [geofenceIds],
+  );
 
   const onExport = useCatch(async () => {
     const sheets = new Map();
