@@ -1,4 +1,4 @@
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   geofencesActions,
   groupsActions,
@@ -51,4 +51,4 @@ const CachingController = () => {
   return null;
 };
 
-export default connect()(CachingController);
+export default CachingController;

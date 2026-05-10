@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
 import { devicesActions, sessionActions } from './store';
@@ -205,4 +205,4 @@ const SocketController = () => {
   );
 };
 
-export default connect()(SocketController);
+export default SocketController;
