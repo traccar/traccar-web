@@ -27,12 +27,12 @@ const SocketController = () => {
   const socketRef = useRef();
   const reconnectTimeoutRef = useRef();
 
-  const clearReconnectTimeout = () => {
+  const clearReconnectTimeout = useCallback(() => {
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
       reconnectTimeoutRef.current = null;
     }
-  };
+  }, []);
 
   const [notifications, setNotifications] = useState([]);
 
@@ -41,32 +41,34 @@ const SocketController = () => {
 
   const features = useFeatures();
 
-  const handleEvents = useCallback(
-    (events) => {
-      if (!features.disableEvents) {
-        dispatch(eventsActions.add(events));
-      }
-      if (
-        events.some(
-          (e) =>
-            soundEvents.includes(e.type) ||
-            (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)),
-        )
-      ) {
-        new Audio(alarm).play();
-      }
-      setNotifications(
-        events.map((event) => ({
-          id: event.id,
-          message: event.attributes.message,
-          show: true,
-        })),
-      );
-    },
-    [features, dispatch, soundEvents, soundAlarms],
-  );
+  const handleEvents = (events) => {
+    if (!features.disableEvents) {
+      dispatch(eventsActions.add(events));
+    }
+    if (
+      events.some(
+        (e) =>
+          soundEvents.includes(e.type) ||
+          (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)),
+      )
+    ) {
+      new Audio(alarm).play();
+    }
+    setNotifications(
+      events.map((event) => ({
+        id: event.id,
+        message: event.attributes.message,
+        show: true,
+      })),
+    );
+  };
 
-  const connectSocket = () => {
+  const handleEventsRef = useRef(handleEvents);
+  handleEventsRef.current = handleEvents;
+
+  const connectSocketRef = useRef();
+
+  const connectSocket = useCallback(() => {
     clearReconnectTimeout();
     if (socketRef.current && socketRef.current.readyState !== WebSocket.CLOSED) {
       socketRef.current.close();
@@ -100,7 +102,7 @@ const SocketController = () => {
         clearReconnectTimeout();
         reconnectTimeoutRef.current = setTimeout(() => {
           reconnectTimeoutRef.current = null;
-          connectSocket();
+          connectSocketRef.current?.();
         }, 60000);
       }
     };
@@ -114,13 +116,15 @@ const SocketController = () => {
         dispatch(sessionActions.updatePositions(data.positions));
       }
       if (data.events) {
-        handleEvents(data.events);
+        handleEventsRef.current(data.events);
       }
       if (data.logs) {
         dispatch(sessionActions.updateLogs(data.logs));
       }
     };
-  };
+  }, [clearReconnectTimeout, dispatch, navigate]);
+
+  connectSocketRef.current = connectSocket;
 
   useEffect(() => {
     socketRef.current?.send(JSON.stringify({ logs: includeLogs }));
@@ -140,7 +144,7 @@ const SocketController = () => {
       }
       return null;
     },
-    [authenticated],
+    [authenticated, dispatch, clearReconnectTimeout, connectSocket],
   );
 
   const handleNativeNotification = useCatchCallback(
