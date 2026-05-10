@@ -31,6 +31,7 @@ const ScheduledPage = () => {
 
   useAsyncTask(
     async ({ signal }) => {
+      void reloadKey;
       setLoading(true);
       try {
         const response = await fetchOrThrow('/api/reports', { signal });

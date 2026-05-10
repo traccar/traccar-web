@@ -44,6 +44,7 @@ const DriversPage = () => {
 
   useAsyncTask(
     async ({ signal }) => {
+      void reloadKey;
       setItems([]);
       await loadItems(0, signal);
     },

@@ -76,6 +76,7 @@ const DevicesPage = () => {
 
   useAsyncTask(
     async ({ signal }) => {
+      void reloadKey;
       setItems([]);
       await loadItems(0, signal);
     },
