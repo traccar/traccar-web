@@ -13,6 +13,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
+import ResizeHandle from './components/ResizeHandle';
 import { useCatch, useCatchCallback, useAsyncTask } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
@@ -233,14 +234,19 @@ const EventReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {position && <MapPositions positions={[position]} titleField="fixTime" />}
-            </MapView>
-            <MapScale />
-            {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {position && <MapPositions positions={[position]} titleField="fixTime" />}
+              </MapView>
+              <MapScale />
+              {position && (
+                <MapCamera latitude={position.latitude} longitude={position.longitude} />
+              )}
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>

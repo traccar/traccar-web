@@ -20,6 +20,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
+import ResizeHandle from './components/ResizeHandle';
 import usePersistedState from '../common/util/usePersistedState';
 import { useCatch, useCatchCallback, useAsyncTask } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
@@ -218,19 +219,22 @@ const TripReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportTrips']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {route && (
-                <>
-                  <MapRoutePath positions={route} />
-                  <MapMarkers markers={createMarkers()} />
-                  <MapCamera positions={route} />
-                </>
-              )}
-            </MapView>
-            <MapScale />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {route && (
+                  <>
+                    <MapRoutePath positions={route} />
+                    <MapMarkers markers={createMarkers()} />
+                    <MapCamera positions={route} />
+                  </>
+                )}
+              </MapView>
+              <MapScale />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>

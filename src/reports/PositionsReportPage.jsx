@@ -9,6 +9,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
+import ResizeHandle from './components/ResizeHandle';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatch, useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
@@ -119,23 +120,26 @@ const PositionsReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportPositions']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
-                const positions = items.filter((position) => position.deviceId === deviceId);
-                return (
-                  <Fragment key={deviceId}>
-                    <MapRoutePath positions={positions} />
-                    <MapRoutePoints positions={positions} onClick={onMapPointClick} />
-                  </Fragment>
-                );
-              })}
-              <MapPositions positions={[selectedItem]} titleField="fixTime" />
-            </MapView>
-            <MapScale />
-            <MapCamera positions={items} />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
+                  const positions = items.filter((position) => position.deviceId === deviceId);
+                  return (
+                    <Fragment key={deviceId}>
+                      <MapRoutePath positions={positions} />
+                      <MapRoutePoints positions={positions} onClick={onMapPointClick} />
+                    </Fragment>
+                  );
+                })}
+                <MapPositions positions={[selectedItem]} titleField="fixTime" />
+              </MapView>
+              <MapScale />
+              <MapCamera positions={items} />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>

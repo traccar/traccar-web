@@ -5,6 +5,7 @@ import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
+import ResizeHandle from './components/ResizeHandle';
 import { useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import useReportStyles from './common/useReportStyles';
@@ -58,22 +59,25 @@ const CombinedReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
       <div className={classes.container}>
         {Boolean(items.length) && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {items.map((item) => (
-                <MapRouteCoordinates
-                  key={item.deviceId}
-                  name={devices[item.deviceId].name}
-                  coordinates={item.route}
-                  deviceId={item.deviceId}
-                />
-              ))}
-              <MapMarkers markers={createMarkers()} />
-            </MapView>
-            <MapScale />
-            <MapCamera coordinates={itemsCoordinates} />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {items.map((item) => (
+                  <MapRouteCoordinates
+                    key={item.deviceId}
+                    name={devices[item.deviceId].name}
+                    coordinates={item.route}
+                    deviceId={item.deviceId}
+                  />
+                ))}
+                <MapMarkers markers={createMarkers()} />
+              </MapView>
+              <MapScale />
+              <MapCamera coordinates={itemsCoordinates} />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>

@@ -18,6 +18,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
+import ResizeHandle from './components/ResizeHandle';
 import usePersistedState from '../common/util/usePersistedState';
 import { useCatch, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
@@ -141,24 +142,27 @@ const StopReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              <MapPositions
-                positions={[
-                  {
-                    deviceId: selectedItem.deviceId,
-                    fixTime: selectedItem.startTime,
-                    latitude: selectedItem.latitude,
-                    longitude: selectedItem.longitude,
-                  },
-                ]}
-                titleField="fixTime"
-              />
-            </MapView>
-            <MapScale />
-            <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                <MapPositions
+                  positions={[
+                    {
+                      deviceId: selectedItem.deviceId,
+                      fixTime: selectedItem.startTime,
+                      latitude: selectedItem.latitude,
+                      longitude: selectedItem.longitude,
+                    },
+                  ]}
+                  titleField="fixTime"
+                />
+              </MapView>
+              <MapScale />
+              <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
