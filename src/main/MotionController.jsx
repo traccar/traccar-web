@@ -95,7 +95,7 @@ const MotionController = () => {
       active = false;
       clearInterval(interval);
     };
-  }, [deviceSecondary]);
+  }, [deviceSecondary, dispatch]);
 
   return null;
 };

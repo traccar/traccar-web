@@ -41,7 +41,7 @@ const EditItemView = ({
         setItem(defaultItem || {});
       }
     }
-  }, [id, item, defaultItem]);
+  }, [id, item, defaultItem, endpoint, setItem]);
 
   const handleSave = useCatch(async () => {
     let url = `/api/${endpoint}`;

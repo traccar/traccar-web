@@ -59,7 +59,7 @@ const SelectField = ({
       const response = await fetchOrThrow(endpoint);
       setItems(await response.json());
     }
-  }, []);
+  }, [endpoint]);
 
   if (items) {
     const autocompleteValue = multiple

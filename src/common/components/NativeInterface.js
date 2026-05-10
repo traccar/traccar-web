@@ -85,7 +85,7 @@ const NativeInterface = () => {
         dispatch(sessionActions.updateUser(await response.json()));
       }
     }
-  }, [user, notificationToken, setNotificationToken]);
+  }, [user, notificationToken, setNotificationToken, dispatch]);
 
   return null;
 };

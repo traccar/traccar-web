@@ -26,14 +26,14 @@ const LinkField = ({
       const response = await fetchOrThrow(endpointAll);
       setItems(await response.json());
     }
-  }, [active]);
+  }, [active, endpointAll]);
 
   useEffectAsync(async () => {
     if (active) {
       const response = await fetchOrThrow(endpointLinked);
       setLinked(await response.json());
     }
-  }, [active]);
+  }, [active, endpointLinked]);
 
   const createBody = (linkId) => {
     const body = {};

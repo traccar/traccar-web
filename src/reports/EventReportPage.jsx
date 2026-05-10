@@ -106,8 +106,8 @@ const EventReportPage = () => {
   useEffectAsync(async () => {
     const response = await fetchOrThrow('/api/notifications/types');
     const types = await response.json();
-    setAllEventTypes([
-      ...allEventTypes,
+    setAllEventTypes((previous) => [
+      ...previous,
       ...types.map((it) => [it.type, prefixString('event', it.type)]),
     ]);
   }, []);

@@ -106,7 +106,7 @@ const Navigation = () => {
     }
 
     setSearchParams(newParams, { replace: true });
-  }, [hasQueryParams, searchParams, setSearchParams]);
+  }, [hasQueryParams, searchParams, setSearchParams, dispatch, setLocalLanguage]);
 
   if (hasQueryParams) {
     return <Loader />;

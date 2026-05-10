@@ -18,35 +18,35 @@ const CachingController = () => {
       const response = await fetchOrThrow('/api/geofences');
       dispatch(geofencesActions.refresh(await response.json()));
     }
-  }, [authenticated]);
+  }, [authenticated, dispatch]);
 
   useEffectAsync(async () => {
     if (authenticated) {
       const response = await fetchOrThrow('/api/groups');
       dispatch(groupsActions.refresh(await response.json()));
     }
-  }, [authenticated]);
+  }, [authenticated, dispatch]);
 
   useEffectAsync(async () => {
     if (authenticated) {
       const response = await fetchOrThrow('/api/drivers');
       dispatch(driversActions.refresh(await response.json()));
     }
-  }, [authenticated]);
+  }, [authenticated, dispatch]);
 
   useEffectAsync(async () => {
     if (authenticated) {
       const response = await fetchOrThrow('/api/maintenance');
       dispatch(maintenancesActions.refresh(await response.json()));
     }
-  }, [authenticated]);
+  }, [authenticated, dispatch]);
 
   useEffectAsync(async () => {
     if (authenticated) {
       const response = await fetchOrThrow('/api/calendars');
       dispatch(calendarsActions.refresh(await response.json()));
     }
-  }, [authenticated]);
+  }, [authenticated, dispatch]);
 
   return null;
 };

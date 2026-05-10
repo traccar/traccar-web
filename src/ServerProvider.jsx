@@ -26,7 +26,7 @@ const ServerProvider = ({ children }) => {
         setError(error.message);
       }
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   if (error) {
     return (
