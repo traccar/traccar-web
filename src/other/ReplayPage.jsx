@@ -225,7 +225,7 @@ const ReplayPage = () => {
                 onChange={(_, index) => setIndex(index)}
               />
               <div className={classes.controls}>
-                {`${index + 1}/${positions.length}`}
+                <Typography variant="caption">{`${index + 1}/${positions.length}`}</Typography>
                 <IconButton
                   onClick={() => setIndex((index) => index - 1)}
                   disabled={playing || index <= 0}
@@ -244,7 +244,9 @@ const ReplayPage = () => {
                 >
                   <FastForwardIcon />
                 </IconButton>
-                {formatTime(positions[index].fixTime, 'seconds')}
+                <Typography variant="caption">
+                  {formatTime(positions[index].fixTime, 'seconds')}
+                </Typography>
               </div>
             </>
           )}
