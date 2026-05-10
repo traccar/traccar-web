@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -51,31 +51,35 @@ const DevicesPage = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showAll, setShowAll] = usePersistedState('showAllDevices', false);
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const loadItems = async (offset, signal) => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ all: showAll, limit: pageSize, offset });
-      if (searchKeyword) {
-        query.append('keyword', searchKeyword);
+  const loadItems = useCallback(
+    async (offset, signal) => {
+      setLoading(true);
+      try {
+        const query = new URLSearchParams({ all: showAll, limit: pageSize, offset });
+        if (searchKeyword) {
+          query.append('keyword', searchKeyword);
+        }
+        const response = await fetchOrThrow(`/api/devices?${query.toString()}`, { signal });
+        const data = await response.json();
+        setItems((previous) => (offset ? [...previous, ...data] : data));
+        setHasMore(data.length >= pageSize);
+      } finally {
+        setLoading(false);
       }
-      const response = await fetchOrThrow(`/api/devices?${query.toString()}`, { signal });
-      const data = await response.json();
-      setItems((previous) => (offset ? [...previous, ...data] : data));
-      setHasMore(data.length >= pageSize);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [searchKeyword, showAll],
+  );
 
-  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+  const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
   useEffectAsync(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);
     },
-    [reloadKey, showAll, searchKeyword],
+    [reloadKey, loadItems],
   );
 
   const handleExport = async () => {

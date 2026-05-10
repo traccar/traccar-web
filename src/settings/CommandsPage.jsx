@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -22,32 +22,36 @@ const CommandsPage = () => {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const limitCommands = useRestriction('limitCommands');
 
-  const loadItems = async (offset, signal) => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ limit: pageSize, offset });
-      if (searchKeyword) {
-        query.append('keyword', searchKeyword);
+  const loadItems = useCallback(
+    async (offset, signal) => {
+      setLoading(true);
+      try {
+        const query = new URLSearchParams({ limit: pageSize, offset });
+        if (searchKeyword) {
+          query.append('keyword', searchKeyword);
+        }
+        const response = await fetchOrThrow(`/api/commands?${query.toString()}`, { signal });
+        const data = await response.json();
+        setItems((previous) => (offset ? [...previous, ...data] : data));
+        setHasMore(data.length >= pageSize);
+      } finally {
+        setLoading(false);
       }
-      const response = await fetchOrThrow(`/api/commands?${query.toString()}`, { signal });
-      const data = await response.json();
-      setItems((previous) => (offset ? [...previous, ...data] : data));
-      setHasMore(data.length >= pageSize);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [searchKeyword],
+  );
 
-  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+  const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
   useEffectAsync(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);
     },
-    [reloadKey, searchKeyword],
+    [reloadKey, loadItems],
   );
 
   return (

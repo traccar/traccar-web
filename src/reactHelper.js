@@ -48,7 +48,6 @@ export const useCatchCallback = (method, deps) => {
 };
 
 export const useScrollToLoad = (loadMore) => {
-  const [hasMore, setHasMore] = useState(true);
   const [sentinel, setSentinel] = useState(null);
   const loadingRef = useRef(false);
   const loadMoreRef = useRef(loadMore);
@@ -68,5 +67,5 @@ export const useScrollToLoad = (loadMore) => {
     return () => observer.disconnect();
   }, [sentinel]);
 
-  return { sentinelRef: setSentinel, hasMore, setHasMore };
+  return setSentinel;
 };

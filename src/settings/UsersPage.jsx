@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -36,6 +36,7 @@ const UsersPage = () => {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [temporary, setTemporary] = useState(false);
 
   const handleLogin = useCatch(async (userId) => {
@@ -57,30 +58,33 @@ const UsersPage = () => {
     handler: (userId) => navigate(`/settings/user/${userId}/connections`),
   };
 
-  const loadItems = async (offset, signal) => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams({ excludeAttributes: true, limit: pageSize, offset });
-      if (searchKeyword) {
-        query.append('keyword', searchKeyword);
+  const loadItems = useCallback(
+    async (offset, signal) => {
+      setLoading(true);
+      try {
+        const query = new URLSearchParams({ excludeAttributes: true, limit: pageSize, offset });
+        if (searchKeyword) {
+          query.append('keyword', searchKeyword);
+        }
+        const response = await fetchOrThrow(`/api/users?${query.toString()}`, { signal });
+        const data = await response.json();
+        setItems((previous) => (offset ? [...previous, ...data] : data));
+        setHasMore(data.length >= pageSize);
+      } finally {
+        setLoading(false);
       }
-      const response = await fetchOrThrow(`/api/users?${query.toString()}`, { signal });
-      const data = await response.json();
-      setItems((previous) => (offset ? [...previous, ...data] : data));
-      setHasMore(data.length >= pageSize);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [searchKeyword],
+  );
 
-  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+  const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
   useEffectAsync(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);
     },
-    [reloadKey, searchKeyword],
+    [reloadKey, loadItems],
   );
 
   return (
