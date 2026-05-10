@@ -3,7 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 const useStyles = makeStyles()((theme) => ({
   handle: {
     height: theme.spacing(1),
-    cursor: 'row-resize',
+    cursor: 'ns-resize',
     backgroundColor: theme.palette.divider,
     flexShrink: 0,
   },
