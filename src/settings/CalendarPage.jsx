@@ -95,7 +95,7 @@ const CalendarPage = () => {
       const reader = new FileReader();
       reader.onload = (event) => {
         const { result } = event.target;
-        setItem({ ...item, data: result.substr(result.indexOf(',') + 1) });
+        setItem({ ...item, data: result.slice(result.indexOf(',') + 1) });
       };
       reader.readAsDataURL(newFile);
     }
