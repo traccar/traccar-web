@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
@@ -26,7 +26,7 @@ const GroupsPage = () => {
   const shareDisabled = useSelector((state) => state.session.server.attributes.disableShare);
   const user = useSelector((state) => state.session.user);
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ const GroupsPage = () => {
   useEffectAsync(async () => {
     setItems([]);
     await loadItems(0);
-  }, [timestamp, searchKeyword]);
+  }, [reloadKey, searchKeyword]);
 
   const actionCommand = {
     key: 'command',
@@ -94,7 +94,7 @@ const GroupsPage = () => {
                   itemId={item.id}
                   editPath="/settings/group"
                   endpoint="groups"
-                  setTimestamp={setTimestamp}
+                  onReload={reload}
                   customActions={[
                     actionConnections,
                     ...(!limitCommands ? [actionCommand] : []),

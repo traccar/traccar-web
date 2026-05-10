@@ -41,7 +41,7 @@ const GeofencesList = ({ onGeofenceSelected }) => {
               itemId={item.id}
               editPath="/settings/geofence"
               endpoint="geofences"
-              setTimestamp={refreshGeofences}
+              onReload={refreshGeofences}
             />
           </ListItemButton>
           {index < list.length - 1 ? <Divider /> : null}

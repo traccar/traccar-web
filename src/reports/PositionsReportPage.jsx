@@ -206,7 +206,7 @@ const PositionsReportPage = () => {
                         itemId={item.id}
                         endpoint="positions"
                         readonly={readonly}
-                        setTimestamp={() => {
+                        onReload={() => {
                           setItems(items.filter((position) => position.id !== item.id));
                         }}
                       />

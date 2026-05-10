@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -32,7 +32,7 @@ const UsersPage = () => {
 
   const manager = useManager();
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -78,7 +78,7 @@ const UsersPage = () => {
   useEffectAsync(async () => {
     setItems([]);
     await loadItems(0);
-  }, [timestamp, searchKeyword]);
+  }, [reloadKey, searchKeyword]);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'settingsUsers']}>
@@ -109,7 +109,7 @@ const UsersPage = () => {
                     itemId={item.id}
                     editPath="/settings/user"
                     endpoint="users"
-                    setTimestamp={setTimestamp}
+                    onReload={reload}
                     customActions={manager ? [actionLogin, actionConnections] : [actionConnections]}
                   />
                 </TableCell>

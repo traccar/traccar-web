@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { prefixString } from '../common/util/stringUtils';
@@ -17,7 +17,7 @@ const NotificationsPage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const NotificationsPage = () => {
   useEffectAsync(async () => {
     setItems([]);
     await loadItems(0);
-  }, [timestamp, searchKeyword]);
+  }, [reloadKey, searchKeyword]);
 
   const formatList = (prefix, value) => {
     if (value) {
@@ -83,7 +83,7 @@ const NotificationsPage = () => {
                   itemId={item.id}
                   editPath="/settings/notification"
                   endpoint="notifications"
-                  setTimestamp={setTimestamp}
+                  onReload={reload}
                 />
               </TableCell>
             </TableRow>

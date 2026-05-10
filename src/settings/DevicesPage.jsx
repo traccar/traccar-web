@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -46,7 +46,7 @@ const DevicesPage = () => {
 
   const positions = useSelector((state) => state.session.positions);
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showAll, setShowAll] = usePersistedState('showAllDevices', false);
@@ -73,7 +73,7 @@ const DevicesPage = () => {
   useEffectAsync(async () => {
     setItems([]);
     await loadItems(0);
-  }, [timestamp, showAll, searchKeyword]);
+  }, [reloadKey, showAll, searchKeyword]);
 
   const handleExport = async () => {
     const data = items.map((item) => ({
@@ -149,7 +149,7 @@ const DevicesPage = () => {
                   itemId={item.id}
                   editPath="/settings/device"
                   endpoint="devices"
-                  setTimestamp={setTimestamp}
+                  onReload={reload}
                   customActions={[actionConnections]}
                   readonly={deviceReadonly}
                 />

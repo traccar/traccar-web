@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, TableRow, TableCell, TableHead, TableBody, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -24,7 +24,7 @@ const ScheduledPage = () => {
 
   const calendars = useSelector((state) => state.calendars.items);
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [removingId, setRemovingId] = useState();
@@ -37,7 +37,7 @@ const ScheduledPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [timestamp]);
+  }, [reloadKey]);
 
   const formatType = (type) => {
     switch (type) {
@@ -94,7 +94,7 @@ const ScheduledPage = () => {
         onResult={(removed) => {
           setRemovingId(null);
           if (removed) {
-            setTimestamp(Date.now());
+            reload();
           }
         }}
       />

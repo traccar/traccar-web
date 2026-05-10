@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -16,7 +16,7 @@ const ComputedAttributesPage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ const ComputedAttributesPage = () => {
   useEffectAsync(async () => {
     setItems([]);
     await loadItems(0);
-  }, [timestamp, searchKeyword]);
+  }, [reloadKey, searchKeyword]);
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedComputedAttributes']}>
@@ -71,7 +71,7 @@ const ComputedAttributesPage = () => {
                     itemId={item.id}
                     editPath="/settings/attribute"
                     endpoint="attributes/computed"
-                    setTimestamp={setTimestamp}
+                    onReload={reload}
                   />
                 </TableCell>
               )}

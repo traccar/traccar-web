@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
@@ -21,7 +21,7 @@ const MaintenacesPage = () => {
 
   const positionAttributes = usePositionAttributes(t);
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ const MaintenacesPage = () => {
   useEffectAsync(async () => {
     setItems([]);
     await loadItems(0);
-  }, [timestamp, searchKeyword]);
+  }, [reloadKey, searchKeyword]);
 
   const convertAttribute = (key, start, value) => {
     const attribute = positionAttributes[key];
@@ -100,7 +100,7 @@ const MaintenacesPage = () => {
                   itemId={item.id}
                   editPath="/settings/maintenance"
                   endpoint="maintenance"
-                  setTimestamp={setTimestamp}
+                  onReload={reload}
                 />
               </TableCell>
             </TableRow>
