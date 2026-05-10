@@ -37,7 +37,10 @@ export const useCatch = (method) => {
 };
 
 export const useCatchCallback = (method, deps) => {
-  return useCallback(useCatch(method), deps);
+  const dispatch = useDispatch();
+  return useCallback((...parameters) => {
+    method(...parameters).catch((error) => dispatch(errorsActions.push(error.message)));
+  }, deps);
 };
 
 export const useScrollToLoad = (loadMore) => {
