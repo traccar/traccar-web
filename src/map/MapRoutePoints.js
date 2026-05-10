@@ -67,7 +67,7 @@ const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
         map.removeSource(id);
       }
     };
-  }, [onMarkerClick]);
+  }, [onMarkerClick, id]);
 
   useEffect(() => {
     const maxSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.max(a, b), -Infinity);

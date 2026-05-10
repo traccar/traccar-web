@@ -56,7 +56,7 @@ const MapLiveRoutes = ({ deviceIds }) => {
       };
     }
     return () => {};
-  }, [type]);
+  }, [type, id]);
 
   useEffect(() => {
     if (type !== 'none') {

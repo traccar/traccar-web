@@ -81,7 +81,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         },
       })),
     });
-  }, [showTitles, markers]);
+  }, [showTitles, markers, id]);
 
   return null;
 };

@@ -195,7 +195,7 @@ const SocketController = () => {
       window.removeEventListener('online', reconnectIfNeeded);
       document.removeEventListener('visibilitychange', onVisibility);
     };
-  }, [authenticated]);
+  }, [authenticated, connectSocket]);
 
   return (
     <>

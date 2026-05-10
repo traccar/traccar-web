@@ -47,7 +47,7 @@ const MapAccuracy = ({ positions }) => {
           turfCircle([position.longitude, position.latitude], position.accuracy * 0.001),
         ),
     });
-  }, [positions]);
+  }, [positions, id]);
 
   return null;
 };
