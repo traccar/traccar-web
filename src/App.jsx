@@ -5,7 +5,7 @@ import { makeStyles } from 'tss-react/mui';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
 import CachingController from './CachingController';
-import { useCatch, useEffectAsync } from './reactHelper';
+import { useCatch, useAsyncTask } from './reactHelper';
 import { sessionActions } from './store';
 import UpdateController from './UpdateController';
 import MotionController from './main/MotionController';
@@ -47,7 +47,7 @@ const App = () => {
     dispatch(sessionActions.updateUser(await response.json()));
   });
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (!user) {
         const response = await fetch('/api/session', { signal });

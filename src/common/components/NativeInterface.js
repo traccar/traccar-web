@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffectAsync } from '../../reactHelper';
+import { useAsyncTask } from '../../reactHelper';
 import { sessionActions } from '../../store';
 import fetchOrThrow from '../util/fetchOrThrow';
 
@@ -62,7 +62,7 @@ const NativeInterface = () => {
     return () => updateNotificationTokenListeners.delete(listener);
   }, [setNotificationToken]);
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (user && notificationToken) {
         window.localStorage.setItem('notificationToken', notificationToken);

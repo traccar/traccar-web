@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Table, TableRow, TableCell, TableHead, TableBody, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -29,7 +29,7 @@ const ScheduledPage = () => {
   const [loading, setLoading] = useState(false);
   const [removingId, setRemovingId] = useState();
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       setLoading(true);
       try {

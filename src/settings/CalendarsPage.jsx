@@ -1,6 +1,6 @@
 import { useCallback, useReducer, useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
-import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
+import { useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
@@ -42,7 +42,7 @@ const CalendarsPage = () => {
 
   const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);

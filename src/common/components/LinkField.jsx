@@ -1,6 +1,6 @@
 import { Autocomplete, Snackbar, TextField } from '@mui/material';
 import { useState } from 'react';
-import { useCatchCallback, useEffectAsync } from '../../reactHelper';
+import { useCatchCallback, useAsyncTask } from '../../reactHelper';
 import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
 import fetchOrThrow from '../util/fetchOrThrow';
@@ -22,7 +22,7 @@ const LinkField = ({
   const [linked, setLinked] = useState();
   const [updated, setUpdated] = useState(false);
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (active) {
         const response = await fetchOrThrow(endpointAll, { signal });
@@ -32,7 +32,7 @@ const LinkField = ({
     [active, endpointAll],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (active) {
         const response = await fetchOrThrow(endpointLinked, { signal });

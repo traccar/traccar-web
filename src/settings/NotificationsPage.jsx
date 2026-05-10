@@ -1,6 +1,6 @@
 import { useCallback, useReducer, useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
-import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
+import { useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import { prefixString } from '../common/util/stringUtils';
 import { formatBoolean } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -44,7 +44,7 @@ const NotificationsPage = () => {
 
   const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);

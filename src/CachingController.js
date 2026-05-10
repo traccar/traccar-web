@@ -6,14 +6,14 @@ import {
   maintenancesActions,
   calendarsActions,
 } from './store';
-import { useEffectAsync } from './reactHelper';
+import { useAsyncTask } from './reactHelper';
 import fetchOrThrow from './common/util/fetchOrThrow';
 
 const CachingController = () => {
   const authenticated = useSelector((state) => !!state.session.user);
   const dispatch = useDispatch();
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
         const response = await fetchOrThrow('/api/geofences', { signal });
@@ -23,7 +23,7 @@ const CachingController = () => {
     [authenticated, dispatch],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
         const response = await fetchOrThrow('/api/groups', { signal });
@@ -33,7 +33,7 @@ const CachingController = () => {
     [authenticated, dispatch],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
         const response = await fetchOrThrow('/api/drivers', { signal });
@@ -43,7 +43,7 @@ const CachingController = () => {
     [authenticated, dispatch],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
         const response = await fetchOrThrow('/api/maintenance', { signal });
@@ -53,7 +53,7 @@ const CachingController = () => {
     [authenticated, dispatch],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
         const response = await fetchOrThrow('/api/calendars', { signal });

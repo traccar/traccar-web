@@ -25,7 +25,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatch, useCatchCallback, useEffectAsync } from '../reactHelper';
+import { useCatch, useCatchCallback, useAsyncTask } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
@@ -103,7 +103,7 @@ const EventReportPage = () => {
     }
   }, [selectedItem, positions]);
 
-  useEffectAsync(async ({ signal }) => {
+  useAsyncTask(async ({ signal }) => {
     const response = await fetchOrThrow('/api/notifications/types', { signal });
     const types = await response.json();
     setAllEventTypes((previous) => [

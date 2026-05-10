@@ -21,7 +21,7 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import usePersistedState from '../common/util/usePersistedState';
-import { useCatch, useCatchCallback, useEffectAsync } from '../reactHelper';
+import { useCatch, useCatchCallback, useAsyncTask } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
@@ -89,7 +89,7 @@ const TripReportPage = () => {
     },
   ];
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (selectedItem) {
         const query = new URLSearchParams({

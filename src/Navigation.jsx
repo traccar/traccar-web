@@ -36,7 +36,7 @@ import RegisterPage from './login/RegisterPage';
 import ResetPasswordPage from './login/ResetPasswordPage';
 import GeofencesPage from './other/GeofencesPage';
 import GeofencePage from './settings/GeofencePage';
-import { useEffectAsync } from './reactHelper';
+import { useAsyncTask } from './reactHelper';
 import { devicesActions } from './store';
 import EventPage from './other/EventPage';
 import PreferencesPage from './settings/PreferencesPage';
@@ -71,7 +71,7 @@ const Navigation = () => {
     searchParams.has(key),
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (!hasQueryParams) {
         return;

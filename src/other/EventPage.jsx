@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { Typography, AppBar, Toolbar, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
@@ -55,7 +55,7 @@ const EventPage = () => {
     [setShowCard],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (id) {
         const response = await fetchOrThrow(`/api/events/${id}`, { signal });
@@ -65,7 +65,7 @@ const EventPage = () => {
     [id],
   );
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (event && event.positionId) {
         const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`, { signal });

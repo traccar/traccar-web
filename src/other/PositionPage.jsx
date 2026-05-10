@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -47,7 +47,7 @@ const PositionPage = () => {
 
   const [item, setItem] = useState();
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (id) {
         const response = await fetchOrThrow(`/api/positions?id=${id}`, { signal });

@@ -12,7 +12,7 @@ export const usePrevious = (value) => {
   return ref.current;
 };
 
-export const useEffectAsync = (effect, deps) => {
+export const useAsyncTask = (effect, deps) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const controller = new AbortController();

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar } from '@mui/material';
 import { devicesActions, sessionActions } from './store';
-import { useCatchCallback, useEffectAsync } from './reactHelper';
+import { useCatchCallback, useAsyncTask } from './reactHelper';
 import { snackBarDurationLongMs } from './common/util/duration';
 import alarm from './resources/alarm.mp3';
 import { eventsActions } from './store/events';
@@ -133,7 +133,7 @@ const SocketController = () => {
     socketRef.current?.send(JSON.stringify({ logs: includeLogs }));
   }, [includeLogs]);
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
         const response = await fetchOrThrow('/api/devices', { signal });

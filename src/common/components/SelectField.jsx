@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Autocomplete, TextField, Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import { useEffectAsync } from '../../reactHelper';
+import { useAsyncTask } from '../../reactHelper';
 import fetchOrThrow from '../util/fetchOrThrow';
 
 const useStyles = makeStyles()(() => ({
@@ -54,7 +54,7 @@ const SelectField = ({
 
   useEffect(() => setItems(data), [data]);
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (endpoint) {
         const response = await fetchOrThrow(endpoint, { signal });

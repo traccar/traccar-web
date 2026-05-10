@@ -9,7 +9,7 @@ import {
   Typography,
   TextField,
 } from '@mui/material';
-import { useCatch, useEffectAsync } from '../../reactHelper';
+import { useCatch, useAsyncTask } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import PageLayout from '../../common/components/PageLayout';
 import useSettingsStyles from '../common/useSettingsStyles';
@@ -32,7 +32,7 @@ const EditItemView = ({
 
   const { id } = useParams();
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (!item) {
         if (id) {

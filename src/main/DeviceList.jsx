@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import { List } from 'react-window';
 import { devicesActions } from '../store';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import DeviceRow from './DeviceRow';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -31,7 +31,7 @@ const DeviceList = ({ devices }) => {
     };
   }, []);
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       const response = await fetchOrThrow('/api/devices', { signal });
       dispatch(devicesActions.refresh(await response.json()));

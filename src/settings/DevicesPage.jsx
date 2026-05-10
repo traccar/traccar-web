@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import LinkIcon from '@mui/icons-material/Link';
 import { useTheme } from '@mui/material/styles';
-import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
+import { useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
@@ -74,7 +74,7 @@ const DevicesPage = () => {
 
   const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);

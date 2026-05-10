@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { motionActions } from '../store';
 import { useAttributePreference } from '../common/util/preferences';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const buildSegments = (events, fromTimestamp, toTimestamp) => {
@@ -46,7 +46,7 @@ const MotionController = () => {
 
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (deviceSecondary !== 'motion') {
         dispatch(motionActions.clear());

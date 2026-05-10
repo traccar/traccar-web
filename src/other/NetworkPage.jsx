@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -44,7 +44,7 @@ const NetworkPage = () => {
 
   const [item, setItem] = useState({});
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       if (positionId) {
         const response = await fetchOrThrow(`/api/positions?id=${positionId}`, { signal });

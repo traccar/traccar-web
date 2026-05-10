@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import LinkIcon from '@mui/icons-material/Link';
-import { useCatch, useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
+import { useCatch, useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import { formatBoolean, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -79,7 +79,7 @@ const UsersPage = () => {
 
   const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(
+  useAsyncTask(
     async ({ signal }) => {
       setItems([]);
       await loadItems(0, signal);
