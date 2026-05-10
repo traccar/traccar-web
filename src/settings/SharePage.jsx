@@ -30,7 +30,7 @@ const SharePage = () => {
     type === 'group' ? state.groups.items[id] : state.devices.items[id],
   );
 
-  const [expiration, setExpiration] = useState(
+  const [expiration, setExpiration] = useState(() =>
     dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'),
   );
   const [link, setLink] = useState();

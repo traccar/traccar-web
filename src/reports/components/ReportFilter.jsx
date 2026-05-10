@@ -51,10 +51,10 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
   const from = searchParams.get('from');
   const to = searchParams.get('to');
   const [period, setPeriod] = useState('today');
-  const [customFrom, setCustomFrom] = useState(
+  const [customFrom, setCustomFrom] = useState(() =>
     dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'),
   );
-  const [customTo, setCustomTo] = useState(dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
+  const [customTo, setCustomTo] = useState(() => dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
   const [selectedOption, setSelectedOption] = useState('json');
 
   const [description, setDescription] = useState();
