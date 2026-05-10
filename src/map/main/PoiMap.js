@@ -15,13 +15,16 @@ const PoiMap = () => {
 
   const [data, setData] = useState(null);
 
-  useEffectAsync(async () => {
-    if (poiLayer) {
-      const file = await fetch(poiLayer);
-      const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
-      setData(kml(dom));
-    }
-  }, [poiLayer]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (poiLayer) {
+        const file = await fetch(poiLayer, { signal });
+        const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
+        setData(kml(dom));
+      }
+    },
+    [poiLayer],
+  );
 
   useEffect(() => {
     if (data) {

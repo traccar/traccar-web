@@ -55,22 +55,28 @@ const EventPage = () => {
     [setShowCard],
   );
 
-  useEffectAsync(async () => {
-    if (id) {
-      const response = await fetchOrThrow(`/api/events/${id}`);
-      setEvent(await response.json());
-    }
-  }, [id]);
-
-  useEffectAsync(async () => {
-    if (event && event.positionId) {
-      const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setPosition(positions[0]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (id) {
+        const response = await fetchOrThrow(`/api/events/${id}`, { signal });
+        setEvent(await response.json());
       }
-    }
-  }, [event]);
+    },
+    [id],
+  );
+
+  useEffectAsync(
+    async ({ signal }) => {
+      if (event && event.positionId) {
+        const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`, { signal });
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setPosition(positions[0]);
+        }
+      }
+    },
+    [event],
+  );
 
   return (
     <div className={classes.root}>

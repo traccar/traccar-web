@@ -21,19 +21,25 @@ const LinkField = ({
   const [linked, setLinked] = useState();
   const [updated, setUpdated] = useState(false);
 
-  useEffectAsync(async () => {
-    if (active) {
-      const response = await fetchOrThrow(endpointAll);
-      setItems(await response.json());
-    }
-  }, [active, endpointAll]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (active) {
+        const response = await fetchOrThrow(endpointAll, { signal });
+        setItems(await response.json());
+      }
+    },
+    [active, endpointAll],
+  );
 
-  useEffectAsync(async () => {
-    if (active) {
-      const response = await fetchOrThrow(endpointLinked);
-      setLinked(await response.json());
-    }
-  }, [active, endpointLinked]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (active) {
+        const response = await fetchOrThrow(endpointLinked, { signal });
+        setLinked(await response.json());
+      }
+    },
+    [active, endpointLinked],
+  );
 
   const createBody = (linkId) => {
     const body = {};

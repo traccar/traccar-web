@@ -89,21 +89,25 @@ const TripReportPage = () => {
     },
   ];
 
-  useEffectAsync(async () => {
-    if (selectedItem) {
-      const query = new URLSearchParams({
-        deviceId: selectedItem.deviceId,
-        from: selectedItem.startTime,
-        to: selectedItem.endTime,
-      });
-      const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      setRoute(await response.json());
-    } else {
-      setRoute(null);
-    }
-  }, [selectedItem]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (selectedItem) {
+        const query = new URLSearchParams({
+          deviceId: selectedItem.deviceId,
+          from: selectedItem.startTime,
+          to: selectedItem.endTime,
+        });
+        const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+          signal,
+        });
+        setRoute(await response.json());
+      } else {
+        setRoute(null);
+      }
+    },
+    [selectedItem],
+  );
 
   const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });

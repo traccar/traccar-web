@@ -24,14 +24,14 @@ const CommandsPage = () => {
   const [loading, setLoading] = useState(false);
   const limitCommands = useRestriction('limitCommands');
 
-  const loadItems = async (offset) => {
+  const loadItems = async (offset, signal) => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/commands?${query.toString()}`);
+      const response = await fetchOrThrow(`/api/commands?${query.toString()}`, { signal });
       const data = await response.json();
       setItems((previous) => (offset ? [...previous, ...data] : data));
       setHasMore(data.length >= pageSize);
@@ -42,10 +42,13 @@ const CommandsPage = () => {
 
   const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(async () => {
-    setItems([]);
-    await loadItems(0);
-  }, [reloadKey, searchKeyword]);
+  useEffectAsync(
+    async ({ signal }) => {
+      setItems([]);
+      await loadItems(0, signal);
+    },
+    [reloadKey, searchKeyword],
+  );
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedSavedCommands']}>

@@ -54,12 +54,15 @@ const SelectField = ({
 
   useEffect(() => setItems(data), [data]);
 
-  useEffectAsync(async () => {
-    if (endpoint) {
-      const response = await fetchOrThrow(endpoint);
-      setItems(await response.json());
-    }
-  }, [endpoint]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (endpoint) {
+        const response = await fetchOrThrow(endpoint, { signal });
+        setItems(await response.json());
+      }
+    },
+    [endpoint],
+  );
 
   if (items) {
     const autocompleteValue = multiple

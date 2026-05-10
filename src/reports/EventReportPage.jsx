@@ -103,8 +103,8 @@ const EventReportPage = () => {
     }
   }, [selectedItem, positions]);
 
-  useEffectAsync(async () => {
-    const response = await fetchOrThrow('/api/notifications/types');
+  useEffectAsync(async ({ signal }) => {
+    const response = await fetchOrThrow('/api/notifications/types', { signal });
     const types = await response.json();
     setAllEventTypes((previous) => [
       ...previous,

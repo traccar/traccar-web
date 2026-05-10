@@ -47,15 +47,18 @@ const PositionPage = () => {
 
   const [item, setItem] = useState();
 
-  useEffectAsync(async () => {
-    if (id) {
-      const response = await fetchOrThrow(`/api/positions?id=${id}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setItem(positions[0]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (id) {
+        const response = await fetchOrThrow(`/api/positions?id=${id}`, { signal });
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setItem(positions[0]);
+        }
       }
-    }
-  }, [id]);
+    },
+    [id],
+  );
 
   const deviceName = useSelector((state) => {
     if (item) {

@@ -62,30 +62,34 @@ const NativeInterface = () => {
     return () => updateNotificationTokenListeners.delete(listener);
   }, [setNotificationToken]);
 
-  useEffectAsync(async () => {
-    if (user && notificationToken) {
-      window.localStorage.setItem('notificationToken', notificationToken);
-      setNotificationToken(null);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (user && notificationToken) {
+        window.localStorage.setItem('notificationToken', notificationToken);
+        setNotificationToken(null);
 
-      const tokens = user.attributes.notificationTokens?.split(',') || [];
-      if (!tokens.includes(notificationToken)) {
-        const updatedUser = {
-          ...user,
-          attributes: {
-            ...user.attributes,
-            notificationTokens: [...tokens.slice(-2), notificationToken].join(','),
-          },
-        };
+        const tokens = user.attributes.notificationTokens?.split(',') || [];
+        if (!tokens.includes(notificationToken)) {
+          const updatedUser = {
+            ...user,
+            attributes: {
+              ...user.attributes,
+              notificationTokens: [...tokens.slice(-2), notificationToken].join(','),
+            },
+          };
 
-        const response = await fetchOrThrow(`/api/users/${user.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedUser),
-        });
-        dispatch(sessionActions.updateUser(await response.json()));
+          const response = await fetchOrThrow(`/api/users/${user.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedUser),
+            signal,
+          });
+          dispatch(sessionActions.updateUser(await response.json()));
+        }
       }
-    }
-  }, [user, notificationToken, setNotificationToken, dispatch]);
+    },
+    [user, notificationToken, setNotificationToken, dispatch],
+  );
 
   return null;
 };

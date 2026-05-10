@@ -52,14 +52,14 @@ const DevicesPage = () => {
   const [showAll, setShowAll] = usePersistedState('showAllDevices', false);
   const [loading, setLoading] = useState(false);
 
-  const loadItems = async (offset) => {
+  const loadItems = async (offset, signal) => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ all: showAll, limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/devices?${query.toString()}`);
+      const response = await fetchOrThrow(`/api/devices?${query.toString()}`, { signal });
       const data = await response.json();
       setItems((previous) => (offset ? [...previous, ...data] : data));
       setHasMore(data.length >= pageSize);
@@ -70,10 +70,13 @@ const DevicesPage = () => {
 
   const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(async () => {
-    setItems([]);
-    await loadItems(0);
-  }, [reloadKey, showAll, searchKeyword]);
+  useEffectAsync(
+    async ({ signal }) => {
+      setItems([]);
+      await loadItems(0, signal);
+    },
+    [reloadKey, showAll, searchKeyword],
+  );
 
   const handleExport = async () => {
     const data = items.map((item) => ({

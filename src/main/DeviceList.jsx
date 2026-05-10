@@ -31,10 +31,13 @@ const DeviceList = ({ devices }) => {
     };
   }, []);
 
-  useEffectAsync(async () => {
-    const response = await fetchOrThrow('/api/devices');
-    dispatch(devicesActions.refresh(await response.json()));
-  }, [dispatch]);
+  useEffectAsync(
+    async ({ signal }) => {
+      const response = await fetchOrThrow('/api/devices', { signal });
+      dispatch(devicesActions.refresh(await response.json()));
+    },
+    [dispatch],
+  );
 
   return (
     <List

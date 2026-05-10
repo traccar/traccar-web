@@ -126,19 +126,22 @@ const SocketController = () => {
     socketRef.current?.send(JSON.stringify({ logs: includeLogs }));
   }, [includeLogs]);
 
-  useEffectAsync(async () => {
-    if (authenticated) {
-      const response = await fetchOrThrow('/api/devices');
-      dispatch(devicesActions.refresh(await response.json()));
-      nativePostMessage('authenticated');
-      connectSocket();
-      return () => {
-        clearReconnectTimeout();
-        socketRef.current?.close(logoutCode);
-      };
-    }
-    return null;
-  }, [authenticated]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (authenticated) {
+        const response = await fetchOrThrow('/api/devices', { signal });
+        dispatch(devicesActions.refresh(await response.json()));
+        nativePostMessage('authenticated');
+        connectSocket();
+        return () => {
+          clearReconnectTimeout();
+          socketRef.current?.close(logoutCode);
+        };
+      }
+      return null;
+    },
+    [authenticated],
+  );
 
   const handleNativeNotification = useCatchCallback(
     async (message) => {

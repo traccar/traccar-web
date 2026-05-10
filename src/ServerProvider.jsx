@@ -12,21 +12,24 @@ const ServerProvider = ({ children }) => {
   const initialized = useSelector((state) => !!state.session.server);
   const [error, setError] = useState(null);
 
-  useEffectAsync(async () => {
-    if (!error) {
-      try {
-        const response = await fetch('/api/server');
-        if (response.ok) {
-          dispatch(sessionActions.updateServer(await response.json()));
-        } else {
-          const message = await response.text();
-          throw Error(message || response.statusText);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (!error) {
+        try {
+          const response = await fetch('/api/server', { signal });
+          if (response.ok) {
+            dispatch(sessionActions.updateServer(await response.json()));
+          } else {
+            const message = await response.text();
+            throw Error(message || response.statusText);
+          }
+        } catch (error) {
+          setError(error.message);
         }
-      } catch (error) {
-        setError(error.message);
       }
-    }
-  }, [error, dispatch]);
+    },
+    [error, dispatch],
+  );
 
   if (error) {
     return (

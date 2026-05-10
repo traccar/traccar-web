@@ -44,15 +44,18 @@ const NetworkPage = () => {
 
   const [item, setItem] = useState({});
 
-  useEffectAsync(async () => {
-    if (positionId) {
-      const response = await fetchOrThrow(`/api/positions?id=${positionId}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setItem(positions[0]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (positionId) {
+        const response = await fetchOrThrow(`/api/positions?id=${positionId}`, { signal });
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setItem(positions[0]);
+        }
       }
-    }
-  }, [positionId]);
+    },
+    [positionId],
+  );
 
   const deviceName = useSelector((state) => {
     if (item) {

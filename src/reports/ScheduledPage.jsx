@@ -29,15 +29,18 @@ const ScheduledPage = () => {
   const [loading, setLoading] = useState(false);
   const [removingId, setRemovingId] = useState();
 
-  useEffectAsync(async () => {
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow('/api/reports');
-      setItems(await response.json());
-    } finally {
-      setLoading(false);
-    }
-  }, [reloadKey]);
+  useEffectAsync(
+    async ({ signal }) => {
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow('/api/reports', { signal });
+        setItems(await response.json());
+      } finally {
+        setLoading(false);
+      }
+    },
+    [reloadKey],
+  );
 
   const formatType = (type) => {
     switch (type) {

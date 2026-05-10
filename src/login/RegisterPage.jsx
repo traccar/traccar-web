@@ -44,12 +44,15 @@ const RegisterPage = () => {
   const [totpKey, setTotpKey] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  useEffectAsync(async () => {
-    if (totpForce) {
-      const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
-      setTotpKey(await response.text());
-    }
-  }, [totpForce, setTotpKey]);
+  useEffectAsync(
+    async ({ signal }) => {
+      if (totpForce) {
+        const response = await fetchOrThrow('/api/users/totp', { method: 'POST', signal });
+        setTotpKey(await response.text());
+      }
+    },
+    [totpForce, setTotpKey],
+  );
 
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();

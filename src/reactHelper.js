@@ -14,17 +14,21 @@ export const usePrevious = (value) => {
 
 export const useEffectAsync = (effect, deps) => {
   const dispatch = useDispatch();
-  const ref = useRef();
   useEffect(() => {
-    effect()
-      .then((result) => (ref.current = result))
-      .catch((error) => dispatch(errorsActions.push(error.message)));
-
+    const controller = new AbortController();
+    let cleanup;
+    effect({ signal: controller.signal })
+      .then((result) => {
+        cleanup = result;
+      })
+      .catch((error) => {
+        if (error.name !== 'AbortError') {
+          dispatch(errorsActions.push(error.message));
+        }
+      });
     return () => {
-      const result = ref.current;
-      if (result) {
-        result();
-      }
+      controller.abort();
+      cleanup?.();
     };
   }, [...deps, dispatch]);
 };

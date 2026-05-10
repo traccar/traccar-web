@@ -47,21 +47,24 @@ const App = () => {
     dispatch(sessionActions.updateUser(await response.json()));
   });
 
-  useEffectAsync(async () => {
-    if (!user) {
-      const response = await fetch('/api/session');
-      if (response.ok) {
-        dispatch(sessionActions.updateUser(await response.json()));
-      } else {
-        window.sessionStorage.setItem(
-          'postLogin',
-          window.location.pathname + window.location.search,
-        );
-        navigate(newServer ? '/register' : '/login', { replace: true });
+  useEffectAsync(
+    async ({ signal }) => {
+      if (!user) {
+        const response = await fetch('/api/session', { signal });
+        if (response.ok) {
+          dispatch(sessionActions.updateUser(await response.json()));
+        } else {
+          window.sessionStorage.setItem(
+            'postLogin',
+            window.location.pathname + window.location.search,
+          );
+          navigate(newServer ? '/register' : '/login', { replace: true });
+        }
       }
-    }
-    return null;
-  }, [user, dispatch, navigate, newServer]);
+      return null;
+    },
+    [user, dispatch, navigate, newServer],
+  );
 
   if (user == null) {
     return <Loader />;
