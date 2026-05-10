@@ -5,6 +5,8 @@ import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
 import fetchOrThrow from '../util/fetchOrThrow';
 
+const defaultTitleGetter = (item) => item.name;
+
 const LinkField = ({
   label,
   endpointAll,
@@ -12,8 +14,7 @@ const LinkField = ({
   baseId,
   keyBase,
   keyLink,
-  keyGetter = (item) => item.id,
-  titleGetter = (item) => item.name,
+  titleGetter = defaultTitleGetter,
 }) => {
   const t = useTranslation();
   const [active, setActive] = useState(false);
@@ -41,17 +42,11 @@ const LinkField = ({
     [active, endpointLinked],
   );
 
-  const createBody = (linkId) => {
-    const body = {};
-    body[keyBase] = baseId;
-    body[keyLink] = linkId;
-    return body;
-  };
-
   const onChange = useCatchCallback(
     async (value) => {
-      const oldValue = linked.map((it) => keyGetter(it));
-      const newValue = value.map((it) => keyGetter(it));
+      const createBody = (linkId) => ({ [keyBase]: baseId, [keyLink]: linkId });
+      const oldValue = linked.map((it) => it.id);
+      const newValue = value.map((it) => it.id);
       if (!newValue.find((it) => it < 0)) {
         const results = [];
         newValue
@@ -81,7 +76,7 @@ const LinkField = ({
         setLinked(value);
       }
     },
-    [linked, setUpdated, setLinked],
+    [linked, baseId, keyBase, keyLink],
   );
 
   return (
@@ -89,7 +84,7 @@ const LinkField = ({
       <Autocomplete
         size="small"
         loading={active && !items}
-        isOptionEqualToValue={(i1, i2) => keyGetter(i1) === keyGetter(i2)}
+        isOptionEqualToValue={(i1, i2) => i1.id === i2.id}
         options={items || []}
         getOptionLabel={(item) => titleGetter(item)}
         slotProps={{ chip: { size: 'small' } }}

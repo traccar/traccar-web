@@ -96,7 +96,7 @@ const MapPositions = ({
         zoom,
       });
     },
-    [clusters],
+    [clusters, id],
   );
 
   useEffect(() => {

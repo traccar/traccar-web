@@ -171,7 +171,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       body: JSON.stringify({ deviceId: position.deviceId, geofenceId: item.id }),
     });
     navigate(`/settings/geofence/${item.id}`);
-  }, [navigate, position]);
+  }, [navigate, position, t]);
 
   return (
     <>
