@@ -341,6 +341,7 @@ export default () => {
       hereKey,
       mapboxAccessToken,
       customMapUrl,
+      googleKey,
     ],
   );
 };
