@@ -6,9 +6,6 @@ const useStyles = makeStyles()((theme) => ({
     cursor: 'row-resize',
     backgroundColor: theme.palette.divider,
     flexShrink: 0,
-    '&:hover': {
-      backgroundColor: theme.palette.action.active,
-    },
   },
 }));
 
