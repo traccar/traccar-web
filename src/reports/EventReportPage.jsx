@@ -1,18 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Link,
-  IconButton,
-} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
@@ -68,7 +56,7 @@ const EventReportPage = () => {
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');
 
-  const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
+  const [allEventTypes, setAllEventTypes] = useState([{ id: 'allEvents', label: 'eventAll' }]);
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
     key: unprefixString('alarm', it),
@@ -108,7 +96,7 @@ const EventReportPage = () => {
     const types = await response.json();
     setAllEventTypes((previous) => [
       ...previous,
-      ...types.map((it) => [it.type, prefixString('event', it.type)]),
+      ...types.map((it) => ({ id: it.type, label: prefixString('event', it.type) })),
     ]);
   }, []);
 
@@ -265,28 +253,19 @@ const EventReportPage = () => {
               formats={['xlsx']}
             >
               <div className={classes.filterItem}>
-                <FormControl fullWidth>
-                  <InputLabel>{t('reportEventTypes')}</InputLabel>
-                  <Select
-                    label={t('reportEventTypes')}
-                    value={eventTypes}
-                    onChange={(e, child) => {
-                      let values = e.target.value;
-                      const clicked = child.props.value;
-                      if (values.includes('allEvents') && values.length > 1) {
-                        values = [clicked];
-                      }
-                      updateReportParams(searchParams, setSearchParams, 'eventType', values);
-                    }}
-                    multiple
-                  >
-                    {allEventTypes.map(([key, string]) => (
-                      <MenuItem key={key} value={key}>
-                        {t(string)}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <SelectField
+                  multiple
+                  singleLine
+                  data={allEventTypes}
+                  value={eventTypes}
+                  allValue="allEvents"
+                  titleGetter={(it) => t(it.label)}
+                  onChange={(e) =>
+                    updateReportParams(searchParams, setSearchParams, 'eventType', e.target.value)
+                  }
+                  label={t('reportEventTypes')}
+                  fullWidth
+                />
               </div>
               {eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm') && (
                 <div className={classes.filterItem}>

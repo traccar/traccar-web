@@ -36,6 +36,7 @@ const SelectField = ({
   helperText,
   placeholder,
   singleLine,
+  allValue,
 }) => {
   const { classes } = useStyles();
   const [items, setItems] = useState();
@@ -87,7 +88,14 @@ const SelectField = ({
         value={autocompleteValue}
         onChange={(_, selectedValue) => {
           if (multiple) {
-            onChange({ target: { value: selectedValue.map((item) => keyGetter(item)) } });
+            let nextValue = selectedValue.map((item) => keyGetter(item));
+            if (allValue && nextValue.length > 1) {
+              const previousHadAll = (value || []).includes(allValue);
+              if (nextValue.includes(allValue)) {
+                nextValue = previousHadAll ? nextValue.filter((it) => it !== allValue) : [allValue];
+              }
+            }
+            onChange({ target: { value: nextValue } });
           } else {
             onChange({ target: { value: selectedValue ? keyGetter(selectedValue) : emptyValue } });
           }
