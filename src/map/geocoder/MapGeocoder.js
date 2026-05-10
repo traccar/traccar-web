@@ -50,7 +50,7 @@ const MapGeocoder = () => {
     });
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
-  }, [dispatch]);
+  }, [dispatch, theme.direction]);
 
   return null;
 };

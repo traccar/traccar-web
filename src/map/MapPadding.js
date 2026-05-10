@@ -18,7 +18,7 @@ const MapPadding = ({ start }) => {
       bottomStart.style.insetInlineStart = 0;
       map.setPadding({ top: 0, right: 0, bottom: 0, left: 0 });
     };
-  }, [start]);
+  }, [start, theme.direction]);
 
   return null;
 };
