@@ -96,7 +96,7 @@ const PoiMap = () => {
       };
     }
     return () => {};
-  }, [data]);
+  }, [data, id, theme.palette.geometry.main]);
 
   return null;
 };

@@ -86,7 +86,7 @@ const MapGeofence = () => {
           .map((geofence) => geofenceToFeature(theme, geofence)),
       });
     }
-  }, [mapGeofences, geofences]);
+  }, [mapGeofences, geofences, id, theme]);
 
   return null;
 };

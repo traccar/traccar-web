@@ -82,7 +82,17 @@ const MapLiveRoutes = ({ deviceIds }) => {
         })),
       });
     }
-  }, [theme, type, devices, selectedDeviceId, history, deviceIds]);
+  }, [
+    theme,
+    type,
+    devices,
+    selectedDeviceId,
+    history,
+    deviceIds,
+    id,
+    mapLineOpacity,
+    mapLineWidth,
+  ]);
 
   return null;
 };

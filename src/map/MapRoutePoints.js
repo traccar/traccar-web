@@ -95,7 +95,7 @@ const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
       })),
     });
     return () => map.removeControl(control);
-  }, [onMarkerClick, positions, showSpeedControl]);
+  }, [onMarkerClick, positions, showSpeedControl, id, speedUnit, t, theme.direction]);
 
   return null;
 };

@@ -36,7 +36,7 @@ const MapAccuracy = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id, theme.palette.geometry.main]);
 
   useEffect(() => {
     map.getSource(id)?.setData({

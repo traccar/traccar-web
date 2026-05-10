@@ -200,7 +200,17 @@ const MapPositions = ({
         }
       });
     };
-  }, [mapCluster, clusters, onMarkerClickCallback, onClusterClick, onMapClickCallback]);
+  }, [
+    mapCluster,
+    clusters,
+    onMarkerClickCallback,
+    onClusterClick,
+    onMapClickCallback,
+    iconScale,
+    id,
+    selected,
+    titleField,
+  ]);
 
   useEffect(() => {
     [id, selected].forEach((source) => {
@@ -221,7 +231,19 @@ const MapPositions = ({
           })),
       });
     });
-  }, [mapCluster, clusters, onMarkerClick, onClusterClick, devices, positions, selectedPosition]);
+  }, [
+    mapCluster,
+    clusters,
+    onMarkerClick,
+    onClusterClick,
+    devices,
+    positions,
+    selectedPosition,
+    createFeature,
+    id,
+    selected,
+    selectedDeviceId,
+  ]);
 
   return null;
 };

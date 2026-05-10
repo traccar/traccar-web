@@ -40,11 +40,11 @@ const MapNotification = ({ enabled, onClick }) => {
   useEffect(() => {
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
-  }, [onClick]);
+  }, [control, theme.direction]);
 
   useEffect(() => {
     control.setEnabled(enabled);
-  }, [enabled]);
+  }, [control, enabled]);
 
   return null;
 };
