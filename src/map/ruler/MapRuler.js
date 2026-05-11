@@ -124,9 +124,10 @@ const MapRuler = ({ positions }) => {
       }
     };
 
+    let container;
     const control = {
       onAdd: () => {
-        const container = document.createElement('div');
+        container = document.createElement('div');
         container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
         button = document.createElement('button');
         button.type = 'button';
@@ -136,7 +137,7 @@ const MapRuler = ({ positions }) => {
         container.appendChild(button);
         return container;
       },
-      onRemove: () => {},
+      onRemove: () => container?.remove(),
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     setupLayers();

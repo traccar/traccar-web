@@ -32,9 +32,10 @@ const MapNotification = ({ enabled, onClick }) => {
   const buttonRef = useRef(null);
 
   useEffect(() => {
+    let container;
     const control = {
       onAdd: () => {
-        const container = document.createElement('div');
+        container = document.createElement('div');
         container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
         const button = document.createElement('button');
         button.type = 'button';
@@ -44,7 +45,7 @@ const MapNotification = ({ enabled, onClick }) => {
         buttonRef.current = button;
         return container;
       },
-      onRemove: () => {},
+      onRemove: () => container?.remove(),
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
