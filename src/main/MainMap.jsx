@@ -14,7 +14,7 @@ import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import MapPositions from '../map/MapPositions';
 import MapOverlay from '../map/overlay/MapOverlay';
-import MapGeocoder from '../map/geocoder/MapGeocoder';
+import MapGeocoder from '../map/control/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapRuler from '../map/control/MapRuler';
 import MapNotification from '../map/control/MapNotification';
