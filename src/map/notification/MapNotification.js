@@ -1,50 +1,58 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTheme } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 import { map } from '../core/MapView';
-import './notification.css';
+import notificationIcon from '../../resources/images/map/notification.svg?url';
 
-const statusClass = (status) =>
-  `maplibregl-ctrl-icon maplibre-ctrl-notification maplibre-ctrl-notification-${status}`;
-
-class NotificationControl {
-  constructor(eventHandler) {
-    this.eventHandler = eventHandler;
-  }
-
-  onAdd() {
-    this.button = document.createElement('button');
-    this.button.className = statusClass('off');
-    this.button.type = 'button';
-    this.button.onclick = () => this.eventHandler(this);
-
-    this.container = document.createElement('div');
-    this.container.className = 'maplibregl-ctrl-group maplibregl-ctrl';
-    this.container.appendChild(this.button);
-
-    return this.container;
-  }
-
-  onRemove() {
-    this.container.parentNode.removeChild(this.container);
-  }
-
-  setEnabled(enabled) {
-    this.button.className = statusClass(enabled ? 'on' : 'off');
-  }
-}
+const useStyles = makeStyles()((theme) => ({
+  button: {
+    position: 'relative',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      inset: 0,
+      backgroundColor: '#333',
+      maskImage: `url("${notificationIcon}")`,
+      maskPosition: 'center',
+      maskRepeat: 'no-repeat',
+    },
+    '&.active::before': {
+      backgroundColor: theme.palette.error.main,
+    },
+  },
+}));
 
 const MapNotification = ({ enabled, onClick }) => {
   const theme = useTheme();
-  const control = useMemo(() => new NotificationControl(onClick), [onClick]);
+  const { classes } = useStyles();
+
+  const onClickRef = useRef(onClick);
+  onClickRef.current = onClick;
+
+  const buttonRef = useRef(null);
 
   useEffect(() => {
+    const control = {
+      onAdd: () => {
+        const container = document.createElement('div');
+        container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `maplibregl-ctrl-icon ${classes.button}`;
+        button.onclick = () => onClickRef.current?.();
+        container.appendChild(button);
+        buttonRef.current = button;
+        return container;
+      },
+      onRemove: () => {},
+    };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
-  }, [control, theme.direction]);
+  }, [theme.direction, classes.button]);
 
   useEffect(() => {
-    control.setEnabled(enabled);
-  }, [control, enabled]);
+    buttonRef.current?.classList.toggle('active', enabled);
+  }, [enabled]);
 
   return null;
 };
