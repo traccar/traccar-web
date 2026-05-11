@@ -25,7 +25,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-const MapRuler = ({ positions }) => {
+const MapRuler = ({ positions, onActiveChange }) => {
   const theme = useTheme();
   const t = useTranslation();
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -34,48 +34,48 @@ const MapRuler = ({ positions }) => {
   const positionsRef = useRef(positions);
   positionsRef.current = positions;
 
+  const onActiveChangeRef = useRef(onActiveChange);
+  onActiveChangeRef.current = onActiveChange;
+
   useEffect(() => {
     const color = theme.palette.geometry.main;
     const points = [];
     let active = false;
     let button;
 
-    const setupLayers = () => {
-      if (!map.isStyleLoaded() || map.getLayer('ruler-line')) return;
-      map.addSource('ruler', {
-        type: 'geojson',
-        data: { type: 'FeatureCollection', features: [] },
-      });
-      map.addLayer({
-        id: 'ruler-line',
-        type: 'line',
-        source: 'ruler',
-        filter: ['==', '$type', 'LineString'],
-        paint: { 'line-color': color, 'line-width': 2 },
-      });
-      map.addLayer({
-        id: 'ruler-point',
-        type: 'circle',
-        source: 'ruler',
-        filter: ['==', '$type', 'Point'],
-        paint: { 'circle-radius': 4, 'circle-color': color },
-      });
-      map.addLayer({
-        id: 'ruler-label',
-        type: 'symbol',
-        source: 'ruler',
-        filter: ['has', 'label'],
-        layout: {
-          'text-field': ['get', 'label'],
-          'text-font': findFonts(map),
-          'text-size': 12,
-          'text-anchor': 'bottom',
-          'text-offset': [0, -0.8],
-        },
-        paint: { 'text-halo-color': 'white', 'text-halo-width': 1 },
-      });
-      render();
-    };
+    map.addSource('ruler', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: [] },
+    });
+    map.addLayer({
+      id: 'ruler-line',
+      type: 'line',
+      source: 'ruler',
+      filter: ['==', '$type', 'LineString'],
+      paint: { 'line-color': color, 'line-width': 2 },
+    });
+    map.addLayer({
+      id: 'ruler-point',
+      type: 'circle',
+      source: 'ruler',
+      filter: ['==', '$type', 'Point'],
+      paint: { 'circle-radius': 4, 'circle-color': color },
+    });
+    map.addLayer({
+      id: 'ruler-label',
+      type: 'symbol',
+      source: 'ruler',
+      filter: ['has', 'label'],
+      layout: {
+        'text-field': ['get', 'label'],
+        'text-font': findFonts(map),
+        'text-size': 12,
+        'text-allow-overlap': true,
+        'text-anchor': 'bottom',
+        'text-offset': [0, -0.8],
+      },
+      paint: { 'text-halo-color': 'white', 'text-halo-width': 1 },
+    });
 
     const snap = (lngLat, pixel) => {
       for (const p of positionsRef.current) {
@@ -119,6 +119,7 @@ const MapRuler = ({ positions }) => {
     const toggle = () => {
       active = !active;
       button.classList.toggle('active', active);
+      onActiveChangeRef.current(active);
       if (active) {
         map.on('click', onClick);
       } else {
@@ -150,19 +151,17 @@ const MapRuler = ({ positions }) => {
       },
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
-    setupLayers();
-    map.on('styledata', setupLayers);
 
     return () => {
-      map.off('styledata', setupLayers);
       if (active) {
         map.off('click', onClick);
+        onActiveChangeRef.current(false);
       }
       map.removeControl(control);
       ['ruler-label', 'ruler-point', 'ruler-line'].forEach((id) => {
-        if (map.getLayer(id)) map.removeLayer(id);
+        map.removeLayer(id);
       });
-      if (map.getSource('ruler')) map.removeSource('ruler');
+      map.removeSource('ruler');
     };
   }, [theme, t, distanceUnit, classes.button]);
 

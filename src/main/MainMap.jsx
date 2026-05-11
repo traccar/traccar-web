@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,8 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
 
   const features = useFeatures();
 
+  const [rulerActive, setRulerActive] = useState(false);
+
   const onMarkerClick = useCallback(
     (_, deviceId) => {
       dispatch(devicesActions.selectId(deviceId));
@@ -49,18 +51,19 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
           onMarkerClick={onMarkerClick}
           selectedPosition={selectedPosition}
           showStatus
+          disabled={rulerActive}
         />
         <MapDefaultCamera filteredPositions={filteredPositions} />
         <MapSelectedDevice />
         <PoiMap />
+        <MapRuler positions={filteredPositions} onActiveChange={setRulerActive} />
+        {!features.disableEvents && (
+          <MapNotification enabled={eventsAvailable} onClick={onEventsClick} />
+        )}
       </MapView>
       <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
-      <MapRuler positions={filteredPositions} />
-      {!features.disableEvents && (
-        <MapNotification enabled={eventsAvailable} onClick={onEventsClick} />
-      )}
       {desktop && (
         <MapPadding
           start={

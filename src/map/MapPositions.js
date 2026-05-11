@@ -1,4 +1,4 @@
-import { useId, useCallback, useEffect } from 'react';
+import { useId, useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -16,6 +16,7 @@ const MapPositions = ({
   showStatus,
   selectedPosition,
   titleField,
+  disabled,
 }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
@@ -30,6 +31,9 @@ const MapPositions = ({
 
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
+
+  const disabledRef = useRef(disabled);
+  disabledRef.current = disabled;
 
   const createFeature = useCallback(
     (devices, position, selectedPositionId) => {
@@ -74,6 +78,7 @@ const MapPositions = ({
 
   const onMarkerClickCallback = useCallback(
     (event) => {
+      if (disabledRef.current) return;
       event.preventDefault();
       const feature = event.features[0];
       if (onMarkerClick) {
@@ -85,6 +90,7 @@ const MapPositions = ({
 
   const onClusterClick = useCatchCallback(
     async (event) => {
+      if (disabledRef.current) return;
       event.preventDefault();
       const features = map.queryRenderedFeatures(event.point, {
         layers: [clusters],
@@ -137,7 +143,7 @@ const MapPositions = ({
         },
         paint: {
           'text-halo-color': 'white',
-          'text-halo-width': 2,
+          'text-halo-width': 1,
         },
       });
       map.addLayer({
