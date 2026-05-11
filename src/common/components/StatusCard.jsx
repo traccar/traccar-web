@@ -42,21 +42,19 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
   },
-  media: {
-    height: theme.dimensions.popupImageHeight,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-  },
-  mediaButton: {
-    color: theme.palette.common.white,
-    mixBlendMode: 'difference',
-  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: theme.spacing(1, 1, 0, 2),
+    color: theme.palette.text.secondary,
+  },
+  media: {
+    height: theme.dimensions.popupImageHeight,
+    '& > div': {
+      color: theme.palette.common.white,
+      mixBlendMode: 'difference',
+    },
   },
   content: {
     paddingTop: theme.spacing(1),
@@ -184,25 +182,19 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             style={{ position: 'relative' }}
           >
             <Card elevation={3} className={classes.card}>
-              {deviceImage ? (
-                <CardMedia
-                  className={`${classes.media} draggable-header`}
-                  image={`/api/media/${device.uniqueId}/${deviceImage}`}
-                >
-                  <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
-                    <CloseIcon fontSize="small" className={classes.mediaButton} />
-                  </IconButton>
-                </CardMedia>
-              ) : (
-                <div className={`${classes.header} draggable-header`}>
-                  <Typography variant="body2" color="textSecondary">
+              <CardMedia
+                className={`draggable-header ${deviceImage ? classes.media : ''}`}
+                image={deviceImage && `/api/media/${device.uniqueId}/${deviceImage}`}
+              >
+                <div className={classes.header}>
+                  <Typography variant="body2" color="inherit">
                     {device.name}
                   </Typography>
-                  <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
+                  <IconButton size="small" color="inherit" onClick={onClose} onTouchStart={onClose}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
                 </div>
-              )}
+              </CardMedia>
               {position && (
                 <CardContent className={classes.content}>
                   <Table size="small" className={classes.table}>
