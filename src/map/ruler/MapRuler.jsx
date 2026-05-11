@@ -7,13 +7,17 @@ import { findFonts } from '../core/mapUtil';
 import { useAttributePreference } from '../../common/util/preferences';
 import { formatDistance } from '../../common/util/formatter';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import rulerIcon from '../../resources/images/map/ruler.svg?url';
+import { createRoot } from 'react-dom/client';
+import StraightenIcon from '@mui/icons-material/Straighten';
 
 const useStyles = makeStyles()(() => ({
   button: {
-    backgroundImage: `url("${rulerIcon}")`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
+    '&&': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#333',
+    },
     '&.active': {
       backgroundColor: '#e6e6e6',
       borderRadius: 'inherit',
@@ -125,6 +129,7 @@ const MapRuler = ({ positions }) => {
     };
 
     let container;
+    let root;
     const control = {
       onAdd: () => {
         container = document.createElement('div');
@@ -135,9 +140,14 @@ const MapRuler = ({ positions }) => {
         button.className = `maplibregl-ctrl-icon ${classes.button}`;
         button.onclick = toggle;
         container.appendChild(button);
+        root = createRoot(button);
+        root.render(<StraightenIcon fontSize="small" />);
         return container;
       },
-      onRemove: () => container?.remove(),
+      onRemove: () => {
+        queueMicrotask(() => root?.unmount());
+        container?.remove();
+      },
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     setupLayers();

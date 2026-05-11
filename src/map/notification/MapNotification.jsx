@@ -1,23 +1,20 @@
 import { useEffect, useRef } from 'react';
 import { useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { createRoot } from 'react-dom/client';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { map } from '../core/MapView';
-import notificationIcon from '../../resources/images/map/notification.svg?url';
 
 const useStyles = makeStyles()((theme) => ({
   button: {
-    position: 'relative',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      inset: 0,
-      backgroundColor: '#333',
-      maskImage: `url("${notificationIcon}")`,
-      maskPosition: 'center',
-      maskRepeat: 'no-repeat',
+    '&&': {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#333',
     },
-    '&.active::before': {
-      backgroundColor: theme.palette.error.main,
+    '&&.active': {
+      color: theme.palette.error.main,
     },
   },
 }));
@@ -33,6 +30,7 @@ const MapNotification = ({ enabled, onClick }) => {
 
   useEffect(() => {
     let container;
+    let root;
     const control = {
       onAdd: () => {
         container = document.createElement('div');
@@ -42,10 +40,15 @@ const MapNotification = ({ enabled, onClick }) => {
         button.className = `maplibregl-ctrl-icon ${classes.button}`;
         button.onclick = () => onClickRef.current?.();
         container.appendChild(button);
+        root = createRoot(button);
+        root.render(<NotificationsIcon fontSize="small" />);
         buttonRef.current = button;
         return container;
       },
-      onRemove: () => container?.remove(),
+      onRemove: () => {
+        queueMicrotask(() => root?.unmount());
+        container?.remove();
+      },
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
