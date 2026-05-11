@@ -1,14 +1,14 @@
 import maplibregl from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import { useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import StraightenIcon from '@mui/icons-material/Straighten';
 import { map } from '../core/MapView';
 import { findFonts } from '../core/mapUtil';
 import { useAttributePreference } from '../../common/util/preferences';
 import { formatDistance } from '../../common/util/formatter';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { createRoot } from 'react-dom/client';
-import StraightenIcon from '@mui/icons-material/Straighten';
 
 const useStyles = makeStyles()(() => ({
   button: {
@@ -145,8 +145,8 @@ const MapRuler = ({ positions }) => {
         return container;
       },
       onRemove: () => {
-        queueMicrotask(() => root?.unmount());
-        container?.remove();
+        queueMicrotask(() => root.unmount());
+        container.remove();
       },
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');

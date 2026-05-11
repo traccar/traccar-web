@@ -38,7 +38,7 @@ const MapNotification = ({ enabled, onClick }) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = `maplibregl-ctrl-icon ${classes.button}`;
-        button.onclick = () => onClickRef.current?.();
+        button.onclick = () => onClickRef.current();
         container.appendChild(button);
         root = createRoot(button);
         root.render(<NotificationsIcon fontSize="small" />);
@@ -46,8 +46,8 @@ const MapNotification = ({ enabled, onClick }) => {
         return container;
       },
       onRemove: () => {
-        queueMicrotask(() => root?.unmount());
-        container?.remove();
+        queueMicrotask(() => root.unmount());
+        container.remove();
       },
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
