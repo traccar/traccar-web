@@ -24,6 +24,7 @@ import { useManager } from '../common/util/permissions';
 import SearchHeader from './components/SearchHeader';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import UserDevicesValue from './components/UserDevicesValue';
 
 const UsersPage = () => {
   const { classes } = useSettingsStyles();
@@ -99,6 +100,7 @@ const UsersPage = () => {
             <TableCell>{t('userAdmin')}</TableCell>
             <TableCell>{t('sharedDisabled')}</TableCell>
             <TableCell>{t('userExpirationTime')}</TableCell>
+            <TableCell>{t('deviceTitle')}</TableCell>
             <TableCell className={classes.columnAction} />
           </TableRow>
         </TableHead>
@@ -112,6 +114,9 @@ const UsersPage = () => {
                 <TableCell>{formatBoolean(item.administrator, t)}</TableCell>
                 <TableCell>{formatBoolean(item.disabled, t)}</TableCell>
                 <TableCell>{formatTime(item.expirationTime, 'date')}</TableCell>
+                <TableCell>
+                  <UserDevicesValue userId={item.id} />
+                </TableCell>
                 <TableCell className={classes.columnAction} padding="none">
                   <CollectionActions
                     itemId={item.id}
@@ -123,11 +128,11 @@ const UsersPage = () => {
                 </TableCell>
               </TableRow>
             ))}
-          {loading && <TableShimmer columns={6} endAction />}
+          {loading && <TableShimmer columns={7} endAction />}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={6} align="right">
+            <TableCell colSpan={7} align="right">
               <FormControlLabel
                 control={
                   <Switch
