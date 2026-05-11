@@ -2,7 +2,7 @@ import { useId, useCallback, useEffect } from 'react';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
 import { findFonts } from './core/mapUtil';
-import MapSpeedLegend from './legend/MapSpeedLegend';
+import MapSpeedLegend from './control/MapSpeedLegend';
 
 const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
   const id = useId();

@@ -16,8 +16,8 @@ import MapPositions from '../map/MapPositions';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/geocoder/MapGeocoder';
 import MapScale from '../map/MapScale';
-import MapRuler from '../map/ruler/MapRuler';
-import MapNotification from '../map/notification/MapNotification';
+import MapRuler from '../map/control/MapRuler';
+import MapNotification from '../map/control/MapNotification';
 import useFeatures from '../common/util/useFeatures';
 
 const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
