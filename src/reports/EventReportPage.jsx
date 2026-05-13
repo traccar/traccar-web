@@ -5,7 +5,7 @@ import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { formatAddress, formatSpeed, formatTime } from '../common/util/formatter';
+import { formatAddress, formatNumber, formatSpeed, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
@@ -211,6 +211,9 @@ const EventReportPage = () => {
             return formatSpeed(item.attributes.speed, speedUnit, t);
           case 'driverChanged':
             return item.attributes.driverUniqueId;
+          case 'deviceFuelDrop':
+          case 'deviceFuelIncrease':
+            return formatNumber(Math.abs(item.attributes.after - item.attributes.before));
           case 'media':
             return (
               <Link
