@@ -159,9 +159,13 @@ const MapRuler = ({ positions, onActiveChange }) => {
       }
       map.removeControl(control);
       ['ruler-label', 'ruler-point', 'ruler-line'].forEach((id) => {
-        map.removeLayer(id);
+        if (map.getLayer(id)) {
+          map.removeLayer(id);
+        }
       });
-      map.removeSource('ruler');
+      if (map.getSource('ruler')) {
+        map.removeSource('ruler');
+      }
     };
   }, [theme, t, distanceUnit, classes.button]);
 
