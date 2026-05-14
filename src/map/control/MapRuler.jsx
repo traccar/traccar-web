@@ -159,9 +159,9 @@ const MapRuler = ({ positions, onActiveChange }) => {
       }
       map.removeControl(control);
       ['ruler-label', 'ruler-point', 'ruler-line'].forEach((id) => {
-        map.removeLayer(id);
+        if (map.isStyleLoaded()) map.removeLayer(id);
       });
-      map.removeSource('ruler');
+      if (map.isStyleLoaded() && !map.getLayer('ruler-line')) map.removeSource('ruler');
     };
   }, [theme, t, distanceUnit, classes.button]);
 
