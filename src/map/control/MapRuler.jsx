@@ -16,10 +16,8 @@ const useStyles = makeStyles()(() => ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: '#333',
     },
     '&.active': {
-      backgroundColor: '#e6e6e6',
       borderRadius: 'inherit',
     },
   },
@@ -116,14 +114,38 @@ const MapRuler = ({ positions, onActiveChange }) => {
       render();
     };
 
+    const onTouchStart = () => {
+      if (!active) {
+        button.style.backgroundColor = '#e6e6e6';
+        button.style.color = '#333';
+      }
+    };
+
+    const onTouchEnd = () => {
+      if (active) {
+        button.style.backgroundColor = '#333';
+        button.style.color = '#e6e6e6';
+      } else {
+        button.style.backgroundColor = '#e6e6e6';
+        button.style.color = '#333';
+      }
+      button.style.pointerEvents = 'none';
+      void button.offsetHeight;
+      button.style.pointerEvents = '';
+    };
+
     const toggle = () => {
       active = !active;
       button.classList.toggle('active', active);
       onActiveChangeRef.current(active);
       if (active) {
         map.on('click', onClick);
+        button.style.backgroundColor = '#333';
+        button.style.color = '#e6e6e6';
       } else {
         map.off('click', onClick);
+        button.style.backgroundColor = '#e6e6e6';
+        button.style.color = '#333';
         points.length = 0;
         render();
       }
@@ -139,6 +161,8 @@ const MapRuler = ({ positions, onActiveChange }) => {
         button.type = 'button';
         button.title = t('sharedDistance');
         button.className = `maplibregl-ctrl-icon ${classes.button}`;
+        button.addEventListener('touchstart', onTouchStart);
+        button.addEventListener('touchend', onTouchEnd);
         button.onclick = toggle;
         container.appendChild(button);
         root = createRoot(button);
@@ -146,6 +170,8 @@ const MapRuler = ({ positions, onActiveChange }) => {
         return container;
       },
       onRemove: () => {
+        button.removeEventListener('touchstart', onTouchStart);
+        button.removeEventListener('touchend', onTouchEnd);
         queueMicrotask(() => root.unmount());
         container.remove();
       },
