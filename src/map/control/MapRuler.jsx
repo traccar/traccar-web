@@ -12,14 +12,21 @@ import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const useStyles = makeStyles()(() => ({
   button: {
-    '&&': {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#e6e6e6',
+    color: '#333',
+    WebkitTapHighlightColor: 'transparent',
+  },
+  active: {
+    backgroundColor: '#333 !important',
+    color: '#e6e6e6',
+    '&:hover': {
+      backgroundColor: '#333',
+      color: '#e6e6e6',
     },
-    '&.active': {
-      borderRadius: 'inherit',
-    },
+    borderRadius: 'inherit',
   },
 }));
 
@@ -114,38 +121,16 @@ const MapRuler = ({ positions, onActiveChange }) => {
       render();
     };
 
-    const onTouchStart = () => {
-      if (!active) {
-        button.style.backgroundColor = '#e6e6e6';
-        button.style.color = '#333';
-      }
-    };
-
-    const onTouchEnd = () => {
-      if (active) {
-        button.style.backgroundColor = '#333';
-        button.style.color = '#e6e6e6';
-      } else {
-        button.style.backgroundColor = '#e6e6e6';
-        button.style.color = '#333';
-      }
-      button.style.pointerEvents = 'none';
-      void button.offsetHeight;
-      button.style.pointerEvents = '';
-    };
-
     const toggle = () => {
       active = !active;
-      button.classList.toggle('active', active);
       onActiveChangeRef.current(active);
       if (active) {
         map.on('click', onClick);
-        button.style.backgroundColor = '#333';
-        button.style.color = '#e6e6e6';
+        button.classList.add(classes.active);
+        button.focus();
       } else {
         map.off('click', onClick);
-        button.style.backgroundColor = '#e6e6e6';
-        button.style.color = '#333';
+        button.classList.remove(classes.active);
         points.length = 0;
         render();
       }
@@ -161,8 +146,6 @@ const MapRuler = ({ positions, onActiveChange }) => {
         button.type = 'button';
         button.title = t('sharedDistance');
         button.className = `maplibregl-ctrl-icon ${classes.button}`;
-        button.addEventListener('touchstart', onTouchStart);
-        button.addEventListener('touchend', onTouchEnd);
         button.onclick = toggle;
         container.appendChild(button);
         root = createRoot(button);
@@ -170,8 +153,6 @@ const MapRuler = ({ positions, onActiveChange }) => {
         return container;
       },
       onRemove: () => {
-        button.removeEventListener('touchstart', onTouchStart);
-        button.removeEventListener('touchend', onTouchEnd);
         queueMicrotask(() => root.unmount());
         container.remove();
       },
