@@ -174,7 +174,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         map.removeSource('ruler');
       }
     };
-  }, [theme, t, distanceUnit, classes.button]);
+  }, [theme, t, distanceUnit, classes.button, classes.active]);
 
   return null;
 };
