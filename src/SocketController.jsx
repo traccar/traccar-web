@@ -17,6 +17,15 @@ import fetchOrThrow from './common/util/fetchOrThrow';
 
 const logoutCode = 4000;
 
+let alarmAudio;
+const playAlarm = () => {
+  if (!alarmAudio) {
+    alarmAudio = new Audio(alarm);
+  }
+  alarmAudio.currentTime = 0;
+  alarmAudio.play();
+};
+
 const SocketController = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,7 +62,7 @@ const SocketController = () => {
             (e.type === 'alarm' && soundAlarms.includes(e.attributes.alarm)),
         )
       ) {
-        new Audio(alarm).play();
+        playAlarm();
       }
       setNotifications(
         events.map((event) => ({
@@ -86,28 +95,30 @@ const SocketController = () => {
 
     socket.onclose = async (event) => {
       dispatch(sessionActions.updateSocket(false));
-      if (event.code !== logoutCode) {
-        try {
-          const devicesResponse = await fetch('/api/devices');
-          if (devicesResponse.ok) {
-            dispatch(devicesActions.update(await devicesResponse.json()));
-          }
-          const positionsResponse = await fetch('/api/positions');
-          if (positionsResponse.ok) {
-            dispatch(sessionActions.updatePositions(await positionsResponse.json()));
-          }
-          if (devicesResponse.status === 401 || positionsResponse.status === 401) {
-            navigate('/login');
-          }
-        } catch {
-          // ignore errors
+      if (event.code === logoutCode) return;
+      try {
+        const devicesResponse = await fetch('/api/devices');
+        if (socketRef.current !== socket) return;
+        if (devicesResponse.ok) {
+          dispatch(devicesActions.update(await devicesResponse.json()));
         }
-        clearReconnectTimeout();
-        reconnectTimeoutRef.current = setTimeout(() => {
-          reconnectTimeoutRef.current = null;
-          connectSocketRef.current?.();
-        }, 60000);
+        const positionsResponse = await fetch('/api/positions');
+        if (socketRef.current !== socket) return;
+        if (positionsResponse.ok) {
+          dispatch(sessionActions.updatePositions(await positionsResponse.json()));
+        }
+        if (devicesResponse.status === 401 || positionsResponse.status === 401) {
+          navigate('/login');
+        }
+      } catch {
+        // ignore errors
       }
+      if (socketRef.current !== socket) return;
+      clearReconnectTimeout();
+      reconnectTimeoutRef.current = setTimeout(() => {
+        reconnectTimeoutRef.current = null;
+        connectSocketRef.current?.();
+      }, 60000);
     };
 
     socket.onmessage = (event) => {
@@ -208,7 +219,7 @@ const SocketController = () => {
           open={notification.show}
           message={notification.message}
           autoHideDuration={snackBarDurationLongMs}
-          onClose={() => setNotifications(notifications.filter((e) => e.id !== notification.id))}
+          onClose={() => setNotifications((prev) => prev.filter((e) => e.id !== notification.id))}
         />
       ))}
     </>
