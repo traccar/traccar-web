@@ -1,23 +1,53 @@
-import { MuiFileInput } from 'mui-file-input';
-import { makeStyles } from 'tss-react/mui';
+import { useRef } from 'react';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import CloseIcon from '@mui/icons-material/Close';
 
-const useStyles = makeStyles()((theme) => ({
-  root: {
-    '& .MuiOutlinedInput-root > label > span': {
-      left: theme.spacing(1.75),
-    },
-  },
-}));
+const FileInput = ({ placeholder, value, onChange, slotProps }) => {
+  const inputRef = useRef(null);
 
-const FileInput = (props) => {
-  const { classes } = useStyles();
+  const openPicker = () => inputRef.current?.click();
+
+  const handleChange = (event) => {
+    onChange?.(event.target.files?.[0] || null);
+    event.target.value = '';
+  };
+
+  const handleClear = (event) => {
+    event.stopPropagation();
+    onChange?.(null);
+  };
+
   return (
-    <MuiFileInput
-      {...props}
-      className={classes.root}
-      clearIconButtonProps={{ children: <CloseIcon fontSize="small" /> }}
-    />
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        style={{ display: 'none' }}
+        onChange={handleChange}
+        {...slotProps?.htmlInput}
+      />
+      <TextField
+        value={value?.name ?? ''}
+        placeholder={placeholder}
+        onClick={openPicker}
+        slotProps={{
+          input: {
+            readOnly: true,
+            sx: { cursor: 'pointer' },
+            endAdornment: value && (
+              <InputAdornment position="end">
+                <IconButton size="small" edge="end" onClick={handleClear}>
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
+          htmlInput: { sx: { cursor: 'pointer' } },
+        }}
+      />
+    </>
   );
 };
 
