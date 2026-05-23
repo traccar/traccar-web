@@ -130,7 +130,7 @@ const ChartReportPage = () => {
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportChart']}>
-      <ReportFilter onShow={onShow} deviceType="single">
+      <ReportFilter onShow={onShow} onExport={() => {}} deviceType="single" formats={[]}>
         <div className={classes.filterItem}>
           <FormControl fullWidth>
             <InputLabel>{t('reportChartType')}</InputLabel>
