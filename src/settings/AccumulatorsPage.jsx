@@ -33,20 +33,25 @@ const AccumulatorsPage = () => {
   const [item, setItem] = useState();
 
   useEffect(() => {
-    if (position) {
+    if (position && !item) {
       setItem({
         deviceId: parseInt(deviceId, 10),
-        hours: position.attributes.hours || 0,
-        totalDistance: position.attributes.totalDistance || 0,
+        hours: (position.attributes.hours || 0) / 3_600_000,
+        totalDistance: distanceFromMeters(position.attributes.totalDistance || 0, distanceUnit),
       });
     }
-  }, [deviceId, position]);
+  }, [deviceId, position, item, distanceUnit]);
 
   const handleSave = useCatch(async () => {
+    const updateItem = {
+      ...item,
+      hours: item.hours * 3_600_000,
+      totalDistance: distanceToMeters(item.totalDistance, distanceUnit),
+    };
     await fetchOrThrow(`/api/devices/${deviceId}/accumulators`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(item),
+      body: JSON.stringify(updateItem),
     });
     navigate(-1);
   });
@@ -62,20 +67,15 @@ const AccumulatorsPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 type="number"
-                value={item.hours / 3600000}
-                onChange={(event) =>
-                  setItem({ ...item, hours: Number(event.target.value) * 3600000 })
-                }
+                value={item.hours}
+                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) })}
                 label={t('positionHours')}
               />
               <TextField
                 type="number"
-                value={distanceFromMeters(item.totalDistance, distanceUnit)}
+                value={item.totalDistance}
                 onChange={(event) =>
-                  setItem({
-                    ...item,
-                    totalDistance: distanceToMeters(Number(event.target.value), distanceUnit),
-                  })
+                  setItem({ ...item, totalDistance: Number(event.target.value) })
                 }
                 label={`${t('deviceTotalDistance')} (${distanceUnitString(distanceUnit, t)})`}
               />
