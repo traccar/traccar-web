@@ -33,25 +33,20 @@ const AccumulatorsPage = () => {
   const [item, setItem] = useState();
 
   useEffect(() => {
-    if (position && !item) {
+    if (position) {
       setItem({
         deviceId: parseInt(deviceId, 10),
-        hours: (position.attributes.hours || 0) / 3_600_000,
-        totalDistance: distanceFromMeters(position.attributes.totalDistance || 0, distanceUnit),
+        hours: position.attributes.hours || 0,
+        totalDistance: position.attributes.totalDistance || 0,
       });
     }
-  }, [deviceId, position, item, distanceUnit]);
+  }, [deviceId, position]);
 
   const handleSave = useCatch(async () => {
-    const updateItem = {
-      ...item,
-      hours: item.hours * 3_600_000,
-      totalDistance: distanceToMeters(item.totalDistance, distanceUnit),
-    };
     await fetchOrThrow(`/api/devices/${deviceId}/accumulators`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updateItem),
+      body: JSON.stringify(item),
     });
     navigate(-1);
   });
@@ -67,15 +62,20 @@ const AccumulatorsPage = () => {
             <AccordionDetails className={classes.details}>
               <TextField
                 type="number"
-                value={item.hours}
-                onChange={(event) => setItem({ ...item, hours: Number(event.target.value) })}
+                value={item.hours / 3600000}
+                onChange={(event) =>
+                  setItem({ ...item, hours: Number(event.target.value) * 3600000 })
+                }
                 label={t('positionHours')}
               />
               <TextField
                 type="number"
-                value={item.totalDistance}
+                value={distanceFromMeters(item.totalDistance, distanceUnit)}
                 onChange={(event) =>
-                  setItem({ ...item, totalDistance: Number(event.target.value) })
+                  setItem({
+                    ...item,
+                    totalDistance: distanceToMeters(Number(event.target.value), distanceUnit),
+                  })
                 }
                 label={`${t('deviceTotalDistance')} (${distanceUnitString(distanceUnit, t)})`}
               />
