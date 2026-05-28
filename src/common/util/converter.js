@@ -1,3 +1,5 @@
+const PRECISION_FIX_DECIMAL = 13;
+
 const speedConverter = (unit) => {
   switch (unit) {
     case 'kmh':
@@ -22,7 +24,8 @@ export const speedUnitString = (unit, t) => {
   }
 };
 
-export const speedFromKnots = (value, unit) => value * speedConverter(unit);
+export const speedFromKnots = (value, unit) =>
+  Number((value * speedConverter(unit)).toFixed(PRECISION_FIX_DECIMAL));
 
 export const speedToKnots = (value, unit) => value / speedConverter(unit);
 
@@ -50,7 +53,8 @@ export const distanceUnitString = (unit, t) => {
   }
 };
 
-export const distanceFromMeters = (value, unit) => value * distanceConverter(unit);
+export const distanceFromMeters = (value, unit) =>
+  Number((value * distanceConverter(unit)).toFixed(PRECISION_FIX_DECIMAL));
 
 export const distanceToMeters = (value, unit) => value / distanceConverter(unit);
 
@@ -74,7 +78,8 @@ export const altitudeUnitString = (unit, t) => {
   }
 };
 
-export const altitudeFromMeters = (value, unit) => value * altitudeConverter(unit);
+export const altitudeFromMeters = (value, unit) =>
+  Number((value * altitudeConverter(unit)).toFixed(PRECISION_FIX_DECIMAL));
 
 export const altitudeToMeters = (value, unit) => value / altitudeConverter(unit);
 
@@ -102,6 +107,7 @@ export const volumeUnitString = (unit, t) => {
   }
 };
 
-export const volumeFromLiters = (value, unit) => value / volumeConverter(unit);
+export const volumeFromLiters = (value, unit) =>
+  Number((value / volumeConverter(unit)).toFixed(PRECISION_FIX_DECIMAL));
 
 export const volumeToLiters = (value, unit) => value * volumeConverter(unit);
