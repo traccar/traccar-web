@@ -18,8 +18,7 @@ element.style.boxSizing = 'initial';
 
 maplibregl.addProtocol('google', googleProtocol);
 
-const pmtilesProtocol = new PMTilesProtocol();
-maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile);
+maplibregl.addProtocol('pmtiles', new PMTilesProtocol().tile);
 
 export const map = new maplibregl.Map({
   container: element,
