@@ -50,24 +50,18 @@ const DevicesPage = () => {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [showAll, setShowAll] = usePersistedState('showAllDevices', false);
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const loadItems = useCallback(
     async (offset, signal) => {
-      setLoading(true);
-      try {
-        const query = new URLSearchParams({ all: showAll, limit: pageSize, offset });
-        if (searchKeyword) {
-          query.append('keyword', searchKeyword);
-        }
-        const response = await fetchOrThrow(`/api/devices?${query.toString()}`, { signal });
-        const data = await response.json();
-        setItems((previous) => (offset ? [...previous, ...data] : data));
-        setHasMore(data.length >= pageSize);
-      } finally {
-        setLoading(false);
+      const query = new URLSearchParams({ all: showAll, limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/devices?${query.toString()}`, { signal });
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     },
     [searchKeyword, showAll],
   );
@@ -164,7 +158,13 @@ const DevicesPage = () => {
               </TableCell>
             </TableRow>
           ))}
-          {loading && <TableShimmer columns={manager ? 9 : 8} endAction />}
+          {hasMore && (
+            <TableShimmer
+              ref={items.length > 0 ? sentinelRef : null}
+              columns={manager ? 9 : 8}
+              endAction
+            />
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -190,7 +190,6 @@ const DevicesPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
-      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/device" />
     </PageLayout>
   );

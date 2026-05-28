@@ -19,27 +19,21 @@ const ComputedAttributesPage = () => {
   const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const administrator = useAdministrator();
 
   const loadItems = useCallback(
     async (offset, signal) => {
-      setLoading(true);
-      try {
-        const query = new URLSearchParams({ limit: pageSize, offset });
-        if (searchKeyword) {
-          query.append('keyword', searchKeyword);
-        }
-        const response = await fetchOrThrow(`/api/attributes/computed?${query.toString()}`, {
-          signal,
-        });
-        const data = await response.json();
-        setItems((previous) => (offset ? [...previous, ...data] : data));
-        setHasMore(data.length >= pageSize);
-      } finally {
-        setLoading(false);
+      const query = new URLSearchParams({ limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/attributes/computed?${query.toString()}`, {
+        signal,
+      });
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     },
     [searchKeyword],
   );
@@ -87,10 +81,15 @@ const ComputedAttributesPage = () => {
               )}
             </TableRow>
           ))}
-          {loading && <TableShimmer columns={administrator ? 5 : 4} endAction={administrator} />}
+          {hasMore && (
+            <TableShimmer
+              ref={items.length > 0 ? sentinelRef : null}
+              columns={administrator ? 5 : 4}
+              endAction={administrator}
+            />
+          )}
         </TableBody>
       </Table>
-      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/attribute" disabled={!administrator} />
     </PageLayout>
   );

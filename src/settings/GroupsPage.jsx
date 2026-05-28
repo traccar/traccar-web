@@ -29,24 +29,18 @@ const GroupsPage = () => {
   const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const loadItems = useCallback(
     async (offset, signal) => {
-      setLoading(true);
-      try {
-        const query = new URLSearchParams({ limit: pageSize, offset });
-        if (searchKeyword) {
-          query.append('keyword', searchKeyword);
-        }
-        const response = await fetchOrThrow(`/api/groups?${query.toString()}`, { signal });
-        const data = await response.json();
-        setItems((previous) => (offset ? [...previous, ...data] : data));
-        setHasMore(data.length >= pageSize);
-      } finally {
-        setLoading(false);
+      const query = new URLSearchParams({ limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/groups?${query.toString()}`, { signal });
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     },
     [searchKeyword],
   );
@@ -112,10 +106,11 @@ const GroupsPage = () => {
               </TableCell>
             </TableRow>
           ))}
-          {loading && <TableShimmer columns={2} endAction />}
+          {hasMore && (
+            <TableShimmer ref={items.length > 0 ? sentinelRef : null} columns={2} endAction />
+          )}
         </TableBody>
       </Table>
-      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/group" />
     </PageLayout>
   );

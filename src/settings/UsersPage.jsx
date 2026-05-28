@@ -36,7 +36,6 @@ const UsersPage = () => {
   const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [temporary, setTemporary] = useState(false);
 
@@ -61,19 +60,14 @@ const UsersPage = () => {
 
   const loadItems = useCallback(
     async (offset, signal) => {
-      setLoading(true);
-      try {
-        const query = new URLSearchParams({ excludeAttributes: true, limit: pageSize, offset });
-        if (searchKeyword) {
-          query.append('keyword', searchKeyword);
-        }
-        const response = await fetchOrThrow(`/api/users?${query.toString()}`, { signal });
-        const data = await response.json();
-        setItems((previous) => (offset ? [...previous, ...data] : data));
-        setHasMore(data.length >= pageSize);
-      } finally {
-        setLoading(false);
+      const query = new URLSearchParams({ excludeAttributes: true, limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/users?${query.toString()}`, { signal });
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     },
     [searchKeyword],
   );
@@ -128,7 +122,9 @@ const UsersPage = () => {
                 </TableCell>
               </TableRow>
             ))}
-          {loading && <TableShimmer columns={7} endAction />}
+          {hasMore && (
+            <TableShimmer ref={items.length > 0 ? sentinelRef : null} columns={7} endAction />
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -148,7 +144,6 @@ const UsersPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
-      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/user" />
     </PageLayout>
   );

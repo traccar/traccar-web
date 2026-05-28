@@ -21,25 +21,19 @@ const CommandsPage = () => {
   const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const limitCommands = useRestriction('limitCommands');
 
   const loadItems = useCallback(
     async (offset, signal) => {
-      setLoading(true);
-      try {
-        const query = new URLSearchParams({ limit: pageSize, offset });
-        if (searchKeyword) {
-          query.append('keyword', searchKeyword);
-        }
-        const response = await fetchOrThrow(`/api/commands?${query.toString()}`, { signal });
-        const data = await response.json();
-        setItems((previous) => (offset ? [...previous, ...data] : data));
-        setHasMore(data.length >= pageSize);
-      } finally {
-        setLoading(false);
+      const query = new URLSearchParams({ limit: pageSize, offset });
+      if (searchKeyword) {
+        query.append('keyword', searchKeyword);
       }
+      const response = await fetchOrThrow(`/api/commands?${query.toString()}`, { signal });
+      const data = await response.json();
+      setItems((previous) => (offset ? [...previous, ...data] : data));
+      setHasMore(data.length >= pageSize);
     },
     [searchKeyword],
   );
@@ -85,10 +79,15 @@ const CommandsPage = () => {
               )}
             </TableRow>
           ))}
-          {loading && <TableShimmer columns={limitCommands ? 3 : 4} endAction />}
+          {hasMore && (
+            <TableShimmer
+              ref={items.length > 0 ? sentinelRef : null}
+              columns={limitCommands ? 3 : 4}
+              endAction
+            />
+          )}
         </TableBody>
       </Table>
-      {hasMore && !loading && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/command" disabled={limitCommands} />
     </PageLayout>
   );
