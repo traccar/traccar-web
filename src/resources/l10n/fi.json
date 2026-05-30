@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: Lähennys valittaessa",
     "attributeWebMaxZoom": "Web: Suurin lähennys",
     "attributeTelegramChatId": "Telegram keskustelu ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover käyttäjäavain",
     "attributePushoverDeviceNames": "Pushover laitteiden nimet",
     "attributeMailSmtpHost": "Email: SMTP-isäntäpalvelin",

@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "웹: 확대값 선택",
     "attributeWebMaxZoom": "웹: 최대 확대값",
     "attributeTelegramChatId": "텔레그램 채팅 ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover 유저키",
     "attributePushoverDeviceNames": "Pushover 기기이름",
     "attributeMailSmtpHost": "Email: SMTP Host",

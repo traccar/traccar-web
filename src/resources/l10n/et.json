@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Veeb: Suum valikul",
     "attributeWebMaxZoom": "Veeb: Maksimaalne suum",
     "attributeTelegramChatId": "Telegrami vestluse ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushoveri kasutajavõti",
     "attributePushoverDeviceNames": "Pushoveri seadmenimed",
     "attributeMailSmtpHost": "E-post: SMTP host",

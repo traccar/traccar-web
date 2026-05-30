@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "الويب: التقريب عند التحديد",
     "attributeWebMaxZoom": "ويب: التكبير الأقصى",
     "attributeTelegramChatId": "معرف دردشة تيليجرام",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "مفتاح مستخدم Pushover",
     "attributePushoverDeviceNames": "أسماء أجهزة Pushover",
     "attributeMailSmtpHost": "البريد الإلكتروني: خادم SMTP",

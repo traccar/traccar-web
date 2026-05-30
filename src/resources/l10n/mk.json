@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Веб: Зумирај го селектираното",
     "attributeWebMaxZoom": "Веб: Максимално зумирање",
     "attributeTelegramChatId": "Телеграм ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Прoследи кориснички клуч",
     "attributePushoverDeviceNames": "Проследи ги имињата на уредите",
     "attributeMailSmtpHost": "Email: SMTP Host",

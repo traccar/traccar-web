@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Веб: Увеличение при выборе",
     "attributeWebMaxZoom": "Веб: Максимальное увеличение",
     "attributeTelegramChatId": "ID чата в Телеграмме",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Нажатие пользовательской клавиши",
     "attributePushoverDeviceNames": "Нажатие имени устройства",
     "attributeMailSmtpHost": "Email: SMTP Адрес сервера",

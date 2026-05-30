@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Sieć: Powiększ po zaznaczeniu",
     "attributeWebMaxZoom": "Strona: Maksymalne przybliżenie",
     "attributeTelegramChatId": "Identyfikator czatu Telegram",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Klucz użytkownika Pushover",
     "attributePushoverDeviceNames": "Nazwy urządzeń Pushover",
     "attributeMailSmtpHost": "Email: SMTP Host",

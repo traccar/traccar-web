@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "வலை: பெரிதாக்கு தேர்வு",
     "attributeWebMaxZoom": "வலை: அதிகபட்ச பெரிதாக்கு",
     "attributeTelegramChatId": "Telegram Chat ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover User Key",
     "attributePushoverDeviceNames": "Pushover Device Names",
     "attributeMailSmtpHost": "Email: SMTP Host",

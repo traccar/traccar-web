@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: Zoom la Selecție",
     "attributeWebMaxZoom": "Web: Zoom Maxim",
     "attributeTelegramChatId": "Telegram Chat ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Cheie Utilizator Pushover",
     "attributePushoverDeviceNames": "Nume Dispozitiv Pushover",
     "attributeMailSmtpHost": "Email: SMTP Host",

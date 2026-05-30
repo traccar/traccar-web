@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: Zoom na Selecção",
     "attributeWebMaxZoom": "Web: Zoom Máximo",
     "attributeTelegramChatId": "ID do Chat do Telegram",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover User Key",
     "attributePushoverDeviceNames": "Pushover Device Names",
     "attributeMailSmtpHost": "Email: SMTP Host",

@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: közelítés a kiválasztáson",
     "attributeWebMaxZoom": "Web: Maximális Zoom",
     "attributeTelegramChatId": "Telegram Chat ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover User Key",
     "attributePushoverDeviceNames": "Pushover Device Names",
     "attributeMailSmtpHost": "Email: SMTP Host",

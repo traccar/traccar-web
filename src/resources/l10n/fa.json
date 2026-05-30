@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "وب : زوم با انتخاب",
     "attributeWebMaxZoom": "بیشترین زوم",
     "attributeTelegramChatId": "آی دی تلگرام",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover کلید کاربری",
     "attributePushoverDeviceNames": "Pushover نام دستگاه",
     "attributeMailSmtpHost": "Email: SMTP Host",

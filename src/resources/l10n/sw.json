@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Wavuti: Kuza kwenye chaguo",
     "attributeWebMaxZoom": "Wavuti: Ukuzaji wa juu zaidi",
     "attributeTelegramChatId": "Kitambulisho cha gumzo la Telegram",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Kitufe cha mtumiaji cha pushover",
     "attributePushoverDeviceNames": "Majina ya Watumiaji ya pushover",
     "attributeMailSmtpHost": "Email: SMTP Host",

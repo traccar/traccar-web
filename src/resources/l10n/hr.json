@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: Približi kod odabira",
     "attributeWebMaxZoom": "Web: Maksimalni zoom",
     "attributeTelegramChatId": "Telegram Chat ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Proslijedi ključ korisnika",
     "attributePushoverDeviceNames": "Proslijedi imena uređaja",
     "attributeMailSmtpHost": "Email: SMTP poslužitelj",

@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: Přiblížit při výběru",
     "attributeWebMaxZoom": "Web: Maximální přiblížení",
     "attributeTelegramChatId": "ID Telegramového chatu",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover uživatelský klíč",
     "attributePushoverDeviceNames": "Názvy zařízení Pushover",
     "attributeMailSmtpHost": "Email: SMTP server",

@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "वेब: जूम अन चयन गर्नुहोस्",
     "attributeWebMaxZoom": "वेब: अधिकतम जुम",
     "attributeTelegramChatId": "टेलिग्राम च्याट आईडी",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover प्रयोगकर्ता कुञ्जी",
     "attributePushoverDeviceNames": "Pushover उपकरण नामहरू",
     "attributeMailSmtpHost": "Email: SMTP Host",

@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: მასშტაბის არჩევა",
     "attributeWebMaxZoom": "Web: მაქსიმალური ზუმი",
     "attributeTelegramChatId": "Telegram ჩატის ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover-ის მომხმარებლის გასაღები",
     "attributePushoverDeviceNames": "Pushover-ის მოწყობილობის სახელები",
     "attributeMailSmtpHost": "Email: SMTP Host",

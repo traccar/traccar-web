@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "Web: Palielināt Iezīmēto",
     "attributeWebMaxZoom": "Web: Maksimālais zooms",
     "attributeTelegramChatId": "Telegram Chat ID",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover User Key",
     "attributePushoverDeviceNames": "Pushover ierīču nosaukumi",
     "attributeMailSmtpHost": "E-pasts: SMTP resursdators",

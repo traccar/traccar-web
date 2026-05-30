@@ -146,6 +146,7 @@
     "attributeWebSelectZoom": "אתר : בחר הפעלת זום",
     "attributeWebMaxZoom": "אתר :  זום מקסימלי",
     "attributeTelegramChatId": "מזהה צ'אט בטלגרם",
+    "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "מפתח משתמש דחיפה",
     "attributePushoverDeviceNames": "שמות מכשירי דחיפה",
     "attributeMailSmtpHost": "Email: SMTP Host",
