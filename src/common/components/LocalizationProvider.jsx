@@ -7,7 +7,10 @@ import Loader from './Loader';
 import en from '../../resources/l10n/en.json';
 import 'dayjs/locale/en';
 
-const localeLoaders = import.meta.glob('../../resources/l10n/*.json');
+const localeLoaders = import.meta.glob([
+  '../../resources/l10n/*.json',
+  '!../../resources/l10n/en.json',
+]);
 
 const dayjsLoaders = {
   af: () => import('dayjs/locale/af.js'),
