@@ -68,7 +68,7 @@ const PreferencesPage = () => {
   const socket = useSelector((state) => state.session.socket);
 
   const [token, setToken] = useState(null);
-  const [tokenExpiration, setTokenExpiration] = useState(
+  const [tokenExpiration, setTokenExpiration] = useState(() =>
     dayjs().add(1, 'week').locale('en').format('YYYY-MM-DD'),
   );
 

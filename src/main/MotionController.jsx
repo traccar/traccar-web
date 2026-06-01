@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { motionActions } from '../store';
 import { useAttributePreference } from '../common/util/preferences';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const buildSegments = (events, fromTimestamp, toTimestamp) => {
@@ -46,56 +46,60 @@ const MotionController = () => {
 
   const deviceSecondary = useAttributePreference('deviceSecondary', '');
 
-  useEffectAsync(async () => {
-    if (deviceSecondary !== 'motion') {
-      dispatch(motionActions.clear());
-      return;
-    }
-
-    let active = true;
-
-    const refreshMotion = async () => {
-      const to = dayjs();
-      const from = to.subtract(24, 'hour');
-      const query = new URLSearchParams({
-        from: from.toISOString(),
-        to: to.toISOString(),
-      });
-      query.append('type', 'deviceMoving');
-      query.append('type', 'deviceStopped');
-
-      const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      const events = await response.json();
-
-      const groupedEvents = {};
-      events.forEach((event) => {
-        if (!groupedEvents[event.deviceId]) {
-          groupedEvents[event.deviceId] = [];
-        }
-        groupedEvents[event.deviceId].push(event);
-      });
-      const nextMotion = Object.fromEntries(
-        Object.entries(groupedEvents).map(([deviceId, deviceEvents]) => [
-          deviceId,
-          buildSegments(deviceEvents, from.valueOf(), to.valueOf()),
-        ]),
-      );
-
-      if (active) {
-        dispatch(motionActions.set(nextMotion));
+  useAsyncTask(
+    async ({ signal }) => {
+      if (deviceSecondary !== 'motion') {
+        dispatch(motionActions.clear());
+        return;
       }
-    };
 
-    await refreshMotion();
-    const interval = setInterval(refreshMotion, 5 * 60 * 1000);
+      let active = true;
 
-    return () => {
-      active = false;
-      clearInterval(interval);
-    };
-  }, [deviceSecondary]);
+      const refreshMotion = async () => {
+        const to = dayjs();
+        const from = to.subtract(24, 'hour');
+        const query = new URLSearchParams({
+          from: from.toISOString(),
+          to: to.toISOString(),
+        });
+        query.append('type', 'deviceMoving');
+        query.append('type', 'deviceStopped');
+
+        const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+          signal,
+        });
+        const events = await response.json();
+
+        const groupedEvents = {};
+        events.forEach((event) => {
+          if (!groupedEvents[event.deviceId]) {
+            groupedEvents[event.deviceId] = [];
+          }
+          groupedEvents[event.deviceId].push(event);
+        });
+        const nextMotion = Object.fromEntries(
+          Object.entries(groupedEvents).map(([deviceId, deviceEvents]) => [
+            deviceId,
+            buildSegments(deviceEvents, from.valueOf(), to.valueOf()),
+          ]),
+        );
+
+        if (active) {
+          dispatch(motionActions.set(nextMotion));
+        }
+      };
+
+      await refreshMotion();
+      const interval = setInterval(refreshMotion, 5 * 60 * 1000);
+
+      return () => {
+        active = false;
+        clearInterval(interval);
+      };
+    },
+    [deviceSecondary, dispatch],
+  );
 
   return null;
 };

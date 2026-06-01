@@ -1,4 +1,4 @@
-import { useId, useCallback, useEffect } from 'react';
+import { useId, useCallback, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -16,6 +16,7 @@ const MapPositions = ({
   showStatus,
   selectedPosition,
   titleField,
+  disabled,
 }) => {
   const id = useId();
   const clusters = `${id}-clusters`;
@@ -31,31 +32,37 @@ const MapPositions = ({
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
 
-  const createFeature = (devices, position, selectedPositionId) => {
-    const device = devices[position.deviceId];
-    let showDirection;
-    switch (directionType) {
-      case 'none':
-        showDirection = false;
-        break;
-      case 'all':
-        showDirection = position.course > 0;
-        break;
-      default:
-        showDirection = selectedPositionId === position.id && position.course > 0;
-        break;
-    }
-    return {
-      id: position.id,
-      deviceId: position.deviceId,
-      name: device.name,
-      fixTime: formatTime(position.fixTime, 'seconds'),
-      category: mapIconKey(device.category),
-      color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
-      rotation: position.course,
-      direction: showDirection,
-    };
-  };
+  const disabledRef = useRef(disabled);
+  disabledRef.current = disabled;
+
+  const createFeature = useCallback(
+    (devices, position, selectedPositionId) => {
+      const device = devices[position.deviceId];
+      let showDirection;
+      switch (directionType) {
+        case 'none':
+          showDirection = false;
+          break;
+        case 'all':
+          showDirection = position.course > 0;
+          break;
+        default:
+          showDirection = selectedPositionId === position.id && position.course > 0;
+          break;
+      }
+      return {
+        id: position.id,
+        deviceId: position.deviceId,
+        name: device.name,
+        fixTime: formatTime(position.fixTime, 'seconds'),
+        category: mapIconKey(device.category),
+        color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
+        rotation: position.course,
+        direction: showDirection,
+      };
+    },
+    [directionType, showStatus],
+  );
 
   const onMouseEnter = () => (map.getCanvas().style.cursor = 'pointer');
   const onMouseLeave = () => (map.getCanvas().style.cursor = '');
@@ -71,6 +78,7 @@ const MapPositions = ({
 
   const onMarkerClickCallback = useCallback(
     (event) => {
+      if (disabledRef.current) return;
       event.preventDefault();
       const feature = event.features[0];
       if (onMarkerClick) {
@@ -82,6 +90,7 @@ const MapPositions = ({
 
   const onClusterClick = useCatchCallback(
     async (event) => {
+      if (disabledRef.current) return;
       event.preventDefault();
       const features = map.queryRenderedFeatures(event.point, {
         layers: [clusters],
@@ -93,7 +102,7 @@ const MapPositions = ({
         zoom,
       });
     },
-    [clusters],
+    [clusters, id],
   );
 
   useEffect(() => {
@@ -134,7 +143,7 @@ const MapPositions = ({
         },
         paint: {
           'text-halo-color': 'white',
-          'text-halo-width': 2,
+          'text-halo-width': 1,
         },
       });
       map.addLayer({
@@ -200,7 +209,17 @@ const MapPositions = ({
         }
       });
     };
-  }, [mapCluster, clusters, onMarkerClickCallback, onClusterClick]);
+  }, [
+    mapCluster,
+    clusters,
+    onMarkerClickCallback,
+    onClusterClick,
+    onMapClickCallback,
+    iconScale,
+    id,
+    selected,
+    titleField,
+  ]);
 
   useEffect(() => {
     [id, selected].forEach((source) => {
@@ -221,7 +240,19 @@ const MapPositions = ({
           })),
       });
     });
-  }, [mapCluster, clusters, onMarkerClick, onClusterClick, devices, positions, selectedPosition]);
+  }, [
+    mapCluster,
+    clusters,
+    onMarkerClick,
+    onClusterClick,
+    devices,
+    positions,
+    selectedPosition,
+    createFeature,
+    id,
+    selected,
+    selectedDeviceId,
+  ]);
 
   return null;
 };

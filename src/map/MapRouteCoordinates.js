@@ -75,7 +75,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
@@ -91,7 +91,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         opacity: mapLineOpacity,
       },
     });
-  }, [theme, coordinates, reportColor, mapLineWidth, mapLineOpacity]);
+  }, [theme, coordinates, reportColor, mapLineWidth, mapLineOpacity, id, name]);
 
   return null;
 };

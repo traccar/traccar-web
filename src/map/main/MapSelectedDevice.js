@@ -37,7 +37,16 @@ const MapSelectedDevice = () => {
         offset: [0, -dimensions.popupMapOffset / 2],
       });
     }
-  }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom]);
+  }, [
+    currentId,
+    previousId,
+    currentTime,
+    previousTime,
+    mapFollow,
+    position,
+    previousPosition,
+    selectZoom,
+  ]);
 
   return null;
 };

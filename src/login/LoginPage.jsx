@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   useMediaQuery,
   Select,
@@ -10,7 +10,6 @@ import {
   Snackbar,
   IconButton,
   Tooltip,
-  Box,
   InputAdornment,
 } from '@mui/material';
 import CountryFlag from 'react-country-flag';
@@ -64,6 +63,9 @@ const useStyles = makeStyles()((theme) => ({
   },
   link: {
     cursor: 'pointer',
+  },
+  flag: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -148,6 +150,9 @@ const LoginPage = () => {
     navigate('/');
   });
 
+  const handleTokenLoginRef = useRef(handleTokenLogin);
+  handleTokenLoginRef.current = handleTokenLogin;
+
   const handleOpenIdLogin = () => {
     document.location = '/api/session/openid/auth';
   };
@@ -155,7 +160,7 @@ const LoginPage = () => {
   useEffect(() => nativePostMessage('authentication'), []);
 
   useEffect(() => {
-    const listener = (token) => handleTokenLogin(token);
+    const listener = (token) => handleTokenLoginRef.current(token);
     handleLoginTokenListeners.add(listener);
     return () => handleLoginTokenListeners.delete(listener);
   }, []);
@@ -191,9 +196,9 @@ const LoginPage = () => {
             <Select value={language} onChange={(e) => setLocalLanguage(e.target.value)}>
               {languageList.map((it) => (
                 <MenuItem key={it.code} value={it.code}>
-                  <Box component="span" sx={{ mr: 1 }}>
+                  <span className={classes.flag}>
                     <CountryFlag countryCode={it.country} svg />
-                  </Box>
+                  </span>
                   {it.name}
                 </MenuItem>
               ))}

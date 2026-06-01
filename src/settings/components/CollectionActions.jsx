@@ -15,14 +15,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-const CollectionActions = ({
-  itemId,
-  editPath,
-  endpoint,
-  setTimestamp,
-  customActions,
-  readonly,
-}) => {
+const CollectionActions = ({ itemId, editPath, endpoint, onReload, customActions, readonly }) => {
   const theme = useTheme();
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -51,7 +44,7 @@ const CollectionActions = ({
   const handleRemoveResult = (removed) => {
     setRemoving(false);
     if (removed) {
-      setTimestamp(Date.now());
+      onReload();
     }
   };
 

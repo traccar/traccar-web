@@ -1,23 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Link,
-  IconButton,
-} from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { formatAddress, formatSpeed, formatTime } from '../common/util/formatter';
+import { formatAddress, formatNumber, formatSpeed, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
@@ -25,7 +13,8 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatch, useEffectAsync } from '../reactHelper';
+import ResizeHandle from './components/ResizeHandle';
+import { useCatch, useCatchCallback, useAsyncTask } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
@@ -68,7 +57,7 @@ const EventReportPage = () => {
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');
 
-  const [allEventTypes, setAllEventTypes] = useState([['allEvents', 'eventAll']]);
+  const [allEventTypes, setAllEventTypes] = useState([{ id: 'allEvents', label: 'eventAll' }]);
 
   const alarms = useTranslationKeys((it) => it.startsWith('alarm')).map((it) => ({
     key: unprefixString('alarm', it),
@@ -103,48 +92,53 @@ const EventReportPage = () => {
     }
   }, [selectedItem, positions]);
 
-  useEffectAsync(async () => {
-    const response = await fetchOrThrow('/api/notifications/types');
+  useAsyncTask(async ({ signal }) => {
+    const response = await fetchOrThrow('/api/notifications/types', { signal });
     const types = await response.json();
-    setAllEventTypes([
-      ...allEventTypes,
-      ...types.map((it) => [it.type, prefixString('event', it.type)]),
+    setAllEventTypes((previous) => [
+      ...previous,
+      ...types.map((it) => ({ id: it.type, label: prefixString('event', it.type) })),
     ]);
   }, []);
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    groupIds.forEach((groupId) => query.append('groupId', groupId));
-    eventTypes.forEach((it) => query.append('type', it));
-    if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
-      alarmTypes.forEach((it) => query.append('alarm', it));
-    }
-    setSelectedItem(null);
-    setPosition(null);
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      const events = await response.json();
-      setItems(events);
-      const positionIds = Array.from(
-        new Set(events.map((event) => event.positionId).filter((id) => id)),
-      );
-      const positionsMap = {};
-      if (positionIds.length > 0) {
-        const positionsQuery = new URLSearchParams();
-        positionIds.slice(0, 128).forEach((id) => positionsQuery.append('id', id));
-        const positionsResponse = await fetchOrThrow(`/api/positions?${positionsQuery.toString()}`);
-        const positionsArray = await positionsResponse.json();
-        positionsArray.forEach((p) => (positionsMap[p.id] = p));
+  const onShow = useCatchCallback(
+    async ({ deviceIds, groupIds, from, to }) => {
+      const query = new URLSearchParams({ from, to });
+      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+      groupIds.forEach((groupId) => query.append('groupId', groupId));
+      eventTypes.forEach((it) => query.append('type', it));
+      if (eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm')) {
+        alarmTypes.forEach((it) => query.append('alarm', it));
       }
-      setPositions(positionsMap);
-    } finally {
-      setLoading(false);
-    }
-  });
+      setSelectedItem(null);
+      setPosition(null);
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        const events = await response.json();
+        setItems(events);
+        const positionIds = Array.from(
+          new Set(events.map((event) => event.positionId).filter((id) => id)),
+        );
+        const positionsMap = {};
+        if (positionIds.length > 0) {
+          const positionsQuery = new URLSearchParams();
+          positionIds.slice(0, 128).forEach((id) => positionsQuery.append('id', id));
+          const positionsResponse = await fetchOrThrow(
+            `/api/positions?${positionsQuery.toString()}`,
+          );
+          const positionsArray = await positionsResponse.json();
+          positionsArray.forEach((p) => (positionsMap[p.id] = p));
+        }
+        setPositions(positionsMap);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [eventTypes, alarmTypes],
+  );
 
   const onExport = useCatch(async () => {
     const sheets = new Map();
@@ -217,6 +211,9 @@ const EventReportPage = () => {
             return formatSpeed(item.attributes.speed, speedUnit, t);
           case 'driverChanged':
             return item.attributes.driverUniqueId;
+          case 'deviceFuelDrop':
+          case 'deviceFuelIncrease':
+            return formatNumber(Math.abs(item.attributes.after - item.attributes.before));
           case 'media':
             return (
               <Link
@@ -240,14 +237,19 @@ const EventReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportEvents']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {position && <MapPositions positions={[position]} titleField="fixTime" />}
-            </MapView>
-            <MapScale />
-            {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {position && <MapPositions positions={[position]} titleField="fixTime" />}
+              </MapView>
+              <MapScale />
+              {position && (
+                <MapCamera latitude={position.latitude} longitude={position.longitude} />
+              )}
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
@@ -257,30 +259,22 @@ const EventReportPage = () => {
               onSchedule={onSchedule}
               deviceType="multiple"
               loading={loading}
+              formats={['xlsx']}
             >
               <div className={classes.filterItem}>
-                <FormControl fullWidth>
-                  <InputLabel>{t('reportEventTypes')}</InputLabel>
-                  <Select
-                    label={t('reportEventTypes')}
-                    value={eventTypes}
-                    onChange={(e, child) => {
-                      let values = e.target.value;
-                      const clicked = child.props.value;
-                      if (values.includes('allEvents') && values.length > 1) {
-                        values = [clicked];
-                      }
-                      updateReportParams(searchParams, setSearchParams, 'eventType', values);
-                    }}
-                    multiple
-                  >
-                    {allEventTypes.map(([key, string]) => (
-                      <MenuItem key={key} value={key}>
-                        {t(string)}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <SelectField
+                  multiple
+                  singleLine
+                  data={allEventTypes}
+                  value={eventTypes}
+                  allValue="allEvents"
+                  titleGetter={(it) => t(it.label)}
+                  onChange={(e) =>
+                    updateReportParams(searchParams, setSearchParams, 'eventType', e.target.value)
+                  }
+                  label={t('reportEventTypes')}
+                  fullWidth
+                />
               </div>
               {eventTypes[0] !== 'allEvents' && eventTypes.includes('alarm') && (
                 <div className={classes.filterItem}>

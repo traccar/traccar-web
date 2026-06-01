@@ -1,14 +1,15 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import maplibregl from 'maplibre-gl';
 import { googleProtocol } from 'maplibre-google-maps';
+import { Protocol } from 'pmtiles';
 import { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
 import { useTheme } from '@mui/material';
-import { SwitcherControl } from '../switcher/switcher';
+import MapSwitcher from '../control/MapSwitcher';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
-import usePersistedState, { savePersistedState } from '../../common/util/usePersistedState';
+import usePersistedState from '../../common/util/usePersistedState';
 import { mapImages } from './preloadImages';
 import useMapStyles from './useMapStyles';
-import { useEffectAsync } from '../../reactHelper';
+import { useAsyncTask } from '../../reactHelper';
 
 const element = document.createElement('div');
 element.style.width = '100%';
@@ -16,6 +17,7 @@ element.style.height = '100%';
 element.style.boxSizing = 'initial';
 
 maplibregl.addProtocol('google', googleProtocol);
+maplibregl.addProtocol('pmtiles', new Protocol().tile);
 
 export const map = new maplibregl.Map({
   container: element,
@@ -62,36 +64,19 @@ const MapView = ({ children }) => {
     'activeMapStyles',
     'locationIqStreets,locationIqDark,openFreeMap',
   );
-  const [defaultMapStyle] = usePersistedState(
+  const [selectedStyleId, setSelectedStyleId] = usePersistedState(
     'selectedMapStyle',
     usePreference('map', 'locationIqStreets'),
   );
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const maxZoom = useAttributePreference('web.maxZoom');
 
-  const switcher = useMemo(
-    () =>
-      new SwitcherControl(
-        () => updateReadyValue(false),
-        (styleId) => savePersistedState('selectedMapStyle', styleId),
-        () => {
-          map.once('styledata', () => {
-            const waiting = () => {
-              if (!map.loaded()) {
-                setTimeout(waiting, 33);
-              } else {
-                initMap();
-                updateReadyValue(true);
-              }
-            };
-            waiting();
-          });
-        },
-      ),
-    [],
-  );
+  const styles = useMemo(() => {
+    const filtered = mapStyles.filter((s) => s.available && activeMapStyles.includes(s.id));
+    return filtered.length ? filtered : mapStyles.filter((s) => s.id === 'osm');
+  }, [mapStyles, activeMapStyles]);
 
-  useEffectAsync(async () => {
+  useAsyncTask(async () => {
     if (theme.direction === 'rtl') {
       maplibregl.setRTLTextPlugin('/mapbox-gl-rtl-text.js');
     }
@@ -102,13 +87,11 @@ const MapView = ({ children }) => {
     const navigation = new maplibregl.NavigationControl();
     map.addControl(attribution, theme.direction === 'rtl' ? 'bottom-left' : 'bottom-right');
     map.addControl(navigation, theme.direction === 'rtl' ? 'top-left' : 'top-right');
-    map.addControl(switcher, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => {
-      map.removeControl(switcher);
       map.removeControl(navigation);
       map.removeControl(attribution);
     };
-  }, [theme.direction, switcher]);
+  }, [theme.direction]);
 
   useEffect(() => {
     if (maxZoom) {
@@ -121,10 +104,26 @@ const MapView = ({ children }) => {
   }, [mapboxAccessToken]);
 
   useEffect(() => {
-    const filteredStyles = mapStyles.filter((s) => s.available && activeMapStyles.includes(s.id));
-    const styles = filteredStyles.length ? filteredStyles : mapStyles.filter((s) => s.id === 'osm');
-    switcher.updateStyles(styles, defaultMapStyle);
-  }, [mapStyles, defaultMapStyle, activeMapStyles, switcher]);
+    const style = styles.find((s) => s.id === selectedStyleId);
+    if (!style) {
+      setSelectedStyleId(styles[0].id);
+      return;
+    }
+    updateReadyValue(false);
+    map.setStyle(style.style, { diff: false });
+    map.setTransformRequest(style.transformRequest);
+    let timeoutId;
+    const waiting = () => {
+      if (!map.loaded()) {
+        timeoutId = setTimeout(waiting, 33);
+      } else {
+        initMap();
+        updateReadyValue(true);
+      }
+    };
+    map.once('styledata', waiting);
+    return () => clearTimeout(timeoutId);
+  }, [styles, selectedStyleId, setSelectedStyleId]);
 
   useEffect(() => {
     const listener = (ready) => setMapReady(ready);
@@ -145,6 +144,7 @@ const MapView = ({ children }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={containerRef}>
+      <MapSwitcher styles={styles} selectedId={selectedStyleId} onSelect={setSelectedStyleId} />
       {mapReady && children}
     </div>
   );

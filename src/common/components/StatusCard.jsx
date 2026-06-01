@@ -42,21 +42,19 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     pointerEvents: 'auto',
     width: theme.dimensions.popupMaxWidth,
   },
-  media: {
-    height: theme.dimensions.popupImageHeight,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-  },
-  mediaButton: {
-    color: theme.palette.common.white,
-    mixBlendMode: 'difference',
-  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: theme.spacing(1, 1, 0, 2),
+    color: theme.palette.text.secondary,
+  },
+  media: {
+    height: theme.dimensions.popupImageHeight,
+    '& > div': {
+      color: theme.palette.common.white,
+      mixBlendMode: 'difference',
+    },
   },
   content: {
     paddingTop: theme.spacing(1),
@@ -171,7 +169,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       body: JSON.stringify({ deviceId: position.deviceId, geofenceId: item.id }),
     });
     navigate(`/settings/geofence/${item.id}`);
-  }, [navigate, position]);
+  }, [navigate, position, t]);
 
   return (
     <>
@@ -184,28 +182,22 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             style={{ position: 'relative' }}
           >
             <Card elevation={3} className={classes.card}>
-              {deviceImage ? (
-                <CardMedia
-                  className={`${classes.media} draggable-header`}
-                  image={`/api/media/${device.uniqueId}/${deviceImage}`}
-                >
-                  <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
-                    <CloseIcon fontSize="small" className={classes.mediaButton} />
-                  </IconButton>
-                </CardMedia>
-              ) : (
-                <div className={`${classes.header} draggable-header`}>
-                  <Typography variant="body2" color="textSecondary">
+              <CardMedia
+                className={`draggable-header ${deviceImage ? classes.media : ''}`}
+                image={deviceImage && `/api/media/${device.uniqueId}/${deviceImage}`}
+              >
+                <div className={classes.header}>
+                  <Typography variant="body2" color="inherit">
                     {device.name}
                   </Typography>
-                  <IconButton size="small" onClick={onClose} onTouchStart={onClose}>
+                  <IconButton size="small" color="inherit" onClick={onClose} onTouchStart={onClose}>
                     <CloseIcon fontSize="small" />
                   </IconButton>
                 </div>
-              )}
+              </CardMedia>
               {position && (
                 <CardContent className={classes.content}>
-                  <Table size="small" classes={{ root: classes.table }}>
+                  <Table size="small" className={classes.table}>
                     <TableBody>
                       {positionItems
                         .split(',')
@@ -241,7 +233,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                   </Table>
                 </CardContent>
               )}
-              <CardActions classes={{ root: classes.actions }} disableSpacing>
+              <CardActions className={classes.actions} disableSpacing>
                 <Tooltip title={t('sharedExtra')}>
                   <IconButton
                     color="secondary"
@@ -291,6 +283,12 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       </div>
       {position && (
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+          <MenuItem
+            onClick={() => navigate(`/stream?deviceId=${deviceId}`)}
+            disabled={position.protocol !== 'jt808'}
+          >
+            {t('linkLiveVideo')}
+          </MenuItem>
           {!readonly && <MenuItem onClick={handleGeofence}>{t('sharedCreateGeofence')}</MenuItem>}
           <MenuItem
             component="a"
@@ -324,9 +322,6 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
               {navigationAppTitle}
             </MenuItem>
           )}
-          <MenuItem onClick={() => navigate(`/stream?deviceId=${deviceId}`)}>
-            {t('linkLiveVideo')}
-          </MenuItem>
           {!shareDisabled && !user.temporary && (
             <MenuItem onClick={() => navigate(`/settings/device/${deviceId}/share`)}>
               <Typography color="secondary">{t('sharedShare')}</Typography>

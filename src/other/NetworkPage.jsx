@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -44,15 +44,18 @@ const NetworkPage = () => {
 
   const [item, setItem] = useState({});
 
-  useEffectAsync(async () => {
-    if (positionId) {
-      const response = await fetchOrThrow(`/api/positions?id=${positionId}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setItem(positions[0]);
+  useAsyncTask(
+    async ({ signal }) => {
+      if (positionId) {
+        const response = await fetchOrThrow(`/api/positions?id=${positionId}`, { signal });
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setItem(positions[0]);
+        }
       }
-    }
-  }, [positionId]);
+    },
+    [positionId],
+  );
 
   const deviceName = useSelector((state) => {
     if (item) {

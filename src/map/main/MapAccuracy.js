@@ -36,7 +36,7 @@ const MapAccuracy = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id, theme.palette.geometry.main]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
@@ -47,7 +47,7 @@ const MapAccuracy = ({ positions }) => {
           turfCircle([position.longitude, position.latitude], position.accuracy * 0.001),
         ),
     });
-  }, [positions]);
+  }, [positions, id]);
 
   return null;
 };

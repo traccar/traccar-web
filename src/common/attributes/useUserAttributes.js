@@ -7,6 +7,10 @@ export default (t) =>
         name: t('attributeTelegramChatId'),
         type: 'string',
       },
+      'notificator.telegram.sendLocation': {
+        name: t('attributeTelegramSendLocation'),
+        type: 'boolean',
+      },
       pushoverUserKey: {
         name: t('attributePushoverUserKey'),
         type: 'string',

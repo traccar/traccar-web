@@ -61,7 +61,7 @@ const MapRoutePath = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
@@ -88,7 +88,7 @@ const MapRoutePath = ({ positions }) => {
       type: 'FeatureCollection',
       features,
     });
-  }, [theme, positions, reportColor, mapLineWidth, mapLineOpacity]);
+  }, [theme, positions, reportColor, mapLineWidth, mapLineOpacity, id]);
 
   return null;
 };

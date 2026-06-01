@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { lazy, Suspense, useState, useCallback, useEffect } from 'react';
 import { Paper } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
@@ -12,8 +12,9 @@ import usePersistedState from '../common/util/usePersistedState';
 import EventsDrawer from './EventsDrawer';
 import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
-import MainMap from './MainMap';
 import { useAttributePreference } from '../common/util/preferences';
+
+const MainMap = lazy(() => import('./MainMap'));
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -113,11 +114,13 @@ const MainPage = () => {
   return (
     <div className={classes.root}>
       {desktop && (
-        <MainMap
-          filteredPositions={filteredPositions}
-          selectedPosition={selectedPosition}
-          onEventsClick={onEventsClick}
-        />
+        <Suspense fallback={null}>
+          <MainMap
+            filteredPositions={filteredPositions}
+            selectedPosition={selectedPosition}
+            onEventsClick={onEventsClick}
+          />
+        </Suspense>
       )}
       <div className={classes.sidebar}>
         <Paper square elevation={3} className={classes.header}>
@@ -138,11 +141,13 @@ const MainPage = () => {
         <div className={classes.middle}>
           {!desktop && (
             <div className={classes.contentMap}>
-              <MainMap
-                filteredPositions={filteredPositions}
-                selectedPosition={selectedPosition}
-                onEventsClick={onEventsClick}
-              />
+              <Suspense fallback={null}>
+                <MainMap
+                  filteredPositions={filteredPositions}
+                  selectedPosition={selectedPosition}
+                  onEventsClick={onEventsClick}
+                />
+              </Suspense>
             </div>
           )}
           <Paper

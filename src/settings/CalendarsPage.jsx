@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
-import { useEffectAsync, useScrollToLoad, pageSize } from '../reactHelper';
+import { useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
@@ -15,33 +15,35 @@ const CalendarsPage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const loadItems = async (offset) => {
-    setLoading(true);
-    try {
+  const loadItems = useCallback(
+    async (offset, signal) => {
       const query = new URLSearchParams({ limit: pageSize, offset });
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/calendars?${query.toString()}`);
+      const response = await fetchOrThrow(`/api/calendars?${query.toString()}`, { signal });
       const data = await response.json();
       setItems((previous) => (offset ? [...previous, ...data] : data));
       setHasMore(data.length >= pageSize);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [searchKeyword],
+  );
 
-  const { sentinelRef, hasMore, setHasMore } = useScrollToLoad(() => loadItems(items.length));
+  const sentinelRef = useScrollToLoad(() => loadItems(items.length));
 
-  useEffectAsync(async () => {
-    setItems([]);
-    await loadItems(0);
-  }, [timestamp, searchKeyword]);
+  useAsyncTask(
+    async ({ signal }) => {
+      void reloadKey;
+      setItems([]);
+      await loadItems(0, signal);
+    },
+    [reloadKey, loadItems],
+  );
 
   return (
     <PageLayout menu={<SettingsMenu />} breadcrumbs={['settingsTitle', 'sharedCalendars']}>
@@ -62,15 +64,16 @@ const CalendarsPage = () => {
                   itemId={item.id}
                   editPath="/settings/calendar"
                   endpoint="calendars"
-                  setTimestamp={setTimestamp}
+                  onReload={reload}
                 />
               </TableCell>
             </TableRow>
           ))}
-          {loading && <TableShimmer columns={2} endAction />}
+          {hasMore && (
+            <TableShimmer ref={items.length > 0 ? sentinelRef : null} columns={2} endAction />
+          )}
         </TableBody>
       </Table>
-      {hasMore && <div ref={sentinelRef} />}
       <CollectionFab editPath="/settings/calendar" />
     </PageLayout>
   );

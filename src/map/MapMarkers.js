@@ -64,7 +64,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         map.removeSource(id);
       }
     };
-  }, [showTitles]);
+  }, [showTitles, iconScale, id]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
@@ -81,7 +81,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         },
       })),
     });
-  }, [showTitles, markers]);
+  }, [showTitles, markers, id]);
 
   return null;
 };

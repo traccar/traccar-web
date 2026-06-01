@@ -5,7 +5,8 @@ import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import { useCatch } from '../reactHelper';
+import ResizeHandle from './components/ResizeHandle';
+import { useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
@@ -41,7 +42,7 @@ const CombinedReportPage = () => {
         })),
     );
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -52,28 +53,31 @@ const CombinedReportPage = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
       <div className={classes.container}>
         {Boolean(items.length) && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {items.map((item) => (
-                <MapRouteCoordinates
-                  key={item.deviceId}
-                  name={devices[item.deviceId].name}
-                  coordinates={item.route}
-                  deviceId={item.deviceId}
-                />
-              ))}
-              <MapMarkers markers={createMarkers()} />
-            </MapView>
-            <MapScale />
-            <MapCamera coordinates={itemsCoordinates} />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {items.map((item) => (
+                  <MapRouteCoordinates
+                    key={item.deviceId}
+                    name={devices[item.deviceId].name}
+                    coordinates={item.route}
+                    deviceId={item.deviceId}
+                  />
+                ))}
+                <MapMarkers markers={createMarkers()} />
+              </MapView>
+              <MapScale />
+              <MapCamera coordinates={itemsCoordinates} />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>

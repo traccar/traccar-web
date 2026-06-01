@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import MapView from '../map/core/MapView';
 import MapCurrentLocation from '../map/MapCurrentLocation';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import MapGeocoder from '../map/geocoder/MapGeocoder';
+import MapGeocoder from '../map/control/MapGeocoder';
 import SelectField from '../common/components/SelectField';
 import { devicesActions } from '../store';
 import MapPositions from '../map/MapPositions';
@@ -110,7 +110,7 @@ const EmulatorPage = () => {
           className={classes.drawer}
           anchor={isPhone ? 'top' : 'left'}
           variant="permanent"
-          classes={{ paper: classes.drawerPaper }}
+          slotProps={{ paper: { className: classes.drawerPaper } }}
         >
           <Toolbar>
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>

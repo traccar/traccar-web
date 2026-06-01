@@ -18,7 +18,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { MuiFileInput } from 'mui-file-input';
+import FileInput from '../common/components/FileInput';
 import { sessionActions } from '../store';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -336,7 +336,7 @@ const ServerPage = () => {
                 <Typography variant="subtitle1">{t('sharedFile')}</Typography>
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
-                <MuiFileInput
+                <FileInput
                   placeholder={t('sharedSelectFile')}
                   value={null}
                   onChange={handleFileChange}
