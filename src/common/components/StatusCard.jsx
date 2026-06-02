@@ -311,7 +311,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           >
             {t('linkStreetView')}
           </MenuItem>
-          {navigationAppTitle && (
+          {navigationAppTitle && navigationAppLink && (
             <MenuItem
               component="a"
               target="_blank"
