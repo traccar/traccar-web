@@ -195,6 +195,7 @@
     "attributeFilterSkipLimit": "Filter: Skip Limit",
     "attributeFilterSkipAttributesEnable": "Filter: Skip Attributes Enable",
     "attributeFilterSkipAttributes": "Filter: Skip Attributes",
+    "attributeTimeOverride": "Time Override",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",

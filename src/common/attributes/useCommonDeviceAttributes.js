@@ -115,6 +115,10 @@ export default (t) =>
         name: t('attributeFilterSkipAttributes'),
         type: 'string',
       },
+      'time.override': {
+        name: t('attributeTimeOverride'),
+        type: 'string',
+      },
     }),
     [t],
   );
