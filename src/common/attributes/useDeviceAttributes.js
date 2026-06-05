@@ -10,7 +10,7 @@ export default (t) =>
       'web.reportColor': {
         name: t('attributeWebReportColor'),
         type: 'string',
-        subtype: 'color',
+        dataType: 'color',
       },
       devicePassword: {
         name: t('attributeDevicePassword'),

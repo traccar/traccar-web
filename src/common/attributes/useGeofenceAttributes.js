@@ -18,12 +18,12 @@ export default (t) =>
       speedLimit: {
         name: t('attributeSpeedLimit'),
         type: 'number',
-        subtype: 'speed',
+        dataType: 'speed',
       },
       polylineDistance: {
         name: t('attributePolylineDistance'),
         type: 'number',
-        subtype: 'distance',
+        dataType: 'distance',
       },
       hide: {
         name: t('sharedFilterMap'),

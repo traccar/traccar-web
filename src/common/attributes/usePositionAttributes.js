@@ -394,7 +394,7 @@ export default (t) =>
       speedLimit: {
         name: t('attributeSpeedLimit'),
         type: 'number',
-        subtype: 'speed',
+        dataType: 'speed',
       },
     }),
     [t],
