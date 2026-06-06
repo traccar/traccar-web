@@ -260,6 +260,7 @@ export default () => {
           minZoom: 3,
           maxZoom: 18,
         }),
+        coordinateSystem: 'gcj02',
         available: true,
       },
       {

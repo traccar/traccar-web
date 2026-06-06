@@ -2,6 +2,7 @@ import { useId, useEffect } from 'react';
 import turfCircle from '@turf/circle';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
+import { toMapCoordinates } from '../core/mapUtil';
 
 const MapAccuracy = ({ positions }) => {
   const id = useId();
@@ -44,7 +45,10 @@ const MapAccuracy = ({ positions }) => {
       features: positions
         .filter((position) => position.accuracy > 0)
         .map((position) =>
-          turfCircle([position.longitude, position.latitude], position.accuracy * 0.001),
+          turfCircle(
+            toMapCoordinates(position.longitude, position.latitude),
+            position.accuracy * 0.001,
+          ),
         ),
     });
   }, [positions, id]);

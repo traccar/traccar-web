@@ -14,6 +14,7 @@ import { makeStyles } from 'tss-react/mui';
 import { createRoot } from 'react-dom/client';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { map } from '../core/MapView';
+import { toMapCoordinates } from '../core/mapUtil';
 import { errorsActions } from '../../store';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
@@ -104,13 +105,7 @@ const MapGeocoder = () => {
 
   const onSelect = (feature) => {
     const [minX, minY, maxX, maxY] = feature.bbox;
-    map.fitBounds(
-      [
-        [minX, minY],
-        [maxX, maxY],
-      ],
-      { padding: 40 },
-    );
+    map.fitBounds([toMapCoordinates(minX, minY), toMapCoordinates(maxX, maxY)], { padding: 40 });
     setAnchorEl(null);
     setQuery('');
     setResults([]);

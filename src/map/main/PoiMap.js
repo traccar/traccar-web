@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { useAsyncTask } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
+import gcoord from 'gcoord';
 import { findFonts } from '../core/mapUtil';
 
 const PoiMap = () => {
@@ -30,7 +31,10 @@ const PoiMap = () => {
     if (data) {
       map.addSource(id, {
         type: 'geojson',
-        data,
+        data:
+          map.coordinateSystem === 'gcj02'
+            ? gcoord.transform(structuredClone(data), gcoord.WGS84, gcoord.GCJ02)
+            : data,
       });
       map.addLayer({
         source: id,

@@ -1,7 +1,7 @@
 import { useId, useCallback, useEffect } from 'react';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
-import { findFonts } from './core/mapUtil';
+import { findFonts, toMapCoordinates } from './core/mapUtil';
 import MapSpeedLegend from './control/MapSpeedLegend';
 
 const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
@@ -72,7 +72,7 @@ const MapRoutePoints = ({ positions, onClick, showSpeedControl }) => {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [position.longitude, position.latitude],
+          coordinates: toMapCoordinates(position.longitude, position.latitude),
         },
         properties: {
           index,

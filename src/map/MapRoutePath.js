@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
 import { useAttributePreference } from '../common/util/preferences';
+import { toMapCoordinates } from './core/mapUtil';
 
 const MapRoutePath = ({ positions }) => {
   const id = useId();
@@ -73,8 +74,8 @@ const MapRoutePath = ({ positions }) => {
         geometry: {
           type: 'LineString',
           coordinates: [
-            [positions[i].longitude, positions[i].latitude],
-            [positions[i + 1].longitude, positions[i + 1].latitude],
+            toMapCoordinates(positions[i].longitude, positions[i].latitude),
+            toMapCoordinates(positions[i + 1].longitude, positions[i + 1].latitude),
           ],
         },
         properties: {

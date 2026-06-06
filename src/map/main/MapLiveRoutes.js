@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { useAttributePreference } from '../../common/util/preferences';
+import { toMapCoordinates } from '../core/mapUtil';
 
 const MapLiveRoutes = ({ deviceIds }) => {
   const id = useId();
@@ -71,7 +72,9 @@ const MapLiveRoutes = ({ deviceIds }) => {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: history[deviceId],
+            coordinates: history[deviceId].map(([longitude, latitude]) =>
+              toMapCoordinates(longitude, latitude),
+            ),
           },
           properties: {
             color:
