@@ -31,6 +31,11 @@ export default (
         (device) =>
           !filter.groups.length || deviceGroups(device).some((id) => filter.groups.includes(id)),
       )
+      .filter(
+        (device) =>
+          !filter.geofences.length ||
+          (positions[device.id]?.geofenceIds || []).some((id) => filter.geofences.includes(id)),
+      )
       .filter((device) => {
         const lowerCaseKeyword = keyword.toLowerCase();
         return [device.name, device.uniqueId, device.phone, device.model, device.contact].some(
