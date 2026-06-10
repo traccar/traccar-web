@@ -36,33 +36,37 @@ const MapPositions = ({
   disabledRef.current = disabled;
 
   const createFeature = useCallback(
-    (devices, position, selectedPositionId) => {
-      const device = devices[position.deviceId];
-      let showDirection;
-      switch (directionType) {
-        case 'none':
-          showDirection = false;
-          break;
-        case 'all':
-          showDirection = position.course > 0;
-          break;
-        default:
-          showDirection = selectedPositionId === position.id && position.course > 0;
-          break;
-      }
-      return {
-        id: position.id,
-        deviceId: position.deviceId,
-        name: device.name,
-        fixTime: formatTime(position.fixTime, 'seconds'),
-        category: mapIconKey(device.category),
-        color: showStatus ? position.attributes.color || getStatusColor(device.status) : 'neutral',
-        rotation: position.course,
-        direction: showDirection,
-      };
-    },
-    [directionType, showStatus],
-  );
+  (devices, position, selectedPositionId) => {
+    const device = devices[position.deviceId];
+
+    let showDirection;
+    switch (directionType) {
+      case 'none':
+        showDirection = false;
+        break;
+      case 'all':
+        showDirection = position.course > 0;
+        break;
+      default:
+        showDirection = selectedPositionId === position.id && position.course > 0;
+        break;
+    }
+
+    return {
+      id: position.id,
+      deviceId: position.deviceId,
+      name: device?.name || 'Unknown Device',
+      fixTime: formatTime(position.fixTime, 'seconds'),
+      category: mapIconKey(device?.category),
+      color: showStatus
+        ? position.attributes.color || getStatusColor(device?.status)
+        : 'neutral',
+      rotation: position.course,
+      direction: showDirection,
+    };
+  },
+  [directionType, showStatus],
+);
 
   const onMouseEnter = () => (map.getCanvas().style.cursor = 'pointer');
   const onMouseLeave = () => (map.getCanvas().style.cursor = '');
