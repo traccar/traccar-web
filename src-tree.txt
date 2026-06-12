@@ -1,0 +1,332 @@
+Folder PATH listing
+Volume serial number is 000001E3 0430:2DE3
+C:\USERS\TIENT\DOCUMENTS\PROJECTS\FALLA\TRACCAR-WEB\SRC
+|   App.jsx
+|   AppThemeProvider.jsx
+|   CachingController.js
+|   ErrorBoundary.jsx
+|   index.jsx
+|   Navigation.jsx
+|   reactHelper.js
+|   ServerProvider.jsx
+|   SocketController.jsx
+|   UpdateController.jsx
+|   
++---common
+|   +---attributes
+|   |       useCommandAttributes.js
+|   |       useCommonDeviceAttributes.js
+|   |       useCommonUserAttributes.js
+|   |       useDeviceAttributes.js
+|   |       useGeofenceAttributes.js
+|   |       useGroupAttributes.js
+|   |       usePositionAttributes.js
+|   |       useServerAttributes.js
+|   |       useUserAttributes.js
+|   |       
+|   +---components
+|   |       AddressValue.jsx
+|   |       BackIcon.jsx
+|   |       BottomMenu.jsx
+|   |       DriverValue.js
+|   |       ErrorHandler.jsx
+|   |       FileInput.jsx
+|   |       GeofencesValue.js
+|   |       LinkField.jsx
+|   |       Loader.jsx
+|   |       LocalizationProvider.jsx
+|   |       MenuItem.jsx
+|   |       NativeInterface.js
+|   |       NavBar.jsx
+|   |       PageLayout.jsx
+|   |       PositionValue.jsx
+|   |       QrCodeDialog.jsx
+|   |       RemoveDialog.jsx
+|   |       SelectField.jsx
+|   |       SideNav.jsx
+|   |       SplitButton.jsx
+|   |       StatusCard.jsx
+|   |       TableShimmer.jsx
+|   |       TermsDialog.jsx
+|   |       
+|   +---theme
+|   |       components.js
+|   |       dimensions.js
+|   |       index.js
+|   |       palette.js
+|   |       
+|   \---util
+|           colors.js
+|           converter.js
+|           deviceCategories.js
+|           deviceEquality.js
+|           duration.js
+|           exportExcel.js
+|           fetchOrThrow.js
+|           formatter.js
+|           permissions.js
+|           preferences.js
+|           stringUtils.js
+|           useFeatures.js
+|           usePersistedState.js
+|           
++---login
+|       ChangeServerPage.jsx
+|       LoginLayout.jsx
+|       LoginPage.jsx
+|       LogoImage.jsx
+|       RegisterPage.jsx
+|       ResetPasswordPage.jsx
+|       
++---main
+|   |   DeviceList.jsx
+|   |   DeviceRow.jsx
+|   |   EventsDrawer.jsx
+|   |   MainMap.jsx
+|   |   MainPage.jsx
+|   |   MainToolbar.jsx
+|   |   MotionController.jsx
+|   |   useFilter.js
+|   |   
+|   \---components
+|           MotionBar.jsx
+|           
++---map
+|   |   MapCamera.js
+|   |   MapCurrentLocation.js
+|   |   MapGeofence.js
+|   |   MapMarkers.js
+|   |   MapPadding.js
+|   |   MapPositions.js
+|   |   MapRouteCoordinates.js
+|   |   MapRoutePath.js
+|   |   MapRoutePoints.jsx
+|   |   MapScale.js
+|   |   
+|   +---control
+|   |       MapGeocoder.jsx
+|   |       MapNotification.jsx
+|   |       MapRuler.jsx
+|   |       MapSpeedLegend.jsx
+|   |       MapSwitcher.jsx
+|   |       
+|   +---core
+|   |       mapUtil.js
+|   |       MapView.jsx
+|   |       preloadImages.js
+|   |       useMapStyles.js
+|   |       
+|   +---draw
+|   |       MapGeofenceEdit.js
+|   |       theme.js
+|   |       
+|   +---main
+|   |       MapAccuracy.js
+|   |       MapDefaultCamera.js
+|   |       MapLiveRoutes.js
+|   |       MapSelectedDevice.js
+|   |       PoiMap.js
+|   |       
+|   \---overlay
+|           MapOverlay.js
+|           useMapOverlays.js
+|           
++---other
+|       EmulatorPage.jsx
+|       EventPage.jsx
+|       GeofencesList.jsx
+|       GeofencesPage.jsx
+|       NetworkPage.jsx
+|       PositionPage.jsx
+|       ReplayPage.jsx
+|       StreamPage.jsx
+|       
++---reports
+|   |   AuditPage.jsx
+|   |   ChartReportPage.jsx
+|   |   CombinedReportPage.jsx
+|   |   EventReportPage.jsx
+|   |   GeofenceReportPage.jsx
+|   |   LogsPage.jsx
+|   |   PositionsReportPage.jsx
+|   |   ScheduledPage.jsx
+|   |   StatisticsPage.jsx
+|   |   StopReportPage.jsx
+|   |   SummaryReportPage.jsx
+|   |   TripReportPage.jsx
+|   |   
+|   +---common
+|   |       scheduleReport.js
+|   |       useReportStyles.js
+|   |       
+|   \---components
+|           ColumnSelect.jsx
+|           ReportFilter.jsx
+|           ReportsMenu.jsx
+|           ResizeHandle.jsx
+|           
++---resources
+|   |   alarm.mp3
+|   |   
+|   +---images
+|   |   |   background.svg
+|   |   |   direction.svg
+|   |   |   logo.svg
+|   |   |   
+|   |   +---data
+|   |   |       engine.svg
+|   |   |       
+|   |   \---icon
+|   |           animal.svg
+|   |           bicycle.svg
+|   |           boat.svg
+|   |           bus.svg
+|   |           camper.svg
+|   |           car.svg
+|   |           crane.svg
+|   |           default.svg
+|   |           finish.svg
+|   |           helicopter.svg
+|   |           motorcycle.svg
+|   |           person.svg
+|   |           plane.svg
+|   |           scooter.svg
+|   |           ship.svg
+|   |           start.svg
+|   |           tractor.svg
+|   |           trailer.svg
+|   |           train.svg
+|   |           tram.svg
+|   |           truck.svg
+|   |           van.svg
+|   |           
+|   \---l10n
+|           af.json
+|           ar.json
+|           az.json
+|           bg.json
+|           bn.json
+|           ca.json
+|           cs.json
+|           da.json
+|           de.json
+|           el.json
+|           en.json
+|           es.json
+|           et.json
+|           fa.json
+|           fi.json
+|           fr.json
+|           gl.json
+|           he.json
+|           hi.json
+|           hr.json
+|           hu.json
+|           hy.json
+|           id.json
+|           it.json
+|           ja.json
+|           ka.json
+|           kk.json
+|           km.json
+|           ko.json
+|           lo.json
+|           lt.json
+|           lv.json
+|           mk.json
+|           ml.json
+|           mn.json
+|           ms.json
+|           nb.json
+|           ne.json
+|           nl.json
+|           nn.json
+|           pl.json
+|           pt.json
+|           pt_BR.json
+|           ro.json
+|           ru.json
+|           si.json
+|           sk.json
+|           sl.json
+|           sq.json
+|           sr.json
+|           sv.json
+|           sw.json
+|           ta.json
+|           th.json
+|           tk.json
+|           tr.json
+|           uk.json
+|           uz.json
+|           vi.json
+|           zh.json
+|           zh_TW.json
+|           
++---settings
+|   |   AccumulatorsPage.jsx
+|   |   AnnouncementPage.jsx
+|   |   CalendarPage.jsx
+|   |   CalendarsPage.jsx
+|   |   CommandDevicePage.jsx
+|   |   CommandGroupPage.jsx
+|   |   CommandPage.jsx
+|   |   CommandsPage.jsx
+|   |   ComputedAttributePage.jsx
+|   |   ComputedAttributesPage.jsx
+|   |   DeviceConnectionsPage.jsx
+|   |   DevicePage.jsx
+|   |   DevicesPage.jsx
+|   |   DriverPage.jsx
+|   |   DriversPage.jsx
+|   |   GeofencePage.jsx
+|   |   GroupConnectionsPage.jsx
+|   |   GroupPage.jsx
+|   |   GroupsPage.jsx
+|   |   MaintenancePage.jsx
+|   |   MaintenancesPage.jsx
+|   |   NotificationPage.jsx
+|   |   NotificationsPage.jsx
+|   |   PreferencesPage.jsx
+|   |   ServerPage.jsx
+|   |   SharePage.jsx
+|   |   UserConnectionsPage.jsx
+|   |   UserPage.jsx
+|   |   UsersPage.jsx
+|   |   
+|   +---common
+|   |       useSettingsStyles.js
+|   |       
+|   \---components
+|           AddAttributeDialog.jsx
+|           BaseCommandView.jsx
+|           CollectionActions.jsx
+|           CollectionFab.jsx
+|           DeviceUsersValue.jsx
+|           EditAttributesAccordion.jsx
+|           EditItemView.jsx
+|           SearchHeader.jsx
+|           SettingsMenu.jsx
+|           UserDevicesValue.jsx
+|           
+\---store
+        calendars.js
+        devices.js
+        drivers.js
+        errors.js
+        events.js
+        geofences.js
+        groups.js
+        index.js
+        maintenances.js
+        motion.js
+        session.js
+        throttleMiddleware.js
+.editorconfig
+.env
+.npmrc
+.prettierrc.json
+eslint.config.js
+index.html
+package.json
+vite.config.js
