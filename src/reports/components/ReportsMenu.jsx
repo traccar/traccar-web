@@ -1,12 +1,12 @@
 import { Divider, List } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+// import StarIcon from '@mui/icons-material/Star';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import PlaceIcon from '@mui/icons-material/Place';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+// import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+// import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import RouteIcon from '@mui/icons-material/Route';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
@@ -48,24 +48,24 @@ const ReportsMenu = () => {
   return (
     <>
       <List>
-        <MenuItem
+        {/* <MenuItem
           title={t('reportCombined')}
           link={buildLink('/reports/combined')}
           icon={<StarIcon />}
           selected={location.pathname === '/reports/combined'}
-        />
+        /> */}
         <MenuItem
           title={t('reportEvents')}
           link={buildLink('/reports/events')}
           icon={<NotificationsActiveIcon />}
           selected={location.pathname === '/reports/events'}
         />
-        <MenuItem
+        {/* <MenuItem
           title={t('sharedGeofences')}
           link={buildLink('/reports/geofences')}
           icon={<PlaceIcon />}
           selected={location.pathname === '/reports/geofences'}
-        />
+        /> */}
         <MenuItem
           title={t('reportTrips')}
           link={buildLink('/reports/trips')}
@@ -78,42 +78,42 @@ const ReportsMenu = () => {
           icon={<PauseCircleFilledIcon />}
           selected={location.pathname === '/reports/stops'}
         />
-        <MenuItem
+        {/* <MenuItem
           title={t('reportSummary')}
           link={buildLink('/reports/summary')}
           icon={<FormatListBulletedIcon />}
           selected={location.pathname === '/reports/summary'}
-        />
-        <MenuItem
+        /> */}
+        {/* <MenuItem
           title={t('reportChart')}
           link={buildLink('/reports/chart')}
           icon={<TrendingUpIcon />}
           selected={location.pathname === '/reports/chart'}
-        />
+        /> */}
         <MenuItem title={t('reportReplay')} link={buildLink('/replay')} icon={<RouteIcon />} />
-        <MenuItem
+        {/* <MenuItem
           title={t('reportPositions')}
           link={buildLink('/reports/route')}
           icon={<TimelineIcon />}
           selected={location.pathname === '/reports/route'}
-        />
+        /> */}
       </List>
       <Divider />
       <List>
-        <MenuItem
+        {/* <MenuItem
           title={t('sharedLogs')}
           link="/reports/logs"
           icon={<NotesIcon />}
           selected={location.pathname === '/reports/logs'}
-        />
-        {!readonly && (
+        /> */}
+        {/* {!readonly && (
           <MenuItem
             title={t('reportScheduled')}
             link="/reports/scheduled"
             icon={<EventRepeatIcon />}
             selected={location.pathname === '/reports/scheduled'}
           />
-        )}
+        )} */}
         {admin && (
           <MenuItem
             title={t('statisticsTitle')}

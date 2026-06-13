@@ -10,8 +10,8 @@ import { generateLoginToken } from './common/components/NativeInterface';
 import { useLocalization } from './common/components/LocalizationProvider';
 import fetchOrThrow from './common/util/fetchOrThrow';
 
-const CombinedReportPage = lazy(() => import('./reports/CombinedReportPage'));
-const PositionsReportPage = lazy(() => import('./reports/PositionsReportPage'));
+// const CombinedReportPage = lazy(() => import('./reports/CombinedReportPage'));
+// const PositionsReportPage = lazy(() => import('./reports/PositionsReportPage'));
 const ServerPage = lazy(() => import('./settings/ServerPage'));
 const UsersPage = lazy(() => import('./settings/UsersPage'));
 const DevicePage = lazy(() => import('./settings/DevicePage'));
@@ -19,7 +19,7 @@ const UserPage = lazy(() => import('./settings/UserPage'));
 const NotificationsPage = lazy(() => import('./settings/NotificationsPage'));
 const NotificationPage = lazy(() => import('./settings/NotificationPage'));
 const GroupsPage = lazy(() => import('./settings/GroupsPage'));
-const GroupPage = lazy(() => import('./settings/GroupPage'));
+// const GroupPage = lazy(() => import('./settings/GroupPage'));
 const PositionPage = lazy(() => import('./other/PositionPage'));
 const NetworkPage = lazy(() => import('./other/NetworkPage'));
 const EventReportPage = lazy(() => import('./reports/EventReportPage'));
@@ -27,12 +27,12 @@ const GeofenceReportPage = lazy(() => import('./reports/GeofenceReportPage'));
 const ReplayPage = lazy(() => import('./other/ReplayPage'));
 const TripReportPage = lazy(() => import('./reports/TripReportPage'));
 const StopReportPage = lazy(() => import('./reports/StopReportPage'));
-const SummaryReportPage = lazy(() => import('./reports/SummaryReportPage'));
-const ChartReportPage = lazy(() => import('./reports/ChartReportPage'));
+// const SummaryReportPage = lazy(() => import('./reports/SummaryReportPage'));
+// const ChartReportPage = lazy(() => import('./reports/ChartReportPage'));
 // const DriversPage = lazy(() => import('./settings/DriversPage'));
 // const DriverPage = lazy(() => import('./settings/DriverPage'));
-const CalendarsPage = lazy(() => import('./settings/CalendarsPage'));
-const CalendarPage = lazy(() => import('./settings/CalendarPage'));
+// const CalendarsPage = lazy(() => import('./settings/CalendarsPage'));
+// const CalendarPage = lazy(() => import('./settings/CalendarPage'));
 // const ComputedAttributesPage = lazy(() => import('./settings/ComputedAttributesPage'));
 // const ComputedAttributePage = lazy(() => import('./settings/ComputedAttributePage'));
 // const MaintenancesPage = lazy(() => import('./settings/MaintenancesPage'));
@@ -52,11 +52,11 @@ const AccumulatorsPage = lazy(() => import('./settings/AccumulatorsPage'));
 // const CommandGroupPage = lazy(() => import('./settings/CommandGroupPage'));
 const ChangeServerPage = lazy(() => import('./login/ChangeServerPage'));
 const DevicesPage = lazy(() => import('./settings/DevicesPage'));
-const ScheduledPage = lazy(() => import('./reports/ScheduledPage'));
+// const ScheduledPage = lazy(() => import('./reports/ScheduledPage'));
 const DeviceConnectionsPage = lazy(() => import('./settings/DeviceConnectionsPage'));
 const GroupConnectionsPage = lazy(() => import('./settings/GroupConnectionsPage'));
 const UserConnectionsPage = lazy(() => import('./settings/UserConnectionsPage'));
-const LogsPage = lazy(() => import('./reports/LogsPage'));
+// const LogsPage = lazy(() => import('./reports/LogsPage'));
 const SharePage = lazy(() => import('./settings/SharePage'));
 const AnnouncementPage = lazy(() => import('./settings/AnnouncementPage'));
 const EmulatorPage = lazy(() => import('./other/EmulatorPage'));
@@ -141,9 +141,9 @@ const Navigation = () => {
             <Route path=":type/:id/share" element={<SharePage />} />
             <Route path="accumulators/:deviceId" element={<AccumulatorsPage />} />
             <Route path="announcement" element={<AnnouncementPage />} />
-            <Route path="calendars" element={<CalendarsPage />} />
+            {/* <Route path="calendars" element={<CalendarsPage />} />
             <Route path="calendar/:id" element={<CalendarPage />} />
-            <Route path="calendar" element={<CalendarPage />} />
+            <Route path="calendar" element={<CalendarPage />} /> */}
             {/* <Route path="commands" element={<CommandsPage />} />
             <Route path="command/:id" element={<CommandPage />} />
             <Route path="command" element={<CommandPage />} /> */}
@@ -163,8 +163,8 @@ const Navigation = () => {
             <Route path="groups" element={<GroupsPage />} />
             <Route path="group/:id/connections" element={<GroupConnectionsPage />} />
             {/* <Route path="group/:id/command" element={<CommandGroupPage />} /> */}
-            <Route path="group/:id" element={<GroupPage />} />
-            <Route path="group" element={<GroupPage />} />
+            {/* <Route path="group/:id" element={<GroupPage />} />
+            <Route path="group" element={<GroupPage />} /> */}
             {/* <Route path="maintenances" element={<MaintenancesPage />} />
             <Route path="maintenance/:id" element={<MaintenancePage />} />
             <Route path="maintenance" element={<MaintenancePage />} /> */}
@@ -180,18 +180,18 @@ const Navigation = () => {
           </Route>
 
           <Route path="reports">
-            <Route path="combined" element={<CombinedReportPage />} />
-            <Route path="chart" element={<ChartReportPage />} />
+            {/* <Route path="combined" element={<CombinedReportPage />} />
+            <Route path="chart" element={<ChartReportPage />} /> */}
             <Route path="events" element={<EventReportPage />} />
             <Route path="geofences" element={<GeofenceReportPage />} />
-            <Route path="route" element={<PositionsReportPage />} />
+            {/* <Route path="route" element={<PositionsReportPage />} /> */}
             <Route path="stops" element={<StopReportPage />} />
-            <Route path="summary" element={<SummaryReportPage />} />
+            {/* <Route path="summary" element={<SummaryReportPage />} /> */}
             <Route path="trips" element={<TripReportPage />} />
-            <Route path="scheduled" element={<ScheduledPage />} />
+            {/* <Route path="scheduled" element={<ScheduledPage />} /> */}
             <Route path="statistics" element={<StatisticsPage />} />
             <Route path="audit" element={<AuditPage />} />
-            <Route path="logs" element={<LogsPage />} />
+            {/* <Route path="logs" element={<LogsPage />} /> */}
           </Route>
         </Route>
       </Routes>

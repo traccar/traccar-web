@@ -69,14 +69,14 @@ const SettingsMenu = () => {
               icon={<DrawIcon />}
               selected={location.pathname.startsWith('/settings/geofence')}
             />
-            {!features.disableGroups && (
+            {/* {!features.disableGroups && (
               <MenuItem
                 title={t('settingsGroups')}
                 link="/settings/groups"
                 icon={<FolderIcon />}
                 selected={location.pathname.startsWith('/settings/group')}
               />
-            )}
+            )} */}
             {/* {!features.disableDrivers && (
               <MenuItem
                 title={t('sharedDrivers')}
@@ -85,14 +85,14 @@ const SettingsMenu = () => {
                 selected={location.pathname.startsWith('/settings/driver')}
               />
             )} */}
-            {!features.disableCalendars && (
+            {/* {!features.disableCalendars && (
               <MenuItem
                 title={t('sharedCalendars')}
                 link="/settings/calendars"
                 icon={<TodayIcon />}
                 selected={location.pathname.startsWith('/settings/calendar')}
               />
-            )}
+            )} */}
             {/* {!features.disableComputedAttributes && (
               <MenuItem
                 title={t('sharedComputedAttributes')}

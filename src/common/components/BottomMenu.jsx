@@ -105,9 +105,9 @@ const BottomMenu = () => {
         }
 
         if (id != null) {
-          navigate(`/reports/combined?deviceId=${id}`);
+          navigate(`/reports/events?deviceId=${id}`);
         } else {
-          navigate('/reports/combined');
+          navigate('/reports/events');
         }
         break;
       }
