@@ -127,12 +127,44 @@ const BottomMenu = () => {
 
   return (
     <Paper square elevation={3}>
-      <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
+      <BottomNavigation
+  value={currentSelection()}
+  onChange={handleSelection}
+  showLabels
+  sx={{
+    height: 70,
+    backgroundColor: '#FFFFFF',
+
+    '& .MuiBottomNavigationAction-root': {
+      color: '#6B7280',
+      minWidth: 'auto',
+      transition: 'all 0.2s ease',
+    },
+
+    '& .MuiBottomNavigationAction-root svg': {
+      color: '#6B7280',
+      fontSize: '1.5rem',
+    },
+
+    '& .MuiBottomNavigationAction-root.Mui-selected': {
+      color: '#28A745',
+    },
+
+    '& .MuiBottomNavigationAction-root.Mui-selected svg': {
+      color: '#28A745',
+      fontSize: '1.7rem',
+    },
+
+    '& .MuiBottomNavigationAction-label.Mui-selected': {
+      fontWeight: 600,
+    },
+  }}
+>
         <BottomNavigationAction
           label={t('mapTitle')}
           icon={
             <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
-              <MapIcon />
+              <MapIcon sx={{ color: 'inherit' }} />
             </Badge>
           }
           value="map"

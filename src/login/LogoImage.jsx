@@ -7,7 +7,7 @@ const useStyles = makeStyles()((theme) => ({
   image: {
     alignSelf: 'center',
     maxWidth: '240px',
-    maxHeight: '120px',
+    // maxHeight: '120px',
     width: 'auto',
     height: 'auto',
     margin: theme.spacing(2),

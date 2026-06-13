@@ -330,3 +330,17 @@ eslint.config.js
 index.html
 package.json
 vite.config.js
+
+
+
+
+
+
+
+
+Palette de Couleurs
+Bleu foncé : #0D1B2A
+Vert principal : #28A745
+Vert clair : #7ED957
+Gris : #6B7280
+Gris très clair / Blanc cassé : #F5F7FA

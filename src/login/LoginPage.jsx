@@ -99,10 +99,12 @@ const LoginPage = () => {
   });
   const changeEnabled = useSelector((state) => !state.session.server.attributes.disableChange);
   const emailEnabled = useSelector((state) => state.session.server.emailEnabled);
-  const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
-  const openIdForced = useSelector(
-    (state) => state.session.server.openIdEnabled && state.session.server.openIdForce,
-  );
+  // const openIdEnabled = useSelector((state) => state.session.server.openIdEnabled);
+  // const openIdForced = useSelector(
+  //   (state) => state.session.server.openIdEnabled && state.session.server.openIdForce,
+  // );
+  const openIdEnabled = false;
+  const openIdForced = false;
   const [codeEnabled, setCodeEnabled] = useState(false);
 
   const [announcementShown, setAnnouncementShown] = useState(false);
@@ -179,9 +181,10 @@ const LoginPage = () => {
           </IconButton>
         )}
         {!nativeEnvironment && (
-          <IconButton color="primary" onClick={() => setShowQr(true)}>
-            <QrCode2Icon />
-          </IconButton>
+          // <IconButton color="primary" onClick={() => setShowQr(true)}>
+          //   <QrCode2Icon />
+          // </IconButton>
+          <></>
         )}
         {languageEnabled && (
           <FormControl>
@@ -268,9 +271,9 @@ const LoginPage = () => {
             {t('loginOpenId')}
           </Button>
         )}
-        {!openIdForced && (
+        {/* {!openIdForced && ( */}
           <div className={classes.extraContainer}>
-            {registrationEnabled && (
+            {/* {registrationEnabled && ( */}
               <Link
                 onClick={() => navigate('/register')}
                 className={classes.link}
@@ -279,8 +282,8 @@ const LoginPage = () => {
               >
                 {t('loginRegister')}
               </Link>
-            )}
-            {emailEnabled && (
+            {/* )} */}
+            {/* {emailEnabled && ( */}
               <Link
                 onClick={() => navigate('/reset-password')}
                 className={classes.link}
@@ -289,9 +292,9 @@ const LoginPage = () => {
               >
                 {t('loginReset')}
               </Link>
-            )}
+            {/* )} */}
           </div>
-        )}
+        {/* )} */}
       </div>
       <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
       <Snackbar

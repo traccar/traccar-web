@@ -29,16 +29,16 @@ const TripReportPage = lazy(() => import('./reports/TripReportPage'));
 const StopReportPage = lazy(() => import('./reports/StopReportPage'));
 const SummaryReportPage = lazy(() => import('./reports/SummaryReportPage'));
 const ChartReportPage = lazy(() => import('./reports/ChartReportPage'));
-const DriversPage = lazy(() => import('./settings/DriversPage'));
-const DriverPage = lazy(() => import('./settings/DriverPage'));
+// const DriversPage = lazy(() => import('./settings/DriversPage'));
+// const DriverPage = lazy(() => import('./settings/DriverPage'));
 const CalendarsPage = lazy(() => import('./settings/CalendarsPage'));
 const CalendarPage = lazy(() => import('./settings/CalendarPage'));
-const ComputedAttributesPage = lazy(() => import('./settings/ComputedAttributesPage'));
-const ComputedAttributePage = lazy(() => import('./settings/ComputedAttributePage'));
-const MaintenancesPage = lazy(() => import('./settings/MaintenancesPage'));
-const MaintenancePage = lazy(() => import('./settings/MaintenancePage'));
-const CommandsPage = lazy(() => import('./settings/CommandsPage'));
-const CommandPage = lazy(() => import('./settings/CommandPage'));
+// const ComputedAttributesPage = lazy(() => import('./settings/ComputedAttributesPage'));
+// const ComputedAttributePage = lazy(() => import('./settings/ComputedAttributePage'));
+// const MaintenancesPage = lazy(() => import('./settings/MaintenancesPage'));
+// const MaintenancePage = lazy(() => import('./settings/MaintenancePage'));
+// const CommandsPage = lazy(() => import('./settings/CommandsPage'));
+// const CommandPage = lazy(() => import('./settings/CommandPage'));
 const StatisticsPage = lazy(() => import('./reports/StatisticsPage'));
 const LoginPage = lazy(() => import('./login/LoginPage'));
 const RegisterPage = lazy(() => import('./login/RegisterPage'));
@@ -48,8 +48,8 @@ const GeofencePage = lazy(() => import('./settings/GeofencePage'));
 const EventPage = lazy(() => import('./other/EventPage'));
 const PreferencesPage = lazy(() => import('./settings/PreferencesPage'));
 const AccumulatorsPage = lazy(() => import('./settings/AccumulatorsPage'));
-const CommandDevicePage = lazy(() => import('./settings/CommandDevicePage'));
-const CommandGroupPage = lazy(() => import('./settings/CommandGroupPage'));
+// const CommandDevicePage = lazy(() => import('./settings/CommandDevicePage'));
+// const CommandGroupPage = lazy(() => import('./settings/CommandGroupPage'));
 const ChangeServerPage = lazy(() => import('./login/ChangeServerPage'));
 const DevicesPage = lazy(() => import('./settings/DevicesPage'));
 const ScheduledPage = lazy(() => import('./reports/ScheduledPage'));
@@ -144,30 +144,30 @@ const Navigation = () => {
             <Route path="calendars" element={<CalendarsPage />} />
             <Route path="calendar/:id" element={<CalendarPage />} />
             <Route path="calendar" element={<CalendarPage />} />
-            <Route path="commands" element={<CommandsPage />} />
+            {/* <Route path="commands" element={<CommandsPage />} />
             <Route path="command/:id" element={<CommandPage />} />
-            <Route path="command" element={<CommandPage />} />
-            <Route path="attributes" element={<ComputedAttributesPage />} />
+            <Route path="command" element={<CommandPage />} /> */}
+            {/* <Route path="attributes" element={<ComputedAttributesPage />} />
             <Route path="attribute/:id" element={<ComputedAttributePage />} />
-            <Route path="attribute" element={<ComputedAttributePage />} />
+            <Route path="attribute" element={<ComputedAttributePage />} /> */}
             <Route path="devices" element={<DevicesPage />} />
             <Route path="device/:id/connections" element={<DeviceConnectionsPage />} />
-            <Route path="device/:id/command" element={<CommandDevicePage />} />
+            {/* <Route path="device/:id/command" element={<CommandDevicePage />} /> */}
             <Route path="device/:id" element={<DevicePage />} />
             <Route path="device" element={<DevicePage />} />
-            <Route path="drivers" element={<DriversPage />} />
+            {/* <Route path="drivers" element={<DriversPage />} />
             <Route path="driver/:id" element={<DriverPage />} />
-            <Route path="driver" element={<DriverPage />} />
+            <Route path="driver" element={<DriverPage />} /> */}
             <Route path="geofence/:id" element={<GeofencePage />} />
             <Route path="geofence" element={<GeofencePage />} />
             <Route path="groups" element={<GroupsPage />} />
             <Route path="group/:id/connections" element={<GroupConnectionsPage />} />
-            <Route path="group/:id/command" element={<CommandGroupPage />} />
+            {/* <Route path="group/:id/command" element={<CommandGroupPage />} /> */}
             <Route path="group/:id" element={<GroupPage />} />
             <Route path="group" element={<GroupPage />} />
-            <Route path="maintenances" element={<MaintenancesPage />} />
+            {/* <Route path="maintenances" element={<MaintenancesPage />} />
             <Route path="maintenance/:id" element={<MaintenancePage />} />
-            <Route path="maintenance" element={<MaintenancePage />} />
+            <Route path="maintenance" element={<MaintenancePage />} /> */}
             <Route path="notifications" element={<NotificationsPage />} />
             <Route path="notification/:id" element={<NotificationPage />} />
             <Route path="notification" element={<NotificationPage />} />

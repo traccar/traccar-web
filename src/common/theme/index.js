@@ -9,7 +9,41 @@ export default (server, darkMode, direction) =>
     () =>
       createTheme({
         typography: {
-          fontFamily: 'Roboto,Segoe UI,Helvetica Neue,Arial,sans-serif',
+          fontFamily: 'Poppins, sans-serif',
+          h1: {
+            fontWeight: 700,
+            color: '#0D1B2A',
+          },
+
+          h2: {
+            fontWeight: 700,
+            color: '#0D1B2A',
+          },
+
+          h3: {
+            fontWeight: 600,
+            color: '#0D1B2A',
+          },
+
+          h4: {
+            fontWeight: 600,
+            color: '#0D1B2A',
+          },
+
+          h5: {
+            fontWeight: 600,
+            color: '#0D1B2A',
+          },
+
+          h6: {
+            fontWeight: 600,
+            color: '#0D1B2A',
+          },
+
+          button: {
+            fontWeight: 600,
+            textTransform: 'none',
+          },
         },
         palette: palette(server, darkMode),
         direction,
