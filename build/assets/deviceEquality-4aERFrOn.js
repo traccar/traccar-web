@@ -1,0 +1,1 @@
+var e=e=>(t={},n={})=>{if(t===n)return!0;let r=Object.keys(t);if(r.length!==Object.keys(n).length)return!1;for(let i of r){if(!n[i])return!1;for(let r of e)if(t[i][r]!==n[i][r])return!1}return!0};export{e as t};

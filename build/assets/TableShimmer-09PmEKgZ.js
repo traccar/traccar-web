@@ -1,0 +1,1 @@
+import{t as e}from"./Skeleton-CHDr323H.js";import{pr as t,wt as n,xt as r}from"./index-C0TlZEPY.js";var i=t(),a=({columns:t,startAction:a,endAction:o,ref:s})=>[...[,,,]].map((c,l)=>(0,i.jsx)(r,{ref:l===0?s:null,children:[...Array(t)].map((r,s)=>{let c=a&&s===0||o&&s===t-1;return(0,i.jsx)(n,{padding:c?`none`:`normal`,children:!c&&(0,i.jsx)(e,{})},-s)})},-l));export{a as t};
