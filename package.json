@@ -30,7 +30,7 @@
     "react-qr-code": "^2.2.0",
     "react-redux": "^9.3.0",
     "react-rnd": "^10.5.3",
-    "react-router-dom": "^7.17.0",
+    "react-router-dom": "^7.18.0",
     "react-window": "^2.2.7",
     "recharts": "^3.8.1",
     "stylis": "^4.4.0",
