@@ -20,6 +20,7 @@ const MapOverlay = () => {
         id,
         type: 'raster',
         source: id,
+        metadata: { 'traccar:title': activeOverlay.title },
         layout: {
           visibility: 'visible',
         },

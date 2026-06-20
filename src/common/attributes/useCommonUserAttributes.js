@@ -7,10 +7,6 @@ export default (t) =>
         name: t('loginLanguage'),
         type: 'string',
       },
-      mapGeofences: {
-        name: t('attributeShowGeofences'),
-        type: 'boolean',
-      },
       mapLiveRoutes: {
         name: t('mapLiveRoutes'),
         type: 'string',

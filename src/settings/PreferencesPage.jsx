@@ -256,19 +256,6 @@ const PreferencesPage = () => {
                     control={
                       <Checkbox
                         checked={
-                          attributes.hasOwnProperty('mapGeofences') ? attributes.mapGeofences : true
-                        }
-                        onChange={(e) =>
-                          setAttributes({ ...attributes, mapGeofences: e.target.checked })
-                        }
-                      />
-                    }
-                    label={t('attributeShowGeofences')}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={
                           attributes.hasOwnProperty('mapFollow') ? attributes.mapFollow : false
                         }
                         onChange={(e) =>
