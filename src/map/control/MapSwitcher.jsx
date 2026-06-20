@@ -1,10 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { useTheme, Menu, MenuItem, ListItemText, Switch, Divider } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import {
+  useTheme,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+  Divider,
+} from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { createRoot } from 'react-dom/client';
 import LayersIcon from '@mui/icons-material/Layers';
+import TuneIcon from '@mui/icons-material/Tune';
 import { map } from '../core/MapView';
 import usePersistedState from '../../common/util/usePersistedState';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const collectTitles = () => {
   const titles = [];
@@ -42,6 +53,8 @@ const useStyles = makeStyles()(() => ({
 
 const MapSwitcher = ({ styles, selectedId, onSelect }) => {
   const theme = useTheme();
+  const t = useTranslation();
+  const navigate = useNavigate();
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -124,6 +137,18 @@ const MapSwitcher = ({ styles, selectedId, onSelect }) => {
           <Switch edge="end" size="small" checked={!hidden.includes(title)} onChange={() => {}} />
         </MenuItem>
       ))}
+      <Divider />
+      <MenuItem
+        onClick={() => {
+          setAnchorEl(null);
+          navigate('/settings/preferences');
+        }}
+      >
+        <ListItemIcon>
+          <TuneIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>{t('sharedPreferences')}</ListItemText>
+      </MenuItem>
     </Menu>
   );
 };
