@@ -3,11 +3,13 @@ import turfCircle from '@turf/circle';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { toMapCoordinates } from '../core/mapUtil';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const MapAccuracy = ({ positions }) => {
   const id = useId();
 
   const theme = useTheme();
+  const t = useTranslation();
 
   useEffect(() => {
     map.addSource(id, {
@@ -22,6 +24,7 @@ const MapAccuracy = ({ positions }) => {
       id,
       type: 'fill',
       filter: ['all', ['==', '$type', 'Polygon']],
+      metadata: { 'traccar:title': t('positionAccuracy') },
       paint: {
         'fill-color': theme.palette.geometry.main,
         'fill-outline-color': theme.palette.geometry.main,
@@ -37,7 +40,7 @@ const MapAccuracy = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, [id, theme.palette.geometry.main]);
+  }, [id, t, theme.palette.geometry.main]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
