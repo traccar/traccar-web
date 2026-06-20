@@ -192,7 +192,6 @@
     "attributeFilterDailyLimit": "Filter: Daily Limit",
     "attributeFilterDailyLimitInterval": "Filter: Daily Limit Interval",
     "attributeFilterSkipLimit": "Filter: Skip Limit",
-    "attributeFilterSkipAttributesEnable": "Filter: Skip Attributes Enable",
     "attributeFilterSkipAttributes": "Filter: Skip Attributes",
     "attributeTimeOverride": "Time Override",
     "errorTitle": "Error",
