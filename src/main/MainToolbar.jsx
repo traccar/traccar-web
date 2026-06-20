@@ -195,7 +195,6 @@ const MainToolbar = ({
               label={t('sharedSortBy')}
               value={filterSort}
               onChange={(e) => setFilterSort(e.target.value)}
-              displayEmpty
             >
               <MenuItem value="">{'\u00a0'}</MenuItem>
               <MenuItem value="name">{t('sharedName')}</MenuItem>
