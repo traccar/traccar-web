@@ -77,14 +77,14 @@ const SummaryReportPage = () => {
     'monthly': 'reportMonthly',
     'yearly': 'reportYearly'
   };
-  const reportPeriodKey = searchParams.get('reportPeriod');
-  const reportPeriod = supportedReportPeriods[reportPeriodKey] ? reportPeriodKey : 'none';
+  const reportIntervalKey = searchParams.get('reportInterval');
+  const reportInterval = supportedReportPeriods[reportIntervalKey] ? reportIntervalKey : 'none';
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const onShow = useCatchCallback(
     async ({ deviceIds, groupIds, from, to }) => {
-      const query = new URLSearchParams({ from, to, reportPeriod });
+      const query = new URLSearchParams({ from, to, reportInterval });
       deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
       groupIds.forEach((groupId) => query.append('groupId', groupId));
       setLoading(true);
@@ -97,7 +97,7 @@ const SummaryReportPage = () => {
         setLoading(false);
       }
     },
-    [reportPeriod],
+    [reportInterval],
   );
 
   const onExport = useCatch(async () => {
@@ -114,7 +114,7 @@ const SummaryReportPage = () => {
     if (rows.length === 0) {
       return;
     }
-    const titleKey = supportedReportPeriods[reportPeriod] ?? 'reportSummary';
+    const titleKey = supportedReportPeriods[reportInterval] ?? 'reportSummary';
     const title = t(titleKey);
     const sheets = new Map([[title, rows]]);
     await exportExcel(title, 'summary.xlsx', sheets, theme);
@@ -122,7 +122,7 @@ const SummaryReportPage = () => {
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'summary';
-    report.attributes.reportPeriod = reportPeriod;
+    report.attributes.reportInterval = reportInterval;
     await scheduleReport(deviceIds, groupIds, report);
     navigate('/reports/scheduled');
   });
@@ -169,9 +169,9 @@ const SummaryReportPage = () => {
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
                 label={t('sharedType')}
-                value={reportPeriod}
+                value={reportInterval}
                 onChange={(e) =>
-                  updateReportParams(searchParams, setSearchParams, 'reportPeriod', [
+                  updateReportParams(searchParams, setSearchParams, 'reportInterval', [
                     String(e.target.value),
                   ])
                 }
