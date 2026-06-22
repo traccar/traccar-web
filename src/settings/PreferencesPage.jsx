@@ -156,18 +156,21 @@ const PreferencesPage = () => {
                   <InputLabel>{t('mapOverlay')}</InputLabel>
                   <Select
                     label={t('mapOverlay')}
-                    value={attributes.selectedMapOverlay || ''}
-                    onChange={(e) => {
-                      const clicked = mapOverlays.find((o) => o.id === e.target.value);
-                      if (!clicked || clicked.available) {
-                        setAttributes({ ...attributes, selectedMapOverlay: e.target.value });
+                    value={attributes.selectedMapOverlay?.split(',') || []}
+                    onChange={(e, child) => {
+                      const clicked = mapOverlays.find((o) => o.id === child.props.value);
+                      if (clicked.available) {
+                        setAttributes({
+                          ...attributes,
+                          selectedMapOverlay: e.target.value.join(','),
+                        });
                       } else if (clicked.id !== 'custom') {
                         const query = new URLSearchParams({ attribute: clicked.attribute });
                         navigate(`/settings/user/${user.id}?${query.toString()}`);
                       }
                     }}
+                    multiple
                   >
-                    <MenuItem value="">{'\u00a0'}</MenuItem>
                     {mapOverlays.map((overlay) => (
                       <MenuItem key={overlay.id} value={overlay.id}>
                         <Typography
