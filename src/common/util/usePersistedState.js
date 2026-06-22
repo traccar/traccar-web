@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 
+const listeners = new Map();
+
+const broadcast = (key, value) => {
+  listeners.get(key)?.forEach((listener) => listener(value));
+};
+
 export const savePersistedState = (key, value) => {
   window.localStorage.setItem(key, JSON.stringify(value));
+  broadcast(key, value);
 };
 
 export default (key, defaultValue) => {
@@ -13,11 +20,20 @@ export default (key, defaultValue) => {
   });
 
   useEffect(() => {
+    if (!listeners.has(key)) {
+      listeners.set(key, new Set());
+    }
+    listeners.get(key).add(setValue);
+    return () => listeners.get(key).delete(setValue);
+  }, [key]);
+
+  useEffect(() => {
     if (value !== defaultRef.current) {
-      savePersistedState(key, value);
+      window.localStorage.setItem(key, JSON.stringify(value));
     } else {
       window.localStorage.removeItem(key);
     }
+    broadcast(key, value);
   }, [key, value]);
 
   return [value, setValue];

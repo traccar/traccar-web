@@ -110,6 +110,7 @@ const MapView = ({ children }) => {
       return;
     }
     updateReadyValue(false);
+    map.coordinateSystem = style.coordinateSystem;
     map.setStyle(style.style, { diff: false });
     map.setTransformRequest(style.transformRequest);
     let timeoutId;

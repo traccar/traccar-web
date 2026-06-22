@@ -66,7 +66,6 @@ const NativeInterface = () => {
     async ({ signal }) => {
       if (user && notificationToken) {
         window.localStorage.setItem('notificationToken', notificationToken);
-        setNotificationToken(null);
 
         const tokens = user.attributes.notificationTokens?.split(',') || [];
         if (!tokens.includes(notificationToken)) {
@@ -86,6 +85,7 @@ const NativeInterface = () => {
           });
           dispatch(sessionActions.updateUser(await response.json()));
         }
+        setNotificationToken(null);
       }
     },
     [user, notificationToken, setNotificationToken, dispatch],

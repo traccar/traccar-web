@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import StraightenIcon from '@mui/icons-material/Straighten';
 import { map } from '../core/MapView';
-import { findFonts } from '../core/mapUtil';
+import { findFonts, toMapCoordinates } from '../core/mapUtil';
 import { useAttributePreference } from '../../common/util/preferences';
 import { formatDistance } from '../../common/util/formatter';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -79,9 +79,9 @@ const MapRuler = ({ positions, onActiveChange }) => {
 
     const snap = (lngLat, pixel) => {
       for (const p of positionsRef.current) {
-        const projected = map.project([p.longitude, p.latitude]);
-        if (Math.hypot(projected.x - pixel.x, projected.y - pixel.y) < 15) {
-          return [p.longitude, p.latitude];
+        const mapped = toMapCoordinates(p.longitude, p.latitude);
+        if (map.project(mapped).dist(pixel) < 15) {
+          return mapped;
         }
       }
       return [lngLat.lng, lngLat.lat];

@@ -4,12 +4,15 @@ import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { useAsyncTask } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
+import gcoord from 'gcoord';
 import { findFonts } from '../core/mapUtil';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const PoiMap = () => {
   const id = useId();
 
   const theme = useTheme();
+  const t = useTranslation();
 
   const poiLayer = usePreference('poiLayer');
 
@@ -30,13 +33,17 @@ const PoiMap = () => {
     if (data) {
       map.addSource(id, {
         type: 'geojson',
-        data,
+        data:
+          map.coordinateSystem === 'gcj02'
+            ? gcoord.transform(structuredClone(data), gcoord.WGS84, gcoord.GCJ02)
+            : data,
       });
       map.addLayer({
         source: id,
         id: 'poi-fill',
         type: 'fill',
         filter: ['==', '$type', 'Polygon'],
+        metadata: { 'traccar:title': t('mapPoiLayer') },
         paint: {
           'fill-color': ['coalesce', ['get', 'fill'], theme.palette.geometry.main],
           'fill-opacity': ['coalesce', ['get', 'fill-opacity'], 0.3],
@@ -46,6 +53,7 @@ const PoiMap = () => {
         source: id,
         id: 'poi-point',
         type: 'circle',
+        metadata: { 'traccar:title': t('mapPoiLayer') },
         paint: {
           'circle-radius': 5,
           'circle-color': ['coalesce', ['get', 'icon-color'], theme.palette.geometry.main],
@@ -55,6 +63,7 @@ const PoiMap = () => {
         source: id,
         id: 'poi-line',
         type: 'line',
+        metadata: { 'traccar:title': t('mapPoiLayer') },
         paint: {
           'line-color': ['coalesce', ['get', 'stroke'], theme.palette.geometry.main],
           'line-width': ['coalesce', ['get', 'stroke-width'], 2],
@@ -65,6 +74,7 @@ const PoiMap = () => {
         source: id,
         id: 'poi-title',
         type: 'symbol',
+        metadata: { 'traccar:title': t('mapPoiLayer') },
         layout: {
           'text-field': '{name}',
           'text-anchor': 'bottom',
@@ -96,7 +106,7 @@ const PoiMap = () => {
       };
     }
     return () => {};
-  }, [data, id, theme.palette.geometry.main]);
+  }, [data, id, t, theme.palette.geometry.main]);
 
   return null;
 };

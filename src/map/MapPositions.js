@@ -7,7 +7,7 @@ import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { useCatchCallback } from '../reactHelper';
-import { findFonts } from './core/mapUtil';
+import { findFonts, fromMapCoordinates, toMapCoordinates } from './core/mapUtil';
 
 const MapPositions = ({
   positions,
@@ -70,7 +70,8 @@ const MapPositions = ({
   const onMapClickCallback = useCallback(
     (event) => {
       if (!event.defaultPrevented && onMapClick) {
-        onMapClick(event.lngLat.lat, event.lngLat.lng);
+        const [longitude, latitude] = fromMapCoordinates(event.lngLat.lng, event.lngLat.lat);
+        onMapClick(latitude, longitude);
       }
     },
     [onMapClick],
@@ -234,7 +235,7 @@ const MapPositions = ({
             type: 'Feature',
             geometry: {
               type: 'Point',
-              coordinates: [position.longitude, position.latitude],
+              coordinates: toMapCoordinates(position.longitude, position.latitude),
             },
             properties: createFeature(devices, position, selectedPosition && selectedPosition.id),
           })),

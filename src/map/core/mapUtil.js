@@ -1,5 +1,31 @@
 import { parse, stringify } from 'wellknown';
 import turfCircle from '@turf/circle';
+import gcoord from 'gcoord';
+import { map } from './MapView';
+
+const coordinateSystem = (id) => {
+  switch (id) {
+    case 'gcj02':
+      return gcoord.GCJ02;
+    default:
+      return gcoord.WGS84;
+  }
+};
+
+export const toMapCoordinates = (longitude, latitude) =>
+  map.coordinateSystem
+    ? gcoord.transform([longitude, latitude], gcoord.WGS84, coordinateSystem(map.coordinateSystem))
+    : [longitude, latitude];
+
+export const fromMapCoordinates = (longitude, latitude) =>
+  map.coordinateSystem
+    ? gcoord.transform([longitude, latitude], coordinateSystem(map.coordinateSystem), gcoord.WGS84)
+    : [longitude, latitude];
+
+const transformGeometry = (geometry, from, to) => ({
+  ...geometry,
+  coordinates: gcoord.transform(structuredClone(geometry.coordinates), from, to),
+});
 
 export const loadImage = (url) =>
   new Promise((imageLoaded) => {
@@ -80,13 +106,16 @@ export const geofenceToFeature = (theme, item) => {
       .split(/ +/);
     const options = { steps: 32, units: 'meters' };
     const polygon = turfCircle(
-      [Number(coordinates[1]), Number(coordinates[0])],
+      toMapCoordinates(Number(coordinates[1]), Number(coordinates[0])),
       Number(coordinates[2]),
       options,
     );
     geometry = polygon.geometry;
   } else {
     geometry = reverseCoordinates(parse(item.area));
+    if (map.coordinateSystem) {
+      geometry = transformGeometry(geometry, gcoord.WGS84, coordinateSystem(map.coordinateSystem));
+    }
   }
   return {
     id: item.id,
@@ -101,7 +130,12 @@ export const geofenceToFeature = (theme, item) => {
   };
 };
 
-export const geometryToArea = (geometry) => stringify(reverseCoordinates(geometry));
+export const geometryToArea = (geometry) => {
+  const normalized = map.coordinateSystem
+    ? transformGeometry(geometry, coordinateSystem(map.coordinateSystem), gcoord.WGS84)
+    : geometry;
+  return stringify(reverseCoordinates(normalized));
+};
 
 export const findFonts = (map) => {
   const { glyphs } = map.getStyle();

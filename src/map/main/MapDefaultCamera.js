@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { usePreference } from '../../common/util/preferences';
 import { map } from '../core/MapView';
+import { toMapCoordinates } from '../core/mapUtil';
 
 const MapDefaultCamera = ({ filteredPositions }) => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -20,7 +21,7 @@ const MapDefaultCamera = ({ filteredPositions }) => {
       const position = positions[selectedDeviceId];
       if (position) {
         map.jumpTo({
-          center: [position.longitude, position.latitude],
+          center: toMapCoordinates(position.longitude, position.latitude),
           zoom: Math.max(defaultZoom > 0 ? defaultZoom : map.getZoom(), 10),
         });
         setInitialized(true);
@@ -28,15 +29,14 @@ const MapDefaultCamera = ({ filteredPositions }) => {
     } else {
       if (defaultLatitude && defaultLongitude) {
         map.jumpTo({
-          center: [defaultLongitude, defaultLatitude],
+          center: toMapCoordinates(defaultLongitude, defaultLatitude),
           zoom: defaultZoom,
         });
         setInitialized(true);
       } else {
-        const coordinates = (filteredPositions || Object.values(positions)).map((item) => [
-          item.longitude,
-          item.latitude,
-        ]);
+        const coordinates = (filteredPositions || Object.values(positions)).map((item) =>
+          toMapCoordinates(item.longitude, item.latitude),
+        );
         if (coordinates.length > 1) {
           const bounds = coordinates.reduce(
             (bounds, item) => bounds.extend(item),

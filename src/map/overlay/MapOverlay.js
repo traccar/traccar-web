@@ -1,4 +1,4 @@
-import { useId, useEffect } from 'react';
+import { useId, useEffect, useMemo } from 'react';
 import { useAttributePreference } from '../../common/util/preferences';
 import { map } from '../core/MapView';
 import useMapOverlays from './useMapOverlays';
@@ -9,31 +9,39 @@ const MapOverlay = () => {
   const mapOverlays = useMapOverlays();
   const selectedMapOverlay = useAttributePreference('selectedMapOverlay');
 
-  const activeOverlay = mapOverlays
-    .filter((overlay) => overlay.available)
-    .find((overlay) => overlay.id === selectedMapOverlay);
+  const activeOverlays = useMemo(() => {
+    const selectedIds = selectedMapOverlay ? selectedMapOverlay.split(',') : [];
+    return mapOverlays
+      .filter((overlay) => overlay.available)
+      .filter((overlay) => selectedIds.includes(overlay.id));
+  }, [mapOverlays, selectedMapOverlay]);
 
   useEffect(() => {
-    if (activeOverlay) {
-      map.addSource(id, activeOverlay.source);
+    const layerIds = activeOverlays.map((overlay, index) => `${id}-${index}`);
+    activeOverlays.forEach((overlay, index) => {
+      const layerId = layerIds[index];
+      map.addSource(layerId, overlay.source);
       map.addLayer({
-        id,
+        id: layerId,
         type: 'raster',
-        source: id,
+        source: layerId,
+        metadata: { 'traccar:title': overlay.title },
         layout: {
           visibility: 'visible',
         },
       });
-    }
+    });
     return () => {
-      if (map.getLayer(id)) {
-        map.removeLayer(id);
-      }
-      if (map.getSource(id)) {
-        map.removeSource(id);
-      }
+      layerIds.forEach((layerId) => {
+        if (map.getLayer(layerId)) {
+          map.removeLayer(layerId);
+        }
+        if (map.getSource(layerId)) {
+          map.removeSource(layerId);
+        }
+      });
     };
-  }, [id, activeOverlay]);
+  }, [id, activeOverlays]);
 
   return null;
 };

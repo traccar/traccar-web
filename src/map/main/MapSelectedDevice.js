@@ -4,6 +4,7 @@ import dimensions from '../../common/theme/dimensions';
 import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
+import { toMapCoordinates } from '../core/mapUtil';
 
 const MapSelectedDevice = () => {
   const currentTime = useSelector((state) => state.devices.selectTime);
@@ -32,7 +33,7 @@ const MapSelectedDevice = () => {
       position
     ) {
       map.easeTo({
-        center: [position.longitude, position.latitude],
+        center: toMapCoordinates(position.longitude, position.latitude),
         zoom: Math.max(map.getZoom(), selectZoom),
         offset: [0, -dimensions.popupMapOffset / 2],
       });

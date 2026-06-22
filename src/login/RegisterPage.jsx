@@ -9,6 +9,7 @@ import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch, useAsyncTask } from '../reactHelper';
 import { sessionActions } from '../store';
 import BackIcon from '../common/components/BackIcon';
+import PasswordField from '../common/components/PasswordField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
@@ -95,12 +96,11 @@ const RegisterPage = () => {
           autoComplete="email"
           onChange={(event) => setEmail(event.target.value)}
         />
-        <TextField
+        <PasswordField
           required
           label={t('userPassword')}
           name="password"
           value={password}
-          type="password"
           autoComplete="current-password"
           onChange={(event) => setPassword(event.target.value)}
         />

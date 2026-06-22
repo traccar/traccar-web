@@ -107,10 +107,6 @@ export default (t) =>
         name: t('attributeFilterSkipLimit'),
         type: 'number',
       },
-      'filter.skipAttributes.enable': {
-        name: t('attributeFilterSkipAttributesEnable'),
-        type: 'boolean',
-      },
       'filter.skipAttributes': {
         name: t('attributeFilterSkipAttributes'),
         type: 'string',
