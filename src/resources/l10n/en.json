@@ -621,6 +621,7 @@
     "reportEndEngineHours": "End Engine Hours",
     "reportDuration": "Duration",
     "reportStartDate": "Start Date",
+    "reportEndDate": "End Date",
     "reportStartTime": "Start Time",
     "reportStartAddress": "Start Address",
     "reportEndTime": "End Time",

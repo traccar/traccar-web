@@ -37,6 +37,7 @@ import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
+  ['endTime', 'reportEndDate'],
   ['distance', 'sharedDistance'],
   ['startOdometer', 'reportStartOdometer'],
   ['endOdometer', 'reportEndOdometer'],
@@ -132,6 +133,7 @@ const SummaryReportPage = () => {
       case 'deviceId':
         return devices[value].name;
       case 'startTime':
+      case 'endTime':
         return formatTime(value, 'date');
       case 'startOdometer':
       case 'endOdometer':
