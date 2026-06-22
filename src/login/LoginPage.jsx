@@ -10,15 +10,12 @@ import {
   Snackbar,
   IconButton,
   Tooltip,
-  InputAdornment,
 } from '@mui/material';
 import CountryFlag from 'react-country-flag';
 import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +32,7 @@ import {
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
 import QrCodeDialog from '../common/components/QrCodeDialog';
+import PasswordField from '../common/components/PasswordField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
@@ -88,7 +86,6 @@ const LoginPage = () => {
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [showServerTooltip, setShowServerTooltip] = useState(false);
   const [showQr, setShowQr] = useState(false);
 
@@ -215,31 +212,15 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               helperText={failed && 'Invalid username or password'}
             />
-            <TextField
+            <PasswordField
               required
               error={failed}
               label={t('userPassword')}
               name="password"
               value={password}
-              type={showPassword ? 'text' : 'password'}
               autoComplete="current-password"
               autoFocus={!!email}
               onChange={(e) => setPassword(e.target.value)}
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                        size="small"
-                      >
-                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                },
-              }}
             />
             {codeEnabled && (
               <TextField
