@@ -68,13 +68,22 @@ const SummaryReportPage = () => {
     'distance',
     'averageSpeed',
   ]);
-  const daily = searchParams.get('daily') === 'true';
+
+  const supportedReportPeriods = {
+    'none': 'reportSummary',
+    'daily': 'reportDaily',
+    'weekly': 'reportWeekly',
+    'monthly': 'reportMonthly',
+    'yearly': 'reportYearly'
+  };
+  const reportPeriodKey = searchParams.get('reportPeriod');
+  const reportPeriod = supportedReportPeriods[reportPeriodKey] ? reportPeriodKey : 'none';
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const onShow = useCatchCallback(
     async ({ deviceIds, groupIds, from, to }) => {
-      const query = new URLSearchParams({ from, to, daily });
+      const query = new URLSearchParams({ from, to, reportPeriod });
       deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
       groupIds.forEach((groupId) => query.append('groupId', groupId));
       setLoading(true);
@@ -87,7 +96,7 @@ const SummaryReportPage = () => {
         setLoading(false);
       }
     },
-    [daily],
+    [reportPeriod],
   );
 
   const onExport = useCatch(async () => {
@@ -104,7 +113,7 @@ const SummaryReportPage = () => {
     if (rows.length === 0) {
       return;
     }
-    const titleKey = daily ? 'reportDaily' : 'reportSummary';
+    const titleKey = supportedReportPeriods[reportPeriod] ?? 'reportSummary';
     const title = t(titleKey);
     const sheets = new Map([[title, rows]]);
     await exportExcel(title, 'summary.xlsx', sheets, theme);
@@ -112,7 +121,7 @@ const SummaryReportPage = () => {
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'summary';
-    report.attributes.daily = daily;
+    report.attributes.reportPeriod = reportPeriod;
     await scheduleReport(deviceIds, groupIds, report);
     navigate('/reports/scheduled');
   });
@@ -158,15 +167,18 @@ const SummaryReportPage = () => {
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
                 label={t('sharedType')}
-                value={daily}
+                value={reportPeriod}
                 onChange={(e) =>
-                  updateReportParams(searchParams, setSearchParams, 'daily', [
+                  updateReportParams(searchParams, setSearchParams, 'reportPeriod', [
                     String(e.target.value),
                   ])
                 }
               >
-                <MenuItem value={false}>{t('reportSummary')}</MenuItem>
-                <MenuItem value>{t('reportDaily')}</MenuItem>
+                <MenuItem value={'none'}>{t('reportSummary')}</MenuItem>
+                <MenuItem value={'daily'}>{t('reportDaily')}</MenuItem>
+                <MenuItem value={'weekly'}>{t('reportWeekly')}</MenuItem>
+                <MenuItem value={'monthly'}>{t('reportMonthly')}</MenuItem>
+                <MenuItem value={'yearly'}>{t('reportYearly')}</MenuItem>
               </Select>
             </FormControl>
           </div>
