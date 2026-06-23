@@ -11,7 +11,7 @@
     "@mapbox/mapbox-gl-rtl-text": "^0.4.0",
     "@mui/icons-material": "^9.1.1",
     "@mui/lab": "^9.0.0-beta.5",
-    "@mui/material": "^9.1.1",
+    "@mui/material": "^9.1.2",
     "@reduxjs/toolkit": "^2.12.0",
     "@tmcw/togeojson": "^7.1.2",
     "@turf/circle": "^7.3.5",
