@@ -40,7 +40,8 @@ export default () => {
   const tomTomKey = useAttributePreference('tomTomKey');
   const hereKey = useAttributePreference('hereKey');
   const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
-  const ordnanceSurveyKey = useAttributePreference('ordnanceSurveyKey');
+  const ordnanceSurveyKey =
+    useAttributePreference('ordnanceSurveyKey') || 'EAZ8p83u72FTGiLjLC2MsTAl1ko6XQHC';
   const customMapUrl = useSelector((state) => state.session.server.mapUrl);
 
   return useMemo(
@@ -271,8 +272,7 @@ export default () => {
         transformRequest: (url) => ({
           url: `${url}&srs=3857`,
         }),
-        available: Boolean(ordnanceSurveyKey),
-        attribute: 'ordnanceSurveyKey',
+        available: true,
       },
       {
         id: 'mapboxStreets',
