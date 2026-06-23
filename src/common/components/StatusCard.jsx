@@ -300,7 +300,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           <MenuItem
             component="a"
             target="_blank"
-            href={`http://maps.apple.com/?ll=${position.latitude},${position.longitude}`}
+            href={`https://maps.apple.com/?ll=${position.latitude},${position.longitude}`}
           >
             {t('linkAppleMaps')}
           </MenuItem>

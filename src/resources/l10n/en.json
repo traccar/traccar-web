@@ -409,6 +409,7 @@
     "mapYandexSat": "Yandex Satellite",
     "mapWikimedia": "Wikimedia",
     "mapOrdnanceSurvey": "Ordnance Survey",
+    "mapOrdnanceSurveyKey": "Ordnance Survey API Key",
     "mapMapboxStreets": "Mapbox Streets",
     "mapMapboxStreetsDark": "Mapbox Streets Dark",
     "mapMapboxOutdoors": "Mapbox Outdoors",
