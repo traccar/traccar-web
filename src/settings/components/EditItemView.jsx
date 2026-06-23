@@ -1,15 +1,30 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  Container, Button, Accordion, AccordionDetails, AccordionSummary, Skeleton, Typography, TextField,
+  Container,
+  Button,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Skeleton,
+  Typography,
+  TextField,
 } from '@mui/material';
-import { useCatch, useEffectAsync } from '../../reactHelper';
+import { useCatch, useAsyncTask } from '../../reactHelper';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import PageLayout from '../../common/components/PageLayout';
 import useSettingsStyles from '../common/useSettingsStyles';
 import fetchOrThrow from '../../common/util/fetchOrThrow';
 
 const EditItemView = ({
-  children, endpoint, item, setItem, defaultItem, validate, onItemSaved, menu, breadcrumbs,
+  children,
+  endpoint,
+  item,
+  setItem,
+  defaultItem,
+  validate,
+  onItemSaved,
+  menu,
+  breadcrumbs,
 }) => {
   const navigate = useNavigate();
   const { classes } = useSettingsStyles();
@@ -17,16 +32,19 @@ const EditItemView = ({
 
   const { id } = useParams();
 
-  useEffectAsync(async () => {
-    if (!item) {
-      if (id) {
-        const response = await fetchOrThrow(`/api/${endpoint}/${id}`);
-        setItem(await response.json());
-      } else {
-        setItem(defaultItem || {});
+  useAsyncTask(
+    async ({ signal }) => {
+      if (!item) {
+        if (id) {
+          const response = await fetchOrThrow(`/api/${endpoint}/${id}`, { signal });
+          setItem(await response.json());
+        } else {
+          setItem(defaultItem || {});
+        }
       }
-    }
-  }, [id, item, defaultItem]);
+    },
+    [id, item, defaultItem, endpoint, setItem],
+  );
 
   const handleSave = useCatch(async () => {
     let url = `/api/${endpoint}`;
@@ -49,7 +67,9 @@ const EditItemView = ({
   return (
     <PageLayout menu={menu} breadcrumbs={breadcrumbs}>
       <Container maxWidth="xs" className={classes.container}>
-        {item ? children : (
+        {item ? (
+          children
+        ) : (
           <Accordion defaultExpanded>
             <AccordionSummary>
               <Typography variant="subtitle1">
@@ -66,12 +86,7 @@ const EditItemView = ({
           </Accordion>
         )}
         <div className={classes.buttons}>
-          <Button
-            color="primary"
-            variant="outlined"
-            onClick={() => navigate(-1)}
-            disabled={!item}
-          >
+          <Button color="primary" variant="outlined" onClick={() => navigate(-1)} disabled={!item}>
             {t('sharedCancel')}
           </Button>
           <Button

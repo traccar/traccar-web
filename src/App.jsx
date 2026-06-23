@@ -1,13 +1,14 @@
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import BottomMenu from './common/components/BottomMenu';
 import SocketController from './SocketController';
 import CachingController from './CachingController';
-import { useCatch, useEffectAsync } from './reactHelper';
+import { useCatch, useAsyncTask } from './reactHelper';
 import { sessionActions } from './store';
 import UpdateController from './UpdateController';
+import MotionController from './main/MotionController';
 import TermsDialog from './common/components/TermsDialog';
 import Loader from './common/components/Loader';
 import fetchOrThrow from './common/util/fetchOrThrow';
@@ -30,7 +31,6 @@ const App = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { pathname, search } = useLocation();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -47,36 +47,37 @@ const App = () => {
     dispatch(sessionActions.updateUser(await response.json()));
   });
 
-  useEffectAsync(async () => {
-    if (!user) {
-      const response = await fetch('/api/session');
-      if (response.ok) {
-        dispatch(sessionActions.updateUser(await response.json()));
-      } else {
-        window.sessionStorage.setItem('postLogin', pathname + search);
-        navigate(newServer ? '/register' : '/login', { replace: true });
+  useAsyncTask(
+    async ({ signal }) => {
+      if (!user) {
+        const response = await fetch('/api/session', { signal });
+        if (response.ok) {
+          dispatch(sessionActions.updateUser(await response.json()));
+        } else {
+          window.sessionStorage.setItem(
+            'postLogin',
+            window.location.pathname + window.location.search,
+          );
+          navigate(newServer ? '/register' : '/login', { replace: true });
+        }
       }
-    }
-    return null;
-  }, []);
+      return null;
+    },
+    [user, dispatch, navigate, newServer],
+  );
 
   if (user == null) {
-    return (<Loader />);
+    return <Loader />;
   }
   if (termsUrl && !user.attributes.termsAccepted) {
-    return (
-      <TermsDialog
-        open
-        onCancel={() => navigate('/login')}
-        onAccept={() => acceptTerms()}
-      />
-    );
+    return <TermsDialog open onCancel={() => navigate('/login')} onAccept={() => acceptTerms()} />;
   }
   return (
     <>
       <SocketController />
       <CachingController />
       <UpdateController />
+      <MotionController />
       <div className={classes.page}>
         <Outlet />
       </div>

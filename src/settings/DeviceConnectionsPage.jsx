@@ -31,11 +31,17 @@ const DeviceConnectionsPage = () => {
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedConnections')}
-            </Typography>
+            <Typography variant="subtitle1">{t('sharedConnections')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
+            <LinkField
+              endpointAll="/api/devices"
+              endpointLinked={`/api/devices?deviceId=${id}`}
+              baseId={id}
+              keyBase="deviceId"
+              keyLink="linkedDeviceId"
+              label={t('deviceTitle')}
+            />
             <LinkField
               endpointAll="/api/geofences"
               endpointLinked={`/api/geofences?deviceId=${id}`}

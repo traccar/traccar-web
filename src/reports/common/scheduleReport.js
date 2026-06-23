@@ -1,4 +1,4 @@
-import fetchOrThrow from "../../common/util/fetchOrThrow";
+import fetchOrThrow from '../../common/util/fetchOrThrow';
 
 export default async (deviceIds, groupIds, report) => {
   const response = await fetchOrThrow('/api/reports', {

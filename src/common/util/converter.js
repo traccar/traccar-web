@@ -1,9 +1,11 @@
+const roundFloat = (value) => Number(value.toPrecision(12));
+
 const speedConverter = (unit) => {
   switch (unit) {
     case 'kmh':
       return 1.852;
     case 'mph':
-      return 1.15078;
+      return 1852 / 1609.344;
     case 'kn':
     default:
       return 1;
@@ -22,16 +24,16 @@ export const speedUnitString = (unit, t) => {
   }
 };
 
-export const speedFromKnots = (value, unit) => value * speedConverter(unit);
+export const speedFromKnots = (value, unit) => roundFloat(value * speedConverter(unit));
 
 export const speedToKnots = (value, unit) => value / speedConverter(unit);
 
 const distanceConverter = (unit) => {
   switch (unit) {
     case 'mi':
-      return 0.000621371;
+      return 1 / 1609.344;
     case 'nmi':
-      return 0.000539957;
+      return 1 / 1852;
     case 'km':
     default:
       return 0.001;
@@ -50,14 +52,14 @@ export const distanceUnitString = (unit, t) => {
   }
 };
 
-export const distanceFromMeters = (value, unit) => value * distanceConverter(unit);
+export const distanceFromMeters = (value, unit) => roundFloat(value * distanceConverter(unit));
 
 export const distanceToMeters = (value, unit) => value / distanceConverter(unit);
 
 const altitudeConverter = (unit) => {
   switch (unit) {
     case 'ft':
-      return 3.28084;
+      return 1 / 0.3048;
     case 'm':
     default:
       return 1;
@@ -74,16 +76,16 @@ export const altitudeUnitString = (unit, t) => {
   }
 };
 
-export const altitudeFromMeters = (value, unit) => value * altitudeConverter(unit);
+export const altitudeFromMeters = (value, unit) => roundFloat(value * altitudeConverter(unit));
 
 export const altitudeToMeters = (value, unit) => value / altitudeConverter(unit);
 
 const volumeConverter = (unit) => {
   switch (unit) {
     case 'impGal':
-      return 4.546;
+      return 4.54609;
     case 'usGal':
-      return 3.785;
+      return 3.785411784;
     case 'ltr':
     default:
       return 1;
@@ -102,6 +104,6 @@ export const volumeUnitString = (unit, t) => {
   }
 };
 
-export const volumeFromLiters = (value, unit) => value / volumeConverter(unit);
+export const volumeFromLiters = (value, unit) => roundFloat(value / volumeConverter(unit));
 
 export const volumeToLiters = (value, unit) => value * volumeConverter(unit);

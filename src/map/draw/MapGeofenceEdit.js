@@ -24,29 +24,36 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const navigate = useNavigate();
   const t = useTranslation();
 
-  const draw = useMemo(() => new MapboxDraw({
-    displayControlsDefault: false,
-    controls: {
-      polygon: true,
-      line_string: true,
-      trash: true,
-    },
-    userProperties: true,
-    styles: [...drawTheme, {
-      id: 'gl-draw-title',
-      type: 'symbol',
-      filter: ['all'],
-      layout: {
-        'text-field': '{user_name}',
-        'text-font': findFonts(map),
-        'text-size': 12,
-      },
-      paint: {
-        'text-halo-color': 'white',
-        'text-halo-width': 1,
-      },
-    }],
-  }), []);
+  const draw = useMemo(
+    () =>
+      new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+          polygon: true,
+          line_string: true,
+          trash: true,
+        },
+        userProperties: true,
+        styles: [
+          ...drawTheme,
+          {
+            id: 'gl-draw-title',
+            type: 'symbol',
+            filter: ['all'],
+            layout: {
+              'text-field': '{user_name}',
+              'text-font': findFonts(map),
+              'text-size': 12,
+            },
+            paint: {
+              'text-halo-color': 'white',
+              'text-halo-width': 1,
+            },
+          },
+        ],
+      }),
+    [],
+  );
 
   const geofences = useSelector((state) => state.geofences.items);
 
@@ -60,7 +67,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
 
     map.addControl(draw, theme.direction === 'rtl' ? 'top-right' : 'top-left');
     return () => map.removeControl(draw);
-  }, [refreshGeofences]);
+  }, [refreshGeofences, draw, theme.direction]);
 
   useEffect(() => {
     const listener = async (event) => {
@@ -82,7 +89,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
 
     map.on('draw.create', listener);
     return () => map.off('draw.create', listener);
-  }, [dispatch, navigate]);
+  }, [dispatch, navigate, draw, t]);
 
   useEffect(() => {
     const listener = async (event) => {
@@ -127,7 +134,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
     Object.values(geofences).forEach((geofence) => {
       draw.add(geofenceToFeature(theme, geofence));
     });
-  }, [geofences]);
+  }, [geofences, draw, theme]);
 
   useEffect(() => {
     if (selectedGeofenceId) {
@@ -143,7 +150,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
       const canvas = map.getCanvas();
       map.fitBounds(bounds, { padding: Math.min(canvas.width, canvas.height) * 0.1 });
     }
-  }, [selectedGeofenceId]);
+  }, [selectedGeofenceId, draw]);
 
   return null;
 };

@@ -2,11 +2,21 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
-  Typography, Container, Paper, AppBar, Toolbar, IconButton, Table, TableHead, TableRow, TableCell, TableBody,
+  Typography,
+  Container,
+  Paper,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PositionValue from '../common/components/PositionValue';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
@@ -37,15 +47,18 @@ const PositionPage = () => {
 
   const [item, setItem] = useState();
 
-  useEffectAsync(async () => {
-    if (id) {
-      const response = await fetchOrThrow(`/api/positions?id=${id}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setItem(positions[0]);
+  useAsyncTask(
+    async ({ signal }) => {
+      if (id) {
+        const response = await fetchOrThrow(`/api/positions?id=${id}`, { signal });
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setItem(positions[0]);
+        }
       }
-    }
-  }, [id]);
+    },
+    [id],
+  );
 
   const deviceName = useSelector((state) => {
     if (item) {
@@ -64,9 +77,7 @@ const PositionPage = () => {
           <IconButton color="inherit" edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
             <BackIcon />
           </IconButton>
-          <Typography variant="h6">
-            {deviceName}
-          </Typography>
+          <Typography variant="h6">{deviceName}</Typography>
         </Toolbar>
       </AppBar>
       <div className={classes.content}>
@@ -81,20 +92,32 @@ const PositionPage = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {item && Object.getOwnPropertyNames(item).filter((it) => it !== 'attributes').map((property) => (
-                  <TableRow key={property}>
-                    <TableCell>{property}</TableCell>
-                    <TableCell><strong>{positionAttributes[property]?.name}</strong></TableCell>
-                    <TableCell><PositionValue position={item} property={property} /></TableCell>
-                  </TableRow>
-                ))}
-                {item && Object.getOwnPropertyNames(item.attributes).map((attribute) => (
-                  <TableRow key={attribute}>
-                    <TableCell>{attribute}</TableCell>
-                    <TableCell><strong>{positionAttributes[attribute]?.name}</strong></TableCell>
-                    <TableCell><PositionValue position={item} attribute={attribute} /></TableCell>
-                  </TableRow>
-                ))}
+                {item &&
+                  Object.getOwnPropertyNames(item)
+                    .filter((it) => it !== 'attributes')
+                    .map((property) => (
+                      <TableRow key={property}>
+                        <TableCell>{property}</TableCell>
+                        <TableCell>
+                          <strong>{positionAttributes[property]?.name}</strong>
+                        </TableCell>
+                        <TableCell>
+                          <PositionValue position={item} property={property} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                {item &&
+                  Object.getOwnPropertyNames(item.attributes).map((attribute) => (
+                    <TableRow key={attribute}>
+                      <TableCell>{attribute}</TableCell>
+                      <TableCell>
+                        <strong>{positionAttributes[attribute]?.name}</strong>
+                      </TableCell>
+                      <TableCell>
+                        <PositionValue position={item} attribute={attribute} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </Paper>

@@ -1,11 +1,9 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Table, TableRow, TableCell, TableHead, TableBody, IconButton,
-} from '@mui/material';
+import { Table, TableRow, TableCell, TableHead, TableBody, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
@@ -26,20 +24,24 @@ const ScheduledPage = () => {
 
   const calendars = useSelector((state) => state.calendars.items);
 
-  const [timestamp, setTimestamp] = useState(Date.now());
+  const [reloadKey, reload] = useReducer((k) => k + 1, 0);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [removingId, setRemovingId] = useState();
 
-  useEffectAsync(async () => {
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow('/api/reports');
-      setItems(await response.json());
-    } finally {
-      setLoading(false);
-    }
-  }, [timestamp]);
+  useAsyncTask(
+    async ({ signal }) => {
+      void reloadKey;
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow('/api/reports', { signal });
+        setItems(await response.json());
+      } finally {
+        setLoading(false);
+      }
+    },
+    [reloadKey],
+  );
 
   const formatType = (type) => {
     switch (type) {
@@ -59,7 +61,7 @@ const ScheduledPage = () => {
   };
 
   return (
-    <PageLayout menu={<ReportsMenu />} breadcrumbs={['settingsTitle', 'reportScheduled']}>
+    <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportScheduled']}>
       <Table>
         <TableHead>
           <TableRow>
@@ -70,18 +72,22 @@ const ScheduledPage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading ? items.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{formatType(item.type)}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell>{calendars[item.calendarId].name}</TableCell>
-              <TableCell className={classes.columnAction} padding="none">
-                <IconButton size="small" onClick={() => setRemovingId(item.id)}>
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          )) : (<TableShimmer columns={4} endAction />)}
+          {!loading ? (
+            items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{formatType(item.type)}</TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell>{calendars[item.calendarId].name}</TableCell>
+                <TableCell className={classes.columnAction} padding="none">
+                  <IconButton size="small" onClick={() => setRemovingId(item.id)}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableShimmer columns={4} endAction />
+          )}
         </TableBody>
       </Table>
       <RemoveDialog
@@ -92,7 +98,7 @@ const ScheduledPage = () => {
         onResult={(removed) => {
           setRemovingId(null);
           if (removed) {
-            setTimestamp(Date.now());
+            reload();
           }
         }}
       />

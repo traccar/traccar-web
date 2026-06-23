@@ -1,12 +1,8 @@
-import {
-  FormControl, InputLabel, MenuItem, Select,
-} from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 
-const ColumnSelect = ({
-  columns, setColumns, columnsArray, rawValues, disabled,
-}) => {
+const ColumnSelect = ({ columns, setColumns, columnsArray, rawValues, disabled }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
@@ -22,7 +18,9 @@ const ColumnSelect = ({
           disabled={disabled}
         >
           {columnsArray.map(([key, string]) => (
-            <MenuItem key={key} value={key}>{rawValues ? string : t(string)}</MenuItem>
+            <MenuItem key={key} value={key}>
+              {rawValues ? string : t(string)}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>

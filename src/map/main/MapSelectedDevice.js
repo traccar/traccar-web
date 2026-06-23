@@ -4,8 +4,9 @@ import dimensions from '../../common/theme/dimensions';
 import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
 import { useAttributePreference } from '../../common/util/preferences';
+import { toMapCoordinates } from '../core/mapUtil';
 
-const MapSelectedDevice = ({ mapReady }) => {
+const MapSelectedDevice = () => {
   const currentTime = useSelector((state) => state.devices.selectTime);
   const currentId = useSelector((state) => state.devices.selectedId);
   const previousTime = usePrevious(currentTime);
@@ -19,22 +20,36 @@ const MapSelectedDevice = ({ mapReady }) => {
   const previousPosition = usePrevious(position);
 
   useEffect(() => {
-    if (!mapReady) return;
+    const positionChanged =
+      position &&
+      (!previousPosition ||
+        position.latitude !== previousPosition.latitude ||
+        position.longitude !== previousPosition.longitude);
 
-    const positionChanged = position && (!previousPosition || position.latitude !== previousPosition.latitude || position.longitude !== previousPosition.longitude);
-
-    if ((currentId !== previousId || currentTime !== previousTime || (mapFollow && positionChanged)) && position) {
+    if (
+      (currentId !== previousId ||
+        currentTime !== previousTime ||
+        (mapFollow && positionChanged)) &&
+      position
+    ) {
       map.easeTo({
-        center: [position.longitude, position.latitude],
+        center: toMapCoordinates(position.longitude, position.latitude),
         zoom: Math.max(map.getZoom(), selectZoom),
         offset: [0, -dimensions.popupMapOffset / 2],
       });
     }
-  }, [currentId, previousId, currentTime, previousTime, mapFollow, position, selectZoom, mapReady]);
+  }, [
+    currentId,
+    previousId,
+    currentTime,
+    previousTime,
+    mapFollow,
+    position,
+    previousPosition,
+    selectZoom,
+  ]);
 
   return null;
 };
-
-MapSelectedDevice.handlesMapReady = true;
 
 export default MapSelectedDevice;

@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import {
-  Button, TextField, Typography, Snackbar, IconButton,
-} from '@mui/material';
+import { Button, TextField, Typography, Snackbar, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LoginLayout from './LoginLayout';
@@ -9,6 +7,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch } from '../reactHelper';
 import BackIcon from '../common/components/BackIcon';
+import PasswordField from '../common/components/PasswordField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const useStyles = makeStyles()((theme) => ({
@@ -51,7 +50,9 @@ const ResetPasswordPage = () => {
     } else {
       await fetchOrThrow('/api/password/update', {
         method: 'POST',
-        body: new URLSearchParams(`token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`),
+        body: new URLSearchParams(
+          `token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`,
+        ),
       });
     }
     setSnackbarOpen(true);
@@ -79,12 +80,11 @@ const ResetPasswordPage = () => {
             onChange={(event) => setEmail(event.target.value)}
           />
         ) : (
-          <TextField
+          <PasswordField
             required
             label={t('userPassword')}
             name="password"
             value={password}
-            type="password"
             autoComplete="current-password"
             onChange={(event) => setPassword(event.target.value)}
           />

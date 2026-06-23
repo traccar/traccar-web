@@ -11,14 +11,14 @@ import {
   Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MuiFileInput } from 'mui-file-input';
+import FileInput from '../common/components/FileInput';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
 import deviceCategories from '../common/util/deviceCategories';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
-import { useAdministrator } from '../common/util/permissions';
+import { useManager } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
@@ -30,7 +30,7 @@ const DevicePage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
-  const admin = useAdministrator();
+  const manager = useManager();
 
   const commonDeviceAttributes = useCommonDeviceAttributes(t);
   const deviceAttributes = useDeviceAttributes(t);
@@ -72,9 +72,7 @@ const DevicePage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -93,9 +91,7 @@ const DevicePage = () => {
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedExtra')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedExtra')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField
@@ -122,10 +118,12 @@ const DevicePage = () => {
               <SelectField
                 value={item.category || 'default'}
                 onChange={(event) => setItem({ ...item, category: event.target.value })}
-                data={deviceCategories.map((category) => ({
-                  id: category,
-                  name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
-                })).sort((a, b) => a.name.localeCompare(b.name))}
+                data={deviceCategories
+                  .map((category) => ({
+                    id: category,
+                    name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
+                  }))
+                  .sort((a, b) => a.name.localeCompare(b.name))}
                 label={t('deviceCategory')}
               />
               <SelectField
@@ -143,18 +141,19 @@ const DevicePage = () => {
                     setItem({ ...item, expirationTime: new Date(e.target.value).toISOString() });
                   }
                 }}
-                disabled={!admin}
+                disabled={!manager}
               />
               <FormControlLabel
-                control={<Checkbox checked={item.disabled} onChange={(event) => setItem({ ...item, disabled: event.target.checked })} />}
+                control={
+                  <Checkbox
+                    checked={item.disabled}
+                    onChange={(event) => setItem({ ...item, disabled: event.target.checked })}
+                  />
+                }
                 label={t('sharedDisabled')}
-                disabled={!admin}
+                disabled={!manager}
               />
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => setShowQr(true)}
-              >
+              <Button variant="outlined" color="primary" onClick={() => setShowQr(true)}>
                 {t('sharedQrCode')}
               </Button>
             </AccordionDetails>
@@ -162,16 +161,14 @@ const DevicePage = () => {
           {item.id && (
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1">
-                  {t('attributeDeviceImage')}
-                </Typography>
+                <Typography variant="subtitle1">{t('attributeDeviceImage')}</Typography>
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
-                <MuiFileInput
+                <FileInput
                   placeholder={t('attributeDeviceImage')}
                   value={imageFile}
                   onChange={handleFileInput}
-                  inputProps={{ accept: 'image/*' }}
+                  slotProps={{ htmlInput: { accept: 'image/*' } }}
                 />
               </AccordionDetails>
             </Accordion>

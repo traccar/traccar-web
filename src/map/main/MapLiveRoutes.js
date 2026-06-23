@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { useAttributePreference } from '../../common/util/preferences';
+import { toMapCoordinates } from '../core/mapUtil';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const MapLiveRoutes = ({ deviceIds }) => {
   const id = useId();
 
   const theme = useTheme();
+  const t = useTranslation();
 
   const type = useAttributePreference('mapLiveRoutes', 'none');
 
@@ -35,6 +38,7 @@ const MapLiveRoutes = ({ deviceIds }) => {
         source: id,
         id,
         type: 'line',
+        metadata: { 'traccar:title': t('mapLiveRoutes') },
         layout: {
           'line-join': 'round',
           'line-cap': 'round',
@@ -56,13 +60,14 @@ const MapLiveRoutes = ({ deviceIds }) => {
       };
     }
     return () => {};
-  }, [type]);
+  }, [type, id, t]);
 
   useEffect(() => {
     if (type !== 'none') {
       const visibleIds = deviceIds
         .filter((id) => (type === 'selected' ? id === selectedDeviceId : true))
-        .filter((id) => history.hasOwnProperty(id));
+        .filter((id) => history.hasOwnProperty(id))
+        .filter((id) => devices[id]);
 
       map.getSource(id)?.setData({
         type: 'FeatureCollection',
@@ -70,17 +75,30 @@ const MapLiveRoutes = ({ deviceIds }) => {
           type: 'Feature',
           geometry: {
             type: 'LineString',
-            coordinates: history[deviceId],
+            coordinates: history[deviceId].map(([longitude, latitude]) =>
+              toMapCoordinates(longitude, latitude),
+            ),
           },
           properties: {
-            color: devices[deviceId].attributes['web.reportColor'] || theme.palette.geometry.main,
+            color:
+              devices[deviceId]?.attributes?.['web.reportColor'] || theme.palette.geometry.main,
             width: mapLineWidth,
             opacity: mapLineOpacity,
           },
         })),
       });
     }
-  }, [theme, type, devices, selectedDeviceId, history, deviceIds]);
+  }, [
+    theme,
+    type,
+    devices,
+    selectedDeviceId,
+    history,
+    deviceIds,
+    id,
+    mapLineOpacity,
+    mapLineWidth,
+  ]);
 
   return null;
 };

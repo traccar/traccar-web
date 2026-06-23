@@ -25,7 +25,16 @@ import { snackBarDurationLongMs } from '../common/util/duration';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const allowedProperties = ['valid', 'latitude', 'longitude', 'altitude', 'speed', 'course', 'address', 'accuracy'];
+const allowedProperties = [
+  'valid',
+  'latitude',
+  'longitude',
+  'altitude',
+  'speed',
+  'course',
+  'address',
+  'accuracy',
+];
 
 const ComputedAttributePage = () => {
   const { classes } = useSettingsStyles();
@@ -37,11 +46,13 @@ const ComputedAttributePage = () => {
   const [deviceId, setDeviceId] = useState();
   const [result, setResult] = useState();
 
-  const options = Object.entries(positionAttributes).filter(([key, value]) => !value.property || allowedProperties.includes(key)).map(([key, value]) => ({
-    key,
-    name: value.name,
-    type: value.type,
-  }));
+  const options = Object.entries(positionAttributes)
+    .filter(([key, value]) => !value.property || allowedProperties.includes(key))
+    .map(([key, value]) => ({
+      key,
+      name: value.name,
+      type: value.type,
+    }));
 
   const filter = createFilterOptions({
     stringify: (option) => option.name,
@@ -73,9 +84,7 @@ const ComputedAttributePage = () => {
         <>
           <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedRequired')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedRequired')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -85,7 +94,9 @@ const ComputedAttributePage = () => {
               />
               <Autocomplete
                 freeSolo
-                value={options.find((option) => option.key === item.attribute) || item.attribute || null}
+                value={
+                  options.find((option) => option.key === item.attribute) || item.attribute || null
+                }
                 onChange={(_, option) => {
                   const attribute = option ? option.key || option.inputValue || option : null;
                   if (option && (option.type || option.inputValue)) {
@@ -96,13 +107,21 @@ const ComputedAttributePage = () => {
                 }}
                 filterOptions={(options, params) => {
                   const filtered = filter(options, params);
-                  if (params.inputValue && !options.some((x) => (typeof x === 'object' ? x.key : x) === params.inputValue)) {
-                    filtered.push({ inputValue: params.inputValue, name: `${t('sharedAdd')} "${params.inputValue}"` });
+                  if (
+                    params.inputValue &&
+                    !options.some((x) => (typeof x === 'object' ? x.key : x) === params.inputValue)
+                  ) {
+                    filtered.push({
+                      inputValue: params.inputValue,
+                      name: `${t('sharedAdd')} "${params.inputValue}"`,
+                    });
                   }
                   return filtered;
                 }}
                 options={options}
-                getOptionLabel={(option) => typeof option === 'object' ? option.inputValue || option.name : option }
+                getOptionLabel={(option) =>
+                  typeof option === 'object' ? option.inputValue || option.name : option
+                }
                 renderOption={(props, option) => <li {...props}>{option.name || option}</li>}
                 renderInput={(params) => <TextField {...params} label={t('sharedAttribute')} />}
               />
@@ -129,9 +148,7 @@ const ComputedAttributePage = () => {
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedExtra')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedExtra')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <TextField
@@ -144,9 +161,7 @@ const ComputedAttributePage = () => {
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedTest')}
-              </Typography>
+              <Typography variant="subtitle1">{t('sharedTest')}</Typography>
             </AccordionSummary>
             <AccordionDetails className={classes.details}>
               <SelectField

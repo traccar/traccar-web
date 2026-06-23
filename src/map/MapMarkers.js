@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 import { map } from './core/MapView';
 import { useAttributePreference } from '../common/util/preferences';
-import { findFonts } from './core/mapUtil';
+import { findFonts, toMapCoordinates } from './core/mapUtil';
 
 const MapMarkers = ({ markers, showTitles }) => {
   const id = useId();
@@ -64,7 +64,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         map.removeSource(id);
       }
     };
-  }, [showTitles]);
+  }, [showTitles, iconScale, id]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
@@ -73,7 +73,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [longitude, latitude],
+          coordinates: toMapCoordinates(longitude, latitude),
         },
         properties: {
           image: image || 'default-neutral',
@@ -81,7 +81,7 @@ const MapMarkers = ({ markers, showTitles }) => {
         },
       })),
     });
-  }, [showTitles, markers]);
+  }, [showTitles, markers, id]);
 
   return null;
 };

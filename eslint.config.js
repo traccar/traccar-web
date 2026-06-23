@@ -1,24 +1,21 @@
 import js from '@eslint/js';
-import airbnb from 'eslint-config-airbnb';
-import react from 'eslint-plugin-react';
-import jsxA11y from 'eslint-plugin-jsx-a11y';
-import importPlugin from 'eslint-plugin-import';
+import eslintReact from '@eslint-react/eslint-plugin';
+import { configs as importConfigs } from 'eslint-plugin-import-x';
+import reactHooks from 'eslint-plugin-react-hooks';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 
 export default [
   {
-    ignores: [
-      'build/**',
-      'switcher.js',
-      'theme.js',
-      'vite.config.js',
-    ],
+    ignores: ['build/**', 'switcher.js', 'theme.js', 'vite.config.js'],
   },
   js.configs.recommended,
+  eslintReact.configs.recommended,
+  importConfigs['flat/recommended'],
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: { ecmaFeatures: { jsx: true } },
       globals: {
@@ -27,45 +24,32 @@ export default [
       },
     },
     plugins: {
-      react,
-      'jsx-a11y': jsxA11y,
-      import: importPlugin,
+      'react-hooks': reactHooks,
     },
     settings: {
-      'react': {
-        version: 'detect'
-      },
-      'import/resolver': {
+      'import-x/resolver': {
         node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+          extensions: ['.js', '.jsx', '.json'],
         },
       },
     },
     rules: {
-      ...airbnb.rules,
-      'max-len': 'off',
-      'no-shadow': 'off',
-      'no-return-assign': 'off',
-      'no-param-reassign': 'off',
       'no-prototype-builtins': 'off',
-      'object-curly-newline': ['warn', {
-        ObjectExpression: { minProperties: 8, multiline: true, consistent: true },
-        ObjectPattern: { minProperties: 8, multiline: true, consistent: true },
-        ImportDeclaration: { minProperties: 4, multiline: true, consistent: true },
-        ExportDeclaration: { minProperties: 4, multiline: true, consistent: true }
-      }],
-      'import/no-unresolved': ['warn', {
-        ignore: ['\\.svg', 'virtual:']
-      }],
-      'react/function-component-definition': ['warn', {
-        namedComponents: 'arrow-function',
-        unnamedComponents: 'arrow-function'
-      }],
-      'react/jsx-props-no-spreading': 'off',
-      'react/jsx-uses-vars': 'error',
-      'jsx-a11y/anchor-is-valid': 'off',
-      'jsx-a11y/label-has-associated-control': 'off',
-      'react/prop-types': 'off',
+      'import-x/no-unresolved': [
+        'warn',
+        {
+          ignore: ['\\.svg', 'virtual:'],
+        },
+      ],
+      '@eslint-react/set-state-in-effect': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'off',
+      '@eslint-react/no-array-index-key': 'off',
+      '@eslint-react/exhaustive-deps': [
+        'warn',
+        { additionalHooks: '(useCatchCallback|useAsyncTask)$' },
+      ],
     },
   },
+  prettierRecommended,
 ];

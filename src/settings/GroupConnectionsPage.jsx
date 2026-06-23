@@ -31,9 +31,7 @@ const GroupConnectionsPage = () => {
       <Container maxWidth="xs" className={classes.container}>
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">
-              {t('sharedConnections')}
-            </Typography>
+            <Typography variant="subtitle1">{t('sharedConnections')}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <LinkField

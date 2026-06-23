@@ -16,7 +16,7 @@ const MapCurrentLocation = () => {
     });
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
-  }, []);
+  }, [theme.direction]);
 
   return null;
 };

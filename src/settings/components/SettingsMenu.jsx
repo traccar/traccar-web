@@ -1,6 +1,4 @@
-import {
-  Divider, List,
-} from '@mui/material';
+import { Divider, List } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import DrawIcon from '@mui/icons-material/Draw';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -19,9 +17,7 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import {
-  useAdministrator, useManager, useRestriction,
-} from '../../common/util/permissions';
+import { useAdministrator, useManager, useRestriction } from '../../common/util/permissions';
 import useFeatures from '../../common/util/useFeatures';
 import MenuItem from '../../common/components/MenuItem';
 
@@ -124,18 +120,10 @@ const SettingsMenu = () => {
           </>
         )}
         {billingLink && (
-          <MenuItem
-            title={t('userBilling')}
-            link={billingLink}
-            icon={<PaymentIcon />}
-          />
+          <MenuItem title={t('userBilling')} link={billingLink} icon={<PaymentIcon />} />
         )}
         {supportLink && (
-          <MenuItem
-            title={t('settingsSupport')}
-            link={supportLink}
-            icon={<HelpIcon />}
-          />
+          <MenuItem title={t('settingsSupport')} link={supportLink} icon={<HelpIcon />} />
         )}
       </List>
       {manager && (
@@ -160,7 +148,10 @@ const SettingsMenu = () => {
               title={t('settingsUsers')}
               link="/settings/users"
               icon={<PeopleIcon />}
-              selected={location.pathname.startsWith('/settings/user') && location.pathname !== `/settings/user/${userId}`}
+              selected={
+                location.pathname.startsWith('/settings/user') &&
+                location.pathname !== `/settings/user/${userId}`
+              }
             />
           </List>
         </>

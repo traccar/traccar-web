@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material/styles';
 import { useId, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
-import { findFonts } from './core/mapUtil';
+import { findFonts, toMapCoordinates } from './core/mapUtil';
 import { useAttributePreference } from '../common/util/preferences';
 
 const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
@@ -75,14 +75,16 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
       type: 'Feature',
       geometry: {
         type: 'LineString',
-        coordinates,
+        coordinates: coordinates.map(([longitude, latitude]) =>
+          toMapCoordinates(longitude, latitude),
+        ),
       },
       properties: {
         name,
@@ -91,7 +93,7 @@ const MapRouteCoordinates = ({ name, coordinates, deviceId }) => {
         opacity: mapLineOpacity,
       },
     });
-  }, [theme, coordinates, reportColor, mapLineWidth, mapLineOpacity]);
+  }, [theme, coordinates, reportColor, mapLineWidth, mapLineOpacity, id, name]);
 
   return null;
 };

@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Divider, Typography, IconButton, useMediaQuery, Toolbar,
+  Divider,
+  Typography,
+  IconButton,
+  useMediaQuery,
+  Toolbar,
   List,
   ListItem,
 } from '@mui/material';
@@ -11,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import MapView from '../map/core/MapView';
 import MapCurrentLocation from '../map/MapCurrentLocation';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import MapGeocoder from '../map/geocoder/MapGeocoder';
+import MapGeocoder from '../map/control/MapGeocoder';
 import SelectField from '../common/components/SelectField';
 import { devicesActions } from '../store';
 import MapPositions from '../map/MapPositions';
@@ -19,6 +23,7 @@ import { useCatch } from '../reactHelper';
 import MapScale from '../map/MapScale';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import { deviceEquality } from '../common/util/deviceEquality';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -64,7 +69,10 @@ const EmulatorPage = () => {
 
   const isPhone = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector(
+    (state) => state.devices.items,
+    deviceEquality(['id', 'name', 'uniqueId']),
+  );
   const deviceId = useSelector((state) => state.devices.selectedId);
   const positions = useSelector((state) => state.session.positions);
 
@@ -102,13 +110,15 @@ const EmulatorPage = () => {
           className={classes.drawer}
           anchor={isPhone ? 'top' : 'left'}
           variant="permanent"
-          classes={{ paper: classes.drawerPaper }}
+          slotProps={{ paper: { className: classes.drawerPaper } }}
         >
           <Toolbar>
             <IconButton edge="start" sx={{ mr: 2 }} onClick={() => navigate(-1)}>
               <BackIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>{t('sharedEmulator')}</Typography>
+            <Typography variant="h6" className={classes.title}>
+              {t('sharedEmulator')}
+            </Typography>
           </Toolbar>
           <Divider />
           <List>

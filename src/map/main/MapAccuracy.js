@@ -1,12 +1,15 @@
 import { useId, useEffect } from 'react';
-import circle from '@turf/circle';
+import turfCircle from '@turf/circle';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
+import { toMapCoordinates } from '../core/mapUtil';
+import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const MapAccuracy = ({ positions }) => {
   const id = useId();
 
   const theme = useTheme();
+  const t = useTranslation();
 
   useEffect(() => {
     map.addSource(id, {
@@ -20,10 +23,8 @@ const MapAccuracy = ({ positions }) => {
       source: id,
       id,
       type: 'fill',
-      filter: [
-        'all',
-        ['==', '$type', 'Polygon'],
-      ],
+      filter: ['all', ['==', '$type', 'Polygon']],
+      metadata: { 'traccar:title': t('positionAccuracy') },
       paint: {
         'fill-color': theme.palette.geometry.main,
         'fill-outline-color': theme.palette.geometry.main,
@@ -39,16 +40,21 @@ const MapAccuracy = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id, t, theme.palette.geometry.main]);
 
   useEffect(() => {
     map.getSource(id)?.setData({
       type: 'FeatureCollection',
       features: positions
         .filter((position) => position.accuracy > 0)
-        .map((position) => circle([position.longitude, position.latitude], position.accuracy * 0.001)),
+        .map((position) =>
+          turfCircle(
+            toMapCoordinates(position.longitude, position.latitude),
+            position.accuracy * 0.001,
+          ),
+        ),
     });
-  }, [positions]);
+  }, [positions, id]);
 
   return null;
 };

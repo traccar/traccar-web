@@ -1,4 +1,3 @@
-import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
 const borderDefinition = {
@@ -13,6 +12,7 @@ const exportExcel = async (title, fileName, sheets, theme) => {
     return;
   }
 
+  const { default: ExcelJS } = await import('exceljs');
   const workbook = new ExcelJS.Workbook();
   const headerColor = `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}`;
 
@@ -59,10 +59,9 @@ const exportExcel = async (title, fileName, sheets, theme) => {
     });
   });
 
-  const blob = new Blob(
-    [await workbook.xlsx.writeBuffer()],
-    { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
-  );
+  const blob = new Blob([await workbook.xlsx.writeBuffer()], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  });
   saveAs(blob, fileName);
 };
 

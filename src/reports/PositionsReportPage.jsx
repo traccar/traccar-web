@@ -1,10 +1,6 @@
-import {
-  Fragment, useCallback, useEffect, useRef, useState,
-} from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  IconButton, Table, TableBody, TableCell, TableHead, TableRow,
-} from '@mui/material';
+import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
@@ -13,8 +9,9 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import PositionValue from '../common/components/PositionValue';
 import ColumnSelect from './components/ColumnSelect';
+import ResizeHandle from './components/ResizeHandle';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
-import { useCatch } from '../reactHelper';
+import { useCatch, useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapRoutePoints from '../map/MapRoutePoints';
@@ -44,61 +41,73 @@ const PositionsReportPage = () => {
   const [available, setAvailable] = useState([]);
   const [columns, setColumns] = useState(['fixTime', 'latitude', 'longitude', 'speed', 'address']);
   const [items, setItems] = useState([]);
-  const geofenceId = searchParams.has('geofenceId') ? parseInt(searchParams.get('geofenceId')) : null;
+  const geofenceId = searchParams.has('geofenceId')
+    ? parseInt(searchParams.get('geofenceId'))
+    : null;
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const selectedIcon = useRef();
+  const selectedRef = useRef();
 
   useEffect(() => {
-    if (selectedIcon.current) {
-      selectedIcon.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (selectedRef.current) {
+      selectedRef.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
-  }, [selectedIcon.current]);
+  }, [selectedItem]);
 
-  const onMapPointClick = useCallback((positionId) => {
-    setSelectedItem(items.find((it) => it.id === positionId));
-  }, [items, setSelectedItem]);
+  const onMapPointClick = useCallback(
+    (positionId) => {
+      setSelectedItem(items.find((it) => it.id === positionId));
+    },
+    [items, setSelectedItem],
+  );
 
-  const onShow = useCatch(async ({ deviceIds, from, to }) => {
+  const onShow = useCatchCallback(
+    async ({ deviceIds, from, to }) => {
+      const query = new URLSearchParams({ from, to });
+      if (geofenceId) {
+        query.append('geofenceId', geofenceId);
+      }
+      deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow(`/api/positions?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        const data = await response.json();
+        const keySet = new Set();
+        const keyList = [];
+        data.forEach((position) => {
+          Object.keys(position).forEach((it) => keySet.add(it));
+          Object.keys(position.attributes).forEach((it) => keySet.add(it));
+        });
+        ['id', 'deviceId', 'outdated', 'network', 'attributes'].forEach((key) =>
+          keySet.delete(key),
+        );
+        Object.keys(positionAttributes).forEach((key) => {
+          if (keySet.has(key)) {
+            keyList.push(key);
+            keySet.delete(key);
+          }
+        });
+        setAvailable(
+          [...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]),
+        );
+        setItems(data);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [geofenceId, positionAttributes],
+  );
+
+  const onExport = useCatch(async ({ deviceIds, from, to, format }) => {
     const query = new URLSearchParams({ from, to });
     if (geofenceId) {
-      query.append('geofenceId', geofenceId)
+      query.append('geofenceId', geofenceId);
     }
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    setLoading(true);
-    try {
-      const response = await fetchOrThrow(`/api/positions?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      const data = await response.json();
-      const keySet = new Set();
-      const keyList = [];
-      data.forEach((position) => {
-        Object.keys(position).forEach((it) => keySet.add(it));
-        Object.keys(position.attributes).forEach((it) => keySet.add(it));
-      });
-      ['id', 'deviceId', 'outdated', 'network', 'attributes'].forEach((key) => keySet.delete(key));
-      Object.keys(positionAttributes).forEach((key) => {
-        if (keySet.has(key)) {
-          keyList.push(key);
-          keySet.delete(key);
-        }
-      });
-      setAvailable([...keyList, ...keySet].map((key) => [key, positionAttributes[key]?.name || key]));
-      setItems(data);
-    } finally {
-      setLoading(false);
-    }
-  });
-
-  const onExport = useCatch(async ({ deviceIds, from, to }) => {
-    const query = new URLSearchParams({ from, to });
-    if (geofenceId) {
-      query.append('geofenceId', geofenceId)
-    }
-    deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    window.location.assign(`/api/positions/csv?${query.toString()}`);
+    window.location.assign(`/api/positions/${format}?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -111,27 +120,37 @@ const PositionsReportPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportPositions']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
-                const positions = items.filter((position) => position.deviceId === deviceId);
-                return (
-                  <Fragment key={deviceId}>
-                    <MapRoutePath positions={positions} />
-                    <MapRoutePoints positions={positions} onClick={onMapPointClick} />
-                  </Fragment>
-                );
-              })}
-              <MapPositions positions={[selectedItem]} titleField="fixTime" />
-            </MapView>
-            <MapScale />
-            <MapCamera positions={items} />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {[...new Set(items.map((it) => it.deviceId))].map((deviceId) => {
+                  const positions = items.filter((position) => position.deviceId === deviceId);
+                  return (
+                    <Fragment key={deviceId}>
+                      <MapRoutePath positions={positions} />
+                      <MapRoutePoints positions={positions} onClick={onMapPointClick} />
+                    </Fragment>
+                  );
+                })}
+                <MapPositions positions={[selectedItem]} titleField="fixTime" />
+              </MapView>
+              <MapScale />
+              <MapCamera positions={items} />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter onShow={onShow} onExport={onExport} onSchedule={onSchedule} deviceType="single" loading={loading}>
+            <ReportFilter
+              onShow={onShow}
+              onExport={onExport}
+              onSchedule={onSchedule}
+              deviceType="single"
+              loading={loading}
+              formats={['csv', 'gpx', 'kml', 'kmz']}
+            >
               <div className={classes.filterItem}>
                 <SelectField
                   value={geofenceId}
@@ -157,45 +176,55 @@ const PositionsReportPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.columnAction} />
-                {columns.map((key) => (<TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>))}
+                {columns.map((key) => (
+                  <TableCell key={key}>{positionAttributes[key]?.name || key}</TableCell>
+                ))}
                 <TableCell className={classes.columnAction} />
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.slice(0, 4000).map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className={classes.columnAction} padding="none">
-                    {selectedItem === item ? (
-                      <IconButton size="small" onClick={() => setSelectedItem(null)} ref={selectedIcon}>
-                        <GpsFixedIcon fontSize="small" />
-                      </IconButton>
-                    ) : (
-                      <IconButton size="small" onClick={() => setSelectedItem(item)}>
-                        <LocationSearchingIcon fontSize="small" />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                  {columns.map((key) => (
-                    <TableCell key={key}>
-                      <PositionValue
-                        position={item}
-                        property={item.hasOwnProperty(key) ? key : null}
-                        attribute={item.hasOwnProperty(key) ? null : key}
+              {!loading ? (
+                items.slice(0, 4000).map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell className={classes.columnAction} padding="none">
+                      {selectedItem === item ? (
+                        <IconButton
+                          size="small"
+                          onClick={() => setSelectedItem(null)}
+                          ref={selectedRef}
+                        >
+                          <GpsFixedIcon fontSize="small" />
+                        </IconButton>
+                      ) : (
+                        <IconButton size="small" onClick={() => setSelectedItem(item)}>
+                          <LocationSearchingIcon fontSize="small" />
+                        </IconButton>
+                      )}
+                    </TableCell>
+                    {columns.map((key) => (
+                      <TableCell key={key}>
+                        <PositionValue
+                          position={item}
+                          property={item.hasOwnProperty(key) ? key : null}
+                          attribute={item.hasOwnProperty(key) ? null : key}
+                        />
+                      </TableCell>
+                    ))}
+                    <TableCell className={classes.actionCellPadding}>
+                      <CollectionActions
+                        itemId={item.id}
+                        endpoint="positions"
+                        readonly={readonly}
+                        onReload={() => {
+                          setItems(items.filter((position) => position.id !== item.id));
+                        }}
                       />
                     </TableCell>
-                  ))}
-                  <TableCell className={classes.actionCellPadding}>
-                    <CollectionActions
-                      itemId={item.id}
-                      endpoint="positions"
-                      readonly={readonly}
-                      setTimestamp={() => {
-                        setItems(items.filter((position) => position.id !== item.id));
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-              )) : (<TableShimmer columns={columns.length + 1} startAction />)}
+                  </TableRow>
+                ))
+              ) : (
+                <TableShimmer columns={columns.length + 1} startAction />
+              )}
             </TableBody>
           </Table>
         </div>

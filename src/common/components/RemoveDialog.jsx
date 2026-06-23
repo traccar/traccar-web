@@ -19,9 +19,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const RemoveDialog = ({
-  open, endpoint, itemId, onResult,
-}) => {
+const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
   const { classes } = useStyles();
   const t = useTranslation();
 
@@ -37,11 +35,11 @@ const RemoveDialog = ({
       autoHideDuration={snackBarDurationLongMs}
       onClose={() => onResult(false)}
       message={t('sharedRemoveConfirm')}
-      action={(
+      action={
         <Button size="small" className={classes.button} color="error" onClick={handleRemove}>
           {t('sharedRemove')}
         </Button>
-      )}
+      }
     />
   );
 };

@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Autocomplete,
-  Checkbox,
-  FormControlLabel,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Autocomplete, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useRestriction } from '../../common/util/permissions';
-import { useEffectAsync } from '../../reactHelper';
+import { useAsyncTask } from '../../reactHelper';
 import fetchOrThrow from '../../common/util/fetchOrThrow';
 import { prefixString } from '../../common/util/stringUtils';
 import useCommandAttributes from '../../common/attributes/useCommandAttributes';
@@ -32,23 +26,33 @@ const BaseCommandView = ({
   const [attributes, setAttributes] = useState([]);
   const [options, setOptions] = useState([]);
 
-  useEffectAsync(async () => {
-    if (includeSaved) {
-      const savedResponse = await fetchOrThrow(`/api/commands/send?deviceId=${deviceId}`);
-      const saved = await savedResponse.json();
-      let combined = saved.map((it) => ({ ...it, optionType: 'saved', key: `saved-${it.id}` }));
-      if (!limitCommands) {
-        const typesResponse = await fetchOrThrow(`/api/commands/types?${new URLSearchParams({ deviceId }).toString()}`);
+  useAsyncTask(
+    async ({ signal }) => {
+      if (includeSaved) {
+        const savedResponse = await fetchOrThrow(`/api/commands/send?deviceId=${deviceId}`, {
+          signal,
+        });
+        const saved = await savedResponse.json();
+        let combined = saved.map((it) => ({ ...it, optionType: 'saved', key: `saved-${it.id}` }));
+        if (!limitCommands) {
+          const typesResponse = await fetchOrThrow(
+            `/api/commands/types?${new URLSearchParams({ deviceId }).toString()}`,
+            { signal },
+          );
+          const types = await typesResponse.json();
+          combined = combined.concat(
+            types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })),
+          );
+        }
+        setOptions(combined);
+      } else {
+        const typesResponse = await fetchOrThrow('/api/commands/types', { signal });
         const types = await typesResponse.json();
-        combined = combined.concat(types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })));
+        setOptions(types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })));
       }
-      setOptions(combined);
-    } else {
-      const typesResponse = await fetchOrThrow('/api/commands/types');
-      const types = await typesResponse.json();
-      setOptions(types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })));
-    }
-  }, [deviceId, includeSaved, limitCommands]);
+    },
+    [deviceId, includeSaved, limitCommands],
+  );
 
   useEffect(() => {
     if (item && item.type) {
@@ -89,7 +93,8 @@ const BaseCommandView = ({
         options={options}
         groupBy={
           includeSaved
-            ? (option) => option.optionType === 'saved' ? t('sharedSavedCommands') : t('sharedType')
+            ? (option) =>
+                option.optionType === 'saved' ? t('sharedSavedCommands') : t('sharedType')
             : null
         }
         getOptionLabel={(option) =>
@@ -98,11 +103,11 @@ const BaseCommandView = ({
             : t(prefixString('command', option.type))
         }
         renderOption={(props, option) => (
-          <MenuItem {...props} key={option.key} value={option.key}>
+          <li key={option.key} {...props}>
             {option.optionType === 'saved'
               ? option.description
               : t(prefixString('command', option.type))}
-          </MenuItem>
+          </li>
         )}
         isOptionEqualToValue={(option, value) => option.key === value.key}
         value={
@@ -118,6 +123,7 @@ const BaseCommandView = ({
           if (type === 'boolean') {
             return (
               <FormControlLabel
+                key={key}
                 control={
                   <Checkbox
                     checked={item.attributes[key]}
@@ -134,6 +140,7 @@ const BaseCommandView = ({
           }
           return (
             <TextField
+              key={key}
               type={type === 'number' ? 'number' : 'text'}
               value={item.attributes[key]}
               onChange={(e) => {

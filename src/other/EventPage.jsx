@@ -1,11 +1,9 @@
 import { useCallback, useState } from 'react';
 
-import {
-  Typography, AppBar, Toolbar, IconButton,
-} from '@mui/material';
+import { Typography, AppBar, Toolbar, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffectAsync } from '../reactHelper';
+import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
@@ -42,33 +40,43 @@ const EventPage = () => {
   const [position, setPosition] = useState();
   const [showCard, setShowCard] = useState(false);
 
-  const formatType = (event) => formatNotificationTitle(t, {
-    type: event.type,
-    attributes: {
-      alarms: event.attributes.alarm,
+  const formatType = (event) =>
+    formatNotificationTitle(t, {
+      type: event.type,
+      attributes: {
+        alarms: event.attributes.alarm,
+      },
+    });
+
+  const onMarkerClick = useCallback(
+    (positionId) => {
+      setShowCard(Boolean(positionId));
     },
-  });
+    [setShowCard],
+  );
 
-  const onMarkerClick = useCallback((positionId) => {
-    setShowCard(Boolean(positionId));
-  }, [setShowCard]);
-
-  useEffectAsync(async () => {
-    if (id) {
-      const response = await fetchOrThrow(`/api/events/${id}`);
-      setEvent(await response.json());
-    }
-  }, [id]);
-
-  useEffectAsync(async () => {
-    if (event && event.positionId) {
-      const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`);
-      const positions = await response.json();
-      if (positions.length > 0) {
-        setPosition(positions[0]);
+  useAsyncTask(
+    async ({ signal }) => {
+      if (id) {
+        const response = await fetchOrThrow(`/api/events/${id}`, { signal });
+        setEvent(await response.json());
       }
-    }
-  }, [event]);
+    },
+    [id],
+  );
+
+  useAsyncTask(
+    async ({ signal }) => {
+      if (event && event.positionId) {
+        const response = await fetchOrThrow(`/api/positions?id=${event.positionId}`, { signal });
+        const positions = await response.json();
+        if (positions.length > 0) {
+          setPosition(positions[0]);
+        }
+      }
+    },
+    [event],
+  );
 
   return (
     <div className={classes.root}>
@@ -83,7 +91,13 @@ const EventPage = () => {
       <div className={classes.mapContainer}>
         <MapView>
           <MapGeofence />
-          {position && <MapPositions positions={[position]} onMarkerClick={onMarkerClick} titleField="fixTime" />}
+          {position && (
+            <MapPositions
+              positions={[position]}
+              onMarkerClick={onMarkerClick}
+              titleField="fixTime"
+            />
+          )}
         </MapView>
         <MapScale />
         {position && <MapCamera latitude={position.latitude} longitude={position.longitude} />}

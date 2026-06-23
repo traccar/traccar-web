@@ -1,11 +1,38 @@
 import { parse, stringify } from 'wellknown';
-import circle from '@turf/circle';
+import turfCircle from '@turf/circle';
+import gcoord from 'gcoord';
+import { map } from './MapView';
 
-export const loadImage = (url) => new Promise((imageLoaded) => {
-  const image = new Image();
-  image.onload = () => imageLoaded(image);
-  image.src = url;
+const coordinateSystem = (id) => {
+  switch (id) {
+    case 'gcj02':
+      return gcoord.GCJ02;
+    default:
+      return gcoord.WGS84;
+  }
+};
+
+export const toMapCoordinates = (longitude, latitude) =>
+  map.coordinateSystem
+    ? gcoord.transform([longitude, latitude], gcoord.WGS84, coordinateSystem(map.coordinateSystem))
+    : [longitude, latitude];
+
+export const fromMapCoordinates = (longitude, latitude) =>
+  map.coordinateSystem
+    ? gcoord.transform([longitude, latitude], coordinateSystem(map.coordinateSystem), gcoord.WGS84)
+    : [longitude, latitude];
+
+const transformGeometry = (geometry, from, to) => ({
+  ...geometry,
+  coordinates: gcoord.transform(structuredClone(geometry.coordinates), from, to),
 });
+
+export const loadImage = (url) =>
+  new Promise((imageLoaded) => {
+    const image = new Image();
+    image.onload = () => imageLoaded(image);
+    image.src = url;
+  });
 
 const canvasTintImage = (image, color) => {
   const canvas = document.createElement('canvas');
@@ -42,7 +69,13 @@ export const prepareIcon = (background, icon, color) => {
     const iconRatio = 0.5;
     const imageWidth = canvas.width * iconRatio;
     const imageHeight = canvas.height * iconRatio;
-    context.drawImage(canvasTintImage(icon, color), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
+    context.drawImage(
+      canvasTintImage(icon, color),
+      (canvas.width - imageWidth) / 2,
+      (canvas.height - imageHeight) / 2,
+      imageWidth,
+      imageHeight,
+    );
   }
 
   return context.getImageData(0, 0, canvas.width, canvas.height);
@@ -51,7 +84,8 @@ export const prepareIcon = (background, icon, color) => {
 export const reverseCoordinates = (it) => {
   if (!it) {
     return it;
-  } if (Array.isArray(it)) {
+  }
+  if (Array.isArray(it)) {
     if (it.length === 2 && typeof it[0] === 'number' && typeof it[1] === 'number') {
       return [it[1], it[0]];
     }
@@ -66,12 +100,22 @@ export const reverseCoordinates = (it) => {
 export const geofenceToFeature = (theme, item) => {
   let geometry;
   if (item.area.indexOf('CIRCLE') > -1) {
-    const coordinates = item.area.replace(/CIRCLE|\(|\)|,/g, ' ').trim().split(/ +/);
+    const coordinates = item.area
+      .replace(/CIRCLE|\(|\)|,/g, ' ')
+      .trim()
+      .split(/ +/);
     const options = { steps: 32, units: 'meters' };
-    const polygon = circle([Number(coordinates[1]), Number(coordinates[0])], Number(coordinates[2]), options);
+    const polygon = turfCircle(
+      toMapCoordinates(Number(coordinates[1]), Number(coordinates[0])),
+      Number(coordinates[2]),
+      options,
+    );
     geometry = polygon.geometry;
   } else {
     geometry = reverseCoordinates(parse(item.area));
+    if (map.coordinateSystem) {
+      geometry = transformGeometry(geometry, gcoord.WGS84, coordinateSystem(map.coordinateSystem));
+    }
   }
   return {
     id: item.id,
@@ -86,7 +130,12 @@ export const geofenceToFeature = (theme, item) => {
   };
 };
 
-export const geometryToArea = (geometry) => stringify(reverseCoordinates(geometry));
+export const geometryToArea = (geometry) => {
+  const normalized = map.coordinateSystem
+    ? transformGeometry(geometry, coordinateSystem(map.coordinateSystem), gcoord.WGS84)
+    : geometry;
+  return stringify(reverseCoordinates(normalized));
+};
 
 export const findFonts = (map) => {
   const { glyphs } = map.getStyle();

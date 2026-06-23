@@ -4,6 +4,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import PlaceIcon from '@mui/icons-material/Place';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -60,6 +61,12 @@ const ReportsMenu = () => {
           selected={location.pathname === '/reports/events'}
         />
         <MenuItem
+          title={t('sharedGeofences')}
+          link={buildLink('/reports/geofences')}
+          icon={<PlaceIcon />}
+          selected={location.pathname === '/reports/geofences'}
+        />
+        <MenuItem
           title={t('reportTrips')}
           link={buildLink('/reports/trips')}
           icon={<PlayCircleFilledIcon />}
@@ -83,11 +90,7 @@ const ReportsMenu = () => {
           icon={<TrendingUpIcon />}
           selected={location.pathname === '/reports/chart'}
         />
-        <MenuItem
-          title={t('reportReplay')}
-          link={buildLink('/replay')}
-          icon={<RouteIcon />}
-        />
+        <MenuItem title={t('reportReplay')} link={buildLink('/replay')} icon={<RouteIcon />} />
         <MenuItem
           title={t('reportPositions')}
           link={buildLink('/reports/route')}

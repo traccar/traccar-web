@@ -14,7 +14,7 @@ const MapScale = () => {
   useEffect(() => {
     map.addControl(control, theme.direction === 'rtl' ? 'bottom-right' : 'bottom-left');
     return () => map.removeControl(control);
-  }, [control]);
+  }, [control, theme.direction]);
 
   useEffect(() => {
     switch (distanceUnit) {

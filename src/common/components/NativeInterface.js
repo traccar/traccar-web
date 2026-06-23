@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffectAsync } from '../../reactHelper';
+import { useAsyncTask } from '../../reactHelper';
 import { sessionActions } from '../../store';
 import fetchOrThrow from '../util/fetchOrThrow';
 
-export const nativeEnvironment = window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface);
+export const nativeEnvironment =
+  window.appInterface || (window.webkit && window.webkit.messageHandlers.appInterface);
 
 export const nativePostMessage = (message) => {
   if (window.webkit && window.webkit.messageHandlers.appInterface) {
@@ -61,30 +62,34 @@ const NativeInterface = () => {
     return () => updateNotificationTokenListeners.delete(listener);
   }, [setNotificationToken]);
 
-  useEffectAsync(async () => {
-    if (user && notificationToken) {
-      window.localStorage.setItem('notificationToken', notificationToken);
-      setNotificationToken(null);
+  useAsyncTask(
+    async ({ signal }) => {
+      if (user && notificationToken) {
+        window.localStorage.setItem('notificationToken', notificationToken);
 
-      const tokens = user.attributes.notificationTokens?.split(',') || [];
-      if (!tokens.includes(notificationToken)) {
-        const updatedUser = {
-          ...user,
-          attributes: {
-            ...user.attributes,
-            notificationTokens: [...tokens.slice(-2), notificationToken].join(','),
-          },
-        };
+        const tokens = user.attributes.notificationTokens?.split(',') || [];
+        if (!tokens.includes(notificationToken)) {
+          const updatedUser = {
+            ...user,
+            attributes: {
+              ...user.attributes,
+              notificationTokens: [...tokens.slice(-2), notificationToken].join(','),
+            },
+          };
 
-        const response = await fetchOrThrow(`/api/users/${user.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedUser),
-        });
-        dispatch(sessionActions.updateUser(await response.json()));
+          const response = await fetchOrThrow(`/api/users/${user.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedUser),
+            signal,
+          });
+          dispatch(sessionActions.updateUser(await response.json()));
+        }
+        setNotificationToken(null);
       }
-    }
-  }, [user, notificationToken, setNotificationToken]);
+    },
+    [user, notificationToken, setNotificationToken, dispatch],
+  );
 
   return null;
 };

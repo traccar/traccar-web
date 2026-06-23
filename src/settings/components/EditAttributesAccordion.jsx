@@ -22,12 +22,26 @@ import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
 import {
-  distanceFromMeters, distanceToMeters, distanceUnitString, speedFromKnots, speedToKnots, speedUnitString, volumeFromLiters, volumeToLiters, volumeUnitString,
+  distanceFromMeters,
+  distanceToMeters,
+  distanceUnitString,
+  speedFromKnots,
+  speedToKnots,
+  speedUnitString,
+  volumeFromLiters,
+  volumeToLiters,
+  volumeUnitString,
 } from '../../common/util/converter';
 import useFeatures from '../../common/util/useFeatures';
 import useSettingsStyles from '../common/useSettingsStyles';
 
-const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definitions, focusAttribute }) => {
+const EditAttributesAccordion = ({
+  attribute,
+  attributes,
+  setAttributes,
+  definitions,
+  focusAttribute,
+}) => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
@@ -39,9 +53,9 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
 
   const [addDialogShown, setAddDialogShown] = useState(false);
 
-  const updateAttribute = (key, value, type, subtype) => {
+  const updateAttribute = (key, value, type, dataType) => {
     const updatedAttributes = { ...attributes };
-    switch (subtype) {
+    switch (dataType) {
       case 'speed':
         updatedAttributes[key] = speedToKnots(Number(value), speedUnit);
         break;
@@ -64,10 +78,10 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
     setAttributes(updatedAttributes);
   };
 
-  const getAttributeName = (key, subtype) => {
+  const getAttributeName = (key, dataType) => {
     const definition = definitions[key];
     const name = definition ? definition.name : key;
-    switch (subtype) {
+    switch (dataType) {
       case 'speed':
         return `${name} (${speedUnitString(speedUnit, t)})`;
       case 'distance':
@@ -82,20 +96,21 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
   const getAttributeType = (value) => {
     if (typeof value === 'number') {
       return 'number';
-    } if (typeof value === 'boolean') {
+    }
+    if (typeof value === 'boolean') {
       return 'boolean';
     }
     return 'string';
   };
 
-  const getAttributeSubtype = (key) => {
+  const getAttributeDataType = (key) => {
     const definition = definitions[key];
-    return definition && definition.subtype;
+    return definition && definition.dataType;
   };
 
-  const getDisplayValue = (value, subtype) => {
+  const getDisplayValue = (value, dataType) => {
     if (value) {
-      switch (subtype) {
+      switch (dataType) {
         case 'speed':
           return speedFromKnots(value, speedUnit);
         case 'distance':
@@ -112,21 +127,35 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
   const convertToList = (attributes) => {
     const booleanList = [];
     const otherList = [];
-    const excludeAttributes = ['speedUnit', 'distanceUnit', 'altitudeUnit', 'volumeUnit', 'timezone'];
-    Object.keys(attributes || []).filter((key) => !excludeAttributes.includes(key)).forEach((key) => {
-      const value = attributes[key];
-      const type = getAttributeType(value);
-      const subtype = getAttributeSubtype(key);
-      if (type === 'boolean') {
-        booleanList.push({
-          key, value, type, subtype,
-        });
-      } else {
-        otherList.push({
-          key, value, type, subtype,
-        });
-      }
-    });
+    const excludeAttributes = [
+      'speedUnit',
+      'distanceUnit',
+      'altitudeUnit',
+      'volumeUnit',
+      'timezone',
+    ];
+    Object.keys(attributes || [])
+      .filter((key) => !excludeAttributes.includes(key))
+      .forEach((key) => {
+        const value = attributes[key];
+        const type = getAttributeType(value);
+        const dataType = getAttributeDataType(key);
+        if (type === 'boolean') {
+          booleanList.push({
+            key,
+            value,
+            type,
+            dataType,
+          });
+        } else {
+          otherList.push({
+            key,
+            value,
+            type,
+            dataType,
+          });
+        }
+      });
     return [...otherList, ...booleanList];
   };
 
@@ -147,30 +176,32 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
     }
   };
 
-  return features.disableAttributes ? '' : (
+  return features.disableAttributes ? (
+    ''
+  ) : (
     <Accordion defaultExpanded={!!attribute}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="subtitle1">
-          {t('sharedAttributes')}
-        </Typography>
+        <Typography variant="subtitle1">{t('sharedAttributes')}</Typography>
       </AccordionSummary>
       <AccordionDetails className={classes.details}>
-        {convertToList(attributes).map(({
-          key, value, type, subtype,
-        }) => {
+        {convertToList(attributes).map(({ key, value, type, dataType }) => {
           if (type === 'boolean') {
             return (
               <Grid container direction="row" justifyContent="space-between" key={key}>
                 <FormControlLabel
-                  control={(
+                  control={
                     <Checkbox
                       checked={value}
                       onChange={(e) => updateAttribute(key, e.target.checked)}
                     />
-                  )}
-                  label={getAttributeName(key, subtype)}
+                  }
+                  label={getAttributeName(key, dataType)}
                 />
-                <IconButton size="small" className={classes.removeButton} onClick={() => deleteAttribute(key)}>
+                <IconButton
+                  size="small"
+                  className={classes.removeButton}
+                  onClick={() => deleteAttribute(key)}
+                >
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </Grid>
@@ -178,20 +209,20 @@ const EditAttributesAccordion = ({ attribute, attributes, setAttributes, definit
           }
           return (
             <FormControl key={key}>
-              <InputLabel>{getAttributeName(key, subtype)}</InputLabel>
+              <InputLabel>{getAttributeName(key, dataType)}</InputLabel>
               <OutlinedInput
-                label={getAttributeName(key, subtype)}
+                label={getAttributeName(key, dataType)}
                 type={type === 'number' ? 'number' : 'text'}
-                value={getDisplayValue(value, subtype)}
-                onChange={(e) => updateAttribute(key, e.target.value, type, subtype)}
+                value={getDisplayValue(value, dataType)}
+                onChange={(e) => updateAttribute(key, e.target.value, type, dataType)}
                 autoFocus={focusAttribute === key}
-                endAdornment={(
+                endAdornment={
                   <InputAdornment position="end">
                     <IconButton size="small" edge="end" onClick={() => deleteAttribute(key)}>
                       <CloseIcon fontSize="small" />
                     </IconButton>
                   </InputAdornment>
-                )}
+                }
               />
             </FormControl>
           );

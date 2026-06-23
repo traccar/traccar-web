@@ -1,13 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Table, TableBody, TableCell, TableHead, TableRow,
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
-import { useCatch } from '../reactHelper';
+import ResizeHandle from './components/ResizeHandle';
+import { useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
@@ -19,27 +18,31 @@ import MapMarkers from '../map/MapMarkers';
 import MapRouteCoordinates from '../map/MapRouteCoordinates';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import { deviceEquality } from '../common/util/deviceEquality';
 
 const CombinedReportPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
 
-  const devices = useSelector((state) => state.devices.items);
+  const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
 
-  const createMarkers = () => items.flatMap((item) => item.events
-    .map((event) => item.positions.find((p) => event.positionId === p.id))
-    .filter((position) => position != null)
-    .map((position) => ({
-      latitude: position.latitude,
-      longitude: position.longitude,
-    })));
+  const createMarkers = () =>
+    items.flatMap((item) =>
+      item.events
+        .map((event) => item.positions.find((p) => event.positionId === p.id))
+        .filter((position) => position != null)
+        .map((position) => ({
+          latitude: position.latitude,
+          longitude: position.longitude,
+        })),
+    );
 
-  const onShow = useCatch(async ({ deviceIds, groupIds, from, to }) => {
+  const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
@@ -50,28 +53,31 @@ const CombinedReportPage = () => {
     } finally {
       setLoading(false);
     }
-  });
+  }, []);
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
       <div className={classes.container}>
         {Boolean(items.length) && (
-          <div className={classes.containerMap}>
-            <MapView>
-              <MapGeofence />
-              {items.map((item) => (
-                <MapRouteCoordinates
-                  key={item.deviceId}
-                  name={devices[item.deviceId].name}
-                  coordinates={item.route}
-                  deviceId={item.deviceId}
-                />
-              ))}
-              <MapMarkers markers={createMarkers()} />
-            </MapView>
-            <MapScale />
-            <MapCamera coordinates={itemsCoordinates} />
-          </div>
+          <>
+            <div className={classes.containerMap}>
+              <MapView>
+                <MapGeofence />
+                {items.map((item) => (
+                  <MapRouteCoordinates
+                    key={item.deviceId}
+                    name={devices[item.deviceId].name}
+                    coordinates={item.route}
+                    deviceId={item.deviceId}
+                  />
+                ))}
+                <MapMarkers markers={createMarkers()} />
+              </MapView>
+              <MapScale />
+              <MapCamera coordinates={itemsCoordinates} />
+            </div>
+            <ResizeHandle />
+          </>
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
@@ -86,13 +92,19 @@ const CombinedReportPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? items.flatMap((item) => item.events.map((event, index) => (
-                <TableRow key={event.id}>
-                  <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
-                  <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
-                  <TableCell>{t(prefixString('event', event.type))}</TableCell>
-                </TableRow>
-              ))) : (<TableShimmer columns={3} />)}
+              {!loading ? (
+                items.flatMap((item) =>
+                  item.events.map((event, index) => (
+                    <TableRow key={event.id}>
+                      <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
+                      <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
+                      <TableCell>{t(prefixString('event', event.type))}</TableCell>
+                    </TableRow>
+                  )),
+                )
+              ) : (
+                <TableShimmer columns={3} />
+              )}
             </TableBody>
           </Table>
         </div>

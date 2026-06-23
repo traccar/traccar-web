@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import getSpeedColor from '../common/util/colors';
 import { useAttributePreference } from '../common/util/preferences';
+import { toMapCoordinates } from './core/mapUtil';
 
 const MapRoutePath = ({ positions }) => {
   const id = useId();
@@ -61,7 +62,7 @@ const MapRoutePath = ({ positions }) => {
         map.removeSource(id);
       }
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const minSpeed = positions.map((p) => p.speed).reduce((a, b) => Math.min(a, b), Infinity);
@@ -72,14 +73,13 @@ const MapRoutePath = ({ positions }) => {
         type: 'Feature',
         geometry: {
           type: 'LineString',
-          coordinates: [[positions[i].longitude, positions[i].latitude], [positions[i + 1].longitude, positions[i + 1].latitude]],
+          coordinates: [
+            toMapCoordinates(positions[i].longitude, positions[i].latitude),
+            toMapCoordinates(positions[i + 1].longitude, positions[i + 1].latitude),
+          ],
         },
         properties: {
-          color: reportColor || getSpeedColor(
-            positions[i + 1].speed,
-            minSpeed,
-            maxSpeed,
-          ),
+          color: reportColor || getSpeedColor(positions[i + 1].speed, minSpeed, maxSpeed),
           width: mapLineWidth,
           opacity: mapLineOpacity,
         },
@@ -89,7 +89,7 @@ const MapRoutePath = ({ positions }) => {
       type: 'FeatureCollection',
       features,
     });
-  }, [theme, positions, reportColor, mapLineWidth, mapLineOpacity]);
+  }, [theme, positions, reportColor, mapLineWidth, mapLineOpacity, id]);
 
   return null;
 };
