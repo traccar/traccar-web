@@ -72,10 +72,10 @@ const SummaryReportPage = () => {
 
   const supportedReportPeriods = {
     'none': 'reportSummary',
-    'daily': 'reportDaily',
-    'weekly': 'reportWeekly',
-    'monthly': 'reportMonthly',
-    'yearly': 'reportYearly'
+    'daily': 'periodIntervalDaily',
+    'weekly': 'periodIntervalWeekly',
+    'monthly': 'periodIntervalMonthly',
+    'yearly': 'periodIntervalYearly'
   };
   const reportIntervalKey = searchParams.get('reportInterval');
   const reportInterval = supportedReportPeriods[reportIntervalKey] ? reportIntervalKey : 'none';
@@ -177,10 +177,10 @@ const SummaryReportPage = () => {
                 }
               >
                 <MenuItem value={'none'}>{t('reportSummary')}</MenuItem>
-                <MenuItem value={'daily'}>{t('reportDaily')}</MenuItem>
-                <MenuItem value={'weekly'}>{t('reportWeekly')}</MenuItem>
-                <MenuItem value={'monthly'}>{t('reportMonthly')}</MenuItem>
-                <MenuItem value={'yearly'}>{t('reportYearly')}</MenuItem>
+                <MenuItem value={'daily'}>{t('periodIntervalDaily')}</MenuItem>
+                <MenuItem value={'weekly'}>{t('periodIntervalWeekly')}</MenuItem>
+                <MenuItem value={'monthly'}>{t('periodIntervalMonthly')}</MenuItem>
+                <MenuItem value={'yearly'}>{t('periodIntervalYearly')}</MenuItem>
               </Select>
             </FormControl>
           </div>
