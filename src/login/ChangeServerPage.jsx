@@ -82,13 +82,14 @@ const ChangeServerPage = () => {
   };
 
   const handleSubmit = (url) => {
+    const normalized = new URL(url).toString();
     setLoading(true);
     if (window.webkit && window.webkit.messageHandlers.appInterface) {
-      window.webkit.messageHandlers.appInterface.postMessage(`server|${url}`);
+      window.webkit.messageHandlers.appInterface.postMessage(`server|${normalized}`);
     } else if (window.appInterface) {
-      window.appInterface.postMessage(`server|${url}`);
+      window.appInterface.postMessage(`server|${normalized}`);
     } else {
-      window.location.replace(url);
+      window.location.replace(normalized);
     }
   };
 
