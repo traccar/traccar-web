@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { IconButton, Paper, Slider, Toolbar, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import TuneIcon from '@mui/icons-material/Tune';
+=======
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import dayjs from 'dayjs';
+import { IconButton, Paper, Slider, Toolbar, Typography } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
 import DownloadIcon from '@mui/icons-material/Download';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -14,9 +21,13 @@ import MapRoutePath from '../map/MapRoutePath';
 import MapRoutePoints from '../map/MapRoutePoints';
 import MapPositions from '../map/MapPositions';
 import { formatTime } from '../common/util/formatter';
+<<<<<<< HEAD
 import ReportFilter from '../reports/components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useCatchCallback } from '../reactHelper';
+=======
+import { useTranslation } from '../common/components/LocalizationProvider';
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
 import MapCamera from '../map/MapCamera';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
@@ -24,6 +35,11 @@ import MapScale from '../map/MapScale';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import MapOverlay from '../map/overlay/MapOverlay';
+<<<<<<< HEAD
+=======
+import SelectField from '../common/components/SelectField';
+import ReplayCalendar from './ReplayCalendar';
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -80,9 +96,25 @@ const ReplayPage = () => {
   const navigate = useNavigate();
   const timerRef = useRef();
 
+<<<<<<< HEAD
   const [searchParams] = useSearchParams();
 
   const defaultDeviceId = useSelector((state) => state.devices.selectedId);
+=======
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const defaultDeviceId = useSelector((state) => {
+    const urlDeviceId = searchParams.get('deviceId');
+    if (urlDeviceId) return Number(urlDeviceId);
+    return state.devices.selectedId;
+  });
+
+  const devices = useSelector((state) => state.devices.items);
+  const deviceList = useMemo(
+    () => Object.values(devices).sort((a, b) => a.name.localeCompare(b.name)),
+    [devices],
+  );
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
 
   const [positions, setPositions] = useState([]);
   const [index, setIndex] = useState(0);
@@ -92,6 +124,7 @@ const ReplayPage = () => {
   const to = searchParams.get('to');
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
   const [filterOpen, setFilterOpen] = useState(false);
 
   const loaded = Boolean(from && to && !loading && positions.length);
@@ -106,6 +139,11 @@ const ReplayPage = () => {
     return null;
   });
 
+=======
+
+  const loaded = Boolean(from && to && !loading && positions.length);
+
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
   useEffect(() => {
     if (!from && !to) {
       setPositions([]);
@@ -131,6 +169,66 @@ const ReplayPage = () => {
     }
   }, [index, positions]);
 
+<<<<<<< HEAD
+=======
+  // Auto-load positions on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const deviceIdParam = params.get('deviceId');
+    const fromParam = params.get('from');
+    const toParam = params.get('to');
+    if (deviceIdParam) {
+      if (fromParam && toParam) {
+        loadPositions(Number(deviceIdParam), fromParam, toParam, true);
+      } else {
+        // No from/to → default to today
+        const today = dayjs();
+        const todayFrom = today.startOf('day').toISOString();
+        const todayTo = today.endOf('day').toISOString();
+        const newParams = new URLSearchParams(params);
+        newParams.set('from', todayFrom);
+        newParams.set('to', todayTo);
+        setSearchParams(newParams, { replace: true });
+        loadPositions(Number(deviceIdParam), todayFrom, todayTo, true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadPositions = async (deviceId, from, to, autoPlay) => {
+    setLoading(true);
+    setSelectedDeviceId(deviceId);
+    const query = new URLSearchParams({ deviceId, from, to });
+    try {
+      const response = await fetchOrThrow(`/api/positions?${query.toString()}`);
+      setIndex(0);
+      const data = await response.json();
+      setPositions(data);
+      if (!data.length) {
+        throw Error(t('sharedNoData'));
+      }
+      if (autoPlay && data.length) {
+        setPlaying(true);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onDaySelect = useCallback(
+    (deviceId, from, to) => {
+      const newParams = new URLSearchParams(searchParams);
+      newParams.set('deviceId', deviceId);
+      newParams.set('from', from);
+      newParams.set('to', to);
+      setSearchParams(newParams, { replace: true });
+      loadPositions(deviceId, from, to, false);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [searchParams, setSearchParams],
+  );
+
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
   const onPointClick = useCallback(
     (_, index) => {
       setIndex(index);
@@ -145,6 +243,7 @@ const ReplayPage = () => {
     [setShowCard],
   );
 
+<<<<<<< HEAD
   const onShow = useCatchCallback(
     async ({ deviceIds, from, to }) => {
       const deviceId = deviceIds.find(() => true);
@@ -167,6 +266,8 @@ const ReplayPage = () => {
     [t],
   );
 
+=======
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
   const handleDownload = () => {
     const query = new URLSearchParams({ deviceId: selectedDeviceId, from, to });
     window.location.assign(`/api/positions/kml?${query.toString()}`);
@@ -199,6 +300,7 @@ const ReplayPage = () => {
               {t('reportReplay')}
             </Typography>
             {loaded && (
+<<<<<<< HEAD
               <>
                 <IconButton onClick={handleDownload}>
                   <DownloadIcon />
@@ -207,15 +309,45 @@ const ReplayPage = () => {
                   <TuneIcon />
                 </IconButton>
               </>
+=======
+              <IconButton onClick={handleDownload}>
+                <DownloadIcon />
+              </IconButton>
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
             )}
           </Toolbar>
         </Paper>
         <Paper className={classes.content} square>
+<<<<<<< HEAD
           {loaded && !filterOpen && (
             <>
               <Typography variant="subtitle1" align="center">
                 {deviceName}
               </Typography>
+=======
+          <div style={{ padding: '8px 12px 0' }}>
+            <SelectField
+              label={t('reportDevice')}
+              data={deviceList}
+              value={selectedDeviceId}
+              onChange={(e) => setSelectedDeviceId(e.target.value)}
+              fullWidth
+            />
+          </div>
+          {selectedDeviceId ? (
+            <ReplayCalendar
+              selectedDeviceId={selectedDeviceId}
+              selectedDate={from}
+              onDaySelect={onDaySelect}
+            />
+          ) : (
+            <Typography variant="body2" align="center" style={{ padding: 16, color: '#888' }}>
+              {t('reportDevice')}
+            </Typography>
+          )}
+          {loaded && (
+            <>
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
               <Slider
                 className={classes.slider}
                 max={positions.length - 1}
@@ -250,9 +382,12 @@ const ReplayPage = () => {
               </div>
             </>
           )}
+<<<<<<< HEAD
           <div style={{ display: loaded && !filterOpen ? 'none' : 'block' }}>
             <ReportFilter onShow={onShow} deviceType="single" loading={loading} />
           </div>
+=======
+>>>>>>> e8f8d976 (Initial commit: Added calendar to playback page)
         </Paper>
       </div>
       {showCard && index < positions.length && (
