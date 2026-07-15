@@ -37,6 +37,7 @@ import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
   ['startTime', 'reportStartDate'],
+  ['endTime', 'reportEndDate'],
   ['distance', 'sharedDistance'],
   ['startOdometer', 'reportStartOdometer'],
   ['endOdometer', 'reportEndOdometer'],
@@ -68,13 +69,22 @@ const SummaryReportPage = () => {
     'distance',
     'averageSpeed',
   ]);
-  const daily = searchParams.get('daily') === 'true';
+
+  const supportedReportPeriods = {
+    'none': 'reportSummary',
+    'daily': 'periodIntervalDaily',
+    'weekly': 'periodIntervalWeekly',
+    'monthly': 'periodIntervalMonthly',
+    'yearly': 'periodIntervalYearly'
+  };
+  const reportIntervalKey = searchParams.get('reportInterval');
+  const reportInterval = supportedReportPeriods[reportIntervalKey] ? reportIntervalKey : 'none';
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const onShow = useCatchCallback(
     async ({ deviceIds, groupIds, from, to }) => {
-      const query = new URLSearchParams({ from, to, daily });
+      const query = new URLSearchParams({ from, to, reportInterval });
       deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
       groupIds.forEach((groupId) => query.append('groupId', groupId));
       setLoading(true);
@@ -87,7 +97,7 @@ const SummaryReportPage = () => {
         setLoading(false);
       }
     },
-    [daily],
+    [reportInterval],
   );
 
   const onExport = useCatch(async () => {
@@ -104,7 +114,7 @@ const SummaryReportPage = () => {
     if (rows.length === 0) {
       return;
     }
-    const titleKey = daily ? 'reportDaily' : 'reportSummary';
+    const titleKey = supportedReportPeriods[reportInterval] ?? 'reportSummary';
     const title = t(titleKey);
     const sheets = new Map([[title, rows]]);
     await exportExcel(title, 'summary.xlsx', sheets, theme);
@@ -112,7 +122,7 @@ const SummaryReportPage = () => {
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
     report.type = 'summary';
-    report.attributes.daily = daily;
+    report.attributes.reportInterval = reportInterval;
     await scheduleReport(deviceIds, groupIds, report);
     navigate('/reports/scheduled');
   });
@@ -123,6 +133,7 @@ const SummaryReportPage = () => {
       case 'deviceId':
         return devices[value].name;
       case 'startTime':
+      case 'endTime':
         return formatTime(value, 'date');
       case 'startOdometer':
       case 'endOdometer':
@@ -158,15 +169,18 @@ const SummaryReportPage = () => {
               <InputLabel>{t('sharedType')}</InputLabel>
               <Select
                 label={t('sharedType')}
-                value={daily}
+                value={reportInterval}
                 onChange={(e) =>
-                  updateReportParams(searchParams, setSearchParams, 'daily', [
+                  updateReportParams(searchParams, setSearchParams, 'reportInterval', [
                     String(e.target.value),
                   ])
                 }
               >
-                <MenuItem value={false}>{t('reportSummary')}</MenuItem>
-                <MenuItem value>{t('reportDaily')}</MenuItem>
+                <MenuItem value={'none'}>{t('reportSummary')}</MenuItem>
+                <MenuItem value={'daily'}>{t('periodIntervalDaily')}</MenuItem>
+                <MenuItem value={'weekly'}>{t('periodIntervalWeekly')}</MenuItem>
+                <MenuItem value={'monthly'}>{t('periodIntervalMonthly')}</MenuItem>
+                <MenuItem value={'yearly'}>{t('periodIntervalYearly')}</MenuItem>
               </Select>
             </FormControl>
           </div>
