@@ -33,6 +33,9 @@ const SocketController = () => {
   const authenticated = useSelector((state) => Boolean(state.session.user));
   const includeLogs = useSelector((state) => state.session.includeLogs);
 
+  const includeLogsRef = useRef(includeLogs);
+  includeLogsRef.current = includeLogs;
+
   const socketRef = useRef();
   const reconnectTimeoutRef = useRef();
 
@@ -91,6 +94,7 @@ const SocketController = () => {
 
     socket.onopen = () => {
       dispatch(sessionActions.updateSocket(true));
+      socket.send(JSON.stringify({ logs: includeLogsRef.current }));
     };
 
     socket.onclose = async (event) => {
@@ -141,7 +145,10 @@ const SocketController = () => {
   connectSocketRef.current = connectSocket;
 
   useEffect(() => {
-    socketRef.current?.send(JSON.stringify({ logs: includeLogs }));
+    const socket = socketRef.current;
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({ logs: includeLogs }));
+    }
   }, [includeLogs]);
 
   useAsyncTask(
