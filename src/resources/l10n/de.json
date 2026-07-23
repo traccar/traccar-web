@@ -440,7 +440,7 @@
     "mapPoiLayer": "POI Ebene",
     "mapClustering": "Marker zusammenfassen",
     "mapOnSelect": "Karte bei Auswahl anzeigen",
-    "mapDefault": "Standartkarte",
+    "mapDefault": "Standardkarte",
     "stateTitle": "Status",
     "stateName": "Parameter",
     "stateValue": "Wert",
