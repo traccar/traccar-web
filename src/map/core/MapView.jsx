@@ -1,5 +1,6 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import { googleProtocol } from 'maplibre-google-maps';
 import { Protocol } from 'pmtiles';
 import { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
@@ -16,6 +17,7 @@ element.style.width = '100%';
 element.style.height = '100%';
 element.style.boxSizing = 'initial';
 
+maplibregl.setWorkerUrl(maplibreWorkerUrl);
 maplibregl.addProtocol('google', googleProtocol);
 maplibregl.addProtocol('pmtiles', new Protocol().tile);
 
@@ -68,7 +70,6 @@ const MapView = ({ children }) => {
     'selectedMapStyle',
     usePreference('map', 'locationIqStreets'),
   );
-  const mapboxAccessToken = useAttributePreference('mapboxAccessToken');
   const maxZoom = useAttributePreference('web.maxZoom');
 
   const styles = useMemo(() => {
@@ -98,10 +99,6 @@ const MapView = ({ children }) => {
       map.setMaxZoom(maxZoom);
     }
   }, [maxZoom]);
-
-  useEffect(() => {
-    maplibregl.accessToken = mapboxAccessToken;
-  }, [mapboxAccessToken]);
 
   useEffect(() => {
     const style = styles.find((s) => s.id === selectedStyleId);

@@ -22,10 +22,8 @@ export const fromMapCoordinates = (longitude, latitude) =>
     ? gcoord.transform([longitude, latitude], coordinateSystem(map.coordinateSystem), gcoord.WGS84)
     : [longitude, latitude];
 
-const transformGeometry = (geometry, from, to) => ({
-  ...geometry,
-  coordinates: gcoord.transform(structuredClone(geometry.coordinates), from, to),
-});
+const transformGeometry = (geometry, from, to) =>
+  gcoord.transform(structuredClone(geometry), from, to);
 
 export const loadImage = (url) =>
   new Promise((imageLoaded) => {

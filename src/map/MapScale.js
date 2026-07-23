@@ -1,4 +1,4 @@
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
 import { useEffect, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import { useAttributePreference } from '../common/util/preferences';
