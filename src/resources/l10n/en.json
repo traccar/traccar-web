@@ -542,6 +542,7 @@
     "alarmLowPower": "Low Power",
     "alarmLowBattery": "Low Battery",
     "alarmFault": "Fault",
+    "alarmStorageFailure": "Storage Failure",
     "alarmPowerOff": "Power Off",
     "alarmPowerOn": "Power On",
     "alarmDoor": "Door",
