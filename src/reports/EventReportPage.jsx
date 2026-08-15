@@ -53,6 +53,7 @@ const EventReportPage = () => {
     deviceEquality(['id', 'name', 'uniqueId']),
   );
   const geofences = useSelector((state) => state.geofences.items);
+  const maintenances = useSelector((state) => state.maintenances.items);
 
   const speedUnit = useAttributePreference('speedUnit');
   const coordinateFormat = usePreference('coordinateFormat');
@@ -189,7 +190,11 @@ const EventReportPage = () => {
         }
         return null;
       case 'maintenanceId':
-        return value > 0 ? value : null;
+        if (value > 0) {
+          const maintenance = maintenances[value];
+          return maintenance && maintenance.name;
+        }
+        return null;
       case 'address': {
         const position = positions[item.positionId];
         if (position) {
