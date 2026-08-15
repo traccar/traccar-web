@@ -405,6 +405,8 @@
     "mapBingHybrid": "Bing Maps Hybrid",
     "mapBaidu": "Baidu",
     "mapAutoNavi": "AutoNavi",
+    "mapAutoNaviSatellite": "AutoNavi Satellite",
+    "mapTencentMap": "Tencent Map",
     "mapYandexMap": "Yandex Map",
     "mapYandexSat": "Yandex Satellite",
     "mapWikimedia": "Wikimedia",

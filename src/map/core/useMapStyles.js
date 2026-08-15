@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import { useAttributePreference } from '../../common/util/preferences';
 
-const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
+const styleCustom = ({ tiles, minZoom, maxZoom, attribution, scheme }) => {
   const source = {
     type: 'raster',
     tiles,
@@ -11,6 +11,7 @@ const styleCustom = ({ tiles, minZoom, maxZoom, attribution }) => {
     tileSize: 256,
     minzoom: minZoom,
     maxzoom: maxZoom,
+    scheme,
   };
   Object.keys(source).forEach((key) => source[key] === undefined && delete source[key]);
   return {
@@ -260,6 +261,33 @@ export default () => {
               `https://webrd0${i}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}`,
           ),
           minZoom: 3,
+          maxZoom: 18,
+        }),
+        coordinateSystem: 'gcj02',
+        available: true,
+      },
+      {
+        id: 'autoNaviSatellite',
+        title: t('mapAutoNaviSatellite'),
+        style: styleCustom({
+          tiles: [1, 2, 3, 4].map(
+            (i) => `https://webst0${i}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}`,
+          ),
+          minZoom: 3,
+          maxZoom: 18,
+        }),
+        coordinateSystem: 'gcj02',
+        available: true,
+      },
+      {
+        id: 'tencentMap',
+        title: t('mapTencentMap'),
+        style: styleCustom({
+          tiles: [0, 1, 2, 3].map(
+            (i) => `https://rt${i}.map.gtimg.com/tile?z={z}&x={x}&y={y}&type=vector&styleid=3`,
+          ),
+          scheme: 'tms',
+          minZoom: 4,
           maxZoom: 18,
         }),
         coordinateSystem: 'gcj02',

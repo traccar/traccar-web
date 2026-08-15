@@ -39,6 +39,17 @@ export default () => {
         attribute: 'googleKey',
       },
       {
+        id: 'autoNaviLabels',
+        title: t('mapAutoNavi'),
+        source: sourceCustom(
+          [1, 2, 3, 4].map(
+            (i) => `https://webst0${i}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}`,
+          ),
+          18,
+        ),
+        available: true,
+      },
+      {
         id: 'openSeaMap',
         title: t('mapOpenSeaMap'),
         source: sourceCustom(['https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png'], 18),
