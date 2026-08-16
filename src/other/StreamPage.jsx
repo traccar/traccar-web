@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Typography, IconButton, Toolbar, Paper, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { default as Hls, Events } from 'hls.js/light';
+import { default as Hls, Events, ErrorTypes } from 'hls.js/light';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -35,12 +35,49 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
+const ChannelPlayer = ({ classes, deviceId, channel, setError, sendCommand }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    let retryTimeout;
+
+    setError(false);
+    sendCommand('videoStart', { index: channel });
+
+    const hls = new Hls();
+    hls.loadSource(`/api/stream/${deviceId}/${channel}/live.m3u8`);
+    hls.attachMedia(videoRef.current);
+    hls.on(Events.MANIFEST_PARSED, () => videoRef.current?.play());
+    hls.on(Events.ERROR, (_, data) => {
+      if (!data.fatal) {
+        return;
+      }
+      setError(true);
+      clearTimeout(retryTimeout);
+      retryTimeout = setTimeout(() => {
+        setError(false);
+        if (data.type === ErrorTypes.MEDIA_ERROR) {
+          hls.recoverMediaError();
+        } else {
+          hls.startLoad();
+        }
+      }, 5000);
+    });
+
+    return () => {
+      clearTimeout(retryTimeout);
+      hls.destroy();
+      sendCommand('videoStop', { index: channel });
+    };
+  }, [deviceId, channel, sendCommand, setError]);
+
+  return <video ref={videoRef} className={classes.player} autoPlay muted controls />;
+};
+
 const StreamPage = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const t = useTranslation();
-
-  const videoRef = useRef(null);
 
   const [channel, setChannel] = useState(1);
   const [activeChannel, setActiveChannel] = useState(null);
@@ -62,23 +99,6 @@ const StreamPage = () => {
     },
     [deviceId],
   );
-
-  useEffect(() => {
-    if (activeChannel !== null) {
-      sendCommand('videoStart', { index: activeChannel });
-      const hls = new Hls();
-      hls.loadSource(`/api/stream/${deviceId}/${activeChannel}/live.m3u8`);
-      hls.attachMedia(videoRef.current);
-      hls.on(Events.MANIFEST_PARSED, () => videoRef.current.play());
-      hls.on(Events.ERROR, (_, data) => {
-        if (data.fatal) setError(true);
-      });
-      return () => {
-        hls.destroy();
-        sendCommand('videoStop', { index: activeChannel });
-      };
-    }
-  }, [deviceId, activeChannel, sendCommand]);
 
   return (
     <div className={classes.root}>
@@ -113,8 +133,14 @@ const StreamPage = () => {
       </Paper>
       <div className={classes.video}>
         {error && <Typography>{t('errorConnection')}</Typography>}
-        {playing && !error && (
-          <video ref={videoRef} className={classes.player} autoPlay muted controls />
+        {playing && (
+          <ChannelPlayer
+            classes={classes}
+            deviceId={deviceId}
+            channel={activeChannel}
+            setError={setError}
+            sendCommand={sendCommand}
+          />
         )}
       </div>
     </div>
