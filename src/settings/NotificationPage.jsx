@@ -74,7 +74,7 @@ const NotificationPage = () => {
                 titleGetter={(it) => t(prefixString('event', it.type))}
                 label={t('sharedType')}
                 helperText={
-                  ['geofenceEnter', 'geofenceExit'].includes(item.type)
+                  ['geofenceEnter', 'geofenceExit', 'geofenceCrossed'].includes(item.type)
                     ? t('notificationGeofenceLabel')
                     : null
                 }
@@ -153,7 +153,7 @@ const NotificationPage = () => {
                 endpoint="/api/calendars"
                 label={t('sharedCalendar')}
               />
-              {['geofenceEnter', 'geofenceExit'].includes(item.type) && (
+              {['geofenceEnter', 'geofenceExit', 'geofenceCrossed'].includes(item.type) && (
                 <SelectField
                   multiple
                   value={item.attributes?.geofenceIds ? item.attributes.geofenceIds.split(',') : []}

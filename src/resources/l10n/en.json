@@ -521,6 +521,7 @@
     "eventCommandResult": "Command result",
     "eventGeofenceEnter": "Geofence entered",
     "eventGeofenceExit": "Geofence exited",
+    "eventGeofenceCrossed": "Geofence crossed",
     "eventProximityEnter": "Linked device nearby",
     "eventProximityExit": "Linked device away",
     "eventUnaccompaniedMotion": "Moving unaccompanied",
