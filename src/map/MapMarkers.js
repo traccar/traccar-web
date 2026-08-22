@@ -60,10 +60,10 @@ const MapMarkers = ({ markers, showTitles, cluster, direction, onClick, disabled
             'icon-allow-overlap': true,
             'symbol-sort-key': ['get', 'id'],
           },
-      paint: showTitles ? { 'text-halo-color': 'white', 'text-halo-width': 1 } : undefined,
-      on: onClick
-        ? { mouseenter: onMouseEnter, mouseleave: onMouseLeave, click: onMarkerClick }
-        : undefined,
+      ...(showTitles ? { paint: { 'text-halo-color': 'white', 'text-halo-width': 1 } } : {}),
+      ...(onClick
+        ? { on: { mouseenter: onMouseEnter, mouseleave: onMouseLeave, click: onMarkerClick } }
+        : {}),
     },
   ];
 
