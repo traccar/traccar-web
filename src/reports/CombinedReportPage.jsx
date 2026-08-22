@@ -15,6 +15,8 @@ import MapGeofence from '../map/MapGeofence';
 import { formatTime } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
 import { useAttributePreference } from '../common/util/preferences';
+import usePersistedState from '../common/util/usePersistedState';
+import ColumnSelect from './components/ColumnSelect';
 import MapMarkers from '../map/MapMarkers';
 import MapRouteCoordinates from '../map/MapRouteCoordinates';
 import MapScale from '../map/MapScale';
@@ -22,6 +24,16 @@ import AddressValue from '../common/components/AddressValue';
 import formatEventData from './common/formatEventData';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import { deviceEquality } from '../common/util/deviceEquality';
+
+const columnsArray = [
+  ['eventTime', 'positionFixTime'],
+  ['type', 'sharedType'],
+  ['address', 'positionAddress'],
+  ['attributes', 'commandData'],
+];
+const columnsMap = new Map(columnsArray);
+
+const eventPosition = (item, event) => item.positions.find((p) => p.id === event.positionId);
 
 const CombinedReportPage = () => {
   const { classes } = useReportStyles();
@@ -31,9 +43,13 @@ const CombinedReportPage = () => {
     (state) => state.devices.items,
     deviceEquality(['id', 'name', 'uniqueId']),
   );
-
   const speedUnit = useAttributePreference('speedUnit');
 
+  const [columns, setColumns] = usePersistedState('combinedColumns', [
+    'eventTime',
+    'type',
+    'attributes',
+  ]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -41,7 +57,7 @@ const CombinedReportPage = () => {
 
   const markers = items.flatMap((item) =>
     item.events
-      .map((event) => item.positions.find((p) => event.positionId === p.id))
+      .map((event) => eventPosition(item, event))
       .filter((position) => position != null)
       .map((position) => ({
         latitude: position.latitude,
@@ -61,6 +77,37 @@ const CombinedReportPage = () => {
       setLoading(false);
     }
   }, []);
+
+  const formatValue = (item, event, key) => {
+    const value = event[key];
+    switch (key) {
+      case 'eventTime':
+        return formatTime(value, 'seconds');
+      case 'type':
+        return t(prefixString('event', value));
+      case 'address': {
+        const position = eventPosition(item, event);
+        if (position) {
+          return (
+            <AddressValue
+              latitude={position.latitude}
+              longitude={position.longitude}
+              originalAddress={position.address}
+            />
+          );
+        }
+        return '';
+      }
+      case 'attributes':
+        return formatEventData(event, {
+          deviceUniqueId: devices[item.deviceId]?.uniqueId,
+          speedUnit,
+          t,
+        });
+      default:
+        return value;
+    }
+  };
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportCombined']}>
@@ -88,50 +135,33 @@ const CombinedReportPage = () => {
         )}
         <div className={classes.containerMain}>
           <div className={classes.header}>
-            <ReportFilter onShow={onShow} deviceType="multiple" loading={loading} />
+            <ReportFilter onShow={onShow} deviceType="multiple" loading={loading}>
+              <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
+            </ReportFilter>
           </div>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>{t('sharedDevice')}</TableCell>
-                <TableCell>{t('positionFixTime')}</TableCell>
-                <TableCell>{t('sharedType')}</TableCell>
-                <TableCell>{t('positionAddress')}</TableCell>
-                <TableCell>{t('commandData')}</TableCell>
+                {columns.map((key) => (
+                  <TableCell key={key}>{t(columnsMap.get(key))}</TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {!loading ? (
                 items.flatMap((item) =>
-                  item.events.map((event, index) => {
-                    const position = item.positions.find((p) => p.id === event.positionId);
-                    return (
-                      <TableRow key={event.id}>
-                        <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
-                        <TableCell>{formatTime(event.eventTime, 'seconds')}</TableCell>
-                        <TableCell>{t(prefixString('event', event.type))}</TableCell>
-                        <TableCell>
-                          {position && (
-                            <AddressValue
-                              latitude={position.latitude}
-                              longitude={position.longitude}
-                              originalAddress={position.address}
-                            />
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {formatEventData(event, {
-                            deviceUniqueId: devices[item.deviceId]?.uniqueId,
-                            speedUnit,
-                            t,
-                          })}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  }),
+                  item.events.map((event, index) => (
+                    <TableRow key={event.id}>
+                      <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
+                      {columns.map((key) => (
+                        <TableCell key={key}>{formatValue(item, event, key)}</TableCell>
+                      ))}
+                    </TableRow>
+                  )),
                 )
               ) : (
-                <TableShimmer columns={5} />
+                <TableShimmer columns={columns.length + 1} />
               )}
             </TableBody>
           </Table>
