@@ -22,12 +22,13 @@ import ResizeHandle from './components/ResizeHandle';
 import usePersistedState from '../common/util/usePersistedState';
 import { useCatch, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
-import MapPositions from '../map/MapPositions';
+import MapMarkers from '../map/MapMarkers';
 import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
 import AddressValue from '../common/components/AddressValue';
 import TableShimmer from '../common/components/TableShimmer';
 import MapGeofence from '../map/MapGeofence';
+import { mapIconKey } from '../map/core/preloadImages';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -138,6 +139,13 @@ const StopReportPage = () => {
     }
   };
 
+  const selectedMarker = selectedItem && {
+    latitude: selectedItem.latitude,
+    longitude: selectedItem.longitude,
+    image: `${mapIconKey(devices[selectedItem.deviceId]?.category)}-neutral`,
+    title: formatTime(selectedItem.startTime, 'seconds'),
+  };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
       <div className={classes.container}>
@@ -146,17 +154,7 @@ const StopReportPage = () => {
             <div className={classes.containerMap}>
               <MapView>
                 <MapGeofence />
-                <MapPositions
-                  positions={[
-                    {
-                      deviceId: selectedItem.deviceId,
-                      fixTime: selectedItem.startTime,
-                      latitude: selectedItem.latitude,
-                      longitude: selectedItem.longitude,
-                    },
-                  ]}
-                  titleField="fixTime"
-                />
+                <MapMarkers markers={[selectedMarker]} showTitles />
               </MapView>
               <MapScale />
               <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />

@@ -12,7 +12,7 @@ import MapPadding from '../map/MapPadding';
 import { devicesActions } from '../store';
 import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
-import MapPositions from '../map/MapPositions';
+import MapPositionMarkers from '../map/MapPositionMarkers';
 import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/control/MapGeocoder';
 import MapScale from '../map/MapScale';
@@ -46,7 +46,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
         <MapLiveRoutes deviceIds={filteredPositions.map((p) => p.deviceId)} />
-        <MapPositions
+        <MapPositionMarkers
           positions={filteredPositions}
           onMarkerClick={onMarkerClick}
           selectedPosition={selectedPosition}

@@ -7,7 +7,7 @@ import { useAsyncTask } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapView from '../map/core/MapView';
 import MapCamera from '../map/MapCamera';
-import MapPositions from '../map/MapPositions';
+import MapPositionMarkers from '../map/MapPositionMarkers';
 import MapGeofence from '../map/MapGeofence';
 import StatusCard from '../common/components/StatusCard';
 import { formatNotificationTitle } from '../common/util/formatter';
@@ -92,7 +92,7 @@ const EventPage = () => {
         <MapView>
           <MapGeofence />
           {position && (
-            <MapPositions
+            <MapPositionMarkers
               positions={[position]}
               onMarkerClick={onMarkerClick}
               titleField="fixTime"

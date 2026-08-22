@@ -77,7 +77,7 @@ const TripReportPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [route, setRoute] = useState(null);
 
-  const createMarkers = () => [
+  const markers = selectedItem && [
     {
       latitude: selectedItem.startLat,
       longitude: selectedItem.startLon,
@@ -226,7 +226,7 @@ const TripReportPage = () => {
                 {route && (
                   <>
                     <MapRoutePath positions={route} />
-                    <MapMarkers markers={createMarkers()} />
+                    <MapMarkers markers={markers} />
                     <MapCamera positions={route} />
                   </>
                 )}

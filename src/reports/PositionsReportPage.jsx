@@ -15,7 +15,7 @@ import { useCatch, useCatchCallback } from '../reactHelper';
 import MapView from '../map/core/MapView';
 import MapRoutePath from '../map/MapRoutePath';
 import MapRoutePoints from '../map/MapRoutePoints';
-import MapPositions from '../map/MapPositions';
+import MapPositionMarkers from '../map/MapPositionMarkers';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import MapCamera from '../map/MapCamera';
@@ -133,7 +133,7 @@ const PositionsReportPage = () => {
                     </Fragment>
                   );
                 })}
-                <MapPositions positions={[selectedItem]} titleField="fixTime" />
+                <MapPositionMarkers positions={[selectedItem]} titleField="fixTime" />
               </MapView>
               <MapScale />
               <MapCamera positions={items} />

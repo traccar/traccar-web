@@ -18,7 +18,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/control/MapGeocoder';
 import SelectField from '../common/components/SelectField';
 import { devicesActions } from '../store';
-import MapPositions from '../map/MapPositions';
+import MapPositionMarkers from '../map/MapPositionMarkers';
 import { useCatch } from '../reactHelper';
 import MapScale from '../map/MapScale';
 import BackIcon from '../common/components/BackIcon';
@@ -135,7 +135,7 @@ const EmulatorPage = () => {
         </Drawer>
         <div className={classes.mapContainer}>
           <MapView>
-            <MapPositions
+            <MapPositionMarkers
               positions={Object.values(positions)}
               onMapClick={handleClick}
               showStatus

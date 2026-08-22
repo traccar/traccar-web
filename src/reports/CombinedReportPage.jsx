@@ -31,16 +31,15 @@ const CombinedReportPage = () => {
 
   const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
 
-  const createMarkers = () =>
-    items.flatMap((item) =>
-      item.events
-        .map((event) => item.positions.find((p) => event.positionId === p.id))
-        .filter((position) => position != null)
-        .map((position) => ({
-          latitude: position.latitude,
-          longitude: position.longitude,
-        })),
-    );
+  const markers = items.flatMap((item) =>
+    item.events
+      .map((event) => item.positions.find((p) => event.positionId === p.id))
+      .filter((position) => position != null)
+      .map((position) => ({
+        latitude: position.latitude,
+        longitude: position.longitude,
+      })),
+  );
 
   const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
@@ -71,7 +70,7 @@ const CombinedReportPage = () => {
                     deviceId={item.deviceId}
                   />
                 ))}
-                <MapMarkers markers={createMarkers()} />
+                <MapMarkers markers={markers} />
               </MapView>
               <MapScale />
               <MapCamera coordinates={itemsCoordinates} />

@@ -20,7 +20,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
 import MapView from '../map/core/MapView';
 import MapGeofence from '../map/MapGeofence';
-import MapPositions from '../map/MapPositions';
+import MapPositionMarkers from '../map/MapPositionMarkers';
 import MapCamera from '../map/MapCamera';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
@@ -246,7 +246,7 @@ const EventReportPage = () => {
             <div className={classes.containerMap}>
               <MapView>
                 <MapGeofence />
-                {position && <MapPositions positions={[position]} titleField="fixTime" />}
+                {position && <MapPositionMarkers positions={[position]} titleField="fixTime" />}
               </MapView>
               <MapScale />
               {position && (
