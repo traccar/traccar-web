@@ -1,16 +1,15 @@
-import { useId, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { kml } from '@tmcw/togeojson';
+import gcoord from 'gcoord';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
+import useMapLayer from '../core/useMapLayer';
 import { useAsyncTask } from '../../reactHelper';
 import { usePreference } from '../../common/util/preferences';
-import gcoord from 'gcoord';
 import { findFonts } from '../core/mapUtil';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const PoiMap = () => {
-  const id = useId();
-
   const theme = useTheme();
   const t = useTranslation();
 
@@ -23,24 +22,22 @@ const PoiMap = () => {
       if (poiLayer) {
         const file = await fetch(poiLayer, { signal });
         const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
-        setData(kml(dom));
+        const parsed = kml(dom);
+        setData(
+          map.coordinateSystem === 'gcj02'
+            ? gcoord.transform(parsed, gcoord.WGS84, gcoord.GCJ02)
+            : parsed,
+        );
       }
     },
     [poiLayer],
   );
 
-  useEffect(() => {
-    if (data) {
-      map.addSource(id, {
-        type: 'geojson',
-        data:
-          map.coordinateSystem === 'gcj02'
-            ? gcoord.transform(structuredClone(data), gcoord.WGS84, gcoord.GCJ02)
-            : data,
-      });
-      map.addLayer({
-        source: id,
-        id: 'poi-fill',
+  useMapLayer({
+    enabled: !!data,
+    layers: [
+      {
+        key: 'fill',
         type: 'fill',
         filter: ['==', '$type', 'Polygon'],
         metadata: { 'traccar:title': t('mapPoiLayer') },
@@ -48,20 +45,18 @@ const PoiMap = () => {
           'fill-color': ['coalesce', ['get', 'fill'], theme.palette.geometry.main],
           'fill-opacity': ['coalesce', ['get', 'fill-opacity'], 0.3],
         },
-      });
-      map.addLayer({
-        source: id,
-        id: 'poi-point',
+      },
+      {
+        key: 'point',
         type: 'circle',
         metadata: { 'traccar:title': t('mapPoiLayer') },
         paint: {
           'circle-radius': 5,
           'circle-color': ['coalesce', ['get', 'icon-color'], theme.palette.geometry.main],
         },
-      });
-      map.addLayer({
-        source: id,
-        id: 'poi-line',
+      },
+      {
+        key: 'line',
         type: 'line',
         metadata: { 'traccar:title': t('mapPoiLayer') },
         paint: {
@@ -69,10 +64,9 @@ const PoiMap = () => {
           'line-width': ['coalesce', ['get', 'stroke-width'], 2],
           'line-opacity': ['coalesce', ['get', 'stroke-opacity'], 1],
         },
-      });
-      map.addLayer({
-        source: id,
-        id: 'poi-title',
+      },
+      {
+        key: 'title',
         type: 'symbol',
         metadata: { 'traccar:title': t('mapPoiLayer') },
         layout: {
@@ -86,27 +80,12 @@ const PoiMap = () => {
           'text-halo-color': 'white',
           'text-halo-width': 1,
         },
-      });
-      return () => {
-        if (map.getLayer('poi-title')) {
-          map.removeLayer('poi-title');
-        }
-        if (map.getLayer('poi-line')) {
-          map.removeLayer('poi-line');
-        }
-        if (map.getLayer('poi-point')) {
-          map.removeLayer('poi-point');
-        }
-        if (map.getLayer('poi-fill')) {
-          map.removeLayer('poi-fill');
-        }
-        if (map.getSource(id)) {
-          map.removeSource(id);
-        }
-      };
-    }
-    return () => {};
-  }, [data, id, t, theme.palette.geometry.main]);
+      },
+    ],
+    layersDeps: [t, theme.palette.geometry.main, data],
+    data,
+    dataDeps: [data],
+  });
 
   return null;
 };
