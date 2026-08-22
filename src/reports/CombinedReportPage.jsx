@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
+import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import ReportFilter from './components/ReportFilter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -52,8 +54,11 @@ const CombinedReportPage = () => {
   ]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   const itemsCoordinates = useMemo(() => items.flatMap((item) => item.route), [items]);
+
+  const selectedPosition = selected && eventPosition(selected.item, selected.event);
 
   const markers = items.flatMap((item) =>
     item.events
@@ -69,6 +74,7 @@ const CombinedReportPage = () => {
     const query = new URLSearchParams({ from, to });
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
     groupIds.forEach((groupId) => query.append('groupId', groupId));
+    setSelected(null);
     setLoading(true);
     try {
       const response = await fetchOrThrow(`/api/reports/combined?${query.toString()}`);
@@ -128,7 +134,14 @@ const CombinedReportPage = () => {
                 <MapMarkers markers={markers} />
               </MapView>
               <MapScale />
-              <MapCamera coordinates={itemsCoordinates} />
+              {selectedPosition ? (
+                <MapCamera
+                  latitude={selectedPosition.latitude}
+                  longitude={selectedPosition.longitude}
+                />
+              ) : (
+                <MapCamera coordinates={itemsCoordinates} />
+              )}
             </div>
             <ResizeHandle />
           </>
@@ -142,6 +155,7 @@ const CombinedReportPage = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell className={classes.columnAction} />
                 <TableCell>{t('sharedDevice')}</TableCell>
                 {columns.map((key) => (
                   <TableCell key={key}>{t(columnsMap.get(key))}</TableCell>
@@ -153,6 +167,19 @@ const CombinedReportPage = () => {
                 items.flatMap((item) =>
                   item.events.map((event, index) => (
                     <TableRow key={event.id}>
+                      <TableCell className={classes.columnAction} padding="none">
+                        {(event.positionId &&
+                          (selected?.event === event ? (
+                            <IconButton size="small" onClick={() => setSelected(null)}>
+                              <GpsFixedIcon fontSize="small" />
+                            </IconButton>
+                          ) : (
+                            <IconButton size="small" onClick={() => setSelected({ item, event })}>
+                              <LocationSearchingIcon fontSize="small" />
+                            </IconButton>
+                          ))) ||
+                          ''}
+                      </TableCell>
                       <TableCell>{index ? '' : devices[item.deviceId].name}</TableCell>
                       {columns.map((key) => (
                         <TableCell key={key}>{formatValue(item, event, key)}</TableCell>
@@ -161,7 +188,7 @@ const CombinedReportPage = () => {
                   )),
                 )
               ) : (
-                <TableShimmer columns={columns.length + 1} />
+                <TableShimmer columns={columns.length + 2} />
               )}
             </TableBody>
           </Table>
