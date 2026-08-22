@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Table, TableHead, TableRow, TableCell, TableBody, Link, IconButton } from '@mui/material';
+import { Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { formatAddress, formatNumber, formatSpeed, formatTime } from '../common/util/formatter';
+import { formatAddress, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
 import { useTranslation, useTranslationKeys } from '../common/components/LocalizationProvider';
@@ -28,6 +28,7 @@ import SelectField from '../common/components/SelectField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import exportExcel from '../common/util/exportExcel';
 import AddressValue from '../common/components/AddressValue';
+import formatEventData from './common/formatEventData';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -209,30 +210,11 @@ const EventReportPage = () => {
         return '';
       }
       case 'attributes':
-        switch (item.type) {
-          case 'alarm':
-            return t(prefixString('alarm', item.attributes.alarm));
-          case 'deviceOverspeed':
-            return formatSpeed(item.attributes.speed, speedUnit, t);
-          case 'driverChanged':
-            return item.attributes.driverUniqueId;
-          case 'deviceFuelDrop':
-          case 'deviceFuelIncrease':
-            return formatNumber(Math.abs(item.attributes.after - item.attributes.before));
-          case 'media':
-            return (
-              <Link
-                href={`/api/media/${devices[item.deviceId]?.uniqueId}/${item.attributes.file}`}
-                target="_blank"
-              >
-                {item.attributes.file}
-              </Link>
-            );
-          case 'commandResult':
-            return item.attributes.result;
-          default:
-            return '';
-        }
+        return formatEventData(item, {
+          deviceUniqueId: devices[item.deviceId]?.uniqueId,
+          speedUnit,
+          t,
+        });
       default:
         return value;
     }
