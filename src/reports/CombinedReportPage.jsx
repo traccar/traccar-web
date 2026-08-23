@@ -24,6 +24,7 @@ import MapRouteCoordinates from '../map/MapRouteCoordinates';
 import MapScale from '../map/MapScale';
 import AddressValue from '../common/components/AddressValue';
 import formatEventData from './common/formatEventData';
+import { eventIconKey } from '../map/core/preloadImages';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import { deviceEquality } from '../common/util/deviceEquality';
 
@@ -62,11 +63,12 @@ const CombinedReportPage = () => {
 
   const markers = items.flatMap((item) =>
     item.events
-      .map((event) => eventPosition(item, event))
-      .filter((position) => position != null)
-      .map((position) => ({
+      .map((event) => ({ event, position: eventPosition(item, event) }))
+      .filter(({ position }) => position != null)
+      .map(({ event, position }) => ({
         latitude: position.latitude,
         longitude: position.longitude,
+        image: eventIconKey(event.type),
       })),
   );
 

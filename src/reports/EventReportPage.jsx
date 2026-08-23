@@ -20,7 +20,7 @@ import TableShimmer from '../common/components/TableShimmer';
 import { useAttributePreference, usePreference } from '../common/util/preferences';
 import MapView from '../map/core/MapView';
 import MapGeofence from '../map/MapGeofence';
-import MapPositionMarkers from '../map/MapPositionMarkers';
+import MapMarkers from '../map/MapMarkers';
 import MapCamera from '../map/MapCamera';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
@@ -29,6 +29,7 @@ import fetchOrThrow from '../common/util/fetchOrThrow';
 import exportExcel from '../common/util/exportExcel';
 import AddressValue from '../common/components/AddressValue';
 import formatEventData from './common/formatEventData';
+import { eventIconKey } from '../map/core/preloadImages';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -228,7 +229,19 @@ const EventReportPage = () => {
             <div className={classes.containerMap}>
               <MapView>
                 <MapGeofence />
-                {position && <MapPositionMarkers positions={[position]} titleField="fixTime" />}
+                {position && selectedItem && (
+                  <MapMarkers
+                    markers={[
+                      {
+                        latitude: position.latitude,
+                        longitude: position.longitude,
+                        image: eventIconKey(selectedItem.type),
+                        title: formatTime(position.fixTime, 'seconds'),
+                      },
+                    ]}
+                    showTitles
+                  />
+                )}
               </MapView>
               <MapScale />
               {position && (

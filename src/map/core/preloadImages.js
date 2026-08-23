@@ -27,6 +27,23 @@ import tramSvg from '@material-symbols/svg-600/outlined/tram.svg';
 import truckSvg from '@material-symbols/svg-600/outlined/local_shipping.svg';
 import vanSvg from '@material-symbols/svg-600/outlined/airport_shuttle.svg';
 
+import warningSvg from '@material-symbols/svg-600/outlined/warning.svg';
+import taskAltSvg from '@material-symbols/svg-600/outlined/task_alt.svg';
+import arrowCircleDownSvg from '@material-symbols/svg-600/outlined/arrow_circle_down.svg';
+import arrowCircleUpSvg from '@material-symbols/svg-600/outlined/arrow_circle_up.svg';
+import bedtimeSvg from '@material-symbols/svg-600/outlined/bedtime.svg';
+import cloudOffSvg from '@material-symbols/svg-600/outlined/cloud_off.svg';
+import cloudDoneSvg from '@material-symbols/svg-600/outlined/cloud_done.svg';
+import speedSvg from '@material-symbols/svg-600/outlined/speed.svg';
+import cloudAlertSvg from '@material-symbols/svg-600/outlined/cloud_alert.svg';
+import distanceSvg from '@material-symbols/svg-600/outlined/distance.svg';
+import powerOffSvg from '@material-symbols/svg-600/outlined/power_off.svg';
+import powerSvg from '@material-symbols/svg-600/outlined/power.svg';
+import buildSvg from '@material-symbols/svg-600/outlined/build.svg';
+import imageSvg from '@material-symbols/svg-600/outlined/image.svg';
+import connectWithoutContactSvg from '@material-symbols/svg-600/outlined/connect_without_contact.svg';
+import smsSvg from '@material-symbols/svg-600/outlined/sms.svg';
+
 export const mapIcons = {
   animal: animalSvg,
   bicycle: bicycleSvg,
@@ -64,6 +81,35 @@ export const mapIconKey = (category) => {
   }
 };
 
+export const eventIcons = {
+  alarm: warningSvg,
+  commandResult: taskAltSvg,
+  deviceFuelDrop: arrowCircleDownSvg,
+  deviceFuelIncrease: arrowCircleUpSvg,
+  deviceInactive: bedtimeSvg,
+  deviceMoving: startSvg,
+  deviceOffline: cloudOffSvg,
+  deviceOnline: cloudDoneSvg,
+  deviceOverspeed: speedSvg,
+  deviceStopped: finishSvg,
+  deviceUnknown: cloudAlertSvg,
+  driverChanged: personSvg,
+  geofenceCrossed: distanceSvg,
+  geofenceEnter: distanceSvg,
+  geofenceExit: distanceSvg,
+  ignitionOff: powerOffSvg,
+  ignitionOn: powerSvg,
+  maintenance: buildSvg,
+  media: imageSvg,
+  proximityEnter: connectWithoutContactSvg,
+  proximityExit: connectWithoutContactSvg,
+  queuedCommandSent: taskAltSvg,
+  textMessage: smsSvg,
+  unaccompaniedMotion: connectWithoutContactSvg,
+};
+
+export const eventIconKey = (type) => (eventIcons.hasOwnProperty(type) ? type : 'alarm');
+
 export const mapImages = {};
 
 const theme = createTheme({
@@ -77,20 +123,23 @@ export default async () => {
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
   await Promise.all(
-    Object.keys(mapIcons).map(async (category) => {
+    Object.keys(mapIcons).map(async (key) => {
       const results = [];
       ['info', 'success', 'error', 'neutral'].forEach((color) => {
         results.push(
-          loadImage(mapIcons[category]).then((icon) => {
-            mapImages[`${category}-${color}`] = prepareIcon(
-              background,
-              icon,
-              theme.palette[color].main,
-            );
+          loadImage(mapIcons[key]).then((icon) => {
+            mapImages[`${key}-${color}`] = prepareIcon(background, icon, theme.palette[color].main);
           }),
         );
       });
       await Promise.all(results);
     }),
+  );
+  await Promise.all(
+    Object.keys(eventIcons).map((key) =>
+      loadImage(eventIcons[key]).then((icon) => {
+        mapImages[key] = prepareIcon(background, icon, theme.palette.neutral.main);
+      }),
+    ),
   );
 };
