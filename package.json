@@ -1,6 +1,6 @@
 {
   "name": "traccar",
-  "version": "6.14.5",
+  "version": "6.15.0",
   "type": "module",
   "private": true,
   "dependencies": {
