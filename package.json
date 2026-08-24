@@ -21,7 +21,7 @@
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "gcoord": "^1.0.7",
-    "hls.js": "^1.7.0",
+    "hls.js": "^1.7.1",
     "maplibre-gl": "^6.4.1",
     "maplibre-google-maps": "^1.1.0",
     "pmtiles": "^4.5.0",
