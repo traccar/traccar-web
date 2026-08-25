@@ -43,6 +43,20 @@ const updateReadyValue = (value) => {
   readyListeners.forEach((listener) => listener(value));
 };
 
+export const useMapReady = () => {
+  const [mapReady, setMapReady] = useState(false);
+
+  useEffect(() => {
+    const listener = (value) => setMapReady(value);
+    addReadyListener(listener);
+    return () => {
+      removeReadyListener(listener);
+    };
+  }, []);
+
+  return mapReady;
+};
+
 const initMap = async () => {
   if (ready) return;
   if (!map.hasImage('background')) {
@@ -59,7 +73,7 @@ const MapView = ({ children }) => {
 
   const containerRef = useRef(null);
 
-  const [mapReady, setMapReady] = useState(false);
+  const mapReady = useMapReady();
 
   const mapStyles = useMapStyles();
   const activeMapStyles = useAttributePreference(
@@ -122,14 +136,6 @@ const MapView = ({ children }) => {
     map.once('styledata', waiting);
     return () => clearTimeout(timeoutId);
   }, [styles, selectedStyleId, setSelectedStyleId]);
-
-  useEffect(() => {
-    const listener = (ready) => setMapReady(ready);
-    addReadyListener(listener);
-    return () => {
-      removeReadyListener(listener);
-    };
-  }, []);
 
   useLayoutEffect(() => {
     const currentEl = containerRef.current;
