@@ -19,11 +19,13 @@ const ErrorHandler = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
-  const error = useSelector((state) => state.errors.errors.find(() => true));
+  const errors = useSelector((state) => state.errors.errors);
+  const hasError = errors.length > 0;
+  const error = errors[0];
   const cachedError = usePrevious(error);
 
-  const message = error || cachedError;
-  const multiline = message?.includes('\n');
+  const message = (hasError ? error : cachedError) || t('errorGeneral');
+  const multiline = message.includes('\n');
   const displayMessage = multiline
     ? message.split('\n')[0].replace(/^(?:(?:[\w$]+\.)*[\w$]+(?:Exception|Error)?:\s*)+/i, '')
     : message;
@@ -32,7 +34,7 @@ const ErrorHandler = () => {
 
   return (
     <>
-      <Snackbar open={Boolean(error) && !expanded}>
+      <Snackbar open={hasError && !expanded}>
         <Alert
           elevation={6}
           onClose={() => dispatch(errorsActions.pop())}
