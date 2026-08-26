@@ -13,7 +13,7 @@ const useMapLayer = ({ enabled = true, source, layers, layersDeps, data, dataDep
     const isGeoJson = !source?.type || source.type === 'geojson';
     map.addSource(
       id,
-      isGeoJson ? { type: 'geojson', data: emptyFeatureCollection, ...source } : source,
+      isGeoJson ? { type: 'geojson', data: data ?? emptyFeatureCollection, ...source } : source,
     );
     layers.forEach((layer) => {
       const { on, key, ...spec } = layer;
