@@ -95,7 +95,7 @@ const EmulatorPage = () => {
         params.append('id', devices[deviceId].uniqueId);
         params.append('lat', latitude);
         params.append('lon', longitude);
-        await fetchOrThrow(`http://${window.location.hostname}:5055?${params.toString()}`, {
+        await fetch(`http://${window.location.hostname}:5055?${params.toString()}`, {
           method: 'POST',
           mode: 'no-cors',
         });
