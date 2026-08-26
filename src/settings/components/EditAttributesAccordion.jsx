@@ -109,7 +109,7 @@ const EditAttributesAccordion = ({
   };
 
   const getDisplayValue = (value, dataType) => {
-    if (value) {
+    if (value !== undefined && value !== null) {
       switch (dataType) {
         case 'speed':
           return speedFromKnots(value, speedUnit);
