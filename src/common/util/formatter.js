@@ -113,17 +113,19 @@ export const formatCoordinate = (key, value, unit) => {
   }
 
   switch (unit) {
-    case 'ddm':
-      value = Math.abs(value);
-      degrees = Math.floor(value);
-      minutes = (value - degrees) * 60;
+    case 'ddm': {
+      const totalMinuteThousandths = Math.round(Math.abs(value) * 60000);
+      degrees = Math.floor(totalMinuteThousandths / 60000);
+      minutes = (totalMinuteThousandths % 60000) / 1000;
       return `${degrees}° ${minutes.toFixed(3)}' ${hemisphere}`;
-    case 'dms':
-      value = Math.abs(value);
-      degrees = Math.floor(value);
-      minutes = Math.floor((value - degrees) * 60);
-      seconds = Math.round((value - degrees - minutes / 60) * 3600);
+    }
+    case 'dms': {
+      const totalSeconds = Math.round(Math.abs(value) * 3600);
+      degrees = Math.floor(totalSeconds / 3600);
+      minutes = Math.floor((totalSeconds % 3600) / 60);
+      seconds = totalSeconds % 60;
       return `${degrees}° ${minutes}' ${seconds}" ${hemisphere}`;
+    }
     default:
       return `${value.toFixed(5)}°`;
   }
