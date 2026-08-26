@@ -83,9 +83,9 @@ const LinkField = ({
     <>
       <Autocomplete
         size="small"
-        loading={active && !items}
+        loading={active && (!items || !linked)}
         isOptionEqualToValue={(i1, i2) => i1.id === i2.id}
-        options={items || []}
+        options={(linked && items) || []}
         getOptionLabel={(item) => titleGetter(item)}
         slotProps={{ chip: { size: 'small' } }}
         renderInput={(params) => (
