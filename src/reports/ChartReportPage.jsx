@@ -46,9 +46,9 @@ const ChartReportPage = () => {
   const [selectedTypes, setSelectedTypes] = useState(['speed']);
   const [timeType, setTimeType] = useState('fixTime');
 
-  const values = items.map((it) =>
-    selectedTypes.map((type) => it[type]).filter((value) => value != null),
-  );
+  const values = items
+    .map((it) => selectedTypes.map((type) => it[type]).filter((value) => value != null))
+    .flat();
   const minValue = values.length ? Math.min(...values) : 0;
   const maxValue = values.length ? Math.max(...values) : 100;
   const valueRange = maxValue - minValue;
