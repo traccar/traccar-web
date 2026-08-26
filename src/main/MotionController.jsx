@@ -91,13 +91,16 @@ const MotionController = () => {
       };
 
       await refreshMotion();
-      const interval = setInterval(() => {
-        refreshMotion().catch((error) => {
-          if (error.name !== 'AbortError') {
-            dispatch(errorsActions.push(error.message));
-          }
-        });
-      }, 5 * 60 * 1000);
+      const interval = setInterval(
+        () => {
+          refreshMotion().catch((error) => {
+            if (error.name !== 'AbortError') {
+              dispatch(errorsActions.push(error.message));
+            }
+          });
+        },
+        5 * 60 * 1000,
+      );
 
       return () => {
         active = false;
