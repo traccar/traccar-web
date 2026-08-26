@@ -19,6 +19,7 @@ const MapScale = () => {
   }, [mapReady, control, theme.direction]);
 
   useEffect(() => {
+    if (!mapReady) return;
     switch (distanceUnit) {
       case 'mi':
         control.setUnit('imperial');
@@ -31,7 +32,7 @@ const MapScale = () => {
         control.setUnit('metric');
         break;
     }
-  }, [control, distanceUnit]);
+  }, [mapReady, control, distanceUnit]);
 
   return null;
 };
