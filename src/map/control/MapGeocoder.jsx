@@ -55,6 +55,7 @@ const MapGeocoder = () => {
     if (!query.trim()) {
       setResults([]);
       setLoading(false);
+      return;
     }
     const controller = new AbortController();
     const timeoutId = setTimeout(async () => {
