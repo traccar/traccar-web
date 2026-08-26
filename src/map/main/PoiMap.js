@@ -28,6 +28,8 @@ const PoiMap = () => {
             ? gcoord.transform(parsed, gcoord.WGS84, gcoord.GCJ02)
             : parsed,
         );
+      } else {
+        setData(null);
       }
     },
     [poiLayer],
