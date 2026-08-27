@@ -90,9 +90,11 @@ const MapMarkers = ({ markers, showTitles, cluster, direction, onClick, disabled
       layout: {
         'icon-image': 'background',
         'icon-size': iconScale,
+        'icon-allow-overlap': true,
         'text-field': '{point_count_abbreviated}',
         'text-font': findFonts(map),
         'text-size': 14,
+        'text-allow-overlap': true,
       },
       on: { mouseenter: onMouseEnter, mouseleave: onMouseLeave, click: onClusterClick },
     });
