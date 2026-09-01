@@ -8,6 +8,8 @@ This repository is the front-end only. For the back-end server, see the [main Tr
 
 [Try the live demo](https://www.traccar.org/demo-server/) without installing anything.
 
+![Traccar web dashboard](.github/screenshot.png)
+
 ## Development
 
 ```shell
