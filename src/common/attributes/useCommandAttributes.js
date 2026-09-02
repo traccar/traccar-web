@@ -142,6 +142,18 @@ export default (t) =>
           type: 'string',
         },
       ],
+      setSpeedLimit: [
+        {
+          key: 'data',
+          name: t('attributeSpeedLimit'),
+          type: 'number',
+        },
+        {
+          key: 'duration',
+          name: t('reportDuration'),
+          type: 'number',
+        },
+      ],
       modePowerSaving: [
         {
           key: 'enable',
