@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Autocomplete, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -20,8 +20,6 @@ const BaseCommandView = ({
   const limitCommands = useRestriction('limitCommands');
 
   const textEnabled = useSelector((state) => state.session.server.textEnabled);
-  const device = useSelector((state) => state.devices.items[deviceId]);
-  const protocol = device?.protocol;
 
   const availableAttributes = useCommandAttributes(t);
 
@@ -56,21 +54,13 @@ const BaseCommandView = ({
     [deviceId, includeSaved, limitCommands],
   );
 
-  const getCommandAttributes = useCallback(
-    (type) =>
-      (availableAttributes[type] || []).filter(
-        (attribute) => !attribute.protocol || !protocol || attribute.protocol === protocol,
-      ),
-    [availableAttributes, protocol],
-  );
-
   useEffect(() => {
     if (item && item.type) {
-      setAttributes(getCommandAttributes(item.type));
+      setAttributes(availableAttributes[item.type] || []);
     } else {
       setAttributes([]);
     }
-  }, [getCommandAttributes, item]);
+  }, [availableAttributes, item]);
 
   const handleSelect = (_, value) => {
     if (value?.optionType === 'saved') {
@@ -79,7 +69,7 @@ const BaseCommandView = ({
     } else if (value?.type) {
       setSavedId?.(0);
       const defaults = {};
-      getCommandAttributes(value.type)?.forEach((attribute) => {
+      availableAttributes[value.type]?.forEach((attribute) => {
         switch (attribute.type) {
           case 'boolean':
             defaults[attribute.key] = false;

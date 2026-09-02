@@ -148,12 +148,6 @@ export default (t) =>
           name: t('attributeSpeedLimit'),
           type: 'number',
         },
-        {
-          key: 'duration',
-          name: t('reportDuration'),
-          type: 'number',
-          protocol: 'jt808',
-        },
       ],
       modePowerSaving: [
         {
