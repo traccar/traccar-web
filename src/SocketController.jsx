@@ -78,6 +78,9 @@ const SocketController = () => {
   const handleEventsRef = useRef(handleEvents);
   handleEventsRef.current = handleEvents;
 
+  const includeLogsRef = useRef(includeLogs);
+  includeLogsRef.current = includeLogs;
+
   const connectSocketRef = useRef();
 
   const connectSocket = useCallback(() => {
@@ -91,6 +94,7 @@ const SocketController = () => {
 
     socket.onopen = () => {
       dispatch(sessionActions.updateSocket(true));
+      socket.send(JSON.stringify({ logs: includeLogsRef.current }));
     };
 
     socket.onclose = async (event) => {
@@ -141,7 +145,9 @@ const SocketController = () => {
   connectSocketRef.current = connectSocket;
 
   useEffect(() => {
-    socketRef.current?.send(JSON.stringify({ logs: includeLogs }));
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({ logs: includeLogs }));
+    }
   }, [includeLogs]);
 
   useAsyncTask(
