@@ -7,7 +7,7 @@ import ReportsMenu from './components/ReportsMenu';
 import ReportFilter from './components/ReportFilter';
 import usePersistedState from '../common/util/usePersistedState';
 import ColumnSelect from './components/ColumnSelect';
-import { useCatchCallback } from '../reactHelper';
+import { useAsyncTask, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -33,7 +33,13 @@ const AuditPage = () => {
     'objectType',
   ]);
   const [items, setItems] = useState([]);
+  const [users, setUsers] = useState(() => new Map());
   const [loading, setLoading] = useState(false);
+
+  useAsyncTask(async ({ signal }) => {
+    const response = await fetchOrThrow('/api/users', { signal });
+    setUsers(new Map((await response.json()).map((user) => [user.id, user.name])));
+  }, []);
 
   const onShow = useCatchCallback(async ({ from, to }) => {
     setLoading(true);
@@ -45,6 +51,17 @@ const AuditPage = () => {
       setLoading(false);
     }
   }, []);
+
+  const formatValue = (item, key) => {
+    switch (key) {
+      case 'actionTime':
+        return formatTime(item[key], 'minutes');
+      case 'userId':
+        return users.get(item.userId) || item.userId;
+      default:
+        return item[key];
+    }
+  };
 
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportAudit']}>
@@ -66,9 +83,7 @@ const AuditPage = () => {
             items.map((item) => (
               <TableRow key={item.id}>
                 {columns.map((key) => (
-                  <TableCell key={key}>
-                    {key === 'actionTime' ? formatTime(item[key], 'minutes') : item[key]}
-                  </TableCell>
+                  <TableCell key={key}>{formatValue(item, key)}</TableCell>
                 ))}
               </TableRow>
             ))
