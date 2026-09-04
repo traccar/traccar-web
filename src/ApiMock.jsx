@@ -36,7 +36,7 @@ const mockServer = {
 const mockDevices = [
   {
     id: 1,
-    name: 'Carro 1',
+    name: 'Bota fora',
     uniqueId: 'ABC1234',
     status: 'online',
     lastUpdate: new Date().toISOString(),
@@ -44,30 +44,6 @@ const mockDevices = [
     groupId: 0,
     attributes: {
       color: '#F44336',
-    },
-  },
-  {
-    id: 2,
-    name: 'Carro 2',
-    uniqueId: 'XYZ5678',
-    status: 'online',
-    lastUpdate: new Date().toISOString(),
-    positionId: 2,
-    groupId: 0,
-    attributes: {
-      color: '#2196F3',
-    },
-  },
-  {
-    id: 3,
-    name: 'Moto 1',
-    uniqueId: 'MOT9999',
-    status: 'inativo',
-    lastUpdate: new Date(Date.now() - 3600000).toISOString(),
-    positionId: 3,
-    groupId: 0,
-    attributes: {
-      color: '#4CAF50',
     },
   },
 ];
@@ -90,42 +66,6 @@ const mockPositions = [
     attributes: {
       ignition: true,
       motion: true,
-    },
-  },
-  {
-    id: 2,
-    deviceId: 2,
-    protocol: 'traccar',
-    deviceTime: new Date().toISOString(),
-    fixTime: new Date().toISOString(),
-    serverTime: new Date().toISOString(),
-    latitude: -16.1050,
-    longitude: -47.9500,
-    altitude: 0,
-    speed: 32.8,
-    course: 90,
-    accuracy: 10,
-    attributes: {
-      ignition: true,
-      motion: true,
-    },
-  },
-  {
-    id: 3,
-    deviceId: 3,
-    protocol: 'traccar',
-    deviceTime: new Date(Date.now() - 3600000).toISOString(),
-    fixTime: new Date(Date.now() - 3600000).toISOString(),
-    serverTime: new Date(Date.now() - 3600000).toISOString(),
-    latitude: -16.1000,
-    longitude: -47.9450,
-    altitude: 0,
-    speed: 0,
-    course: 0,
-    accuracy: 10,
-    attributes: {
-      ignition: false,
-      motion: false,
     },
   },
 ];
