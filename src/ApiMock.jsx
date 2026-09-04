@@ -42,6 +42,7 @@ const mockDevices = [
     lastUpdate: new Date().toISOString(),
     positionId: 1,
     groupId: 0,
+    category: 'truck',
     attributes: {
       color: '#F44336',
     },
