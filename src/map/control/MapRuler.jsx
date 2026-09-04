@@ -12,16 +12,21 @@ import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const useStyles = makeStyles()(() => ({
   button: {
-    '&&': {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#333',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#e6e6e6',
+    color: '#333',
+    WebkitTapHighlightColor: 'transparent',
+  },
+  active: {
+    backgroundColor: '#333 !important',
+    color: '#e6e6e6',
+    '&:hover': {
+      backgroundColor: '#333',
+      color: '#e6e6e6',
     },
-    '&.active': {
-      backgroundColor: '#e6e6e6',
-      borderRadius: 'inherit',
-    },
+    borderRadius: 'inherit',
   },
 }));
 
@@ -118,12 +123,14 @@ const MapRuler = ({ positions, onActiveChange }) => {
 
     const toggle = () => {
       active = !active;
-      button.classList.toggle('active', active);
       onActiveChangeRef.current(active);
       if (active) {
         map.on('click', onClick);
+        button.classList.add(classes.active);
+        button.focus();
       } else {
         map.off('click', onClick);
+        button.classList.remove(classes.active);
         points.length = 0;
         render();
       }
@@ -167,7 +174,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         map.removeSource('ruler');
       }
     };
-  }, [theme, t, distanceUnit, classes.button]);
+  }, [theme, t, distanceUnit, classes.button, classes.active]);
 
   return null;
 };
