@@ -48,25 +48,152 @@ const mockDevices = [
   },
 ];
 
-// Mock positions for devices
+// Mock positions for devices - Simulating a route on Avenida Eixo 1
+// Route: Down Eixo 1 → U-turn → Up Eixo 1 → Guarda Civil Municipal → Delegacia de Polícia → Bosque
 const mockPositions = [
+  // Start - Centro de Cidade Ocidental (initial position)
   {
     id: 1,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 600000).toISOString(),
+    fixTime: new Date(Date.now() - 600000).toISOString(),
+    serverTime: new Date(Date.now() - 600000).toISOString(),
+    latitude: -16.102852,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 35.0,
+    course: 180,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Descending Avenida Eixo 1 (going south)
+  {
+    id: 2,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 480000).toISOString(),
+    fixTime: new Date(Date.now() - 480000).toISOString(),
+    serverTime: new Date(Date.now() - 480000).toISOString(),
+    latitude: -16.105500,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 42.0,
+    course: 180,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Further down Eixo 1
+  {
+    id: 3,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 360000).toISOString(),
+    fixTime: new Date(Date.now() - 360000).toISOString(),
+    serverTime: new Date(Date.now() - 360000).toISOString(),
+    latitude: -16.109000,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 45.0,
+    course: 180,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // U-turn point at the end of Eixo 1
+  {
+    id: 4,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 300000).toISOString(),
+    fixTime: new Date(Date.now() - 300000).toISOString(),
+    serverTime: new Date(Date.now() - 300000).toISOString(),
+    latitude: -16.110500,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 5.0,
+    course: 0,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Turning around (U-turn) - transitioning to northbound
+  {
+    id: 5,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 240000).toISOString(),
+    fixTime: new Date(Date.now() - 240000).toISOString(),
+    serverTime: new Date(Date.now() - 240000).toISOString(),
+    latitude: -16.110300,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 15.0,
+    course: 0,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Ascending Avenida Eixo 1 (going north)
+  {
+    id: 6,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 180000).toISOString(),
+    fixTime: new Date(Date.now() - 180000).toISOString(),
+    serverTime: new Date(Date.now() - 180000).toISOString(),
+    latitude: -16.107200,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 42.0,
+    course: 0,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Passing by Guarda Civil Municipal
+  {
+    id: 7,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 120000).toISOString(),
+    fixTime: new Date(Date.now() - 120000).toISOString(),
+    serverTime: new Date(Date.now() - 120000).toISOString(),
+    latitude: -16.104500,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 40.0,
+    course: 0,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Passing by Delegacia de Polícia (Police Station)
+  {
+    id: 8,
+    deviceId: 1,
+    protocol: 'traccar',
+    deviceTime: new Date(Date.now() - 60000).toISOString(),
+    fixTime: new Date(Date.now() - 60000).toISOString(),
+    serverTime: new Date(Date.now() - 60000).toISOString(),
+    latitude: -16.101800,
+    longitude: -47.9481186,
+    altitude: 0,
+    speed: 38.0,
+    course: 0,
+    accuracy: 10,
+    attributes: { ignition: true, motion: true },
+  },
+  // Arriving at Bosque (Forest Park) - Final destination
+  {
+    id: 9,
     deviceId: 1,
     protocol: 'traccar',
     deviceTime: new Date().toISOString(),
     fixTime: new Date().toISOString(),
     serverTime: new Date().toISOString(),
-    latitude: -16.102852,
+    latitude: -16.099800,
     longitude: -47.9481186,
     altitude: 0,
-    speed: 45.2,
-    course: 180,
+    speed: 0.0,
+    course: 0,
     accuracy: 10,
-    attributes: {
-      ignition: true,
-      motion: true,
-    },
+    attributes: { ignition: false, motion: false },
   },
 ];
 
@@ -165,8 +292,21 @@ window.fetch = function(...args) {
 
     // Position endpoints
     if (url === '/api/positions' || url.startsWith('/api/positions?')) {
+      // Return all positions for route history display
       return Promise.resolve(
         new Response(JSON.stringify(mockPositions), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+      );
+    }
+    
+    // Position by ID endpoint (returns the current/last position)
+    if (url.startsWith('/api/positions/') && url.includes('?')) {
+      // Return the last position (current location)
+      const lastPosition = mockPositions[mockPositions.length - 1];
+      return Promise.resolve(
+        new Response(JSON.stringify([lastPosition]), {
           status: 200,
           headers: { 'Content-Type': 'application/json' },
         })
