@@ -149,24 +149,7 @@ const loadLocale = (language) => {
 };
 
 const getDefaultLanguage = () => {
-  const browserLanguages = window.navigator.languages ? window.navigator.languages.slice() : [];
-  const browserLanguage = window.navigator.userLanguage || window.navigator.language;
-  browserLanguages.push(browserLanguage);
-  browserLanguages.push(browserLanguage.substring(0, 2));
-
-  for (let i = 0; i < browserLanguages.length; i += 1) {
-    let language = browserLanguages[i].replace('-', '_');
-    if (language in languages) {
-      return language;
-    }
-    if (language.length > 2) {
-      language = language.substring(0, 2);
-      if (language in languages) {
-        return language;
-      }
-    }
-  }
-  return 'en';
+  return 'pt_BR';
 };
 
 const LocalizationContext = createContext({
