@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Typography, IconButton, Toolbar, Paper, TextField } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { default as Hls, Events } from 'hls.js/light';
+import { default as Hls, Events } from 'hls.js';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
 import { useTranslation } from '../common/components/LocalizationProvider';
