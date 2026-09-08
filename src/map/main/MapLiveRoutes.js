@@ -20,12 +20,12 @@ const MapLiveRoutes = ({ deviceIds }) => {
   const mapLineOpacity = useAttributePreference('mapLineOpacity', 1);
 
   const visibleIds = deviceIds
+    .filter(() => type !== 'none')
     .filter((id) => (type === 'selected' ? id === selectedDeviceId : true))
     .filter((id) => history.hasOwnProperty(id))
     .filter((id) => devices[id]);
 
   useMapLayer({
-    enabled: type !== 'none',
     layers: [
       {
         type: 'line',

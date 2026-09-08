@@ -36,7 +36,6 @@ const PoiMap = () => {
   );
 
   useMapLayer({
-    enabled: !!data,
     layers: [
       {
         key: 'fill',
@@ -84,7 +83,7 @@ const PoiMap = () => {
         },
       },
     ],
-    layersDeps: [t, theme.palette.geometry.main, data],
+    layersDeps: [t, theme.palette.geometry.main],
     data,
     dataDeps: [data],
   });

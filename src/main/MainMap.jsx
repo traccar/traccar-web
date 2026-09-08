@@ -46,6 +46,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
         <MapLiveRoutes deviceIds={filteredPositions.map((p) => p.deviceId)} />
+        <PoiMap />
         <MapPositionMarkers
           positions={filteredPositions}
           onMarkerClick={onMarkerClick}
@@ -55,7 +56,6 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         />
         <MapDefaultCamera filteredPositions={filteredPositions} />
         <MapSelectedDevice />
-        <PoiMap />
         <MapRuler positions={filteredPositions} onActiveChange={setRulerActive} />
         {!features.disableEvents && (
           <MapNotification enabled={eventsAvailable} onClick={onEventsClick} />
