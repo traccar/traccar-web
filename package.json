@@ -32,7 +32,7 @@
     "react-redux": "^9.3.0",
     "react-rnd": "^10.5.3",
     "react-router-dom": "^7.18.3",
-    "react-window": "^2.3.0",
+    "react-window": "^2.3.1",
     "recharts": "^3.10.1",
     "stylis": "^4.4.0",
     "stylis-plugin-rtl": "^2.1.1",
