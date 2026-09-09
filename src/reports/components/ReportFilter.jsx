@@ -56,11 +56,17 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
   const groupIds = useMemo(() => searchParams.getAll('groupId').map(Number), [searchParams]);
   const from = searchParams.get('from');
   const to = searchParams.get('to');
-  const [period, setPeriod] = useState('today');
+  const [period, setPeriod] = useState(searchParams.get('period') || 'today');
   const [customFrom, setCustomFrom] = useState(() =>
-    dayjs().subtract(1, 'hour').locale('en').format('YYYY-MM-DDTHH:mm'),
+    dayjs(from || dayjs().subtract(1, 'hour'))
+      .locale('en')
+      .format('YYYY-MM-DDTHH:mm'),
   );
-  const [customTo, setCustomTo] = useState(() => dayjs().locale('en').format('YYYY-MM-DDTHH:mm'));
+  const [customTo, setCustomTo] = useState(() =>
+    dayjs(to || dayjs())
+      .locale('en')
+      .format('YYYY-MM-DDTHH:mm'),
+  );
   const [selectedOption, setSelectedOption] = useState('json');
 
   const [description, setDescription] = useState();
@@ -139,6 +145,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
     }
 
     const newParams = new URLSearchParams(searchParams);
+    newParams.set('period', period);
     newParams.set('from', selectedFrom.toISOString());
     newParams.set('to', selectedTo.toISOString());
     setSearchParams(newParams, { replace: true });
