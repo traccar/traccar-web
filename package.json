@@ -25,7 +25,7 @@
     "maplibre-gl": "^6.9.0",
     "maplibre-google-maps": "^1.1.0",
     "pmtiles": "^4.5.0",
-    "react": "^19.2.8",
+    "react": "^19.3.0",
     "react-country-flag": "3.1.0",
     "react-dom": "^19.2.8",
     "react-qr-code": "^2.2.0",
