@@ -7,7 +7,7 @@
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mapbox/mapbox-gl-draw": "^1.5.1",
+    "@mapbox/mapbox-gl-draw": "^1.5.2",
     "@mapbox/mapbox-gl-rtl-text": "^0.4.0",
     "@material-symbols/svg-600": "^0.47.2",
     "@mui/icons-material": "^9.4.0",
