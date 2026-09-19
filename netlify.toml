@@ -1,0 +1,26 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+# Proxy WebSocket (live updates) to the Traccar backend.
+# Note: the backend is plain ws://; browsers on an HTTPS Netlify site may
+# block this as mixed content. For reliable live updates the backend should
+# expose wss://.
+[[redirects]]
+  from = "/api/socket"
+  to = "ws://tracker.amsonsoft.com:8082/api/socket"
+  status = 200
+  force = true
+
+# Proxy all other API calls to the Traccar backend.
+[[redirects]]
+  from = "/api/*"
+  to = "http://tracker.amsonsoft.com:8082/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback: let React Router handle client-side routes.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

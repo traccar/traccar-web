@@ -64,9 +64,9 @@ const ReportFilter = ({
     if (onExport && loaded) {
       result.export = t('reportExportExcel');
     }
-    // if (onExportPdf && loaded) {
-    //   result.exportPdf = t('reportExportPdf');
-    // }
+    if (onExportPdf && loaded) {
+      result.exportPdf = t('reportExportPdf');
+    }
     if ((onExport || onExportPdf) && loaded) {
       result.print = t('reportPrint');
     }
@@ -127,7 +127,7 @@ const ReportFilter = ({
     switch (type) {
       case 'export':
         if (onExport) {
-          onExport({ deviceIds, groupIds, from, to });
+        onExport({ deviceIds, groupIds, from, to });
         }
         break;
       case 'exportPdf':

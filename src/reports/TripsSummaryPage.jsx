@@ -7,6 +7,7 @@ import {
 import {
   formatDistance, formatSpeed, formatTime, formatNumericHours,
 } from '../common/util/formatter';
+import dayjs from 'dayjs';
 import ReportFilter from './components/ReportFilter';
 import { useAttributePreference } from '../common/util/preferences';
 import { useTranslation } from '../common/components/LocalizationProvider';
@@ -21,6 +22,8 @@ import scheduleReport from './common/scheduleReport';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 // Configuration for Trips Summary API - uses a different server
 const TRIPS_SUMMARY_API_BASE_URL = 'http://amserver.amsonsoft.com:8000';
@@ -37,6 +40,35 @@ const columnsArray = [
   ['totalStops', 'reportTotalStops'],
 ];
 const columnsMap = new Map(columnsArray);
+
+// Parse date string to match EXACTLY what formatTime displays in the browser
+// formatTime does: dayjs(value).toDate().toLocaleDateString()
+// This shows the date in local timezone. We need Excel to show the same date.
+//
+// CRITICAL FIX: We need to use the SAME logic as formatTime to get the date
+// that the browser displays, then create a date that Excel will show the same way.
+const parseDateForExcel = (dateString) => {
+  if (!dateString) return null;
+  
+  // Use dayjs to parse the date string (same as formatTime does)
+  // This ensures we get the exact same Date object that formatTime uses
+  const d = dayjs(dateString).toDate();
+  
+  // Get what toLocaleDateString() would show by extracting the date components
+  // from the local representation of this date
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
+  
+  // CRITICAL FIX: Create a UTC date with these date components at noon UTC
+  // This ensures that when ExcelJS processes it (which may convert to UTC),
+  // Excel will display the correct date. Using UTC avoids timezone conversion
+  // issues that cause the date to shift by one day.
+  // The date part (year, month, day) matches what the browser shows via toLocaleDateString()
+  const utcDate = new Date(Date.UTC(year, month, day, 12, 0, 0, 0));
+  
+  return utcDate;
+};
 
 const TripsSummaryPage = () => {
   const navigate = useNavigate();
@@ -133,6 +165,9 @@ const TripsSummaryPage = () => {
         };
         headerRow.alignment = { horizontal: 'center' };
         
+        // Find the index of the date column for formatting
+        const dateColumnIndex = columns.indexOf('effDate');
+        
         // Add data rows
         items.forEach((item) => {
           const rowData = [
@@ -142,7 +177,7 @@ const TripsSummaryPage = () => {
               // Format the value for Excel (use raw values, not formatted strings)
               switch (key) {
                 case 'effDate':
-                  return value ? new Date(value) : '';
+                  return value ? parseDateForExcel(value) : null;
                 case 'autocalcKmTraveled':
                 case 'jumpscalcKmTraveled':
                 case 'manualKmTraveled':
@@ -161,12 +196,30 @@ const TripsSummaryPage = () => {
               }
             }),
           ];
-          worksheet.addRow(rowData);
+          const row = worksheet.addRow(rowData);
+          
+          // Set date format for date column if it exists
+          if (dateColumnIndex >= 0 && rowData[dateColumnIndex + 1]) {
+            const dateCell = row.getCell(dateColumnIndex + 2); // +2 because device is column 1
+            dateCell.numFmt = 'mm/dd/yyyy'; // Set explicit date format
+            
+            // Set the date value - parseDateForExcel returns a UTC Date object
+            // that matches what the browser displays
+            const dateValue = rowData[dateColumnIndex + 1];
+            if (dateValue instanceof Date) {
+              // Set the date value directly - it's already a UTC date with correct date components
+              dateCell.value = dateValue;
+            }
+          }
         });
         
-        // Auto-size columns
-        worksheet.columns.forEach((column) => {
+        // Auto-size columns and set date format
+        worksheet.columns.forEach((column, index) => {
           column.width = 15;
+          // Set date format for date column header
+          if (columns[index] === 'effDate') {
+            column.numFmt = 'mm/dd/yyyy';
+          }
         });
         
         // Generate and download
@@ -214,6 +267,9 @@ const TripsSummaryPage = () => {
         const headers = [t('sharedDevice'), ...columns.map((key) => t(columnsMap.get(key)))];
         worksheet.addRow(headers).font = { bold: true };
         
+        // Find the index of the date column for formatting
+        const dateColumnIndex = columns.indexOf('effDate');
+        
         transformedItems.forEach((item) => {
           const rowData = [
             item.person,
@@ -221,7 +277,7 @@ const TripsSummaryPage = () => {
               const value = item[key];
               switch (key) {
                 case 'effDate':
-                  return value ? new Date(value) : '';
+                  return value ? parseDateForExcel(value) : null;
                 case 'autocalcKmTraveled':
                 case 'jumpscalcKmTraveled':
                 case 'manualKmTraveled':
@@ -239,7 +295,28 @@ const TripsSummaryPage = () => {
               }
             }),
           ];
-          worksheet.addRow(rowData);
+          const row = worksheet.addRow(rowData);
+          
+          // Set date format for date column if it exists
+          if (dateColumnIndex >= 0 && rowData[dateColumnIndex + 1]) {
+            const dateCell = row.getCell(dateColumnIndex + 2); // +2 because device is column 1
+            dateCell.numFmt = 'mm/dd/yyyy'; // Set explicit date format
+            
+            // Set the date value - parseDateForExcel returns a UTC Date object
+            // that matches what the browser displays
+            const dateValue = rowData[dateColumnIndex + 1];
+            if (dateValue instanceof Date) {
+              // Set the date value directly - it's already a UTC date with correct date components
+              dateCell.value = dateValue;
+            }
+          }
+        });
+        
+        // Set date format for date column header
+        worksheet.columns.forEach((column, index) => {
+          if (columns[index] === 'effDate') {
+            column.numFmt = 'mm/dd/yyyy';
+          }
         });
         
         const buffer = await workbook.xlsx.writeBuffer();
@@ -267,9 +344,74 @@ const TripsSummaryPage = () => {
   const onExportPdf = useCatch(async ({ deviceIds, groupIds, from, to }) => {
     const fromDate = formatDateForApi(from);
     const toDate = formatDateForApi(to);
-    const deviceIdsStr = deviceIds.join(',');
     
-    // Build URL for PDF export
+    // Helper function to format values for PDF display
+    const formatValueForPdf = (item, key) => {
+      const value = item[key];
+      switch (key) {
+        case 'effDate':
+          return value ? formatTime(value, 'date') : '';
+        case 'autocalcKmTraveled':
+        case 'jumpscalcKmTraveled':
+        case 'manualKmTraveled':
+          return value != null && value > 0 ? formatDistance(value * 1000, distanceUnit, t) : '';
+        case 'autocalcTravelTime':
+        case 'manualDayDuration':
+          return value != null && value > 0 ? formatNumericHours(value, t) : '';
+        case 'maxSpeedKmh':
+        case 'avgSpeedKmh':
+          return value != null && value > 0 ? formatSpeed(value / 1.852, speedUnit, t) : '';
+        case 'totalStops':
+          return value != null ? String(value) : '0';
+        default:
+          return value || '';
+      }
+    };
+    
+    // If we have items in state, generate PDF from them
+    if (items.length > 0) {
+      try {
+        const doc = new jsPDF();
+        
+        // Add title
+        doc.setFontSize(16);
+        doc.text(t('reportTripsSummary'), 14, 15);
+        
+        // Prepare table data
+        const tableData = items.map((item) => {
+          const row = [item.person];
+          columns.forEach((key) => {
+            row.push(formatValueForPdf(item, key));
+          });
+          return row;
+        });
+        
+        // Prepare table headers
+        const tableHeaders = [t('sharedDevice'), ...columns.map((key) => t(columnsMap.get(key)))];
+        
+        // Add table
+        autoTable(doc, {
+          head: [tableHeaders],
+          body: tableData,
+          startY: 25,
+          styles: { fontSize: 9, cellPadding: 3 },
+          headStyles: { fillColor: [224, 224, 224], textColor: [0, 0, 0], fontStyle: 'bold' },
+          alternateRowStyles: { fillColor: [245, 245, 245] },
+          margin: { top: 25 },
+        });
+        
+        // Save PDF
+        doc.save(`trips-summary-${fromDate}-${toDate}.pdf`);
+        return;
+      } catch (error) {
+        console.error('Error generating PDF file:', error);
+        alert(`Failed to generate PDF file: ${error.message}`);
+        return;
+      }
+    }
+    
+    // Fallback: Try to fetch from server if no items in state
+    const deviceIdsStr = deviceIds.join(',');
     const url = `${TRIPS_SUMMARY_API_BASE_URL}/api/reports/tripssummary/pdf/${fromDate},${toDate},${deviceIdsStr}`;
     
     try {
@@ -285,23 +427,51 @@ const TripsSummaryPage = () => {
       const isPdf = contentType.includes('application/pdf') ||
         contentType.includes('application/octet-stream');
       
-      if (!response.ok) {
-        // Read error response as text
-        const errorText = await response.text();
-        throw new Error(`Export failed: ${response.status} ${response.statusText} - ${errorText.substring(0, 100)}`);
+      if (!response.ok || !isPdf) {
+        // Server doesn't support PDF export, generate from JSON
+        const jsonResponse = await fetch(`${TRIPS_SUMMARY_API_BASE_URL}/api/reports/tripssummary/${fromDate},${toDate},${deviceIdsStr}`);
+        const jsonData = await jsonResponse.json();
+        const transformedItems = jsonData.map(transformItem);
+        
+        // Generate PDF from JSON data
+        const doc = new jsPDF();
+        
+        // Add title
+        doc.setFontSize(16);
+        doc.text(t('reportTripsSummary'), 14, 15);
+        
+        // Prepare table data
+        const tableData = transformedItems.map((item) => {
+          const row = [item.person];
+          columns.forEach((key) => {
+            row.push(formatValueForPdf(item, key));
+          });
+          return row;
+        });
+        
+        // Prepare table headers
+        const tableHeaders = [t('sharedDevice'), ...columns.map((key) => t(columnsMap.get(key)))];
+        
+        // Add table
+        autoTable(doc, {
+          head: [tableHeaders],
+          body: tableData,
+          startY: 25,
+          styles: { fontSize: 9, cellPadding: 3 },
+          headStyles: { fillColor: [224, 224, 224], textColor: [0, 0, 0], fontStyle: 'bold' },
+          alternateRowStyles: { fillColor: [245, 245, 245] },
+          margin: { top: 25 },
+        });
+        
+        // Save PDF
+        doc.save(`trips-summary-${fromDate}-${toDate}.pdf`);
+        return;
       }
       
-      if (!isPdf) {
-        // If not PDF, read as text to see what we got
-        const text = await response.text();
-        console.error('Unexpected content type:', contentType, 'Response:', text.substring(0, 200));
-        throw new Error(`Server returned ${contentType} instead of PDF file. Response: ${text.substring(0, 100)}`);
-      }
-      
-      // Read as blob
+      // Server returned PDF file
       const blob = await response.blob();
       
-      // Verify blob is not empty and has reasonable size
+      // Verify blob is not empty
       if (blob.size === 0) {
         throw new Error('Downloaded file is empty');
       }
@@ -321,12 +491,8 @@ const TripsSummaryPage = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
     } catch (error) {
-      // Show error to user
-      alert(`Failed to download PDF file: ${error.message}`);
       console.error('PDF export error:', error);
-      // Fallback to direct navigation if fetch fails (CORS issues)
-      console.warn('Trying direct navigation as fallback');
-      window.location.assign(url);
+      alert(`Failed to export PDF file: ${error.message}`);
     }
   });
 

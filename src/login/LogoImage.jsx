@@ -1,20 +1,22 @@
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
-import Logo from '../resources/images/logo.svg?react';
+import amsonLogo from '../resources/images/amson-logo.png';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()(() => ({
   image: {
     alignSelf: 'center',
-    maxWidth: '240px',
-    maxHeight: '120px',
+    maxWidth: '100px',
+    maxHeight: '100px',
     width: 'auto',
     height: 'auto',
-    margin: theme.spacing(2),
+    display: 'block',
+    objectFit: 'contain',
+    borderRadius: '12px',
   },
 }));
 
-const LogoImage = ({ color }) => {
+const LogoImage = ({ className, style }) => {
   const theme = useTheme();
   const { classes } = useStyles();
 
@@ -23,13 +25,15 @@ const LogoImage = ({ color }) => {
   const logo = useSelector((state) => state.session.server.attributes?.logo);
   const logoInverted = useSelector((state) => state.session.server.attributes?.logoInverted);
 
+  const finalClass = className || classes.image;
+
   if (logo) {
     if (expanded && logoInverted) {
-      return <img className={classes.image} src={logoInverted} alt="" />;
+      return <img className={finalClass} src={logoInverted} alt="AmsonSoft" style={style} />;
     }
-    return <img className={classes.image} src={logo} alt="" />;
+    return <img className={finalClass} src={logo} alt="AmsonSoft" style={style} />;
   }
-  return <Logo className={classes.image} style={{ color }} />;
+  return <img className={finalClass} src={amsonLogo} alt="AmsonSoft" style={style} />;
 };
 
 export default LogoImage;

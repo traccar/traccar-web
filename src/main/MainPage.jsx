@@ -33,23 +33,63 @@ const useStyles = makeStyles()((theme) => ({
       width: theme.dimensions.drawerWidthDesktop,
       margin: theme.spacing(1.5),
       zIndex: 3,
+      animation: 'slideInLeft 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both',
     },
     [theme.breakpoints.down('md')]: {
       height: '100%',
       width: '100%',
     },
   },
-  header: {
+  sidebarPaper: {
+    pointerEvents: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    borderRadius: 20,
+    overflow: 'hidden',
+    border: `1px solid ${theme.palette.divider}`,
+    boxShadow: '0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 0 1px 1px rgba(15, 23, 42, 0.04)',
+    backgroundColor: theme.palette.background.paper,
+  },
+  listArea: {
+    flex: 1,
+    minHeight: 0,
+    overflow: 'hidden',
+    backgroundColor: theme.palette.mode === 'dark' ? 'transparent' : '#f8fafc',
+  },
+  dockFooter: {
+    marginTop: 'auto',
+  },
+  floatingHeader: {
+    pointerEvents: 'auto',
+    borderRadius: 18,
+    overflow: 'hidden',
+    border: `1px solid ${theme.palette.divider}`,
+    boxShadow: '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 0 1px 1px rgba(15, 23, 42, 0.04)',
+    backgroundColor: theme.palette.background.paper,
+    animation: 'slideInLeft 0.95s cubic-bezier(0.16, 1, 0.3, 1) both',
+  },
+  floatingFooter: {
+    pointerEvents: 'auto',
+    borderRadius: 18,
+    overflow: 'hidden',
+    border: `1px solid ${theme.palette.divider}`,
+    boxShadow: '0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 0 1px 1px rgba(15, 23, 42, 0.04)',
+    backgroundColor: theme.palette.background.paper,
+    animation: 'slideInLeft 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both',
+  },
+  mobileHeader: {
     pointerEvents: 'auto',
     zIndex: 6,
-  },
-  footer: {
-    pointerEvents: 'auto',
-    zIndex: 5,
+    borderRadius: 0,
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    animation: 'slideInDown 0.75s cubic-bezier(0.16, 1, 0.3, 1) both',
   },
   middle: {
     flex: 1,
     display: 'grid',
+    minHeight: 0,
+    animation: 'fadeIn 0.95s cubic-bezier(0.16, 1, 0.3, 1) both',
   },
   contentMap: {
     pointerEvents: 'auto',
@@ -59,6 +99,9 @@ const useStyles = makeStyles()((theme) => ({
     pointerEvents: 'auto',
     gridArea: '1 / 1',
     zIndex: 4,
+    minHeight: 0,
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
   },
 }));
 
@@ -83,7 +126,7 @@ const MainPage = () => {
     statuses: [],
     groups: [],
   });
-  const [filterSort, setFilterSort] = usePersistedState('filterSort', '');
+  const [filterSort, setFilterSort] = usePersistedState('filterSort', 'lastUpdate');
   const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
 
   const [devicesOpen, setDevicesOpen] = useState(desktop);
@@ -109,39 +152,82 @@ const MainPage = () => {
         />
       )}
       <div className={classes.sidebar}>
-        <Paper square elevation={3} className={classes.header}>
-          <MainToolbar
-            filteredDevices={filteredDevices}
-            devicesOpen={devicesOpen}
-            setDevicesOpen={setDevicesOpen}
-            keyword={keyword}
-            setKeyword={setKeyword}
-            filter={filter}
-            setFilter={setFilter}
-            filterSort={filterSort}
-            setFilterSort={setFilterSort}
-            filterMap={filterMap}
-            setFilterMap={setFilterMap}
-          />
-        </Paper>
-        <div className={classes.middle}>
-          {!desktop && (
-            <div className={classes.contentMap}>
-              <MainMap
-                filteredPositions={filteredPositions}
-                selectedPosition={selectedPosition}
-                onEventsClick={onEventsClick}
+        {desktop ? (
+          devicesOpen ? (
+            <Paper elevation={0} className={classes.sidebarPaper}>
+              <MainToolbar
+                filteredDevices={filteredDevices}
+                devicesOpen={devicesOpen}
+                setDevicesOpen={setDevicesOpen}
+                keyword={keyword}
+                setKeyword={setKeyword}
+                filter={filter}
+                setFilter={setFilter}
+                filterSort={filterSort}
+                setFilterSort={setFilterSort}
+                filterMap={filterMap}
+                setFilterMap={setFilterMap}
               />
+              <div className={classes.listArea}>
+                <DeviceList devices={filteredDevices} />
+              </div>
+              <div className={classes.dockFooter}>
+                <BottomMenu />
+              </div>
+            </Paper>
+          ) : (
+            <>
+              <Paper elevation={0} className={classes.floatingHeader}>
+                <MainToolbar
+                  filteredDevices={filteredDevices}
+                  devicesOpen={devicesOpen}
+                  setDevicesOpen={setDevicesOpen}
+                  keyword={keyword}
+                  setKeyword={setKeyword}
+                  filter={filter}
+                  setFilter={setFilter}
+                  filterSort={filterSort}
+                  setFilterSort={setFilterSort}
+                  filterMap={filterMap}
+                  setFilterMap={setFilterMap}
+                />
+              </Paper>
+              <div style={{ flex: 1 }} />
+              <Paper elevation={0} className={classes.floatingFooter}>
+                <BottomMenu />
+              </Paper>
+            </>
+          )
+        ) : (
+          <>
+            <Paper elevation={0} className={classes.mobileHeader}>
+              <MainToolbar
+                filteredDevices={filteredDevices}
+                devicesOpen={devicesOpen}
+                setDevicesOpen={setDevicesOpen}
+                keyword={keyword}
+                setKeyword={setKeyword}
+                filter={filter}
+                setFilter={setFilter}
+                filterSort={filterSort}
+                setFilterSort={setFilterSort}
+                filterMap={filterMap}
+                setFilterMap={setFilterMap}
+              />
+            </Paper>
+            <div className={classes.middle}>
+              <div className={classes.contentMap}>
+                <MainMap
+                  filteredPositions={filteredPositions}
+                  selectedPosition={selectedPosition}
+                  onEventsClick={onEventsClick}
+                />
+              </div>
+              <Paper elevation={0} className={classes.contentList} style={devicesOpen ? {} : { visibility: 'hidden' }}>
+                <DeviceList devices={filteredDevices} />
+              </Paper>
             </div>
-          )}
-          <Paper square className={classes.contentList} style={devicesOpen ? {} : { visibility: 'hidden' }}>
-            <DeviceList devices={filteredDevices} />
-          </Paper>
-        </div>
-        {desktop && (
-          <div className={classes.footer}>
-            <BottomMenu />
-          </div>
+          </>
         )}
       </div>
       <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />

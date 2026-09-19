@@ -16,7 +16,7 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
 
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
-  const iconScale = useAttributePreference('iconScale', desktop ? 0.75 : 1);
+  const iconScale = useAttributePreference('iconScale', desktop ? 1.05 : 1.15);
 
   const devices = useSelector((state) => state.devices.items);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
@@ -111,13 +111,14 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
           'text-field': `{${titleField || 'name'}}`,
           'text-allow-overlap': true,
           'text-anchor': 'bottom',
-          'text-offset': [0, -2 * iconScale],
+          'text-offset': [0, -2.2 * iconScale],
           'text-font': findFonts(map),
-          'text-size': 12,
+          'text-size': 13,
         },
         paint: {
-          'text-halo-color': 'white',
-          'text-halo-width': 1,
+          'text-color': '#0f172a',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 2.5,
         },
       });
       map.addLayer({
@@ -148,11 +149,18 @@ const MapPositions = ({ positions, onMapClick, onMarkerClick, showStatus, select
       source: id,
       filter: ['has', 'point_count'],
       layout: {
-        'icon-image': 'background',
-        'icon-size': iconScale,
+        'icon-image': 'cluster',
+        'icon-size': iconScale * 1.2,
+        'icon-allow-overlap': true,
         'text-field': '{point_count_abbreviated}',
         'text-font': findFonts(map),
-        'text-size': 14,
+        'text-size': 15,
+        'text-allow-overlap': true,
+      },
+      paint: {
+        'text-color': '#ffffff',
+        'text-halo-color': '#be123c',
+        'text-halo-width': 1.5,
       },
     });
 

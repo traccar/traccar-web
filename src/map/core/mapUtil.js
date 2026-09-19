@@ -38,12 +38,62 @@ export const prepareIcon = (background, icon, color) => {
   const context = canvas.getContext('2d');
   context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
+  if (color) {
+    const center = canvas.width / 2;
+    const radius = canvas.width * 0.41;
+    context.save();
+    context.shadowColor = color;
+    context.shadowBlur = canvas.width * 0.1;
+    context.beginPath();
+    context.arc(center, center, radius, 0, Math.PI * 2);
+    context.strokeStyle = color;
+    context.lineWidth = canvas.width * 0.11;
+    context.stroke();
+    context.restore();
+  }
+
   if (icon) {
     const iconRatio = 0.5;
     const imageWidth = canvas.width * iconRatio;
     const imageHeight = canvas.height * iconRatio;
     context.drawImage(canvasTintImage(icon, color), (canvas.width - imageWidth) / 2, (canvas.height - imageHeight) / 2, imageWidth, imageHeight);
   }
+
+  return context.getImageData(0, 0, canvas.width, canvas.height);
+};
+
+export const prepareClusterIcon = (size, fillColor, borderColor = '#ffffff') => {
+  const canvas = document.createElement('canvas');
+  canvas.width = size * devicePixelRatio;
+  canvas.height = size * devicePixelRatio;
+  canvas.style.width = `${size}px`;
+  canvas.style.height = `${size}px`;
+
+  const context = canvas.getContext('2d');
+  const center = canvas.width / 2;
+  const radius = canvas.width * 0.41;
+
+  context.save();
+  context.shadowColor = 'rgba(15, 23, 42, 0.45)';
+  context.shadowBlur = canvas.width * 0.14;
+  context.shadowOffsetY = canvas.width * 0.04;
+  context.beginPath();
+  context.arc(center, center, radius, 0, Math.PI * 2);
+  context.fillStyle = fillColor;
+  context.fill();
+  context.restore();
+
+  context.beginPath();
+  context.arc(center, center, radius, 0, Math.PI * 2);
+  context.strokeStyle = borderColor;
+  context.lineWidth = canvas.width * 0.09;
+  context.stroke();
+
+  context.beginPath();
+  context.arc(center, center, radius, 0, Math.PI * 2);
+  context.strokeStyle = 'rgba(15, 23, 42, 0.35)';
+  context.lineWidth = canvas.width * 0.03;
+  context.stroke();
 
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };

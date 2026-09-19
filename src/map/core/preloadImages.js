@@ -1,6 +1,6 @@
 import { grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material';
-import { loadImage, prepareIcon } from './mapUtil';
+import { loadImage, prepareClusterIcon, prepareIcon } from './mapUtil';
 
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
@@ -68,6 +68,10 @@ export const mapImages = {};
 
 const theme = createTheme({
   palette: {
+    primary: { main: '#e11d48' },
+    info: { main: '#3b82f6' },
+    success: { main: '#10b981' },
+    error: { main: '#ef4444' },
     neutral: { main: grey[500] },
   },
 });
@@ -75,6 +79,7 @@ const theme = createTheme({
 export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
+  mapImages.cluster = prepareClusterIcon(background.width, theme.palette.primary.main);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
   await Promise.all(Object.keys(mapIcons).map(async (category) => {
     const results = [];

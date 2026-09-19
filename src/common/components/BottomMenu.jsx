@@ -2,13 +2,20 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  Paper, BottomNavigation, BottomNavigationAction, Menu, MenuItem, Typography, Badge,
+  Paper,
+  BottomNavigation,
+  BottomNavigationAction,
+  Menu,
+  MenuItem,
+  Typography,
+  Badge,
 } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
-import DescriptionIcon from '@mui/icons-material/Description';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MapIcon from '@mui/icons-material/Map';
-import PersonIcon from '@mui/icons-material/Person';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import { sessionActions } from '../../store';
@@ -16,7 +23,55 @@ import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
 
+const useStyles = makeStyles()((theme) => ({
+  paper: {
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+    borderTop: `1px solid ${theme.palette.divider}`,
+  },
+  navigation: {
+    height: 58,
+    backgroundColor: 'transparent',
+    '& .MuiBottomNavigationAction-root': {
+      minWidth: 0,
+      padding: '6px 4px',
+      color: theme.palette.text.secondary,
+      transition: 'all 150ms ease',
+      '&:hover': {
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.03)' : 'rgba(15, 23, 42, 0.02)',
+      },
+    },
+    '& .MuiBottomNavigationAction-root.Mui-selected': {
+      color: theme.palette.primary.main,
+      '& .MuiBottomNavigationAction-label': {
+        fontWeight: 700,
+        color: theme.palette.primary.main,
+      },
+      '& .MuiSvgIcon-root': {
+        transform: 'scale(1.08)',
+      },
+    },
+    '& .MuiBottomNavigationAction-label': {
+      fontSize: '0.7rem',
+      marginTop: 2,
+      fontWeight: 500,
+    },
+    '& .MuiSvgIcon-root': {
+      fontSize: '1.25rem',
+      transition: 'transform 150ms ease',
+    },
+  },
+  menuPaper: {
+    borderRadius: 14,
+    border: `1px solid ${theme.palette.divider}`,
+    boxShadow: '0 10px 28px rgba(15, 23, 42, 0.12)',
+    minWidth: 140,
+  },
+}));
+
 const BottomMenu = () => {
+  const { classes } = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -30,13 +85,16 @@ const BottomMenu = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const currentSelection = () => {
-    if (location.pathname === `/settings/user/${user.id}`) {
+    if (location.pathname === `/settings/user/${user?.id}`) {
       return 'account';
-    } if (location.pathname.startsWith('/settings')) {
+    }
+    if (location.pathname.startsWith('/settings')) {
       return 'settings';
-    } if (location.pathname.startsWith('/reports')) {
+    }
+    if (location.pathname.startsWith('/reports')) {
       return 'reports';
-    } if (location.pathname === '/') {
+    }
+    if (location.pathname === '/') {
       return 'map';
     }
     return null;
@@ -99,33 +157,47 @@ const BottomMenu = () => {
   };
 
   return (
-    <Paper square elevation={3}>
-      <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
+    <Paper elevation={0} className={classes.paper}>
+      <BottomNavigation
+        value={currentSelection()}
+        onChange={handleSelection}
+        showLabels
+        className={classes.navigation}
+      >
         <BottomNavigationAction
           label={t('mapTitle')}
           icon={(
             <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
-              <MapIcon />
+              <MapOutlinedIcon />
             </Badge>
           )}
           value="map"
         />
         {!disableReports && (
-          <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionIcon />} value="reports" />
+          <BottomNavigationAction label={t('reportTitle')} icon={<DescriptionOutlinedIcon />} value="reports" />
         )}
-        <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsIcon />} value="settings" />
+        <BottomNavigationAction label={t('settingsTitle')} icon={<SettingsOutlinedIcon />} value="settings" />
         {readonly ? (
           <BottomNavigationAction label={t('loginLogout')} icon={<ExitToAppIcon />} value="logout" />
         ) : (
-          <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} value="account" />
+          <BottomNavigationAction label={t('settingsUser')} icon={<PersonOutlineOutlinedIcon />} value="account" />
         )}
       </BottomNavigation>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        slotProps={{
+          paper: {
+            className: classes.menuPaper,
+          },
+        }}
+      >
         <MenuItem onClick={handleAccount}>
-          <Typography color="textPrimary">{t('settingsUser')}</Typography>
+          <Typography variant="body2" color="textPrimary" fontWeight={600}>{t('settingsUser')}</Typography>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
-          <Typography color="error">{t('loginLogout')}</Typography>
+          <Typography variant="body2" color="error" fontWeight={600}>{t('loginLogout')}</Typography>
         </MenuItem>
       </Menu>
     </Paper>

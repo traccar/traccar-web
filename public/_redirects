@@ -1,0 +1,8 @@
+# WebSocket for live updates (backend is plain ws:// — may be blocked as mixed content on HTTPS)
+/api/socket  ws://tracker.amsonsoft.com:8082/api/socket  200!
+
+# Proxy API calls to the Traccar backend
+/api/*  http://tracker.amsonsoft.com:8082/api/:splat  200!
+
+# SPA fallback for React Router
+/*  /index.html  200
