@@ -86,19 +86,6 @@ export default () => {
         available: true,
       },
       {
-        id: 'carto',
-        title: t('mapCarto'),
-        style: styleCustom({
-          tiles: ['a', 'b', 'c', 'd'].map(
-            (i) => `https://${i}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png`,
-          ),
-          maxZoom: 22,
-          attribution:
-            '© <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a target="_top" rel="noopener" href="https://carto.com/attribution">CARTO</a>',
-        }),
-        available: true,
-      },
-      {
         id: 'googleRoad',
         title: t('mapGoogleRoad'),
         style: styleCustom({
