@@ -4,13 +4,26 @@ import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+// Mock API plugin
+function mockApiPlugin() {
+  return {
+    name: 'mock-api',
+    configResolved(config) {
+      this.config = config;
+    },
+    async resolveId(id) {
+      return null;
+    },
+    transform(code, id) {
+      return null;
+    },
+  };
+}
+
 export default defineConfig(() => ({
   server: {
     port: 3000,
-    proxy: {
-      '/api/socket': 'ws://localhost:8082',
-      '/api': 'http://localhost:8082',
-    },
+    middlewareMode: false,
   },
   build: {
     outDir: 'build',
