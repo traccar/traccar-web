@@ -7,14 +7,20 @@ import { LocalizationProvider } from './common/components/LocalizationProvider';
 import ErrorHandler from './common/components/ErrorHandler';
 import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
+import loadIconsets, { markImagesReady } from './common/util/customIcons';
 import NativeInterface from './common/components/NativeInterface';
 import ServerProvider from './ServerProvider';
 import ErrorBoundary from './ErrorBoundary';
 import AppThemeProvider from './AppThemeProvider';
 
-preloadImages();
+// Read icon sets from the override folder, then preload and tint everything
+const iconsetsLoaded = loadIconsets();
+iconsetsLoaded.then(preloadImages).finally(markImagesReady);
 
-const root = createRoot(document.getElementById('root'));
+const reactRoot = createRoot(document.getElementById('root'));
+// Render once the categories are known, otherwise a directly opened page
+// would show the list without the icons from the override folder.
+const root = { render: (node) => iconsetsLoaded.then(() => reactRoot.render(node)) };
 root.render(
   <ErrorBoundary>
     <Provider store={store}>
