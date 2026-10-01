@@ -36,7 +36,7 @@ import PasswordField from '../common/components/PasswordField';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
-import { useCatch } from '../reactHelper';
+import { useAsyncTask, useCatch } from '../reactHelper';
 import useMapStyles from '../map/core/useMapStyles';
 import { map } from '../map/core/MapView';
 import useSettingsStyles from './common/useSettingsStyles';
@@ -69,6 +69,7 @@ const UserPage = () => {
   const [deleteFailed, setDeleteFailed] = useState(false);
   const [revokeDialogOpen, setRevokeDialogOpen] = useState(false);
   const [revokeToken, setRevokeToken] = useState('');
+  const [matrixNotificationEnabled, setMatrixNotificationEnabled] = useState(false);
 
   const handleDelete = useCatch(async () => {
     if (deleteEmail === currentUser.email) {
@@ -114,6 +115,12 @@ const UserPage = () => {
       }
     }
   }, [item, searchParams, setSearchParams, attribute]);
+
+  useAsyncTask(async ({ signal }) => {
+    const response = await fetchOrThrow('/api/notifications/notificators', { signal });
+    const notificators = await response.json();
+    setMatrixNotificationEnabled(notificators.some((notificator) => notificator.type === 'matrix'));
+  }, []);
 
   const onItemSaved = (result) => {
     if (result.id === currentUser.id) {
@@ -199,6 +206,18 @@ const UserPage = () => {
                 onChange={(e) => setItem({ ...item, phone: e.target.value })}
                 label={t('sharedPhone')}
               />
+              {matrixNotificationEnabled && (
+                <TextField
+                  value={item.attributes?.matrixUser || ''}
+                  onChange={(e) =>
+                    setItem({
+                      ...item,
+                      attributes: { ...item.attributes, matrixUser: e.target.value },
+                    })
+                  }
+                  label={t('attributeMatrixUser')}
+                />
+              )}
               <FormControl>
                 <InputLabel>{t('mapDefault')}</InputLabel>
                 <Select

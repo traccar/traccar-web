@@ -11,6 +11,10 @@ export default (t) =>
         name: t('attributeTelegramSendLocation'),
         type: 'boolean',
       },
+      matrixUser: {
+        name: t('attributeMatrixUser'),
+        type: 'string',
+      },
       pushoverUserKey: {
         name: t('attributePushoverUserKey'),
         type: 'string',
