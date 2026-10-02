@@ -30,6 +30,7 @@ const MessageHandler = () => {
     (typeof activeMessage === 'string' ? activeMessage : activeMessage?.message) ||
     t('errorGeneral');
   const severity = activeMessage?.severity || 'error';
+  const { duration = severity === 'error' ? null : snackBarDurationShortMs } = activeMessage || {};
   const multiline = message.includes('\n');
   const displayMessage = multiline
     ? message.split('\n')[0].replace(/^(?:(?:[\w$]+\.)*[\w$]+(?:Exception|Error)?:\s*)+/i, '')
@@ -42,9 +43,9 @@ const MessageHandler = () => {
       <Snackbar
         key={`${severity}:${message}`}
         open={hasMessage && !expanded}
-        autoHideDuration={severity === 'error' ? null : snackBarDurationShortMs}
+        autoHideDuration={duration}
         onClose={(_, reason) => {
-          if (severity !== 'error' && reason !== 'clickaway') {
+          if (duration !== null && reason !== 'clickaway') {
             dispatch(messagesActions.pop());
           }
         }}

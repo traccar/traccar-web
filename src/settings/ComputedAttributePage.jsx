@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { messagesActions } from '../store';
 import {
   Accordion,
   AccordionSummary,
@@ -12,7 +14,6 @@ import {
   createFilterOptions,
   Autocomplete,
   Button,
-  Snackbar,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditItemView from './components/EditItemView';
@@ -39,12 +40,12 @@ const allowedProperties = [
 const ComputedAttributePage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
+  const dispatch = useDispatch();
 
   const positionAttributes = usePositionAttributes(t);
 
   const [item, setItem] = useState();
   const [deviceId, setDeviceId] = useState();
-  const [result, setResult] = useState();
 
   const options = Object.entries(positionAttributes)
     .filter(([key, value]) => !value.property || allowedProperties.includes(key))
@@ -66,7 +67,16 @@ const ComputedAttributePage = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
-    setResult(await response.text());
+    const result = await response.text();
+    if (result) {
+      dispatch(
+        messagesActions.push({
+          message: result,
+          severity: 'info',
+          duration: snackBarDurationLongMs,
+        }),
+      );
+    }
   });
 
   const validate = () => item && item.description && item.expression;
@@ -178,12 +188,6 @@ const ComputedAttributePage = () => {
               >
                 {t('sharedTestExpression')}
               </Button>
-              <Snackbar
-                open={!!result}
-                onClose={() => setResult(null)}
-                autoHideDuration={snackBarDurationLongMs}
-                message={result}
-              />
             </AccordionDetails>
           </Accordion>
         </>
