@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextField, Typography, Snackbar, IconButton } from '@mui/material';
+import { Button, TextField, Typography, IconButton } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
 import LoginLayout from './LoginLayout';
 import { useTranslation } from '../common/components/LocalizationProvider';
-import { snackBarDurationShortMs } from '../common/util/duration';
 import { useCatch, useAsyncTask } from '../reactHelper';
-import { sessionActions } from '../store';
+import { messagesActions, sessionActions } from '../store';
 import BackIcon from '../common/components/BackIcon';
 import PasswordField from '../common/components/PasswordField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -43,7 +42,6 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [totpKey, setTotpKey] = useState(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useAsyncTask(
     async ({ signal }) => {
@@ -62,7 +60,9 @@ const RegisterPage = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, totpKey }),
     });
-    setSnackbarOpen(true);
+    dispatch(messagesActions.push({ message: t('loginCreated'), severity: 'success' }));
+    dispatch(sessionActions.updateServer({ ...server, newServer: false }));
+    navigate('/login');
   });
 
   return (
@@ -126,15 +126,6 @@ const RegisterPage = () => {
           {t('loginRegister')}
         </Button>
       </div>
-      <Snackbar
-        open={snackbarOpen}
-        onClose={() => {
-          dispatch(sessionActions.updateServer({ ...server, newServer: false }));
-          navigate('/login');
-        }}
-        autoHideDuration={snackBarDurationShortMs}
-        message={t('loginCreated')}
-      />
     </LoginLayout>
   );
 };
