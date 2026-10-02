@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
-import { errorsActions } from '../../store';
+import { messagesActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { snackBarDurationLongMs } from '../util/duration';
 
@@ -20,7 +20,7 @@ const MessageHandler = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
-  const messages = useSelector((state) => state.errors.errors);
+  const messages = useSelector((state) => state.messages.messages);
   const hasMessage = messages.length > 0;
   const currentMessage = messages[0];
   const cachedMessage = usePrevious(currentMessage);
@@ -45,13 +45,13 @@ const MessageHandler = () => {
         autoHideDuration={severity === 'error' ? null : snackBarDurationLongMs}
         onClose={(_, reason) => {
           if (severity !== 'error' && reason !== 'clickaway') {
-            dispatch(errorsActions.pop());
+            dispatch(messagesActions.pop());
           }
         }}
       >
         <Alert
           elevation={6}
-          onClose={() => dispatch(errorsActions.pop())}
+          onClose={() => dispatch(messagesActions.pop())}
           severity={severity}
           variant="filled"
         >

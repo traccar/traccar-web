@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { map } from '../core/MapView';
 import { findFonts, geofenceToFeature, geometryToArea } from '../core/mapUtil';
-import { errorsActions, geofencesActions } from '../../store';
+import { messagesActions, geofencesActions } from '../../store';
 import { useCatchCallback } from '../../reactHelper';
 import drawTheme from './theme';
 import { useTranslation } from '../../common/components/LocalizationProvider';
@@ -83,7 +83,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
         const item = await response.json();
         navigate(`/settings/geofence/${item.id}`);
       } catch (error) {
-        dispatch(errorsActions.push(error.message));
+        dispatch(messagesActions.push(error.message));
       }
     };
 
@@ -98,7 +98,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
         await fetchOrThrow(`/api/geofences/${feature.id}`, { method: 'DELETE' });
         refreshGeofences();
       } catch (error) {
-        dispatch(errorsActions.push(error.message));
+        dispatch(messagesActions.push(error.message));
       }
     };
 
@@ -120,7 +120,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
           });
           refreshGeofences();
         } catch (error) {
-          dispatch(errorsActions.push(error.message));
+          dispatch(messagesActions.push(error.message));
         }
       }
     };

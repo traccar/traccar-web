@@ -11,7 +11,7 @@ import MapGeofenceEdit from '../map/draw/MapGeofenceEdit';
 import GeofencesList from './GeofencesList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import MapGeocoder from '../map/control/MapGeocoder';
-import { errorsActions } from '../store';
+import { messagesActions } from '../store';
 import MapScale from '../map/MapScale';
 import BackIcon from '../common/components/BackIcon';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -81,11 +81,11 @@ const GeofencesPage = () => {
         const item = await response.json();
         navigate(`/settings/geofence/${item.id}`);
       } catch (error) {
-        dispatch(errorsActions.push(error.message));
+        dispatch(messagesActions.push(error.message));
       }
     };
     reader.onerror = (event) => {
-      dispatch(errorsActions.push(event.target.error));
+      dispatch(messagesActions.push(event.target.error));
     };
     reader.readAsText(file);
   };

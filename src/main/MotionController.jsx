@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
-import { errorsActions, motionActions } from '../store';
+import { messagesActions, motionActions } from '../store';
 import { useAttributePreference } from '../common/util/preferences';
 import { useAsyncTask } from '../reactHelper';
 import fetchOrThrow from '../common/util/fetchOrThrow';
@@ -95,7 +95,7 @@ const MotionController = () => {
         () => {
           refreshMotion().catch((error) => {
             if (error.name !== 'AbortError') {
-              dispatch(errorsActions.push(error.message));
+              dispatch(messagesActions.push(error.message));
             }
           });
         },

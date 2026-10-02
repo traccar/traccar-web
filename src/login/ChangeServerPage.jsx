@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import Loader from '../common/components/Loader';
-import { errorsActions } from '../store';
+import { messagesActions } from '../store';
 
 const currentServer = `${window.location.protocol}//${window.location.host}`;
 
@@ -157,7 +157,7 @@ const ChangeServerPage = () => {
           <Scanner
             constraints={{ facingMode: 'environment' }}
             onScan={handleScanResult}
-            onError={(error) => dispatch(errorsActions.push(String(error)))}
+            onError={(error) => dispatch(messagesActions.push(String(error)))}
             className={classes.scannerVideo}
           />
         </DialogContent>
