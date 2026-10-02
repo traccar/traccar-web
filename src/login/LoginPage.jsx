@@ -7,13 +7,12 @@ import {
   Button,
   TextField,
   Link,
-  Snackbar,
+  Alert,
   IconButton,
   Tooltip,
 } from '@mui/material';
 import CountryFlag from 'react-country-flag';
 import { makeStyles } from 'tss-react/mui';
-import CloseIcon from '@mui/icons-material/Close';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { useTheme } from '@mui/material/styles';
@@ -202,6 +201,11 @@ const LoginPage = () => {
         {useMediaQuery(theme.breakpoints.down('lg')) && (
           <LogoImage color={theme.palette.primary.main} />
         )}
+        {!!announcement && !announcementShown && (
+          <Alert severity="info" onClose={() => setAnnouncementShown(true)}>
+            {announcement}
+          </Alert>
+        )}
         {!openIdForced && (
           <>
             <TextField
@@ -278,15 +282,6 @@ const LoginPage = () => {
         )}
       </div>
       <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
-      <Snackbar
-        open={!!announcement && !announcementShown}
-        message={announcement}
-        action={
-          <IconButton size="small" color="inherit" onClick={() => setAnnouncementShown(true)}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-      />
     </LoginLayout>
   );
 };
