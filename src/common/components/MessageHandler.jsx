@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
 import { messagesActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
-import { snackBarDurationLongMs } from '../util/duration';
+import { snackBarDurationShortMs } from '../util/duration';
 
 const MessageHandler = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const MessageHandler = () => {
       <Snackbar
         key={`${severity}:${message}`}
         open={hasMessage && !expanded}
-        autoHideDuration={severity === 'error' ? null : snackBarDurationLongMs}
+        autoHideDuration={severity === 'error' ? null : snackBarDurationShortMs}
         onClose={(_, reason) => {
           if (severity !== 'error' && reason !== 'clickaway') {
             dispatch(messagesActions.pop());

@@ -1,7 +1,8 @@
-import { Autocomplete, Snackbar, TextField } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { messagesActions } from '../../store';
 import { useCatchCallback, useAsyncTask } from '../../reactHelper';
-import { snackBarDurationShortMs } from '../util/duration';
 import { useTranslation } from './LocalizationProvider';
 import fetchOrThrow from '../util/fetchOrThrow';
 
@@ -17,10 +18,10 @@ const LinkField = ({
   titleGetter = defaultTitleGetter,
 }) => {
   const t = useTranslation();
+  const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const [items, setItems] = useState();
   const [linked, setLinked] = useState();
-  const [updated, setUpdated] = useState(false);
 
   useAsyncTask(
     async ({ signal }) => {
@@ -72,48 +73,42 @@ const LinkField = ({
             );
           });
         await Promise.all(results);
-        setUpdated(results.length > 0);
+        if (results.length > 0) {
+          dispatch(messagesActions.push({ message: t('sharedSaved'), severity: 'success' }));
+        }
         setLinked(value);
       }
     },
-    [linked, baseId, keyBase, keyLink],
+    [linked, baseId, keyBase, keyLink, dispatch, t],
   );
 
   return (
-    <>
-      <Autocomplete
-        size="small"
-        loading={active && (!items || !linked)}
-        isOptionEqualToValue={(i1, i2) => i1.id === i2.id}
-        options={(linked && items) || []}
-        getOptionLabel={(item) => titleGetter(item)}
-        slotProps={{ chip: { size: 'small' } }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label}
-            placeholder={!active ? t('reportShow') : null}
-            onFocus={() => setActive(true)}
-            slotProps={{
-              ...params.slotProps,
-              inputLabel: {
-                ...params.slotProps?.inputLabel,
-                shrink: !active || params.slotProps?.inputLabel?.shrink,
-              },
-            }}
-          />
-        )}
-        value={(items && linked) || []}
-        onChange={(_, value) => onChange(value)}
-        multiple
-      />
-      <Snackbar
-        open={Boolean(updated)}
-        onClose={() => setUpdated(false)}
-        autoHideDuration={snackBarDurationShortMs}
-        message={t('sharedSaved')}
-      />
-    </>
+    <Autocomplete
+      size="small"
+      loading={active && (!items || !linked)}
+      isOptionEqualToValue={(i1, i2) => i1.id === i2.id}
+      options={(linked && items) || []}
+      getOptionLabel={(item) => titleGetter(item)}
+      slotProps={{ chip: { size: 'small' } }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          placeholder={!active ? t('reportShow') : null}
+          onFocus={() => setActive(true)}
+          slotProps={{
+            ...params.slotProps,
+            inputLabel: {
+              ...params.slotProps?.inputLabel,
+              shrink: !active || params.slotProps?.inputLabel?.shrink,
+            },
+          }}
+        />
+      )}
+      value={(items && linked) || []}
+      onChange={(_, value) => onChange(value)}
+      multiple
+    />
   );
 };
 
