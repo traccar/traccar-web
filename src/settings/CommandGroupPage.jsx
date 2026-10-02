@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Accordion,
@@ -23,9 +23,11 @@ import SettingsMenu from './components/SettingsMenu';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
+import { messagesActions } from '../store';
 
 const CommandDevicePage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { classes } = useSettingsStyles();
   const t = useTranslation();
 
@@ -37,11 +39,17 @@ const CommandDevicePage = () => {
 
   const handleSend = useCatch(async () => {
     const query = new URLSearchParams({ groupId: id });
-    await fetchOrThrow(`/api/commands/send?${query.toString()}`, {
+    const response = await fetchOrThrow(`/api/commands/send?${query.toString()}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
     });
+    dispatch(
+      messagesActions.push({
+        message: t(response.status === 202 ? 'commandQueued' : 'commandSent'),
+        severity: 'success',
+      }),
+    );
     navigate(-1);
   });
 
