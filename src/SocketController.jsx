@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Snackbar } from '@mui/material';
-import { devicesActions, sessionActions } from './store';
+import { devicesActions, messagesActions, sessionActions } from './store';
 import { useCatchCallback, useAsyncTask } from './reactHelper';
 import { snackBarDurationLongMs } from './common/util/duration';
 import alarm from './resources/alarm.mp3';
@@ -43,8 +42,6 @@ const SocketController = () => {
     }
   }, []);
 
-  const [notifications, setNotifications] = useState([]);
-
   const soundEvents = useAttributePreference('soundEvents', '');
   const soundAlarms = useAttributePreference('soundAlarms', 'sos');
 
@@ -64,13 +61,17 @@ const SocketController = () => {
       ) {
         playAlarm();
       }
-      setNotifications(
-        events.map((event) => ({
-          id: event.id,
-          message: event.attributes.message,
-          show: true,
-        })),
-      );
+      events.forEach((event) => {
+        if (event.attributes.message) {
+          dispatch(
+            messagesActions.push({
+              message: event.attributes.message,
+              severity: 'info',
+              duration: snackBarDurationLongMs,
+            }),
+          );
+        }
+      });
     },
     [features, dispatch, soundEvents, soundAlarms],
   );
@@ -217,19 +218,7 @@ const SocketController = () => {
     };
   }, [authenticated, connectSocket]);
 
-  return (
-    <>
-      {notifications.map((notification) => (
-        <Snackbar
-          key={notification.id}
-          open={notification.show}
-          message={notification.message}
-          autoHideDuration={snackBarDurationLongMs}
-          onClose={() => setNotifications((prev) => prev.filter((e) => e.id !== notification.id))}
-        />
-      ))}
-    </>
-  );
+  return null;
 };
 
 export default SocketController;
