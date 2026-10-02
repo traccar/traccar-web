@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import { Snackbar } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useTranslation } from './LocalizationProvider';
 import { useCatch } from '../../reactHelper';
@@ -34,13 +34,20 @@ const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
       open={open}
       autoHideDuration={snackBarDurationLongMs}
       onClose={() => onResult(false)}
-      message={t('sharedRemoveConfirm')}
-      action={
-        <Button size="small" className={classes.button} color="error" onClick={handleRemove}>
-          {t('sharedRemove')}
-        </Button>
-      }
-    />
+    >
+      <Alert
+        elevation={6}
+        severity="warning"
+        variant="filled"
+        action={
+          <Button size="small" className={classes.button} color="inherit" onClick={handleRemove}>
+            {t('sharedRemove')}
+          </Button>
+        }
+      >
+        {t('sharedRemoveConfirm')}
+      </Alert>
+    </Snackbar>
   );
 };
 
