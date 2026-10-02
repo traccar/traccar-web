@@ -14,17 +14,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '../../reactHelper';
 import { errorsActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
+import { snackBarDurationLongMs } from '../util/duration';
 
 const MessageHandler = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
-  const errors = useSelector((state) => state.errors.errors);
-  const hasError = errors.length > 0;
-  const error = errors[0];
-  const cachedError = usePrevious(error);
+  const messages = useSelector((state) => state.errors.errors);
+  const hasMessage = messages.length > 0;
+  const currentMessage = messages[0];
+  const cachedMessage = usePrevious(currentMessage);
 
-  const message = (hasError ? error : cachedError) || t('errorGeneral');
+  const activeMessage = hasMessage ? currentMessage : cachedMessage;
+  const message =
+    (typeof activeMessage === 'string' ? activeMessage : activeMessage?.message) ||
+    t('errorGeneral');
+  const severity = activeMessage?.severity || 'error';
   const multiline = message.includes('\n');
   const displayMessage = multiline
     ? message.split('\n')[0].replace(/^(?:(?:[\w$]+\.)*[\w$]+(?:Exception|Error)?:\s*)+/i, '')
@@ -34,11 +39,20 @@ const MessageHandler = () => {
 
   return (
     <>
-      <Snackbar open={hasError && !expanded}>
+      <Snackbar
+        key={`${severity}:${message}`}
+        open={hasMessage && !expanded}
+        autoHideDuration={severity === 'error' ? null : snackBarDurationLongMs}
+        onClose={(_, reason) => {
+          if (severity !== 'error' && reason !== 'clickaway') {
+            dispatch(errorsActions.pop());
+          }
+        }}
+      >
         <Alert
           elevation={6}
           onClose={() => dispatch(errorsActions.pop())}
-          severity="error"
+          severity={severity}
           variant="filled"
         >
           {displayMessage}
