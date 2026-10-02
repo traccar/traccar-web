@@ -13,7 +13,7 @@
     "@mui/icons-material": "^9.4.0",
     "@mui/lab": "^9.0.0-beta.9",
     "@mui/material": "^9.4.0",
-    "@reduxjs/toolkit": "^2.12.0",
+    "@reduxjs/toolkit": "^2.13.0",
     "@tmcw/togeojson": "^7.1.2",
     "@turf/circle": "^7.4.0",
     "@yudiel/react-qr-scanner": "^2.6.0",
