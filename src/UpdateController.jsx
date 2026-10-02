@@ -1,4 +1,4 @@
-import { Snackbar, IconButton } from '@mui/material';
+import { Alert, Snackbar, IconButton } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux';
 import { useRegisterSW } from 'virtual:pwa-register/react';
@@ -44,15 +44,20 @@ const UpdateController = () => {
   });
 
   return (
-    <Snackbar
-      open={needRefresh}
-      message={t('settingsUpdateAvailable')}
-      action={
-        <IconButton color="inherit" onClick={() => updateServiceWorker(true)}>
-          <RefreshIcon />
-        </IconButton>
-      }
-    />
+    <Snackbar open={needRefresh}>
+      <Alert
+        elevation={6}
+        severity="info"
+        variant="filled"
+        action={
+          <IconButton size="small" color="inherit" onClick={() => updateServiceWorker(true)}>
+            <RefreshIcon fontSize="small" />
+          </IconButton>
+        }
+      >
+        {t('settingsUpdateAvailable')}
+      </Alert>
+    </Snackbar>
   );
 };
 
