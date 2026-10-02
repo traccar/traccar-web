@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import store from './store';
 import { LocalizationProvider } from './common/components/LocalizationProvider';
-import ErrorHandler from './common/components/ErrorHandler';
+import MessageHandler from './common/components/MessageHandler';
 import Navigation from './Navigation';
 import preloadImages from './map/core/preloadImages';
 import NativeInterface from './common/components/NativeInterface';
@@ -26,7 +26,7 @@ root.render(
               <BrowserRouter>
                 <Navigation />
               </BrowserRouter>
-              <ErrorHandler />
+              <MessageHandler />
               <NativeInterface />
             </ServerProvider>
           </AppThemeProvider>

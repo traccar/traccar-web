@@ -15,7 +15,7 @@ import { usePrevious } from '../../reactHelper';
 import { errorsActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 
-const ErrorHandler = () => {
+const MessageHandler = () => {
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -70,4 +70,4 @@ const ErrorHandler = () => {
   );
 };
 
-export default ErrorHandler;
+export default MessageHandler;
