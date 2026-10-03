@@ -16,7 +16,8 @@ import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
 import SelectField from '../common/components/SelectField';
 import deviceCategories from '../common/util/deviceCategories';
-import { useTranslation } from '../common/components/LocalizationProvider';
+import { useLocalization, useTranslation } from '../common/components/LocalizationProvider';
+import { customIconLabel } from '../common/util/customIcons';
 import useDeviceAttributes from '../common/attributes/useDeviceAttributes';
 import { useManager } from '../common/util/permissions';
 import SettingsMenu from './components/SettingsMenu';
@@ -29,6 +30,7 @@ import fetchOrThrow from '../common/util/fetchOrThrow';
 const DevicePage = () => {
   const { classes } = useSettingsStyles();
   const t = useTranslation();
+  const { language } = useLocalization();
 
   const manager = useManager();
 
@@ -121,7 +123,10 @@ const DevicePage = () => {
                 data={deviceCategories
                   .map((category) => ({
                     id: category,
-                    name: t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`),
+                    name:
+                      t(`category${category.replace(/^\w/, (c) => c.toUpperCase())}`) ??
+                      customIconLabel(category, language) ??
+                      category,
                   }))
                   .sort((a, b) => a.name.localeCompare(b.name))}
                 label={t('deviceCategory')}
