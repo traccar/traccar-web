@@ -117,7 +117,7 @@ const StatusRow = ({ name, content }) => {
 };
 
 const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
-  const { classes } = useStyles({ desktopPadding });
+  const { classes, cx } = useStyles({ desktopPadding });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -183,7 +183,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           >
             <Card elevation={3} className={classes.card}>
               <CardMedia
-                className={`draggable-header ${deviceImage ? classes.media : ''}`}
+                className={cx('draggable-header', deviceImage && classes.media)}
                 image={deviceImage && `/api/media/${device.uniqueId}/${deviceImage}`}
               >
                 <div className={classes.header}>

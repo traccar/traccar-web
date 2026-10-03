@@ -29,7 +29,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
   const theme = useTheme();
   const t = useTranslation();
   const distanceUnit = useAttributePreference('distanceUnit');
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
 
   const positionsRef = useRef(positions);
   positionsRef.current = positions;
@@ -138,7 +138,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         button = document.createElement('button');
         button.type = 'button';
         button.title = t('sharedDistance');
-        button.className = `maplibregl-ctrl-icon ${classes.button}`;
+        button.className = cx('maplibregl-ctrl-icon', classes.button);
         button.onclick = toggle;
         container.appendChild(button);
         root = createRoot(button);
@@ -167,7 +167,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         map.removeSource('ruler');
       }
     };
-  }, [theme, t, distanceUnit, classes.button]);
+  }, [theme, t, distanceUnit, classes.button, cx]);
 
   return null;
 };

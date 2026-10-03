@@ -55,7 +55,7 @@ const MapSwitcher = ({ styles, selectedId, onSelect }) => {
   const theme = useTheme();
   const t = useTranslation();
   const navigate = useNavigate();
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [hidden, setHidden] = usePersistedState('hiddenMapLayers', []);
@@ -85,7 +85,7 @@ const MapSwitcher = ({ styles, selectedId, onSelect }) => {
         element.className = 'maplibregl-ctrl maplibregl-ctrl-group';
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = `maplibregl-ctrl-icon ${classes.button}`;
+        button.className = cx('maplibregl-ctrl-icon', classes.button);
         button.onclick = () => setAnchorEl(button);
         element.appendChild(button);
         iconRoot = createRoot(button);
@@ -99,7 +99,7 @@ const MapSwitcher = ({ styles, selectedId, onSelect }) => {
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
-  }, [theme.direction, classes.button]);
+  }, [theme.direction, classes.button, cx]);
 
   return (
     <Menu

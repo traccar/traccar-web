@@ -21,7 +21,7 @@ const useStyles = makeStyles()((theme) => ({
 
 const MapNotification = ({ enabled, onClick }) => {
   const theme = useTheme();
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
 
   const onClickRef = useRef(onClick);
   onClickRef.current = onClick;
@@ -37,7 +37,7 @@ const MapNotification = ({ enabled, onClick }) => {
         container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = `maplibregl-ctrl-icon ${classes.button}`;
+        button.className = cx('maplibregl-ctrl-icon', classes.button);
         button.onclick = () => onClickRef.current();
         container.appendChild(button);
         root = createRoot(button);
@@ -52,7 +52,7 @@ const MapNotification = ({ enabled, onClick }) => {
     };
     map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
     return () => map.removeControl(control);
-  }, [theme.direction, classes.button]);
+  }, [theme.direction, classes.button, cx]);
 
   useEffect(() => {
     buttonRef.current?.classList.toggle('active', enabled);
