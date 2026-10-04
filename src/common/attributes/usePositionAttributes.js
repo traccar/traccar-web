@@ -117,7 +117,6 @@ export default (t) =>
       engineLoad: {
         name: t('positionEngineLoad'),
         type: 'number',
-        dataType: 'percentage',
       },
       gps: {
         name: t('positionGps'),
