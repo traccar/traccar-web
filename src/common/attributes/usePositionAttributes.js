@@ -237,7 +237,6 @@ export default (t) =>
       fuelLevel: {
         name: t('positionFuelLevel'),
         type: 'number',
-        dataType: 'percentage',
       },
       versionFw: {
         name: t('positionVersionFw'),
