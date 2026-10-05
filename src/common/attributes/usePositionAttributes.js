@@ -32,6 +32,7 @@ export default (t) =>
       altitude: {
         name: t('positionAltitude'),
         type: 'number',
+        dataType: 'altitude',
         property: true,
       },
       accuracy: {
