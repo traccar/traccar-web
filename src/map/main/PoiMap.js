@@ -40,6 +40,8 @@ const resolvePoiIcon = async (href, signal) => {
   return { id, height: map.getImage(id).data.height };
 };
 
+const isPoint = (feature) => ['Point', 'MultiPoint'].includes(feature.geometry?.type);
+
 const PoiMap = () => {
   const theme = useTheme();
   const t = useTranslation();
@@ -62,17 +64,25 @@ const PoiMap = () => {
           return;
         }
         setData(collection);
-        const hrefs = [...new Set(collection.features.map((f) => f.properties?.icon))];
+        const hrefs = [
+          ...new Set(collection.features.filter(isPoint).map((f) => f.properties?.icon)),
+        ];
         await Promise.all(
           hrefs.filter(Boolean).map(async (href) => {
-            const icon = await resolvePoiIcon(href, signal);
+            let url;
+            try {
+              url = new URL(href, file.url).href;
+            } catch {
+              return;
+            }
+            const icon = await resolvePoiIcon(url, signal);
             if (!icon || signal.aborted) {
               return;
             }
             collection = {
               ...collection,
               features: collection.features.map((feature) =>
-                feature.properties?.icon === href
+                isPoint(feature) && feature.properties?.icon === href
                   ? {
                       ...feature,
                       properties: {
