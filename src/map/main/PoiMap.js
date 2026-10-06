@@ -10,11 +10,8 @@ import { findFonts } from '../core/mapUtil';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 // KML placemarks may name an icon (<IconStyle><Icon><href>), which togeojson
-// surfaces as the `icon` property. Each distinct URL is loaded once and
-// registered under this prefix; a placemark whose icon fails to load falls
-// back to the plain circle.
-const iconImageId = (href) => `poi-icon:${href}`;
-
+// surfaces as the `icon` property. Each distinct URL is loaded once; a
+// placemark whose icon fails to load falls back to the plain circle.
 const loadPoiIcon = (href) =>
   new Promise((resolve) => {
     const image = new Image();
@@ -28,19 +25,19 @@ const loadPoiIcon = (href) =>
 
 const registerPoiIcons = async (features) => {
   const hrefs = [...new Set(features.map((f) => f.properties?.icon).filter(Boolean))];
-  const loaded = new Set();
+  const loaded = new Map();
   await Promise.all(
     hrefs.map(async (href) => {
-      const id = iconImageId(href);
+      const id = `poi-icon:${href}`;
       if (map.hasImage(id)) {
-        loaded.add(href);
+        loaded.set(href, map.getImage(id).data.height);
         return;
       }
       const image = await loadPoiIcon(href);
       if (image && !map.hasImage(id)) {
-        map.addImage(id, image, { pixelRatio: 2 });
+        map.addImage(id, image);
       }
-      if (image) loaded.add(href);
+      if (image) loaded.set(href, image.height);
     }),
   );
   return loaded;
@@ -64,7 +61,10 @@ const PoiMap = () => {
         parsed.features.forEach((feature) => {
           const href = feature.properties?.icon;
           if (href && loaded.has(href)) {
-            feature.properties.iconImage = iconImageId(href);
+            feature.properties.iconImage = `poi-icon:${href}`;
+            // Rendered height in px, so the title can clear any icon size.
+            feature.properties.iconHeight =
+              loaded.get(href) * (feature.properties['icon-scale'] ?? 1);
           }
         });
         setData(
@@ -94,7 +94,7 @@ const PoiMap = () => {
       {
         key: 'point',
         type: 'circle',
-        filter: ['all', ['==', '$type', 'Point'], ['!has', 'iconImage']],
+        filter: ['!has', 'iconImage'],
         metadata: { 'traccar:title': t('mapPoiLayer') },
         paint: {
           'circle-radius': 5,
@@ -128,12 +128,13 @@ const PoiMap = () => {
         metadata: { 'traccar:title': t('mapPoiLayer') },
         layout: {
           'text-field': '{name}',
-          'text-anchor': 'bottom',
-          'text-offset': [
+          'text-variable-anchor': ['bottom'],
+          // In ems (text-size 12): half the icon plus a gap, else the circle's 0.5.
+          'text-radial-offset': [
             'case',
-            ['has', 'iconImage'],
-            ['literal', [0, -1.6]],
-            ['literal', [0, -0.5]],
+            ['has', 'iconHeight'],
+            ['+', ['/', ['get', 'iconHeight'], 24], 0.25],
+            0.5,
           ],
           'text-font': findFonts(map),
           'text-size': 12,
