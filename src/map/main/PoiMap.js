@@ -9,14 +9,9 @@ import { usePreference } from '../../common/util/preferences';
 import { findFonts } from '../core/mapUtil';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
-// KML placemarks may name an icon (<IconStyle><Icon><href>), which togeojson
-// surfaces as the `icon` property. Each distinct URL is loaded once; a
-// placemark whose icon fails to load keeps the plain circle.
 const loadPoiIcon = (href, signal) =>
   new Promise((resolve) => {
     const image = new Image();
-    // Required so the image can be read back into the map's sprite canvas;
-    // the icon host must answer with Access-Control-Allow-Origin.
     image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
     image.onerror = () => resolve(null);
@@ -66,9 +61,6 @@ const PoiMap = () => {
         if (signal.aborted) {
           return;
         }
-        // Publish everything at once, icons as circles, then upgrade each
-        // placemark as its icon arrives -- a slow icon host must not hold back
-        // the rest of the layer.
         setData(collection);
         const hrefs = [...new Set(collection.features.map((f) => f.properties?.icon))];
         await Promise.all(
@@ -86,7 +78,6 @@ const PoiMap = () => {
                       properties: {
                         ...feature.properties,
                         iconImage: icon.id,
-                        // Rendered height in px, so the title can clear any icon size.
                         iconHeight: icon.height * (feature.properties['icon-scale'] ?? 1),
                       },
                     }
@@ -153,7 +144,6 @@ const PoiMap = () => {
         layout: {
           'text-field': '{name}',
           'text-variable-anchor': ['bottom'],
-          // In ems (text-size 12): half the icon plus a gap, else the circle's 0.5.
           'text-radial-offset': [
             'case',
             ['has', 'iconHeight'],
