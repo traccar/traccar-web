@@ -60,22 +60,13 @@ const PoiMap = () => {
           map.coordinateSystem === 'gcj02'
             ? gcoord.transform(parsed, gcoord.WGS84, gcoord.GCJ02)
             : parsed;
-        if (signal.aborted) {
-          return;
-        }
         setData(collection);
         const hrefs = [
           ...new Set(collection.features.filter(isPoint).map((f) => f.properties?.icon)),
-        ];
+        ].filter((href) => href && URL.canParse(href, file.url));
         await Promise.all(
-          hrefs.filter(Boolean).map(async (href) => {
-            let url;
-            try {
-              url = new URL(href, file.url).href;
-            } catch {
-              return;
-            }
-            const icon = await resolvePoiIcon(url, signal);
+          hrefs.map(async (href) => {
+            const icon = await resolvePoiIcon(new URL(href, file.url).href, signal);
             if (!icon || signal.aborted) {
               return;
             }
