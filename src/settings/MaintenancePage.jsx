@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import {
   Accordion,
@@ -12,16 +12,14 @@ import {
   Select,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { prefixString } from '../common/util/stringUtils';
 import EditItemView from './components/EditItemView';
 import EditAttributesAccordion from './components/EditAttributesAccordion';
-import { useAttributePreference } from '../common/util/preferences';
+import useAttributeUnits from '../common/util/useAttributeUnits';
 import {
-  speedFromKnots,
-  speedToKnots,
-  distanceFromMeters,
-  distanceToMeters,
-} from '../common/util/converter';
+  attributeFromRaw,
+  attributeToRaw,
+  attributeUnitString,
+} from '../common/util/attributeUnits';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import SettingsMenu from './components/SettingsMenu';
@@ -34,10 +32,7 @@ const MaintenancePage = () => {
   const positionAttributes = usePositionAttributes(t);
 
   const [item, setItem] = useState();
-  const [labels, setLabels] = useState({ start: '', period: '' });
-
-  const speedUnit = useAttributePreference('speedUnit', 'kn');
-  const distanceUnit = useAttributePreference('distanceUnit', 'km');
+  const units = useAttributeUnits();
 
   const convertToList = (attributes) => {
     const otherList = [];
@@ -50,35 +45,10 @@ const MaintenancePage = () => {
     return otherList;
   };
 
-  useEffect(() => {
-    const attribute = positionAttributes[item?.type];
-    if (item?.type?.endsWith('Time')) {
-      setLabels({ start: null, period: t('sharedDays') });
-    } else if (attribute && attribute.dataType) {
-      switch (attribute.dataType) {
-        case 'speed':
-          setLabels({
-            start: t(prefixString('shared', speedUnit)),
-            period: t(prefixString('shared', speedUnit)),
-          });
-          break;
-        case 'distance':
-          setLabels({
-            start: t(prefixString('shared', distanceUnit)),
-            period: t(prefixString('shared', distanceUnit)),
-          });
-          break;
-        case 'hours':
-          setLabels({ start: t('sharedHours'), period: t('sharedHours') });
-          break;
-        default:
-          setLabels({ start: null, period: null });
-          break;
-      }
-    } else {
-      setLabels({ start: null, period: null });
-    }
-  }, [item?.type, positionAttributes, speedUnit, distanceUnit, t]);
+  const unit = attributeUnitString(positionAttributes[item?.type]?.dataType, units, t);
+  const labels = item?.type?.endsWith('Time')
+    ? { start: null, period: t('sharedDays') }
+    : { start: unit, period: unit };
 
   const rawToValue = (start, value) => {
     const attribute = positionAttributes[item.type];
@@ -88,19 +58,7 @@ const MaintenancePage = () => {
       }
       return value / 86400000;
     }
-    if (attribute && attribute.dataType) {
-      switch (attribute.dataType) {
-        case 'speed':
-          return speedFromKnots(value, speedUnit);
-        case 'distance':
-          return distanceFromMeters(value, distanceUnit);
-        case 'hours':
-          return value / 3600000;
-        default:
-          return value;
-      }
-    }
-    return value;
+    return attributeFromRaw(value, attribute?.dataType, units);
   };
 
   const valueToRaw = (start, value) => {
@@ -111,19 +69,7 @@ const MaintenancePage = () => {
       }
       return value * 86400000;
     }
-    if (attribute && attribute.dataType) {
-      switch (attribute.dataType) {
-        case 'speed':
-          return speedToKnots(value, speedUnit);
-        case 'distance':
-          return distanceToMeters(value, distanceUnit);
-        case 'hours':
-          return value * 3600000;
-        default:
-          return value;
-      }
-    }
-    return value;
+    return attributeToRaw(value, attribute?.dataType, units);
   };
 
   const validate = () => item && item.name && item.type && item.start && item.period;

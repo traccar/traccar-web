@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
 import { useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
-import { formatDistance, formatSpeed } from '../common/util/formatter';
-import { useAttributePreference } from '../common/util/preferences';
+import useAttributeUnits from '../common/util/useAttributeUnits';
+import { formatAttributeNumber, attributeUnitString } from '../common/util/attributeUnits';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
@@ -25,8 +25,7 @@ const MaintenacesPage = () => {
   const [items, setItems] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [hasMore, setHasMore] = useState(true);
-  const speedUnit = useAttributePreference('speedUnit');
-  const distanceUnit = useAttributePreference('distanceUnit');
+  const units = useAttributeUnits();
 
   const loadItems = useCallback(
     async (offset, signal) => {
@@ -61,20 +60,9 @@ const MaintenacesPage = () => {
       }
       return `${value / 86400000} ${t('sharedDays')}`;
     }
-    if (attribute && attribute.dataType) {
-      switch (attribute.dataType) {
-        case 'speed':
-          return formatSpeed(value, speedUnit, t);
-        case 'distance':
-          return formatDistance(value, distanceUnit, t);
-        case 'hours':
-          return `${value / 3600000} ${t('sharedHours')}`;
-        default:
-          return value;
-      }
-    }
-
-    return value;
+    const formatted = formatAttributeNumber(value, attribute?.dataType, units);
+    const unit = attributeUnitString(attribute?.dataType, units, t);
+    return unit ? `${formatted} ${unit}` : formatted;
   };
 
   return (

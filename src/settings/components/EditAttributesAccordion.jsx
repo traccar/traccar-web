@@ -20,18 +20,12 @@ import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddAttributeDialog from './AddAttributeDialog';
 import { useTranslation } from '../../common/components/LocalizationProvider';
-import { useAttributePreference } from '../../common/util/preferences';
+import useAttributeUnits from '../../common/util/useAttributeUnits';
 import {
-  distanceFromMeters,
-  distanceToMeters,
-  distanceUnitString,
-  speedFromKnots,
-  speedToKnots,
-  speedUnitString,
-  volumeFromLiters,
-  volumeToLiters,
-  volumeUnitString,
-} from '../../common/util/converter';
+  attributeFromRaw,
+  attributeToRaw,
+  attributeUnitString,
+} from '../../common/util/attributeUnits';
 import useFeatures from '../../common/util/useFeatures';
 import useSettingsStyles from '../common/useSettingsStyles';
 
@@ -47,28 +41,17 @@ const EditAttributesAccordion = ({
 
   const features = useFeatures();
 
-  const speedUnit = useAttributePreference('speedUnit');
-  const distanceUnit = useAttributePreference('distanceUnit');
-  const volumeUnit = useAttributePreference('volumeUnit');
+  const units = useAttributeUnits();
 
   const [addDialogShown, setAddDialogShown] = useState(false);
 
   const updateAttribute = (key, value, type, dataType) => {
     const updatedAttributes = { ...attributes };
-    switch (dataType) {
-      case 'speed':
-        updatedAttributes[key] = speedToKnots(Number(value), speedUnit);
-        break;
-      case 'distance':
-        updatedAttributes[key] = distanceToMeters(Number(value), distanceUnit);
-        break;
-      case 'volume':
-        updatedAttributes[key] = volumeToLiters(Number(value), volumeUnit);
-        break;
-      default:
-        updatedAttributes[key] = type === 'number' ? Number(value) : value;
-        break;
-    }
+    updatedAttributes[key] = attributeToRaw(
+      type === 'number' ? Number(value) : value,
+      dataType,
+      units,
+    );
     setAttributes(updatedAttributes);
   };
 
@@ -81,16 +64,8 @@ const EditAttributesAccordion = ({
   const getAttributeName = (key, dataType) => {
     const definition = definitions[key];
     const name = definition ? definition.name : key;
-    switch (dataType) {
-      case 'speed':
-        return `${name} (${speedUnitString(speedUnit, t)})`;
-      case 'distance':
-        return `${name} (${distanceUnitString(distanceUnit, t)})`;
-      case 'volume':
-        return `${name} (${volumeUnitString(volumeUnit, t)})`;
-      default:
-        return name;
-    }
+    const unit = attributeUnitString(dataType, units, t);
+    return unit ? `${name} (${unit})` : name;
   };
 
   const getAttributeType = (value) => {
@@ -108,21 +83,7 @@ const EditAttributesAccordion = ({
     return definition && definition.dataType;
   };
 
-  const getDisplayValue = (value, dataType) => {
-    if (value !== undefined && value !== null) {
-      switch (dataType) {
-        case 'speed':
-          return speedFromKnots(value, speedUnit);
-        case 'distance':
-          return distanceFromMeters(value, distanceUnit);
-        case 'volume':
-          return volumeFromLiters(value, volumeUnit);
-        default:
-          return value;
-      }
-    }
-    return '';
-  };
+  const getDisplayValue = (value, dataType) => attributeFromRaw(value, dataType, units) ?? '';
 
   const convertToList = (attributes) => {
     const booleanList = [];

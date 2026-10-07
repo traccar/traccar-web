@@ -58,8 +58,6 @@ const PositionValue = ({ position, property, attribute }) => {
         return formatSpeed(speedToKnots(value, 'kmh'), speedUnit, t);
       case 'course':
         return formatCourse(value);
-      case 'altitude':
-        return formatAltitude(value, altitudeUnit, t);
       case 'fuelConsumption':
         return formatConsumption(value, t);
       case 'coolantTemp':
@@ -68,6 +66,8 @@ const PositionValue = ({ position, property, attribute }) => {
         return formatAlarm(value, t);
       default:
         switch (positionAttributes[key]?.dataType) {
+          case 'altitude':
+            return formatAltitude(value, altitudeUnit, t);
           case 'speed':
             return formatSpeed(value, speedUnit, t);
           case 'distance':

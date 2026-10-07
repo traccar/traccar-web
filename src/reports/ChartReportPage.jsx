@@ -27,14 +27,9 @@ import PageLayout from '../common/components/PageLayout';
 import ReportsMenu from './components/ReportsMenu';
 import usePositionAttributes from '../common/attributes/usePositionAttributes';
 import { useCatchCallback } from '../reactHelper';
-import { useAttributePreference } from '../common/util/preferences';
-import {
-  altitudeFromMeters,
-  distanceFromMeters,
-  speedFromKnots,
-  speedToKnots,
-  volumeFromLiters,
-} from '../common/util/converter';
+import useAttributeUnits from '../common/util/useAttributeUnits';
+import { formatAttributeNumber } from '../common/util/attributeUnits';
+import { speedToKnots } from '../common/util/converter';
 import useReportStyles from './common/useReportStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
@@ -45,10 +40,7 @@ const ChartReportPage = () => {
 
   const positionAttributes = usePositionAttributes(t);
 
-  const distanceUnit = useAttributePreference('distanceUnit');
-  const altitudeUnit = useAttributePreference('altitudeUnit');
-  const speedUnit = useAttributePreference('speedUnit');
-  const volumeUnit = useAttributePreference('volumeUnit');
+  const units = useAttributeUnits();
 
   const [items, setItems] = useState([]);
   const [positions, setPositions] = useState([]);
@@ -104,32 +96,9 @@ const ChartReportPage = () => {
             if (typeof value === 'number') {
               keySet.add(key);
               const definition = positionAttributes[key] || {};
-              switch (definition.dataType) {
-                case 'speed':
-                  if (key == 'obdSpeed') {
-                    formatted[key] = speedFromKnots(speedToKnots(value, 'kmh'), speedUnit).toFixed(
-                      2,
-                    );
-                  } else {
-                    formatted[key] = speedFromKnots(value, speedUnit).toFixed(2);
-                  }
-                  break;
-                case 'altitude':
-                  formatted[key] = altitudeFromMeters(value, altitudeUnit).toFixed(2);
-                  break;
-                case 'distance':
-                  formatted[key] = distanceFromMeters(value, distanceUnit).toFixed(2);
-                  break;
-                case 'volume':
-                  formatted[key] = volumeFromLiters(value, volumeUnit).toFixed(2);
-                  break;
-                case 'hours':
-                  formatted[key] = (value / 3600000).toFixed(2);
-                  break;
-                default:
-                  formatted[key] = value;
-                  break;
-              }
+              const rawValue = key === 'obdSpeed' ? speedToKnots(value, 'kmh') : value;
+              const converted = formatAttributeNumber(rawValue, definition.dataType, units);
+              formatted[key] = definition.dataType === 'hours' ? converted.toFixed(2) : converted;
             }
           });
         return formatted;
@@ -146,7 +115,7 @@ const ChartReportPage = () => {
       setSelectedItem(null);
       setBrushStartIndex(0);
     },
-    [positionAttributes, speedUnit, altitudeUnit, distanceUnit, volumeUnit],
+    [positionAttributes, units],
   );
 
   const colorPalette = [
