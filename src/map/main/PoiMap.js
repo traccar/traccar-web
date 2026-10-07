@@ -56,7 +56,7 @@ const PoiMap = () => {
         const file = await fetch(poiLayer, { signal });
         const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
         const parsed = kml(dom);
-        let collection =
+        const collection =
           map.coordinateSystem === 'gcj02'
             ? gcoord.transform(parsed, gcoord.WGS84, gcoord.GCJ02)
             : parsed;
@@ -64,30 +64,32 @@ const PoiMap = () => {
         const hrefs = [
           ...new Set(collection.features.filter(isPoint).map((f) => f.properties?.icon)),
         ].filter((href) => href && URL.canParse(href, file.url));
-        await Promise.all(
-          hrefs.map(async (href) => {
-            const icon = await resolvePoiIcon(new URL(href, file.url).href, signal);
-            if (!icon || signal.aborted) {
-              return;
-            }
-            collection = {
-              ...collection,
-              features: collection.features.map((feature) =>
-                isPoint(feature) && feature.properties?.icon === href
-                  ? {
-                      ...feature,
-                      properties: {
-                        ...feature.properties,
-                        iconImage: icon.id,
-                        iconHeight: icon.height * (feature.properties['icon-scale'] ?? 1),
-                      },
-                    }
-                  : feature,
-              ),
-            };
-            setData(collection);
-          }),
+        const icons = new Map(
+          await Promise.all(
+            hrefs.map(async (href) => [
+              href,
+              await resolvePoiIcon(new URL(href, file.url).href, signal),
+            ]),
+          ),
         );
+        if (!signal.aborted && [...icons.values()].some(Boolean)) {
+          setData({
+            ...collection,
+            features: collection.features.map((feature) => {
+              const icon = isPoint(feature) && icons.get(feature.properties?.icon);
+              return icon
+                ? {
+                    ...feature,
+                    properties: {
+                      ...feature.properties,
+                      iconImage: icon.id,
+                      iconHeight: icon.height * (feature.properties['icon-scale'] ?? 1),
+                    },
+                  }
+                : feature;
+            }),
+          });
+        }
       } else {
         setData(null);
       }
