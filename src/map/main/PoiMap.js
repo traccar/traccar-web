@@ -63,7 +63,7 @@ const PoiMap = () => {
         setData(collection);
         const hrefs = [
           ...new Set(collection.features.filter(isPoint).map((f) => f.properties?.icon)),
-        ].filter((href) => href && URL.canParse(href, file.url));
+        ].filter(Boolean);
         const icons = new Map(
           await Promise.all(
             hrefs.map(async (href) => [
