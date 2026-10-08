@@ -9,27 +9,25 @@ import { usePreference } from '../../common/util/preferences';
 import { findFonts } from '../core/mapUtil';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
-const loadPoiIcon = (href, signal) =>
+const loadIcon = (href, signal) =>
   new Promise((resolve) => {
     const image = new Image();
     image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
     image.onerror = () => resolve(null);
-    signal.addEventListener(
-      'abort',
-      () => {
-        image.src = '';
-        resolve(null);
-      },
-      { once: true },
-    );
+    const onAbort = () => {
+      image.src = '';
+      resolve(null);
+    };
+    signal.addEventListener('abort', onAbort, { once: true });
     image.src = href;
   });
 
-const resolvePoiIcon = async (href, signal) => {
-  const id = `poi-icon:${href}`;
+const resolveIcon = async (href, baseUrl, signal) => {
+  const url = new URL(href, baseUrl).href;
+  const id = `poi-icon:${url}`;
   if (!map.hasImage(id)) {
-    const image = await loadPoiIcon(href, signal);
+    const image = await loadIcon(url, signal);
     if (!image || signal.aborted) {
       return null;
     }
@@ -52,46 +50,44 @@ const PoiMap = () => {
 
   useAsyncTask(
     async ({ signal }) => {
-      if (poiLayer) {
-        const file = await fetch(poiLayer, { signal });
-        const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
-        const parsed = kml(dom);
-        const collection =
-          map.coordinateSystem === 'gcj02'
-            ? gcoord.transform(parsed, gcoord.WGS84, gcoord.GCJ02)
-            : parsed;
-        setData(collection);
-        const hrefs = [
-          ...new Set(collection.features.filter(isPoint).map((f) => f.properties?.icon)),
-        ].filter(Boolean);
-        const icons = new Map(
-          await Promise.all(
-            hrefs.map(async (href) => [
-              href,
-              await resolvePoiIcon(new URL(href, file.url).href, signal),
-            ]),
-          ),
-        );
-        if (!signal.aborted && [...icons.values()].some(Boolean)) {
-          setData({
-            ...collection,
-            features: collection.features.map((feature) => {
-              const icon = isPoint(feature) && icons.get(feature.properties?.icon);
-              return icon
-                ? {
-                    ...feature,
-                    properties: {
-                      ...feature.properties,
-                      iconImage: icon.id,
-                      iconHeight: icon.height * (feature.properties['icon-scale'] ?? 1),
-                    },
-                  }
-                : feature;
-            }),
-          });
-        }
-      } else {
+      if (!poiLayer) {
         setData(null);
+        return;
+      }
+
+      const file = await fetch(poiLayer, { signal });
+      const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
+      const parsed = kml(dom);
+      const collection =
+        map.coordinateSystem === 'gcj02'
+          ? gcoord.transform(parsed, gcoord.WGS84, gcoord.GCJ02)
+          : parsed;
+      setData(collection);
+      const hrefs = [
+        ...new Set(collection.features.filter(isPoint).map((f) => f.properties?.icon)),
+      ].filter(Boolean);
+      const icons = new Map(
+        await Promise.all(
+          hrefs.map(async (href) => [href, await resolveIcon(href, file.url, signal)]),
+        ),
+      );
+      if (!signal.aborted) {
+        setData({
+          ...collection,
+          features: collection.features.map((feature) => {
+            const icon = isPoint(feature) && icons.get(feature.properties?.icon);
+            return icon
+              ? {
+                  ...feature,
+                  properties: {
+                    ...feature.properties,
+                    iconImage: icon.id,
+                    iconHeight: icon.height * (feature.properties['icon-scale'] ?? 1),
+                  },
+                }
+              : feature;
+          }),
+        });
       }
     },
     [poiLayer],
