@@ -33,6 +33,7 @@ const BaseCommandView = ({
           signal,
         });
         const saved = await savedResponse.json();
+        saved.sort((a, b) => (a.description || '').localeCompare(b.description || ''));
         let combined = saved.map((it) => ({ ...it, optionType: 'saved', key: `saved-${it.id}` }));
         if (!limitCommands) {
           const typesResponse = await fetchOrThrow(
