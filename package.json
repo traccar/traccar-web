@@ -10,7 +10,7 @@
     "@mapbox/mapbox-gl-draw": "^1.5.2",
     "@mapbox/mapbox-gl-rtl-text": "^0.4.0",
     "@material-symbols/svg-600": "^0.47.6",
-    "@mui/icons-material": "^9.4.0",
+    "@mui/icons-material": "^9.5.0",
     "@mui/lab": "^9.0.0-beta.10",
     "@mui/material": "^9.4.0",
     "@reduxjs/toolkit": "^2.13.0",
