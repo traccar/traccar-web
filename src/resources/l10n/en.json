@@ -40,6 +40,7 @@
     "sharedIconScale": "Icon Scale",
     "sharedGeofence": "Geofence",
     "sharedGeofences": "Geofences",
+    "sharedGeofenceHint": "Choose a shape to start drawing a geofence.",
     "sharedCreateGeofence": "Create Geofence",
     "sharedNotifications": "Notifications",
     "sharedNotification": "Notification",

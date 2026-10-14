@@ -1,7 +1,8 @@
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import * as maplibregl from 'maplibre-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +24,8 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
+  const [hintAnchor, setHintAnchor] = useState(null);
+  const [hintDismissed, setHintDismissed] = useState(false);
 
   const draw = useMemo(
     () =>
@@ -66,7 +69,16 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
     refreshGeofences();
 
     map.addControl(draw, theme.direction === 'rtl' ? 'top-right' : 'top-left');
-    return () => map.removeControl(draw);
+    setHintAnchor(map.getContainer().querySelector('.mapbox-gl-draw_polygon'));
+
+    const dismissHint = () => setHintDismissed(true);
+    map.on('draw.modechange', dismissHint);
+    map.on('draw.selectionchange', dismissHint);
+    return () => {
+      map.off('draw.modechange', dismissHint);
+      map.off('draw.selectionchange', dismissHint);
+      map.removeControl(draw);
+    };
   }, [refreshGeofences, draw, theme.direction]);
 
   useEffect(() => {
@@ -152,7 +164,18 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
     }
   }, [selectedGeofenceId, draw]);
 
-  return null;
+  return (
+    <Tooltip
+      open={Boolean(hintAnchor) && !hintDismissed && !selectedGeofenceId}
+      title={t('sharedGeofenceHint')}
+      placement={theme.direction === 'rtl' ? 'left' : 'right'}
+      arrow
+      disableInteractive
+      slotProps={{ popper: { anchorEl: hintAnchor } }}
+    >
+      <span />
+    </Tooltip>
+  );
 };
 
 export default MapGeofenceEdit;
