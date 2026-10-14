@@ -14,7 +14,7 @@
     "@mui/lab": "^9.0.0-beta.10",
     "@mui/material": "^9.5.0",
     "@reduxjs/toolkit": "^2.13.0",
-    "@tmcw/togeojson": "^7.1.2",
+    "@tmcw/togeojson": "^7.1.3",
     "@turf/circle": "^7.4.0",
     "@yudiel/react-qr-scanner": "^2.6.0",
     "dayjs": "^1.11.23",
