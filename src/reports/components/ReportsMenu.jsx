@@ -119,7 +119,9 @@ const ReportsMenu = () => {
             title={t('statisticsTitle')}
             link="/reports/statistics"
             icon={<BarChartIcon />}
-            selected={location.pathname === '/reports/statistics'}
+            selected={['/reports/statistics', '/reports/device-statistics'].includes(
+              location.pathname,
+            )}
           />
         )}
         {admin && (

@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Table, TableRow, TableCell, TableHead, TableBody } from '@mui/material';
+import {
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  MenuItem,
+  TextField,
+} from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
@@ -25,6 +34,28 @@ const columnsArray = [
   ['geolocationRequests', 'statisticsGeolocation'],
 ];
 const columnsMap = new Map(columnsArray);
+
+export const StatisticsTypeSelect = () => {
+  const { classes } = useReportStyles();
+  const t = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  return (
+    <div className={classes.filterItem}>
+      <TextField
+        select
+        fullWidth
+        label={t('sharedType')}
+        value={location.pathname}
+        onChange={(event) => navigate({ pathname: event.target.value, search: location.search })}
+      >
+        <MenuItem value="/reports/statistics">{t('settingsServer')}</MenuItem>
+        <MenuItem value="/reports/device-statistics">{t('deviceTitle')}</MenuItem>
+      </TextField>
+    </div>
+  );
+};
 
 const StatisticsPage = () => {
   const { classes } = useReportStyles();
@@ -54,6 +85,7 @@ const StatisticsPage = () => {
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'statisticsTitle']}>
       <div className={classes.header}>
         <ReportFilter onShow={onShow} deviceType="none" loading={loading}>
+          <StatisticsTypeSelect />
           <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
         </ReportFilter>
       </div>

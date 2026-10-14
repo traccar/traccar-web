@@ -39,6 +39,7 @@ const MaintenancesPage = lazy(() => import('./settings/MaintenancesPage'));
 const MaintenancePage = lazy(() => import('./settings/MaintenancePage'));
 const CommandsPage = lazy(() => import('./settings/CommandsPage'));
 const CommandPage = lazy(() => import('./settings/CommandPage'));
+const DeviceStatisticsPage = lazy(() => import('./reports/DeviceStatisticsPage'));
 const StatisticsPage = lazy(() => import('./reports/StatisticsPage'));
 const LoginPage = lazy(() => import('./login/LoginPage'));
 const RegisterPage = lazy(() => import('./login/RegisterPage'));
@@ -190,6 +191,7 @@ const Navigation = () => {
             <Route path="trips" element={<TripReportPage />} />
             <Route path="scheduled" element={<ScheduledPage />} />
             <Route path="statistics" element={<StatisticsPage />} />
+            <Route path="device-statistics" element={<DeviceStatisticsPage />} />
             <Route path="audit" element={<AuditPage />} />
             <Route path="logs" element={<LogsPage />} />
           </Route>
