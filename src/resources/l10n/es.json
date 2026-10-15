@@ -551,6 +551,7 @@
     "alarmLowPower": "Voltaje de alimentación bajo",
     "alarmLowBattery": "Batería baja",
     "alarmFault": "Alarma de fallo",
+    "alarmStorageFailure": "Fallo de almacenamiento",
     "alarmPowerOff": "Apagado",
     "alarmPowerOn": "Encendido",
     "alarmDoor": "Puerta",
