@@ -24,6 +24,7 @@ const types = {
     unit: (_, t) => t('sharedHours'),
   },
   voltage: { unit: (_, t) => t('sharedVoltAbbreviation') },
+  energy: { unit: (_, t) => t('sharedKilowattHourAbbreviation') },
   percentage: { unit: () => '%' },
 };
 

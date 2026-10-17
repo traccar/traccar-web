@@ -240,6 +240,16 @@ export default (t) =>
         name: t('positionFuelLevel'),
         type: 'number',
       },
+      energy: {
+        name: t('positionEnergy'),
+        type: 'number',
+        dataType: 'energy',
+      },
+      energyLevel: {
+        name: t('positionEnergyLevel'),
+        type: 'number',
+        dataType: 'percentage',
+      },
       versionFw: {
         name: t('positionVersionFw'),
         type: 'string',

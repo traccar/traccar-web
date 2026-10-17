@@ -8,6 +8,7 @@ import {
   formatCoordinate,
   formatCourse,
   formatDistance,
+  formatEnergy,
   formatNumber,
   formatNumericHours,
   formatPercentage,
@@ -74,6 +75,8 @@ const PositionValue = ({ position, property, attribute }) => {
             return formatDistance(value, distanceUnit, t);
           case 'voltage':
             return formatVoltage(value, t);
+          case 'energy':
+            return formatEnergy(value, t);
           case 'percentage':
             return formatPercentage(value);
           case 'volume':

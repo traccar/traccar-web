@@ -29,6 +29,9 @@ export const formatTemperature = (value) => `${value.toFixed(1)}°C`;
 
 export const formatVoltage = (value, t) => `${value.toFixed(2)} ${t('sharedVoltAbbreviation')}`;
 
+export const formatEnergy = (value, t) =>
+  `${value.toFixed(2)} ${t('sharedKilowattHourAbbreviation')}`;
+
 export const formatConsumption = (value, t) =>
   `${value.toFixed(2)} ${t('sharedLiterPerHourAbbreviation')}`;
 
