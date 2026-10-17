@@ -9,6 +9,7 @@ import MapSwitcher from '../control/MapSwitcher';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
 import usePersistedState from '../../common/util/usePersistedState';
 import { mapImages } from './preloadImages';
+import { imagesReady } from '../../common/util/customIcons';
 import useMapStyles from './useMapStyles';
 import { useAsyncTask } from '../../reactHelper';
 
@@ -59,6 +60,7 @@ export const useMapReady = () => {
 
 const initMap = async () => {
   if (ready) return;
+  await imagesReady;
   if (!map.hasImage('background')) {
     Object.entries(mapImages).forEach(([key, value]) => {
       map.addImage(key, value, {
@@ -129,8 +131,7 @@ const MapView = ({ children }) => {
       if (!map.loaded()) {
         timeoutId = setTimeout(waiting, 33);
       } else {
-        initMap();
-        updateReadyValue(true);
+        initMap().then(() => updateReadyValue(true));
       }
     };
     map.once('styledata', waiting);
