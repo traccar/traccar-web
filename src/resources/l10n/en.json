@@ -338,6 +338,7 @@
     "positionVersionFw": "Firmware Version",
     "positionVersionHw": "Hardware Version",
     "positionIgnition": "Ignition",
+    "positionBusiness": "Business",
     "positionFlags": "Flags",
     "positionAntenna": "Antenna",
     "positionCharge": "Charge",

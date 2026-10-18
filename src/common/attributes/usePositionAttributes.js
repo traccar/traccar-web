@@ -266,6 +266,10 @@ export default (t) =>
         name: t('positionIgnition'),
         type: 'boolean',
       },
+      business: {
+        name: t('positionBusiness'),
+        type: 'boolean',
+      },
       flags: {
         name: t('positionFlags'),
         type: 'string',
