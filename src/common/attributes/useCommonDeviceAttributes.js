@@ -47,6 +47,10 @@ export default (t) =>
         name: t('attributeNotificationTokens'),
         type: 'string',
       },
+      'filter.calendar': {
+        name: t('attributeFilterCalendar'),
+        type: 'boolean',
+      },
       'filter.invalid': {
         name: t('attributeFilterInvalid'),
         type: 'boolean',

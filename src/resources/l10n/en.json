@@ -179,6 +179,7 @@
     "attributeForwardUrl": "Forward URL",
     "attributeGeofenceFloor": "Geofence Floor",
     "attributeGeofenceCeiling": "Geofence Ceiling",
+    "attributeFilterCalendar": "Filter: Calendar",
     "attributeFilterInvalid": "Filter: Invalid",
     "attributeFilterZero": "Filter: Zero",
     "attributeFilterDuplicate": "Filter: Duplicate",
