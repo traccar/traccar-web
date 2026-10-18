@@ -50,6 +50,7 @@ const columnsArray = [
   ['duration', 'reportDuration'],
   ['spentFuel', 'reportSpentFuel'],
   ['driverName', 'sharedDriver'],
+  ['business', 'sharedType'],
 ];
 const columnsMap = new Map(columnsArray);
 
@@ -184,6 +185,8 @@ const TripReportPage = () => {
     switch (key) {
       case 'deviceId':
         return devices[value].name;
+      case 'business':
+        return t(value ? 'positionBusiness' : 'reportPrivate');
       case 'startTime':
       case 'endTime':
         return formatTime(value, 'minutes');
