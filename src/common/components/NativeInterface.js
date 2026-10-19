@@ -67,13 +67,20 @@ const NativeInterface = () => {
       if (user && notificationToken) {
         window.localStorage.setItem('notificationToken', notificationToken);
 
-        const tokens = user.attributes.notificationTokens?.split(',') || [];
+        let tokens = user.attributes.notificationTokens?.split(',') || [];
+        if (notificationToken.length === 22) {
+          tokens = tokens.filter((token) => token.length === 22);
+        }
         if (!tokens.includes(notificationToken)) {
+          tokens = [...tokens.slice(-2), notificationToken];
+        }
+        const notificationTokens = tokens.join(',');
+        if (notificationTokens !== user.attributes.notificationTokens) {
           const updatedUser = {
             ...user,
             attributes: {
               ...user.attributes,
-              notificationTokens: [...tokens.slice(-2), notificationToken].join(','),
+              notificationTokens,
             },
           };
 
