@@ -1,0 +1,9 @@
+{
+  "name": "traccar-demo",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "ws": "^8.22.0"
+  }
+}
