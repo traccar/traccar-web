@@ -85,6 +85,7 @@ export const demoServer = (server) => {
     }
   });
   const timer = setInterval(() => {
+    if (sockets.clients.size === 0) return;
     fleet.advance();
     const message = JSON.stringify({ devices: fleet.devices, positions: fleet.positions });
     sockets.clients.forEach((client) => {
