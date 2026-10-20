@@ -1,7 +1,7 @@
 import route from './route.js';
 
 const interval = 5000;
-const retention = 24 * 60 * 60 * 1000;
+const retention = 20 * 60 * 1000;
 
 export const createFleet = (now = Date.now()) => {
   const anchor = Math.floor(now / interval) * interval;
@@ -48,8 +48,7 @@ export const createFleet = (now = Date.now()) => {
   const advance = (time = Date.now()) => {
     const tick = Math.floor(time / interval) * interval;
     if (tick <= lastTick) return;
-    const from =
-      lastTick < 0 ? tick - 20 * 60 * 1000 : Math.max(lastTick + interval, tick - retention);
+    const from = lastTick < 0 ? tick - retention : Math.max(lastTick + interval, tick - retention);
     for (let timestamp = from; timestamp <= tick; timestamp += interval) {
       positions = sample(timestamp);
       history.push(...positions);
