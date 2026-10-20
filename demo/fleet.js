@@ -25,8 +25,9 @@ export const createFleet = (now = Date.now()) => {
     devices.map((device, index) => {
       const step =
         (timestamp - anchor) / interval + Math.floor((index * route.length) / devices.length);
-      const [longitude, latitude, speed, course] =
-        route[((step % route.length) + route.length) % route.length];
+      const routeIndex = ((step % route.length) + route.length) % route.length;
+      const [longitude, latitude, speed, course] = route[routeIndex];
+      const moving = speed > 0;
       const time = new Date(timestamp).toISOString();
       return {
         id: (timestamp / interval) * 10 + device.id,
@@ -39,9 +40,17 @@ export const createFleet = (now = Date.now()) => {
         outdated: false,
         latitude,
         longitude,
+        address: 'Central London, UK',
         speed,
         course,
-        attributes: {},
+        attributes: {
+          batteryLevel: 95 - index * 15,
+          fuel: 45 - index * 7,
+          ignition: moving,
+          motion: moving,
+          power: moving ? 14.2 : 12.6,
+          totalDistance: (12000 + index * 8000) * 1000,
+        },
       };
     });
 
