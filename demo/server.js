@@ -1,5 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { createFleet } from './fleet.js';
+import { eventTypes, geofences, report, sampleEvent } from './reports.js';
 
 export const demoServer = (server) => {
   const fleet = createFleet();
@@ -38,14 +39,37 @@ export const demoServer = (server) => {
       case '/api/positions':
         data = fleet.query(url.searchParams);
         break;
-      case '/api/groups':
       case '/api/geofences':
+        data = geofences;
+        break;
+      case '/api/notifications/types':
+        data = eventTypes.map((type) => ({ type }));
+        break;
+      case '/api/reports/route':
+      case '/api/reports/combined':
+      case '/api/reports/trips':
+      case '/api/reports/stops':
+      case '/api/reports/summary':
+      case '/api/reports/events':
+      case '/api/reports/geofences':
+        data = report(fleet, url.pathname.split('/').at(-1), url.searchParams);
+        break;
+      case '/api/groups':
       case '/api/drivers':
       case '/api/maintenance':
       case '/api/calendars':
         data = [];
         break;
       default:
+        if (/^\/api\/events\/\d+$/.test(url.pathname)) {
+          const id = Number(url.pathname.split('/').at(-1));
+          const type = eventTypes[id % 10];
+          const [position] = fleet.query(new URLSearchParams({ id: Math.floor(id / 10) }));
+          if (position && type) {
+            data = sampleEvent(position, type);
+            break;
+          }
+        }
         response.writeHead(404).end('Unavailable in this demo.');
         return;
     }

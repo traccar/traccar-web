@@ -79,14 +79,14 @@ export const createFleet = (now = Date.now()) => {
     query: (params) => {
       const ids = params.getAll('id').map(Number);
       if (ids.length) return history.filter((position) => ids.includes(position.id));
-      const deviceId = Number(params.get('deviceId'));
+      const deviceIds = params.getAll('deviceId').map(Number);
       const hasRange = params.has('from') && params.has('to');
       const from = params.has('from') ? Date.parse(params.get('from')) : -Infinity;
       const to = params.has('to') ? Date.parse(params.get('to')) : Infinity;
       const source = hasRange ? history : positions;
       return source.filter(
         (position) =>
-          (!deviceId || position.deviceId === deviceId) &&
+          (!deviceIds.length || deviceIds.includes(position.deviceId)) &&
           Date.parse(position.fixTime) >= from &&
           Date.parse(position.fixTime) <= to,
       );
