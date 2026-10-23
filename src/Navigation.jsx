@@ -31,6 +31,7 @@ const SummaryReportPage = lazy(() => import('./reports/SummaryReportPage'));
 const ChartReportPage = lazy(() => import('./reports/ChartReportPage'));
 const DriversPage = lazy(() => import('./settings/DriversPage'));
 const DriverPage = lazy(() => import('./settings/DriverPage'));
+const ProtocolsPage = lazy(() => import('./settings/ProtocolsPage'));
 const CalendarsPage = lazy(() => import('./settings/CalendarsPage'));
 const CalendarPage = lazy(() => import('./settings/CalendarPage'));
 const ComputedAttributesPage = lazy(() => import('./settings/ComputedAttributesPage'));
@@ -142,6 +143,7 @@ const Navigation = () => {
             <Route path=":type/:id/share" element={<SharePage />} />
             <Route path="accumulators/:deviceId" element={<AccumulatorsPage />} />
             <Route path="announcement" element={<AnnouncementPage />} />
+            <Route path="protocols" element={<ProtocolsPage />} />
             <Route path="calendars" element={<CalendarsPage />} />
             <Route path="calendar/:id" element={<CalendarPage />} />
             <Route path="calendar" element={<CalendarPage />} />

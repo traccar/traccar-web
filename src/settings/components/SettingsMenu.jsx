@@ -9,6 +9,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import TodayIcon from '@mui/icons-material/Today';
 import SendIcon from '@mui/icons-material/Send';
+import RouterIcon from '@mui/icons-material/Router';
 import DnsIcon from '@mui/icons-material/Dns';
 import HelpIcon from '@mui/icons-material/Help';
 import PaymentIcon from '@mui/icons-material/Payment';
@@ -126,10 +127,16 @@ const SettingsMenu = () => {
           <MenuItem title={t('settingsSupport')} link={supportLink} icon={<HelpIcon />} />
         )}
       </List>
-      {manager && (
-        <>
-          <Divider />
-          <List>
+      <Divider />
+      <List>
+        <MenuItem
+          title={t('settingsProtocols')}
+          link="/settings/protocols"
+          icon={<RouterIcon />}
+          selected={location.pathname === '/settings/protocols'}
+        />
+        {manager && (
+          <>
             <MenuItem
               title={t('serverAnnouncement')}
               link="/settings/announcement"
@@ -153,9 +160,9 @@ const SettingsMenu = () => {
                 location.pathname !== `/settings/user/${userId}`
               }
             />
-          </List>
-        </>
-      )}
+          </>
+        )}
+      </List>
     </>
   );
 };
