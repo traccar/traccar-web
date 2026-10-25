@@ -71,6 +71,10 @@ export default (t) =>
         name: t('userBilling'),
         type: 'string',
       },
+      'openid.clients': {
+        name: t('attributeOpenIdClients'),
+        type: 'string',
+      },
     }),
     [t],
   );

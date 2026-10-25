@@ -147,6 +147,7 @@
     "attributeMapLineOpacity": "Map Line Opacity",
     "attributeWebSelectZoom": "Web: Zoom on Select",
     "attributeWebMaxZoom": "Web: Maximum Zoom",
+    "attributeOpenIdClients": "OpenID Connect Clients",
     "attributeTelegramChatId": "Telegram Chat ID",
     "attributeTelegramSendLocation": "Telegram Send Location",
     "attributePushoverUserKey": "Pushover User Key",
