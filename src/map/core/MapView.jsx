@@ -93,7 +93,7 @@ const MapView = ({ children }) => {
 
   useAsyncTask(async () => {
     if (theme.direction === 'rtl') {
-      maplibregl.setRTLTextPlugin('/mapbox-gl-rtl-text.js');
+      maplibregl.setRTLTextPlugin(new URL('mapbox-gl-rtl-text.js', document.baseURI).href);
     }
   }, [theme.direction]);
 
