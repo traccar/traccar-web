@@ -23,7 +23,7 @@ root.render(
           <AppThemeProvider>
             <CssBaseline />
             <ServerProvider>
-              <BrowserRouter>
+              <BrowserRouter basename={new URL(document.baseURI).pathname}>
                 <Navigation />
               </BrowserRouter>
               <MessageHandler />

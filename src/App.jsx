@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
@@ -31,6 +31,7 @@ const App = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -54,16 +55,13 @@ const App = () => {
         if (response.ok) {
           dispatch(sessionActions.updateUser(await response.json()));
         } else {
-          window.sessionStorage.setItem(
-            'postLogin',
-            window.location.pathname + window.location.search,
-          );
+          window.sessionStorage.setItem('postLogin', location.pathname + location.search);
           navigate(newServer ? '/register' : '/login', { replace: true });
         }
       }
       return null;
     },
-    [user, dispatch, navigate, newServer],
+    [user, dispatch, navigate, newServer, location.pathname, location.search],
   );
 
   if (user == null) {
