@@ -67,7 +67,8 @@ const StreamPage = () => {
     if (activeChannel !== null) {
       sendCommand('videoStart', { index: activeChannel });
       const hls = new Hls();
-      hls.loadSource(`/api/stream/${deviceId}/${activeChannel}/live.m3u8`);
+      const url = `api/stream/${deviceId}/${activeChannel}/live.m3u8`;
+      hls.loadSource(new URL(url, document.baseURI).href);
       hls.attachMedia(videoRef.current);
       hls.on(Events.MANIFEST_PARSED, () => videoRef.current.play());
       hls.on(Events.ERROR, (_, data) => {

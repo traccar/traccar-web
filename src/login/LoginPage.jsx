@@ -145,7 +145,7 @@ const LoginPage = () => {
   handleTokenLoginRef.current = handleTokenLogin;
 
   const handleOpenIdLogin = () => {
-    document.location = '/api/session/openid/auth';
+    document.location = 'api/session/openid/auth';
   };
 
   useEffect(() => nativePostMessage('authentication'), []);

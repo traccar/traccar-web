@@ -15,7 +15,7 @@ const formatEventData = (event, { deviceUniqueId, speedUnit, t }) => {
       return formatNumber(Math.abs(event.attributes.after - event.attributes.before));
     case 'media':
       return (
-        <Link href={`/api/media/${deviceUniqueId}/${event.attributes.file}`} target="_blank">
+        <Link href={`api/media/${deviceUniqueId}/${event.attributes.file}`} target="_blank">
           {event.attributes.file}
         </Link>
       );

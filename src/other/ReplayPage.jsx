@@ -169,7 +169,7 @@ const ReplayPage = () => {
 
   const handleDownload = () => {
     const query = new URLSearchParams({ deviceId: selectedDeviceId, from, to });
-    window.location.assign(`/api/positions/kml?${query.toString()}`);
+    window.location.assign(`api/positions/kml?${query.toString()}`);
   };
 
   return (

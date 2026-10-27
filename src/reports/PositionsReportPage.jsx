@@ -107,7 +107,7 @@ const PositionsReportPage = () => {
       query.append('geofenceId', geofenceId);
     }
     deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-    window.location.assign(`/api/positions/${format}?${query.toString()}`);
+    window.location.assign(`api/positions/${format}?${query.toString()}`);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {

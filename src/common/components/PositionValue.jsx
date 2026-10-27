@@ -114,7 +114,7 @@ const PositionValue = ({ position, property, attribute }) => {
     case 'video':
     case 'audio':
       return (
-        <Link href={`/api/media/${device.uniqueId}/${value}`} target="_blank">
+        <Link href={`api/media/${device.uniqueId}/${value}`} target="_blank">
           {value}
         </Link>
       );

@@ -184,7 +184,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             <Card elevation={3} className={classes.card}>
               <CardMedia
                 className={cx('draggable-header', deviceImage && classes.media)}
-                image={deviceImage && `/api/media/${device.uniqueId}/${deviceImage}`}
+                image={deviceImage && `api/media/${device.uniqueId}/${deviceImage}`}
               >
                 <div className={classes.header}>
                   <Typography variant="body2" color="inherit">
