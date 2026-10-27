@@ -83,7 +83,7 @@ const EmulatorPage = () => {
         params.append('id', devices[deviceId].uniqueId);
         params.append('lat', latitude);
         params.append('lon', longitude);
-        await fetchOrThrow(window.location.origin, {
+        await fetchOrThrow(document.baseURI, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

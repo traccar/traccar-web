@@ -17,7 +17,7 @@ const QrCodeDialog = ({ open, onClose }) => {
   const theme = useTheme();
   const t = useTranslation();
 
-  const [serverUrl, setServerUrl] = useState(window.location.origin);
+  const [serverUrl, setServerUrl] = useState(document.baseURI);
   const [queryParams, setQueryParams] = useState('');
 
   const fullUrl = queryParams ? `${serverUrl}?${queryParams}` : serverUrl;

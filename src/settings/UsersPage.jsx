@@ -41,7 +41,7 @@ const UsersPage = () => {
 
   const handleLogin = useCatch(async (userId) => {
     await fetchOrThrow(`api/session/${userId}`);
-    window.location.replace('/');
+    window.location.replace(document.baseURI);
   });
 
   const actionLogin = {

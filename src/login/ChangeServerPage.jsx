@@ -18,7 +18,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import Loader from '../common/components/Loader';
 import { messagesActions } from '../store';
 
-const currentServer = `${window.location.protocol}//${window.location.host}`;
+const currentServer = document.baseURI;
 
 const officialServers = [
   currentServer,
