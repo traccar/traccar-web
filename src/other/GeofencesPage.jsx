@@ -73,7 +73,7 @@ const GeofencesPage = () => {
       const area = `LINESTRING (${coordinates})`;
       const newItem = { name: t('sharedGeofence'), area };
       try {
-        const response = await fetchOrThrow('/api/geofences', {
+        const response = await fetchOrThrow('api/geofences', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newItem),

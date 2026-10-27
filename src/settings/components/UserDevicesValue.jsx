@@ -11,7 +11,7 @@ const UserDevicesValue = ({ userId }) => {
 
   const loadDevices = useCatch(async () => {
     const query = new URLSearchParams({ userId });
-    const response = await fetchOrThrow(`/api/devices?${query.toString()}`);
+    const response = await fetchOrThrow(`api/devices?${query.toString()}`);
     setDevices(await response.json());
   });
 

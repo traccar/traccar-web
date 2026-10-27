@@ -73,7 +73,7 @@ const UserPage = () => {
   const handleDelete = useCatch(async () => {
     if (deleteEmail === currentUser.email) {
       setDeleteFailed(false);
-      await fetchOrThrow(`/api/users/${currentUser.id}`, { method: 'DELETE' });
+      await fetchOrThrow(`api/users/${currentUser.id}`, { method: 'DELETE' });
       navigate('/login');
       dispatch(sessionActions.updateUser(null));
     } else {
@@ -82,7 +82,7 @@ const UserPage = () => {
   });
 
   const handleGenerateTotp = useCatch(async () => {
-    const response = await fetchOrThrow('/api/users/totp', { method: 'POST' });
+    const response = await fetchOrThrow('api/users/totp', { method: 'POST' });
     setItem({ ...item, totpKey: await response.text() });
   });
 
@@ -92,7 +92,7 @@ const UserPage = () => {
   };
 
   const handleRevokeToken = useCatch(async () => {
-    await fetchOrThrow('/api/session/token/revoke', {
+    await fetchOrThrow('api/session/token/revoke', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ token: revokeToken }).toString(),
@@ -299,7 +299,7 @@ const UserPage = () => {
                 onChange={(e) =>
                   setItem({ ...item, attributes: { ...item.attributes, timezone: e.target.value } })
                 }
-                endpoint="/api/server/timezones"
+                endpoint="api/server/timezones"
                 keyGetter={(it) => it}
                 titleGetter={(it) => it}
                 label={t('sharedTimezone')}

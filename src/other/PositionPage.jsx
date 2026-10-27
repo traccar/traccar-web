@@ -50,7 +50,7 @@ const PositionPage = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (id) {
-        const response = await fetchOrThrow(`/api/positions?id=${id}`, { signal });
+        const response = await fetchOrThrow(`api/positions?id=${id}`, { signal });
         const positions = await response.json();
         if (positions.length > 0) {
           setItem(positions[0]);

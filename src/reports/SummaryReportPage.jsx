@@ -79,7 +79,7 @@ const SummaryReportPage = () => {
       groupIds.forEach((groupId) => query.append('groupId', groupId));
       setLoading(true);
       try {
-        const response = await fetchOrThrow(`/api/reports/summary?${query.toString()}`, {
+        const response = await fetchOrThrow(`api/reports/summary?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
         setItems(await response.json());

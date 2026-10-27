@@ -65,7 +65,7 @@ const MotionController = () => {
         query.append('type', 'deviceMoving');
         query.append('type', 'deviceStopped');
 
-        const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
+        const response = await fetchOrThrow(`api/reports/events?${query.toString()}`, {
           headers: { Accept: 'application/json' },
           signal,
         });

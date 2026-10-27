@@ -28,7 +28,7 @@ const ComputedAttributesPage = () => {
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/attributes/computed?${query.toString()}`, {
+      const response = await fetchOrThrow(`api/attributes/computed?${query.toString()}`, {
         signal,
       });
       const data = await response.json();

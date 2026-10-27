@@ -33,7 +33,7 @@ const CommandDevicePage = () => {
   const handleSend = useCatch(async () => {
     let command;
     if (savedId) {
-      const response = await fetchOrThrow(`/api/commands/${savedId}`);
+      const response = await fetchOrThrow(`api/commands/${savedId}`);
       command = await response.json();
     } else {
       command = item;
@@ -41,7 +41,7 @@ const CommandDevicePage = () => {
 
     command.deviceId = parseInt(id, 10);
 
-    const response = await fetchOrThrow('/api/commands/send', {
+    const response = await fetchOrThrow('api/commands/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(command),

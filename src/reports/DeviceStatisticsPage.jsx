@@ -31,7 +31,7 @@ const DeviceStatisticsPage = () => {
       setItems([]);
       try {
         const query = new URLSearchParams({ from, to, userId });
-        const response = await fetchOrThrow(`/api/statistics/devices?${query.toString()}`);
+        const response = await fetchOrThrow(`api/statistics/devices?${query.toString()}`);
         setItems(await response.json());
       } finally {
         setLoading(false);
@@ -47,7 +47,7 @@ const DeviceStatisticsPage = () => {
           <StatisticsTypeSelect />
           <div className={classes.filterItem}>
             <SelectField
-              endpoint="/api/users"
+              endpoint="api/users"
               label={t('settingsUsers')}
               value={userId}
               fullWidth

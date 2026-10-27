@@ -37,7 +37,7 @@ const AuditPage = () => {
   const [loading, setLoading] = useState(false);
 
   useAsyncTask(async ({ signal }) => {
-    const response = await fetchOrThrow('/api/users', { signal });
+    const response = await fetchOrThrow('api/users', { signal });
     setUsers(new Map((await response.json()).map((user) => [user.id, user.name])));
   }, []);
 
@@ -45,7 +45,7 @@ const AuditPage = () => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ from, to });
-      const response = await fetchOrThrow(`/api/audit?${query.toString()}`);
+      const response = await fetchOrThrow(`api/audit?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);

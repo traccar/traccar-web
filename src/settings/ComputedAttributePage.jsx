@@ -61,7 +61,7 @@ const ComputedAttributePage = () => {
 
   const testAttribute = useCatch(async () => {
     const query = new URLSearchParams({ deviceId });
-    const url = `/api/attributes/computed/test?${query.toString()}`;
+    const url = `api/attributes/computed/test?${query.toString()}`;
     const response = await fetchOrThrow(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -177,7 +177,7 @@ const ComputedAttributePage = () => {
               <SelectField
                 value={deviceId}
                 onChange={(e) => setDeviceId(Number(e.target.value))}
-                endpoint="/api/devices"
+                endpoint="api/devices"
                 label={t('sharedDevice')}
               />
               <Button

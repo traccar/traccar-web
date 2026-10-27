@@ -37,7 +37,7 @@ const GroupsPage = () => {
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/groups?${query.toString()}`, { signal });
+      const response = await fetchOrThrow(`api/groups?${query.toString()}`, { signal });
       const data = await response.json();
       setItems((previous) => (offset ? [...previous, ...data] : data));
       setHasMore(data.length >= pageSize);

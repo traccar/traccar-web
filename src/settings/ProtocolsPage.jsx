@@ -45,7 +45,7 @@ const ProtocolsPage = () => {
 
   useAsyncTask(async ({ signal }) => {
     try {
-      const response = await fetchOrThrow('/api/protocols', { signal });
+      const response = await fetchOrThrow('api/protocols', { signal });
       setItems(await response.json());
     } finally {
       setLoading(false);
@@ -55,7 +55,7 @@ const ProtocolsPage = () => {
   const handleSave = useCatch(async () => {
     setSaving(true);
     try {
-      const response = await fetchOrThrow(`/api/protocols/${editing.id}`, {
+      const response = await fetchOrThrow(`api/protocols/${editing.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(editing),

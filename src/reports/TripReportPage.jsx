@@ -105,7 +105,7 @@ const TripReportPage = () => {
           from: selectedItem.startTime,
           to: selectedItem.endTime,
         });
-        const response = await fetchOrThrow(`/api/reports/route?${query.toString()}`, {
+        const response = await fetchOrThrow(`api/reports/route?${query.toString()}`, {
           headers: { Accept: 'application/json' },
           signal,
         });
@@ -123,7 +123,7 @@ const TripReportPage = () => {
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     setLoading(true);
     try {
-      const response = await fetchOrThrow(`/api/reports/trips?${query.toString()}`, {
+      const response = await fetchOrThrow(`api/reports/trips?${query.toString()}`, {
         headers: { Accept: 'application/json' },
       });
       setItems(await response.json());

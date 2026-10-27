@@ -40,7 +40,7 @@ const App = () => {
   const user = useSelector((state) => state.session.user);
 
   const acceptTerms = useCatch(async () => {
-    const response = await fetchOrThrow(`/api/users/${user.id}`, {
+    const response = await fetchOrThrow(`api/users/${user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...user, attributes: { ...user.attributes, termsAccepted: true } }),
@@ -51,7 +51,7 @@ const App = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (!user) {
-        const response = await fetch('/api/session', { signal });
+        const response = await fetch('api/session', { signal });
         if (response.ok) {
           dispatch(sessionActions.updateUser(await response.json()));
         } else {

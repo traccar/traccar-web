@@ -21,7 +21,7 @@ export const generateLoginToken = async () => {
     let token = '';
     try {
       const expiration = dayjs().add(6, 'months').toISOString();
-      const response = await fetch('/api/session/token', {
+      const response = await fetch('api/session/token', {
         method: 'POST',
         body: new URLSearchParams(`expiration=${expiration}`),
       });
@@ -84,7 +84,7 @@ const NativeInterface = () => {
             },
           };
 
-          const response = await fetchOrThrow(`/api/users/${user.id}`, {
+          const response = await fetchOrThrow(`api/users/${user.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedUser),

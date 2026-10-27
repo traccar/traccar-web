@@ -44,12 +44,12 @@ const ResetPasswordPage = () => {
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
     if (!token) {
-      await fetchOrThrow('/api/password/reset', {
+      await fetchOrThrow('api/password/reset', {
         method: 'POST',
         body: new URLSearchParams(`email=${encodeURIComponent(email)}`),
       });
     } else {
-      await fetchOrThrow('/api/password/update', {
+      await fetchOrThrow('api/password/update', {
         method: 'POST',
         body: new URLSearchParams(
           `token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`,

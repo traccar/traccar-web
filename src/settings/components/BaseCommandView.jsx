@@ -29,14 +29,14 @@ const BaseCommandView = ({
   useAsyncTask(
     async ({ signal }) => {
       if (includeSaved) {
-        const savedResponse = await fetchOrThrow(`/api/commands/send?deviceId=${deviceId}`, {
+        const savedResponse = await fetchOrThrow(`api/commands/send?deviceId=${deviceId}`, {
           signal,
         });
         const saved = await savedResponse.json();
         let combined = saved.map((it) => ({ ...it, optionType: 'saved', key: `saved-${it.id}` }));
         if (!limitCommands) {
           const typesResponse = await fetchOrThrow(
-            `/api/commands/types?${new URLSearchParams({ deviceId }).toString()}`,
+            `api/commands/types?${new URLSearchParams({ deviceId }).toString()}`,
             { signal },
           );
           const types = await typesResponse.json();
@@ -46,7 +46,7 @@ const BaseCommandView = ({
         }
         setOptions(combined);
       } else {
-        const typesResponse = await fetchOrThrow('/api/commands/types', { signal });
+        const typesResponse = await fetchOrThrow('api/commands/types', { signal });
         const types = await typesResponse.json();
         setOptions(types.map((it) => ({ ...it, optionType: 'type', key: `type-${it.type}` })));
       }

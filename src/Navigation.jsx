@@ -90,13 +90,13 @@ const Navigation = () => {
 
       if (searchParams.has('token')) {
         const token = searchParams.get('token');
-        await fetch(`/api/session?token=${encodeURIComponent(token)}`, { signal });
+        await fetch(`api/session?token=${encodeURIComponent(token)}`, { signal });
         newParams.delete('token');
       }
 
       if (searchParams.has('uniqueId')) {
         const response = await fetchOrThrow(
-          `/api/devices?uniqueId=${searchParams.get('uniqueId')}`,
+          `api/devices?uniqueId=${searchParams.get('uniqueId')}`,
           { signal },
         );
         const items = await response.json();

@@ -16,7 +16,7 @@ const CachingController = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
-        const response = await fetchOrThrow('/api/geofences', { signal });
+        const response = await fetchOrThrow('api/geofences', { signal });
         dispatch(geofencesActions.refresh(await response.json()));
       }
     },
@@ -26,7 +26,7 @@ const CachingController = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
-        const response = await fetchOrThrow('/api/groups', { signal });
+        const response = await fetchOrThrow('api/groups', { signal });
         dispatch(groupsActions.refresh(await response.json()));
       }
     },
@@ -36,7 +36,7 @@ const CachingController = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
-        const response = await fetchOrThrow('/api/drivers', { signal });
+        const response = await fetchOrThrow('api/drivers', { signal });
         dispatch(driversActions.refresh(await response.json()));
       }
     },
@@ -46,7 +46,7 @@ const CachingController = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
-        const response = await fetchOrThrow('/api/maintenance', { signal });
+        const response = await fetchOrThrow('api/maintenance', { signal });
         dispatch(maintenancesActions.refresh(await response.json()));
       }
     },
@@ -56,7 +56,7 @@ const CachingController = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
-        const response = await fetchOrThrow('/api/calendars', { signal });
+        const response = await fetchOrThrow('api/calendars', { signal });
         dispatch(calendarsActions.refresh(await response.json()));
       }
     },

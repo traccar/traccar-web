@@ -34,7 +34,7 @@ const ScheduledPage = () => {
       void reloadKey;
       setLoading(true);
       try {
-        const response = await fetchOrThrow('/api/reports', { signal });
+        const response = await fetchOrThrow('api/reports', { signal });
         setItems(await response.json());
       } finally {
         setLoading(false);

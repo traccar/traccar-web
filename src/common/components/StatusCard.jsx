@@ -146,7 +146,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
 
   const handleRemove = useCatch(async (removed) => {
     if (removed) {
-      const response = await fetchOrThrow('/api/devices');
+      const response = await fetchOrThrow('api/devices');
       dispatch(devicesActions.refresh(await response.json()));
     }
     setRemoving(false);
@@ -157,13 +157,13 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
       name: t('sharedGeofence'),
       area: `CIRCLE (${position.latitude} ${position.longitude}, 50)`,
     };
-    const response = await fetchOrThrow('/api/geofences', {
+    const response = await fetchOrThrow('api/geofences', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newItem),
     });
     const item = await response.json();
-    await fetchOrThrow('/api/permissions', {
+    await fetchOrThrow('api/permissions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ deviceId: position.deviceId, geofenceId: item.id }),

@@ -40,7 +40,7 @@ const UsersPage = () => {
   const [temporary, setTemporary] = useState(false);
 
   const handleLogin = useCatch(async (userId) => {
-    await fetchOrThrow(`/api/session/${userId}`);
+    await fetchOrThrow(`api/session/${userId}`);
     window.location.replace('/');
   });
 
@@ -64,7 +64,7 @@ const UsersPage = () => {
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/users?${query.toString()}`, { signal });
+      const response = await fetchOrThrow(`api/users?${query.toString()}`, { signal });
       const data = await response.json();
       setItems((previous) => (offset ? [...previous, ...data] : data));
       setHasMore(data.length >= pageSize);

@@ -74,7 +74,7 @@ const StopReportPage = () => {
     groupIds.forEach((groupId) => query.append('groupId', groupId));
     setLoading(true);
     try {
-      const response = await fetchOrThrow(`/api/reports/stops?${query.toString()}`, {
+      const response = await fetchOrThrow(`api/reports/stops?${query.toString()}`, {
         headers: { Accept: 'application/json' },
       });
       setItems(await response.json());

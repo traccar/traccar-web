@@ -27,7 +27,7 @@ const GroupPage = () => {
   const [item, setItem] = useState();
 
   const onItemSaved = useCatch(async () => {
-    const response = await fetchOrThrow('/api/groups');
+    const response = await fetchOrThrow('api/groups');
     dispatch(groupsActions.refresh(await response.json()));
   });
 
@@ -65,7 +65,7 @@ const GroupPage = () => {
               <SelectField
                 value={item.groupId}
                 onChange={(event) => setItem({ ...item, groupId: Number(event.target.value) })}
-                endpoint="/api/groups"
+                endpoint="api/groups"
                 label={t('groupParent')}
               />
             </AccordionDetails>

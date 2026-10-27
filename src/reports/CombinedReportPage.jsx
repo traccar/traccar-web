@@ -79,7 +79,7 @@ const CombinedReportPage = () => {
     setSelected(null);
     setLoading(true);
     try {
-      const response = await fetchOrThrow(`/api/reports/combined?${query.toString()}`);
+      const response = await fetchOrThrow(`api/reports/combined?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);

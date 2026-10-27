@@ -24,7 +24,7 @@ const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
   const t = useTranslation();
 
   const handleRemove = useCatch(async () => {
-    await fetchOrThrow(`/api/${endpoint}/${itemId}`, { method: 'DELETE' });
+    await fetchOrThrow(`api/${endpoint}/${itemId}`, { method: 'DELETE' });
     onResult(true);
   });
 

@@ -102,12 +102,12 @@ const SocketController = () => {
       dispatch(sessionActions.updateSocket(false));
       if (event.code === logoutCode) return;
       try {
-        const devicesResponse = await fetch('/api/devices');
+        const devicesResponse = await fetch('api/devices');
         if (socketRef.current !== socket) return;
         if (devicesResponse.ok) {
           dispatch(devicesActions.update(await devicesResponse.json()));
         }
-        const positionsResponse = await fetch('/api/positions');
+        const positionsResponse = await fetch('api/positions');
         if (socketRef.current !== socket) return;
         if (positionsResponse.ok) {
           dispatch(sessionActions.updatePositions(await positionsResponse.json()));
@@ -154,7 +154,7 @@ const SocketController = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (authenticated) {
-        const response = await fetchOrThrow('/api/devices', { signal });
+        const response = await fetchOrThrow('api/devices', { signal });
         dispatch(devicesActions.refresh(await response.json()));
         nativePostMessage('authenticated');
         connectSocket();
@@ -172,7 +172,7 @@ const SocketController = () => {
     async (message) => {
       const eventId = message.data.eventId;
       if (eventId) {
-        const response = await fetch(`/api/events/${eventId}`);
+        const response = await fetch(`api/events/${eventId}`);
         if (response.ok) {
           const event = await response.json();
           const eventWithMessage = {

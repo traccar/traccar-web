@@ -50,7 +50,7 @@ const ServerPage = () => {
 
   const handleFileChange = useCatch(async (newFile) => {
     if (newFile) {
-      await fetchOrThrow(`/api/server/file/${newFile.name}`, {
+      await fetchOrThrow(`api/server/file/${newFile.name}`, {
         method: 'POST',
         body: newFile,
       });
@@ -58,7 +58,7 @@ const ServerPage = () => {
   });
 
   const handleSave = useCatch(async () => {
-    const response = await fetchOrThrow('/api/server', {
+    const response = await fetchOrThrow('api/server', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),
@@ -190,7 +190,7 @@ const ServerPage = () => {
                       attributes: { ...item.attributes, timezone: e.target.value },
                     })
                   }
-                  endpoint="/api/server/timezones"
+                  endpoint="api/server/timezones"
                   keyGetter={(it) => it}
                   titleGetter={(it) => it}
                   label={t('sharedTimezone')}

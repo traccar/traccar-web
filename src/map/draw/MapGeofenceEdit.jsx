@@ -61,7 +61,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const geofences = useSelector((state) => state.geofences.items);
 
   const refreshGeofences = useCatchCallback(async () => {
-    const response = await fetchOrThrow('/api/geofences');
+    const response = await fetchOrThrow('api/geofences');
     dispatch(geofencesActions.refresh(await response.json()));
   }, [dispatch]);
 
@@ -87,7 +87,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
       const newItem = { name: t('sharedGeofence'), area: geometryToArea(feature.geometry) };
       draw.delete(feature.id);
       try {
-        const response = await fetchOrThrow('/api/geofences', {
+        const response = await fetchOrThrow('api/geofences', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newItem),
@@ -107,7 +107,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
     const listener = async (event) => {
       const feature = event.features[0];
       try {
-        await fetchOrThrow(`/api/geofences/${feature.id}`, { method: 'DELETE' });
+        await fetchOrThrow(`api/geofences/${feature.id}`, { method: 'DELETE' });
         refreshGeofences();
       } catch (error) {
         dispatch(messagesActions.push(error.message));
@@ -125,7 +125,7 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
       if (item) {
         const updatedItem = { ...item, area: geometryToArea(feature.geometry) };
         try {
-          await fetchOrThrow(`/api/geofences/${feature.id}`, {
+          await fetchOrThrow(`api/geofences/${feature.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedItem),

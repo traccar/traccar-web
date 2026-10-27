@@ -46,7 +46,7 @@ const RegisterPage = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (totpForce) {
-        const response = await fetchOrThrow('/api/users/totp', { method: 'POST', signal });
+        const response = await fetchOrThrow('api/users/totp', { method: 'POST', signal });
         setTotpKey(await response.text());
       }
     },
@@ -55,7 +55,7 @@ const RegisterPage = () => {
 
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
-    await fetchOrThrow('/api/users', {
+    await fetchOrThrow('api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, totpKey }),

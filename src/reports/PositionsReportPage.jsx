@@ -71,7 +71,7 @@ const PositionsReportPage = () => {
       deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
       setLoading(true);
       try {
-        const response = await fetchOrThrow(`/api/positions?${query.toString()}`, {
+        const response = await fetchOrThrow(`api/positions?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
         const data = await response.json();
@@ -158,7 +158,7 @@ const PositionsReportPage = () => {
                     const values = e.target.value ? [e.target.value] : [];
                     updateReportParams(searchParams, setSearchParams, 'geofenceId', values);
                   }}
-                  endpoint="/api/geofences"
+                  endpoint="api/geofences"
                   label={t('sharedGeofence')}
                   fullWidth
                 />

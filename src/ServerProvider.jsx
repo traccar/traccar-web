@@ -16,7 +16,7 @@ const ServerProvider = ({ children }) => {
     async ({ signal }) => {
       if (!error) {
         try {
-          const response = await fetch('/api/server', { signal });
+          const response = await fetch('api/server', { signal });
           if (response.ok) {
             dispatch(sessionActions.updateServer(await response.json()));
           } else {

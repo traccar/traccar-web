@@ -47,7 +47,7 @@ const NetworkPage = () => {
   useAsyncTask(
     async ({ signal }) => {
       if (positionId) {
-        const response = await fetchOrThrow(`/api/positions?id=${positionId}`, { signal });
+        const response = await fetchOrThrow(`api/positions?id=${positionId}`, { signal });
         const positions = await response.json();
         if (positions.length > 0) {
           setItem(positions[0]);

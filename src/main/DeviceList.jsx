@@ -33,7 +33,7 @@ const DeviceList = ({ devices }) => {
 
   useAsyncTask(
     async ({ signal }) => {
-      const response = await fetchOrThrow('/api/devices', { signal });
+      const response = await fetchOrThrow('api/devices', { signal });
       dispatch(devicesActions.refresh(await response.json()));
     },
     [dispatch],

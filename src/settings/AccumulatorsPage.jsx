@@ -43,7 +43,7 @@ const AccumulatorsPage = () => {
   }, [deviceId, position, item]);
 
   const handleSave = useCatch(async () => {
-    await fetchOrThrow(`/api/devices/${deviceId}/accumulators`, {
+    await fetchOrThrow(`api/devices/${deviceId}/accumulators`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),

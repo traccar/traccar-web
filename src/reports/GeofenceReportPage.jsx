@@ -53,7 +53,7 @@ const GeofenceReportPage = () => {
       geofenceIds.forEach((geofenceId) => query.append('geofenceId', geofenceId));
       setLoading(true);
       try {
-        const response = await fetchOrThrow(`/api/reports/geofences?${query.toString()}`, {
+        const response = await fetchOrThrow(`api/reports/geofences?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
         setItems(await response.json());
@@ -112,7 +112,7 @@ const GeofenceReportPage = () => {
               onChange={(e) =>
                 updateReportParams(searchParams, setSearchParams, 'geofenceId', e.target.value)
               }
-              endpoint="/api/geofences"
+              endpoint="api/geofences"
               multiple
               singleLine
               fullWidth

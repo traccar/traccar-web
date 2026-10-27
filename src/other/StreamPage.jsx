@@ -54,7 +54,7 @@ const StreamPage = () => {
 
   const sendCommand = useCatchCallback(
     async (type, attributes) => {
-      await fetchOrThrow('/api/commands/send', {
+      await fetchOrThrow('api/commands/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ deviceId, type, attributes }),

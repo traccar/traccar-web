@@ -74,7 +74,7 @@ const StatisticsPage = () => {
     setLoading(true);
     try {
       const query = new URLSearchParams({ from, to });
-      const response = await fetchOrThrow(`/api/statistics?${query.toString()}`);
+      const response = await fetchOrThrow(`api/statistics?${query.toString()}`);
       setItems(await response.json());
     } finally {
       setLoading(false);

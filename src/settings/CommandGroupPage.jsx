@@ -39,7 +39,7 @@ const CommandDevicePage = () => {
 
   const handleSend = useCatch(async () => {
     const query = new URLSearchParams({ groupId: id });
-    const response = await fetchOrThrow(`/api/commands/send?${query.toString()}`, {
+    const response = await fetchOrThrow(`api/commands/send?${query.toString()}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item),

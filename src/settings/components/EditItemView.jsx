@@ -36,7 +36,7 @@ const EditItemView = ({
     async ({ signal }) => {
       if (!item) {
         if (id) {
-          const response = await fetchOrThrow(`/api/${endpoint}/${id}`, { signal });
+          const response = await fetchOrThrow(`api/${endpoint}/${id}`, { signal });
           setItem(await response.json());
         } else {
           setItem(defaultItem || {});
@@ -47,7 +47,7 @@ const EditItemView = ({
   );
 
   const handleSave = useCatch(async () => {
-    let url = `/api/${endpoint}`;
+    let url = `api/${endpoint}`;
     if (id) {
       url += `/${id}`;
     }

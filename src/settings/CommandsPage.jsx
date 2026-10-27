@@ -30,7 +30,7 @@ const CommandsPage = () => {
       if (searchKeyword) {
         query.append('keyword', searchKeyword);
       }
-      const response = await fetchOrThrow(`/api/commands?${query.toString()}`, { signal });
+      const response = await fetchOrThrow(`api/commands?${query.toString()}`, { signal });
       const data = await response.json();
       setItems((previous) => (offset ? [...previous, ...data] : data));
       setHasMore(data.length >= pageSize);

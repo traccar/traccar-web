@@ -96,7 +96,7 @@ const EventReportPage = () => {
   }, [selectedItem, positions]);
 
   useAsyncTask(async ({ signal }) => {
-    const response = await fetchOrThrow('/api/notifications/types', { signal });
+    const response = await fetchOrThrow('api/notifications/types', { signal });
     const types = await response.json();
     setAllEventTypes((previous) => [
       ...previous,
@@ -117,7 +117,7 @@ const EventReportPage = () => {
       setPosition(null);
       setLoading(true);
       try {
-        const response = await fetchOrThrow(`/api/reports/events?${query.toString()}`, {
+        const response = await fetchOrThrow(`api/reports/events?${query.toString()}`, {
           headers: { Accept: 'application/json' },
         });
         const events = await response.json();
@@ -130,7 +130,7 @@ const EventReportPage = () => {
           const positionsQuery = new URLSearchParams();
           positionIds.slice(0, 128).forEach((id) => positionsQuery.append('id', id));
           const positionsResponse = await fetchOrThrow(
-            `/api/positions?${positionsQuery.toString()}`,
+            `api/positions?${positionsQuery.toString()}`,
           );
           const positionsArray = await positionsResponse.json();
           positionsArray.forEach((p) => (positionsMap[p.id] = p));
