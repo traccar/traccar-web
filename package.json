@@ -37,7 +37,8 @@
     "stylis": "^4.4.0",
     "stylis-plugin-rtl": "^2.1.1",
     "tss-react": "^4.9.21",
-    "wellknown": "^0.5.0"
+    "wellknown": "^0.5.0",
+    "workbox-window": "^7.4.1"
   },
   "scripts": {
     "start": "vite --host",
