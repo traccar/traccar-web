@@ -3,6 +3,10 @@ import { useMemo } from 'react';
 export default (t) =>
   useMemo(
     () => ({
+      darkMode: {
+        name: t('settingsDarkMode'),
+        type: 'boolean',
+      },
       language: {
         name: t('loginLanguage'),
         type: 'string',

@@ -6,6 +6,7 @@ import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
 import theme from './common/theme';
 import { useLocalization } from './common/components/LocalizationProvider';
+import { useAttributePreference } from './common/util/preferences';
 
 const cache = {
   ltr: createCache({
@@ -22,9 +23,8 @@ const AppThemeProvider = ({ children }) => {
   const server = useSelector((state) => state.session.server);
   const { direction } = useLocalization();
 
-  const serverDarkMode = server?.attributes?.darkMode;
   const preferDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const darkMode = serverDarkMode !== undefined ? serverDarkMode : preferDarkMode;
+  const darkMode = useAttributePreference('darkMode', preferDarkMode);
 
   const themeInstance = theme(server, darkMode, direction);
 

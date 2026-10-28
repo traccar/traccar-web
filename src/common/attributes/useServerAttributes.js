@@ -37,10 +37,6 @@ export default (t) =>
         name: t('serverChangeDisable'),
         type: 'boolean',
       },
-      darkMode: {
-        name: t('settingsDarkMode'),
-        type: 'boolean',
-      },
       termsUrl: {
         name: t('userTerms'),
         type: 'string',
