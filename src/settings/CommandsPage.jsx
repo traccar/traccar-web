@@ -6,7 +6,7 @@ import { formatBoolean } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
-import CollectionFab from './components/CollectionFab';
+import AddFab from './components/AddFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader from './components/SearchHeader';
@@ -88,7 +88,7 @@ const CommandsPage = () => {
           )}
         </TableBody>
       </Table>
-      <CollectionFab editPath="/settings/command" disabled={limitCommands} />
+      <AddFab editPath="/settings/command" disabled={limitCommands} />
     </PageLayout>
   );
 };

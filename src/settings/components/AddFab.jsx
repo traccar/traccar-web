@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import BaseFab from '../../common/components/BaseFab';
 import { useRestriction } from '../../common/util/permissions';
 
-const CollectionFab = ({ editPath, disabled }) => {
+const AddFab = ({ editPath, disabled }) => {
   const navigate = useNavigate();
 
   const readonly = useRestriction('readonly');
@@ -18,4 +18,4 @@ const CollectionFab = ({ editPath, disabled }) => {
   return '';
 };
 
-export default CollectionFab;
+export default AddFab;

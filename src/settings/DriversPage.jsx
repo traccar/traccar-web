@@ -4,7 +4,7 @@ import { useAsyncTask, useScrollToLoad, pageSize } from '../reactHelper';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
-import CollectionFab from './components/CollectionFab';
+import AddFab from './components/AddFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader from './components/SearchHeader';
@@ -76,7 +76,7 @@ const DriversPage = () => {
           )}
         </TableBody>
       </Table>
-      <CollectionFab editPath="/settings/driver" />
+      <AddFab editPath="/settings/driver" />
     </PageLayout>
   );
 };

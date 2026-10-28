@@ -5,7 +5,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAdministrator } from '../common/util/permissions';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
-import CollectionFab from './components/CollectionFab';
+import AddFab from './components/AddFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import SearchHeader from './components/SearchHeader';
@@ -90,7 +90,7 @@ const ComputedAttributesPage = () => {
           )}
         </TableBody>
       </Table>
-      <CollectionFab editPath="/settings/attribute" disabled={!administrator} />
+      <AddFab editPath="/settings/attribute" disabled={!administrator} />
     </PageLayout>
   );
 };

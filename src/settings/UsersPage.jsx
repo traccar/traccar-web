@@ -17,7 +17,7 @@ import { formatBoolean, formatTime } from '../common/util/formatter';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import SettingsMenu from './components/SettingsMenu';
-import CollectionFab from './components/CollectionFab';
+import AddFab from './components/AddFab';
 import CollectionActions from './components/CollectionActions';
 import TableShimmer from '../common/components/TableShimmer';
 import { useManager } from '../common/util/permissions';
@@ -144,7 +144,7 @@ const UsersPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
-      <CollectionFab editPath="/settings/user" />
+      <AddFab editPath="/settings/user" />
     </PageLayout>
   );
 };
