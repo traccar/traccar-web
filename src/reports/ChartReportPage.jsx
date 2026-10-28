@@ -204,6 +204,7 @@ const ChartReportPage = () => {
                     scale="time"
                   />
                   <YAxis
+                    width="auto"
                     stroke={theme.palette.text.primary}
                     type="number"
                     tickFormatter={(value) => parseFloat(value.toFixed(2))}
