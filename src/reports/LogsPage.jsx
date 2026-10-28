@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -13,8 +13,10 @@ import {
 import { makeStyles } from 'tss-react/mui';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutlined';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutlined';
+import VerticalAlignBottomIcon from '@mui/icons-material/VerticalAlignBottom';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
+import BaseFab from '../common/components/BaseFab';
 import ReportsMenu from './components/ReportsMenu';
 import { sessionActions } from '../store';
 
@@ -30,6 +32,8 @@ const LogsPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
+  const [autoScroll, setAutoScroll] = useState(false);
+  const bottomRef = useRef(null);
 
   useEffect(() => {
     dispatch(sessionActions.enableLogs(true));
@@ -37,6 +41,12 @@ const LogsPage = () => {
   }, [dispatch]);
 
   const items = useSelector((state) => state.session.logs);
+
+  useEffect(() => {
+    if (autoScroll) {
+      bottomRef.current?.scrollIntoView({ block: 'end', inline: 'nearest' });
+    }
+  }, [autoScroll, items.length]);
 
   const registerDevice = (uniqueId) => {
     const query = new URLSearchParams({ uniqueId });
@@ -81,6 +91,13 @@ const LogsPage = () => {
           ))}
         </TableBody>
       </Table>
+      <div ref={bottomRef} />
+      <BaseFab
+        color={autoScroll ? 'primary' : 'default'}
+        onClick={() => setAutoScroll(!autoScroll)}
+      >
+        <VerticalAlignBottomIcon />
+      </BaseFab>
     </PageLayout>
   );
 };
