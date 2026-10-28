@@ -23,7 +23,7 @@ import SettingsMenu from './components/SettingsMenu';
 import useCommonDeviceAttributes from '../common/attributes/useCommonDeviceAttributes';
 import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
-import QrCodeDialog from '../common/components/QrCodeDialog';
+import ServerQrCodeDialog from '../common/components/ServerQrCodeDialog';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
 const DevicePage = () => {
@@ -180,7 +180,7 @@ const DevicePage = () => {
           />
         </>
       )}
-      <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
+      <ServerQrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
     </EditItemView>
   );
 };

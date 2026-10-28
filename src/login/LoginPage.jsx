@@ -30,7 +30,7 @@ import {
 } from '../common/components/NativeInterface';
 import LogoImage from './LogoImage';
 import { useCatch } from '../reactHelper';
-import QrCodeDialog from '../common/components/QrCodeDialog';
+import ServerQrCodeDialog from '../common/components/ServerQrCodeDialog';
 import PasswordField from '../common/components/PasswordField';
 
 const useStyles = makeStyles()((theme) => ({
@@ -281,7 +281,7 @@ const LoginPage = () => {
           </div>
         )}
       </div>
-      <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
+      <ServerQrCodeDialog open={showQr} onClose={() => setShowQr(false)} />
     </LoginLayout>
   );
 };

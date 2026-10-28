@@ -33,6 +33,7 @@ import useUserAttributes from '../common/attributes/useUserAttributes';
 import { sessionActions } from '../store';
 import SelectField from '../common/components/SelectField';
 import PasswordField from '../common/components/PasswordField';
+import TotpQrCodeButton from '../common/components/TotpQrCodeButton';
 import SettingsMenu from './components/SettingsMenu';
 import useCommonUserAttributes from '../common/attributes/useCommonUserAttributes';
 import { useAdministrator, useRestriction, useManager } from '../common/util/permissions';
@@ -172,6 +173,7 @@ const UserPage = () => {
                     value={item.totpKey || ''}
                     endAdornment={
                       <InputAdornment position="end">
+                        <TotpQrCodeButton email={item.email} totpKey={item.totpKey} />
                         <IconButton size="small" edge="end" onClick={handleGenerateTotp}>
                           <CachedIcon fontSize="small" />
                         </IconButton>

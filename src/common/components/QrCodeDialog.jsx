@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogActions, TextField, Button, useTheme } from '@mui/material';
+import { Dialog, DialogContent, DialogActions, Button, useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { QRCode } from 'react-qr-code';
 import { useTranslation } from './LocalizationProvider';
@@ -12,38 +11,24 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const QrCodeDialog = ({ open, onClose }) => {
+const QrCodeDialog = ({ open, onClose, value, children }) => {
   const { classes } = useStyles();
   const theme = useTheme();
   const t = useTranslation();
-
-  const [serverUrl, setServerUrl] = useState(document.baseURI);
-  const [queryParams, setQueryParams] = useState('');
-
-  const fullUrl = queryParams ? `${serverUrl}?${queryParams}` : serverUrl;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogContent>
         <div className={classes.qrCode}>
-          <QRCode value={fullUrl} size={theme.dimensions.qrCodeSize} />
+          <QRCode
+            value={value}
+            size={theme.dimensions.qrCodeSize}
+            title={t('sharedQrCode')}
+            style={{ backgroundColor: 'white', padding: 16, maxWidth: '100%', height: 'auto' }}
+          />
         </div>
 
-        <TextField
-          label={t('settingsServer')}
-          value={serverUrl}
-          onChange={(e) => setServerUrl(e.target.value)}
-          margin="dense"
-          fullWidth
-        />
-
-        <TextField
-          label={t('commandConfiguration')}
-          value={queryParams}
-          onChange={(e) => setQueryParams(e.target.value)}
-          margin="dense"
-          fullWidth
-        />
+        {children}
       </DialogContent>
 
       <DialogActions>
