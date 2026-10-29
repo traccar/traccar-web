@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -21,6 +21,7 @@ import SplitButton from '../../common/components/SplitButton';
 import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 import { deviceEquality } from '../../common/util/deviceEquality';
+import { reportsActions } from '../../store';
 
 const getPeriodRange = (period) => {
   const now = dayjs();
@@ -42,6 +43,7 @@ export const updateReportParams = (searchParams, setSearchParams, key, values) =
 const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, loading, formats }) => {
   const { classes } = useReportStyles();
   const t = useTranslation();
+  const dispatch = useDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -49,6 +51,8 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
 
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
   const groups = useSelector((state) => state.groups.items);
+  const savedPeriod = useSelector((state) => state.reports.period);
+  const savedRange = useSelector((state) => state.reports.range);
   const deviceList = useMemo(
     () => [
       { id: 'all', name: t('notificationAlways') },
@@ -68,8 +72,14 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
   const groupIds = useMemo(() => searchParams.getAll('groupId').map(Number), [searchParams]);
   const from = searchParams.get('from');
   const to = searchParams.get('to');
-  const [period, setPeriod] = useState(searchParams.get('period') || 'day');
-  const [range, setRange] = useState(() => (from && to ? [from, to] : getPeriodRange(period)));
+  const [period, setPeriod] = useState(
+    searchParams.get('period') || (from && to ? 'custom' : savedPeriod),
+  );
+  const [range, setRange] = useState(() =>
+    from && to
+      ? [from, to]
+      : (searchParams.has('period') ? null : savedRange) || getPeriodRange(period),
+  );
   const [selectedOption, setSelectedOption] = useState('json');
 
   const [description, setDescription] = useState();
@@ -129,6 +139,7 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
       : dateFormat.formatRange(selectedFrom.toDate(), selectedTo.toDate());
 
   const showReport = () => {
+    dispatch(reportsActions.updatePeriod({ period, range }));
     const newParams = new URLSearchParams(searchParams);
     newParams.set('period', period);
     newParams.set('from', selectedFrom.toISOString());
