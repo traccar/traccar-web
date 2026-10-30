@@ -4,6 +4,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LinkIcon from '@mui/icons-material/Link';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 import RemoveDialog from '../../common/components/RemoveDialog';
@@ -15,7 +16,15 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-const CollectionActions = ({ itemId, editPath, endpoint, onReload, customActions, readonly }) => {
+const CollectionActions = ({
+  itemId,
+  editPath,
+  endpoint,
+  onReload,
+  customActions,
+  readonly,
+  onLink,
+}) => {
   const theme = useTheme();
   const { classes } = useStyles();
   const navigate = useNavigate();
@@ -65,6 +74,16 @@ const CollectionActions = ({ itemId, editPath, endpoint, onReload, customActions
             {!readonly && (
               <>
                 {editPath && <MenuItem onClick={handleEdit}>{t('sharedEdit')}</MenuItem>}
+                {onLink && (
+                  <MenuItem
+                    onClick={() => {
+                      onLink(itemId);
+                      setMenuAnchorEl(null);
+                    }}
+                  >
+                    {t('sharedConnections')}
+                  </MenuItem>
+                )}
                 <MenuItem onClick={handleRemove}>{t('sharedRemove')}</MenuItem>
               </>
             )}
@@ -86,6 +105,17 @@ const CollectionActions = ({ itemId, editPath, endpoint, onReload, customActions
                 <Tooltip title={t('sharedEdit')}>
                   <IconButton size="small" onClick={handleEdit}>
                     <EditIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
+              {onLink && (
+                <Tooltip title={t('sharedConnections')}>
+                  <IconButton
+                    size="small"
+                    aria-label={t('sharedConnections')}
+                    onClick={() => onLink(itemId)}
+                  >
+                    <LinkIcon fontSize="small" />
                   </IconButton>
                 </Tooltip>
               )}
