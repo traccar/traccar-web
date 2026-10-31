@@ -92,7 +92,7 @@ const ResetPasswordPage = () => {
             label={t('userPassword')}
             name="password"
             value={password}
-            autoComplete="current-password"
+            autoComplete="new-password"
             onChange={(event) => setPassword(event.target.value)}
           />
         )}
