@@ -95,6 +95,10 @@ export default (t) =>
         name: t('attributeNotificationTokens'),
         type: 'string',
       },
+      'ui.disableTabs': {
+        name: t('attributeUiDisableTabs'),
+        type: 'boolean',
+      },
       'ui.disableSavedCommands': {
         name: t('attributeUiDisableSavedCommands'),
         type: 'boolean',

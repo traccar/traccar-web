@@ -13,6 +13,7 @@ import EventsDrawer from './EventsDrawer';
 import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
 import { useAttributePreference } from '../common/util/preferences';
+import useFeatures from '../common/util/useFeatures';
 
 const MainMap = lazy(() => import('./MainMap'));
 
@@ -68,6 +69,8 @@ const MainPage = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
+
+  const features = useFeatures();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -159,7 +162,7 @@ const MainPage = () => {
             <DeviceList devices={filteredDevices} />
           </Paper>
         </div>
-        {desktop && (
+        {desktop && !features.disableTabs && (
           <div className={classes.footer}>
             <BottomMenu />
           </div>

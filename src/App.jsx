@@ -11,6 +11,7 @@ import UpdateController from './UpdateController';
 import MotionController from './main/MotionController';
 import TermsDialog from './common/components/TermsDialog';
 import Loader from './common/components/Loader';
+import useFeatures from './common/util/useFeatures';
 import fetchOrThrow from './common/util/fetchOrThrow';
 
 const useStyles = makeStyles()(() => ({
@@ -32,6 +33,8 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const features = useFeatures();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -79,7 +82,7 @@ const App = () => {
       <div className={classes.page}>
         <Outlet />
       </div>
-      {!desktop && (
+      {!desktop && !features.disableTabs && (
         <div className={classes.menu}>
           <BottomMenu />
         </div>
