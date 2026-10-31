@@ -165,6 +165,7 @@
     "attributeMailSmtpPassword": "Email: SMTP Password",
     "attributeNavigationAppLink": "Navigation App Link",
     "attributeNavigationAppTitle": "Navigation App Title",
+    "attributeUiDisableDeviceList": "UI: Disable Device List",
     "attributeUiDisableTabs": "UI: Disable Tabs",
     "attributeUiDisableSavedCommands": "UI: Disable Saved Commands",
     "attributeUiDisableAttributes": "UI: Disable Attributes",

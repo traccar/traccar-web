@@ -95,6 +95,10 @@ export default (t) =>
         name: t('attributeNotificationTokens'),
         type: 'string',
       },
+      'ui.disableDeviceList': {
+        name: t('attributeUiDisableDeviceList'),
+        type: 'boolean',
+      },
       'ui.disableTabs': {
         name: t('attributeUiDisableTabs'),
         type: 'boolean',

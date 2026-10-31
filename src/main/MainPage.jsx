@@ -109,7 +109,7 @@ const MainPage = () => {
     keyword,
     filter,
     filterSort,
-    filterMap,
+    filterMap && !features.disableDeviceList,
     positions,
     setFilteredDevices,
     setFilteredPositions,
@@ -127,21 +127,23 @@ const MainPage = () => {
         </Suspense>
       )}
       <div className={classes.sidebar}>
-        <Paper square elevation={3} className={classes.header}>
-          <MainToolbar
-            filteredDevices={filteredDevices}
-            devicesOpen={devicesOpen}
-            setDevicesOpen={setDevicesOpen}
-            keyword={keyword}
-            setKeyword={setKeyword}
-            filter={filter}
-            setFilter={setFilter}
-            filterSort={filterSort}
-            setFilterSort={setFilterSort}
-            filterMap={filterMap}
-            setFilterMap={setFilterMap}
-          />
-        </Paper>
+        {!features.disableDeviceList && (
+          <Paper square elevation={3} className={classes.header}>
+            <MainToolbar
+              filteredDevices={filteredDevices}
+              devicesOpen={devicesOpen}
+              setDevicesOpen={setDevicesOpen}
+              keyword={keyword}
+              setKeyword={setKeyword}
+              filter={filter}
+              setFilter={setFilter}
+              filterSort={filterSort}
+              setFilterSort={setFilterSort}
+              filterMap={filterMap}
+              setFilterMap={setFilterMap}
+            />
+          </Paper>
+        )}
         <div className={classes.middle}>
           {!desktop && (
             <div className={classes.contentMap}>
@@ -154,13 +156,15 @@ const MainPage = () => {
               </Suspense>
             </div>
           )}
-          <Paper
-            square
-            className={classes.contentList}
-            style={devicesOpen ? {} : { visibility: 'hidden' }}
-          >
-            <DeviceList devices={filteredDevices} />
-          </Paper>
+          {!features.disableDeviceList && (
+            <Paper
+              square
+              className={classes.contentList}
+              style={devicesOpen ? {} : { visibility: 'hidden' }}
+            >
+              <DeviceList devices={filteredDevices} />
+            </Paper>
+          )}
         </div>
         {desktop && !features.disableTabs && (
           <div className={classes.footer}>
@@ -174,7 +178,7 @@ const MainPage = () => {
           deviceId={selectedDeviceId}
           position={selectedPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
-          desktopPadding={theme.dimensions.drawerWidthDesktop}
+          desktopPadding={features.disableDeviceList ? 0 : theme.dimensions.drawerWidthDesktop}
         />
       )}
     </div>

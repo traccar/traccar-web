@@ -18,6 +18,7 @@ const featureSelector = createSelector(
   (state) => state.session.server,
   (state) => state.session.user,
   (server, user) => {
+    const disableDeviceList = get(server, user, 'ui.disableDeviceList');
     const disableTabs = get(server, user, 'ui.disableTabs');
     const disableSavedCommands = get(server, user, 'ui.disableSavedCommands');
     const disableAttributes = get(server, user, 'ui.disableAttributes');
@@ -30,6 +31,7 @@ const featureSelector = createSelector(
     const disableCalendars = get(server, user, 'ui.disableCalendars');
 
     return {
+      disableDeviceList,
       disableTabs,
       disableSavedCommands,
       disableAttributes,

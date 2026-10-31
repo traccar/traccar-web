@@ -64,7 +64,7 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
       <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
-      {desktop && (
+      {desktop && !features.disableDeviceList && (
         <MapPadding
           start={
             parseInt(theme.dimensions.drawerWidthDesktop, 10) + parseInt(theme.spacing(1.5), 10)
