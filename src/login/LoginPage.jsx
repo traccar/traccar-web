@@ -103,32 +103,29 @@ const LoginPage = () => {
   const [announcementShown, setAnnouncementShown] = useState(false);
   const announcement = useSelector((state) => state.session.server.announcement);
 
-  const handlePasswordLogin = async (event) => {
+  const handlePasswordLogin = useCatch(async (event) => {
     event.preventDefault();
     setFailed(false);
-    try {
-      const query = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
-      const response = await fetch('api/session', {
-        method: 'POST',
-        body: new URLSearchParams(code.length ? `${query}&code=${code}` : query),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        generateLoginToken();
-        dispatch(sessionActions.updateUser(user));
-        const target = window.sessionStorage.getItem('postLogin') || '/';
-        window.sessionStorage.removeItem('postLogin');
-        navigate(target, { replace: true });
-      } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
-        setCodeEnabled(true);
-      } else {
-        throw Error(await response.text());
-      }
-    } catch {
+    const query = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+    const response = await fetch('api/session', {
+      method: 'POST',
+      body: new URLSearchParams(code.length ? `${query}&code=${code}` : query),
+    });
+    if (response.ok) {
+      const user = await response.json();
+      generateLoginToken();
+      dispatch(sessionActions.updateUser(user));
+      const target = window.sessionStorage.getItem('postLogin') || '/';
+      window.sessionStorage.removeItem('postLogin');
+      navigate(target, { replace: true });
+    } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
+      setCodeEnabled(true);
+    } else if (response.status === 401) {
       setFailed(true);
-      setPassword('');
+    } else {
+      throw Error(await response.text());
     }
-  };
+  });
 
   const handleTokenLogin = useCatch(async (token) => {
     const response = await fetch(`api/session?token=${encodeURIComponent(token)}`);

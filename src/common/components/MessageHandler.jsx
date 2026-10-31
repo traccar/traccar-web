@@ -60,7 +60,14 @@ const MessageHandler = () => {
           {multiline && (
             <>
               {' | '}
-              <Link color="inherit" href="#" onClick={() => setExpanded(true)}>
+              <Link
+                color="inherit"
+                href="#"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setExpanded(true);
+                }}
+              >
                 {t('sharedShowDetails')}
               </Link>
             </>
