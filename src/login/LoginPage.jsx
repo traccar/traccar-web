@@ -83,6 +83,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = usePersistedState('loginEmail', '');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [code, setCode] = useState('');
   const [showServerTooltip, setShowServerTooltip] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -105,25 +106,30 @@ const LoginPage = () => {
 
   const handlePasswordLogin = useCatch(async (event) => {
     event.preventDefault();
-    setFailed(false);
-    const query = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
-    const response = await fetch('api/session', {
-      method: 'POST',
-      body: new URLSearchParams(code.length ? `${query}&code=${code}` : query),
-    });
-    if (response.ok) {
-      const user = await response.json();
-      generateLoginToken();
-      dispatch(sessionActions.updateUser(user));
-      const target = window.sessionStorage.getItem('postLogin') || '/';
-      window.sessionStorage.removeItem('postLogin');
-      navigate(target, { replace: true });
-    } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
-      setCodeEnabled(true);
-    } else if (response.status === 401) {
-      setFailed(true);
-    } else {
-      throw Error(await response.text());
+    setSubmitting(true);
+    try {
+      setFailed(false);
+      const query = `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+      const response = await fetch('api/session', {
+        method: 'POST',
+        body: new URLSearchParams(code.length ? `${query}&code=${code}` : query),
+      });
+      if (response.ok) {
+        const user = await response.json();
+        generateLoginToken();
+        dispatch(sessionActions.updateUser(user));
+        const target = window.sessionStorage.getItem('postLogin') || '/';
+        window.sessionStorage.removeItem('postLogin');
+        navigate(target, { replace: true });
+      } else if (response.status === 401 && response.headers.get('WWW-Authenticate') === 'TOTP') {
+        setCodeEnabled(true);
+      } else if (response.status === 401) {
+        setFailed(true);
+      } else {
+        throw Error(await response.text());
+      }
+    } finally {
+      setSubmitting(false);
     }
   });
 
@@ -242,14 +248,19 @@ const LoginPage = () => {
               type="submit"
               variant="contained"
               color="secondary"
-              disabled={!email || !password || (codeEnabled && !code)}
+              disabled={submitting || !email || !password || (codeEnabled && !code)}
             >
               {t('loginLogin')}
             </Button>
           </>
         )}
         {openIdEnabled && (
-          <Button onClick={() => handleOpenIdLogin()} variant="contained" color="secondary">
+          <Button
+            onClick={() => handleOpenIdLogin()}
+            variant="contained"
+            color="secondary"
+            disabled={submitting}
+          >
             {t('loginOpenId')}
           </Button>
         )}

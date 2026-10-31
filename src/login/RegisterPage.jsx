@@ -42,6 +42,7 @@ const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [totpKey, setTotpKey] = useState(null);
 
   useAsyncTask(
@@ -56,14 +57,19 @@ const RegisterPage = () => {
 
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
-    await fetchOrThrow('api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password, totpKey }),
-    });
-    dispatch(messagesActions.push({ message: t('loginCreated'), severity: 'success' }));
-    dispatch(sessionActions.updateServer({ ...server, newServer: false }));
-    navigate('/login');
+    setSubmitting(true);
+    try {
+      await fetchOrThrow('api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, totpKey }),
+      });
+      dispatch(messagesActions.push({ message: t('loginCreated'), severity: 'success' }));
+      dispatch(sessionActions.updateServer({ ...server, newServer: false }));
+      navigate('/login');
+    } finally {
+      setSubmitting(false);
+    }
   });
 
   return (
@@ -128,7 +134,12 @@ const RegisterPage = () => {
           color="secondary"
           onClick={handleSubmit}
           type="submit"
-          disabled={!name || !password || !(server.newServer || /(.+)@(.+)\.(.{2,})/.test(email))}
+          disabled={
+            submitting ||
+            !name ||
+            !password ||
+            !(server.newServer || /(.+)@(.+)\.(.{2,})/.test(email))
+          }
           fullWidth
         >
           {t('loginRegister')}
