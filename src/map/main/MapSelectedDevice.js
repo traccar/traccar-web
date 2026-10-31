@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import useFeatures from '../../common/util/useFeatures';
 import dimensions from '../../common/theme/dimensions';
 import { map } from '../core/MapView';
 import { usePrevious } from '../../reactHelper';
@@ -7,6 +8,7 @@ import { useAttributePreference } from '../../common/util/preferences';
 import { toMapCoordinates } from '../core/mapUtil';
 
 const MapSelectedDevice = () => {
+  const features = useFeatures();
   const currentTime = useSelector((state) => state.devices.selectTime);
   const currentId = useSelector((state) => state.devices.selectedId);
   const previousTime = usePrevious(currentTime);
@@ -35,7 +37,7 @@ const MapSelectedDevice = () => {
       map.easeTo({
         center: toMapCoordinates(position.longitude, position.latitude),
         zoom: Math.max(map.getZoom(), selectZoom),
-        offset: [0, -dimensions.popupMapOffset / 2],
+        offset: [0, features.disableStatusCard ? 0 : -dimensions.popupMapOffset / 2],
       });
     }
   }, [
@@ -47,6 +49,7 @@ const MapSelectedDevice = () => {
     position,
     previousPosition,
     selectZoom,
+    features.disableStatusCard,
   ]);
 
   return null;
