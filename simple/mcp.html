@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@6.16.0/dist/maplibre-gl.css">
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/maplibre-gl@6.16.0/dist/maplibre-gl.mjs">
+    <style>
+        html, body, #map {
+            margin: 0;
+            width: 100%;
+            height: 480px
+        }
+        /* Circle for short labels, pill for longer ones */
+        .marker-badge {
+            box-sizing: border-box;
+            min-width: 28px;
+            padding: 0 7px;
+            border: 2px solid #fff;
+            border-radius: 14px;
+            color: #fff;
+            font: bold 13px/24px sans-serif;
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 2px 6px #0006;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script type="module">
+    import {App} from "https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@2.0.4/dist/src/app-with-deps.js";
+    const url = document.querySelector('link[rel="modulepreload"]')?.href;
+    const maplibregl = await import(url);
+    // Hosts allow blob workers and block external worker origins. Register a
+    // local Blob URL that imports the worker module through script-src.
+    const workerText = await fetch(url.replace(/maplibre-gl\.mjs$/, "maplibre-gl-worker.mjs")).then(response => response.text());
+    const workerBlob = new Blob([workerText], { type: "text/javascript" });
+    maplibregl.setWorkerUrl(URL.createObjectURL(workerBlob));
+
+    const app = new App({name: "Traccar", version: "1.0.0"});
+    let map;
+
+    function extend(bounds, value) {
+        if (typeof value?.[0] === "number") bounds.extend(value);
+        else if (Array.isArray(value)) value.forEach(item => extend(bounds, item));
+        else if (value?.coordinates) extend(bounds, value.coordinates);
+        else if (value) [value.features, value.geometry, value.geometries].forEach(item => extend(bounds, item));
+    }
+
+    app.ontoolresult = ({structuredContent}) => {
+        const {style = "liberty", layers = [], markers = []} = structuredContent;
+        const bounds = new maplibregl.LngLatBounds();
+        layers.forEach(layer => extend(bounds, layer.data));
+        markers.forEach(marker => extend(bounds, marker.coordinates));
+
+        map?.remove();
+        map = new maplibregl.Map({
+            container: "map",
+            style: `https://tiles.openfreemap.org/styles/${style}`,
+            ...(!bounds.isEmpty() && {bounds, fitBoundsOptions: {padding: 50}})
+        });
+        map.addControl(new maplibregl.NavigationControl());
+
+        map.once("load", () => layers.forEach(({data, ...layer}, index) => {
+            const id = layer.id || `layer-${index}`;
+            map.addSource(id, {type: "geojson", data});
+            map.addLayer({type: "line", ...layer, id, source: id});
+        }));
+
+        for (const marker of markers) {
+            const color = marker.color
+            let element;
+            if (marker.style === "text") {
+                element = document.createElement("div");
+                element.className = "marker-badge";
+                element.style.background = color;
+                element.textContent = marker.label || "";
+            }
+            const m = new maplibregl.Marker({color, element}).setLngLat(marker.coordinates).addTo(map);
+            if (!element && marker.label) m.setPopup(new maplibregl.Popup({offset: 25}).setText(marker.label));
+        }
+    };
+    window.ontoolresult = app.ontoolresult;
+    app.onhostcontextchanged = () => {
+        document.getElementById('map').style.height = app.getHostContext()?.displayMode === "fullscreen" ? "100vh" : "480px";
+        map?.resize();
+    };
+
+    await app.connect()
+</script>
+</body>
+</html>
