@@ -81,7 +81,6 @@
             if (!element && marker.label) m.setPopup(new maplibregl.Popup({offset: 25}).setText(marker.label));
         }
     };
-    window.ontoolresult = app.ontoolresult;
     app.onhostcontextchanged = () => {
         document.getElementById('map').style.height = app.getHostContext()?.displayMode === "fullscreen" ? "100vh" : "480px";
         map?.resize();
