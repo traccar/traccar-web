@@ -7,6 +7,21 @@ const borderDefinition = {
   right: { style: 'thin' },
 };
 
+const sheetName = (title, usedNames) => {
+  const base =
+    String(title)
+      .replace(/[*?:/\\[\]]/g, ' ')
+      .substring(0, 31)
+      .replace(/^['\s]+|['\s]+$/g, '') || 'Sheet';
+  let name = base;
+  for (let index = 2; usedNames.has(name.toLowerCase()); index += 1) {
+    const suffix = ` (${index})`;
+    name = base.substring(0, 31 - suffix.length) + suffix;
+  }
+  usedNames.add(name.toLowerCase());
+  return name;
+};
+
 const exportExcel = async (title, fileName, sheets, theme) => {
   if (sheets.size === 0) {
     return;
@@ -15,9 +30,10 @@ const exportExcel = async (title, fileName, sheets, theme) => {
   const { default: ExcelJS } = await import('exceljs');
   const workbook = new ExcelJS.Workbook();
   const headerColor = `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}`;
+  const usedNames = new Set(['history']);
 
   sheets.forEach((rows, sheetTitle) => {
-    const worksheet = workbook.addWorksheet(sheetTitle);
+    const worksheet = workbook.addWorksheet(sheetName(sheetTitle, usedNames));
     const headers = Object.keys(rows[0]);
 
     const titleRow = worksheet.addRow([title]);
