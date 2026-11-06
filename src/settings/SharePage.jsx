@@ -54,7 +54,7 @@ const SharePage = () => {
           </AccordionSummary>
           <AccordionDetails className={classes.details}>
             <TextField
-              value={item.name}
+              value={item?.name || ''}
               label={t(type === 'group' ? 'groupDialog' : 'sharedDevice')}
               disabled
             />
