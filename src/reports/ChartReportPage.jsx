@@ -42,6 +42,7 @@ const ChartReportPage = () => {
 
   const units = useAttributeUnits();
 
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [positions, setPositions] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -77,43 +78,48 @@ const ChartReportPage = () => {
     async ({ deviceIds, from, to }) => {
       const query = new URLSearchParams({ from, to });
       deviceIds.forEach((deviceId) => query.append('deviceId', deviceId));
-      const response = await fetchOrThrow(`api/reports/route?${query.toString()}`, {
-        headers: { Accept: 'application/json' },
-      });
-      const positions = await response.json();
-      const keySet = new Set();
-      const keyList = [];
-      const formattedPositions = positions.map((position) => {
-        const data = { ...position, ...position.attributes };
-        const formatted = { id: position.id };
-        formatted.fixTime = dayjs(position.fixTime).valueOf();
-        formatted.deviceTime = dayjs(position.deviceTime).valueOf();
-        formatted.serverTime = dayjs(position.serverTime).valueOf();
-        Object.keys(data)
-          .filter((key) => !['id', 'deviceId'].includes(key))
-          .forEach((key) => {
-            const value = data[key];
-            if (typeof value === 'number') {
-              keySet.add(key);
-              const definition = positionAttributes[key] || {};
-              const rawValue = key === 'obdSpeed' ? speedToKnots(value, 'kmh') : value;
-              const converted = formatAttributeNumber(rawValue, definition.dataType, units);
-              formatted[key] = definition.dataType === 'hours' ? converted.toFixed(2) : converted;
-            }
-          });
-        return formatted;
-      });
-      Object.keys(positionAttributes).forEach((key) => {
-        if (keySet.has(key)) {
-          keyList.push(key);
-          keySet.delete(key);
-        }
-      });
-      setTypes([...keyList, ...keySet]);
-      setItems(formattedPositions);
-      setPositions(positions);
-      setSelectedItem(null);
-      setBrushStartIndex(0);
+      setLoading(true);
+      try {
+        const response = await fetchOrThrow(`api/reports/route?${query.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+        const positions = await response.json();
+        const keySet = new Set();
+        const keyList = [];
+        const formattedPositions = positions.map((position) => {
+          const data = { ...position, ...position.attributes };
+          const formatted = { id: position.id };
+          formatted.fixTime = dayjs(position.fixTime).valueOf();
+          formatted.deviceTime = dayjs(position.deviceTime).valueOf();
+          formatted.serverTime = dayjs(position.serverTime).valueOf();
+          Object.keys(data)
+            .filter((key) => !['id', 'deviceId'].includes(key))
+            .forEach((key) => {
+              const value = data[key];
+              if (typeof value === 'number') {
+                keySet.add(key);
+                const definition = positionAttributes[key] || {};
+                const rawValue = key === 'obdSpeed' ? speedToKnots(value, 'kmh') : value;
+                const converted = formatAttributeNumber(rawValue, definition.dataType, units);
+                formatted[key] = definition.dataType === 'hours' ? converted.toFixed(2) : converted;
+              }
+            });
+          return formatted;
+        });
+        Object.keys(positionAttributes).forEach((key) => {
+          if (keySet.has(key)) {
+            keyList.push(key);
+            keySet.delete(key);
+          }
+        });
+        setTypes([...keyList, ...keySet]);
+        setItems(formattedPositions);
+        setPositions(positions);
+        setSelectedItem(null);
+        setBrushStartIndex(0);
+      } finally {
+        setLoading(false);
+      }
     },
     [positionAttributes, units],
   );
@@ -147,7 +153,13 @@ const ChartReportPage = () => {
           </>
         )}
         <div className={cx(classes.container, classes.containerMain)}>
-          <ReportFilter onShow={onShow} onExport={() => {}} deviceType="single" formats={[]}>
+          <ReportFilter
+            onShow={onShow}
+            onExport={() => {}}
+            deviceType="single"
+            loading={loading}
+            formats={[]}
+          >
             <div className={classes.filterItem}>
               <FormControl fullWidth>
                 <InputLabel>{t('reportChartType')}</InputLabel>
