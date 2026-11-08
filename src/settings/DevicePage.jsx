@@ -40,16 +40,24 @@ const DevicePage = () => {
 
   const [item, setItem] = useState(uniqueId ? { uniqueId } : null);
   const [showQr, setShowQr] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleFileInput = useCatch(async (newFile) => {
-    setImageFile(newFile);
     if (newFile && item?.id) {
-      const response = await fetchOrThrow(`api/devices/${item.id}/image`, {
-        method: 'POST',
-        body: newFile,
-      });
-      setItem({ ...item, attributes: { ...item.attributes, deviceImage: await response.text() } });
+      setUploading(true);
+      try {
+        const response = await fetchOrThrow(`api/devices/${item.id}/image`, {
+          method: 'POST',
+          body: newFile,
+        });
+        const deviceImage = await response.text();
+        setItem((previous) => ({
+          ...previous,
+          attributes: { ...previous.attributes, deviceImage },
+        }));
+      } finally {
+        setUploading(false);
+      }
     } else if (!newFile) {
       // eslint-disable-next-line no-unused-vars
       const { deviceImage, ...remainingAttributes } = item.attributes || {};
@@ -57,7 +65,7 @@ const DevicePage = () => {
     }
   });
 
-  const validate = () => item && item.name && item.uniqueId;
+  const validate = () => item && item.name && item.uniqueId && !uploading;
 
   return (
     <EditItemView
@@ -166,7 +174,8 @@ const DevicePage = () => {
               <AccordionDetails className={classes.details}>
                 <FileInput
                   placeholder={t('attributeDeviceImage')}
-                  value={imageFile}
+                  value={item.attributes?.deviceImage}
+                  disabled={uploading}
                   onChange={handleFileInput}
                   slotProps={{ htmlInput: { accept: 'image/*' } }}
                 />
