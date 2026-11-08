@@ -1,8 +1,11 @@
 import { createContext, use, useEffect, useMemo, Suspense } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import usePersistedState from '../util/usePersistedState';
 import Loader from './Loader';
+import { useAsyncTask } from '../../reactHelper';
+import { sessionActions } from '../../store';
+import fetchOrThrow from '../util/fetchOrThrow';
 
 import en from '../../resources/l10n/en.json';
 import 'dayjs/locale/en';
@@ -199,16 +202,32 @@ const ResolvedLocalizationProvider = ({ language, setLocalLanguage, children }) 
 };
 
 export const LocalizationProvider = ({ children }) => {
-  const remoteLanguage = useSelector((state) => {
-    const serverLanguage = state.session.server?.attributes?.language;
-    const userLanguage = state.session.user?.attributes?.language;
-    const targetLanguage = userLanguage || serverLanguage;
-    return targetLanguage && targetLanguage in languages ? targetLanguage : null;
-  });
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.session.user);
+  const serverLanguage = useSelector((state) => state.session.server?.attributes?.language);
+  const targetLanguage = user?.attributes?.language || serverLanguage;
+  const remoteLanguage = targetLanguage && targetLanguage in languages ? targetLanguage : null;
 
   const [localLanguage, setLocalLanguage] = usePersistedState('language', getDefaultLanguage());
 
   const language = remoteLanguage || localLanguage;
+
+  useAsyncTask(
+    async ({ signal }) => {
+      if (user && !user.attributes.language && !serverLanguage) {
+        const response = await fetchOrThrow(`api/users/${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...user, attributes: { ...user.attributes, language } }),
+          signal,
+        });
+        const updatedUser = await response.json();
+        signal.throwIfAborted();
+        dispatch(sessionActions.updateUser(updatedUser));
+      }
+    },
+    [user, serverLanguage, language, dispatch],
+  );
 
   return (
     <Suspense fallback={<Loader />}>
