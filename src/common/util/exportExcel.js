@@ -17,7 +17,7 @@ const exportExcel = async (title, fileName, sheets, theme) => {
   const headerColor = `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}`;
 
   sheets.forEach((rows, sheetTitle) => {
-    const worksheet = workbook.addWorksheet(sheetTitle.replace(/[*?:\\/[\]]|^'|'$/g, ' '));
+    const worksheet = workbook.addWorksheet(sheetTitle.replace(/[*?:\\/[\]]|^'|'$/g, ''));
     const headers = Object.keys(rows[0]);
 
     const titleRow = worksheet.addRow([title]);
