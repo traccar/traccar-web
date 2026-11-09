@@ -11,19 +11,6 @@
             width: 100%;
             height: 480px
         }
-        /* Circle for short labels, pill for longer ones */
-        .marker-badge {
-            box-sizing: border-box;
-            min-width: 28px;
-            padding: 0 7px;
-            border: 2px solid #fff;
-            border-radius: 14px;
-            color: #fff;
-            font: bold 13px/24px sans-serif;
-            text-align: center;
-            white-space: nowrap;
-            box-shadow: 0 2px 6px #0006;
-        }
     </style>
 </head>
 <body>
@@ -32,11 +19,12 @@
     import {App} from "https://cdn.jsdelivr.net/npm/@modelcontextprotocol/ext-apps@2.0.4/dist/src/app-with-deps.js";
     const url = document.querySelector('link[rel="modulepreload"]')?.href;
     const maplibregl = await import(url);
-    // Hosts allow blob workers and block external worker origins. Register a
-    // local Blob URL that imports the worker module through script-src.
-    const workerText = await fetch(url.replace(/maplibre-gl\.mjs$/, "maplibre-gl-worker.mjs")).then(response => response.text());
-    const workerBlob = new Blob([workerText], { type: "text/javascript" });
-    maplibregl.setWorkerUrl(URL.createObjectURL(workerBlob));
+
+    // MCP App UI has no same-origin server, so MapLibre's normal worker URL
+    // cannot be used. Hosts allow blob workers; fetch and register a blob URL.
+    const workerText = await fetch(url.replace(/maplibre-gl\.mjs$/, "maplibre-gl-worker.mjs"))
+        .then((response) => response.text());
+    maplibregl.setWorkerUrl(URL.createObjectURL(new Blob([workerText], {type: "text/javascript"})));
 
     const app = new App({name: "Traccar", version: "1.0.0"});
     let map;
@@ -49,10 +37,9 @@
     }
 
     app.ontoolresult = ({structuredContent}) => {
-        const {style = "liberty", layers = [], markers = []} = structuredContent;
+        const {style = "liberty", layers = []} = structuredContent;
         const bounds = new maplibregl.LngLatBounds();
         layers.forEach(layer => extend(bounds, layer.data));
-        markers.forEach(marker => extend(bounds, marker.coordinates));
 
         map?.remove();
         map = new maplibregl.Map({
@@ -67,26 +54,13 @@
             map.addSource(id, {type: "geojson", data});
             map.addLayer({type: "line", ...layer, id, source: id});
         }));
-
-        for (const marker of markers) {
-            const color = marker.color
-            let element;
-            if (marker.style === "text") {
-                element = document.createElement("div");
-                element.className = "marker-badge";
-                element.style.background = color;
-                element.textContent = marker.label || "";
-            }
-            const m = new maplibregl.Marker({color, element}).setLngLat(marker.coordinates).addTo(map);
-            if (!element && marker.label) m.setPopup(new maplibregl.Popup({offset: 25}).setText(marker.label));
-        }
     };
     app.onhostcontextchanged = () => {
         document.getElementById('map').style.height = app.getHostContext()?.displayMode === "fullscreen" ? "100vh" : "480px";
         map?.resize();
     };
 
-    await app.connect()
+    await app.connect();
 </script>
 </body>
 </html>
