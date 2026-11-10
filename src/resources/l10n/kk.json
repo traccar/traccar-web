@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Жақындауды анықтау қашықтығы",
     "attributeProximityExitDistance": "Алыстауды анықтау қашықтығы",
     "attributeUnaccompaniedDistance": "Сүйемелдеусіз қозғалыс қашықтығы",
+    "attributeFuelCapacity": "Жанармай багының сыйымдылығы",
     "attributeFuelDropThreshold": "Отын азаюының шегі",
     "attributeFuelIncreaseThreshold": "Отын көбеюінің шегі",
     "attributePolylineDistance": "Сынық сызыққа дейінгі қашықтық",

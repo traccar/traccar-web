@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Abstand beim Eintritt in den Nahbereich",
     "attributeProximityExitDistance": "Abstand beim Verlassen des Nahbereichs",
     "attributeUnaccompaniedDistance": "Strecke bei unbegleiteter Bewegung",
+    "attributeFuelCapacity": "Kraftstofftankvolumen",
     "attributeFuelDropThreshold": "Schwellenwert für Kraftstoffabnahme",
     "attributeFuelIncreaseThreshold": "Schwellenwert für Kraftstoffzunahme",
     "attributePolylineDistance": "Polyliniendistanz",

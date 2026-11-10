@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Közelség érzékelésének távolsága",
     "attributeProximityExitDistance": "Eltávolodás érzékelésének távolsága",
     "attributeUnaccompaniedDistance": "Kísérő nélküli mozgás távolsága",
+    "attributeFuelCapacity": "Üzemanyagtartály kapacitása",
     "attributeFuelDropThreshold": "Üzemanyagszint-csökkenés küszöbértéke",
     "attributeFuelIncreaseThreshold": "Üzemanyagszint-emelkedés küszöbértéke",
     "attributePolylineDistance": "Vonallánctól mért távolság",

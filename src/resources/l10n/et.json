@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Lähedusse sisenemise kaugus",
     "attributeProximityExitDistance": "Lähedusest väljumise kaugus",
     "attributeUnaccompaniedDistance": "Saatjata liikumise vahemaa",
+    "attributeFuelCapacity": "Kütusepaagi maht",
     "attributeFuelDropThreshold": "Kütusetaseme languse lävi",
     "attributeFuelIncreaseThreshold": "Kütusetaseme tõusu lävi",
     "attributePolylineDistance": "Kaugus murdjoonest",

@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Afstand voor nadering",
     "attributeProximityExitDistance": "Afstand voor verwijdering",
     "attributeUnaccompaniedDistance": "Afstand voor beweging zonder begeleiding",
+    "attributeFuelCapacity": "Inhoud brandstoftank",
     "attributeFuelDropThreshold": "Drempel voor brandstofafname",
     "attributeFuelIncreaseThreshold": "Drempel voor brandstoftoename",
     "attributePolylineDistance": "Afstand tot polylijn",

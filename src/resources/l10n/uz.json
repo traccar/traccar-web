@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Яқинлашиш масофаси",
     "attributeProximityExitDistance": "Узоқлашиш масофаси",
     "attributeUnaccompaniedDistance": "Ҳамроҳсиз ҳаракат масофаси",
+    "attributeFuelCapacity": "Yoqilg‘i bakining sig‘imi",
     "attributeFuelDropThreshold": "Ёқилғи камайиши чегараси",
     "attributeFuelIncreaseThreshold": "Ёқилғи кўпайиши чегараси",
     "attributePolylineDistance": "Синиқ чизиқдан масофа",

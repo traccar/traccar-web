@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Vzdialenosť na rozpoznanie priblíženia",
     "attributeProximityExitDistance": "Vzdialenosť na rozpoznanie vzdialenia",
     "attributeUnaccompaniedDistance": "Vzdialenosť pohybu bez sprievodu",
+    "attributeFuelCapacity": "Objem palivovej nádrže",
     "attributeFuelDropThreshold": "Prah poklesu paliva",
     "attributeFuelIncreaseThreshold": "Prah zvýšenia paliva",
     "attributePolylineDistance": "Vzdialenosť od lomenej čiary",

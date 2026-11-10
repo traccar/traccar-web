@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "কাছাকাছি আসার দূরত্বসীমা",
     "attributeProximityExitDistance": "দূরে যাওয়ার দূরত্বসীমা",
     "attributeUnaccompaniedDistance": "সঙ্গী ছাড়া চলার দূরত্ব",
+    "attributeFuelCapacity": "জ্বালানি ট্যাংকের ধারণক্ষমতা",
     "attributeFuelDropThreshold": "জ্বালানি হ্রাসের সীমা",
     "attributeFuelIncreaseThreshold": "জ্বালানি বৃদ্ধির সীমা",
     "attributePolylineDistance": "পলিলাইন থেকে দূরত্ব",

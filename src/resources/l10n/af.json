@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Afstand vir binnegaan van nabyheidsgebied",
     "attributeProximityExitDistance": "Afstand vir verlaat van nabyheidsgebied",
     "attributeUnaccompaniedDistance": "Afstand vir onbegeleide beweging",
+    "attributeFuelCapacity": "Brandstoftenk se kapasiteit",
     "attributeFuelDropThreshold": "Drempel vir brandstofafname",
     "attributeFuelIncreaseThreshold": "Drempel vir brandstoftoename",
     "attributePolylineDistance": "Polielynafstand",

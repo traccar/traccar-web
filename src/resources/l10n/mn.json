@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Ойртсонд тооцох зай",
     "attributeProximityExitDistance": "Холдсонд тооцох зай",
     "attributeUnaccompaniedDistance": "Дагалдах төхөөрөмжгүй хөдөлгөөний зай",
+    "attributeFuelCapacity": "Түлшний савны багтаамж",
     "attributeFuelDropThreshold": "Түлш буурах босго",
     "attributeFuelIncreaseThreshold": "Түлш нэмэгдэх босго",
     "attributePolylineDistance": "Тахир шугамаас тооцох зай",

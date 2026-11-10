@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "进入邻近范围距离",
     "attributeProximityExitDistance": "离开邻近范围距离",
     "attributeUnaccompaniedDistance": "未随行移动距离阈值",
+    "attributeFuelCapacity": "油箱容量",
     "attributeFuelDropThreshold": "燃油下降阈值",
     "attributeFuelIncreaseThreshold": "燃油增加阈值",
     "attributePolylineDistance": "折线距离",

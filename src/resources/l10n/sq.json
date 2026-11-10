@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Distanca e hyrjes në afërsi",
     "attributeProximityExitDistance": "Distanca e daljes nga afërsia",
     "attributeUnaccompaniedDistance": "Distanca e lëvizjes pa shoqërim",
+    "attributeFuelCapacity": "Kapaciteti i rezervuarit të karburantit",
     "attributeFuelDropThreshold": "Pragu i rënies së karburantit",
     "attributeFuelIncreaseThreshold": "Pragu i rritjes së karburantit",
     "attributePolylineDistance": "Distanca nga vija e thyer",

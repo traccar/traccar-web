@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "ระยะทางเมื่อเข้าใกล้",
     "attributeProximityExitDistance": "ระยะทางเมื่อออกห่าง",
     "attributeUnaccompaniedDistance": "ระยะเคลื่อนที่โดยไม่มีอุปกรณ์ที่เชื่อมโยงอยู่ใกล้",
+    "attributeFuelCapacity": "ความจุถังเชื้อเพลิง",
     "attributeFuelDropThreshold": "เกณฑ์การลดของเชื้อเพลิง",
     "attributeFuelIncreaseThreshold": "เกณฑ์การเพิ่มของเชื้อเพลิง",
     "attributePolylineDistance": "ระยะห่างจากเส้นหลายส่วน",

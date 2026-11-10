@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "ចម្ងាយចូលជិត",
     "attributeProximityExitDistance": "ចម្ងាយចាកចេញឆ្ងាយ",
     "attributeUnaccompaniedDistance": "ចម្ងាយផ្លាស់ទីដោយគ្មានឧបករណ៍អម",
+    "attributeFuelCapacity": "ចំណុះធុងប្រេងឥន្ធនៈ",
     "attributeFuelDropThreshold": "កម្រិតកំណត់ការថយចុះប្រេងឥន្ធនៈ",
     "attributeFuelIncreaseThreshold": "កម្រិតកំណត់ការកើនឡើងប្រេងឥន្ធនៈ",
     "attributePolylineDistance": "ចម្ងាយពីបន្ទាត់តភ្ជាប់",

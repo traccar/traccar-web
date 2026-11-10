@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Растојание за влез во близина",
     "attributeProximityExitDistance": "Растојание за излез од близина",
     "attributeUnaccompaniedDistance": "Растојание на движење без придружба",
+    "attributeFuelCapacity": "Капацитет на резервоарот за гориво",
     "attributeFuelDropThreshold": "Праг на намалување на горивото",
     "attributeFuelIncreaseThreshold": "Праг на зголемување на горивото",
     "attributePolylineDistance": "Растојание од полилинијата",

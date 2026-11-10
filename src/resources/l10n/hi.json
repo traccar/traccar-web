@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "निकट आने की दूरी",
     "attributeProximityExitDistance": "दूर जाने की दूरी",
     "attributeUnaccompaniedDistance": "बिना साथ के चलने की दूरी",
+    "attributeFuelCapacity": "ईंधन टैंक की क्षमता",
     "attributeFuelDropThreshold": "ईंधन में गिरावट की सीमा",
     "attributeFuelIncreaseThreshold": "ईंधन में वृद्धि की सीमा",
     "attributePolylineDistance": "पॉलीलाइन दूरी",

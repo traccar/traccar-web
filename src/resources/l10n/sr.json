@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Udaljenost za ulazak u zonu blizine",
     "attributeProximityExitDistance": "Udaljenost za izlazak iz zone blizine",
     "attributeUnaccompaniedDistance": "Udaljenost kretanja bez pratnje",
+    "attributeFuelCapacity": "Kapacitet rezervoara za gorivo",
     "attributeFuelDropThreshold": "Prag pada nivoa goriva",
     "attributeFuelIncreaseThreshold": "Prag porasta nivoa goriva",
     "attributePolylineDistance": "Udaljenost od izlomljene linije",

@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Distància d'entrada a la zona de proximitat",
     "attributeProximityExitDistance": "Distància de sortida de la zona de proximitat",
     "attributeUnaccompaniedDistance": "Distància de moviment sense acompanyament",
+    "attributeFuelCapacity": "Capacitat del dipòsit de combustible",
     "attributeFuelDropThreshold": "Llindar de caiguda de combustible",
     "attributeFuelIncreaseThreshold": "Llindar d'augment del combustible",
     "attributePolylineDistance": "Distància de la polilínia",

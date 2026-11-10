@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Distância de entrada por proximidade",
     "attributeProximityExitDistance": "Distância de saída por proximidade",
     "attributeUnaccompaniedDistance": "Distância de movimento sem acompanhamento",
+    "attributeFuelCapacity": "Capacidade do tanque de combustível",
     "attributeFuelDropThreshold": "Limite de decréscimo de combustível",
     "attributeFuelIncreaseThreshold": "Limite de acréscimo de combustível",
     "attributePolylineDistance": "Distância da polilinha",

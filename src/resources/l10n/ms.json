@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Jarak untuk dianggap berdekatan",
     "attributeProximityExitDistance": "Jarak untuk dianggap berjauhan",
     "attributeUnaccompaniedDistance": "Jarak pergerakan tanpa iringan",
+    "attributeFuelCapacity": "Kapasiti Tangki Bahan Api",
     "attributeFuelDropThreshold": "Ambang penurunan bahan api",
     "attributeFuelIncreaseThreshold": "Ambang peningkatan bahan api",
     "attributePolylineDistance": "Jarak poligaris",

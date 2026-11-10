@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Расстояние срабатывания при приближении",
     "attributeProximityExitDistance": "Расстояние срабатывания при удалении",
     "attributeUnaccompaniedDistance": "Расстояние для определения движения без сопровождения",
+    "attributeFuelCapacity": "Объём топливного бака",
     "attributeFuelDropThreshold": "Порог снижения уровня топлива",
     "attributeFuelIncreaseThreshold": "Порог повышения уровня топлива",
     "attributePolylineDistance": "Расстояние от линии",

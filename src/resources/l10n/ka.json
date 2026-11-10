@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "მიახლოების მანძილი",
     "attributeProximityExitDistance": "დაშორების მანძილი",
     "attributeUnaccompaniedDistance": "თანხლების გარეშე მოძრაობის მანძილი",
+    "attributeFuelCapacity": "საწვავის ავზის მოცულობა",
     "attributeFuelDropThreshold": "საწვავის კლების ზღვარი",
     "attributeFuelIncreaseThreshold": "საწვავის მატების ზღვარი",
     "attributePolylineDistance": "ტეხილის მანძილი",

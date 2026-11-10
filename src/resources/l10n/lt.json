@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Priartėjimo atstumas",
     "attributeProximityExitDistance": "Nutolimo atstumas",
     "attributeUnaccompaniedDistance": "Judėjimo be lydinčio įrenginio atstumas",
+    "attributeFuelCapacity": "Degalų bako talpa",
     "attributeFuelDropThreshold": "Kuro mažėjimo riba",
     "attributeFuelIncreaseThreshold": "Kuro didėjimo riba",
     "attributePolylineDistance": "Atstumas iki polilinijos",
