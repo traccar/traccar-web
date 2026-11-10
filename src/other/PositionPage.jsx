@@ -33,9 +33,6 @@ const useStyles = makeStyles()((theme) => ({
     tableLayout: 'fixed',
     '& th, & td': {
       overflowWrap: 'anywhere',
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(1),
-      },
     },
   },
   content: {
