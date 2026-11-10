@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Відстань наближення",
     "attributeProximityExitDistance": "Відстань віддалення",
     "attributeUnaccompaniedDistance": "Відстань руху без супроводу",
-    "attributeFuelCapacity": "Об’єм паливного бака",
     "attributeFuelDropThreshold": "Поріг зниження рівня палива",
     "attributeFuelIncreaseThreshold": "Поріг підвищення рівня палива",
     "attributePolylineDistance": "Відстань від лінії",

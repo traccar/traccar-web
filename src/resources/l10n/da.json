@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Afstand for at komme i nærheden",
     "attributeProximityExitDistance": "Afstand for at forlade nærheden",
     "attributeUnaccompaniedDistance": "Afstand for bevægelse uden ledsagelse",
-    "attributeFuelCapacity": "Brændstoftankens kapacitet",
     "attributeFuelDropThreshold": "Tærskel for fald i brændstofniveau",
     "attributeFuelIncreaseThreshold": "Tærskel for stigning i brændstofniveau",
     "attributePolylineDistance": "Afstand til polylinje",

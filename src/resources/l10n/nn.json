@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Avstand for å kome i nærleiken",
     "attributeProximityExitDistance": "Avstand for å forlate nærleiken",
     "attributeUnaccompaniedDistance": "Avstand for rørsle utan følgje",
-    "attributeFuelCapacity": "Kapasiteten til drivstofftanken",
     "attributeFuelDropThreshold": "Terskel for fall i drivstoffnivå",
     "attributeFuelIncreaseThreshold": "Terskel for auke i drivstoffnivå",
     "attributePolylineDistance": "Avstand frå polylinje",

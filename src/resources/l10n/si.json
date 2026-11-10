@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "ආසන්නයට පැමිණීමේ දුර",
     "attributeProximityExitDistance": "ආසන්නයෙන් ඉවත්වීමේ දුර",
     "attributeUnaccompaniedDistance": "සහචර උපාංගයක් නොමැතිව ගමන් කරන දුර",
-    "attributeFuelCapacity": "ඉන්ධන ටැංකියේ ධාරිතාව",
     "attributeFuelDropThreshold": "ඉන්ධන අඩුවීමේ සීමාව",
     "attributeFuelIncreaseThreshold": "ඉන්ධන වැඩිවීමේ සීමාව",
     "attributePolylineDistance": "බහු රේඛා දුර",

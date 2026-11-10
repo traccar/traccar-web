@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Yaxınlaşma məsafəsi",
     "attributeProximityExitDistance": "Uzaqlaşma məsafəsi",
     "attributeUnaccompaniedDistance": "Müşayiətsiz hərəkət məsafəsi",
-    "attributeFuelCapacity": "Yanacaq çəninin tutumu",
     "attributeFuelDropThreshold": "Yanacaq azalması həddi",
     "attributeFuelIncreaseThreshold": "Yanacaq artımı həddi",
     "attributePolylineDistance": "Sınıq xəttdən məsafə",

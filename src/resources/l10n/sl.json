@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Razdalja za zaznavanje približevanja",
     "attributeProximityExitDistance": "Razdalja za zaznavanje oddaljevanja",
     "attributeUnaccompaniedDistance": "Razdalja gibanja brez spremstva",
-    "attributeFuelCapacity": "Prostornina rezervoarja za gorivo",
     "attributeFuelDropThreshold": "Prag zmanjšanja količine goriva",
     "attributeFuelIncreaseThreshold": "Prag povečanja količine goriva",
     "attributePolylineDistance": "Razdalja od lomljenke",

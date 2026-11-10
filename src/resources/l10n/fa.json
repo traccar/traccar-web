@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "فاصلهٔ ورود به محدودهٔ نزدیکی",
     "attributeProximityExitDistance": "فاصلهٔ خروج از محدودهٔ نزدیکی",
     "attributeUnaccompaniedDistance": "مسافت حرکت بدون همراه",
-    "attributeFuelCapacity": "ظرفیت مخزن سوخت",
     "attributeFuelDropThreshold": "آستانهٔ کاهش سوخت",
     "attributeFuelIncreaseThreshold": "آستانهٔ افزایش سوخت",
     "attributePolylineDistance": "فاصله از خط شکسته",

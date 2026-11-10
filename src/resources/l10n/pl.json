@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Odległość wykrycia zbliżenia",
     "attributeProximityExitDistance": "Odległość wykrycia oddalenia",
     "attributeUnaccompaniedDistance": "Odległość ruchu bez asysty",
-    "attributeFuelCapacity": "Pojemność zbiornika paliwa",
     "attributeFuelDropThreshold": "Próg spadku poziomu paliwa",
     "attributeFuelIncreaseThreshold": "Próg wzrostu poziomu paliwa",
     "attributePolylineDistance": "Odległość od linii łamanej",

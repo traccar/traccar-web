@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Distanță de intrare în proximitate",
     "attributeProximityExitDistance": "Distanță de ieșire din proximitate",
     "attributeUnaccompaniedDistance": "Distanță de deplasare neînsoțită",
-    "attributeFuelCapacity": "Capacitatea rezervorului de combustibil",
     "attributeFuelDropThreshold": "Prag de scădere a combustibilului",
     "attributeFuelIncreaseThreshold": "Prag de creștere a combustibilului",
     "attributePolylineDistance": "Distanță polilinie",

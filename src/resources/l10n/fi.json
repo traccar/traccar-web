@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Lähestymisen etäisyysraja",
     "attributeProximityExitDistance": "Loittonemisen etäisyysraja",
     "attributeUnaccompaniedDistance": "Ilman seuralaitetta kuljettu matka",
-    "attributeFuelCapacity": "Polttoainesäiliön tilavuus",
     "attributeFuelDropThreshold": "Polttoaineen vähenemisen raja-arvo",
     "attributeFuelIncreaseThreshold": "Polttoaineen lisääntymisen raja-arvo",
     "attributePolylineDistance": "Etäisyys murtoviivaan",

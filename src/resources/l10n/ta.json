@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "அருகாமைக்குள் நுழையும் தொலைவு",
     "attributeProximityExitDistance": "அருகாமையிலிருந்து விலகும் தொலைவு",
     "attributeUnaccompaniedDistance": "துணையின்றி நகரும் தொலைவு",
-    "attributeFuelCapacity": "எரிபொருள் தொட்டியின் கொள்ளளவு",
     "attributeFuelDropThreshold": "எரிபொருள் குறைவு வரம்பு",
     "attributeFuelIncreaseThreshold": "எரிபொருள் அதிகரிப்பு வரம்பு",
     "attributePolylineDistance": "தொடர்கோட்டிலிருந்து தொலைவு",

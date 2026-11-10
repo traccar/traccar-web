@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "സമീപത്തേക്ക് പ്രവേശിക്കുന്നതിനുള്ള ദൂരപരിധി",
     "attributeProximityExitDistance": "സമീപത്തുനിന്ന് അകലുന്നതിനുള്ള ദൂരപരിധി",
     "attributeUnaccompaniedDistance": "ഒപ്പമുള്ള ഉപകരണമില്ലാതെ സഞ്ചരിക്കുന്ന ദൂരം",
-    "attributeFuelCapacity": "ഇന്ധന ടാങ്കിന്റെ ശേഷി",
     "attributeFuelDropThreshold": "ഇന്ധനം കുറയുന്നതിനുള്ള പരിധി",
     "attributeFuelIncreaseThreshold": "ഇന്ധനം കൂടുന്നതിനുള്ള പരിധി",
     "attributePolylineDistance": "ബഹുരേഖയിൽ നിന്നുള്ള ദൂരം",

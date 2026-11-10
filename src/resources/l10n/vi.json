@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Khoảng cách khi đến gần",
     "attributeProximityExitDistance": "Khoảng cách khi rời xa",
     "attributeUnaccompaniedDistance": "Quãng đường di chuyển không có thiết bị đi cùng",
-    "attributeFuelCapacity": "Dung tích bình nhiên liệu",
     "attributeFuelDropThreshold": "Ngưỡng giảm nhiên liệu",
     "attributeFuelIncreaseThreshold": "Ngưỡng tăng nhiên liệu",
     "attributePolylineDistance": "Khoảng cách đến đường gấp khúc",

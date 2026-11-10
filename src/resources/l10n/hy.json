@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Մոտենալու հեռավորություն",
     "attributeProximityExitDistance": "Հեռանալու հեռավորություն",
     "attributeUnaccompaniedDistance": "Առանց ուղեկցության շարժման հեռավորություն",
-    "attributeFuelCapacity": "Վառելիքի բաքի տարողություն",
     "attributeFuelDropThreshold": "Վառելիքի նվազման շեմ",
     "attributeFuelIncreaseThreshold": "Վառելիքի ավելացման շեմ",
     "attributePolylineDistance": "Բեկյալ գծից հեռավորություն",

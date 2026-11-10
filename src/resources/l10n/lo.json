@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "ໄລຍະທາງທີ່ຖືວ່າເຂົ້າໃກ້",
     "attributeProximityExitDistance": "ໄລຍະທາງທີ່ຖືວ່າອອກຫ່າງ",
     "attributeUnaccompaniedDistance": "ໄລຍະທາງເຄື່ອນທີ່ໂດຍບໍ່ມີອຸປະກອນຮ່ວມທາງ",
-    "attributeFuelCapacity": "ຄວາມຈຸຂອງຖັງນ້ຳມັນເຊື້ອໄຟ",
     "attributeFuelDropThreshold": "ເກນການຫຼຸດລົງຂອງນ້ຳມັນ",
     "attributeFuelIncreaseThreshold": "ເກນການເພີ່ມຂຶ້ນຂອງນ້ຳມັນ",
     "attributePolylineDistance": "ໄລຍະຫ່າງຈາກເສັ້ນຫັກ",

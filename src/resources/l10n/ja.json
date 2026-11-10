@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "接近と判定する距離",
     "attributeProximityExitDistance": "離隔と判定する距離",
     "attributeUnaccompaniedDistance": "同行デバイスなしでの移動距離",
-    "attributeFuelCapacity": "燃料タンク容量",
     "attributeFuelDropThreshold": "燃料低下の閾値",
     "attributeFuelIncreaseThreshold": "燃料増加の閾値",
     "attributePolylineDistance": "折れ線からの距離",

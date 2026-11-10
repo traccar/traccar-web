@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "مسافة الدخول في نطاق القرب",
     "attributeProximityExitDistance": "مسافة الخروج من نطاق القرب",
     "attributeUnaccompaniedDistance": "مسافة الحركة دون مرافقة",
-    "attributeFuelCapacity": "سعة خزان الوقود",
     "attributeFuelDropThreshold": "عتبة انخفاض الوقود",
     "attributeFuelIncreaseThreshold": "عتبة زيادة الوقود",
     "attributePolylineDistance": "المسافة من الخط المتصل",

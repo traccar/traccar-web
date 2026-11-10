@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Umbali wa kuingia katika ukaribu",
     "attributeProximityExitDistance": "Umbali wa kutoka katika ukaribu",
     "attributeUnaccompaniedDistance": "Umbali wa mwendo bila kifaa kinachoandamana",
-    "attributeFuelCapacity": "Ujazo wa tanki la mafuta",
     "attributeFuelDropThreshold": "Kizingiti cha kupungua kwa mafuta",
     "attributeFuelIncreaseThreshold": "Kizingiti cha kuongezeka kwa mafuta",
     "attributePolylineDistance": "Umbali wa mstari wa vipande",

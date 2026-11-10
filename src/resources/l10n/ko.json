@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "근접 진입 거리",
     "attributeProximityExitDistance": "근접 이탈 거리",
     "attributeUnaccompaniedDistance": "비동반 이동 거리",
-    "attributeFuelCapacity": "연료 탱크 용량",
     "attributeFuelDropThreshold": "연료 감소 임계값",
     "attributeFuelIncreaseThreshold": "연료 증가 임계값",
     "attributePolylineDistance": "꺾은선 거리",

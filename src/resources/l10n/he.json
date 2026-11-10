@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "מרחק כניסה לקרבה",
     "attributeProximityExitDistance": "מרחק יציאה מקרבה",
     "attributeUnaccompaniedDistance": "מרחק תנועה ללא ליווי",
-    "attributeFuelCapacity": "קיבולת מכל הדלק",
     "attributeFuelDropThreshold": "סף ירידה במפלס הדלק",
     "attributeFuelIncreaseThreshold": "סף עלייה במפלס הדלק",
     "attributePolylineDistance": "מרחק מקו שבור",

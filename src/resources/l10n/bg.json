@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Разстояние за отчитане на приближаване",
     "attributeProximityExitDistance": "Разстояние за отчитане на отдалечаване",
     "attributeUnaccompaniedDistance": "Разстояние на движение без придружител",
-    "attributeFuelCapacity": "Вместимост на резервоара за гориво",
     "attributeFuelDropThreshold": "Праг за спад на горивото",
     "attributeFuelIncreaseThreshold": "Праг за увеличение на горивото",
     "attributePolylineDistance": "Дължина на начупената линия",

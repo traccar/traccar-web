@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Avståndsgräns för närhet",
     "attributeProximityExitDistance": "Avståndsgräns för att lämna närheten",
     "attributeUnaccompaniedDistance": "Sträcka för rörelse utan följeslagare",
-    "attributeFuelCapacity": "Bränsletankens kapacitet",
     "attributeFuelDropThreshold": "Tröskel för bränsleminskning",
     "attributeFuelIncreaseThreshold": "Tröskel för bränsleökning",
     "attributePolylineDistance": "Avstånd till polylinje",

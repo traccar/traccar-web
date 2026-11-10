@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Tuvošanās attāluma slieksnis",
     "attributeProximityExitDistance": "Attālināšanās attāluma slieksnis",
     "attributeUnaccompaniedDistance": "Kustības attālums bez pavadošās ierīces",
-    "attributeFuelCapacity": "Degvielas tvertnes tilpums",
     "attributeFuelDropThreshold": "Degvielas līmeņa krituma slieksnis",
     "attributeFuelIncreaseThreshold": "Degvielas līmeņa pieauguma slieksnis",
     "attributePolylineDistance": "Attālums no lauztās līnijas",

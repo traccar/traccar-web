@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Απόσταση προσέγγισης συνδεδεμένης συσκευής",
     "attributeProximityExitDistance": "Απόσταση απομάκρυνσης συνδεδεμένης συσκευής",
     "attributeUnaccompaniedDistance": "Απόσταση μη συνοδευόμενης κίνησης",
-    "attributeFuelCapacity": "Χωρητικότητα δεξαμενής καυσίμου",
     "attributeFuelDropThreshold": "Όριο πτώσης στάθμης καυσίμου",
     "attributeFuelIncreaseThreshold": "Όριο αύξησης στάθμης καυσίμου",
     "attributePolylineDistance": "Απόσταση από πολυγραμμή",

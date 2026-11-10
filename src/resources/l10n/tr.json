@@ -131,7 +131,6 @@
     "attributeProximityEnterDistance": "Yakınlaşma giriş mesafesi",
     "attributeProximityExitDistance": "Yakınlaşma çıkış mesafesi",
     "attributeUnaccompaniedDistance": "Refakatsiz hareket mesafesi",
-    "attributeFuelCapacity": "Yakıt Deposu Kapasitesi",
     "attributeFuelDropThreshold": "Yakıt düşüş eşiği",
     "attributeFuelIncreaseThreshold": "Yakıt artış eşiği",
     "attributePolylineDistance": "Çoklu çizgi mesafesi",
