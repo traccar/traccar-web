@@ -90,7 +90,7 @@ const PositionPage = () => {
         </Toolbar>
       </AppBar>
       <div className={classes.content}>
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
           <Paper>
             <Table className={classes.table}>
               <TableHead>
