@@ -3,6 +3,11 @@ import { useMemo } from 'react';
 export default (t) =>
   useMemo(
     () => ({
+      fuelCapacity: {
+        name: t('attributeFuelCapacity'),
+        type: 'number',
+        dataType: 'volume',
+      },
       'command.sender': {
         name: t('deviceCommandSender'),
         type: 'string',

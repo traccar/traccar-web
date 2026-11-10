@@ -131,6 +131,7 @@
     "attributeProximityEnterDistance": "Proximity Enter Distance",
     "attributeProximityExitDistance": "Proximity Exit Distance",
     "attributeUnaccompaniedDistance": "Unaccompanied Motion Distance",
+    "attributeFuelCapacity": "Fuel Tank Capacity",
     "attributeFuelDropThreshold": "Fuel Drop Threshold",
     "attributeFuelIncreaseThreshold": "Fuel Increase Threshold",
     "attributePolylineDistance": "Polyline Distance",
