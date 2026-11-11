@@ -29,6 +29,12 @@ const useStyles = makeStyles()((theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  table: {
+    tableLayout: 'fixed',
+    '& th, & td': {
+      overflowWrap: 'anywhere',
+    },
+  },
   content: {
     overflow: 'auto',
     paddingTop: theme.spacing(2),
@@ -83,7 +89,7 @@ const PositionPage = () => {
       <div className={classes.content}>
         <Container maxWidth="sm">
           <Paper>
-            <Table>
+            <Table className={classes.table}>
               <TableHead>
                 <TableRow>
                   <TableCell>{t('stateName')}</TableCell>
