@@ -54,6 +54,7 @@ export default defineConfig(() => ({
     viteStaticCopy({
       targets: [
         { src: 'node_modules/@mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js', dest: '' },
+        { src: 'mcp.html', dest: '' }
       ],
     }),
   ],
