@@ -14,6 +14,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
+import RemoveDialog from '../common/components/RemoveDialog';
 import SettingsMenu from './components/SettingsMenu';
 import { useAsyncTask, useCatchCallback } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
@@ -33,8 +34,9 @@ const SharePage = () => {
   const [expiration, setExpiration] = useState(() =>
     dayjs().add(1, 'week').locale('en').format('YYYY-MM-DDTHH:mm'),
   );
-  const [share, setShare] = useState();
+  const [share, setShare] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [removing, setRemoving] = useState(false);
   const link = share ? `${document.baseURI}?token=${share.token}` : '';
 
   useAsyncTask(
@@ -81,7 +83,11 @@ const SharePage = () => {
               onChange={(e) => setExpiration(e.target.value)}
               disabled={loading || !!share}
             />
-            {!share && (
+            {share ? (
+              <Button variant="outlined" color="error" onClick={() => setRemoving(true)}>
+                {t('sharedRemove')}
+              </Button>
+            ) : (
               <Button variant="outlined" color="primary" onClick={handleShare} disabled={loading}>
                 {t('reportShow')}
               </Button>
@@ -107,6 +113,15 @@ const SharePage = () => {
             {t('sharedCopy')}
           </Button>
         </div>
+        <RemoveDialog
+          open={removing}
+          endpoint={`share/${type}`}
+          itemId={id}
+          onResult={(removed) => {
+            if (removed) setShare(null);
+            setRemoving(false);
+          }}
+        />
       </Container>
     </PageLayout>
   );
