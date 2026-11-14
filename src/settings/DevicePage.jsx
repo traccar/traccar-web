@@ -43,25 +43,26 @@ const DevicePage = () => {
   const [showQr, setShowQr] = useState(false);
   const [uploading, setUploading] = useState(false);
 
-  const handleFileInput = useCatch(async (newFile) => {
+  const handleFileInput = useCatch(async (newFile, type) => {
+    const attribute = type === 'icon' ? 'deviceIcon' : 'deviceImage';
     if (newFile && item?.id) {
       setUploading(true);
       try {
-        const response = await fetchOrThrow(`api/devices/${item.id}/image`, {
+        const response = await fetchOrThrow(`api/devices/${item.id}/${type}`, {
           method: 'POST',
           body: newFile,
         });
-        const deviceImage = await response.text();
+        const filename = await response.text();
         setItem((previous) => ({
           ...previous,
-          attributes: { ...previous.attributes, deviceImage },
+          attributes: { ...previous.attributes, [attribute]: filename },
         }));
       } finally {
         setUploading(false);
       }
     } else if (!newFile) {
       // eslint-disable-next-line no-unused-vars
-      const { deviceImage, ...remainingAttributes } = item.attributes || {};
+      const { [attribute]: removed, ...remainingAttributes } = item.attributes || {};
       setItem({ ...item, attributes: remainingAttributes });
     }
   });
@@ -178,10 +179,17 @@ const DevicePage = () => {
               </AccordionSummary>
               <AccordionDetails className={classes.details}>
                 <FileInput
+                  placeholder={t('attributeDeviceIcon')}
+                  value={item.attributes?.deviceIcon}
+                  disabled={uploading}
+                  onChange={(file) => handleFileInput(file, 'icon')}
+                  slotProps={{ htmlInput: { accept: 'image/png,image/jpeg,image/gif,image/webp' } }}
+                />
+                <FileInput
                   placeholder={t('attributeDeviceImage')}
                   value={item.attributes?.deviceImage}
                   disabled={uploading}
-                  onChange={handleFileInput}
+                  onChange={(file) => handleFileInput(file, 'image')}
                   slotProps={{ htmlInput: { accept: 'image/*' } }}
                 />
               </AccordionDetails>

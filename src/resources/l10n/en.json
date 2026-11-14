@@ -139,6 +139,7 @@
     "attributeWebReportColor": "Web: Report Color",
     "attributeDevicePassword": "Device Password",
     "attributeDeviceImage": "Device Image",
+    "attributeDeviceIcon": "Device Icon",
     "attributeDeviceInactivityStart": "Device Inactivity Start",
     "attributeDeviceInactivityPeriod": "Device Inactivity Period",
     "attributeProcessingCopyAttributes": "Processing: Copy Attributes",
