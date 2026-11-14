@@ -34,6 +34,7 @@ import { useAttributePreference } from '../common/util/preferences';
 import GeofencesValue from '../common/components/GeofencesValue';
 import DriverValue from '../common/components/DriverValue';
 import MotionBar from './components/MotionBar';
+import mediaUrl from '../common/util/mediaUrl';
 
 dayjs.extend(relativeTime);
 
@@ -41,6 +42,9 @@ const useStyles = makeStyles()((theme) => ({
   icon: {
     width: '25px',
     height: '25px',
+    objectFit: 'contain',
+  },
+  categoryIcon: {
     filter: 'brightness(0) invert(1)',
   },
   batteryText: {
@@ -66,7 +70,7 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const DeviceRow = ({ devices, index, style }) => {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -74,6 +78,8 @@ const DeviceRow = ({ devices, index, style }) => {
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const item = devices[index];
+  const icon = mediaUrl(item.uniqueId, item.attributes?.deviceIcon);
+  const fallbackIcon = mapIcons[mapIconKey(item.category)];
   const position = useSelector((state) => state.session.positions[item.id]);
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
@@ -128,7 +134,11 @@ const DeviceRow = ({ devices, index, style }) => {
       >
         <ListItemAvatar>
           <Avatar>
-            <img className={classes.icon} src={mapIcons[mapIconKey(item.category)]} alt="" />
+            <img
+              className={cx(classes.icon, !icon && classes.categoryIcon)}
+              src={icon || fallbackIcon}
+              alt=""
+            />
           </Avatar>
         </ListItemAvatar>
         <ListItemText

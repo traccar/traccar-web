@@ -3,6 +3,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { map } from './MapView';
 import { loadImage, prepareIcon } from './mapUtil';
 import { useAsyncTask } from '../../reactHelper';
+import mediaUrl from '../../common/util/mediaUrl';
 
 export default () => {
   const [images, setImages] = useState({});
@@ -11,10 +12,7 @@ export default () => {
       Object.fromEntries(
         Object.values(state.devices.items)
           .filter((device) => device.attributes?.deviceIcon)
-          .map((device) => [
-            device.id,
-            `api/media/${encodeURIComponent(device.uniqueId)}/${encodeURIComponent(device.attributes.deviceIcon)}`,
-          ]),
+          .map((device) => [device.id, mediaUrl(device.uniqueId, device.attributes.deviceIcon)]),
       ),
     shallowEqual,
   );
