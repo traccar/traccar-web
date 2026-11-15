@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CropPortraitIcon from '@mui/icons-material/CropPortrait';
+import CropLandscapeIcon from '@mui/icons-material/CropLandscape';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import useReportStyles from '../common/useReportStyles';
 import SplitButton from '../../common/components/SplitButton';
@@ -22,6 +24,7 @@ import SelectField from '../../common/components/SelectField';
 import { useRestriction } from '../../common/util/permissions';
 import { deviceEquality } from '../../common/util/deviceEquality';
 import { reportsActions } from '../../store';
+import en from '../../resources/l10n/en.json';
 
 const getPeriodRange = (period) => {
   const now = dayjs();
@@ -111,7 +114,22 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
     };
     if (onExport && loaded) {
       formats.forEach((format) => {
-        result[format] = `${t('reportExport')} (${format.toUpperCase()})`;
+        if (format === 'pdf') {
+          result.pdf = (
+            <>
+              <CropPortraitIcon fontSize="small" sx={{ mr: 1 }} />
+              {`${t('reportExport')} (PDF — ${t('reportPortrait') || en.reportPortrait})`}
+            </>
+          );
+          result.pdfLandscape = (
+            <>
+              <CropLandscapeIcon fontSize="small" sx={{ mr: 1 }} />
+              {`${t('reportExport')} (PDF — ${t('reportLandscape') || en.reportLandscape})`}
+            </>
+          );
+        } else {
+          result[format] = `${t('reportExport')} (${format.toUpperCase()})`;
+        }
       });
       result.print = t('reportPrint');
     }
@@ -159,6 +177,8 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
 
   const onSelected = (type) => {
     switch (type) {
+      case 'pdf':
+      case 'pdfLandscape':
       case 'xlsx':
       case 'csv':
       case 'gpx':
@@ -169,7 +189,8 @@ const ReportFilter = ({ children, onShow, onExport, onSchedule, deviceType, load
           groupIds,
           from,
           to,
-          format: type,
+          format: type === 'pdfLandscape' ? 'pdf' : type,
+          landscape: type === 'pdfLandscape',
         });
         break;
       case 'print':

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@mui/material/styles';
 import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
@@ -32,7 +31,7 @@ import { mapIconKey } from '../map/core/preloadImages';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
-import exportExcel from '../common/util/exportExcel';
+import useReportExport from './common/useReportExport';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -50,7 +49,7 @@ const StopReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
-  const theme = useTheme();
+  const exportReport = useReportExport();
 
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
@@ -83,7 +82,7 @@ const StopReportPage = () => {
     }
   }, []);
 
-  const onExport = useCatch(async () => {
+  const onExport = useCatch(async (options) => {
     const sheets = new Map();
     items.forEach((item) => {
       const deviceName = devices[item.deviceId].name;
@@ -101,7 +100,7 @@ const StopReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportExcel(t('reportStops'), 'stops.xlsx', sheets, theme);
+    await exportReport(t('reportStops'), 'stops.xlsx', sheets, { ...options, columns });
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -170,7 +169,7 @@ const StopReportPage = () => {
               onSchedule={onSchedule}
               deviceType="multiple"
               loading={loading}
-              formats={['xlsx']}
+              formats={['xlsx', 'pdf']}
             >
               <ColumnSelect columns={columns} setColumns={setColumns} columnsArray={columnsArray} />
             </ReportFilter>
