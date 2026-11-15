@@ -1,6 +1,7 @@
 import { grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material';
 import { loadImage, prepareIcon } from './mapUtil';
+import { customIcons, markerBackground } from '../../common/util/customIcons';
 
 import directionSvg from '../../resources/images/direction.svg';
 import backgroundSvg from '../../resources/images/background.svg';
@@ -119,7 +120,9 @@ const theme = createTheme({
 });
 
 export default async () => {
-  const background = await loadImage(backgroundSvg);
+  // Add the icons from the icon sets so they are preloaded as well
+  Object.assign(mapIcons, customIcons);
+  const background = await loadImage(await markerBackground(backgroundSvg));
   mapImages.background = await prepareIcon(background);
   mapImages.direction = await prepareIcon(await loadImage(directionSvg));
   await Promise.all(
