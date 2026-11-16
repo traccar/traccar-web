@@ -61,6 +61,12 @@ const useStyles = makeStyles()((theme) => ({
     pointerEvents: 'auto',
     width: theme.dimensions.statusCardWidth,
     maxWidth: `calc(100vw - ${theme.spacing(4)})`,
+    display: 'flex',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      // Fill at most the space below the docking offset; only the middle section scrolls
+      maxHeight: `calc(100vh - ${theme.spacing(13)})`,
+    },
   },
   header: {
     display: 'flex',
@@ -161,9 +167,25 @@ const useStyles = makeStyles()((theme) => ({
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     overflow: 'auto',
+    flex: '1 1 auto',
+    minHeight: 0,
     maxHeight: theme.dimensions.cardContentMaxHeight,
     [theme.breakpoints.up('md')]: {
-      maxHeight: 'calc(100vh - 380px)',
+      maxHeight: 'none',
+    },
+  },
+  wideTile: {
+    gridColumn: '1 / -1',
+  },
+  rowValue: {
+    textAlign: 'right',
+    fontWeight: 500,
+  },
+  actionButton: {
+    '&&': {
+      height: 'auto',
+      minHeight: 44,
+      lineHeight: 1.25,
     },
   },
   table: {
@@ -214,10 +236,12 @@ const StatusRow = ({ name, content }) => {
   return (
     <TableRow>
       <TableCell className={classes.cell}>
-        <Typography variant="body2">{name}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          {name}
+        </Typography>
       </TableCell>
       <TableCell className={classes.cell}>
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="body2" className={classes.rowValue}>
           {content}
         </Typography>
       </TableCell>
@@ -429,17 +453,33 @@ const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
                 <CardContent className={classes.content}>
                   {tileItems.length > 0 && (
                     <div className={classes.tiles}>
-                      {tileItems.map(({ key, property, name }) => (
-                        <div key={key} className={classes.tile}>
+                      {tileItems.map(({ key, property, name }, index) => (
+                        <div
+                          key={key}
+                          className={cx(
+                            classes.tile,
+                            // An odd last tile spans the row instead of leaving a gap
+                            tileItems.length % 2 === 1 &&
+                              index === tileItems.length - 1 &&
+                              classes.wideTile,
+                          )}
+                        >
                           <Typography variant="caption" color="textSecondary">
                             {name || key}
                           </Typography>
                           <span className={classes.tileValue}>
-                            <PositionValue
-                              position={position}
-                              property={property ? key : null}
-                              attribute={property ? null : key}
-                            />
+                            {key === 'fixTime' ? (
+                              formatTime(
+                                position.fixTime,
+                                dayjs(position.fixTime).isSame(dayjs(), 'day') ? 'time' : 'minutes',
+                              )
+                            ) : (
+                              <PositionValue
+                                position={position}
+                                property={property ? key : null}
+                                attribute={property ? null : key}
+                              />
+                            )}
                           </span>
                         </div>
                       ))}
@@ -526,6 +566,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
               <div className={classes.primaryActions}>
                 <Button
                   variant="contained"
+                  className={classes.actionButton}
                   onClick={() => navigate(`/replay?deviceId=${deviceId}`)}
                   disabled={disableActions || !position}
                 >
@@ -534,6 +575,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
                 <Button
                   variant="outlined"
                   color="inherit"
+                  className={classes.actionButton}
                   onClick={() => navigate(`/settings/device/${deviceId}/command`)}
                   disabled={disableActions}
                 >
@@ -543,7 +585,7 @@ const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
                   <Button
                     variant="outlined"
                     color="error"
-                    className={classes.fullWidth}
+                    className={cx(classes.fullWidth, classes.actionButton)}
                     onClick={() => setConfirmingStop(true)}
                   >
                     {`${t('commandEngineStop')}…`}

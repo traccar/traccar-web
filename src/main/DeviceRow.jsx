@@ -5,6 +5,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
+import { formatBoolean } from '../common/util/formatter';
 import {
   deviceStateColor,
   deviceStateTextColor,
@@ -123,8 +124,18 @@ const DeviceRow = ({ devices, index, style }) => {
   };
 
   const primaryValue = resolveFieldValue(devicePrimary);
-  // Detail line: the user's chosen field, else the known address, else the model
-  const detail = resolveFieldValue(deviceSecondary) || position?.address || item.model || '';
+  // Detail line: the user's chosen field, else ignition and address from the latest position,
+  // else the model or identifier
+  const chosenDetail = resolveFieldValue(deviceSecondary);
+  const positionDetail = [
+    position?.attributes?.hasOwnProperty('ignition')
+      ? `${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`
+      : null,
+    position?.address,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+  const detail = chosenDetail || positionDetail || item.model || item.uniqueId;
 
   const openAlarms = useOpenAlarms();
   const state = getDeviceState(item, position, !!openAlarms[item.id]);
@@ -164,8 +175,9 @@ const DeviceRow = ({ devices, index, style }) => {
               className={classes.categoryIcon}
               style={{
                 backgroundColor: textColor,
-                maskImage: `url(${fallbackIcon})`,
-                WebkitMaskImage: `url(${fallbackIcon})`,
+                // Quoted: inlined SVG data URLs contain characters that break an unquoted url()
+                maskImage: `url("${fallbackIcon}")`,
+                WebkitMaskImage: `url("${fallbackIcon}")`,
               }}
             />
           )}
