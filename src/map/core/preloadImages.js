@@ -114,6 +114,10 @@ export const mapImages = {};
 // Marker colors follow the app's light palette (images are generated once, before login)
 const theme = { palette: palette(null, false) };
 
+// Palette keys a marker can be drawn in; every marker image exists in each of them
+export const markerColors = ['info', 'success', 'error', 'neutral', 'stopped', 'alarm'];
+export const markerPalette = theme.palette;
+
 export default async () => {
   const background = await loadImage(backgroundSvg);
   mapImages.background = await prepareIcon(background);
@@ -121,7 +125,7 @@ export default async () => {
   await Promise.all(
     Object.keys(mapIcons).map(async (key) => {
       const results = [];
-      ['info', 'success', 'error', 'neutral', 'stopped', 'alarm'].forEach((color) => {
+      markerColors.forEach((color) => {
         results.push(
           loadImage(mapIcons[key]).then((icon) => {
             mapImages[`${key}-${color}`] = prepareIcon(background, icon, theme.palette[color].main);

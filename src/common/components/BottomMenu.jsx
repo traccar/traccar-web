@@ -14,14 +14,14 @@ import {
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import DescriptionIcon from '@mui/icons-material/Description';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MapIcon from '@mui/icons-material/Map';
-import PersonIcon from '@mui/icons-material/Person';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import HexagonOutlinedIcon from '@mui/icons-material/HexagonOutlined';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import MapSvg from '@material-symbols/svg-600/rounded/map.svg?react';
+import NotificationsSvg from '@material-symbols/svg-600/rounded/notifications.svg?react';
+import BarChartSvg from '@material-symbols/svg-600/rounded/bar_chart.svg?react';
+import HexagonSvg from '@material-symbols/svg-600/rounded/hexagon.svg?react';
+import SettingsSvg from '@material-symbols/svg-600/rounded/settings.svg?react';
+import PersonSvg from '@material-symbols/svg-600/rounded/person.svg?react';
+import LogoutSvg from '@material-symbols/svg-600/rounded/logout.svg?react';
+import LocationOnSvg from '@material-symbols/svg-600/rounded/location_on.svg?react';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
@@ -29,6 +29,12 @@ import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
 import useFeatures from '../util/useFeatures';
 import useOpenAlarms from '../util/useOpenAlarms';
+
+// Navigation icons use Material Symbols (Rounded), Google's current icon set, which the
+// category icons on the map already use
+const NavSymbol = ({ svg: Svg }) => (
+  <Svg width={24} height={24} fill="currentColor" aria-hidden="true" />
+);
 
 const useStyles = makeStyles()((theme) => ({
   rail: {
@@ -208,7 +214,7 @@ const BottomMenu = ({ rail = false }) => {
       label: t('mapTitle'),
       icon: (
         <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
-          <MapIcon />
+          <NavSymbol svg={MapSvg} />
         </Badge>
       ),
     },
@@ -217,21 +223,34 @@ const BottomMenu = ({ rail = false }) => {
       label: t('alertsTitle'),
       icon: (
         <Badge color="warning" badgeContent={openAlarmCount} max={99}>
-          <NotificationsIcon />
+          <NavSymbol svg={NotificationsSvg} />
         </Badge>
       ),
     },
-    !disableReports && { value: 'reports', label: t('reportTitle'), icon: <DescriptionIcon /> },
+    !disableReports && {
+      value: 'reports',
+      label: t('reportTitle'),
+      icon: <NavSymbol svg={BarChartSvg} />,
+    },
     rail &&
       !readonly && {
         value: 'geofences',
         label: t('sharedGeofences'),
-        icon: <HexagonOutlinedIcon />,
+        icon: <NavSymbol svg={HexagonSvg} />,
       },
-    !readonly && { value: 'settings', label: t('settingsTitle'), icon: <SettingsIcon /> },
+    !readonly && {
+      value: 'settings',
+      label: t('settingsTitle'),
+      icon: <NavSymbol svg={SettingsSvg} />,
+    },
     readonly
-      ? { value: 'logout', label: t('loginLogout'), icon: <ExitToAppIcon />, end: true }
-      : { value: 'account', label: t('settingsUser'), icon: <PersonIcon />, end: true },
+      ? { value: 'logout', label: t('loginLogout'), icon: <NavSymbol svg={LogoutSvg} />, end: true }
+      : {
+          value: 'account',
+          label: t('settingsUser'),
+          icon: <NavSymbol svg={PersonSvg} />,
+          end: true,
+        },
   ].filter(Boolean);
 
   const accountMenu = (
@@ -262,7 +281,7 @@ const BottomMenu = ({ rail = false }) => {
     return (
       <Paper component="nav" elevation={0} className={classes.rail}>
         <span className={classes.logo} aria-hidden="true">
-          <LocationOnOutlinedIcon />
+          <NavSymbol svg={LocationOnSvg} />
         </span>
         {items.filter((item) => !item.end).map(renderButton)}
         <div className={classes.spacer} />

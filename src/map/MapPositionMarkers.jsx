@@ -8,7 +8,7 @@ import useOpenAlarms from '../common/util/useOpenAlarms';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { fromMapCoordinates } from './core/mapUtil';
-import useDeviceIcons from './core/useDeviceIcons';
+import useDeviceIcons, { deviceIconImage } from './core/useDeviceIcons';
 
 const MapPositionMarkers = ({
   positions,
@@ -66,7 +66,9 @@ const MapPositionMarkers = ({
       deviceId: position.deviceId,
       latitude: position.latitude,
       longitude: position.longitude,
-      image: deviceIcons[device.id] || `${mapIconKey(device.category)}-${color}`,
+      image: deviceIcons[device.id]
+        ? deviceIconImage(deviceIcons[device.id], color)
+        : `${mapIconKey(device.category)}-${color}`,
       title: titles[titleField || 'name'],
       rotation: position.course,
       direction: showDirection,

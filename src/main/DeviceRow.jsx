@@ -48,18 +48,21 @@ const useStyles = makeStyles()((theme) => ({
     height: 44,
     flex: '0 0 44px',
     borderRadius: 22,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
   },
-  // Uploaded icons (often PNGs with transparency) are shown whole inside the circle
+  // Uploaded pictures fill the circle (cropped round), like a profile photo; the ring
+  // around it keeps the state color. Matches the round marker on the map.
   photo: {
     width: '100%',
     height: '100%',
-    objectFit: 'contain',
-    padding: 6,
-    boxSizing: 'border-box',
+    objectFit: 'cover',
+    backgroundColor: theme.palette.common.white,
   },
   // Category icons are single-color SVGs: draw them as a mask so they take the state color
   categoryIcon: {
@@ -173,7 +176,7 @@ const DeviceRow = ({ devices, index, style }) => {
           className={classes.avatar}
           style={{
             backgroundColor: alpha(fillColor, 0.14),
-            boxShadow: `inset 0 0 0 2px ${fillColor}`,
+            borderColor: fillColor,
           }}
         >
           {showUploadedIcon ? (
