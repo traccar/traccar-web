@@ -623,8 +623,6 @@
     "reportChartType": "Chart Type",
     "reportShowMarkers": "Show Markers",
     "reportExport": "Export",
-    "reportPortrait": "Portrait",
-    "reportLandscape": "Landscape",
     "reportPrint": "Print",
     "reportEmail": "Email Report",
     "reportSchedule": "Schedule",

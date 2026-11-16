@@ -106,7 +106,7 @@ const SummaryReportPage = () => {
     const titleKey = daily ? 'reportDaily' : 'reportSummary';
     const title = t(titleKey);
     const sheets = new Map([[title, rows]]);
-    await exportReport(title, 'summary.xlsx', sheets, { ...options, columns, deviceHeader });
+    await exportReport(title, 'summary.xlsx', sheets, { ...options, deviceHeader });
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {

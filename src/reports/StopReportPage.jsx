@@ -100,7 +100,7 @@ const StopReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportReport(t('reportStops'), 'stops.xlsx', sheets, { ...options, columns });
+    await exportReport(t('reportStops'), 'stops.xlsx', sheets, options);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {

@@ -165,7 +165,7 @@ const TripReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportReport(t('reportTrips'), 'trips.xlsx', sheets, { ...options, columns });
+    await exportReport(t('reportTrips'), 'trips.xlsx', sheets, options);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
