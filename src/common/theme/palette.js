@@ -16,6 +16,8 @@ const tokens = {
     warning: '#C2410C',
     error: '#B91C1C',
     neutral: '#6B7280',
+    stopped: '#475569',
+    alarm: '#EA580C',
   },
   dark: {
     ground: '#0B1220',
@@ -30,6 +32,8 @@ const tokens = {
     warning: '#FB923C',
     error: '#F87171',
     neutral: '#9CA3AF',
+    stopped: '#94A3B8',
+    alarm: '#FB923C',
   },
 };
 
@@ -58,6 +62,13 @@ export default (server, darkMode) => {
     error: { main: c.error },
     neutral: {
       main: c.neutral,
+    },
+    // Device states (see common/util/deviceState.js)
+    stopped: {
+      main: c.stopped,
+    },
+    alarm: {
+      main: c.alarm,
     },
     geometry: {
       main: '#3bb2d0',

@@ -12,6 +12,7 @@ import usePersistedState from '../common/util/usePersistedState';
 import EventsDrawer from './EventsDrawer';
 import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
+import StatusChips from './StatusChips';
 import { useAttributePreference } from '../common/util/preferences';
 import useFeatures from '../common/util/useFeatures';
 
@@ -142,6 +143,7 @@ const MainPage = () => {
               filterMap={filterMap}
               setFilterMap={setFilterMap}
             />
+            {devicesOpen && <StatusChips filter={filter} setFilter={setFilter} />}
           </Paper>
         )}
         <div className={classes.middle}>

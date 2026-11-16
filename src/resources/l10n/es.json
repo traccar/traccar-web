@@ -259,6 +259,8 @@
     "deviceStatusOnline": "En línea",
     "deviceStatusOffline": "Fuera de línea",
     "deviceStatusUnknown": "Desconocido",
+    "deviceStateMoving": "En movimiento",
+    "deviceStateStopped": "Detenido",
     "deviceRegisterFirst": "Registra tu primer dispositivo",
     "deviceIdentifierHelp": "IMEI, número de serie u otro identificador. Debe coincidir con el identificador que el dispositivo envía al servidor.",
     "groupDialog": "Grupo",

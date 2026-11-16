@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import { getDeviceState } from '../common/util/deviceState';
 
 export default (
   keyword,
@@ -26,7 +27,11 @@ export default (
     };
 
     const filtered = Object.values(devices)
-      .filter((device) => !filter.statuses.length || filter.statuses.includes(device.status))
+      .filter(
+        (device) =>
+          !filter.states?.length ||
+          filter.states.includes(getDeviceState(device, positions[device.id])),
+      )
       .filter(
         (device) =>
           !filter.groups.length || deviceGroups(device).some((id) => filter.groups.includes(id)),

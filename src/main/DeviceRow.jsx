@@ -19,13 +19,14 @@ import ErrorIcon from '@mui/icons-material/Error';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
+import { useTheme } from '@mui/material/styles';
+import { formatAlarm, formatBoolean, formatPercentage } from '../common/util/formatter';
 import {
-  formatAlarm,
-  formatBoolean,
-  formatPercentage,
-  formatStatus,
-  getStatusColor,
-} from '../common/util/formatter';
+  deviceStateColor,
+  deviceStateTextColor,
+  formatDeviceState,
+  getDeviceState,
+} from '../common/util/deviceState';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
@@ -71,6 +72,7 @@ const useStyles = makeStyles()((theme) => ({
 
 const DeviceRow = ({ devices, index, style }) => {
   const { classes, cx } = useStyles();
+  const theme = useTheme();
   const dispatch = useDispatch();
   const t = useTranslation();
 
@@ -103,13 +105,13 @@ const DeviceRow = ({ devices, index, style }) => {
   const primaryValue = resolveFieldValue(devicePrimary);
   const secondaryValue = resolveFieldValue(deviceSecondary);
 
+  const state = getDeviceState(item, position);
+
   const secondaryText = () => {
-    let status;
-    if (item.status === 'online' || !item.lastUpdate) {
-      status = formatStatus(item.status, t);
-    } else {
-      status = dayjs(item.lastUpdate).fromNow();
-    }
+    const status =
+      state === 'offline' && item.lastUpdate
+        ? dayjs(item.lastUpdate).fromNow()
+        : formatDeviceState(state, t);
     return (
       <>
         {secondaryValue && (
@@ -118,7 +120,9 @@ const DeviceRow = ({ devices, index, style }) => {
             {' • '}
           </>
         )}
-        <span className={classes[getStatusColor(item.status)]}>{status}</span>
+        <span style={{ color: theme.palette[deviceStateTextColor[state]].main, fontWeight: 600 }}>
+          {status}
+        </span>
       </>
     );
   };
@@ -133,7 +137,11 @@ const DeviceRow = ({ devices, index, style }) => {
         className={selectedDeviceId === item.id ? classes.selected : null}
       >
         <ListItemAvatar>
-          <Avatar>
+          <Avatar
+            style={{
+              boxShadow: `inset 0 0 0 2px ${theme.palette[deviceStateColor[state]].main}`,
+            }}
+          >
             <img
               className={cx(classes.icon, !icon && classes.categoryIcon)}
               src={icon || fallbackIcon}

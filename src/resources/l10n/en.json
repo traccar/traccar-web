@@ -261,6 +261,8 @@
     "deviceStatusOnline": "Online",
     "deviceStatusOffline": "Offline",
     "deviceStatusUnknown": "Unknown",
+    "deviceStateMoving": "Moving",
+    "deviceStateStopped": "Stopped",
     "deviceRegisterFirst": "Register your first device",
     "deviceIdentifierHelp": "IMEI, serial number, or other ID. It must match the identifier the device reports to the server.",
     "groupDialog": "Group",

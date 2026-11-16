@@ -2,7 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { map } from './core/MapView';
 import MapMarkers from './MapMarkers';
-import { formatTime, getStatusColor } from '../common/util/formatter';
+import { formatTime } from '../common/util/formatter';
+import { deviceStateColor, getDeviceState } from '../common/util/deviceState';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { fromMapCoordinates } from './core/mapUtil';
@@ -54,7 +55,7 @@ const MapPositionMarkers = ({
         break;
     }
     const color = showStatus
-      ? position.attributes.color || getStatusColor(device.status)
+      ? position.attributes.color || deviceStateColor[getDeviceState(device, position)]
       : 'neutral';
     const titles = { name: device.name, fixTime: formatTime(position.fixTime, 'seconds') };
     return {

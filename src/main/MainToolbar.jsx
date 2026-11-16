@@ -73,9 +73,6 @@ const MainToolbar = ({
   const [filterAnchorEl, setFilterAnchorEl] = useState(null);
   const [devicesAnchorEl, setDevicesAnchorEl] = useState(null);
 
-  const deviceStatusCount = (status) =>
-    Object.values(devices).filter((d) => d.status === status).length;
-
   return (
     <Toolbar ref={toolbarRef} className={classes.toolbar}>
       <IconButton edge="start" onClick={() => setDevicesOpen(!devicesOpen)}>
@@ -94,9 +91,7 @@ const MainToolbar = ({
               <Badge
                 color="info"
                 variant="dot"
-                invisible={
-                  !filter.statuses.length && !filter.groups.length && !filter.geofences.length
-                }
+                invisible={!filter.groups.length && !filter.geofences.length}
               >
                 <TuneIcon fontSize="small" />
               </Badge>
@@ -143,19 +138,6 @@ const MainToolbar = ({
         }}
       >
         <div className={classes.filterPanel}>
-          <FormControl>
-            <InputLabel>{t('deviceStatus')}</InputLabel>
-            <Select
-              label={t('deviceStatus')}
-              value={filter.statuses}
-              onChange={(e) => setFilter({ ...filter, statuses: e.target.value })}
-              multiple
-            >
-              <MenuItem value="online">{`${t('deviceStatusOnline')} (${deviceStatusCount('online')})`}</MenuItem>
-              <MenuItem value="offline">{`${t('deviceStatusOffline')} (${deviceStatusCount('offline')})`}</MenuItem>
-              <MenuItem value="unknown">{`${t('deviceStatusUnknown')} (${deviceStatusCount('unknown')})`}</MenuItem>
-            </Select>
-          </FormControl>
           <FormControl>
             <InputLabel>{t('settingsGroups')}</InputLabel>
             <Select
