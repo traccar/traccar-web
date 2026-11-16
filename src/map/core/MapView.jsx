@@ -6,6 +6,7 @@ import { Protocol } from 'pmtiles';
 import { useRef, useLayoutEffect, useEffect, useState, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import MapSwitcher from '../control/MapSwitcher';
+import MapTypeSwitch from '../control/MapTypeSwitch';
 import { useAttributePreference, usePreference } from '../../common/util/preferences';
 import usePersistedState from '../../common/util/usePersistedState';
 import { mapImages } from './preloadImages';
@@ -68,7 +69,9 @@ const initMap = async () => {
   }
 };
 
-const MapView = ({ children }) => {
+// `mapTypes` ([{ id, label }]) switches to the compact main-map controls: a map type switch
+// limited to those styles, and zoom buttons at the bottom start corner without the compass.
+const MapView = ({ children, mapTypes }) => {
   const theme = useTheme();
 
   const containerRef = useRef(null);
@@ -78,18 +81,23 @@ const MapView = ({ children }) => {
   const mapStyles = useMapStyles();
   const activeMapStyles = useAttributePreference(
     'activeMapStyles',
-    'openFreeMapLight,openFreeMap,locationIqStreets,locationIqDark',
+    'googleRoad,googleRoadTraffic,googleHybrid',
   );
   const [selectedStyleId, setSelectedStyleId] = usePersistedState(
     'selectedMapStyle',
-    usePreference('map', 'openFreeMapLight'),
+    usePreference('map', 'googleRoad'),
   );
   const maxZoom = useAttributePreference('web.maxZoom');
 
+  // A string key keeps the style list stable while callers pass a new array each render
+  const mapTypeIds = mapTypes?.map((it) => it.id).join(',');
+  const compact = Boolean(mapTypeIds);
+
   const styles = useMemo(() => {
-    const filtered = mapStyles.filter((s) => s.available && activeMapStyles.includes(s.id));
+    const allowed = mapTypeIds ? mapTypeIds.split(',') : activeMapStyles;
+    const filtered = mapStyles.filter((s) => s.available && allowed.includes(s.id));
     return filtered.length ? filtered : mapStyles.filter((s) => s.id === 'osm');
-  }, [mapStyles, activeMapStyles]);
+  }, [mapStyles, activeMapStyles, mapTypeIds]);
 
   useAsyncTask(async () => {
     if (theme.direction === 'rtl') {
@@ -99,14 +107,19 @@ const MapView = ({ children }) => {
 
   useEffect(() => {
     const attribution = new maplibregl.AttributionControl({ compact: true });
-    const navigation = new maplibregl.NavigationControl();
-    map.addControl(attribution, theme.direction === 'rtl' ? 'bottom-left' : 'bottom-right');
-    map.addControl(navigation, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    const navigation = new maplibregl.NavigationControl(compact ? { showCompass: false } : {});
+    const rtl = theme.direction === 'rtl';
+    map.addControl(attribution, rtl ? 'bottom-left' : 'bottom-right');
+    if (compact) {
+      map.addControl(navigation, rtl ? 'bottom-right' : 'bottom-left');
+    } else {
+      map.addControl(navigation, rtl ? 'top-left' : 'top-right');
+    }
     return () => {
       map.removeControl(navigation);
       map.removeControl(attribution);
     };
-  }, [theme.direction]);
+  }, [theme.direction, compact]);
 
   useEffect(() => {
     if (maxZoom) {
@@ -148,7 +161,15 @@ const MapView = ({ children }) => {
 
   return (
     <div style={{ width: '100%', height: '100%' }} ref={containerRef}>
-      <MapSwitcher styles={styles} selectedId={selectedStyleId} onSelect={setSelectedStyleId} />
+      {compact ? (
+        <MapTypeSwitch
+          options={mapTypes}
+          selectedId={selectedStyleId}
+          onSelect={setSelectedStyleId}
+        />
+      ) : (
+        <MapSwitcher styles={styles} selectedId={selectedStyleId} onSelect={setSelectedStyleId} />
+      )}
       {mapReady && children}
     </div>
   );

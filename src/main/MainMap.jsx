@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import MapView from '../map/core/MapView';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
 import MapAccuracy from '../map/main/MapAccuracy';
@@ -17,16 +17,15 @@ import MapOverlay from '../map/overlay/MapOverlay';
 import MapGeocoder from '../map/control/MapGeocoder';
 import MapScale from '../map/MapScale';
 import MapRuler from '../map/control/MapRuler';
-import MapNotification from '../map/control/MapNotification';
 import useFeatures from '../common/util/useFeatures';
+import { useTranslation } from '../common/components/LocalizationProvider';
 
-const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
+const MainMap = ({ filteredPositions, selectedPosition }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const t = useTranslation();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
-
-  const eventsAvailable = useSelector((state) => !!state.events.items.length);
 
   const features = useFeatures();
 
@@ -39,9 +38,17 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
     [dispatch],
   );
 
+  // Main map: Google only, as three map types; tools sit with the zoom buttons
+  const mapTypes = [
+    { id: 'googleRoad', label: t('mapTypeMap') },
+    { id: 'googleHybrid', label: t('mapTypeSatellite') },
+    { id: 'googleRoadTraffic', label: t('mapTypeTraffic') },
+  ];
+  const toolsPosition = theme.direction === 'rtl' ? 'bottom-right' : 'bottom-left';
+
   return (
     <>
-      <MapView>
+      <MapView mapTypes={mapTypes}>
         <MapOverlay />
         <MapGeofence />
         <MapAccuracy positions={filteredPositions} />
@@ -56,17 +63,17 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
         />
         <MapDefaultCamera filteredPositions={filteredPositions} />
         <MapSelectedDevice />
-        <MapRuler positions={filteredPositions} onActiveChange={setRulerActive} />
-        {!features.disableEvents && (
-          <MapNotification enabled={eventsAvailable} onClick={onEventsClick} />
-        )}
+        <MapRuler
+          positions={filteredPositions}
+          onActiveChange={setRulerActive}
+          position={toolsPosition}
+        />
       </MapView>
       <MapScale />
-      <MapCurrentLocation />
-      <MapGeocoder />
+      <MapCurrentLocation position={toolsPosition} />
+      <MapGeocoder position={toolsPosition} />
       {desktop && (
         <MapPadding
-          controlsAtStart
           start={
             (features.disableDeviceList
               ? 0

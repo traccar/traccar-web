@@ -41,7 +41,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const MapGeocoder = () => {
+const MapGeocoder = ({ position }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -100,9 +100,9 @@ const MapGeocoder = () => {
         element.remove();
       },
     };
-    map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    map.addControl(control, position || (theme.direction === 'rtl' ? 'top-left' : 'top-right'));
     return () => map.removeControl(control);
-  }, [theme.direction, classes.button, cx]);
+  }, [theme.direction, classes.button, cx, position]);
 
   const onSelect = (feature) => {
     const [minX, minY, maxX, maxY] = feature.bbox;

@@ -25,7 +25,7 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
-const MapRuler = ({ positions, onActiveChange }) => {
+const MapRuler = ({ positions, onActiveChange, position }) => {
   const theme = useTheme();
   const t = useTranslation();
   const distanceUnit = useAttributePreference('distanceUnit');
@@ -150,7 +150,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         container.remove();
       },
     };
-    map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    map.addControl(control, position || (theme.direction === 'rtl' ? 'top-left' : 'top-right'));
 
     return () => {
       if (active) {
@@ -167,7 +167,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         map.removeSource('ruler');
       }
     };
-  }, [theme, t, distanceUnit, classes.button, cx]);
+  }, [theme, t, distanceUnit, classes.button, cx, position]);
 
   return null;
 };

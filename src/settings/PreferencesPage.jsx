@@ -124,10 +124,9 @@ const PreferencesPage = () => {
                     label={t('mapActive')}
                     value={
                       attributes.activeMapStyles?.split(',') || [
-                        'openFreeMapLight',
-                        'locationIqStreets',
-                        'locationIqDark',
-                        'openFreeMap',
+                        'googleRoad',
+                        'googleRoadTraffic',
+                        'googleHybrid',
                       ]
                     }
                     onChange={(e, child) => {

@@ -41,7 +41,7 @@ const StatusChips = ({ filter, setFilter }) => {
 
   const options = [
     { state: '', label: t('sharedAll'), count: Object.keys(devices).length },
-    ...['alarm', 'moving', 'stopped', 'offline'].map((state) => ({
+    ...['moving', 'stopped', 'offline', 'alarm'].map((state) => ({
       state,
       label: formatDeviceState(state, t),
       count: counts[state],

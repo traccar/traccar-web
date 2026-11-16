@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useCallback, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Paper } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useTheme } from '@mui/material/styles';
@@ -9,8 +9,8 @@ import BottomMenu from '../common/components/BottomMenu';
 import StatusCard from '../common/components/StatusCard';
 import { devicesActions } from '../store';
 import usePersistedState from '../common/util/usePersistedState';
-import EventsDrawer from './EventsDrawer';
 import useFilter from './useFilter';
+import DeviceListFooter from './DeviceListFooter';
 import MainToolbar from './MainToolbar';
 import StatusChips from './StatusChips';
 import AlarmToast from './AlarmToast';
@@ -104,9 +104,6 @@ const MainPage = () => {
   const [filterMap, setFilterMap] = usePersistedState('filterMap', false);
 
   const [devicesOpen, setDevicesOpen] = useState(desktop);
-  const [eventsOpen, setEventsOpen] = useState(false);
-
-  const onEventsClick = useCallback(() => setEventsOpen(true), [setEventsOpen]);
 
   useEffect(() => {
     if (!desktop && mapOnSelect && selectedDeviceId) {
@@ -128,11 +125,7 @@ const MainPage = () => {
     <div className={classes.root}>
       {desktop && (
         <Suspense fallback={null}>
-          <MainMap
-            filteredPositions={filteredPositions}
-            selectedPosition={selectedPosition}
-            onEventsClick={onEventsClick}
-          />
+          <MainMap filteredPositions={filteredPositions} selectedPosition={selectedPosition} />
         </Suspense>
       )}
       <div className={classes.sidebar}>
@@ -161,7 +154,6 @@ const MainPage = () => {
                 <MainMap
                   filteredPositions={filteredPositions}
                   selectedPosition={selectedPosition}
-                  onEventsClick={onEventsClick}
                 />
               </Suspense>
             </div>
@@ -176,9 +168,13 @@ const MainPage = () => {
             </Paper>
           )}
         </div>
+        {!features.disableDeviceList && devicesOpen && (
+          <div className={classes.footer}>
+            <DeviceListFooter />
+          </div>
+        )}
       </div>
       {rail && <BottomMenu rail />}
-      <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
       <AlarmToast offset={desktop ? overlayOffset : '0px'} />
       {selectedDeviceId && !features.disableStatusCard && (
         <StatusCard

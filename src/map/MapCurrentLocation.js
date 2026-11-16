@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { map } from './core/MapView';
 import { useTheme } from '@mui/material';
 
-const MapCurrentLocation = () => {
+const MapCurrentLocation = ({ position }) => {
   const theme = useTheme();
 
   useEffect(() => {
@@ -14,9 +14,9 @@ const MapCurrentLocation = () => {
       },
       trackUserLocation: true,
     });
-    map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    map.addControl(control, position || (theme.direction === 'rtl' ? 'top-left' : 'top-right'));
     return () => map.removeControl(control);
-  }, [theme.direction]);
+  }, [theme.direction, position]);
 
   return null;
 };
