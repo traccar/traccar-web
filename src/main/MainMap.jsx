@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,6 @@ import MapView from '../map/core/MapView';
 import MapSelectedDevice from '../map/main/MapSelectedDevice';
 import MapAccuracy from '../map/main/MapAccuracy';
 import MapGeofence from '../map/MapGeofence';
-import MapCurrentLocation from '../map/MapCurrentLocation';
 import PoiMap from '../map/main/PoiMap';
 import MapPadding from '../map/MapPadding';
 import { devicesActions } from '../store';
@@ -14,9 +13,6 @@ import MapDefaultCamera from '../map/main/MapDefaultCamera';
 import MapLiveRoutes from '../map/main/MapLiveRoutes';
 import MapPositionMarkers from '../map/MapPositionMarkers';
 import MapOverlay from '../map/overlay/MapOverlay';
-import MapGeocoder from '../map/control/MapGeocoder';
-import MapScale from '../map/MapScale';
-import MapRuler from '../map/control/MapRuler';
 import useFeatures from '../common/util/useFeatures';
 import { useTranslation } from '../common/components/LocalizationProvider';
 
@@ -29,8 +25,6 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
 
   const features = useFeatures();
 
-  const [rulerActive, setRulerActive] = useState(false);
-
   const onMarkerClick = useCallback(
     (_, deviceId) => {
       dispatch(devicesActions.selectId(deviceId));
@@ -38,13 +32,12 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
     [dispatch],
   );
 
-  // Main map: Google only, as three map types; tools sit with the zoom buttons
+  // Main map: Google only, as three map types, plus zoom buttons
   const mapTypes = [
     { id: 'googleRoad', label: t('mapTypeMap') },
     { id: 'googleHybrid', label: t('mapTypeSatellite') },
     { id: 'googleRoadTraffic', label: t('mapTypeTraffic') },
   ];
-  const toolsPosition = theme.direction === 'rtl' ? 'bottom-right' : 'bottom-left';
 
   return (
     <>
@@ -59,19 +52,10 @@ const MainMap = ({ filteredPositions, selectedPosition }) => {
           onMarkerClick={onMarkerClick}
           selectedPosition={selectedPosition}
           showStatus
-          disabled={rulerActive}
         />
         <MapDefaultCamera filteredPositions={filteredPositions} />
         <MapSelectedDevice />
-        <MapRuler
-          positions={filteredPositions}
-          onActiveChange={setRulerActive}
-          position={toolsPosition}
-        />
       </MapView>
-      <MapScale />
-      <MapCurrentLocation position={toolsPosition} />
-      <MapGeocoder position={toolsPosition} />
       {desktop && (
         <MapPadding
           start={

@@ -13,8 +13,15 @@ const useStyles = makeStyles()((theme) => ({
     padding: theme.spacing(2),
     borderTop: `1px solid ${theme.palette.divider}`,
   },
-  button: {
+  // Groups takes its natural width; Add device takes the rest and never wraps
+  secondary: {
+    flex: '0 0 auto',
+    paddingInline: theme.spacing(2.5),
+  },
+  primary: {
     flex: 1,
+    minWidth: 0,
+    whiteSpace: 'nowrap',
   },
 }));
 
@@ -39,7 +46,7 @@ const DeviceListFooter = () => {
         <Button
           variant="outlined"
           color="inherit"
-          className={classes.button}
+          className={classes.secondary}
           onClick={() => navigate('/settings/groups')}
         >
           {t('settingsGroups')}
@@ -54,7 +61,7 @@ const DeviceListFooter = () => {
           <Button
             variant="contained"
             color="secondary"
-            className={classes.button}
+            className={classes.primary}
             startIcon={<AddIcon />}
             onClick={() => navigate('/settings/device')}
           >

@@ -33,8 +33,10 @@ const useStyles = makeStyles()((theme) => ({
       backgroundColor: theme.palette.action.hover,
     },
   },
+  // Triple class beats MapLibre's `.maplibregl-ctrl button:not(:disabled):hover` rule,
+  // which would otherwise lighten the active button on hover and hide its white text
   active: {
-    '&&': {
+    '&&&, &&&:hover': {
       backgroundColor: theme.palette.secondary.main,
       color: theme.palette.secondary.contrastText,
     },
