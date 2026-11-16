@@ -18,9 +18,12 @@ import {
   TableFooter,
   Link,
   Tooltip,
+  Button,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { alpha, useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import RouteIcon from '@mui/icons-material/Route';
 import SendIcon from '@mui/icons-material/Send';
 import EditIcon from '@mui/icons-material/Edit';
@@ -32,7 +35,15 @@ import RemoveDialog from './RemoveDialog';
 import PositionValue from './PositionValue';
 import { useDeviceReadonly, useRestriction } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
-import { devicesActions } from '../../store';
+import { devicesActions, eventsActions } from '../../store';
+import { formatAlarm, formatTime } from '../util/formatter';
+import {
+  deviceStateColor,
+  deviceStateTextColor,
+  formatDeviceState,
+  getDeviceState,
+} from '../util/deviceState';
+import useOpenAlarms from '../util/useOpenAlarms';
 import { useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
 import fetchOrThrow from '../util/fetchOrThrow';
@@ -41,14 +52,65 @@ import mediaUrl from '../util/mediaUrl';
 const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   card: {
     pointerEvents: 'auto',
-    width: theme.dimensions.popupMaxWidth,
+    width: theme.dimensions.statusCardWidth,
+    maxWidth: `calc(100vw - ${theme.spacing(4)})`,
   },
   header: {
     display: 'flex',
-    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: theme.spacing(1),
+    padding: theme.spacing(2, 1, 1, 2),
+    cursor: 'move',
+  },
+  title: {
+    flex: 1,
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  name: {
+    lineHeight: 1.2,
+  },
+  pill: {
+    flexShrink: 0,
+    marginTop: theme.spacing(0.5),
+    padding: theme.spacing(0.25, 1.25),
+    borderRadius: 999,
+    fontSize: '0.75rem',
+    fontWeight: 700,
+  },
+  alarm: {
+    display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(1, 1, 0, 2),
-    color: theme.palette.text.secondary,
+    gap: theme.spacing(1),
+    margin: theme.spacing(0, 2, 1),
+    padding: theme.spacing(1, 1.5),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.warning.main, 0.12),
+    color: theme.palette.warning.main,
+  },
+  alarmText: {
+    flex: 1,
+    minWidth: 0,
+  },
+  tiles: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  tile: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(0.25),
+    padding: theme.spacing(1, 1.5),
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.default,
+  },
+  tileValue: {
+    fontWeight: 600,
+    fontSize: '1.05rem',
+    overflowWrap: 'anywhere',
   },
   media: {
     height: theme.dimensions.popupImageHeight,
@@ -119,6 +181,7 @@ const StatusRow = ({ name, content }) => {
 
 const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
   const { classes, cx } = useStyles({ desktopPadding });
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
@@ -142,6 +205,27 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   const navigationAppTitle = useAttributePreference('navigationAppTitle');
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const deviceAlarms = useOpenAlarms()[deviceId] || [];
+  const state = getDeviceState(device, position, deviceAlarms.length > 0);
+  const stateColor = theme.palette[deviceStateColor[state]].main;
+
+  // Newest unacknowledged alarm event, else an alarm reported on the latest position
+  const alarm = deviceAlarms.length
+    ? { type: deviceAlarms[0].attributes.alarm, time: deviceAlarms[0].eventTime }
+    : position?.attributes.alarm && { type: position.attributes.alarm, time: position.fixTime };
+  const acknowledge = () => deviceAlarms.forEach((event) => dispatch(eventsActions.delete(event)));
+
+  // Key figures shown as tiles; the rest of the configured items stay in the table below
+  const tileItems = [
+    { key: 'speed', property: true, name: positionAttributes.speed?.name },
+    { key: 'ignition', property: false, name: positionAttributes.ignition?.name },
+    { key: 'batteryLevel', property: false, name: positionAttributes.batteryLevel?.name },
+    { key: 'fixTime', property: true, name: t('deviceLastUpdate') },
+  ].filter(({ key, property }) =>
+    property ? position?.hasOwnProperty(key) : position?.attributes.hasOwnProperty(key),
+  );
+  const tileKeys = tileItems.map(({ key }) => key);
 
   const [removing, setRemoving] = useState(false);
 
@@ -182,29 +266,82 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
             dragHandleClassName="draggable-header"
             style={{ position: 'relative' }}
           >
-            <Card elevation={3} className={classes.card}>
+            <Card elevation={9} className={classes.card}>
               <CardMedia
                 className={cx('draggable-header', deviceImage && classes.media)}
                 image={mediaUrl(device?.uniqueId, deviceImage)}
               >
                 <div className={classes.header}>
-                  <Typography variant="body2" color="inherit">
-                    {device.name}
-                  </Typography>
-                  <IconButton size="small" color="inherit" onClick={onClose} onTouchStart={onClose}>
+                  <div className={classes.title}>
+                    <Typography variant="h6" className={classes.name} noWrap>
+                      {device.name}
+                    </Typography>
+                    <Typography variant="caption" color="textSecondary" noWrap>
+                      {[device.model, device.uniqueId].filter(Boolean).join(' · ')}
+                    </Typography>
+                  </div>
+                  <span
+                    className={classes.pill}
+                    style={{
+                      backgroundColor: alpha(stateColor, 0.16),
+                      color: theme.palette[deviceStateTextColor[state]].main,
+                    }}
+                  >
+                    {formatDeviceState(state, t)}
+                  </span>
+                  <IconButton
+                    size="small"
+                    onClick={onClose}
+                    onTouchStart={onClose}
+                    aria-label={t('sharedHide')}
+                  >
                     <CloseIcon fontSize="small" />
                   </IconButton>
                 </div>
               </CardMedia>
+              {alarm && (
+                <div className={classes.alarm} role="alert">
+                  <WarningAmberIcon fontSize="small" />
+                  <Typography variant="body2" className={classes.alarmText}>
+                    <strong>{formatAlarm(alarm.type, t)}</strong>
+                    {` · ${formatTime(alarm.time, 'seconds')}`}
+                  </Typography>
+                  {deviceAlarms.length > 0 && (
+                    <Button size="small" variant="outlined" color="warning" onClick={acknowledge}>
+                      {t('sharedAcknowledge')}
+                    </Button>
+                  )}
+                </div>
+              )}
               {position && (
                 <CardContent className={classes.content}>
+                  {tileItems.length > 0 && (
+                    <div className={classes.tiles}>
+                      {tileItems.map(({ key, property, name }) => (
+                        <div key={key} className={classes.tile}>
+                          <Typography variant="caption" color="textSecondary">
+                            {name || key}
+                          </Typography>
+                          <span className={classes.tileValue}>
+                            <PositionValue
+                              position={position}
+                              property={property ? key : null}
+                              attribute={property ? null : key}
+                            />
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <Table size="small" className={classes.table}>
                     <TableBody>
                       {positionItems
                         .split(',')
                         .filter(
                           (key) =>
-                            position.hasOwnProperty(key) || position.attributes.hasOwnProperty(key),
+                            !tileKeys.includes(key) &&
+                            (position.hasOwnProperty(key) ||
+                              position.attributes.hasOwnProperty(key)),
                         )
                         .map((key) => (
                           <StatusRow

@@ -1,5 +1,5 @@
 // Operational state of a device, shared by the device list, filter chips and map markers.
-// Priority: offline > alarm > moving > stopped.
+// Priority: unacknowledged alarm > offline > alarm on latest position > moving > stopped.
 
 export const deviceStates = ['moving', 'stopped', 'offline', 'alarm'];
 
@@ -19,7 +19,10 @@ export const deviceStateTextColor = {
   alarm: 'warning',
 };
 
-export const getDeviceState = (device, position) => {
+export const getDeviceState = (device, position, openAlarm = false) => {
+  if (device && openAlarm) {
+    return 'alarm';
+  }
   if (!device || device.status === 'offline' || !position) {
     return 'offline';
   }

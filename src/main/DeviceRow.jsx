@@ -27,6 +27,7 @@ import {
   formatDeviceState,
   getDeviceState,
 } from '../common/util/deviceState';
+import useOpenAlarms from '../common/util/useOpenAlarms';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
@@ -105,7 +106,8 @@ const DeviceRow = ({ devices, index, style }) => {
   const primaryValue = resolveFieldValue(devicePrimary);
   const secondaryValue = resolveFieldValue(deviceSecondary);
 
-  const state = getDeviceState(item, position);
+  const openAlarms = useOpenAlarms();
+  const state = getDeviceState(item, position, !!openAlarms[item.id]);
 
   const secondaryText = () => {
     const status =

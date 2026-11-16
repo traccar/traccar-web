@@ -4,6 +4,7 @@ import { Chip } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { deviceStates, formatDeviceState, getDeviceState } from '../common/util/deviceState';
+import useOpenAlarms from '../common/util/useOpenAlarms';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -24,14 +25,15 @@ const StatusChips = ({ filter, setFilter }) => {
 
   const devices = useSelector((state) => state.devices.items);
   const positions = useSelector((state) => state.session.positions);
+  const openAlarms = useOpenAlarms();
 
   const counts = useMemo(() => {
     const result = Object.fromEntries(deviceStates.map((state) => [state, 0]));
     Object.values(devices).forEach((device) => {
-      result[getDeviceState(device, positions[device.id])] += 1;
+      result[getDeviceState(device, positions[device.id], !!openAlarms[device.id])] += 1;
     });
     return result;
-  }, [devices, positions]);
+  }, [devices, positions, openAlarms]);
 
   const selected = filter.states?.[0] || '';
   const select = (state) =>

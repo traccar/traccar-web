@@ -13,6 +13,7 @@ import EventsDrawer from './EventsDrawer';
 import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
 import StatusChips from './StatusChips';
+import AlarmToast from './AlarmToast';
 import { useAttributePreference } from '../common/util/preferences';
 import useFeatures from '../common/util/useFeatures';
 
@@ -175,6 +176,7 @@ const MainPage = () => {
         )}
       </div>
       <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
+      <AlarmToast />
       {selectedDeviceId && !features.disableStatusCard && (
         <StatusCard
           deviceId={selectedDeviceId}

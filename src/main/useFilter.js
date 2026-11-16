@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { getDeviceState } from '../common/util/deviceState';
+import useOpenAlarms from '../common/util/useOpenAlarms';
 
 export default (
   keyword,
@@ -14,6 +15,7 @@ export default (
 ) => {
   const groups = useSelector((state) => state.groups.items);
   const devices = useSelector((state) => state.devices.items);
+  const openAlarms = useOpenAlarms();
 
   useEffect(() => {
     const deviceGroups = (device) => {
@@ -30,7 +32,9 @@ export default (
       .filter(
         (device) =>
           !filter.states?.length ||
-          filter.states.includes(getDeviceState(device, positions[device.id])),
+          filter.states.includes(
+            getDeviceState(device, positions[device.id], !!openAlarms[device.id]),
+          ),
       )
       .filter(
         (device) =>
@@ -75,6 +79,7 @@ export default (
     groups,
     devices,
     positions,
+    openAlarms,
     setFilteredDevices,
     setFilteredPositions,
   ]);

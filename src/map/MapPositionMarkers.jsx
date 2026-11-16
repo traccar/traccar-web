@@ -4,6 +4,7 @@ import { map } from './core/MapView';
 import MapMarkers from './MapMarkers';
 import { formatTime } from '../common/util/formatter';
 import { deviceStateColor, getDeviceState } from '../common/util/deviceState';
+import useOpenAlarms from '../common/util/useOpenAlarms';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { fromMapCoordinates } from './core/mapUtil';
@@ -21,6 +22,7 @@ const MapPositionMarkers = ({
   const devices = useSelector((state) => state.devices.items);
   const deviceIcons = useDeviceIcons();
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+  const openAlarms = useOpenAlarms();
 
   const mapCluster = useAttributePreference('mapCluster', true);
   const directionType = useAttributePreference('mapDirection', 'selected');
@@ -55,7 +57,8 @@ const MapPositionMarkers = ({
         break;
     }
     const color = showStatus
-      ? position.attributes.color || deviceStateColor[getDeviceState(device, position)]
+      ? position.attributes.color ||
+        deviceStateColor[getDeviceState(device, position, !!openAlarms[device.id])]
       : 'neutral';
     const titles = { name: device.name, fixTime: formatTime(position.fixTime, 'seconds') };
     return {

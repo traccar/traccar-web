@@ -9,6 +9,7 @@ export default {
   bottomBarHeight: 56,
   popupMapOffset: 300,
   popupMaxWidth: 288,
+  statusCardWidth: 360,
   popupImageHeight: 144,
   cardContentMaxHeight: '40vh',
   qrCodeSize: 192,
