@@ -78,11 +78,11 @@ const MapView = ({ children }) => {
   const mapStyles = useMapStyles();
   const activeMapStyles = useAttributePreference(
     'activeMapStyles',
-    'openFreeMap,locationIqStreets,locationIqDark',
+    'openFreeMapLight,openFreeMap,locationIqStreets,locationIqDark',
   );
   const [selectedStyleId, setSelectedStyleId] = usePersistedState(
     'selectedMapStyle',
-    usePreference('map', 'openFreeMap'),
+    usePreference('map', 'openFreeMapLight'),
   );
   const maxZoom = useAttributePreference('web.maxZoom');
 

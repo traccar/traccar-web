@@ -57,7 +57,7 @@ const EventReportPage = () => {
   const geofences = useSelector((state) => state.geofences.items);
   const maintenances = useSelector((state) => state.maintenances.items);
 
-  const speedUnit = useAttributePreference('speedUnit');
+  const speedUnit = useAttributePreference('speedUnit', 'kmh');
   const coordinateFormat = usePreference('coordinateFormat');
 
   const [allEventTypes, setAllEventTypes] = useState([{ id: 'allEvents', label: 'eventAll' }]);

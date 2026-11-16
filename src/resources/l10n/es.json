@@ -449,6 +449,7 @@
     "mapMapTilerHybrid": "MapTiler: híbrido",
     "mapMapTilerKey": "Clave API de MapTiler",
     "mapOpenFreeMap": "OpenFreeMap",
+    "mapOpenFreeMapLight": "OpenFreeMap Claro",
     "mapLocationIqStreets": "LocationIQ: calles",
     "mapLocationIqDark": "LocationIQ: oscuro",
     "mapLocationIqKey": "Token de acceso de LocationIQ",

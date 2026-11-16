@@ -41,7 +41,7 @@ const PositionValue = ({ position, property, attribute }) => {
 
   const distanceUnit = useAttributePreference('distanceUnit');
   const altitudeUnit = useAttributePreference('altitudeUnit');
-  const speedUnit = useAttributePreference('speedUnit');
+  const speedUnit = useAttributePreference('speedUnit', 'kmh');
   const volumeUnit = useAttributePreference('volumeUnit');
   const coordinateFormat = usePreference('coordinateFormat');
 

@@ -22,7 +22,7 @@ const useStyles = makeStyles()(() => ({
 const MapSpeedLegend = ({ positions }) => {
   const theme = useTheme();
   const t = useTranslation();
-  const speedUnit = useAttributePreference('speedUnit');
+  const speedUnit = useAttributePreference('speedUnit', 'kmh');
   const { classes } = useStyles();
 
   useEffect(() => {

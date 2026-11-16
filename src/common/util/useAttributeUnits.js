@@ -4,7 +4,7 @@ import { useAttributePreference } from './preferences';
 export default () => {
   const altitudeUnit = useAttributePreference('altitudeUnit');
   const distanceUnit = useAttributePreference('distanceUnit');
-  const speedUnit = useAttributePreference('speedUnit');
+  const speedUnit = useAttributePreference('speedUnit', 'kmh');
   const volumeUnit = useAttributePreference('volumeUnit');
   return useMemo(
     () => ({ altitudeUnit, distanceUnit, speedUnit, volumeUnit }),

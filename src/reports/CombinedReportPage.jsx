@@ -46,7 +46,7 @@ const CombinedReportPage = () => {
     (state) => state.devices.items,
     deviceEquality(['id', 'name', 'uniqueId']),
   );
-  const speedUnit = useAttributePreference('speedUnit');
+  const speedUnit = useAttributePreference('speedUnit', 'kmh');
 
   const [columns, setColumns] = usePersistedState('combinedColumns', [
     'eventTime',

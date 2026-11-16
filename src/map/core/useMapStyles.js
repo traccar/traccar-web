@@ -48,6 +48,13 @@ export default () => {
   return useMemo(
     () => [
       {
+        // Light, low-detail basemap that keeps device markers in focus (default)
+        id: 'openFreeMapLight',
+        title: t('mapOpenFreeMapLight'),
+        style: 'https://tiles.openfreemap.org/styles/positron',
+        available: true,
+      },
+      {
         id: 'openFreeMap',
         title: t('mapOpenFreeMap'),
         style: 'https://tiles.openfreemap.org/styles/liberty',

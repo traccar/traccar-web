@@ -64,7 +64,7 @@ const TripReportPage = () => {
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
   const distanceUnit = useAttributePreference('distanceUnit');
-  const speedUnit = useAttributePreference('speedUnit');
+  const speedUnit = useAttributePreference('speedUnit', 'kmh');
   const volumeUnit = useAttributePreference('volumeUnit');
   const coordinateFormat = usePreference('coordinateFormat');
 
