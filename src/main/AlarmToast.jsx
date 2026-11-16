@@ -7,7 +7,7 @@ import { useTranslation } from '../common/components/LocalizationProvider';
 import { formatAlarm, formatTime } from '../common/util/formatter';
 import { devicesActions } from '../store';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()((theme, { offset }) => ({
   root: {
     position: 'fixed',
     zIndex: 6,
@@ -22,7 +22,7 @@ const useStyles = makeStyles()((theme) => ({
     color: theme.palette.common.white,
     [theme.breakpoints.up('md')]: {
       top: theme.spacing(2),
-      left: `calc(50% + ${theme.dimensions.drawerWidthDesktop} / 2)`,
+      left: `calc(50% + ${offset} / 2)`,
     },
     [theme.breakpoints.down('md')]: {
       top: theme.spacing(10),
@@ -52,8 +52,8 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 // Shows the newest unacknowledged alarm on top of the map until it is viewed or hidden.
-const AlarmToast = () => {
-  const { classes } = useStyles();
+const AlarmToast = ({ offset = '0px' }) => {
+  const { classes } = useStyles({ offset });
   const dispatch = useDispatch();
   const t = useTranslation();
 

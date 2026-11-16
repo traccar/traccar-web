@@ -9,24 +9,73 @@ import {
   MenuItem,
   Typography,
   Badge,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MapIcon from '@mui/icons-material/Map';
 import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import HexagonOutlinedIcon from '@mui/icons-material/HexagonOutlined';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
+import useFeatures from '../util/useFeatures';
+import useOpenAlarms from '../util/useOpenAlarms';
 
-const BottomMenu = () => {
+const useStyles = makeStyles()((theme) => ({
+  rail: {
+    position: 'fixed',
+    zIndex: 7,
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: theme.dimensions.railWidth,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    padding: theme.spacing(2, 0),
+    boxSizing: 'border-box',
+    backgroundColor: '#0F172A',
+    borderRadius: 0,
+  },
+  railButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    color: '#CBD5E1',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.08)',
+    },
+  },
+  railSelected: {
+    color: '#FFFFFF',
+    backgroundColor: 'rgba(255,255,255,0.14)',
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,0.18)',
+    },
+  },
+  spacer: {
+    flex: 1,
+  },
+}));
+
+// Main navigation: a bottom bar (phones, and desktop pages without the rail) or,
+// with `rail`, a vertical bar fixed to the left edge.
+const BottomMenu = ({ rail = false }) => {
+  const { classes, cx } = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const t = useTranslation();
+  const features = useFeatures();
 
   const readonly = useRestriction('readonly');
   const disableReports = useRestriction('disableReports');
@@ -34,6 +83,7 @@ const BottomMenu = () => {
   const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
+  const openAlarmCount = Object.values(useOpenAlarms()).reduce((sum, list) => sum + list.length, 0);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -46,6 +96,12 @@ const BottomMenu = () => {
     }
     if (location.pathname.startsWith('/reports')) {
       return 'reports';
+    }
+    if (location.pathname.startsWith('/alerts')) {
+      return 'alerts';
+    }
+    if (location.pathname.startsWith('/geofences')) {
+      return 'geofences';
     }
     if (location.pathname === '/') {
       return 'map';
@@ -95,6 +151,12 @@ const BottomMenu = () => {
       case 'map':
         navigate('/');
         break;
+      case 'alerts':
+        navigate('/alerts');
+        break;
+      case 'geofences':
+        navigate('/geofences');
+        break;
       case 'reports': {
         let id = selectedDeviceId;
         if (id == null) {
@@ -125,50 +187,86 @@ const BottomMenu = () => {
     }
   };
 
+  const items = [
+    {
+      value: 'map',
+      label: t('mapTitle'),
+      icon: (
+        <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
+          <MapIcon />
+        </Badge>
+      ),
+    },
+    !features.disableEvents && {
+      value: 'alerts',
+      label: t('alertsTitle'),
+      icon: (
+        <Badge color="warning" badgeContent={openAlarmCount} max={99}>
+          <NotificationsIcon />
+        </Badge>
+      ),
+    },
+    !disableReports && { value: 'reports', label: t('reportTitle'), icon: <DescriptionIcon /> },
+    rail &&
+      !readonly && {
+        value: 'geofences',
+        label: t('sharedGeofences'),
+        icon: <HexagonOutlinedIcon />,
+      },
+    !readonly && { value: 'settings', label: t('settingsTitle'), icon: <SettingsIcon /> },
+    readonly
+      ? { value: 'logout', label: t('loginLogout'), icon: <ExitToAppIcon />, end: true }
+      : { value: 'account', label: t('settingsUser'), icon: <PersonIcon />, end: true },
+  ].filter(Boolean);
+
+  const accountMenu = (
+    <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
+      <MenuItem onClick={handleAccount}>
+        <Typography color="textPrimary">{t('settingsUser')}</Typography>
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <Typography color="error">{t('loginLogout')}</Typography>
+      </MenuItem>
+    </Menu>
+  );
+
+  if (rail) {
+    const selected = currentSelection();
+    const renderButton = (item) => (
+      <Tooltip key={item.value} title={item.label} placement="right">
+        <IconButton
+          aria-label={item.label}
+          aria-current={selected === item.value ? 'page' : undefined}
+          className={cx(classes.railButton, selected === item.value && classes.railSelected)}
+          onClick={(event) => handleSelection(event, item.value)}
+        >
+          {item.icon}
+        </IconButton>
+      </Tooltip>
+    );
+    return (
+      <Paper component="nav" elevation={0} className={classes.rail}>
+        {items.filter((item) => !item.end).map(renderButton)}
+        <div className={classes.spacer} />
+        {items.filter((item) => item.end).map(renderButton)}
+        {accountMenu}
+      </Paper>
+    );
+  }
+
   return (
     <Paper square elevation={3}>
       <BottomNavigation value={currentSelection()} onChange={handleSelection} showLabels>
-        <BottomNavigationAction
-          label={t('mapTitle')}
-          icon={
-            <Badge color="error" variant="dot" overlap="circular" invisible={socket !== false}>
-              <MapIcon />
-            </Badge>
-          }
-          value="map"
-        />
-        {!disableReports && (
+        {items.map((item) => (
           <BottomNavigationAction
-            label={t('reportTitle')}
-            icon={<DescriptionIcon />}
-            value="reports"
+            key={item.value}
+            label={item.label}
+            icon={item.icon}
+            value={item.value}
           />
-        )}
-        {!readonly && (
-          <BottomNavigationAction
-            label={t('settingsTitle')}
-            icon={<SettingsIcon />}
-            value="settings"
-          />
-        )}
-        {readonly ? (
-          <BottomNavigationAction
-            label={t('loginLogout')}
-            icon={<ExitToAppIcon />}
-            value="logout"
-          />
-        ) : (
-          <BottomNavigationAction label={t('settingsUser')} icon={<PersonIcon />} value="account" />
-        )}
+        ))}
       </BottomNavigation>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-        <MenuItem onClick={handleAccount}>
-          <Typography color="textPrimary">{t('settingsUser')}</Typography>
-        </MenuItem>
-        <MenuItem onClick={handleLogout}>
-          <Typography color="error">{t('loginLogout')}</Typography>
-        </MenuItem>
-      </Menu>
+      {accountMenu}
     </Paper>
   );
 };

@@ -19,7 +19,7 @@ import useFeatures from '../common/util/useFeatures';
 
 const MainMap = lazy(() => import('./MainMap'));
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()((theme, { railOffset }) => ({
   root: {
     height: '100%',
   },
@@ -29,7 +29,7 @@ const useStyles = makeStyles()((theme) => ({
     flexDirection: 'column',
     [theme.breakpoints.up('md')]: {
       position: 'fixed',
-      left: 0,
+      left: railOffset,
       top: 0,
       height: `calc(100% - ${theme.spacing(3)})`,
       width: theme.dimensions.drawerWidthDesktop,
@@ -68,13 +68,20 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const MainPage = () => {
-  const { classes } = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
   const features = useFeatures();
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
+
+  // Desktop navigation rail on the left edge; the device list, map and overlays shift past it
+  const rail = desktop && !features.disableTabs;
+  const railOffset = rail ? theme.dimensions.railWidth : '0px';
+  const overlayOffset = features.disableDeviceList
+    ? railOffset
+    : `(${theme.dimensions.drawerWidthDesktop} + ${railOffset})`;
+  const { classes } = useStyles({ railOffset });
 
   const mapOnSelect = useAttributePreference('mapOnSelect', true);
 
@@ -169,20 +176,16 @@ const MainPage = () => {
             </Paper>
           )}
         </div>
-        {desktop && !features.disableTabs && (
-          <div className={classes.footer}>
-            <BottomMenu />
-          </div>
-        )}
       </div>
+      {rail && <BottomMenu rail />}
       <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
-      <AlarmToast />
+      <AlarmToast offset={desktop ? overlayOffset : '0px'} />
       {selectedDeviceId && !features.disableStatusCard && (
         <StatusCard
           deviceId={selectedDeviceId}
           position={selectedPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
-          desktopPadding={features.disableDeviceList ? 0 : theme.dimensions.drawerWidthDesktop}
+          desktopPadding={overlayOffset}
         />
       )}
     </div>
