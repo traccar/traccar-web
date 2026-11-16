@@ -20,6 +20,8 @@ const useStyles = makeStyles()((theme, { offset }) => ({
     padding: theme.spacing(1, 1, 1, 2),
     backgroundColor: theme.palette.alwaysDark.main,
     color: theme.palette.common.white,
+    // Same reason as the rail: keep the dark toast visible on a dark page
+    border: theme.palette.mode === 'dark' ? `1px solid ${theme.palette.divider}` : 'none',
     [theme.breakpoints.up('md')]: {
       top: theme.spacing(2),
       left: `calc(50% + ${offset} / 2)`,

@@ -21,6 +21,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HexagonOutlinedIcon from '@mui/icons-material/HexagonOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 import { sessionActions } from '../../store';
 import { useTranslation } from './LocalizationProvider';
@@ -45,6 +46,20 @@ const useStyles = makeStyles()((theme) => ({
     boxSizing: 'border-box',
     backgroundColor: '#0F172A',
     borderRadius: 0,
+    // In dark mode the rail is close to the page color; a hairline keeps it separate
+    borderRight: theme.palette.mode === 'dark' ? `1px solid ${theme.palette.divider}` : 'none',
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    flex: '0 0 40px',
+    borderRadius: 12,
+    marginBottom: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
   },
   railButton: {
     width: 48,
@@ -246,6 +261,9 @@ const BottomMenu = ({ rail = false }) => {
     );
     return (
       <Paper component="nav" elevation={0} className={classes.rail}>
+        <span className={classes.logo} aria-hidden="true">
+          <LocationOnOutlinedIcon />
+        </span>
         {items.filter((item) => !item.end).map(renderButton)}
         <div className={classes.spacer} />
         {items.filter((item) => item.end).map(renderButton)}

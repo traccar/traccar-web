@@ -185,6 +185,7 @@ const MainPage = () => {
           deviceId={selectedDeviceId}
           position={selectedPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
+          dockRight={theme.spacing(2)}
         />
       )}
     </div>

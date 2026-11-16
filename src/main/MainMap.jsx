@@ -64,8 +64,9 @@ const MainMap = ({ filteredPositions, selectedPosition, onEventsClick }) => {
       <MapScale />
       <MapCurrentLocation />
       <MapGeocoder />
-      {desktop && (!features.disableDeviceList || !features.disableTabs) && (
+      {desktop && (
         <MapPadding
+          controlsAtStart
           start={
             (features.disableDeviceList
               ? 0

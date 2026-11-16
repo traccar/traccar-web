@@ -56,7 +56,7 @@ import { useAttributePreference } from '../util/preferences';
 import fetchOrThrow from '../util/fetchOrThrow';
 import mediaUrl from '../util/mediaUrl';
 
-const useStyles = makeStyles()((theme) => ({
+const useStyles = makeStyles()((theme, { dockRight }) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.statusCardWidth,
@@ -218,9 +218,9 @@ const useStyles = makeStyles()((theme) => ({
     position: 'fixed',
     zIndex: 5,
     [theme.breakpoints.up('md')]: {
-      // Docked top right, below the alarm toast and left of the map controls
+      // Docked top right, below the alarm toast (and left of map controls when they are there)
       top: theme.spacing(11),
-      right: theme.spacing(9),
+      right: dockRight ?? theme.spacing(9),
     },
     [theme.breakpoints.down('md')]: {
       left: '50%',
@@ -231,7 +231,7 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const StatusRow = ({ name, content }) => {
-  const { classes } = useStyles();
+  const { classes } = useStyles({});
 
   return (
     <TableRow>
@@ -249,8 +249,8 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
-  const { classes, cx } = useStyles();
+const StatusCard = ({ deviceId, position, onClose, disableActions, dockRight }) => {
+  const { classes, cx } = useStyles({ dockRight });
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
