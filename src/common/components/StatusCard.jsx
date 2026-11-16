@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Rnd } from 'react-rnd';
+import dayjs from 'dayjs';
 import {
   Card,
   CardContent,
@@ -19,13 +20,17 @@ import {
   Link,
   Tooltip,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { alpha, useTheme } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import RouteIcon from '@mui/icons-material/Route';
-import SendIcon from '@mui/icons-material/Send';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PendingIcon from '@mui/icons-material/Pending';
@@ -33,10 +38,12 @@ import PendingIcon from '@mui/icons-material/Pending';
 import { useTranslation } from './LocalizationProvider';
 import RemoveDialog from './RemoveDialog';
 import PositionValue from './PositionValue';
+import AddressValue from './AddressValue';
 import { useDeviceReadonly, useRestriction } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
-import { devicesActions, eventsActions } from '../../store';
+import { devicesActions, eventsActions, messagesActions } from '../../store';
 import { formatAlarm, formatTime } from '../util/formatter';
+import { prefixString } from '../util/stringUtils';
 import {
   deviceStateColor,
   deviceStateTextColor,
@@ -44,12 +51,12 @@ import {
   getDeviceState,
 } from '../util/deviceState';
 import useOpenAlarms from '../util/useOpenAlarms';
-import { useCatch, useCatchCallback } from '../../reactHelper';
+import { useAsyncTask, useCatch, useCatchCallback } from '../../reactHelper';
 import { useAttributePreference } from '../util/preferences';
 import fetchOrThrow from '../util/fetchOrThrow';
 import mediaUrl from '../util/mediaUrl';
 
-const useStyles = makeStyles()((theme, { desktopPadding }) => ({
+const useStyles = makeStyles()((theme) => ({
   card: {
     pointerEvents: 'auto',
     width: theme.dimensions.statusCardWidth,
@@ -97,7 +104,7 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     display: 'grid',
     gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     gap: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(1.5),
   },
   tile: {
     display: 'flex',
@@ -112,6 +119,37 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     fontSize: '1.05rem',
     overflowWrap: 'anywhere',
   },
+  address: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    color: theme.palette.text.secondary,
+  },
+  section: {
+    marginTop: theme.spacing(1.5),
+    paddingTop: theme.spacing(1.5),
+    borderTop: `1px solid ${theme.palette.divider}`,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+  },
+  timelineRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1.25),
+  },
+  timelineDot: {
+    width: 8,
+    height: 8,
+    flex: '0 0 8px',
+    borderRadius: 4,
+  },
+  timelineTime: {
+    width: 44,
+    flexShrink: 0,
+    fontVariantNumeric: 'tabular-nums',
+  },
   media: {
     height: theme.dimensions.popupImageHeight,
     '& > div': {
@@ -122,13 +160,11 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   content: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
-    maxHeight: theme.dimensions.cardContentMaxHeight,
     overflow: 'auto',
-  },
-  icon: {
-    width: '25px',
-    height: '25px',
-    filter: 'brightness(0) invert(1)',
+    maxHeight: theme.dimensions.cardContentMaxHeight,
+    [theme.breakpoints.up('md')]: {
+      maxHeight: 'calc(100vh - 380px)',
+    },
   },
   table: {
     '& .MuiTableCell-sizeSmall': {
@@ -142,28 +178,38 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   cell: {
     borderBottom: 'none',
   },
+  primaryActions: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: theme.spacing(1),
+    padding: theme.spacing(1, 2, 0),
+  },
+  fullWidth: {
+    gridColumn: '1 / -1',
+  },
   actions: {
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0.5, 1, 1),
   },
   root: {
     pointerEvents: 'none',
     position: 'fixed',
     zIndex: 5,
-    left: '50%',
     [theme.breakpoints.up('md')]: {
-      left: `calc(50% + ${desktopPadding} / 2)`,
-      bottom: theme.spacing(3),
+      // Docked top right, below the alarm toast and left of the map controls
+      top: theme.spacing(11),
+      right: theme.spacing(9),
     },
     [theme.breakpoints.down('md')]: {
       left: '50%',
       bottom: `calc(${theme.spacing(3)} + ${theme.dimensions.bottomBarHeight}px)`,
+      transform: 'translateX(-50%)',
     },
-    transform: 'translateX(-50%)',
   },
 }));
 
 const StatusRow = ({ name, content }) => {
-  const { classes } = useStyles({ desktopPadding: 0 });
+  const { classes } = useStyles();
 
   return (
     <TableRow>
@@ -179,14 +225,15 @@ const StatusRow = ({ name, content }) => {
   );
 };
 
-const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPadding = 0 }) => {
-  const { classes, cx } = useStyles({ desktopPadding });
+const StatusCard = ({ deviceId, position, onClose, disableActions }) => {
+  const { classes, cx } = useStyles();
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const t = useTranslation();
 
   const readonly = useRestriction('readonly');
+  const limitCommands = useRestriction('limitCommands');
   const deviceReadonly = useDeviceReadonly();
 
   const shareDisabled = useSelector((state) => state.session.server.attributes.disableShare);
@@ -225,7 +272,67 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
   ].filter(({ key, property }) =>
     property ? position?.hasOwnProperty(key) : position?.attributes.hasOwnProperty(key),
   );
-  const tileKeys = tileItems.map(({ key }) => key);
+  // Address has its own line, so it is not repeated in the table
+  const shownKeys = [...tileItems.map(({ key }) => key), 'address'];
+
+  // Today's events for this device, newest first; refreshed when an alarm arrives or is acknowledged
+  const [todayEvents, setTodayEvents] = useState([]);
+  useAsyncTask(
+    async ({ signal }) => {
+      setTodayEvents([]);
+      if (!deviceId) {
+        return;
+      }
+      const query = new URLSearchParams({
+        deviceId,
+        from: dayjs().startOf('day').toISOString(),
+        to: dayjs().toISOString(),
+        type: 'allEvents',
+      });
+      const response = await fetchOrThrow(`api/reports/events?${query.toString()}`, { signal });
+      const items = await response.json();
+      setTodayEvents(
+        items
+          .sort((a, b) => dayjs(b.eventTime).valueOf() - dayjs(a.eventTime).valueOf())
+          .slice(0, 5),
+      );
+    },
+    // deviceAlarms.length is a refresh trigger: reload when an alarm arrives or is acknowledged
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
+    [deviceId, deviceAlarms.length],
+  );
+
+  // Engine stop is offered only when the device protocol supports it
+  const [commandTypes, setCommandTypes] = useState([]);
+  useAsyncTask(
+    async ({ signal }) => {
+      setCommandTypes([]);
+      if (!deviceId || disableActions || readonly || limitCommands) {
+        return;
+      }
+      const query = new URLSearchParams({ deviceId });
+      const response = await fetchOrThrow(`api/commands/types?${query.toString()}`, { signal });
+      setCommandTypes((await response.json()).map((it) => it.type));
+    },
+    [deviceId, disableActions, readonly, limitCommands],
+  );
+  const canStopEngine = commandTypes.includes('engineStop');
+  const [confirmingStop, setConfirmingStop] = useState(false);
+
+  const handleEngineStop = useCatch(async () => {
+    setConfirmingStop(false);
+    const response = await fetchOrThrow('api/commands/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceId, type: 'engineStop', attributes: {} }),
+    });
+    dispatch(
+      messagesActions.push({
+        message: t(response.status === 202 ? 'commandQueued' : 'commandSent'),
+        severity: 'success',
+      }),
+    );
+  });
 
   const [removing, setRemoving] = useState(false);
 
@@ -255,6 +362,11 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
     });
     navigate(`/settings/geofence/${item.id}`);
   }, [navigate, position, t]);
+
+  const eventLabel = (event) =>
+    event.type === 'alarm'
+      ? formatAlarm(event.attributes.alarm, t)
+      : t(prefixString('event', event.type));
 
   return (
     <>
@@ -333,13 +445,23 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       ))}
                     </div>
                   )}
+                  <div className={classes.address}>
+                    <LocationOnOutlinedIcon fontSize="small" />
+                    <Typography variant="body2">
+                      <AddressValue
+                        latitude={position.latitude}
+                        longitude={position.longitude}
+                        originalAddress={position.address}
+                      />
+                    </Typography>
+                  </div>
                   <Table size="small" className={classes.table}>
                     <TableBody>
                       {positionItems
                         .split(',')
                         .filter(
                           (key) =>
-                            !tileKeys.includes(key) &&
+                            !shownKeys.includes(key) &&
                             (position.hasOwnProperty(key) ||
                               position.attributes.hasOwnProperty(key)),
                         )
@@ -369,50 +491,99 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
                       </TableRow>
                     </TableFooter>
                   </Table>
+                  {todayEvents.length > 0 && (
+                    <div className={classes.section}>
+                      <Typography variant="overline" color="textSecondary" lineHeight={1.5}>
+                        {t('reportToday')}
+                      </Typography>
+                      {todayEvents.map((event) => (
+                        <div key={event.id} className={classes.timelineRow}>
+                          <span
+                            className={classes.timelineDot}
+                            style={{
+                              backgroundColor:
+                                event.type === 'alarm'
+                                  ? theme.palette.alarm.main
+                                  : theme.palette.stopped.main,
+                            }}
+                          />
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            className={classes.timelineTime}
+                          >
+                            {dayjs(event.eventTime).format('HH:mm')}
+                          </Typography>
+                          <Typography variant="body2" noWrap>
+                            {eventLabel(event)}
+                          </Typography>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               )}
+              <div className={classes.primaryActions}>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate(`/replay?deviceId=${deviceId}`)}
+                  disabled={disableActions || !position}
+                >
+                  {t('reportReplay')}
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  onClick={() => navigate(`/settings/device/${deviceId}/command`)}
+                  disabled={disableActions}
+                >
+                  {t('commandTitle')}
+                </Button>
+                {canStopEngine && (
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    className={classes.fullWidth}
+                    onClick={() => setConfirmingStop(true)}
+                  >
+                    {`${t('commandEngineStop')}…`}
+                  </Button>
+                )}
+              </div>
               <CardActions className={classes.actions} disableSpacing>
                 <Tooltip title={t('sharedExtra')}>
-                  <IconButton
-                    color="secondary"
-                    onClick={(e) => setAnchorEl(e.currentTarget)}
-                    disabled={!position}
-                  >
-                    <PendingIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={t('reportReplay')}>
-                  <IconButton
-                    onClick={() => navigate(`/replay?deviceId=${deviceId}`)}
-                    disabled={disableActions || !position}
-                  >
-                    <RouteIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={t('commandTitle')}>
-                  <IconButton
-                    onClick={() => navigate(`/settings/device/${deviceId}/command`)}
-                    disabled={disableActions}
-                  >
-                    <SendIcon />
-                  </IconButton>
+                  <span>
+                    <IconButton
+                      aria-label={t('sharedExtra')}
+                      onClick={(e) => setAnchorEl(e.currentTarget)}
+                      disabled={!position}
+                    >
+                      <PendingIcon />
+                    </IconButton>
+                  </span>
                 </Tooltip>
                 <Tooltip title={t('sharedEdit')}>
-                  <IconButton
-                    onClick={() => navigate(`/settings/device/${deviceId}`)}
-                    disabled={disableActions || deviceReadonly}
-                  >
-                    <EditIcon />
-                  </IconButton>
+                  <span>
+                    <IconButton
+                      aria-label={t('sharedEdit')}
+                      onClick={() => navigate(`/settings/device/${deviceId}`)}
+                      disabled={disableActions || deviceReadonly}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </span>
                 </Tooltip>
                 <Tooltip title={t('sharedRemove')}>
-                  <IconButton
-                    color="error"
-                    onClick={() => setRemoving(true)}
-                    disabled={disableActions || deviceReadonly}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  <span>
+                    <IconButton
+                      aria-label={t('sharedRemove')}
+                      color="error"
+                      onClick={() => setRemoving(true)}
+                      disabled={disableActions || deviceReadonly}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </span>
                 </Tooltip>
               </CardActions>
             </Card>
@@ -467,6 +638,20 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, desktopPaddin
           )}
         </Menu>
       )}
+      <Dialog open={confirmingStop} onClose={() => setConfirmingStop(false)}>
+        <DialogTitle>{`${t('commandEngineStop')}?`}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{device?.name}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button color="inherit" onClick={() => setConfirmingStop(false)}>
+            {t('sharedCancel')}
+          </Button>
+          <Button variant="contained" color="error" onClick={handleEngineStop}>
+            {t('commandSend')}
+          </Button>
+        </DialogActions>
+      </Dialog>
       <RemoveDialog
         open={removing}
         endpoint="devices"

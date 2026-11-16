@@ -1,26 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
-import {
-  IconButton,
-  Tooltip,
-  Avatar,
-  ListItemAvatar,
-  ListItemText,
-  ListItemButton,
-  Typography,
-} from '@mui/material';
-import BatteryFullIcon from '@mui/icons-material/BatteryFull';
-import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
-import Battery60Icon from '@mui/icons-material/Battery60';
-import BatteryCharging60Icon from '@mui/icons-material/BatteryCharging60';
-import Battery20Icon from '@mui/icons-material/Battery20';
-import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
-import ErrorIcon from '@mui/icons-material/Error';
+import { ListItemButton, Typography } from '@mui/material';
+import { alpha, useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { devicesActions } from '../store';
-import { useTheme } from '@mui/material/styles';
-import { formatAlarm, formatBoolean, formatPercentage } from '../common/util/formatter';
 import {
   deviceStateColor,
   deviceStateTextColor,
@@ -31,7 +15,6 @@ import useOpenAlarms from '../common/util/useOpenAlarms';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { mapIconKey, mapIcons } from '../map/core/preloadImages';
 import { useAdministrator } from '../common/util/permissions';
-import EngineIcon from '../resources/images/data/engine.svg?react';
 import { useAttributePreference } from '../common/util/preferences';
 import GeofencesValue from '../common/components/GeofencesValue';
 import DriverValue from '../common/components/DriverValue';
@@ -41,33 +24,69 @@ import mediaUrl from '../common/util/mediaUrl';
 dayjs.extend(relativeTime);
 
 const useStyles = makeStyles()((theme) => ({
-  icon: {
-    width: '25px',
-    height: '25px',
-    objectFit: 'contain',
+  wrapper: {
+    padding: theme.spacing(0.25, 1),
+    boxSizing: 'border-box',
   },
-  categoryIcon: {
-    filter: 'brightness(0) invert(1)',
-  },
-  batteryText: {
-    fontSize: '0.75rem',
-    fontWeight: 'normal',
-    lineHeight: '0.875rem',
-  },
-  success: {
-    color: theme.palette.success.main,
-  },
-  warning: {
-    color: theme.palette.warning.main,
-  },
-  error: {
-    color: theme.palette.error.main,
-  },
-  neutral: {
-    color: theme.palette.neutral.main,
+  row: {
+    height: '100%',
+    gap: theme.spacing(1.5),
+    padding: theme.spacing(1, 1.5),
+    borderRadius: 14,
+    border: '1px solid transparent',
   },
   selected: {
-    backgroundColor: theme.palette.action.selected,
+    '&&': {
+      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+      borderColor: alpha(theme.palette.primary.main, 0.3),
+    },
+  },
+  avatar: {
+    width: 44,
+    height: 44,
+    flex: '0 0 44px',
+    borderRadius: 22,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  photo: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+  },
+  // Category icons are single-color SVGs: draw them as a mask so they take the state color
+  categoryIcon: {
+    width: 24,
+    height: 24,
+    maskSize: 'contain',
+    maskRepeat: 'no-repeat',
+    maskPosition: 'center',
+    WebkitMaskSize: 'contain',
+    WebkitMaskRepeat: 'no-repeat',
+    WebkitMaskPosition: 'center',
+  },
+  text: {
+    flex: 1,
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 2,
+  },
+  side: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: theme.spacing(0.75),
+    flexShrink: 0,
+  },
+  pill: {
+    padding: theme.spacing(0.25, 1.1),
+    borderRadius: 999,
+    fontSize: '0.75rem',
+    fontWeight: 700,
+    whiteSpace: 'nowrap',
   },
 }));
 
@@ -104,114 +123,72 @@ const DeviceRow = ({ devices, index, style }) => {
   };
 
   const primaryValue = resolveFieldValue(devicePrimary);
-  const secondaryValue = resolveFieldValue(deviceSecondary);
+  // Detail line: the user's chosen field, else the known address, else the model
+  const detail = resolveFieldValue(deviceSecondary) || position?.address || item.model || '';
 
   const openAlarms = useOpenAlarms();
   const state = getDeviceState(item, position, !!openAlarms[item.id]);
+  const fillColor = theme.palette[deviceStateColor[state]].main;
+  const textColor = theme.palette[deviceStateTextColor[state]].main;
 
-  const secondaryText = () => {
-    const status =
-      state === 'offline' && item.lastUpdate
+  let time = '';
+  if (item.lastUpdate) {
+    time =
+      state === 'offline' || !dayjs(item.lastUpdate).isSame(dayjs(), 'day')
         ? dayjs(item.lastUpdate).fromNow()
-        : formatDeviceState(state, t);
-    return (
-      <>
-        {secondaryValue && (
-          <>
-            {secondaryValue}
-            {' • '}
-          </>
-        )}
-        <span style={{ color: theme.palette[deviceStateTextColor[state]].main, fontWeight: 600 }}>
-          {status}
-        </span>
-      </>
-    );
-  };
+        : dayjs(item.lastUpdate).format('HH:mm');
+  }
+
+  const selected = selectedDeviceId === item.id;
 
   return (
-    <div style={style}>
+    <div style={style} className={classes.wrapper}>
       <ListItemButton
         key={item.id}
         onClick={() => dispatch(devicesActions.selectId(item.id))}
         disabled={!admin && item.disabled}
-        selected={selectedDeviceId === item.id}
-        className={selectedDeviceId === item.id ? classes.selected : null}
+        selected={selected}
+        className={cx(classes.row, selected && classes.selected)}
       >
-        <ListItemAvatar>
-          <Avatar
-            style={{
-              boxShadow: `inset 0 0 0 2px ${theme.palette[deviceStateColor[state]].main}`,
-            }}
-          >
-            <img
-              className={cx(classes.icon, !icon && classes.categoryIcon)}
-              src={icon || fallbackIcon}
-              alt=""
+        <span
+          className={classes.avatar}
+          style={{
+            backgroundColor: alpha(fillColor, 0.14),
+            boxShadow: `inset 0 0 0 2px ${fillColor}`,
+          }}
+        >
+          {icon ? (
+            <img className={classes.photo} src={icon} alt="" />
+          ) : (
+            <span
+              className={classes.categoryIcon}
+              style={{
+                backgroundColor: textColor,
+                maskImage: `url(${fallbackIcon})`,
+                WebkitMaskImage: `url(${fallbackIcon})`,
+              }}
             />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={primaryValue}
-          secondary={secondaryText()}
-          slots={{
-            primary: Typography,
-            secondary: Typography,
-          }}
-          slotProps={{
-            primary: { noWrap: true },
-            secondary: { noWrap: true },
-          }}
-        />
-        {position && (
-          <>
-            {position.attributes.hasOwnProperty('alarm') && (
-              <Tooltip title={`${t('eventAlarm')}: ${formatAlarm(position.attributes.alarm, t)}`}>
-                <IconButton size="small">
-                  <ErrorIcon fontSize="small" className={classes.error} />
-                </IconButton>
-              </Tooltip>
-            )}
-            {position.attributes.hasOwnProperty('ignition') && (
-              <Tooltip
-                title={`${t('positionIgnition')}: ${formatBoolean(position.attributes.ignition, t)}`}
-              >
-                <IconButton size="small">
-                  {position.attributes.ignition ? (
-                    <EngineIcon width={20} height={20} className={classes.success} />
-                  ) : (
-                    <EngineIcon width={20} height={20} className={classes.neutral} />
-                  )}
-                </IconButton>
-              </Tooltip>
-            )}
-            {position.attributes.hasOwnProperty('batteryLevel') && (
-              <Tooltip
-                title={`${t('positionBatteryLevel')}: ${formatPercentage(position.attributes.batteryLevel)}`}
-              >
-                <IconButton size="small">
-                  {(position.attributes.batteryLevel > 70 &&
-                    (position.attributes.charge ? (
-                      <BatteryChargingFullIcon fontSize="small" className={classes.success} />
-                    ) : (
-                      <BatteryFullIcon fontSize="small" className={classes.success} />
-                    ))) ||
-                    (position.attributes.batteryLevel > 30 &&
-                      (position.attributes.charge ? (
-                        <BatteryCharging60Icon fontSize="small" className={classes.warning} />
-                      ) : (
-                        <Battery60Icon fontSize="small" className={classes.warning} />
-                      ))) ||
-                    (position.attributes.charge ? (
-                      <BatteryCharging20Icon fontSize="small" className={classes.error} />
-                    ) : (
-                      <Battery20Icon fontSize="small" className={classes.error} />
-                    ))}
-                </IconButton>
-              </Tooltip>
-            )}
-          </>
-        )}
+          )}
+        </span>
+        <span className={classes.text}>
+          <Typography fontWeight={600} noWrap>
+            {primaryValue}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" noWrap>
+            {detail}
+          </Typography>
+        </span>
+        <span className={classes.side}>
+          <span
+            className={classes.pill}
+            style={{ backgroundColor: alpha(fillColor, 0.16), color: textColor }}
+          >
+            {formatDeviceState(state, t)}
+          </span>
+          <Typography variant="caption" color="textSecondary" noWrap>
+            {time}
+          </Typography>
+        </span>
       </ListItemButton>
     </div>
   );

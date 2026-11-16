@@ -65,6 +65,10 @@ export default (
       default:
         break;
     }
+    // Devices that need attention (alarm) go first; the sort is stable, so the order above is kept
+    const needsAttention = (device) =>
+      getDeviceState(device, positions[device.id], !!openAlarms[device.id]) === 'alarm' ? 0 : 1;
+    filtered.sort((device1, device2) => needsAttention(device1) - needsAttention(device2));
     setFilteredDevices(filtered);
     setFilteredPositions(
       filterMap
