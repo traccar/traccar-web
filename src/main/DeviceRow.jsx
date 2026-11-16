@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import { ListItemButton, Typography } from '@mui/material';
@@ -52,10 +53,13 @@ const useStyles = makeStyles()((theme) => ({
     justifyContent: 'center',
     overflow: 'hidden',
   },
+  // Uploaded icons (often PNGs with transparency) are shown whole inside the circle
   photo: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
+    objectFit: 'contain',
+    padding: 6,
+    boxSizing: 'border-box',
   },
   // Category icons are single-color SVGs: draw them as a mask so they take the state color
   categoryIcon: {
@@ -103,6 +107,10 @@ const DeviceRow = ({ devices, index, style }) => {
   const item = devices[index];
   const icon = mediaUrl(item.uniqueId, item.attributes?.deviceIcon);
   const fallbackIcon = mapIcons[mapIconKey(item.category)];
+  // If the uploaded icon fails to load (e.g. file missing), show the category icon instead.
+  // Keyed by URL so a re-uploaded icon is tried again.
+  const [failedIcon, setFailedIcon] = useState(null);
+  const showUploadedIcon = icon && failedIcon !== icon;
   const position = useSelector((state) => state.session.positions[item.id]);
 
   const devicePrimary = useAttributePreference('devicePrimary', 'name');
@@ -168,8 +176,8 @@ const DeviceRow = ({ devices, index, style }) => {
             boxShadow: `inset 0 0 0 2px ${fillColor}`,
           }}
         >
-          {icon ? (
-            <img className={classes.photo} src={icon} alt="" />
+          {showUploadedIcon ? (
+            <img className={classes.photo} src={icon} alt="" onError={() => setFailedIcon(icon)} />
           ) : (
             <span
               className={classes.categoryIcon}
