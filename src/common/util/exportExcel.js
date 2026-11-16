@@ -1,4 +1,5 @@
 import { saveAs } from 'file-saver';
+import { decomposeColor } from '@mui/material/styles';
 
 const borderDefinition = {
   top: { style: 'thin' },
@@ -16,6 +17,12 @@ const exportExcel = async (title, fileName, sheets, theme) => {
   const workbook = new ExcelJS.Workbook();
   const headerColor = `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}`;
 
+  const headerTextColor = `FF${decomposeColor(theme.palette.primary.contrastText)
+    .values.slice(0, 3)
+    .map((value) => value.toString(16).padStart(2, '0'))
+    .join('')
+    .toUpperCase()}`;
+
   sheets.forEach((rows, sheetTitle) => {
     const worksheet = workbook.addWorksheet(sheetTitle.replace(/[*?:\\/[\]]|^'|'$/g, ''));
     const headers = Object.keys(rows[0]);
@@ -29,7 +36,7 @@ const exportExcel = async (title, fileName, sheets, theme) => {
     const headerRow = worksheet.addRow(headers);
     headerRow.eachCell((cell) => {
       cell.border = borderDefinition;
-      cell.font = {};
+      cell.font = { color: { argb: headerTextColor } };
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
