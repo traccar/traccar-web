@@ -22,6 +22,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import BottomMenu from '../common/components/BottomMenu';
+import PushNotificationsCard from '../common/components/PushNotificationsCard';
 import { formatAlarm, formatTime } from '../common/util/formatter';
 import { prefixString } from '../common/util/stringUtils';
 import { useRestriction } from '../common/util/permissions';
@@ -237,8 +238,9 @@ const AlertsPage = () => {
               )}
             </Paper>
           </main>
-          {!readonly && (
-            <aside className={classes.side}>
+          <aside className={classes.side}>
+            <PushNotificationsCard />
+            {!readonly && (
               <Paper elevation={0} className={classes.sideCard}>
                 <Typography variant="h6" component="h2">
                   {t('alertsRules')}
@@ -255,7 +257,10 @@ const AlertsPage = () => {
                           .map((it) => formatAlarm(it, t))
                           .join(', '),
                         rule.always ? t('notificationAlways') : null,
-                        rule.notificators,
+                        rule.notificators
+                          ?.split(',')
+                          .map((it) => t(prefixString('notificator', it)) || it)
+                          .join(', '),
                       ]
                         .filter(Boolean)
                         .join(' · ')}
@@ -277,8 +282,8 @@ const AlertsPage = () => {
                   {t('sharedNotifications')}
                 </Link>
               </Paper>
-            </aside>
-          )}
+            )}
+          </aside>
         </div>
       </div>
     </>

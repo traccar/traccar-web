@@ -26,6 +26,8 @@ export default defineConfig(() => ({
       workbox: {
         navigateFallbackDenylist: [/\/api(\/|$)/],
         globPatterns: ['**/*.{js,css,html,woff,woff2,mp3}'],
+        // Web Push handlers (shows notifications sent by the server, opens the app on tap)
+        importScripts: ['push-sw.js'],
       },
       manifest: {
         short_name: '${title}',
