@@ -47,6 +47,18 @@ const SocketController = () => {
 
   const features = useFeatures();
 
+  // Pending alerts (not yet marked as seen) are kept on the server: load them when the session starts,
+  // so alerts that arrived while the app was closed are still shown
+  useAsyncTask(
+    async ({ signal }) => {
+      if (authenticated && !features.disableEvents) {
+        const response = await fetchOrThrow('api/events/unseen', { signal });
+        dispatch(eventsActions.add(await response.json()));
+      }
+    },
+    [authenticated, features.disableEvents, dispatch],
+  );
+
   const handleEvents = useCallback(
     (events) => {
       if (!features.disableEvents) {

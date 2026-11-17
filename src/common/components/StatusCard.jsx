@@ -41,7 +41,8 @@ import PositionValue from './PositionValue';
 import AddressValue from './AddressValue';
 import { useDeviceReadonly, useRestriction } from '../util/permissions';
 import usePositionAttributes from '../attributes/usePositionAttributes';
-import { devicesActions, eventsActions, messagesActions } from '../../store';
+import { devicesActions, messagesActions } from '../../store';
+import useMarkSeen from '../util/useMarkSeen';
 import { formatAlarm, formatTime } from '../util/formatter';
 import { prefixString } from '../util/stringUtils';
 import {
@@ -285,7 +286,8 @@ const StatusCard = ({ deviceId, position, onClose, disableActions, dockRight }) 
   const alarm = deviceAlarms.length
     ? { type: deviceAlarms[0].attributes.alarm, time: deviceAlarms[0].eventTime }
     : position?.attributes.alarm && { type: position.attributes.alarm, time: position.fixTime };
-  const acknowledge = () => deviceAlarms.forEach((event) => dispatch(eventsActions.delete(event)));
+  const markSeen = useMarkSeen();
+  const acknowledge = () => markSeen(deviceAlarms);
 
   // Key figures shown as tiles; the rest of the configured items stay in the table below
   const tileItems = [

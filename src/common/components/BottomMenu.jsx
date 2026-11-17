@@ -28,7 +28,6 @@ import { useTranslation } from './LocalizationProvider';
 import { useRestriction } from '../util/permissions';
 import { nativePostMessage } from './NativeInterface';
 import useFeatures from '../util/useFeatures';
-import useOpenAlarms from '../util/useOpenAlarms';
 
 // Navigation icons use Material Symbols (Rounded), Google's current icon set, which the
 // category icons on the map already use
@@ -104,7 +103,8 @@ const BottomMenu = ({ rail = false }) => {
   const user = useSelector((state) => state.session.user);
   const socket = useSelector((state) => state.session.socket);
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
-  const openAlarmCount = Object.values(useOpenAlarms()).reduce((sum, list) => sum + list.length, 0);
+  // Pending notifications (alarms and other subscribed events) not yet marked as seen
+  const pendingCount = useSelector((state) => state.events.items.length);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -222,7 +222,7 @@ const BottomMenu = ({ rail = false }) => {
       value: 'alerts',
       label: t('alertsTitle'),
       icon: (
-        <Badge color="warning" badgeContent={openAlarmCount} max={99}>
+        <Badge color="warning" badgeContent={pendingCount} max={99}>
           <NavSymbol svg={NotificationsSvg} />
         </Badge>
       ),
