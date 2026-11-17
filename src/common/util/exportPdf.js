@@ -2,7 +2,7 @@ import regularFont from '@expo-google-fonts/roboto/400Regular/Roboto_400Regular.
 import boldFont from '@expo-google-fonts/roboto/500Medium/Roboto_500Medium.ttf?url';
 import fetchOrThrow from './fetchOrThrow';
 
-export default async (title, fileName, sheets, { deviceHeader }) => {
+export default async (fileName, sheets, { deviceHeader }) => {
   const sections = [...sheets].filter(([, rows]) => rows.length);
   if (!sections.length) return;
 
@@ -28,19 +28,9 @@ export default async (title, fileName, sheets, { deviceHeader }) => {
     if (index) document.addPage();
     const headers = Object.keys(rows[0]);
     autoTable(document, {
-      head: [headers],
+      head: [...(!deviceHeader ? [[{ content: name, colSpan: headers.length }]] : []), headers],
       body: rows.map((row) => headers.map((header) => String(row[header] ?? ''))),
       styles: { font: 'Roboto' },
-      margin: { top: deviceHeader ? 60 : 76, right: 28, bottom: 28, left: 28 },
-      willDrawPage: () => {
-        document.setFont('Roboto', 'bold');
-        document.setFontSize(12);
-        document.text(title, 28, 40);
-        if (!deviceHeader) {
-          document.setFontSize(10);
-          document.text(name, 28, 56);
-        }
-      },
     });
   });
   document.save(fileName);

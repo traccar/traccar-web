@@ -7,7 +7,7 @@ export default () => {
 
   return async (title, fileName, sheets, options) => {
     if (options.format === 'pdf') {
-      await exportPdf(title, `${fileName}.pdf`, sheets, options);
+      await exportPdf(`${fileName}.pdf`, sheets, options);
     } else {
       await exportExcel(title, `${fileName}.xlsx`, sheets, theme);
     }
