@@ -1,4 +1,5 @@
 import { saveAs } from 'file-saver';
+import { alpha, rgbToHex } from '@mui/material/styles';
 
 const borderDefinition = {
   top: { style: 'thin' },
@@ -14,7 +15,8 @@ const exportExcel = async (title, fileName, sheets, theme) => {
 
   const { default: ExcelJS } = await import('exceljs');
   const workbook = new ExcelJS.Workbook();
-  const headerColor = `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}`;
+  const headerColor = `FF${rgbToHex(alpha(theme.palette.primary.main, 1)).slice(1, 7).toUpperCase()}`;
+  const headerTextColor = `FF${rgbToHex(alpha(theme.palette.primary.contrastText, 1)).slice(1, 7).toUpperCase()}`;
 
   sheets.forEach((rows, sheetTitle) => {
     const worksheet = workbook.addWorksheet(sheetTitle.replace(/[*?:\\/[\]]|^'|'$/g, ''));
@@ -29,7 +31,7 @@ const exportExcel = async (title, fileName, sheets, theme) => {
     const headerRow = worksheet.addRow(headers);
     headerRow.eachCell((cell) => {
       cell.border = borderDefinition;
-      cell.font = {};
+      cell.font = { color: { argb: headerTextColor } };
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
