@@ -1,6 +1,6 @@
+import regularFont from '@expo-google-fonts/roboto/400Regular/Roboto_400Regular.ttf?url';
+import boldFont from '@expo-google-fonts/roboto/500Medium/Roboto_500Medium.ttf?url';
 import fetchOrThrow from './fetchOrThrow';
-import regularFont from '../../resources/fonts/Roboto-Regular.ttf?url';
-import boldFont from '../../resources/fonts/Roboto-Medium.ttf?url';
 
 export default async (title, fileName, sheets, { deviceHeader }) => {
   const sections = [...sheets].filter(([, rows]) => rows.length);
