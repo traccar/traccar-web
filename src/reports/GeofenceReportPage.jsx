@@ -77,7 +77,7 @@ const GeofenceReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportReport(t('sharedGeofences'), 'geofences.xlsx', sheets, options);
+    await exportReport(t('sharedGeofences'), 'geofences', sheets, options);
   });
 
   const formatValue = (item, key) => {

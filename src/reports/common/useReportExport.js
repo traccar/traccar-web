@@ -1,15 +1,15 @@
 import { useTheme } from '@mui/material/styles';
 import exportExcel from '../../common/util/exportExcel';
+import exportPdf from '../../common/util/exportPdf';
 
 export default () => {
   const theme = useTheme();
 
   return async (title, fileName, sheets, options) => {
     if (options.format === 'pdf') {
-      const { default: exportPdf } = await import('../../common/util/exportPdf');
-      await exportPdf(title, fileName.replace(/\.xlsx$/, '.pdf'), sheets, options);
+      await exportPdf(title, `${fileName}.pdf`, sheets, options);
     } else {
-      await exportExcel(title, fileName, sheets, theme);
+      await exportExcel(title, `${fileName}.xlsx`, sheets, theme);
     }
   };
 };

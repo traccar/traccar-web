@@ -163,7 +163,7 @@ const EventReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportReport(t('reportEvents'), 'events.xlsx', sheets, options);
+    await exportReport(t('reportEvents'), 'events', sheets, options);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {

@@ -30,12 +30,7 @@ export default async (title, fileName, sheets, { deviceHeader }) => {
     autoTable(document, {
       head: [headers],
       body: rows.map((row) => headers.map((header) => String(row[header] ?? ''))),
-      styles: { font: 'Roboto', fontSize: 10, cellPadding: 4 },
-      bodyStyles: { lineColor: '#c8d4dc', lineWidth: { top: 0.4, bottom: 0.4 } },
-      alternateRowStyles: { fillColor: false },
-      columnStyles: Object.fromEntries(
-        headers.map((_, i) => [i, { fillColor: i % 2 ? '#f1f4f6' : '#ffffff' }]),
-      ),
+      styles: { font: 'Roboto' },
       margin: { top: deviceHeader ? 60 : 76, right: 28, bottom: 28, left: 28 },
       willDrawPage: () => {
         document.setFont('Roboto', 'bold');
