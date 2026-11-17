@@ -1,5 +1,5 @@
 import { saveAs } from 'file-saver';
-import { decomposeColor } from '@mui/material/styles';
+import { alpha, rgbToHex } from '@mui/material/styles';
 
 const borderDefinition = {
   top: { style: 'thin' },
@@ -15,13 +15,8 @@ const exportExcel = async (title, fileName, sheets, theme) => {
 
   const { default: ExcelJS } = await import('exceljs');
   const workbook = new ExcelJS.Workbook();
-  const headerColor = `FF${theme.palette.primary.main.replace('#', '').toUpperCase()}`;
-
-  const headerTextColor = `FF${decomposeColor(theme.palette.primary.contrastText)
-    .values.slice(0, 3)
-    .map((value) => value.toString(16).padStart(2, '0'))
-    .join('')
-    .toUpperCase()}`;
+  const headerColor = `FF${rgbToHex(alpha(theme.palette.primary.main, 1)).slice(1, 7).toUpperCase()}`;
+  const headerTextColor = `FF${rgbToHex(alpha(theme.palette.primary.contrastText, 1)).slice(1, 7).toUpperCase()}`;
 
   sheets.forEach((rows, sheetTitle) => {
     const worksheet = workbook.addWorksheet(sheetTitle.replace(/[*?:\\/[\]]|^'|'$/g, ''));
