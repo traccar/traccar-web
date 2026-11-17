@@ -69,7 +69,7 @@
     "eslint-plugin-prettier": "^5.5.7",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.14.0",
-    "prettier": "^3.9.10",
+    "prettier": "^3.10.1",
     "typescript": "^6.0.3",
     "vite": "^8.3.8",
     "vite-plugin-pwa": "^2.0.0",
