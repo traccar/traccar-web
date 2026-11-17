@@ -39,6 +39,16 @@ const currentSubscription = async () => {
   return registration ? registration.pushManager.getSubscription() : null;
 };
 
+// Registers this browser's subscription with the server for the logged-in user (safe to repeat)
+const register = (subscription) => {
+  const { endpoint, keys } = subscription.toJSON();
+  return fetchOrThrow('api/push/subscriptions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ endpoint, keys: { p256dh: keys.p256dh, auth: keys.auth } }),
+  });
+};
+
 // Turns Web Push notifications on or off for the current browser/device
 const PushNotificationsCard = () => {
   const { classes } = useStyles();
@@ -55,8 +65,17 @@ const PushNotificationsCard = () => {
       setStatus('denied');
       return;
     }
+    // A browser that is already subscribed is registered again, so the server always knows it
+    // (e.g. after a failed registration, or when another user logs in on this browser)
     currentSubscription()
-      .then((subscription) => setStatus(subscription ? 'on' : 'off'))
+      .then(async (subscription) => {
+        if (subscription) {
+          await register(subscription);
+          setStatus('on');
+        } else {
+          setStatus('off');
+        }
+      })
       .catch(() => setStatus('off'));
   }, []);
 
@@ -74,11 +93,7 @@ const PushNotificationsCard = () => {
         userVisibleOnly: true,
         applicationServerKey: decodeKey(publicKey),
       });
-      await fetchOrThrow('api/push/subscriptions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(subscription.toJSON()),
-      });
+      await register(subscription);
       setStatus('on');
     } catch (error) {
       setStatus('off');
