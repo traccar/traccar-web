@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@mui/material/styles';
 import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
@@ -35,7 +34,7 @@ import MapGeofence from '../map/MapGeofence';
 import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
-import exportExcel from '../common/util/exportExcel';
+import useReportExport from './common/useReportExport';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -59,7 +58,7 @@ const TripReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
-  const theme = useTheme();
+  const exportReport = useReportExport();
 
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
@@ -132,7 +131,7 @@ const TripReportPage = () => {
     }
   }, []);
 
-  const onExport = useCatch(async () => {
+  const onExport = useCatch(async (options) => {
     const sheets = new Map();
     filteredItems.forEach((item) => {
       const deviceName = devices[item.deviceId].name;
@@ -166,7 +165,7 @@ const TripReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportExcel(t('reportTrips'), 'trips.xlsx', sheets, theme);
+    await exportReport(t('reportTrips'), 'trips', sheets, options);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -253,7 +252,7 @@ const TripReportPage = () => {
               onSchedule={onSchedule}
               deviceType="multiple"
               loading={loading}
-              formats={['xlsx']}
+              formats={['xlsx', 'pdf']}
             >
               <div className={classes.filterItem}>
                 <SelectField

@@ -4,7 +4,6 @@ import { Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@m
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@mui/material/styles';
 import { formatAddress, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
 import { prefixString, unprefixString } from '../common/util/stringUtils';
@@ -26,7 +25,7 @@ import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import SelectField from '../common/components/SelectField';
 import fetchOrThrow from '../common/util/fetchOrThrow';
-import exportExcel from '../common/util/exportExcel';
+import useReportExport from './common/useReportExport';
 import AddressValue from '../common/components/AddressValue';
 import formatEventData from './common/formatEventData';
 import { eventIconKey } from '../map/core/preloadImages';
@@ -46,7 +45,7 @@ const EventReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
-  const theme = useTheme();
+  const exportReport = useReportExport();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -143,7 +142,7 @@ const EventReportPage = () => {
     [eventTypes, alarmTypes],
   );
 
-  const onExport = useCatch(async () => {
+  const onExport = useCatch(async (options) => {
     const sheets = new Map();
     items.forEach((item) => {
       const deviceName = devices[item.deviceId].name;
@@ -164,7 +163,7 @@ const EventReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportExcel(t('reportEvents'), 'events.xlsx', sheets, theme);
+    await exportReport(t('reportEvents'), 'events', sheets, options);
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -259,7 +258,7 @@ const EventReportPage = () => {
               onSchedule={onSchedule}
               deviceType="multiple"
               loading={loading}
-              formats={['xlsx']}
+              formats={['xlsx', 'pdf']}
             >
               <div className={classes.filterItem}>
                 <SelectField

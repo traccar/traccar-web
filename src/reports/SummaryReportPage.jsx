@@ -12,7 +12,6 @@ import {
   TableBody,
   TableCell,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import {
   formatDistance,
   formatSpeed,
@@ -32,7 +31,7 @@ import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import scheduleReport from './common/scheduleReport';
 import fetchOrThrow from '../common/util/fetchOrThrow';
-import exportExcel from '../common/util/exportExcel';
+import useReportExport from './common/useReportExport';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -53,7 +52,7 @@ const SummaryReportPage = () => {
   const navigate = useNavigate();
   const { classes } = useReportStyles();
   const t = useTranslation();
-  const theme = useTheme();
+  const exportReport = useReportExport();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -90,7 +89,7 @@ const SummaryReportPage = () => {
     [daily],
   );
 
-  const onExport = useCatch(async () => {
+  const onExport = useCatch(async (options) => {
     const rows = [];
     const deviceHeader = t('sharedDevice');
     items.forEach((item) => {
@@ -107,7 +106,7 @@ const SummaryReportPage = () => {
     const titleKey = daily ? 'reportDaily' : 'reportSummary';
     const title = t(titleKey);
     const sheets = new Map([[title, rows]]);
-    await exportExcel(title, 'summary.xlsx', sheets, theme);
+    await exportReport(title, 'summary', sheets, { ...options, showDeviceHeader: false });
   });
 
   const onSchedule = useCatch(async (deviceIds, groupIds, report) => {
@@ -151,7 +150,7 @@ const SummaryReportPage = () => {
           onSchedule={onSchedule}
           deviceType="multiple"
           loading={loading}
-          formats={['xlsx']}
+          formats={['xlsx', 'pdf']}
         >
           <div className={classes.filterItem}>
             <FormControl fullWidth>

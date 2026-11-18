@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useTheme } from '@mui/material/styles';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { formatNumericHours, formatTime } from '../common/util/formatter';
 import ReportFilter, { updateReportParams } from './components/ReportFilter';
@@ -15,7 +14,7 @@ import useReportStyles from './common/useReportStyles';
 import TableShimmer from '../common/components/TableShimmer';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import SelectField from '../common/components/SelectField';
-import exportExcel from '../common/util/exportExcel';
+import useReportExport from './common/useReportExport';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -29,7 +28,7 @@ const columnsMap = new Map(columnsArray);
 const GeofenceReportPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
-  const theme = useTheme();
+  const exportReport = useReportExport();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const geofenceIds = useMemo(() => searchParams.getAll('geofenceId').map(Number), [searchParams]);
@@ -64,7 +63,7 @@ const GeofenceReportPage = () => {
     [geofenceIds],
   );
 
-  const onExport = useCatch(async () => {
+  const onExport = useCatch(async (options) => {
     const sheets = new Map();
     items.forEach((item) => {
       const deviceName = devices[item.deviceId].name;
@@ -78,7 +77,7 @@ const GeofenceReportPage = () => {
       });
       sheets.get(deviceName).push(row);
     });
-    await exportExcel(t('sharedGeofences'), 'geofences.xlsx', sheets, theme);
+    await exportReport(t('sharedGeofences'), 'geofences', sheets, options);
   });
 
   const formatValue = (item, key) => {
@@ -103,7 +102,7 @@ const GeofenceReportPage = () => {
           onExport={onExport}
           deviceType="multiple"
           loading={loading}
-          formats={['xlsx']}
+          formats={['xlsx', 'pdf']}
         >
           <div className={classes.filterItem}>
             <SelectField
