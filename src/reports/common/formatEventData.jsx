@@ -6,8 +6,6 @@ const formatEventData = (event, { deviceUniqueId, speedUnit, t }) => {
   switch (event.type) {
     case 'alarm':
       return t(prefixString('alarm', event.attributes.alarm));
-    case 'deviceStopped':
-      return event.attributes?.geofenceNames || '';
     case 'deviceOverspeed':
       return formatSpeed(event.attributes.speed, speedUnit, t);
     case 'driverChanged':
