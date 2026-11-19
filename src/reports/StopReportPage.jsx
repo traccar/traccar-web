@@ -19,7 +19,7 @@ import ReportsMenu from './components/ReportsMenu';
 import ColumnSelect from './components/ColumnSelect';
 import ResizeHandle from './components/ResizeHandle';
 import usePersistedState from '../common/util/usePersistedState';
-import { useCatch, useCatchCallback } from '../reactHelper';
+import { pageSize, useAsyncTask, useCatch, useCatchCallback } from '../reactHelper';
 import useReportStyles from './common/useReportStyles';
 import MapMarkers from '../map/MapMarkers';
 import MapView from '../map/core/MapView';
@@ -54,6 +54,7 @@ const StopReportPage = () => {
 
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
+  const geofences = useSelector((state) => state.geofences.items);
   const distanceUnit = useAttributePreference('distanceUnit');
   const volumeUnit = useAttributePreference('volumeUnit');
   const coordinateFormat = usePreference('coordinateFormat');
@@ -67,6 +68,27 @@ const StopReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  const [positionGeofences, setPositionGeofences] = useState({});
+  const showGeofences = columns.includes('geofenceNames');
+
+  useAsyncTask(async ({ signal }) => {
+    if (showGeofences) {
+      const ids = [...new Set(items.map((item) => item.positionId).filter(Boolean))];
+      const result = {};
+      for (let offset = 0; offset < ids.length; offset += pageSize) {
+        const query = new URLSearchParams();
+        ids.slice(offset, offset + pageSize).forEach((id) => query.append('id', id));
+        const response = await fetchOrThrow(`api/positions?${query}`, { signal });
+        for (const position of await response.json()) {
+          result[position.id] = position.geofenceIds;
+        }
+      }
+      if (!signal.aborted) {
+        setPositionGeofences({ items, byId: result });
+      }
+    }
+  }, [items, showGeofences]);
 
   const onShow = useCatchCallback(async ({ deviceIds, groupIds, from, to }) => {
     const query = new URLSearchParams({ from, to });
@@ -115,6 +137,11 @@ const StopReportPage = () => {
     switch (key) {
       case 'deviceId':
         return devices[value].name;
+      case 'geofenceNames':
+        return (positionGeofences.byId?.[item.positionId] || [])
+          .map((id) => geofences[id]?.name)
+          .filter(Boolean)
+          .join(', ');
       case 'startTime':
       case 'endTime':
         return formatTime(value, 'minutes');
@@ -166,7 +193,7 @@ const StopReportPage = () => {
           <div className={classes.header}>
             <ReportFilter
               onShow={onShow}
-              onExport={onExport}
+              onExport={showGeofences && positionGeofences.items !== items ? undefined : onExport}
               onSchedule={onSchedule}
               deviceType="multiple"
               loading={loading}
