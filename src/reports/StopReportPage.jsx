@@ -38,6 +38,7 @@ const columnsArray = [
   ['startTime', 'reportStartTime'],
   ['startOdometer', 'positionOdometer'],
   ['address', 'positionAddress'],
+  ['geofenceNames', 'sharedGeofences'],
   ['endTime', 'reportEndTime'],
   ['duration', 'reportDuration'],
   ['engineHours', 'reportEngineHours'],
