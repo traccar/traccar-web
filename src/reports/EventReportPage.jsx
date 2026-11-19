@@ -185,9 +185,6 @@ const EventReportPage = () => {
       case 'type':
         return t(prefixString('event', value));
       case 'geofenceId':
-        if (item.type === 'deviceStopped' && item.attributes?.geofenceNames) {
-          return item.attributes.geofenceNames;
-        }
         if (value > 0) {
           const geofence = geofences[value];
           return geofence && geofence.name;
