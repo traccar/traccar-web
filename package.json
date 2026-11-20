@@ -25,7 +25,7 @@
     "hls.js": "^1.7.4",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.9",
-    "maplibre-gl": "^6.18.0",
+    "maplibre-gl": "^6.19.0",
     "maplibre-google-maps": "^1.1.0",
     "pmtiles": "^4.5.0",
     "react": "^19.3.1",
