@@ -51,6 +51,7 @@ const MaintenancePage = () => {
     : { start: unit, period: unit };
 
   const rawToValue = (start, value) => {
+    if (value == null || value === '') return '';
     const attribute = positionAttributes[item.type];
     if (item.type?.endsWith('Time')) {
       if (start) {
@@ -62,6 +63,7 @@ const MaintenancePage = () => {
   };
 
   const valueToRaw = (start, value) => {
+    if (value == null || value === '') return null;
     const attribute = positionAttributes[item.type];
     if (item.type?.endsWith('Time')) {
       if (start) {
@@ -72,7 +74,12 @@ const MaintenancePage = () => {
     return attributeToRaw(value, attribute?.dataType, units);
   };
 
-  const validate = () => item && item.name && item.type && item.start && item.period;
+  const validate = () =>
+    item &&
+    item.name &&
+    item.type &&
+    (item.start || (item.start === 0 && !item.type.endsWith('Time'))) &&
+    item.period;
 
   return (
     <EditItemView
@@ -111,7 +118,7 @@ const MaintenancePage = () => {
               </FormControl>
               <TextField
                 type={item.type?.endsWith('Time') ? 'date' : 'number'}
-                value={rawToValue(true, item.start) || ''}
+                value={rawToValue(true, item.start) ?? ''}
                 onChange={(e) => setItem({ ...item, start: valueToRaw(true, e.target.value) })}
                 label={
                   labels.start
