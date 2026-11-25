@@ -39,6 +39,7 @@
     "sharedPriority": "Priority",
     "sharedIconScale": "Icon Scale",
     "sharedGeofence": "Geofence",
+    "sharedPoint": "Point of Interest",
     "sharedPoints": "Points of Interest",
     "sharedGeofences": "Geofences",
     "sharedGeofenceHint": "Choose a shape to start drawing a geofence.",

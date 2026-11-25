@@ -47,6 +47,7 @@ const RegisterPage = lazy(() => import('./login/RegisterPage'));
 const ResetPasswordPage = lazy(() => import('./login/ResetPasswordPage'));
 const PointsPage = lazy(() => import('./other/PointsPage'));
 const GeofencesPage = lazy(() => import('./other/GeofencesPage'));
+const PointPage = lazy(() => import('./settings/PointPage'));
 const GeofencePage = lazy(() => import('./settings/GeofencePage'));
 const EventPage = lazy(() => import('./other/EventPage'));
 const PreferencesPage = lazy(() => import('./settings/PreferencesPage'));
@@ -163,6 +164,8 @@ const Navigation = () => {
             <Route path="drivers" element={<DriversPage />} />
             <Route path="driver/:id" element={<DriverPage />} />
             <Route path="driver" element={<DriverPage />} />
+            <Route path="point/:id" element={<PointPage />} />
+            <Route path="point" element={<PointPage />} />
             <Route path="geofence/:id" element={<GeofencePage />} />
             <Route path="geofence" element={<GeofencePage />} />
             <Route path="groups" element={<GroupsPage />} />

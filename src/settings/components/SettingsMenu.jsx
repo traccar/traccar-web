@@ -123,7 +123,9 @@ const SettingsMenu = () => {
               title={t('sharedPoints')}
               link="/points"
               icon={<PlaceIcon />}
-              selected={location.pathname === '/points'}
+              selected={
+                location.pathname === '/points' || location.pathname.startsWith('/settings/point')
+              }
             />
           </>
         )}
