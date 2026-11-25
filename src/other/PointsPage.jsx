@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MapCamera from '../map/MapCamera';
+import PoiMap from '../map/main/PoiMap';
 import PointsList from './PointsList';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import { useAsyncTask } from '../reactHelper';
@@ -23,6 +24,7 @@ const PointsPage = () => {
       title={t('sharedPoints')}
       list={<PointsList items={items} onPointSelected={setSelectedPointId} />}
     >
+      <PoiMap />
       {selectedPoint && (
         <MapCamera latitude={selectedPoint.latitude} longitude={selectedPoint.longitude} />
       )}
