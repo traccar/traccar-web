@@ -1,6 +1,5 @@
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import * as maplibregl from 'maplibre-gl';
-import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import MapboxDraw from './MapDraw';
 import { useEffect, useMemo, useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -14,10 +13,6 @@ import { useCatchCallback } from '../../reactHelper';
 import drawTheme from './theme';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 import fetchOrThrow from '../../common/util/fetchOrThrow';
-
-MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
-MapboxDraw.constants.classes.CONTROL_PREFIX = 'maplibregl-ctrl-';
-MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
 const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   const theme = useTheme();
