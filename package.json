@@ -35,7 +35,7 @@
     "react-rnd": "^10.5.3",
     "react-router-dom": "^7.18.6",
     "react-window": "^2.5.4",
-    "recharts": "^3.11.0",
+    "recharts": "^3.11.1",
     "stylis": "^4.4.0",
     "stylis-plugin-rtl": "^2.1.1",
     "tss-react": "^4.9.21",
