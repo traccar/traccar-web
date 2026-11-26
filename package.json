@@ -11,7 +11,7 @@
     "@mapbox/mapbox-gl-draw": "^1.5.2",
     "@mapbox/mapbox-gl-rtl-text": "^0.4.0",
     "@material-symbols/svg-600": "^0.49.0",
-    "@mui/icons-material": "^9.5.0",
+    "@mui/icons-material": "^9.6.0",
     "@mui/material": "^9.5.0",
     "@reduxjs/toolkit": "^2.15.0",
     "@tmcw/togeojson": "^7.1.4",
