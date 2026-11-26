@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTranslation } from '../common/components/LocalizationProvider';
 import PageLayout from '../common/components/PageLayout';
 import RemoveDialog from '../common/components/RemoveDialog';
+import QrCodeDialog from '../common/components/QrCodeDialog';
 import SettingsMenu from './components/SettingsMenu';
 import { useAsyncTask, useCatchCallback } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
@@ -37,6 +38,7 @@ const SharePage = () => {
   const [share, setShare] = useState(null);
   const [loading, setLoading] = useState(true);
   const [removing, setRemoving] = useState(false);
+  const [showQr, setShowQr] = useState(false);
   const link = share ? `${document.baseURI}?token=${share.token}` : '';
 
   useAsyncTask(
@@ -97,6 +99,14 @@ const SharePage = () => {
               label={t('sharedLink')}
               slotProps={{ input: { readOnly: true } }}
             />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => setShowQr(true)}
+              disabled={!link}
+            >
+              {t('sharedQrCode')}
+            </Button>
           </AccordionDetails>
         </Accordion>
         <div className={classes.buttons}>
@@ -113,6 +123,7 @@ const SharePage = () => {
             {t('sharedCopy')}
           </Button>
         </div>
+        {link && <QrCodeDialog open={showQr} onClose={() => setShowQr(false)} value={link} />}
         <RemoveDialog
           open={removing}
           endpoint={`share/${type}`}
