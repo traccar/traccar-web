@@ -116,6 +116,14 @@ const UserConnectionsPage = () => {
               keyLink="maintenanceId"
               label={t('sharedMaintenance')}
             />
+            <LinkField
+              endpointAll="api/points?all=true"
+              endpointLinked={`api/points?userId=${id}`}
+              baseId={id}
+              keyBase="userId"
+              keyLink="pointId"
+              label={t('sharedPoints')}
+            />
           </AccordionDetails>
         </Accordion>
       </Container>
