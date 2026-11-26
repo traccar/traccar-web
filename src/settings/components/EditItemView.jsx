@@ -63,7 +63,7 @@ const EditItemView = ({
       });
 
       if (onItemSaved) {
-        onItemSaved(await response.json());
+        await onItemSaved(await response.json());
       }
       navigate(-1);
     } finally {

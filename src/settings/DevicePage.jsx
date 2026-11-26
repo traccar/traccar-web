@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -40,6 +40,7 @@ const DevicePage = () => {
   const uniqueId = searchParams.get('uniqueId');
 
   const [item, setItem] = useState(uniqueId ? { uniqueId } : null);
+  const initialDisabledRef = useRef(null);
   const [showQr, setShowQr] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -67,6 +68,18 @@ const DevicePage = () => {
     }
   });
 
+  useEffect(() => {
+    if (item?.id && initialDisabledRef.current === null) {
+      initialDisabledRef.current = Boolean(item.disabled);
+    }
+  }, [item?.id, item?.disabled]);
+
+  const handleItemSaved = useCatch(async (saved) => {
+    if (saved?.id && saved.disabled && initialDisabledRef.current === false) {
+      await fetchOrThrow(`api/devices/${saved.id}/disconnect`, { method: 'POST' });
+    }
+  });
+
   const validate = () => item && item.name && item.uniqueId && !uploading;
 
   return (
@@ -75,6 +88,7 @@ const DevicePage = () => {
       item={item}
       setItem={setItem}
       validate={validate}
+      onItemSaved={handleItemSaved}
       menu={<SettingsMenu />}
       breadcrumbs={['settingsTitle', 'sharedDevice']}
     >
