@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
   const t = useTranslation();
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('passwordReset');
+  const token = searchParams.get('token');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
