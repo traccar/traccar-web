@@ -58,8 +58,8 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
       WebkitTextStroke: `2px ${theme.palette.common.black}`,
       paintOrder: 'stroke fill',
       ...theme.applyStyles('dark', {
-        color: theme.palette.grey[300],
-        WebkitTextStroke: `2px ${theme.palette.grey[900]}`,
+        color: theme.palette.text.secondary,
+        WebkitTextStrokeColor: theme.palette.background.default,
       }),
     },
     '& button': {
