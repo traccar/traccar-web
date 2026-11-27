@@ -57,11 +57,18 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
       color: theme.palette.common.white,
       WebkitTextStroke: `2px ${theme.palette.common.black}`,
       paintOrder: 'stroke fill',
+      ...theme.applyStyles('dark', {
+        color: theme.palette.grey[300],
+        WebkitTextStroke: `2px ${theme.palette.grey[900]}`,
+      }),
     },
     '& button': {
       backgroundColor: theme.palette.background.paper,
       '&:hover': {
-        backgroundColor: emphasize(theme.palette.background.paper, 0.08),
+        backgroundColor: emphasize(
+          theme.palette.background.paper,
+          theme.palette.action.hoverOpacity,
+        ),
       },
     },
   },
