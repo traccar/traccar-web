@@ -23,7 +23,7 @@ const useStyles = makeStyles()(() => ({
       justifyContent: 'center',
       color: '#333',
     },
-    '&.active, &.active:not(:disabled):hover': {
+    '&.active': {
       backgroundColor: '#e6e6e6',
       borderRadius: 'inherit',
     },
@@ -172,12 +172,6 @@ const MapRuler = ({ positions, onActiveChange }) => {
       map.getSource('ruler')?.setData({ type: 'FeatureCollection', features });
     };
 
-    const restart = () => {
-      if (!draw.getAll().features.length) {
-        draw.changeMode(mode);
-      }
-    };
-
     const start = (newMode) => {
       mode = newMode;
       draw = new MapboxDraw({
@@ -194,8 +188,6 @@ const MapRuler = ({ positions, onActiveChange }) => {
       });
       map.addControl(draw, position);
       map.on('draw.render', render);
-      map.on('draw.modechange', restart);
-      map.on('draw.delete', restart);
       button.classList.add('active');
       onActiveChangeRef.current(true);
     };
@@ -203,8 +195,6 @@ const MapRuler = ({ positions, onActiveChange }) => {
 
     const detach = () => {
       map.off('draw.render', render);
-      map.off('draw.modechange', restart);
-      map.off('draw.delete', restart);
       map.removeControl(draw);
       mode = null;
       onActiveChangeRef.current(false);
