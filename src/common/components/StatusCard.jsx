@@ -54,13 +54,9 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   media: {
     height: theme.dimensions.popupImageHeight,
     '& p': {
-      color: theme.palette.common.white,
-      WebkitTextStroke: `2px ${theme.palette.common.black}`,
+      color: theme.palette.text.primary,
+      WebkitTextStroke: `2px ${theme.palette.background.paper}`,
       paintOrder: 'stroke fill',
-      ...theme.applyStyles('dark', {
-        color: theme.palette.text.secondary,
-        WebkitTextStrokeColor: theme.palette.background.default,
-      }),
     },
     '& button': {
       backgroundColor: theme.palette.background.paper,
