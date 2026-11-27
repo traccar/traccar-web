@@ -88,6 +88,14 @@ export const formatCourse = (value) => {
 export const formatDistance = (value, unit, t) =>
   `${distanceFromMeters(value, unit).toFixed(2)} ${distanceUnitString(unit, t)}`;
 
+export const formatArea = (value, unit) => {
+  if (unit === 'mi') {
+    const acres = value / 4046.8564224;
+    return acres < 1 ? `${(value * 10.7639104).toFixed(0)} ft²` : `${acres.toFixed(2)} ac`;
+  }
+  return value < 10000 ? `${value.toFixed(0)} m²` : `${(value / 10000).toFixed(2)} ha`;
+};
+
 export const formatAltitude = (value, unit, t) =>
   `${altitudeFromMeters(value, unit).toFixed(2)} ${altitudeUnitString(unit, t)}`;
 

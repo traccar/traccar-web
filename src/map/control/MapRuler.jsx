@@ -4,10 +4,12 @@ import { createRoot } from 'react-dom/client';
 import { useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import StraightenIcon from '@mui/icons-material/Straighten';
+import MapboxDraw from '../draw/MapDraw';
+import drawTheme from '../draw/theme';
 import { map } from '../core/MapView';
 import { findFonts, toMapCoordinates } from '../core/mapUtil';
 import { useAttributePreference } from '../../common/util/preferences';
-import { formatDistance } from '../../common/util/formatter';
+import { formatArea, formatDistance } from '../../common/util/formatter';
 import { useTranslation } from '../../common/components/LocalizationProvider';
 
 const useStyles = makeStyles()(() => ({
@@ -25,6 +27,30 @@ const useStyles = makeStyles()(() => ({
   },
 }));
 
+const earthRadius = 6371008.8;
+
+const toRadians = (degrees) => (degrees * Math.PI) / 180;
+
+const polygonArea = (ring) => {
+  let total = 0;
+  for (let i = 1; i < ring.length; i += 1) {
+    const [lng1, lat1] = ring[i - 1];
+    const [lng2, lat2] = ring[i];
+    total += toRadians(lng2 - lng1) * (2 + Math.sin(toRadians(lat1)) + Math.sin(toRadians(lat2)));
+  }
+  return Math.abs((total * earthRadius * earthRadius) / 2);
+};
+
+const pathLength = (points) => {
+  let total = 0;
+  for (let i = 1; i < points.length; i += 1) {
+    total += new maplibregl.LngLat(...points[i - 1]).distanceTo(
+      new maplibregl.LngLat(...points[i]),
+    );
+  }
+  return total;
+};
+
 const MapRuler = ({ positions, onActiveChange }) => {
   const theme = useTheme();
   const t = useTranslation();
@@ -38,28 +64,14 @@ const MapRuler = ({ positions, onActiveChange }) => {
   onActiveChangeRef.current = onActiveChange;
 
   useEffect(() => {
-    const color = theme.palette.geometry.main;
-    const points = [];
+    const position = theme.direction === 'rtl' ? 'top-left' : 'top-right';
     let active = false;
+    let draw;
     let button;
 
     map.addSource('ruler', {
       type: 'geojson',
       data: { type: 'FeatureCollection', features: [] },
-    });
-    map.addLayer({
-      id: 'ruler-line',
-      type: 'line',
-      source: 'ruler',
-      filter: ['==', '$type', 'LineString'],
-      paint: { 'line-color': color, 'line-width': 2 },
-    });
-    map.addLayer({
-      id: 'ruler-point',
-      type: 'circle',
-      source: 'ruler',
-      filter: ['==', '$type', 'Point'],
-      paint: { 'circle-radius': 4, 'circle-color': color },
     });
     map.addLayer({
       id: 'ruler-label',
@@ -77,56 +89,79 @@ const MapRuler = ({ positions, onActiveChange }) => {
       paint: { 'text-halo-color': 'white', 'text-halo-width': 1 },
     });
 
-    const snap = (lngLat, pixel) => {
+    const snap = (e) => {
       for (const p of positionsRef.current) {
         const mapped = toMapCoordinates(p.longitude, p.latitude);
-        if (map.project(mapped).dist(pixel) < 15) {
-          return mapped;
+        if (map.project(mapped).dist(e.point) < 15) {
+          return { ...e, lngLat: { lng: mapped[0], lat: mapped[1] } };
         }
       }
-      return [lngLat.lng, lngLat.lat];
+      return e;
     };
 
+    const withSnap = (drawMode) => ({
+      ...drawMode,
+      onClick(state, e) {
+        drawMode.onClick.call(this, state, snap(e));
+      },
+      onTap(state, e) {
+        drawMode.onTap.call(this, state, snap(e));
+      },
+    });
+
+    const label = (coordinates, text) => ({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates },
+      properties: { label: text },
+    });
+
+    const formatLength = (value) => formatDistance(value, distanceUnit, t);
+
     const render = () => {
-      let total = 0;
-      for (let i = 1; i < points.length; i += 1) {
-        total += new maplibregl.LngLat(...points[i - 1]).distanceTo(
-          new maplibregl.LngLat(...points[i]),
-        );
-      }
-      const features = points.map((coord, i) => ({
-        type: 'Feature',
-        geometry: { type: 'Point', coordinates: coord },
-        properties:
-          i === points.length - 1 && points.length > 1
-            ? { label: formatDistance(total, distanceUnit, t) }
-            : {},
-      }));
-      if (points.length > 1) {
-        features.push({
-          type: 'Feature',
-          geometry: { type: 'LineString', coordinates: points },
-        });
-      }
+      const features = [];
+      draw.getAll().features.forEach(({ geometry: { type, coordinates } }) => {
+        if (type === 'LineString' && coordinates.length > 1) {
+          const last = coordinates[coordinates.length - 1];
+          features.push(label(last, formatLength(pathLength(coordinates))));
+        } else if (type === 'Polygon' && coordinates[0].length > 3) {
+          const ring = coordinates[0];
+          const area = formatArea(polygonArea(ring), distanceUnit);
+          const center = ring
+            .slice(1)
+            .reduce(([lng, lat], [x, y]) => [lng + x, lat + y], [0, 0])
+            .map((value) => value / (ring.length - 1));
+          features.push(label(center, `${area}\n${formatLength(pathLength(ring))}`));
+        }
+      });
       map.getSource('ruler')?.setData({ type: 'FeatureCollection', features });
     };
 
-    const onClick = (event) => {
-      points.push(snap(event.lngLat, event.point));
-      render();
+    const start = () => {
+      active = true;
+      draw = new MapboxDraw({
+        displayControlsDefault: false,
+        controls: { line_string: true, polygon: true, trash: true },
+        styles: drawTheme,
+        defaultMode: 'draw_line_string',
+        modes: {
+          ...MapboxDraw.modes,
+          draw_line_string: withSnap(MapboxDraw.modes.draw_line_string),
+          draw_polygon: withSnap(MapboxDraw.modes.draw_polygon),
+        },
+      });
+      map.addControl(draw, position);
+      map.on('draw.render', render);
+      button.classList.add('active');
+      onActiveChangeRef.current(true);
     };
 
-    const toggle = () => {
-      active = !active;
-      button.classList.toggle('active', active);
-      onActiveChangeRef.current(active);
-      if (active) {
-        map.on('click', onClick);
-      } else {
-        map.off('click', onClick);
-        points.length = 0;
-        render();
-      }
+    const stop = () => {
+      active = false;
+      map.off('draw.render', render);
+      map.removeControl(draw);
+      map.getSource('ruler').setData({ type: 'FeatureCollection', features: [] });
+      button.classList.remove('active');
+      onActiveChangeRef.current(false);
     };
 
     let container;
@@ -139,7 +174,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         button.type = 'button';
         button.title = t('sharedDistance');
         button.className = cx('maplibregl-ctrl-icon', classes.button);
-        button.onclick = toggle;
+        button.onclick = () => (active ? stop() : start());
         container.appendChild(button);
         root = createRoot(button);
         root.render(<StraightenIcon fontSize="small" />);
@@ -150,19 +185,16 @@ const MapRuler = ({ positions, onActiveChange }) => {
         container.remove();
       },
     };
-    map.addControl(control, theme.direction === 'rtl' ? 'top-left' : 'top-right');
+    map.addControl(control, position);
 
     return () => {
       if (active) {
-        map.off('click', onClick);
-        onActiveChangeRef.current(false);
+        stop();
       }
       map.removeControl(control);
-      ['ruler-label', 'ruler-point', 'ruler-line'].forEach((id) => {
-        if (map.getLayer(id)) {
-          map.removeLayer(id);
-        }
-      });
+      if (map.getLayer('ruler-label')) {
+        map.removeLayer('ruler-label');
+      }
       if (map.getSource('ruler')) {
         map.removeSource('ruler');
       }
