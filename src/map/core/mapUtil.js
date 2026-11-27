@@ -142,7 +142,7 @@ export const geometryToArea = (geometry) => {
 };
 
 export const findFonts = (map) => {
-  const { glyphs } = map.getStyle();
+  const glyphs = map.getStyle()?.glyphs ?? '';
   if (glyphs.startsWith('https://tiles.openfreemap.org')) {
     return ['Noto Sans Regular'];
   }
