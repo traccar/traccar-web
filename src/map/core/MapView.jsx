@@ -120,10 +120,6 @@ const MapView = ({ children }) => {
       setSelectedStyleId(styles[0].id);
       return;
     }
-    updateReadyValue(false);
-    map.coordinateSystem = style.coordinateSystem;
-    map.setStyle(style.style, { diff: false });
-    map.setTransformRequest(style.transformRequest);
     let timeoutId;
     const waiting = () => {
       if (!map.loaded()) {
@@ -133,8 +129,30 @@ const MapView = ({ children }) => {
         updateReadyValue(true);
       }
     };
-    map.once('styledata', waiting);
-    return () => clearTimeout(timeoutId);
+    const stopWaiting = () => {
+      clearTimeout(timeoutId);
+      map.off('styledata', waiting);
+    };
+    const loadStyle = () => {
+      stopWaiting();
+      updateReadyValue(false);
+      map.coordinateSystem = style.coordinateSystem;
+      map.setStyle(style.style, { diff: false });
+      map.setTransformRequest(style.transformRequest);
+      map.once('styledata', waiting);
+    };
+    const onContextLost = () => {
+      stopWaiting();
+      updateReadyValue(false);
+    };
+    loadStyle();
+    map.on('webglcontextlost', onContextLost);
+    map.on('webglcontextrestored', loadStyle);
+    return () => {
+      stopWaiting();
+      map.off('webglcontextlost', onContextLost);
+      map.off('webglcontextrestored', loadStyle);
+    };
   }, [styles, selectedStyleId, setSelectedStyleId]);
 
   useLayoutEffect(() => {
