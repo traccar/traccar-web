@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  IconButton,
+  Checkbox,
+  FormControlLabel,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import LocationSearchingIcon from '@mui/icons-material/LocationSearching';
 import RouteIcon from '@mui/icons-material/Route';
@@ -35,6 +44,7 @@ import scheduleReport from './common/scheduleReport';
 import MapScale from '../map/MapScale';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 import useReportExport from './common/useReportExport';
+import { useRestriction } from '../common/util/permissions';
 import { deviceEquality } from '../common/util/deviceEquality';
 
 const columnsArray = [
@@ -59,6 +69,7 @@ const TripReportPage = () => {
   const { classes } = useReportStyles();
   const t = useTranslation();
   const exportReport = useReportExport();
+  const readonly = useRestriction('readonly');
 
   const devices = useSelector((state) => state.devices.items, deviceEquality(['id', 'name']));
 
@@ -130,6 +141,16 @@ const TripReportPage = () => {
       setLoading(false);
     }
   }, []);
+
+  const onBusinessChange = useCatch(async (item, business) => {
+    await fetchOrThrow(`api/positions/${item.startPositionId}/business?business=${business}`, {
+      method: 'PUT',
+    });
+    setItems((previous) =>
+      previous.map((entry) => (entry === item ? { ...entry, business } : entry)),
+    );
+    setSelectedItem(null);
+  });
 
   const onExport = useCatch(async (options) => {
     const sheets = new Map();
@@ -304,7 +325,25 @@ const TripReportPage = () => {
                     </TableCell>
                     <TableCell>{devices[item.deviceId].name}</TableCell>
                     {columns.map((key) => (
-                      <TableCell key={key}>{formatValue(item, key)}</TableCell>
+                      <TableCell key={key}>
+                        {key === 'business' && !readonly ? (
+                          <FormControlLabel
+                            sx={{ display: 'flex' }}
+                            label={t('positionBusiness')}
+                            slotProps={{ typography: { variant: 'body2' } }}
+                            control={
+                              <Checkbox
+                                size="small"
+                                sx={{ py: 0 }}
+                                checked={item.business}
+                                onChange={(event) => onBusinessChange(item, event.target.checked)}
+                              />
+                            }
+                          />
+                        ) : (
+                          formatValue(item, key)
+                        )}
+                      </TableCell>
                     ))}
                   </TableRow>
                 ))
