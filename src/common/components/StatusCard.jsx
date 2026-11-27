@@ -19,7 +19,6 @@ import {
   Link,
   Tooltip,
 } from '@mui/material';
-import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import RouteIcon from '@mui/icons-material/Route';
@@ -53,19 +52,15 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   },
   media: {
     height: theme.dimensions.popupImageHeight,
-    '& > div': {
+    '& p': {
       color: theme.palette.common.white,
-      WebkitTextStroke: `2px ${theme.palette.common.black}`,
-      paintOrder: 'stroke fill',
-      '& svg path': {
-        stroke: theme.palette.common.black,
-        strokeWidth: 2.4,
-        strokeLinejoin: 'round',
-        paintOrder: 'stroke fill',
-      },
+      mixBlendMode: 'difference',
     },
-    '& .MuiIconButton-root:hover': {
-      backgroundColor: alpha(theme.palette.grey[600], 0.8),
+    '& button': {
+      backgroundColor: theme.palette.common.white,
+      '&:hover': {
+        backgroundColor: theme.palette.grey[200],
+      },
     },
   },
   content: {
