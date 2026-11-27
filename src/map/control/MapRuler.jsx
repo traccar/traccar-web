@@ -1,10 +1,9 @@
 import * as maplibregl from 'maplibre-gl';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ListItemIcon, ListItemText, Menu, MenuItem, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import StraightenIcon from '@mui/icons-material/Straighten';
-import PentagonOutlinedIcon from '@mui/icons-material/PentagonOutlined';
 import MapboxDraw from '../draw/MapDraw';
 import drawTheme from '../draw/theme';
 import { map } from '../core/MapView';
@@ -27,11 +26,6 @@ const useStyles = makeStyles()(() => ({
     },
   },
 }));
-
-const modes = {
-  draw_line_string: { icon: <StraightenIcon fontSize="small" />, title: 'sharedDistance' },
-  draw_polygon: { icon: <PentagonOutlinedIcon fontSize="small" />, title: 'sharedArea' },
-};
 
 const earthRadius = 6371008.8;
 
@@ -63,9 +57,6 @@ const MapRuler = ({ positions, onActiveChange }) => {
   const distanceUnit = useAttributePreference('distanceUnit');
   const { classes, cx } = useStyles();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const startRef = useRef();
-
   const positionsRef = useRef(positions);
   positionsRef.current = positions;
 
@@ -74,7 +65,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
 
   useEffect(() => {
     const position = theme.direction === 'rtl' ? 'top-left' : 'top-right';
-    let mode = null;
+    let active = false;
     let draw;
     let button;
 
@@ -145,13 +136,13 @@ const MapRuler = ({ positions, onActiveChange }) => {
       map.getSource('ruler')?.setData({ type: 'FeatureCollection', features });
     };
 
-    const start = (newMode) => {
-      mode = newMode;
+    const start = () => {
+      active = true;
       draw = new MapboxDraw({
         displayControlsDefault: false,
-        controls: { trash: true },
+        controls: { line_string: true, polygon: true, trash: true },
         styles: drawTheme,
-        defaultMode: mode,
+        defaultMode: 'draw_line_string',
         modes: {
           ...MapboxDraw.modes,
           draw_line_string: withSnap(MapboxDraw.modes.draw_line_string),
@@ -163,19 +154,14 @@ const MapRuler = ({ positions, onActiveChange }) => {
       button.classList.add('active');
       onActiveChangeRef.current(true);
     };
-    startRef.current = start;
-
-    const detach = () => {
-      map.off('draw.render', render);
-      map.removeControl(draw);
-      mode = null;
-      onActiveChangeRef.current(false);
-    };
 
     const stop = () => {
-      detach();
+      active = false;
+      map.off('draw.render', render);
+      map.removeControl(draw);
+      map.getSource('ruler').setData({ type: 'FeatureCollection', features: [] });
       button.classList.remove('active');
-      map.getSource('ruler')?.setData({ type: 'FeatureCollection', features: [] });
+      onActiveChangeRef.current(false);
     };
 
     let container;
@@ -188,7 +174,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
         button.type = 'button';
         button.title = t('sharedDistance');
         button.className = cx('maplibregl-ctrl-icon', classes.button);
-        button.onclick = () => (mode ? stop() : setAnchorEl(button));
+        button.onclick = () => (active ? stop() : start());
         container.appendChild(button);
         root = createRoot(button);
         root.render(<StraightenIcon fontSize="small" />);
@@ -202,8 +188,8 @@ const MapRuler = ({ positions, onActiveChange }) => {
     map.addControl(control, position);
 
     return () => {
-      if (mode) {
-        detach();
+      if (active) {
+        stop();
       }
       map.removeControl(control);
       if (map.getLayer('ruler-label')) {
@@ -215,30 +201,7 @@ const MapRuler = ({ positions, onActiveChange }) => {
     };
   }, [theme, t, distanceUnit, classes.button, cx]);
 
-  const handleSelect = (mode) => {
-    setAnchorEl(null);
-    startRef.current(mode);
-  };
-
-  return (
-    <Menu
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
-      onClose={() => setAnchorEl(null)}
-      anchorOrigin={{ vertical: 'top', horizontal: theme.direction === 'rtl' ? 'right' : 'left' }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: theme.direction === 'rtl' ? 'left' : 'right',
-      }}
-    >
-      {Object.entries(modes).map(([key, { icon, title }]) => (
-        <MenuItem key={key} onClick={() => handleSelect(key)}>
-          <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText>{t(title)}</ListItemText>
-        </MenuItem>
-      ))}
-    </Menu>
-  );
+  return null;
 };
 
 export default MapRuler;
