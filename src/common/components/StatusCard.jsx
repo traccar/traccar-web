@@ -55,9 +55,13 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
     height: theme.dimensions.popupImageHeight,
     '& > div': {
       color: theme.palette.common.white,
-      textShadow: `0 0 2px ${theme.palette.common.black}, 0 0 4px ${theme.palette.common.black}`,
-      '& svg': {
-        filter: `drop-shadow(0 0 2px ${theme.palette.common.black})`,
+      WebkitTextStroke: `2px ${theme.palette.common.black}`,
+      paintOrder: 'stroke fill',
+      '& svg path': {
+        stroke: theme.palette.common.black,
+        strokeWidth: 2.4,
+        strokeLinejoin: 'round',
+        paintOrder: 'stroke fill',
       },
     },
     '& .MuiIconButton-root:hover': {
