@@ -19,6 +19,7 @@ import {
   Link,
   Tooltip,
 } from '@mui/material';
+import { emphasize } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 import CloseIcon from '@mui/icons-material/Close';
 import RouteIcon from '@mui/icons-material/Route';
@@ -52,9 +53,19 @@ const useStyles = makeStyles()((theme, { desktopPadding }) => ({
   },
   media: {
     height: theme.dimensions.popupImageHeight,
-    '& > div': {
-      color: theme.palette.common.white,
-      mixBlendMode: 'difference',
+    '& p': {
+      color: theme.palette.text.primary,
+      WebkitTextStroke: `2px ${theme.palette.background.paper}`,
+      paintOrder: 'stroke fill',
+    },
+    '& button': {
+      backgroundColor: theme.palette.background.paper,
+      '&:hover': {
+        backgroundColor: emphasize(
+          theme.palette.background.paper,
+          theme.palette.action.hoverOpacity,
+        ),
+      },
     },
   },
   content: {
