@@ -36,33 +36,39 @@ const ResetPasswordPage = () => {
   const t = useTranslation();
 
   const [searchParams] = useSearchParams();
-  const token = searchParams.get('passwordReset');
+  const token = searchParams.get('token');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = useCatch(async (event) => {
     event.preventDefault();
-    if (!token) {
-      await fetchOrThrow('api/password/reset', {
-        method: 'POST',
-        body: new URLSearchParams(`email=${encodeURIComponent(email)}`),
-      });
-    } else {
-      await fetchOrThrow('api/password/update', {
-        method: 'POST',
-        body: new URLSearchParams(
-          `token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`,
-        ),
-      });
+    setSubmitting(true);
+    try {
+      if (!token) {
+        await fetchOrThrow('api/password/reset', {
+          method: 'POST',
+          body: new URLSearchParams(`email=${encodeURIComponent(email)}`),
+        });
+      } else {
+        await fetchOrThrow('api/password/update', {
+          method: 'POST',
+          body: new URLSearchParams(
+            `token=${encodeURIComponent(token)}&password=${encodeURIComponent(password)}`,
+          ),
+        });
+      }
+      dispatch(
+        messagesActions.push({
+          message: t(!token ? 'loginResetSuccess' : 'loginUpdateSuccess'),
+          severity: 'success',
+        }),
+      );
+      navigate('/login');
+    } finally {
+      setSubmitting(false);
     }
-    dispatch(
-      messagesActions.push({
-        message: t(!token ? 'loginResetSuccess' : 'loginUpdateSuccess'),
-        severity: 'success',
-      }),
-    );
-    navigate('/login');
   });
 
   return (
@@ -92,7 +98,7 @@ const ResetPasswordPage = () => {
             label={t('userPassword')}
             name="password"
             value={password}
-            autoComplete="current-password"
+            autoComplete="new-password"
             onChange={(event) => setPassword(event.target.value)}
           />
         )}
@@ -101,7 +107,7 @@ const ResetPasswordPage = () => {
           color="secondary"
           type="submit"
           onClick={handleSubmit}
-          disabled={!/(.+)@(.+)\.(.{2,})/.test(email) && !password}
+          disabled={submitting || (!/(.+)@(.+)\.(.{2,})/.test(email) && !password)}
           fullWidth
         >
           {t('loginReset')}

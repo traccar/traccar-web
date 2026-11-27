@@ -44,17 +44,12 @@ const PoiMap = () => {
   const theme = useTheme();
   const t = useTranslation();
 
-  const poiLayer = usePreference('poiLayer');
+  const poiLayer = usePreference('poiLayer') || 'api/points/kml';
 
   const [data, setData] = useState(null);
 
   useAsyncTask(
     async ({ signal }) => {
-      if (!poiLayer) {
-        setData(null);
-        return;
-      }
-
       const file = await fetch(poiLayer, { signal });
       const dom = new DOMParser().parseFromString(await file.text(), 'text/xml');
       const parsed = kml(dom);

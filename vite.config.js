@@ -25,7 +25,7 @@ export default defineConfig(() => ({
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       workbox: {
         navigateFallbackDenylist: [/\/api(\/|$)/],
-        globPatterns: ['**/*.{js,css,html,woff,woff2,mp3}'],
+        globPatterns: ['**/*.{js,css,html,ttf,woff,woff2,mp3}'],
       },
       manifest: {
         short_name: '${title}',

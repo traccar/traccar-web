@@ -1,5 +1,6 @@
 import { Divider, List } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
+import PlaceIcon from '@mui/icons-material/Place';
 import DrawIcon from '@mui/icons-material/Draw';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -118,6 +119,14 @@ const SettingsMenu = () => {
                 selected={location.pathname.startsWith('/settings/command')}
               />
             )}
+            <MenuItem
+              title={t('sharedPoints')}
+              link="/points"
+              icon={<PlaceIcon />}
+              selected={
+                location.pathname === '/points' || location.pathname.startsWith('/settings/point')
+              }
+            />
           </>
         )}
         {billingLink && (

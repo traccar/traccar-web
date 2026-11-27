@@ -6,6 +6,7 @@ import { formatTime, getStatusColor } from '../common/util/formatter';
 import { mapIconKey } from './core/preloadImages';
 import { useAttributePreference } from '../common/util/preferences';
 import { fromMapCoordinates } from './core/mapUtil';
+import useDeviceIcons from './core/useDeviceIcons';
 
 const MapPositionMarkers = ({
   positions,
@@ -17,6 +18,7 @@ const MapPositionMarkers = ({
   disabled,
 }) => {
   const devices = useSelector((state) => state.devices.items);
+  const deviceIcons = useDeviceIcons();
   const selectedDeviceId = useSelector((state) => state.devices.selectedId);
 
   const mapCluster = useAttributePreference('mapCluster', true);
@@ -60,7 +62,7 @@ const MapPositionMarkers = ({
       deviceId: position.deviceId,
       latitude: position.latitude,
       longitude: position.longitude,
-      image: `${mapIconKey(device.category)}-${color}`,
+      image: deviceIcons[device.id] || `${mapIconKey(device.category)}-${color}`,
       title: titles[titleField || 'name'],
       rotation: position.course,
       direction: showDirection,

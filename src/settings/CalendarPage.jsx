@@ -24,10 +24,10 @@ import { useCatch } from '../reactHelper';
 import useSettingsStyles from './common/useSettingsStyles';
 import fetchOrThrow from '../common/util/fetchOrThrow';
 
-const formatCalendarTime = (time) => {
-  const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `TZID=${tzid}:${time.locale('en').format('YYYYMMDDTHHmmss')}`;
-};
+const formatCalendarTime = (time, tzid = Intl.DateTimeFormat().resolvedOptions().timeZone) =>
+  `TZID=${tzid}:${time.locale('en').format('YYYYMMDDTHHmmss')}`;
+
+const calendarTimeZone = (line) => line.match(/TZID=([^:;]+)/)?.[1];
 
 const parseRule = (rule) => {
   if (rule.endsWith('COUNT=1')) {
@@ -88,6 +88,9 @@ const CalendarPage = () => {
   const lines = decoded && decoded.split('\n');
 
   const rule = simple && parseRule(lines[7]);
+  const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const fromTimeZone = simple ? calendarTimeZone(lines[5]) : null;
+  const toTimeZone = simple ? calendarTimeZone(lines[6]) : null;
 
   const handleFileChange = (newFile) => {
     setFile(newFile);
@@ -151,19 +154,27 @@ const CalendarPage = () => {
                 <>
                   <TextField
                     label={t('reportFrom')}
+                    helperText={fromTimeZone !== localTimeZone ? fromTimeZone : null}
                     type="datetime-local"
                     value={dayjs(lines[5].slice(-15)).locale('en').format('YYYY-MM-DDTHH:mm')}
                     onChange={(e) => {
-                      const time = formatCalendarTime(dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'));
+                      const time = formatCalendarTime(
+                        dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'),
+                        fromTimeZone,
+                      );
                       setItem({ ...item, data: updateCalendar(lines, 5, `DTSTART;${time}`) });
                     }}
                   />
                   <TextField
                     label={t('reportTo')}
+                    helperText={toTimeZone !== localTimeZone ? toTimeZone : null}
                     type="datetime-local"
                     value={dayjs(lines[6].slice(-15)).locale('en').format('YYYY-MM-DDTHH:mm')}
                     onChange={(e) => {
-                      const time = formatCalendarTime(dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'));
+                      const time = formatCalendarTime(
+                        dayjs(e.target.value, 'YYYY-MM-DDTHH:mm'),
+                        toTimeZone,
+                      );
                       setItem({ ...item, data: updateCalendar(lines, 6, `DTEND;${time}`) });
                     }}
                   />

@@ -26,9 +26,10 @@ const transformGeometry = (geometry, from, to) =>
   gcoord.transform(structuredClone(geometry), from, to);
 
 export const loadImage = (url) =>
-  new Promise((imageLoaded) => {
+  new Promise((imageLoaded, reject) => {
     const image = new Image();
     image.onload = () => imageLoaded(image);
+    image.onerror = reject;
     image.src = url;
   });
 
@@ -55,20 +56,25 @@ const canvasTintImage = (image, color) => {
 
 export const prepareIcon = (background, icon, color) => {
   const canvas = document.createElement('canvas');
-  canvas.width = background.width * devicePixelRatio;
-  canvas.height = background.height * devicePixelRatio;
-  canvas.style.width = `${background.width}px`;
-  canvas.style.height = `${background.height}px`;
+  const width = background?.width ?? 48;
+  const height = background?.height ?? 48;
+  canvas.width = width * devicePixelRatio;
+  canvas.height = height * devicePixelRatio;
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
 
   const context = canvas.getContext('2d');
-  context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (background) {
+    context.drawImage(background, 0, 0, canvas.width, canvas.height);
+  }
 
   if (icon) {
-    const iconRatio = 0.5;
-    const imageWidth = canvas.width * iconRatio;
-    const imageHeight = canvas.height * iconRatio;
+    const iconRatio = background ? 0.5 : 1;
+    const scale = Math.min(canvas.width / icon.width, canvas.height / icon.height) * iconRatio;
+    const imageWidth = icon.width * scale;
+    const imageHeight = icon.height * scale;
     context.drawImage(
-      canvasTintImage(icon, color),
+      color ? canvasTintImage(icon, color) : icon,
       (canvas.width - imageWidth) / 2,
       (canvas.height - imageHeight) / 2,
       imageWidth,

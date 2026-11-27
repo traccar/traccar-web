@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes, useSearchParams } from 'react-router-dom';
+import { Route, Routes, useMatch, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import MainPage from './main/MainPage';
 import App from './App';
@@ -44,8 +44,11 @@ const DeviceStatisticsPage = lazy(() => import('./reports/DeviceStatisticsPage')
 const StatisticsPage = lazy(() => import('./reports/StatisticsPage'));
 const LoginPage = lazy(() => import('./login/LoginPage'));
 const RegisterPage = lazy(() => import('./login/RegisterPage'));
+const UnsubscribePage = lazy(() => import('./login/UnsubscribePage'));
 const ResetPasswordPage = lazy(() => import('./login/ResetPasswordPage'));
+const PointsPage = lazy(() => import('./other/PointsPage'));
 const GeofencesPage = lazy(() => import('./other/GeofencesPage'));
+const PointPage = lazy(() => import('./settings/PointPage'));
 const GeofencePage = lazy(() => import('./settings/GeofencePage'));
 const EventPage = lazy(() => import('./other/EventPage'));
 const PreferencesPage = lazy(() => import('./settings/PreferencesPage'));
@@ -71,9 +74,11 @@ const Navigation = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const hasQueryParams = ['locale', 'token', 'uniqueId', 'openid'].some((key) =>
-    searchParams.has(key),
-  );
+  const unsubscribePage = useMatch('/unsubscribe');
+  const resetPasswordPage = useMatch('/reset-password');
+  const hasLoginToken = !unsubscribePage && !resetPasswordPage && searchParams.has('token');
+  const hasQueryParams =
+    hasLoginToken || ['locale', 'uniqueId', 'openid'].some((key) => searchParams.has(key));
 
   useAsyncTask(
     async ({ signal }) => {
@@ -88,7 +93,7 @@ const Navigation = () => {
         newParams.delete('locale');
       }
 
-      if (searchParams.has('token')) {
+      if (hasLoginToken) {
         const token = searchParams.get('token');
         await fetch(`api/session?token=${encodeURIComponent(token)}`, { signal });
         newParams.delete('token');
@@ -115,7 +120,7 @@ const Navigation = () => {
 
       setSearchParams(newParams, { replace: true });
     },
-    [hasQueryParams, searchParams, setSearchParams, dispatch, setLocalLanguage],
+    [hasQueryParams, hasLoginToken, searchParams, setSearchParams, dispatch, setLocalLanguage],
   );
 
   if (hasQueryParams) {
@@ -127,6 +132,7 @@ const Navigation = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/unsubscribe" element={<UnsubscribePage />} />
         <Route path="/change-server" element={<ChangeServerPage />} />
         <Route path="/" element={<App />}>
           <Route index element={<MainPage />} />
@@ -135,6 +141,7 @@ const Navigation = () => {
           <Route path="network/:positionId" element={<NetworkPage />} />
           <Route path="event/:id" element={<EventPage />} />
           <Route path="replay" element={<ReplayPage />} />
+          <Route path="points" element={<PointsPage />} />
           <Route path="geofences" element={<GeofencesPage />} />
           <Route path="emulator" element={<EmulatorPage />} />
           <Route path="stream" element={<StreamPage />} />
@@ -161,6 +168,8 @@ const Navigation = () => {
             <Route path="drivers" element={<DriversPage />} />
             <Route path="driver/:id" element={<DriverPage />} />
             <Route path="driver" element={<DriverPage />} />
+            <Route path="point/:id" element={<PointPage />} />
+            <Route path="point" element={<PointPage />} />
             <Route path="geofence/:id" element={<GeofencePage />} />
             <Route path="geofence" element={<GeofencePage />} />
             <Route path="groups" element={<GroupsPage />} />

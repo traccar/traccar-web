@@ -13,6 +13,7 @@ import EventsDrawer from './EventsDrawer';
 import useFilter from './useFilter';
 import MainToolbar from './MainToolbar';
 import { useAttributePreference } from '../common/util/preferences';
+import useFeatures from '../common/util/useFeatures';
 
 const MainMap = lazy(() => import('./MainMap'));
 
@@ -69,6 +70,8 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
+  const features = useFeatures();
+
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const mapOnSelect = useAttributePreference('mapOnSelect', true);
@@ -106,7 +109,7 @@ const MainPage = () => {
     keyword,
     filter,
     filterSort,
-    filterMap,
+    filterMap && !features.disableDeviceList,
     positions,
     setFilteredDevices,
     setFilteredPositions,
@@ -124,21 +127,23 @@ const MainPage = () => {
         </Suspense>
       )}
       <div className={classes.sidebar}>
-        <Paper square elevation={3} className={classes.header}>
-          <MainToolbar
-            filteredDevices={filteredDevices}
-            devicesOpen={devicesOpen}
-            setDevicesOpen={setDevicesOpen}
-            keyword={keyword}
-            setKeyword={setKeyword}
-            filter={filter}
-            setFilter={setFilter}
-            filterSort={filterSort}
-            setFilterSort={setFilterSort}
-            filterMap={filterMap}
-            setFilterMap={setFilterMap}
-          />
-        </Paper>
+        {!features.disableDeviceList && (
+          <Paper square elevation={3} className={classes.header}>
+            <MainToolbar
+              filteredDevices={filteredDevices}
+              devicesOpen={devicesOpen}
+              setDevicesOpen={setDevicesOpen}
+              keyword={keyword}
+              setKeyword={setKeyword}
+              filter={filter}
+              setFilter={setFilter}
+              filterSort={filterSort}
+              setFilterSort={setFilterSort}
+              filterMap={filterMap}
+              setFilterMap={setFilterMap}
+            />
+          </Paper>
+        )}
         <div className={classes.middle}>
           {!desktop && (
             <div className={classes.contentMap}>
@@ -151,27 +156,29 @@ const MainPage = () => {
               </Suspense>
             </div>
           )}
-          <Paper
-            square
-            className={classes.contentList}
-            style={devicesOpen ? {} : { visibility: 'hidden' }}
-          >
-            <DeviceList devices={filteredDevices} />
-          </Paper>
+          {!features.disableDeviceList && (
+            <Paper
+              square
+              className={classes.contentList}
+              style={devicesOpen ? {} : { visibility: 'hidden' }}
+            >
+              <DeviceList devices={filteredDevices} />
+            </Paper>
+          )}
         </div>
-        {desktop && (
+        {desktop && !features.disableTabs && (
           <div className={classes.footer}>
             <BottomMenu />
           </div>
         )}
       </div>
       <EventsDrawer open={eventsOpen} onClose={() => setEventsOpen(false)} />
-      {selectedDeviceId && (
+      {selectedDeviceId && !features.disableStatusCard && (
         <StatusCard
           deviceId={selectedDeviceId}
           position={selectedPosition}
           onClose={() => dispatch(devicesActions.selectId(null))}
-          desktopPadding={theme.dimensions.drawerWidthDesktop}
+          desktopPadding={features.disableDeviceList ? 0 : theme.dimensions.drawerWidthDesktop}
         />
       )}
     </div>

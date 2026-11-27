@@ -3,6 +3,11 @@ import { useMemo } from 'react';
 export default (t) =>
   useMemo(
     () => ({
+      fuelCapacity: {
+        name: t('attributeFuelCapacity'),
+        type: 'number',
+        dataType: 'volume',
+      },
       'command.sender': {
         name: t('deviceCommandSender'),
         type: 'string',
@@ -18,6 +23,10 @@ export default (t) =>
       },
       deviceImage: {
         name: t('attributeDeviceImage'),
+        type: 'string',
+      },
+      deviceIcon: {
+        name: t('attributeDeviceIcon'),
         type: 'string',
       },
       'processing.copyAttributes': {

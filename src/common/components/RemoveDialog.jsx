@@ -1,26 +1,9 @@
-import Button from '@mui/material/Button';
-import { Alert, Snackbar } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import { Button, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import { useTranslation } from './LocalizationProvider';
 import { useCatch } from '../../reactHelper';
-import { snackBarDurationLongMs } from '../util/duration';
 import fetchOrThrow from '../util/fetchOrThrow';
 
-const useStyles = makeStyles()((theme) => ({
-  root: {
-    [theme.breakpoints.down('md')]: {
-      bottom: `calc(${theme.dimensions.bottomBarHeight}px + ${theme.spacing(1)})`,
-    },
-  },
-  button: {
-    height: 'auto',
-    marginTop: 0,
-    marginBottom: 0,
-  },
-}));
-
 const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
-  const { classes } = useStyles();
   const t = useTranslation();
 
   const handleRemove = useCatch(async () => {
@@ -29,25 +12,17 @@ const RemoveDialog = ({ open, endpoint, itemId, onResult }) => {
   });
 
   return (
-    <Snackbar
-      className={classes.root}
-      open={open}
-      autoHideDuration={snackBarDurationLongMs}
-      onClose={() => onResult(false)}
-    >
-      <Alert
-        elevation={6}
-        severity="warning"
-        variant="filled"
-        action={
-          <Button size="small" className={classes.button} color="inherit" onClick={handleRemove}>
-            {t('sharedRemove')}
-          </Button>
-        }
-      >
-        {t('sharedRemoveConfirm')}
-      </Alert>
-    </Snackbar>
+    <Dialog open={open} onClose={() => onResult(false)} maxWidth="xs" fullWidth>
+      <DialogTitle>{t('sharedRemoveConfirm')}</DialogTitle>
+      <DialogActions>
+        <Button onClick={() => onResult(false)} autoFocus>
+          {t('sharedCancel')}
+        </Button>
+        <Button color="error" onClick={handleRemove}>
+          {t('sharedRemove')}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

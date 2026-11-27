@@ -4,10 +4,10 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import CloseIcon from '@mui/icons-material/Close';
 
-const FileInput = ({ placeholder, value, onChange, slotProps }) => {
+const FileInput = ({ placeholder, value, onChange, slotProps, disabled }) => {
   const inputRef = useRef(null);
 
-  const openPicker = () => inputRef.current?.click();
+  const openPicker = () => !disabled && inputRef.current?.click();
 
   const handleChange = (event) => {
     onChange?.(event.target.files?.[0] || null);
@@ -24,12 +24,14 @@ const FileInput = ({ placeholder, value, onChange, slotProps }) => {
       <input
         ref={inputRef}
         type="file"
+        disabled={disabled}
         style={{ display: 'none' }}
         onChange={handleChange}
         {...slotProps?.htmlInput}
       />
       <TextField
-        value={value?.name ?? ''}
+        value={typeof value === 'string' ? value : (value?.name ?? '')}
+        disabled={disabled}
         placeholder={placeholder}
         onClick={openPicker}
         slotProps={{
@@ -38,7 +40,7 @@ const FileInput = ({ placeholder, value, onChange, slotProps }) => {
             sx: { cursor: 'pointer' },
             endAdornment: value && (
               <InputAdornment position="end">
-                <IconButton size="small" edge="end" onClick={handleClear}>
+                <IconButton size="small" edge="end" onClick={handleClear} disabled={disabled}>
                   <CloseIcon fontSize="small" />
                 </IconButton>
               </InputAdornment>
