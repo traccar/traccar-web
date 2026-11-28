@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
 import MapboxDraw from './MapDraw';
+import MapDrawHint from './MapDrawHint';
 import drawTheme from './theme';
 import { map } from '../core/MapView';
 import { fromMapCoordinates } from '../core/mapUtil';
@@ -70,18 +70,7 @@ const MapPointCreate = () => {
     return () => map.off('draw.create', listener);
   }, [dispatch, navigate, draw, t]);
 
-  return (
-    <Tooltip
-      open={Boolean(hintAnchor) && !hintDismissed}
-      title={t('sharedPointHint')}
-      placement={theme.direction === 'rtl' ? 'left' : 'right'}
-      arrow
-      disableInteractive
-      slotProps={{ popper: { anchorEl: hintAnchor } }}
-    >
-      <span />
-    </Tooltip>
-  );
+  return <MapDrawHint anchorEl={hintAnchor} title={t('sharedPointHint')} open={!hintDismissed} />;
 };
 
 export default MapPointCreate;

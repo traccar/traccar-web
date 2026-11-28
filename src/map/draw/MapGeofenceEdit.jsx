@@ -1,7 +1,7 @@
 import * as maplibregl from 'maplibre-gl';
 import MapboxDraw from './MapDraw';
+import MapDrawHint from './MapDrawHint';
 import { useEffect, useMemo, useState } from 'react';
-import Tooltip from '@mui/material/Tooltip';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -160,16 +160,11 @@ const MapGeofenceEdit = ({ selectedGeofenceId }) => {
   }, [selectedGeofenceId, draw]);
 
   return (
-    <Tooltip
-      open={Boolean(hintAnchor) && !hintDismissed && !selectedGeofenceId}
+    <MapDrawHint
+      anchorEl={hintAnchor}
       title={t('sharedGeofenceHint')}
-      placement={theme.direction === 'rtl' ? 'left' : 'right'}
-      arrow
-      disableInteractive
-      slotProps={{ popper: { anchorEl: hintAnchor } }}
-    >
-      <span />
-    </Tooltip>
+      open={!hintDismissed && !selectedGeofenceId}
+    />
   );
 };
 
