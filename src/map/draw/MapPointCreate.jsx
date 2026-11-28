@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import MapboxDraw from './MapDraw';
+import MapDrawHint from './MapDrawHint';
 import drawTheme from './theme';
 import { map } from '../core/MapView';
 import { fromMapCoordinates } from '../core/mapUtil';
@@ -15,6 +16,8 @@ const MapPointCreate = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const t = useTranslation();
+  const [hintAnchor, setHintAnchor] = useState(null);
+  const [hintDismissed, setHintDismissed] = useState(false);
 
   const draw = useMemo(
     () =>
@@ -28,8 +31,21 @@ const MapPointCreate = () => {
 
   useEffect(() => {
     map.addControl(draw, theme.direction === 'rtl' ? 'top-right' : 'top-left');
-    return () => map.removeControl(draw);
+    setHintAnchor(map.getContainer().querySelector('.mapbox-gl-draw_point'));
+
+    const dismissHint = () => setHintDismissed(true);
+    map.on('draw.modechange', dismissHint);
+    map.on('draw.selectionchange', dismissHint);
+    return () => {
+      map.off('draw.modechange', dismissHint);
+      map.off('draw.selectionchange', dismissHint);
+      map.removeControl(draw);
+    };
   }, [draw, theme.direction]);
+
+  useEffect(() => {
+    hintAnchor?.setAttribute('title', `${t('sharedCreatePoint')} (1)`);
+  }, [hintAnchor, t]);
 
   useEffect(() => {
     const listener = async (event) => {
@@ -54,7 +70,7 @@ const MapPointCreate = () => {
     return () => map.off('draw.create', listener);
   }, [dispatch, navigate, draw, t]);
 
-  return null;
+  return <MapDrawHint anchorEl={hintAnchor} title={t('sharedPointHint')} open={!hintDismissed} />;
 };
 
 export default MapPointCreate;
