@@ -41,6 +41,8 @@
     "sharedGeofence": "Geofence",
     "sharedPoint": "Point of Interest",
     "sharedPoints": "Points of Interest",
+    "sharedPointHint": "Select the point tool, then choose a location on the map.",
+    "sharedCreatePoint": "Create point of interest",
     "sharedGeofences": "Geofences",
     "sharedGeofenceHint": "Choose a shape to start drawing a geofence.",
     "sharedCreateGeofence": "Create Geofence",
